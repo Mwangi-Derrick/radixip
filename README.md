@@ -556,10 +556,10 @@ We welcome contributions! Here's how to get started:
 - Add tests for new functionality
 - Keep performance as the #1 priority
 
-## 📦 Where to Find This Project
+## 📄Distribution Registries
+Primary Source Engine: [github.com/Mwangi-Derrick/radixip](https://github.com/Mwangi-Derrick/radixip)
 
-- **Primary**: [github.com/Mwangi-Derrick/radixip](https://github.com/Mwangi-Derrick/radixip)
-- **Mirror**: [github.com/resplix/radixip](https://github.com/resplix/radixip)
+Infrastructure Target Mirror: [github.com/resplix/radixip](https://github.com/resplix/radixip)
 
 ## 📄 License
 
