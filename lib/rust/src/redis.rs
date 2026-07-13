@@ -90,3 +90,70 @@ impl RedisClient {
     async fn get_connection(&self) -> Result<tokio::sync::MutexGuard<'_, ConnectionManager>> {
     Ok(self.inner.connection_manager.lock().await)
     }
+
+        /// Publish a message to a channel
+    pub async fn publish(&self, channel: &str, message: &str) -> Result<()> {
+        let mut conn = self.get_connection().await?;
+        conn.publish(channel, message).await?;
+        debug!("Published to {}: {}", channel, message);
+        Ok(())
+    }
+
+    /// Publish a JSON message
+    pub async fn publish_json<T: serde::Serialize>(&self, channel: &str, data: &T) -> Result<()> {
+        let json = serde_json::to_string(data)
+            .map_err(|e| RedisPubSubError::Redis(RedisError::from((
+                redis::ErrorKind::TypeError,
+                "Serialization error",
+                e.to_string(),
+            ))))?;
+        self.publish(channel, &json).await
+    }
+
+    /// Subscribe to a channel and process messages with a callback
+    pub async fn subscribe<F, Fut>(&self, channel: &str, mut callback: F) -> Result<JoinHandle<()>>
+    where
+        F: FnMut(PubSubMessage) -> Fut + Send + 'static,
+        Fut: std::future::Future<Output = ()> + Send,
+    {
+        let mut conn = self.get_connection().await?;
+        let mut pubsub = conn.as_pubsub().await?;
+        pubsub.subscribe(channel).await?;
+        
+        let mut stream = pubsub.on_message();
+        let shutdown_rx = self.inner.shutdown_tx.subscribe();
+        
+        let handle = tokio::spawn(async move {
+            let mut shutdown = shutdown_rx;
+            loop {
+                tokio::select! {
+                    msg_result = stream.next() => {
+                        match msg_result {
+                            Some(msg) => {
+                                let payload: String = msg.get_payload().unwrap_or_default();
+                                let channel_name = msg.get_channel_name().to_string();
+                                
+                                let pubsub_msg = PubSubMessage {
+                                    channel: channel_name,
+                                    payload,
+                                    pattern: None,
+                                };
+                                
+                                callback(pubsub_msg).await;
+                            }
+                            None => {
+                                debug!("PubSub stream ended for channel {}", channel);
+                                break;
+                            }
+                        }
+                    }
+                    _ = shutdown.recv() => {
+                        info!("Shutting down subscription for channel {}", channel);
+                        break;
+                    }
+                }
+            }
+        });
+
+        Ok(handle)
+    }
