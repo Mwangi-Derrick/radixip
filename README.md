@@ -1,7 +1,7 @@
-# ⚡ RadixIP
+# RadixIP
 
-[![Go Reference](https://img.shields.io/badge/Go-1.22+-00ADD8?logo=go)](https://github.com/Mwangi-Derrick/radixip)
-[![Rust](https://img.shields.io/badge/Rust-1.70+-orange?logo=rust)](https://github.com/Mwangi-Derrick/radixip)
+[![Go Reference](https://img.shields.io/badge/Go-1.26-00ADD8?logo=go)](https://github.com/Mwangi-Derrick/radixip)
+[![Rust](https://img.shields.io/badge/Rust-1.95-orange?logo=rust)](https://github.com/Mwangi-Derrick/radixip)
 [![CI](https://github.com/Mwangi-Derrick/radixip/actions/workflows/bench.yml/badge.svg)](https://github.com/Mwangi-Derrick/radixip/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Go Report Card](https://goreportcard.com/badge/github.com/Mwangi-Derrick/radixip)](https://goreportcard.com/report/github.com/Mwangi-Derrick/radixip)
