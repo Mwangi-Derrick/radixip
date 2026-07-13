@@ -1,0 +1,25 @@
+# .pre-commit-config.yaml
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+
+  # Running local ecosystem tooling natively
+  - repo: local
+    hooks:
+      - id: go-fmt
+        name: go fmt
+        entry: go fmt ./...
+        language: system
+        files: '\.go$'
+        pass_filenames: false
+
+      - id: cargo-fmt
+        name: cargo fmt
+        entry: cargo fmt --manifest-path lib/rust/Cargo.toml -- --check
+        language: system
+        files: '\.rs$'
+        pass_filenames: false
