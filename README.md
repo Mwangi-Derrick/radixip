@@ -66,13 +66,13 @@ short on purpose; this folder is where the engineering reasoning lives.
 
 If you're new to networking data structures, read in this order:
 
-1. [How Routers Work](./how-routers-work.md) — the motivating context
-2. [Longest Prefix Match](./longest-prefix-match.md) — the algorithm
-3. [Radix Tree Design](./radix-tree-design.md) — the data structure that makes it fast
-4. [IPv4 vs IPv6](./ipv4-vs-ipv6.md) — how it changes across protocols
-5. [Cache Locality](./cache-locality.md) — why the implementation is shaped the way it is
-6. [Architecture](./architecture.md) — how it's wired into a real system
-7. [Benchmark Methodology](./benchmark-methodology.md) — how to verify all of the above
+1. [How Routers Work](./docs/guides/how-routers-work.md) — the motivating context
+2. [Longest Prefix Match](./docs/guides/longest-prefix-match.md) — the algorithm
+3. [Radix Tree Design](./docs/guides/radix-tree-design.md) — the data structure that makes it fast
+4. [IPv4 vs IPv6](./docs/guides/ipv4-vs-ipv6.md) — how it changes across protocols
+5. [Cache Locality](./docs/guides/cache-locality.md) — why the implementation is shaped the way it is
+6. [Architecture](./docs/guides/architecture.md) — how it's wired into a real system
+7. [Benchmark Methodology](./docs/guides/benchmark-methodology.md) — how to verify all of the above
 
 
 ## 🧠 Design Goals
