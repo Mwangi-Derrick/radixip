@@ -58,7 +58,7 @@ RadixIP is designed around a few core principles:
 
 ---
 
-# 🧠 Why Radix Trees?
+# 🌲 Why Radix Trees?
 
 IP subnet matching is fundamentally different from exact-key lookups.
 
@@ -244,6 +244,10 @@ For networking, routing, and access-control workloads, that difference is often 
 
 ## 🏗️ Architecture
 
+# 🔄 The Hybrid L1/L2 Pipeline
+
+Redis is completely removed from the critical lookup path. Every validation runs locally inside the application's process memory.
+
 ```text
                                     ┌──────────────────────────────────────────────┐
                                     │           API Gateway / Proxy Layer          │
@@ -367,9 +371,25 @@ Allow tenants to define custom IP whitelists for their isolated environments. Ra
 
 ### 5. Real Geolocation API Cost Killer 💰 
 
-Geolocation APIs are expensive. At scale, they can cost **$100,000+/month**.
+Geolocation APIs are expensive.
+
+Commercial cloud geolocation API billing models scale linearly with lookups, quickly growing to massive monthly operational expenses at scale. RadixIP operates an intelligent hierarchical edge cache structure:
+
+At scale, they can cost **$100,000+/month**.
 
 RadixIP solves this with **intelligent IP caching**:
+
+```text
+[Incoming Request] ──> L1: Local Radix (45ns, FREE) ──[Hit]──> Return Metadata
+                             │
+                          [Miss]
+                             ▼
+                     L2: Distributed Redis (1ms, FREE) ──[Hit]──> Hydrate L1 & Return
+                             │
+                          [Miss]
+                             ▼
+                     L3: External Geo API ($$$) ──> Commit to Redis & Hydrate Tree
+                     ```
 
 ### The Cache Hierarchy
 
@@ -386,15 +406,23 @@ RadixIP solves this with **intelligent IP caching**:
    - Only on cache miss
    - 90%+ request reduction
 
-### Cost Savings Example
+## Caching Strategy & Cost Savings
 
-| **Volume** | **Without RadixIP** | **With RadixIP** | **Savings** |
-|------------|---------------------|------------------|-------------|
-| 1M/day | $100/day | $10/day | 90% |
-| 10M/day | $1,000/day | $100/day | 90% |
-| 100M/day | $10,000/day | $1,000/day | 90% |
+By caching both individual IPs and entire structural subnet masks locally, RadixIP can eliminate up to **90%+** of external network lookups.
 
-**Annual savings at scale**: Up to **$3.6M/year**
+### Inbound Metrics
+
+| Traffic Volume | Traditional Costs | With RadixIP Cache Strategy | Monthly Opex Savings |
+|----------------|-------------------|----------------------------|---------------------|
+| 1,000,000 reqs / day | $100 / day | $10 / day | **90% Savings** |
+| 10,000,000 reqs / day | $1,000 / day | $100 / day | **90% Savings** |
+| 100,000,000 reqs / day | $10,000 / day | $1,000 / day | Annualized: ~$3.2M saved |
+
+---
+
+### 📊 Annualized Savings: **~$3.2M**
+
+> **Key Insight:** RadixIP's intelligent subnet-aware caching reduces external lookup costs by 90% across all traffic volumes, delivering predictable and scalable cost savings.
 
 ### Why It Works
 
