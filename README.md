@@ -64,13 +64,13 @@ IP subnet matching is fundamentally different from exact-key lookups.
 
 Given an address like:
 
-text```
+```text
 192.168.1.42
 ```
 
 the engine must determine the **longest matching prefix**:
 
-text```
+```text
 192.168.0.0/16
 192.168.1.0/24
 192.168.1.32/27
@@ -105,7 +105,7 @@ Every IPv4 address is only **32 bits**.
 
 Instead of hashing an address, RadixIP walks those bits directly.
 
-text```
+```text
 IP Address
 
 11000000 10101000 00000001 01101010
@@ -179,7 +179,7 @@ Redis is used only for:
 
 The request path remains:
 
-text```
+```text
 
 Incoming Request
         │
