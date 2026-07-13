@@ -25,21 +25,203 @@ RadixIP is a production-grade IP subnet caching engine that solves a critical in
 
 **The Impact**: Drop malicious traffic, enforce dynamic whitelisting, and route connections at memory speeds.
 
-## Design Goals
+## 🧠 Design Goals
 
-✓ Zero allocations on reads
+RadixIP is designed around a few core principles:
 
-✓ Lock-free lookups
+- ⚡ Zero allocations on the read path
+- 🔒 Lock-free lookups for highly concurrent workloads
+- 🌳 Efficient longest-prefix matching (LPM)
+- 💾 Cache-conscious memory layout
+- 🌐 Cross-language interoperability through C ABI
+- 🔄 Distributed cache synchronization via Redis Pub/Sub
+- 📈 Predictable performance under heavy read workloads
 
-✓ Fast LPM matching
+---
 
-✓ Cross-language support
+# 🧠 Why Radix Trees?
 
-✓ Horizontal cache synchronization
+IP subnet matching is fundamentally different from exact-key lookups.
 
-✓ Small memory footprint
+Given an address like:
 
-✓ High read concurrency
+```
+192.168.1.42
+```
+
+the engine must determine the **longest matching prefix**:
+
+```
+192.168.0.0/16
+192.168.1.0/24
+192.168.1.32/27
+```
+
+A traditional hash map can efficiently answer:
+
+> "Does this exact key exist?"
+
+It cannot efficiently answer:
+
+> "Which CIDR prefix best matches this address?"
+
+This makes radix trees a natural fit for routing tables, ACLs, reverse proxies, firewalls, and API gateways.
+
+---
+
+## 📊 Data Structure Comparison
+
+| Structure | Exact Match | Longest Prefix Match | Memory | Notes |
+|------------|------------|----------------------|--------|------|
+| Hash Map | ✅ Excellent | ❌ No | Medium | Best for exact keys |
+| Standard Trie | ✅ | ✅ | High | Large number of nodes |
+| Patricia / Radix Tree | ✅ | ✅ | Low | Path compression reduces memory |
+| Binary Radix Tree | ✅ | ✅ | Low | Well suited for IPv4 bit traversal |
+
+---
+
+## 💡 Why Radix Trees Work Well
+
+Every IPv4 address is only **32 bits**.
+
+Instead of hashing an address, RadixIP walks those bits directly.
+
+```
+IP Address
+
+11000000 10101000 00000001 01101010
+│
+├── 1
+│   ├── 1
+│   │   ├── 0
+│   │   └── ...
+```
+
+Traversal is deterministic and naturally supports longest-prefix matching.
+
+No additional indexing structure is required.
+
+---
+
+## 💾 Memory Locality
+
+Modern processors spend far more time waiting for memory than executing instructions.
+
+Approximate memory hierarchy:
+
+| Memory | Typical Latency |
+|---------|----------------:|
+| CPU Register | <1 ns |
+| L1 Cache | ~1 ns |
+| L2 Cache | ~4 ns |
+| L3 Cache | ~10–20 ns |
+| Main Memory | ~60–100 ns |
+
+Reducing cache misses often has a larger impact than reducing arithmetic operations.
+
+For that reason, RadixIP focuses on:
+
+- compact node layouts
+- minimizing unnecessary indirection
+- reducing allocations
+- improving spatial locality
+- keeping frequently traversed nodes hot in cache where possible
+
+---
+
+## 🔬 Cache-Conscious Design
+
+Rather than optimizing only algorithmic complexity, RadixIP also considers modern CPU behavior.
+
+Examples include:
+
+- branch-compressed Patricia nodes
+- compact metadata storage
+- zero-allocation read path
+- predictable traversal
+- cache-line friendly structures where practical
+
+These optimizations reduce memory pressure and improve throughput on large routing tables.
+
+---
+
+## 🔄 Why Redis?
+
+Redis is **not** part of the lookup path.
+
+Every lookup is performed entirely inside the local in-memory radix tree.
+
+Redis is used only for:
+
+- distributing subnet updates
+- cache invalidation
+- Pub/Sub synchronization
+- persistence coordination
+
+The request path remains:
+
+```
+Incoming Request
+        │
+        ▼
+ Local Radix Tree
+        │
+        ▼
+ Decision
+```
+
+Redis is only consulted when routing information changes.
+
+---
+
+## ⚙️ Complexity
+
+| Operation | Complexity |
+|-----------|------------|
+| Insert | O(prefix length) |
+| Delete | O(prefix length) |
+| Lookup | O(address bits) |
+| Memory | O(number of prefixes) |
+
+Since IPv4 addresses are only 32 bits, lookup time is effectively bounded by a small constant.
+
+---
+
+## 📈 Benchmark Methodology
+
+Benchmarks are executed using:
+
+- 10,000 CIDR prefixes
+- 100,000 randomized lookups
+- 80% hit rate / 20% miss rate
+- warm caches
+- release builds
+- dedicated benchmark workflow in GitHub Actions
+
+Results should be interpreted as measurements for the tested hardware and compiler versions rather than universal performance guarantees.
+
+---
+
+## 📊 Example Results
+
+| Implementation | Lookup | Allocations |
+|----------------|--------|-------------|
+| Go | ~45 ns | 0 B/op |
+| Rust | ~12 ns | 0 heap allocations |
+
+See the CI artifacts for complete benchmark logs and hardware information.
+
+---
+
+## 🎯 Why It Matters
+
+Algorithmic complexity is only part of the performance story.
+
+On modern processors, memory access patterns frequently dominate execution time.
+
+A well-designed data structure not only performs fewer operations—it performs them in a way that works *with* the processor's cache hierarchy rather than against it.
+
+For networking, routing, and access-control workloads, that difference is often more important than asymptotic complexity alone.
 
 ## 🏗️ Architecture
 
