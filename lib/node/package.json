@@ -1,0 +1,19 @@
+{
+  "name": "radixip",
+  "version": "0.1.0",
+  "description": "High-performance IP subnet caching engine",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "build": "cargo build --release && npm run copy",
+    "copy": "cp ../target/release/libradixip_node.so .",
+    "test": "node tests/test.js",
+    "bench": "node benchmarks/bench.js"
+  },
+  "keywords": ["radix", "ip", "subnet", "networking"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Mwangi-Derrick/radixip"
+  }
+}
