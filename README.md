@@ -26,31 +26,104 @@ RadixIP is a production-grade IP subnet caching engine that solves a critical in
 **The Impact**: Drop malicious traffic, enforce dynamic whitelisting, and route connections at memory speeds.
 
 ## 🏗️ Architecture
-┌─────────────────────────────────────────────────────────────┐
-│ API Gateway / Proxy Layer │
-└──────────────────────────┬──────────────────────────────────┘
-│
-▼
-┌─────────────────────────────────────────────────────────────┐
-│ L1: RadixIP Engine │
-│ ┌─────────────┐ ┌─────────────┐ ┌────────────────────┐ │
-│ │ Go Module │ │ Rust Crate │ │ C-FFI Bindings │ │
-│ │ (radixip- │ │ (radixip- │ │ (Python, Node.js, │ │
-│ │ go/) │ │ rs/) │ │ C/C++, etc.) │ │
-│ └─────────────┘ └─────────────┘ └────────────────────┘ │
-│ │
-│ Lock-free Binary Radix Tree (Zero allocations on read) │
-└──────────────────────────┬──────────────────────────────────┘
-│
-▼
-┌─────────────────────────────────────────────────────────────┐
-│ L2: Redis Cache │
-│ ┌────────────────────────────────────────────────────────┐ │
-│ │ • Subnet → Metadata mappings │ │
-│ │ • Pub/Sub for instant invalidation │ │
-│ │ • Persistent backing store │ │
-│ └────────────────────────────────────────────────────────┘ │
-└─────────────────────────────────────────────────────────────┘
+
+```text
+                                    ┌──────────────────────────────────────────────┐
+                                    │           API Gateway / Proxy Layer          │
+                                    │    HTTP • gRPC • REST • Load Balancer        │
+                                    └──────────────────┬───────────────────────────┘
+                                                       │
+                                                       ▼
+┌────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                               L1: RadixIP Engine                                                   │
+│                                                                                                    │
+│  ┌──────────────┐   ┌──────────────┐   ┌──────────────────────────────────────┐                    │
+│  │ Go Module    │   │ Rust Crate   │   │ C ABI / FFI Bindings                 │                    │
+│  │ radixip-go   │   │ radixip-rs   │   │ Python • Node.js • C/C++ • Zig       │                    │
+│  └──────────────┘   └──────────────┘   └──────────────────────────────────────┘                    │
+│                                                                                                    │
+│  ┌──────────────────────────────────────────────────────────────────────────────────────────────┐  │
+│  │ Lock-Free Binary Radix Tree                                                                  │  │
+│  │ • Zero allocations on read                                                                   │  │
+│  │ • Branch-compressed Patricia trie                                                            │  │
+│  │ • Atomic pointer traversal                                                                   │  │
+│  │ • Read-Copy-Update (RCU) friendly                                                            │  │
+│  │ • Cache-aware node layout                                                                    │  │
+│  └──────────────────────────────────────────────────────────────────────────────────────────────┘  │
+│                                                                                                    │
+│  CPU Cache Optimizations                                                                          │
+│  ┌──────────────────────────────────────────────────────────────────────────────────────────────┐  │
+│  │ L1 Cache │ Hot traversal nodes │ Prefetched prefixes │ Pointer locality                     │  │
+│  │ L2 Cache │ Frequently accessed subtrees │ Branch predictor friendly                         │  │
+│  │ L3 Cache │ Shared radix segments across worker threads                                       │  │
+│  │                                                                                              │  │
+│  │ • Cache-line aligned structures (64-byte alignment)                                          │  │
+│  │ • False-sharing avoidance                                                                     │  │
+│  │ • NUMA-aware memory allocation                                                                │  │
+│  │ • Software prefetching where beneficial                                                       │  │
+│  └──────────────────────────────────────────────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────┬──────────────────────────────────────────────────────┘
+                                              │
+                                              ▼
+┌────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                 L2: Redis Cache                                                   │
+│                                                                                                    │
+│  ┌──────────────────────────────────────────────────────────────────────────────────────────────┐  │
+│  │ • Subnet → Metadata mappings                                                                  │  │
+│  │ • Distributed cache                                                                           │  │
+│  │ • Pub/Sub instant invalidation                                                                │  │
+│  │ • Persistent backing store                                                                    │  │
+│  │ • High availability                                                                           │  │
+│  └──────────────────────────────────────────────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────┬──────────────────────────────────────────────────────┘
+                                              │
+                                              ▼
+┌────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                               Persistent Storage                                                  │
+│                                                                                                    │
+│ • PostgreSQL                                                                                      │
+│ • MySQL                                                                                           │
+│ • SQLite                                                                                          │
+│ • Custom IP metadata providers                                                                    │
+└────────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+### Memory Layout
+
+```text
+                    CPU
+                     │
+          ┌──────────┼──────────┐
+          │          │          │
+         L1         L2         L3
+      (32KB)     (512KB)    (Shared)
+          │          │          │
+          └──────────┼──────────┘
+                     │
+      Cache-Line Optimized Radix Nodes
+                     │
+      ┌──────────────────────────────┐
+      │ Prefix                       │
+      │ Left Pointer                 │
+      │ Right Pointer                │
+      │ Metadata Pointer             │
+      │ Flags                        │
+      │ Padding (64-byte aligned)    │
+      └──────────────────────────────┘
+                     │
+             Main Memory (DRAM)
+```
+
+### Performance Strategy
+
+| Layer | Purpose | Latency Target |
+|--------|---------|----------------|
+| L1 CPU Cache | Hot radix nodes | ~1 ns |
+| L2 CPU Cache | Frequently traversed branches | ~4 ns |
+| L3 CPU Cache | Shared worker data | ~12 ns |
+| DRAM | Cold nodes | 60–100 ns |
+| Redis | Distributed metadata cache | <1 ms |
+| Database | Persistent storage | 5–20 ms |
 
 ## 🛠️ Production Use Cases
 
