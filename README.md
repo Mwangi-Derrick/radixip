@@ -125,6 +125,17 @@ RadixIP is a production-grade IP subnet caching engine that solves a critical in
 | Redis | Distributed metadata cache | <1 ms |
 | Database | Persistent storage | 5–20 ms |
 
+## 🧠 Why Radix Trees?
+
+Radix trees win for IP subnet matching because of **spatial locality**:
+
+1. **Sequential memory access** → CPU prefetcher works
+2. **No hashing overhead** → pure bit operations
+3. **Natural LPM support** → prefix matching built-in
+4. **Flat arrays** → no pointer chasing, all nodes in one cache line
+
+**Result**: ~45ns lookups in Go, ~12ns in Rust.
+
 ## 🛠️ Production Use Cases
 
 ### 1. Database Security & Dynamic ACLs 🛡️
@@ -291,6 +302,6 @@ MIT License - See [LICENSE](LICENSE) for details.
 
 ---
 
-Built with ❤️ by [Derrick Mwangi](https://github.com/Mwangi-Derrick) and [Resplix](https://resplix.com) — Database Security for the Modern Era
+Built with ❤️ by [Derrick Mwangi](https://github.com/Mwangi-Derrick) and [Resplix](https://resplix.com)High-performance IP subnet matching for modern infrastructure.
 
 ⭐ Star this repo if you find it useful!
