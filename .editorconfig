@@ -1,0 +1,36 @@
+# .editorconfig
+root = true
+
+# Global defaults for all files
+[*]
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+charset = utf-8
+
+# Go configuration (Strictly mandates tabs)
+[*.go]
+indent_style = tab
+indent_size = 4
+tab_width = 4
+
+# Rust configuration (Strictly mandates 4 spaces)
+[*.rs]
+indent_style = space
+indent_size = 4
+
+# Python configuration (Mandates 4 spaces)
+[*.py]
+indent_style = space
+indent_size = 4
+
+# Configuration and scripts (YAML, JSON, Shell)
+[*.{yaml,yml,json,sh}]
+indent_style = space
+indent_size = 2
+
+# Markdown documentation layout
+[*.md]
+indent_style = space
+indent_size = 2
+trim_trailing_whitespace = false
