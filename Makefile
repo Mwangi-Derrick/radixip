@@ -3,6 +3,10 @@
 
 all: build test
 
+generate:
+    @echo "Generating ipv4 and ipv6 datasets..."
+    python scripts/generate_mock_data.py
+
 build:
 	@echo "Building Rust core..."
 	cd lib/rust && cargo build --release
@@ -35,8 +39,9 @@ clean:
 	cd cmd/radixip-cli && cargo clean
 
 help:
-	@echo "Commands:"
+	@echo "Commands:"	
 	@echo "  make all    - Build and test everything"
+	@echo "  make generate - Generate mock data"
 	@echo "  make build  - Build all implementations"
 	@echo "  make test   - Test all implementations"
 	@echo "  make bench  - Run all benchmarks"
