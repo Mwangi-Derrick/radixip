@@ -42,7 +42,7 @@ _, found := radixEngine.Match(netip.MustParseAddr("192.168.1.100"))
 
 // 3. Propagate to all nodes via Redis
 redis.Publish("security:blocklist", "192.168.1.0/24")
-
+```
 
 ## 🧠 Design Goals
 
