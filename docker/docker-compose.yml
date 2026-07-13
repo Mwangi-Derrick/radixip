@@ -1,0 +1,74 @@
+# docker/docker-compose.yml
+# 🐳 Multi-service Docker setup
+
+version: '3.8'
+
+services:
+  # Redis for L2 cache
+  redis:
+    image: redis:7-alpine
+    container_name: radixip-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes
+
+  # Go benchmark runner
+  go-bench:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.go
+    container_name: radixip-go-bench
+    depends_on:
+      - redis
+    environment:
+      - REDIS_URL=redis://redis:6379
+    volumes:
+      - ../benchmarks/data:/data/benchmarks
+    command: go test -bench=. -benchmem ./...
+
+  # Rust benchmark runner
+  rust-bench:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.rs
+    container_name: radixip-rust-bench
+    depends_on:
+      - redis
+    environment:
+      - REDIS_URL=redis://redis:6379
+    volumes:
+      - ../benchmarks/data:/data/benchmarks
+    command: cargo bench
+
+  # Python example
+  python-demo:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.python
+    container_name: radixip-python-demo
+    depends_on:
+      - redis
+    environment:
+      - REDIS_URL=redis://redis:6379
+    volumes:
+      - ../radixip-python/examples:/app/examples
+    command: python examples/basic.py
+
+  # Node.js example
+  node-demo:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.node
+    container_name: radixip-node-demo
+    depends_on:
+      - redis
+    environment:
+      - REDIS_URL=redis://redis:6379
+    volumes:
+      - ../radixip-node/examples:/app/examples
+    command: node examples/basic.js
+
+volumes:
+  redis-data:
