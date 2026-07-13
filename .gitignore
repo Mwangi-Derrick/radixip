@@ -5,6 +5,8 @@
 **/*.log
 **/go.sum
 
+**data
+
 # Rust
 **/target/
 **/Cargo.lock
