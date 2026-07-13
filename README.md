@@ -25,6 +25,22 @@ RadixIP is a production-grade IP subnet caching engine that solves a critical in
 
 **The Impact**: Drop malicious traffic, enforce dynamic whitelisting, and route connections at memory speeds.
 
+## Design Goals
+
+✓ Zero allocations on reads
+
+✓ Lock-free lookups
+
+✓ Fast LPM matching
+
+✓ Cross-language support
+
+✓ Horizontal cache synchronization
+
+✓ Small memory footprint
+
+✓ High read concurrency
+
 ## 🏗️ Architecture
 
 ```text
