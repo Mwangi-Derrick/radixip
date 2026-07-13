@@ -1,10 +1,15 @@
 name: Continuous Benchmarking
 
+# 1. Comment out or delete your push/pull request triggers
+# on:
+#   push:
+#     branches: [ main ]
+#   pull_request:
+#     branches: [ main ]
+
+# 2. Add this instead to make it strictly manual
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   benchmark:
