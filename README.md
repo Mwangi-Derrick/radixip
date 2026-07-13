@@ -6,7 +6,10 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Go Report Card](https://goreportcard.com/badge/github.com/Mwangi-Derrick/radixip)](https://goreportcard.com/report/github.com/Mwangi-Derrick/radixip)
 
-**High-performance IP subnet caching engine with zero-allocation LPM lookups**
+> **The missing link between network security, DDoS mitigation, and geolocation caching.**
+>
+> RadixIP gives you IP filtering at **45ns per lookup**—self-hosted and open source.
+> Block attacks, secure databases, and save **$3.6M/year** on geolocation APIs.
 
 > 🚀 **Go:** ~45ns/lookup · 🦀 **Rust:** ~12ns/lookup · 🔌 **FFI:** Native performance from any language
 
@@ -24,6 +27,22 @@ RadixIP is a production-grade IP subnet caching engine that solves a critical in
 - **Multi-language support** through C-FFI bindings
 
 **The Impact**: Drop malicious traffic, enforce dynamic whitelisting, and route connections at memory speeds.
+
+## 🎯 Quick Start Example
+
+### Block a DDoS attack in 3 lines of code
+
+```go
+// 1. Detect attack from 192.168.1.0/24
+radixEngine.Insert("192.168.1.0/24", "malicious")
+
+// 2. All future requests from that subnet are blocked instantly
+_, found := radixEngine.Match(netip.MustParseAddr("192.168.1.100"))
+// found = true → BLOCKED
+
+// 3. Propagate to all nodes via Redis
+redis.Publish("security:blocklist", "192.168.1.0/24")
+
 
 ## 🧠 Design Goals
 
@@ -323,16 +342,6 @@ For networking, routing, and access-control workloads, that difference is often 
 | Redis | Distributed metadata cache | <1 ms |
 | Database | Persistent storage | 5–20 ms |
 
-## 🧠 Why Radix Trees?
-
-Radix trees win for IP subnet matching because of **spatial locality**:
-
-1. **Sequential memory access** → CPU prefetcher works
-2. **No hashing overhead** → pure bit operations
-3. **Natural LPM support** → prefix matching built-in
-4. **Flat arrays** → no pointer chasing, all nodes in one cache line
-
-**Result**: ~45ns lookups in Go, ~12ns in Rust.
 
 ## 🛠️ Production Use Cases
 
@@ -356,7 +365,7 @@ Allow tenants to define custom IP whitelists for their isolated environments. Ra
 
 **The Scale**: Handle thousands of tenant-specific ACLs simultaneously.
 
-### 5. Real 💰 Geolocation API Cost Killer
+### 5. Real Geolocation API Cost Killer 💰 
 
 Geolocation APIs are expensive. At scale, they can cost **$100,000+/month**.
 
@@ -482,6 +491,26 @@ bool matched = radix_engine_match(engine, "192.168.1.100");
 radix_engine_free(engine);
 ```
 
+```markdown
+### ⚡ Quick Install
+
+### Go
+```bash
+go get github.com/Mwangi-Derrick/radixip/radixip-go
+```
+### Rust
+```rust
+// add to Cargo.toml
+[dependencies]
+radixip-rs = "0.1.0"
+```
+
+### C/C++ (FFI)
+
+# Download pre-built shared library
+```curl
+curl -LO https://github.com/Mwangi-Derrick/radixip/releases/latest/libradixip.so
+```
 
 ### **CI Pipeline**
 
