@@ -164,7 +164,7 @@ radix_engine_free(engine);
 
 
 ### **CI Pipeline**
-```markdown
+
 ## 🔄 CI/CD Pipeline
 
 Every commit to `main` triggers our continuous benchmarking pipeline:
