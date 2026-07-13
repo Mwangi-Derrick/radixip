@@ -85,3 +85,8 @@ impl RedisClient {
             inner: Arc::new(inner),
         })
     }
+
+    /// Get a connection from the pool
+    async fn get_connection(&self) -> Result<tokio::sync::MutexGuard<'_, ConnectionManager>> {
+    Ok(self.inner.connection_manager.lock().await)
+    }
