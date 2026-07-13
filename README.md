@@ -390,7 +390,7 @@ RadixIP solves this with **intelligent IP caching**:
                           [Miss]
                              ▼
                      L3: External Geo API ($$$) ──> Commit to Redis & Hydrate Tree
-                     ```
+```
 
 ### The Cache Hierarchy
 
@@ -520,7 +520,6 @@ bool matched = radix_engine_match(engine, "192.168.1.100");
 radix_engine_free(engine);
 ```
 
-```markdown
 ### ⚡ Quick Install
 
 ### Go
