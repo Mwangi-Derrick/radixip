@@ -1,14 +1,35 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
-}
+//! RadixIP - High-performance IP subnet caching engine
+//!
+//! This library provides a lock-free binary radix tree for
+//! longest-prefix matching of IP addresses against CIDR blocks.
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+mod engine;
+mod node;
+mod lpm;
+mod cache;
+mod types;
+mod errors;
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
+#[cfg(feature = "redis")]
+mod redis;
+
+#[cfg(feature = "ffi")]
+pub mod ffi;
+
+#[cfg(feature = "pyo3")]
+pub mod python;
+
+#[cfg(feature = "node")]
+pub mod nodejs;
+
+pub use engine::RadixEngine;
+pub use types::{Metadata, SubnetRule};
+pub use errors::{RadixError, Result};
+
+/// Library version
+pub const VERSION: &str = env!("CARGO_PKG_VERSION");
+
+/// Pre-configured engine with default settings
+pub fn new() -> RadixEngine {
+    RadixEngine::new()
 }
