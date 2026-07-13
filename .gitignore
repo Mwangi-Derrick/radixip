@@ -17,7 +17,7 @@
 **/venv/
 
 # Data
-**/*.json
+# **/*.json
 !**/mock_network_data.json
 
 # IDE
