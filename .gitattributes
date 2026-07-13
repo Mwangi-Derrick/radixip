@@ -1,0 +1,39 @@
+# .gitattributes
+
+# 1. Core Line Ending Normalization
+# Automatically detect text files and normalize line endings to LF on commit
+* text=auto
+
+# Explicitly force LF line endings for all codebase source and automation scripts
+*.go text eol=lf
+*.rs text eol=lf
+*.py text eol=lf
+*.sh text eol=lf
+*.c  text eol=lf
+*.h  text eol=lf
+
+# Force text handling for configuration files
+*.toml text eol=lf
+*.yaml text eol=lf
+*.yml  text eol=lf
+*.ini  text eol=lf
+*.json text eol=lf
+*.md   text eol=lf
+
+# 2. Binary File Protections
+# Prevent Git from modifying or attempting to diff binary assets/fixtures
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
+*.pdf  binary
+*.gz   binary
+*.zip  binary
+
+# 3. Git Export Ignorance
+# Prevent development infrastructure files from being bundled in archive exports (git archive)
+.editorconfig export-ignore
+.gitattributes export-ignore
+.pre-commit-config.yaml export-ignore
+.github/ export-ignore
