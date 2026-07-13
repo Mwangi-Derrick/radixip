@@ -10,6 +10,7 @@ pub struct RadixNode {
     pub right: Option<Arc<RadixNode>>,
     pub metadata: Option<Metadata>,
     pub prefix: Option<IpNetwork>,
+    pub children: HashMap<IpNetwork, Arc<RadixNode>>,
 }
 
 impl RadixNode {
