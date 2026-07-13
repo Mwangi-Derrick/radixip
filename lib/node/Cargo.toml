@@ -13,7 +13,7 @@ crate-type = ["cdylib"]
 default = []
 
 [dependencies]
-radixip-core = { path = "../rust" }
+radixip-rs = { path = "../rust" }
 napi = { workspace = true }
 napi-derive = { workspace = true }
 serde = { workspace = true }
