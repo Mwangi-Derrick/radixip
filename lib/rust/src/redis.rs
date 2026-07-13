@@ -265,3 +265,13 @@ impl RedisClient {
 
         Ok((rx, handle))
     }
+
+      /// Broadcast to all subscribers
+    pub fn broadcast(&self) -> broadcast::Sender<PubSubMessage> {
+        self.inner.pubsub_sender.clone()
+    }
+
+    /// Subscribe to broadcast messages
+    pub fn subscribe_broadcast(&self) -> broadcast::Receiver<PubSubMessage> {
+        self.inner.pubsub_sender.subscribe()
+    }
