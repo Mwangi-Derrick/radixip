@@ -44,6 +44,37 @@ _, found := radixEngine.Match(netip.MustParseAddr("192.168.1.100"))
 redis.Publish("security:blocklist", "192.168.1.0/24")
 ```
 
+# RadixIP Documentation
+
+This is where RadixIP's design decisions are explained in depth — not just *what*
+the library does, but *why* it's built this way. The main repo README stays
+short on purpose; this folder is where the engineering reasoning lives.
+
+## Core Concepts
+
+| Document | notes |
+|---|---|
+| [Architecture](./architecture.md) | How the L1 (in-process) / L2 (Redis) layers fit together |
+| [Radix Tree Design](./radix-tree-design.md) | The data structure at the core of RadixIP, and why it beats a hashmap or standard trie for this problem |
+| [Longest Prefix Match](./longest-prefix-match.md) | The algorithm every IP router on the internet runs, explained from first principles |
+| [IPv4 vs IPv6](./ipv4-vs-ipv6.md) | How address structure differs, and what that means for caching strategy |
+| [Cache Locality](./cache-locality.md) | Why memory access patterns usually matter more than algorithmic complexity |
+| [How Routers Work](./how-routers-work.md) | The real-world context RadixIP borrows from |
+| [Benchmark Methodology](./benchmark-methodology.md) | Exactly how the numbers in the README were produced, so you can reproduce or challenge them |
+
+## Reading order
+
+If you're new to networking data structures, read in this order:
+
+1. [How Routers Work](./how-routers-work.md) — the motivating context
+2. [Longest Prefix Match](./longest-prefix-match.md) — the algorithm
+3. [Radix Tree Design](./radix-tree-design.md) — the data structure that makes it fast
+4. [IPv4 vs IPv6](./ipv4-vs-ipv6.md) — how it changes across protocols
+5. [Cache Locality](./cache-locality.md) — why the implementation is shaped the way it is
+6. [Architecture](./architecture.md) — how it's wired into a real system
+7. [Benchmark Methodology](./benchmark-methodology.md) — how to verify all of the above
+
+
 ## 🧠 Design Goals
 
 RadixIP is designed around a few core principles:
