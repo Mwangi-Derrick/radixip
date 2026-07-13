@@ -500,6 +500,7 @@ MIT License - See [LICENSE](LICENSE) for details.
 
 ---
 
-Built with ❤️ by [Derrick Mwangi](https://github.com/Mwangi-Derrick) and [Resplix](https://resplix.com)High-performance IP subnet matching for modern infrastructure.
+Built with ❤️ by [Derrick Mwangi](https://github.com/Mwangi-Derrick) and [Resplix](https://resplix.com)
+High-performance IP subnet matching for modern infrastructure.
 
 ⭐ Star this repo if you find it useful!
