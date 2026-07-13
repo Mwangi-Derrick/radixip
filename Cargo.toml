@@ -1,0 +1,61 @@
+[workspace]
+resolver = "2"
+members = [
+    "lib/rust",                # Core Rust implementation
+    "lib/python",              # PyO3 bindings
+    "lib/node",                # N-API bindings
+    "cmd/radixip-bench",       # Benchmark CLI
+    "cmd/radixip-cli",         # CLI tool
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+authors = ["Derrick Mwangi <derrick@resplix.com>"]
+license = "MIT"
+repository = "https://github.com/Mwangi-Derrick/radixip"
+homepage = "https://github.com/Mwangi-Derrick/radixip"
+documentation = "https://github.com/Mwangi-Derrick/radixip/docs"
+readme = "README.md"
+keywords = ["radix", "ip", "subnet", "networking", "routing"]
+categories = ["network-programming", "caching", "data-structures"]
+
+[workspace.dependencies]
+# Core
+radixip-rs = { path = "lib/rust" }
+
+# For Python bindings
+pyo3 = "0.22"
+maturin = "0.18"
+
+# For Node.js bindings
+napi = { version = "2", features = ["serde-json"] }
+napi-derive = "2"
+
+# For benchmarks
+criterion = "0.5"
+
+# For serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# For networking
+ipnetwork = "0.20"
+netaddr = "0.13"
+
+# For async
+tokio = { version = "1.0", features = ["full"] }
+
+# For Redis
+redis = { version = "0.27", features = ["tokio-comp", "connection-manager"] }
+
+# For logging
+tracing = "0.1"
+tracing-subscriber = "0.3"
+
+# For errors
+thiserror = "1.0"
+anyhow = "1.0"
+
+# For atomics
+arc-swap = "1.6"
