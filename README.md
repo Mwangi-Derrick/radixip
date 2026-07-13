@@ -54,13 +54,13 @@ short on purpose; this folder is where the engineering reasoning lives.
 
 | Document | notes |
 |---|---|
-| [Architecture](./architecture.md) | How the L1 (in-process) / L2 (Redis) layers fit together |
-| [Radix Tree Design](./radix-tree-design.md) | The data structure at the core of RadixIP, and why it beats a hashmap or standard trie for this problem |
-| [Longest Prefix Match](./longest-prefix-match.md) | The algorithm every IP router on the internet runs, explained from first principles |
-| [IPv4 vs IPv6](./ipv4-vs-ipv6.md) | How address structure differs, and what that means for caching strategy |
-| [Cache Locality](./cache-locality.md) | Why memory access patterns usually matter more than algorithmic complexity |
-| [How Routers Work](./how-routers-work.md) | The real-world context RadixIP borrows from |
-| [Benchmark Methodology](./benchmark-methodology.md) | Exactly how the numbers in the README were produced, so you can reproduce or challenge them |
+| [Architecture](./docs/guides/architecture.md) | How the L1 (in-process) / L2 (Redis) layers fit together |
+| [Radix Tree Design](./docs/guides/radix-tree-design.md) | The data structure at the core of RadixIP, and why it beats a hashmap or standard trie for this problem |
+| [Longest Prefix Match](./docs/guides/longest-prefix-match.md) | The algorithm every IP router on the internet runs, explained from first principles |
+| [IPv4 vs IPv6](./docs/guides/ipv4-vs-ipv6.md) | How address structure differs, and what that means for caching strategy |
+| [Cache Locality](./docs/guides/cache-locality.md) | Why memory access patterns usually matter more than algorithmic complexity |
+| [How Routers Work](./docs/guides/how-routers-work.md) | The real-world context RadixIP borrows from |
+| [Benchmark Methodology](./docs/guides/benchmark-methodology.md) | Exactly how the numbers in the README were produced, so you can reproduce or challenge them |
 
 ## Reading order
 
