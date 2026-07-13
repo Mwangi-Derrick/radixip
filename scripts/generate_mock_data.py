@@ -63,7 +63,7 @@ def generate_miss_ipv6():
         parts.append(f"{random.randint(0, 65535):x}")
     return ":".join(parts)
 
-def generate_dataset(num_subnets=10000, num_lookups=100000):
+def generate_dataset(num_subnets=20000, num_lookups=100000):
     """Generate datasets with both IPv4 and IPv6 support"""
     
     # Split the datasets equally between IPv4 and IPv6
