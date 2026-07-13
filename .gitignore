@@ -1,0 +1,24 @@
+# Go
+**/*.exe
+**/*.test
+**/coverage.out
+**/*.log
+**/go.sum
+
+# Rust
+**/target/
+**/Cargo.lock
+
+# Python
+**/__pycache__/
+**/*.pyc
+**/venv/
+
+# Data
+**/*.json
+!**/mock_network_data.json
+
+# IDE
+**/.vscode/
+**/.idea/
+**/*.swp
