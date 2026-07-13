@@ -207,10 +207,17 @@ We welcome contributions! Here's how to get started:
 - Add tests for new functionality
 - Keep performance as the #1 priority
 
+## 📦 Where to Find This Project
+
+- **Primary**: [github.com/Mwangi-Derrick/radixip](https://github.com/Mwangi-Derrick/radixip)
+- **Mirror**: [github.com/resplix/radixip](https://github.com/resplix/radixip)
+
 ## 📄 License
 
 MIT License - See [LICENSE](LICENSE) for details.
 
 ---
 
-Built with ❤️ by [Derrick Mwangi](https://github.com/Mwangi-Derrick)
+Built with ❤️ by [Derrick Mwangi](https://github.com/Mwangi-Derrick) and [Resplix](https://resplix.com) — Database Security for the Modern Era
+
+⭐ Star this repo if you find it useful!
