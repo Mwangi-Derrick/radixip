@@ -275,3 +275,24 @@ impl RedisClient {
     pub fn subscribe_broadcast(&self) -> broadcast::Receiver<PubSubMessage> {
         self.inner.pubsub_sender.subscribe()
     }
+
+      /// Shutdown all subscriptions
+    pub async fn shutdown(&self) -> Result<()> {
+        let _ = self.inner.shutdown_tx.send(());
+        Ok(())
+    }
+
+    /// Set a key-value pair
+    pub async fn set(&self, key: &str, value: &str) -> Result<()> {
+        let mut conn = self.get_connection().await?;
+        conn.set(key, value).await?;
+        Ok(())
+    }
+
+    /// Get a value by key
+    pub async fn get(&self, key: &str) -> Result<Option<String>> {
+        let mut conn = self.get_connection().await?;
+        let result: Option<String> = conn.get(key).await?;
+        Ok(result)
+    }
+}
