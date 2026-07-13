@@ -210,3 +210,58 @@ impl RedisClient {
 
         Ok((rx, handle))
     }
+
+       /// Subscribe to a pattern (e.g., "news.*")
+    pub async fn psubscribe(
+        &self,
+        pattern: &str,
+    ) -> Result<(mpsc::Receiver<PubSubMessage>, JoinHandle<()>)> {
+        let (tx, rx) = mpsc::channel(100);
+        let tx_clone = tx.clone();
+
+        let mut conn = self.get_connection().await?;
+        let mut pubsub = conn.as_pubsub().await?;
+        pubsub.psubscribe(pattern).await?;
+        
+        let mut stream = pubsub.on_message();
+        let shutdown_rx = self.inner.shutdown_tx.subscribe();
+        let pattern_str = pattern.to_string();
+
+        let handle = tokio::spawn(async move {
+            let mut shutdown = shutdown_rx;
+            loop {
+                tokio::select! {
+                    msg_result = stream.next() => {
+                        match msg_result {
+                            Some(msg) => {
+                                let payload: String = msg.get_payload().unwrap_or_default();
+                                let channel_name = msg.get_channel_name().to_string();
+                                let pattern = msg.get_pattern_name().map(|s| s.to_string());
+                                
+                                let pubsub_msg = PubSubMessage {
+                                    channel: channel_name,
+                                    payload,
+                                    pattern,
+                                };
+                                
+                                if let Err(e) = tx_clone.send(pubsub_msg).await {
+                                    error!("Failed to send message to channel: {}", e);
+                                    break;
+                                }
+                            }
+                            None => {
+                                debug!("PubSub stream ended for pattern {}", pattern_str);
+                                break;
+                            }
+                        }
+                    }
+                    _ = shutdown.recv() => {
+                        info!("Shutting down subscription for pattern {}", pattern_str);
+                        break;
+                    }
+                }
+            }
+        });
+
+        Ok((rx, handle))
+    }
