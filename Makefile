@@ -4,8 +4,9 @@
 all: build test
 
 generate:
-    @echo "Generating ipv4 and ipv6 datasets..."
-    python scripts/generate_mock_data.py
+	@echo "Generating ipv4 and ipv6 datasets..."
+	python scripts/generate_mock_data.py
+
 
 build:
 	@echo "Building Rust core..."
