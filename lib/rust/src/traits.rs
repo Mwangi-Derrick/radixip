@@ -16,9 +16,14 @@ pub enum NodeVariant {
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum EngineVariant {
-    Standard,    // Standard RwLock-based
-    Concurrent,  // Concurrent with sharding
-    LockFree,    // Fully lock-free
+    /// Standard RwLock-based engine
+    Standard,
+    /// Sharded engine for higher concurrency
+    Concurrent,
+    /// Fully lock-free engine
+    LockFree,
+    /// Hybrid engine with adaptive strategies
+    Adaptive,
 }
 
 // Core trait that all nodes must implement
