@@ -89,6 +89,21 @@ pub fn longest_common_prefix_len(left: &str, right: &str) -> usize {
     index
 }
 
+fn get_bit(ip: IpAddr, bit_pos: usize) -> u8 {
+    let ip_bytes: &[u8] = match ip {
+        IpAddr::V4(ipv4) => ipv4.octets().as_slice(),
+        IpAddr::V6(ipv6) => ipv6.octets().as_slice(),
+    };
+
+    let byte_idx = bit_pos / 8;
+    if byte_idx >= ip_bytes.len() {
+        return 0;
+    }
+
+    let bit_idx = 7 - (bit_pos % 8);
+    ((ip_bytes[byte_idx] >> bit_idx) & 1)
+}
+
 /// More efficient implementation using binary string representation
 pub fn longest_prefix_match_binary(root: &dyn RadixNode, ip: IpAddr) -> Option<Metadata> {
     longest_prefix_match(root, ip)
