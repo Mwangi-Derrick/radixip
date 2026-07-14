@@ -15,7 +15,7 @@ pub mod config;
 
 
 #[cfg(feature = "redis")]
-mod redis;
+pub mod redis;
 
 #[cfg(feature = "ffi")]
 pub mod ffi;
@@ -74,8 +74,3 @@ pub fn new_balanced() -> Box<dyn RadixEngine> {
 
 /// Library version
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
-
-/// Pre-configured engine with default settings
-pub fn new() -> RadixEngine {
-    RadixEngine::new()
-}
