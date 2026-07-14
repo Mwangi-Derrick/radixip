@@ -1,9 +1,10 @@
 use std::collections::HashMap;
 use std::sync::{Arc, RwLock};
 use std::net::IpAddr;
+use ipnetwork::IpNetwork;
 use super::traits::*;
 use crate::lpm::network_contains_ip;
-use crate::types::EngineStats;
+use crate::types::{EngineStats, Metadata};
 
 // Cache configuration between redis and engine
 pub struct CacheConfig {
