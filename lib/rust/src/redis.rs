@@ -1,12 +1,13 @@
 use std::sync::Arc;
 use std::time::Duration;
 use redis::{
-    aio::{ConnectionManager, PubSub},
-    AsyncCommands, Client, RedisError, RedisResult,
+    aio::ConnectionManager,
+    AsyncCommands, Client, RedisError,
 };
+use futures_util::StreamExt;
 use tokio::sync::{mpsc, Mutex, broadcast};
 use tokio::task::JoinHandle;
-use tracing::{info, error, warn, debug};
+use tracing::{info, error, debug};
 
 // Custom error type
 #[derive(Debug, thiserror::Error)]
@@ -48,6 +49,7 @@ pub struct RedisClient {
 }
 
 struct RedisClientInner {
+    client: Client,
     connection_manager: Mutex<ConnectionManager>,
     config: RedisConfig,
     pubsub_sender: broadcast::Sender<PubSubMessage>,
@@ -75,6 +77,7 @@ impl RedisClient {
         let (shutdown_tx, _) = broadcast::channel(1);
 
         let inner = RedisClientInner {
+            client,
             connection_manager: Mutex::new(connection_manager),
             config,
             pubsub_sender: pubsub_tx,
@@ -94,7 +97,7 @@ impl RedisClient {
         /// Publish a message to a channel
     pub async fn publish(&self, channel: &str, message: &str) -> Result<()> {
         let mut conn = self.get_connection().await?;
-        conn.publish(channel, message).await?;
+        let _: usize = conn.publish(channel, message).await?;
         debug!("Published to {}: {}", channel, message);
         Ok(())
     }
@@ -116,8 +119,7 @@ impl RedisClient {
         F: FnMut(PubSubMessage) -> Fut + Send + 'static,
         Fut: std::future::Future<Output = ()> + Send,
     {
-        let mut conn = self.get_connection().await?;
-        let mut pubsub = conn.as_pubsub().await?;
+        let mut pubsub = self.inner.client.get_async_pubsub().await?;
         pubsub.subscribe(channel).await?;
         
         let mut stream = pubsub.on_message();
@@ -166,8 +168,7 @@ impl RedisClient {
         let (tx, rx) = mpsc::channel(100);
         let tx_clone = tx.clone();
 
-        let mut conn = self.get_connection().await?;
-        let mut pubsub = conn.as_pubsub().await?;
+        let mut pubsub = self.inner.client.get_async_pubsub().await?;
         pubsub.subscribe(channel).await?;
         
         let mut stream = pubsub.on_message();
@@ -219,8 +220,7 @@ impl RedisClient {
         let (tx, rx) = mpsc::channel(100);
         let tx_clone = tx.clone();
 
-        let mut conn = self.get_connection().await?;
-        let mut pubsub = conn.as_pubsub().await?;
+        let mut pubsub = self.inner.client.get_async_pubsub().await?;
         pubsub.psubscribe(pattern).await?;
         
         let mut stream = pubsub.on_message();
@@ -285,7 +285,7 @@ impl RedisClient {
     /// Set a key-value pair
     pub async fn set(&self, key: &str, value: &str) -> Result<()> {
         let mut conn = self.get_connection().await?;
-        conn.set(key, value).await?;
+        let _: () = conn.set(key, value).await?;
         Ok(())
     }
 
