@@ -41,6 +41,15 @@ impl RadixNode {
     pub fn set_left(&self, child: *mut RadixNode) {
         self.left.store(child, Ordering::Release);
     }
+
+    pub fn get_prefix(&self) -> *mut IpNetwork {
+        return self.prefix.load(Ordering::Acquire);
+    }
+
+    pub fn set_prefix(&self, prefix: *mut IpNetwork) {
+        self.prefix.store(prefix, Ordering::Release);
+    }
+
 }
  
 impl Clone for RadixNode {
