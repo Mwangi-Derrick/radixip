@@ -8,6 +8,7 @@ use crate::types::Metadata;
 /// Binary radix tree node (cache-line aligned)
 #[repr(C, align(64))]  // 64-byte cache line alignment
 pub struct RadixNode {
+    pub bit:  Option<u8>,
     pub left: Option<Arc<RadixNode>>,
     pub right: Option<Arc<RadixNode>>,
     pub metadata: Option<Metadata>,
@@ -18,6 +19,7 @@ pub struct RadixNode {
 impl RadixNode {
     pub fn new() -> Self {
         Self {
+            bit: None,
             left: None,
             right: None,
             metadata: None,
