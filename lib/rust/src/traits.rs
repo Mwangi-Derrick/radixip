@@ -1,8 +1,7 @@
 use std::net::IpAddr;
 use std::sync::Arc;
-use std::collections::HashMap;
 use ipnetwork::IpNetwork;
-use crate::types::Metadata;
+use crate::types::{EngineStats, Metadata};
 
 // Configuration for runtime dispatch
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -28,16 +27,18 @@ pub enum EngineVariant {
 
 // Core trait that all nodes must implement
 pub trait RadixNode: Send + Sync {
-    fn get_bit(&self) -> Option<u8>;
-    fn get_left(&self) -> Option<Arc<dyn RadixNode>>;
-    fn get_right(&self) -> Option<Arc<dyn RadixNode>>;
-    fn get_metadata(&self) -> Option<&Metadata>;
-    fn get_prefix(&self) -> Option<&IpNetwork>;
+    fn bit(&self) -> Option<u8>;
+    fn left(&self) -> Option<Arc<dyn RadixNode>>;
+    fn right(&self) -> Option<Arc<dyn RadixNode>>;
+    fn metadata(&self) -> Option<Metadata>;
+    fn prefix(&self) -> Option<IpNetwork>;
     fn get_child(&self, network: &IpNetwork) -> Option<Arc<dyn RadixNode>>;
     fn insert_child(&self, network: IpNetwork, node: Arc<dyn RadixNode>);
     fn remove_child(&self, network: &IpNetwork) -> Option<Arc<dyn RadixNode>>;
     fn set_metadata(&self, metadata: Metadata);
+    fn clear_metadata(&self);
     fn set_bit(&self, bit: u8);
+    fn set_prefix(&self, prefix: IpNetwork);
 }
 
 // Core engine trait
@@ -48,6 +49,12 @@ pub trait RadixEngine: Send + Sync {
     fn contains(&self, prefix: &IpNetwork) -> bool;
     fn clear(&self);
     fn size(&self) -> usize;
+    fn stats(&self) -> EngineStats {
+        EngineStats {
+            size: self.size(),
+            ..EngineStats::default()
+        }
+    }
 }
 
 // Factory trait for creating engines with different variants
