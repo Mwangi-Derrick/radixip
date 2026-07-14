@@ -292,6 +292,83 @@ func NewEngineWrapper(variant EngineVariant, nodeVariant NodeVariant) *EngineWra
 	}
 }
 
+func (e *EngineWrapper) Insert(prefix IpNetwork, metadata Metadata) error {
+	switch e.variant {
+	case EngineVariantStandard, EngineVariantLockFree:
+		return e.standard.Insert(prefix, metadata)
+	case EngineVariantConcurrent:
+		return e.concurrent.Insert(prefix, metadata)
+	default:
+		return e.standard.Insert(prefix, metadata)
+	}
+}
+
+func (e *EngineWrapper) Lookup(ip *net.IP) *Metadata {
+	switch e.variant {
+	case EngineVariantStandard, EngineVariantLockFree:
+		return e.standard.Lookup(ip)
+	case EngineVariantConcurrent:
+		return e.concurrent.Lookup(ip)
+	default:
+		return e.standard.Lookup(ip)
+	}
+}
+
+func (e *EngineWrapper) Remove(prefix *IpNetwork) *Metadata {
+	switch e.variant {
+	case EngineVariantStandard, EngineVariantLockFree:
+		return e.standard.Remove(prefix)
+	case EngineVariantConcurrent:
+		return e.concurrent.Remove(prefix)
+	default:
+		return e.standard.Remove(prefix)
+	}
+}
+
+func (e *EngineWrapper) Contains(prefix *IpNetwork) bool {
+	switch e.variant {
+	case EngineVariantStandard, EngineVariantLockFree:
+		return e.standard.Contains(prefix)
+	case EngineVariantConcurrent:
+		return e.concurrent.Contains(prefix)
+	default:
+		return e.standard.Contains(prefix)
+	}
+}
+
+func (e *EngineWrapper) Clear() {
+	switch e.variant {
+	case EngineVariantStandard, EngineVariantLockFree:
+		e.standard.Clear()
+	case EngineVariantConcurrent:
+		e.concurrent.Clear()
+	default:
+		e.standard.Clear()
+	}
+}
+
+func (e *EngineWrapper) Size() int64 {
+	switch e.variant {
+	case EngineVariantStandard, EngineVariantLockFree:
+		return e.standard.Size()
+	case EngineVariantConcurrent:
+		return e.concurrent.Size()
+	default:
+		return e.standard.Size()
+	}
+}
+
+func (e *EngineWrapper) Stats() EngineStats {
+	switch e.variant {
+	case EngineVariantStandard, EngineVariantLockFree:
+		return e.standard.Stats()
+	case EngineVariantConcurrent:
+		return e.concurrent.Stats()
+	default:
+		return e.standard.Stats()
+	}
+}
+
 // Helper functions and types
 func getNumCPU() int {
 	// Get the number of available logical CPUs
