@@ -84,7 +84,7 @@ impl RadixEngine for StandardEngine {
 }
 
 // ============ SHARDED ENGINE ============
-
+//throughput = number_shards * throughput per shard
 pub struct ShardedEngine {
     shards: Vec<Arc<StandardEngine>>,
     num_shards: usize,
@@ -115,6 +115,8 @@ impl ShardedEngine {
     
     fn get_shard_for_network(&self, network: &IpNetwork) -> usize {
         // Use the network address for sharding
+        // each shard can deal with its own data block
+        // sharding reduces lock contention instead of waiting for a single thread
         self.get_shard(&network.addr)
     }
 }
@@ -166,7 +168,7 @@ impl RadixEngine for ShardedEngine {
 }
 
 // ============ ENGINE WRAPPER ============
-
+// allows switch of different engine modes
 pub enum EngineWrapper {
     Standard(Arc<StandardEngine>),
     Concurrent(Arc<ShardedEngine>),
