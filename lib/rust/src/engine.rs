@@ -247,9 +247,12 @@ impl EngineWrapper {
             }
             EngineVariant::Adaptive => {
                 // Choose based on system characteristics
-                if num_cpus::get() > 4 {
+                let cpus = std::thread::available_parallelism()
+                    .map(|count| count.get())
+                    .unwrap_or(1);
+                if cpus > 4 {
                     EngineWrapper::Concurrent(Arc::new(ShardedEngine::new(
-                        num_cpus::get() * 2,
+                        cpus * 2,
                         NodeVariant::Atomic,
                     )))
                 } else {
