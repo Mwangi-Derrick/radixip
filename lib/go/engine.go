@@ -132,3 +132,20 @@ func (e *StandardEngine) Stats() EngineStats {
 	return stats
 }
 
+// SHARDED ENGINE
+
+type ShardedEngine struct {
+	shards     []*StandardEngine
+	numShards  int
+}
+
+func NewShardedEngine(numShards int, nodeVariant NodeVariant) *ShardedEngine {
+	shards := make([]*StandardEngine, numShards)
+	for i := 0; i < numShards; i++ {
+		shards[i] = NewStandardEngine(nodeVariant)
+	}
+	return &ShardedEngine{
+		shards:    shards,
+		numShards: numShards,
+	}
+}
