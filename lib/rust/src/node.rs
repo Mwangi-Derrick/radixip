@@ -1,6 +1,8 @@
 use std::net::IpAddr;
 use std::sync::Arc;
 use ipnetwork::IpNetwork;
+use std::sync::atomic::{AtomicPtr, Ordering};
+use std::collections::HashMap;
 use crate::types::Metadata;
 
 /// Binary radix tree node (cache-line aligned)
@@ -9,7 +11,7 @@ pub struct RadixNode {
     pub left: Option<Arc<RadixNode>>,
     pub right: Option<Arc<RadixNode>>,
     pub metadata: Option<Metadata>,
-    pub prefix: Option<IpNetwork>,
+    pub prefix: Option<IpNetwork>,//represents the ip network range of a subnet
     pub children: HashMap<IpNetwork, Arc<RadixNode>>,
 }
 
@@ -30,8 +32,17 @@ impl RadixNode {
         // ... insert logic ...
         new_node
     }
-}
 
+   pub fn get_left(&self) -> *mut RadixNode {
+        self.left.load(Ordering::Acquire)
+    }
+
+    // SetLeft safely sets the left child
+    pub fn set_left(&self, child: *mut RadixNode) {
+        self.left.store(child, Ordering::Release);
+    }
+}
+ 
 impl Clone for RadixNode {
     fn clone(&self) -> Self {
         Self {
