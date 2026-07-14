@@ -243,3 +243,49 @@ func (e *ShardedEngine) Stats() EngineStats {
 	total.Size = e.Size()
 	return total
 }
+
+
+type EngineWrapper struct {
+	standard   *StandardEngine
+	concurrent *ShardedEngine
+	variant    EngineVariant
+}
+
+func NewEngineWrapper(variant EngineVariant, nodeVariant NodeVariant) *EngineWrapper {
+	switch variant {
+	case EngineVariantStandard:
+		return &EngineWrapper{
+			standard: NewStandardEngine(nodeVariant),
+			variant:  EngineVariantStandard,
+		}
+	case EngineVariantConcurrent:
+		return &EngineWrapper{
+			concurrent: NewShardedEngine(16, nodeVariant),
+			variant:    EngineVariantConcurrent,
+		}
+	case EngineVariantLockFree:
+		return &EngineWrapper{
+			standard: NewStandardEngine(NodeVariantLockFree),
+			variant:  EngineVariantLockFree,
+		}
+	case EngineVariantAdaptive:
+		// Choose based on system characteristics
+		cpus := getNumCPU()
+		if cpus > 4 {
+			return &EngineWrapper{
+				concurrent: NewShardedEngine(cpus*2, NodeVariantAtomic),
+				variant:    EngineVariantConcurrent,
+			}
+		} else {
+			return &EngineWrapper{
+				standard: NewStandardEngine(NodeVariantAtomic),
+				variant:  EngineVariantStandard,
+			}
+		}
+	default:
+		return &EngineWrapper{
+			standard: NewStandardEngine(nodeVariant),
+			variant:  EngineVariantStandard,
+		}
+	}
+}
