@@ -50,6 +50,7 @@ type Metadata struct {
 // Note: Go doesn't have direct control over alignment like Rust's repr(C, align(64))
 // but we can use struct padding to achieve similar alignment
 type RadixNode struct {
+	bit      int          // When to branch
     // Using atomic pointers for thread-safety (similar to Arc in Rust)
     left   unsafe.Pointer // *RadixNode with atomic operations
     right  unsafe.Pointer // *RadixNode with atomic operations
