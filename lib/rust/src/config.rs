@@ -1,6 +1,8 @@
 //! optional Runtime configuration for RadixIP
 
 use crate::traits::{EngineVariant, NodeVariant};
+#[cfg(feature = "redis")]
+use crate::redis::RedisConfig;
 
 #[derive(Debug, Clone)]
 pub struct RadixConfig {
@@ -9,6 +11,9 @@ pub struct RadixConfig {
     pub cache_enabled: bool,
     pub cache_max_entries: usize,
     pub cache_ttl_seconds: Option<u64>,
+    #[cfg(feature = "redis")]
+    pub redis: Option<RedisConfig>,
+    pub redis_channel: String,
     pub num_shards: Option<usize>,
     pub enable_stats: bool,
 }
@@ -21,6 +26,9 @@ impl Default for RadixConfig {
             cache_enabled: true,
             cache_max_entries: 10000,
             cache_ttl_seconds: Some(3600),
+            #[cfg(feature = "redis")]
+            redis: None,
+            redis_channel: "radixip:updates".to_string(),
             num_shards: None,
             enable_stats: true,
         }
@@ -47,6 +55,13 @@ impl RadixConfig {
         self.cache_max_entries = max_entries;
         self
     }
+
+    #[cfg(feature = "redis")]
+    pub fn with_redis(mut self, redis: RedisConfig, channel: impl Into<String>) -> Self {
+        self.redis = Some(redis);
+        self.redis_channel = channel.into();
+        self
+    }
     
     pub fn high_performance() -> Self {
         Self {
@@ -55,6 +70,9 @@ impl RadixConfig {
             cache_enabled: true,
             cache_max_entries: 100000,
             cache_ttl_seconds: None,
+            #[cfg(feature = "redis")]
+            redis: None,
+            redis_channel: "radixip:updates".to_string(),
             num_shards: Some(32),
             enable_stats: false,
         }
@@ -67,6 +85,9 @@ impl RadixConfig {
             cache_enabled: false,
             cache_max_entries: 0,
             cache_ttl_seconds: None,
+            #[cfg(feature = "redis")]
+            redis: None,
+            redis_channel: "radixip:updates".to_string(),
             num_shards: None,
             enable_stats: false,
         }
@@ -79,6 +100,9 @@ impl RadixConfig {
             cache_enabled: true,
             cache_max_entries: 10000,
             cache_ttl_seconds: Some(3600),
+            #[cfg(feature = "redis")]
+            redis: None,
+            redis_channel: "radixip:updates".to_string(),
             num_shards: Some(16),
             enable_stats: true,
         }
