@@ -160,12 +160,6 @@ impl ShardedEngine {
         hash % self.num_shards
     }
     
-    fn get_shard_for_network(&self, network: &IpNetwork) -> usize {
-        // Use the network address for sharding
-        // each shard can deal with its own data block
-        // sharding reduces lock contention instead of waiting for a single thread
-        self.get_shard(&network.ip())
-    }
 }
 
 impl RadixEngine for ShardedEngine {

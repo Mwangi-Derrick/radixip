@@ -29,7 +29,6 @@ pub mod nodejs;
 pub use engine::{EngineWrapper, StandardEngine, ShardedEngine};
 pub use node::{NodeWrapper, NormalNode, AtomicNode, PaddedNode};
 pub use lpm::LPM;
-pub use atomic::AtomicRadixEngine;
 pub use types::{Metadata, SubnetRule};
 pub use errors::{RadixError, Result};
 
