@@ -44,8 +44,8 @@ pyo3 = { workspace = true, optional = true }
 # Optional: Node.js bindings
 napi = { workspace = true, optional = true }
 napi-derive = { workspace = true, optional = true }
-dashmap = { workspace = true, optional = true }
-crossbeam = { workspace = true, optional = true }
+dashmap = { workspace = true }
+crossbeam = { workspace = true }
 
 # Optional: Benchmarks
 
