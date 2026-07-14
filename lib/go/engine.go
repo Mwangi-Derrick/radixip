@@ -149,3 +149,35 @@ func NewShardedEngine(numShards int, nodeVariant NodeVariant) *ShardedEngine {
 		numShards: numShards,
 	}
 }
+
+
+func (e *ShardedEngine) getShard(ip *net.IP) int {
+	var hash uint64
+	switch {
+	case ip.To4() != nil:
+		ip4 := ip.To4()
+		/*
+		Thinking of it as reclaiming their "favourite sitting spots" inside a larger container perfectly captures exactly what the hardware is doing.
+		To solidify your intuition, 
+		let's look closely at your shifting counts, 
+		because you have the concept 100% correct, 
+		you just had a tiny typo on the exact numbers for the 3rd and 4th octets:
+		1st Octet: Starts at the bottom of its own small container. 
+		It shifts 24 slots left to sit at the very top of the 32-bit container.
+		2nd Octet: Starts at the bottom. It shifts 16 slots left to sit right next to the 1st octet.
+		3rd Octet: Starts at the bottom. 
+		It shifts 8 slots left (not 16) to slide into the third position.4th Octet: It shifts 0 slots (it doesn't shift at all, or shifts 8 less than the 3rd) because its "favourite spot" is already at the very bottom!
+		
+		*/
+		hash = uint64(uint32(ip4[0])<<24 | uint32(ip4[1])<<16 | uint32(ip4[2])<<8 | uint32(ip4[3]))
+	default:
+		ip6 := ip.To16()
+		var h uint64
+		for i := 0; i < 8; i++ {
+			// we use a plynomail rolling hash
+			h = h*31 + uint64(ip6[i])
+		}
+		hash = h
+	}
+	return int(hash % uint64(e.numShards))
+}
