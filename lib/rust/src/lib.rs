@@ -11,6 +11,7 @@ pub mod types;
 pub mod errors;
 pub mod traits;
 pub mod atomic;
+pub mod config;
 
 
 #[cfg(feature = "redis")]
