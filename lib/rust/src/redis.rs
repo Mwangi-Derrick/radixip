@@ -5,9 +5,14 @@ use redis::{
     AsyncCommands, Client, RedisError,
 };
 use futures_util::StreamExt;
+use ipnetwork::IpNetwork;
+use serde::{Deserialize, Serialize};
 use tokio::sync::{mpsc, Mutex, broadcast};
 use tokio::task::JoinHandle;
 use tracing::{info, error, debug};
+
+use crate::traits::RadixEngine;
+use crate::types::Metadata;
 
 // Custom error type
 #[derive(Debug, thiserror::Error)]
@@ -61,6 +66,19 @@ pub struct PubSubMessage {
     pub channel: String,
     pub payload: String,
     pub pattern: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "op", rename_all = "snake_case")]
+pub enum RedisCacheUpdate {
+    Insert {
+        prefix: IpNetwork,
+        metadata: Metadata,
+    },
+    Remove {
+        prefix: IpNetwork,
+    },
+    Clear,
 }
 
 impl RedisClient {
@@ -330,5 +348,55 @@ impl RedisClient {
         let mut conn = self.get_connection().await?;
         let result: Option<String> = conn.get(key).await?;
         Ok(result)
+    }
+
+    pub async fn publish_insert(
+        &self,
+        channel: &str,
+        prefix: IpNetwork,
+        metadata: Metadata,
+    ) -> Result<()> {
+        self.publish_json(
+            channel,
+            &RedisCacheUpdate::Insert { prefix, metadata },
+        )
+        .await
+    }
+
+    pub async fn publish_remove(&self, channel: &str, prefix: IpNetwork) -> Result<()> {
+        self.publish_json(channel, &RedisCacheUpdate::Remove { prefix }).await
+    }
+
+    pub async fn publish_clear(&self, channel: &str) -> Result<()> {
+        self.publish_json(channel, &RedisCacheUpdate::Clear).await
+    }
+
+    pub async fn subscribe_engine_updates(
+        &self,
+        channel: &str,
+        engine: Arc<dyn RadixEngine>,
+    ) -> Result<JoinHandle<()>> {
+        self.subscribe(channel, move |message| {
+            let engine = engine.clone();
+            async move {
+                match serde_json::from_str::<RedisCacheUpdate>(&message.payload) {
+                    Ok(RedisCacheUpdate::Insert { prefix, metadata }) => {
+                        if let Err(error) = engine.insert(prefix, metadata) {
+                            error!("Failed to apply Redis insert update: {}", error);
+                        }
+                    }
+                    Ok(RedisCacheUpdate::Remove { prefix }) => {
+                        engine.remove(&prefix);
+                    }
+                    Ok(RedisCacheUpdate::Clear) => {
+                        engine.clear();
+                    }
+                    Err(error) => {
+                        error!("Failed to decode Redis cache update: {}", error);
+                    }
+                }
+            }
+        })
+        .await
     }
 }
