@@ -156,3 +156,9 @@ pub unsafe extern "C" fn radix_engine_clear(handle: *mut RadixEngineHandle) {
         handle.inner.clear();
     }
 }
+
+/// Get the library version
+#[unsafe(no_mangle)]
+pub extern "C" fn radix_engine_version() -> *const c_char {
+    concat!(env!("CARGO_PKG_VERSION"), "\0").as_ptr() as *const c_char
+}
