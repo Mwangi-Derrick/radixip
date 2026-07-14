@@ -43,6 +43,7 @@ ipnetwork = "0.20"
 
 # For async
 tokio = { version = "1.0", features = ["full"] }
+futures-util = "0.3"
 
 # For Redis
 redis = { version = "0.27", features = ["tokio-comp", "connection-manager"] }
