@@ -5,6 +5,7 @@ import (
 	"net/ip"
 	"sync/atomic"
 	"unsafe"
+	"runtime"
 )
 
 type StandardEngine struct {
@@ -288,4 +289,11 @@ func NewEngineWrapper(variant EngineVariant, nodeVariant NodeVariant) *EngineWra
 			variant:  EngineVariantStandard,
 		}
 	}
+}
+
+// Helper functions and types
+func getNumCPU() int {
+	// Get the number of available logical CPUs
+	cpus := runtime.NumCPU()
+	fmt.Printf("Number of logical CPUs: %d\n", cpus)
 }
