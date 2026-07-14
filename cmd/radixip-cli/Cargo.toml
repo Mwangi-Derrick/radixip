@@ -7,7 +7,7 @@ license.workspace = true
 repository.workspace = true
 
 [dependencies]
-radixip-core = { path = "../../lib/rust" }
+radixip-core = { package = "radixip-rs", path = "../../lib/rust" }
 clap = { version = "4.0", features = ["derive"] }
 tokio = { workspace = true }
 serde_json = { workspace = true }

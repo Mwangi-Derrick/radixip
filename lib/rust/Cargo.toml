@@ -26,7 +26,6 @@ node = ["dep:napi", "dep:napi-derive"]
 [dependencies]
 # Core dependencies
 ipnetwork = { workspace = true }
-netaddr = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
 thiserror = { workspace = true }
@@ -54,13 +53,6 @@ criterion = { workspace = true }
 tokio = { workspace = true }
 
 [[bench]]
-name = "lookup"
-harness = false
-
-[[bench]]
-name = "insert"
-harness = false
-
-[[bench]]
-name = "throughput"
+name = "lookup_bench"
+path = "benches/lookup_bench.rs"
 harness = false

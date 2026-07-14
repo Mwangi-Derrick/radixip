@@ -4,7 +4,6 @@ members = [
     "lib/rust",                # Core Rust implementation
     "lib/python",              # PyO3 bindings
     "lib/node",                # N-API bindings
-    "cmd/radixip-bench",       # Benchmark CLI
     "cmd/radixip-cli",         # CLI tool
 ]
 
@@ -41,7 +40,6 @@ serde_json = "1.0"
 
 # For networking
 ipnetwork = "0.20"
-netaddr = "0.13"
 
 # For async
 tokio = { version = "1.0", features = ["full"] }
