@@ -181,3 +181,65 @@ func (e *ShardedEngine) getShard(ip *net.IP) int {
 	}
 	return int(hash % uint64(e.numShards))
 }
+
+func (e *ShardedEngine) Insert(prefix IpNetwork, metadata Metadata) error {
+	for _, shard := range e.shards {
+		if err := shard.Insert(prefix, metadata); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (e *ShardedEngine) Lookup(ip *net.IP) *Metadata {
+	shardIdx := e.getShard(ip)
+	return e.shards[shardIdx].Lookup(ip)
+}
+
+func (e *ShardedEngine) Remove(prefix *IpNetwork) *Metadata {
+	var removed *Metadata
+	for _, shard := range e.shards {
+		shardRemoved := shard.Remove(prefix)
+		if removed == nil {
+			removed = shardRemoved
+		}
+	}
+	return removed
+}
+
+func (e *ShardedEngine) Contains(prefix *IpNetwork) bool {
+	if len(e.shards) > 0 {
+		return e.shards[0].Contains(prefix)
+	}
+	return false
+}
+
+func (e *ShardedEngine) Clear() {
+	for _, shard := range e.shards {
+		shard.Clear()
+	}
+}
+
+func (e *ShardedEngine) Size() int64 {
+	if len(e.shards) > 0 {
+		return e.shards[0].Size()
+	}
+	return 0
+}
+
+func (e *ShardedEngine) Stats() EngineStats {
+	var total EngineStats
+	for _, shard := range e.shards {
+		stats := shard.Stats()
+		total.Lookups += stats.Lookups
+		total.Hits += stats.Hits
+		total.Misses += stats.Misses
+	}
+	if len(e.shards) > 0 {
+		stats := e.shards[0].Stats()
+		total.Inserts = stats.Inserts
+		total.Removals = stats.Removals
+	}
+	total.Size = e.Size()
+	return total
+}
