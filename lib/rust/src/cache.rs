@@ -2,6 +2,8 @@ use std::collections::HashMap;
 use std::sync::{Arc, RwLock};
 use std::net::IpAddr;
 use super::traits::*;
+use crate::lpm::network_contains_ip;
+use crate::types::EngineStats;
 
 // Cache configuration between redis and engine
 pub struct CacheConfig {
@@ -49,7 +51,11 @@ impl RadixCache {
     pub fn invalidate(&self, prefix: &IpNetwork) {
         // Remove entries that match prefix
         let mut cache = self.cache.write().unwrap();
-        cache.retain(|_, _| true); // Simplified
+        cache.retain(|ip, _| !network_contains_ip(prefix, ip));
+    }
+
+    pub fn clear(&self) {
+        self.cache.write().unwrap().clear();
     }
 }
 
@@ -90,9 +96,14 @@ impl RadixEngine for CachedEngine {
     
     fn clear(&self) {
         self.inner.clear();
+        self.cache.clear();
     }
     
     fn size(&self) -> usize {
         self.inner.size()
+    }
+
+    fn stats(&self) -> EngineStats {
+        self.inner.stats()
     }
 }
