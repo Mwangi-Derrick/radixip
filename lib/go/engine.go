@@ -2,44 +2,29 @@ package go
 
 import (
 	"net"
+	"net/ip"
 	"sync/atomic"
 	"unsafe"
 )
 
-// IpNetwork represents a CIDR network
-// Metadata represents the data stored with each route
-type Metadata interface{}
-
-// RadixEngine is a lock-free Radix IP engine
-type RadixEngine struct {
-	root unsafe.Pointer // *RadixNode
-	size uint64
+type StandardEngine struct {
+	root        RadixNode
+	entries     sync.RWMutex
+	entriesMap  map[IpNetwork]Metadata
+	size        int64
+	stats       sync.RWMutex
+	statsData   EngineStats
+	nodeBuilder *NodeBuilder
 }
 
-// NewRadixEngine creates a new empty engine
-func NewRadixEngine() *RadixEngine {
-	return &RadixEngine{
-		root: unsafe.Pointer(newRadixNode()),
-		size: 0,
+func NewStandardEngine(nodeVariant NodeVariant) *StandardEngine {
+	builder := NewNodeBuilder(nodeVariant)
+	return &StandardEngine{
+		root:        builder.Build(),
+		entriesMap:  make(map[IpNetwork]Metadata),
+		size:        0,
+		statsData:   EngineStats{},
+		nodeBuilder: builder,
 	}
 }
 
-
-// Insert adds a subnet with metadata
-func (e *RadixEngine) Insert(subnet string, metadata Metadata) error {
-	// Parse subnet
-	_, network, err := net.ParseCIDR(subnet)
-	if err != nil {
-		return ErrInvalidSubnet
-	}
-
-	// Copy-on-write: create new tree with insert
-	oldRoot := (*radixNode)(atomic.LoadPointer(&e.root))
-	newRoot := oldRoot.cloneWithInsert(network, metadata)
-
-	// Atomic swap
-	atomic.StorePointer(&e.root, unsafe.Pointer(newRoot))
-	atomic.AddUint64(&e.size, 1)
-
-	return nil
-}
