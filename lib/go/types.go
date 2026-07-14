@@ -7,28 +7,6 @@ import (
 )
 
 
-
-// EngineVariant represents the type of engine to use
-type EngineVariant string
-
-const (
-	EngineStandard    EngineVariant = "standard"
-	EngineConcurrent  EngineVariant = "concurrent"
-	EngineLockFree    EngineVariant = "lockfree"
-	EngineAdaptive    EngineVariant = "adaptive"
-)
-
-// NodeVariant represents the type of node implementation
-type NodeVariant string
-
-const (
-	NodeNormal   NodeVariant = "normal"
-	NodeAtomic   NodeVariant = "atomic"
-	NodeLockFree NodeVariant = "lockfree"
-	NodePadded   NodeVariant = "padded"
-)
-
-
 // Metadata stores user payload at a terminal prefix.
 // The string map keeps the ABI and Redis payloads simple while still allowing
 // callers to attach labels such as "action", "asn", "country", or "reason".
