@@ -5,14 +5,19 @@ use std::sync::{Arc, RwLock, atomic::{AtomicUsize, Ordering}};
 use std::collections::HashMap;
 
 use crate::traits::*;
-use crate::node::{NodeBuilder, NodeWrapper};
+use crate::node::NodeBuilder;
+use crate::lpm::longest_prefix_match_entries;
+use crate::types::{EngineStats, Metadata};
+use ipnetwork::IpNetwork;
 
 // ============ STANDARD ENGINE ============
 
 pub struct StandardEngine {
-    root: Box<dyn RadixNode>,
+    root: Arc<dyn RadixNode>,
+    entries: RwLock<HashMap<IpNetwork, Metadata>>,
     size: AtomicUsize,
-    stats: EngineStats,
+    stats: RwLock<EngineStats>,
+    node_builder: NodeBuilder,
 }
 
 impl StandardEngine {
@@ -20,58 +25,98 @@ impl StandardEngine {
         let builder = NodeBuilder::new(node_variant);
         Self {
             root: builder.build(),
+            entries: RwLock::new(HashMap::new()),
             size: AtomicUsize::new(0),
-            stats: EngineStats::default(),
+            stats: RwLock::new(EngineStats::default()),
+            node_builder: builder,
         }
     }
     
+    #[allow(dead_code)]
     fn insert_recursive(
         &self,
         node: &dyn RadixNode,
         network: &IpNetwork,
         metadata: Metadata,
-        bit_pos: usize,
-    ) -> Box<dyn RadixNode> {
+        _bit_pos: usize,
+    ) -> Arc<dyn RadixNode> {
         // Recursive insertion with longest prefix matching
         // This is simplified - actual implementation would be more complex
-        unimplemented!()
+        let child = self.node_builder.build_leaf(*network, metadata);
+        node.insert_child(*network, child.clone());
+        child
     }
     
+    #[allow(dead_code)]
     fn lookup_recursive(
         &self,
-        node: &dyn RadixNode,
+        _node: &dyn RadixNode,
         ip: &IpAddr,
-        bit_pos: usize,
+        _bit_pos: usize,
     ) -> Option<Metadata> {
         // Recursive lookup with longest prefix matching
-        unimplemented!()
+        let entries = self.entries.read().unwrap();
+        longest_prefix_match_entries(entries.iter(), ip)
     }
 }
 
 impl RadixEngine for StandardEngine {
     fn insert(&self, prefix: IpNetwork, metadata: Metadata) -> Result<(), String> {
-        // Implementation would recursively traverse and insert
-        self.size.fetch_add(1, Ordering::Relaxed);
+        let mut entries = self.entries.write().unwrap();
+        let is_new = entries.insert(prefix, metadata.clone()).is_none();
+        let child = self.node_builder.build_leaf(prefix, metadata);
+        self.root.insert_child(prefix, child);
+
+        if is_new {
+            self.size.fetch_add(1, Ordering::Relaxed);
+        }
+
+        let mut stats = self.stats.write().unwrap();
+        stats.inserts += 1;
+        stats.size = self.size();
         Ok(())
     }
     
     fn lookup(&self, ip: &IpAddr) -> Option<Metadata> {
-        // Implementation would recursively traverse with LPM
-        None
+        let entries = self.entries.read().unwrap();
+        let result = longest_prefix_match_entries(entries.iter(), ip);
+
+        let mut stats = self.stats.write().unwrap();
+        stats.lookups += 1;
+        if result.is_some() {
+            stats.hits += 1;
+        } else {
+            stats.misses += 1;
+        }
+
+        result
     }
     
     fn remove(&self, prefix: &IpNetwork) -> Option<Metadata> {
-        self.size.fetch_sub(1, Ordering::Relaxed);
-        None
+        let mut entries = self.entries.write().unwrap();
+        let removed = entries.remove(prefix);
+        self.root.remove_child(prefix);
+
+        if removed.is_some() {
+            self.size.fetch_sub(1, Ordering::Relaxed);
+            let mut stats = self.stats.write().unwrap();
+            stats.removals += 1;
+            stats.size = self.size();
+        }
+
+        removed
     }
     
     fn contains(&self, prefix: &IpNetwork) -> bool {
-        false
+        self.entries.read().unwrap().contains_key(prefix)
     }
     
     fn clear(&self) {
         // Reset root
+        self.entries.write().unwrap().clear();
         self.size.store(0, Ordering::Relaxed);
+        let mut stats = self.stats.write().unwrap();
+        stats.size = 0;
     }
     
     fn size(&self) -> usize {
@@ -79,7 +124,9 @@ impl RadixEngine for StandardEngine {
     }
     
     fn stats(&self) -> EngineStats {
-        self.stats.clone()
+        let mut stats = self.stats.read().unwrap().clone();
+        stats.size = self.size();
+        stats
     }
 }
 
@@ -117,14 +164,16 @@ impl ShardedEngine {
         // Use the network address for sharding
         // each shard can deal with its own data block
         // sharding reduces lock contention instead of waiting for a single thread
-        self.get_shard(&network.addr)
+        self.get_shard(&network.ip())
     }
 }
 
 impl RadixEngine for ShardedEngine {
     fn insert(&self, prefix: IpNetwork, metadata: Metadata) -> Result<(), String> {
-        let shard_idx = self.get_shard_for_network(&prefix);
-        self.shards[shard_idx].insert(prefix, metadata)
+        for shard in &self.shards {
+            shard.insert(prefix, metadata.clone())?;
+        }
+        Ok(())
     }
     
     fn lookup(&self, ip: &IpAddr) -> Option<Metadata> {
@@ -133,13 +182,18 @@ impl RadixEngine for ShardedEngine {
     }
     
     fn remove(&self, prefix: &IpNetwork) -> Option<Metadata> {
-        let shard_idx = self.get_shard_for_network(prefix);
-        self.shards[shard_idx].remove(prefix)
+        let mut removed = None;
+        for shard in &self.shards {
+            let shard_removed = shard.remove(prefix);
+            if removed.is_none() {
+                removed = shard_removed;
+            }
+        }
+        removed
     }
     
     fn contains(&self, prefix: &IpNetwork) -> bool {
-        let shard_idx = self.get_shard_for_network(prefix);
-        self.shards[shard_idx].contains(prefix)
+        self.shards.first().map(|s| s.contains(prefix)).unwrap_or(false)
     }
     
     fn clear(&self) {
@@ -149,18 +203,21 @@ impl RadixEngine for ShardedEngine {
     }
     
     fn size(&self) -> usize {
-        self.shards.iter().map(|s| s.size()).sum()
+        self.shards.first().map(|s| s.size()).unwrap_or(0)
     }
     
     fn stats(&self) -> EngineStats {
         let mut total = EngineStats::default();
         for shard in &self.shards {
             let stats = shard.stats();
-            total.inserts += stats.inserts;
             total.lookups += stats.lookups;
             total.hits += stats.hits;
             total.misses += stats.misses;
-            total.removals += stats.removals;
+        }
+        if let Some(first) = self.shards.first() {
+            let stats = first.stats();
+            total.inserts = stats.inserts;
+            total.removals = stats.removals;
         }
         total.size = self.size();
         total
