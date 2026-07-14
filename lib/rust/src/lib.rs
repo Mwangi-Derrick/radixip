@@ -3,12 +3,15 @@
 //! This library provides a lock-free binary radix tree for
 //! longest-prefix matching of IP addresses against CIDR blocks.
 
-mod engine;
-mod node;
-mod lpm;
-mod cache;
-mod types;
-mod errors;
+pub mod engine;
+pub mod node;
+pub mod lpm;
+pub mod cache;
+pub mod types;
+pub mod errors;
+pub mod traits;
+pub mod atomic;
+
 
 #[cfg(feature = "redis")]
 mod redis;
