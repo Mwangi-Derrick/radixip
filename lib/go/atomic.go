@@ -33,3 +33,30 @@ func (a *AtomicNodeRef) Store(node RadixNode) {
 	defer a.mu.Unlock()
 	a.ptr = unsafe.Pointer(&node)
 }
+
+// CompareAndSwap performs a compare-and-swap operation
+// It returns (success, oldValue)
+// The oldValue is the current node if the swap failed
+func (a *AtomicNodeRef) CompareAndSwap(current, new RadixNode) (bool, RadixNode) {
+	a.mu.Lock()
+	defer a.mu.Unlock()
+	
+	if a.ptr == nil {
+		return false, nil
+	}
+	
+	existing := *(*RadixNode)(a.ptr)
+	
+	// Compare by pointer equality
+	if existing == current {
+		a.ptr = unsafe.Pointer(&new)
+		return true, new
+	}
+	
+	return false, existing
+}
+
+// Default implementation
+func DefaultAtomicNodeRef() *AtomicNodeRef {
+	return NewAtomicNodeRef()
+}
