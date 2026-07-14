@@ -69,7 +69,7 @@ impl RedisClient {
         let client = Client::open(config.url.clone())?;
         
         // Create connection manager with retry logic
-        let connection_manager = ConnectionManager::new(client)
+        let connection_manager = ConnectionManager::new(client.clone())
             .await
             .map_err(|e| RedisPubSubError::Redis(e))?;
 
@@ -119,14 +119,25 @@ impl RedisClient {
         F: FnMut(PubSubMessage) -> Fut + Send + 'static,
         Fut: std::future::Future<Output = ()> + Send,
     {
-        let mut pubsub = self.inner.client.get_async_pubsub().await?;
-        pubsub.subscribe(channel).await?;
-        
-        let mut stream = pubsub.on_message();
+        let client = self.inner.client.clone();
+        let channel_name = channel.to_string();
         let shutdown_rx = self.inner.shutdown_tx.subscribe();
         
         let handle = tokio::spawn(async move {
             let mut shutdown = shutdown_rx;
+            let mut pubsub = match client.get_async_pubsub().await {
+                Ok(pubsub) => pubsub,
+                Err(error) => {
+                    error!("Failed to create Redis Pub/Sub connection: {}", error);
+                    return;
+                }
+            };
+            if let Err(error) = pubsub.subscribe(&channel_name).await {
+                error!("Failed to subscribe to {}: {}", channel_name, error);
+                return;
+            }
+            let mut stream = pubsub.on_message();
+
             loop {
                 tokio::select! {
                     msg_result = stream.next() => {
@@ -144,13 +155,13 @@ impl RedisClient {
                                 callback(pubsub_msg).await;
                             }
                             None => {
-                                debug!("PubSub stream ended for channel {}", channel);
+                                debug!("PubSub stream ended for channel {}", channel_name);
                                 break;
                             }
                         }
                     }
                     _ = shutdown.recv() => {
-                        info!("Shutting down subscription for channel {}", channel);
+                        info!("Shutting down subscription for channel {}", channel_name);
                         break;
                     }
                 }
@@ -168,14 +179,25 @@ impl RedisClient {
         let (tx, rx) = mpsc::channel(100);
         let tx_clone = tx.clone();
 
-        let mut pubsub = self.inner.client.get_async_pubsub().await?;
-        pubsub.subscribe(channel).await?;
-        
-        let mut stream = pubsub.on_message();
+        let client = self.inner.client.clone();
+        let channel_name = channel.to_string();
         let shutdown_rx = self.inner.shutdown_tx.subscribe();
 
         let handle = tokio::spawn(async move {
             let mut shutdown = shutdown_rx;
+            let mut pubsub = match client.get_async_pubsub().await {
+                Ok(pubsub) => pubsub,
+                Err(error) => {
+                    error!("Failed to create Redis Pub/Sub connection: {}", error);
+                    return;
+                }
+            };
+            if let Err(error) = pubsub.subscribe(&channel_name).await {
+                error!("Failed to subscribe to {}: {}", channel_name, error);
+                return;
+            }
+            let mut stream = pubsub.on_message();
+
             loop {
                 tokio::select! {
                     msg_result = stream.next() => {
@@ -196,13 +218,13 @@ impl RedisClient {
                                 }
                             }
                             None => {
-                                debug!("PubSub stream ended for channel {}", channel);
+                                debug!("PubSub stream ended for channel {}", channel_name);
                                 break;
                             }
                         }
                     }
                     _ = shutdown.recv() => {
-                        info!("Shutting down subscription for channel {}", channel);
+                        info!("Shutting down subscription for channel {}", channel_name);
                         break;
                     }
                 }
@@ -220,15 +242,25 @@ impl RedisClient {
         let (tx, rx) = mpsc::channel(100);
         let tx_clone = tx.clone();
 
-        let mut pubsub = self.inner.client.get_async_pubsub().await?;
-        pubsub.psubscribe(pattern).await?;
-        
-        let mut stream = pubsub.on_message();
+        let client = self.inner.client.clone();
         let shutdown_rx = self.inner.shutdown_tx.subscribe();
         let pattern_str = pattern.to_string();
 
         let handle = tokio::spawn(async move {
             let mut shutdown = shutdown_rx;
+            let mut pubsub = match client.get_async_pubsub().await {
+                Ok(pubsub) => pubsub,
+                Err(error) => {
+                    error!("Failed to create Redis Pub/Sub connection: {}", error);
+                    return;
+                }
+            };
+            if let Err(error) = pubsub.psubscribe(&pattern_str).await {
+                error!("Failed to subscribe to pattern {}: {}", pattern_str, error);
+                return;
+            }
+            let mut stream = pubsub.on_message();
+
             loop {
                 tokio::select! {
                     msg_result = stream.next() => {
@@ -236,7 +268,7 @@ impl RedisClient {
                             Some(msg) => {
                                 let payload: String = msg.get_payload().unwrap_or_default();
                                 let channel_name = msg.get_channel_name().to_string();
-                                let pattern = msg.get_pattern_name().map(|s| s.to_string());
+                                let pattern = msg.get_pattern::<String>().ok();
                                 
                                 let pubsub_msg = PubSubMessage {
                                     channel: channel_name,
@@ -274,6 +306,10 @@ impl RedisClient {
     /// Subscribe to broadcast messages
     pub fn subscribe_broadcast(&self) -> broadcast::Receiver<PubSubMessage> {
         self.inner.pubsub_sender.subscribe()
+    }
+
+    pub fn config(&self) -> &RedisConfig {
+        &self.inner.config
     }
 
       /// Shutdown all subscriptions
