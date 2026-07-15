@@ -19,3 +19,10 @@ func DefaultRedisConfig() RedisConfig {
 		MaxRetries:     3,
 	}
 }
+
+// PubSubMessage represents a message from Redis pub/sub
+type PubSubMessage struct {
+	Channel string
+	Payload string
+	Pattern *string
+}
