@@ -220,3 +220,28 @@ func (r *RedisClient) PSubscribe(ctx context.Context, pattern string) (<-chan Pu
 
 	return msgCh, nil
 }
+
+// Broadcast sends a message to all internal subscribers
+func (r *RedisClient) Broadcast(msg PubSubMessage) {
+	select {
+	case r.inner.pubsubSender <- msg:
+	default:
+		// Channel full, skip
+	}
+}
+
+// SubscribeBroadcast returns a channel for broadcast messages
+func (r *RedisClient) SubscribeBroadcast() <-chan PubSubMessage {
+	return r.inner.pubsubSender
+}
+
+// GetConfig returns the Redis configuration
+func (r *RedisClient) GetConfig() RedisConfig {
+	return r.inner.config
+}
+
+// Shutdown shuts down all subscriptions
+func (r *RedisClient) Shutdown() {
+	close(r.inner.shutdownCh)
+	r.inner.subscriptions.Wait()
+}
