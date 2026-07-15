@@ -108,3 +108,53 @@ func (r *RedisClient) PublishJSON(ctx context.Context, channel string, data inte
 	}
 	return r.Publish(ctx, channel, string(jsonData))
 }
+
+// Subscribe subscribes to a channel and processes messages with a callback
+func (r *RedisClient) Subscribe(ctx context.Context, channel string, callback func(PubSubMessage)) error {
+	pubsub := r.inner.client.Subscribe(ctx, channel)
+	defer pubsub.Close()
+
+	ch := pubsub.Channel()
+
+	r.inner.mu.Lock()
+	if r.inner.subscribers[channel] == nil {
+		r.inner.subscribers[channel] = make([]chan PubSubMessage, 0)
+	}
+	//100 messages at a time
+	msgCh := make(chan PubSubMessage, 100)
+	r.inner.subscribers[channel] = append(r.inner.subscribers[channel], msgCh)
+	r.inner.mu.Unlock()
+
+	r.inner.subscriptions.Add(1)
+	defer r.inner.subscriptions.Done()
+
+	for {
+		select {
+		case msg := <-ch:
+			pubsubMsg := PubSubMessage{
+				Channel: msg.Channel,
+				Payload: msg.Payload,
+				Pattern: msg.Pattern,
+			}
+			
+			// Send to internal subscribers
+			r.inner.mu.RLock()
+			for _, ch := range r.inner.subscribers[channel] {
+				select {
+				case ch <- pubsubMsg:
+				default:
+					// Channel full, skip
+				}
+			}
+			r.inner.mu.RUnlock()
+			
+			// Call the callback
+			callback(pubsubMsg)
+			
+		case <-r.inner.shutdownCh:
+			return nil
+		case <-ctx.Done():
+			return ctx.Err()
+		}
+	}
+}
