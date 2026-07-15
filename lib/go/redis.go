@@ -31,3 +31,17 @@ type PubSubMessage struct {
 	Payload string
 	Pattern *string
 }
+
+// RedisCacheUpdate represents cache update operations
+type RedisCacheUpdate struct {
+	Op       string      `json:"op"`
+	Prefix   *IpNetwork  `json:"prefix,omitempty"`
+	Metadata *Metadata   `json:"metadata,omitempty"`
+}
+
+// Cache update operation constants
+const (
+	OpInsert = "insert"
+	OpRemove = "remove"
+	OpClear  = "clear"
+)
