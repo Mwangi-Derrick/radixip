@@ -153,7 +153,7 @@ func NewShardedEngine(numShards int, nodeVariant NodeVariant) *ShardedEngine {
 }
 
 
-func (e *ShardedEngine) getShard(ip *net.IP) int {
+func (e *ShardedEngine) getShard(ip *net.IP, maskBits int) int {
 	var hash uint64
 	switch {
 	case ip.To4() != nil:
@@ -172,16 +172,36 @@ func (e *ShardedEngine) getShard(ip *net.IP) int {
 		
 		*/
 		hash = uint64(uint32(ip4[0])<<24 | uint32(ip4[1])<<16 | uint32(ip4[2])<<8 | uint32(ip4[3]))
-	default:
-		ip6 := ip.To16()
-		var h uint64
-		for i := 0; i < 8; i++ {
-			// we use a plynomail rolling hash
-			h = h*31 + uint64(ip6[i])
+		// Clear out the host bits based on the matching CIDR mask
+		var mask uint32 = 0xFFFFFFFF
+		if maskBits < 32 {
+			mask = mask << (32 - maskBits)
 		}
-		hash = h
+		// Modulo the masked network identifier
+		/*
+		When you perform hash & mask, you zero out (flush) the host bits at the end of the IP address.This operation works because a bitwise & (AND) acts like a filter:Any Bit & 1 = Any Bit (The bit stays exactly the same)Any Bit & 0 = 0 (The bit is completely flushed/cleared)Visual example with an IP addressLet's look at what happens when your /24 mask (which has eight 0s at the end) meets the IP address:textIP Address:   11000000 10101000 00000001 00110010  (192.168.1.50)
+Mask (&):     11111111 11111111 11111111 00000000  (255.255.255.0)
+-------------------------------------------------
+Result:       11000000 10101000 00000001 00000000  (192.168.1.0)
+                                         ^^^^^^^^
+                                    Flushed to zeros
+Use code with caution.Because the mask ends in all zeros, it forces the last 8 bits of the IP address to become 0, leaving you with the pure network prefix.
+		*/
+		return int(uint64(hash & mask) % uint64(e.numShards))
+	default:
+// IPv6 Implementation (Using the same strategy to maintain performance)
+	ip6 := ip.To16()
+	high := uint64(ip6[0])<<56 | uint64(ip6[1])<<48 | uint64(ip6[2])<<40 | uint64(ip6[3])<<32 |
+	        uint64(ip6[4])<<24 | uint64(ip6[5])<<16 | uint64(ip6[6])<<8  | uint64(ip6[7])
+	
+	// Apply IPv6 prefix mask (usually capped at /64 for network routing)
+	var mask6 uint64 = 0xFFFFFFFFFFFFFFFF
+	//because ipv6 are in 8 hectets each 64 bits or 16 bytes...and 16*8 = 128 bits
+	if maskBits < 64 {
+		mask6 = mask6 << (64 - maskBits)
 	}
-	return int(hash % uint64(e.numShards))
+}
+	return int((high & mask6) % uint64(e.numShards))
 }
 
 func (e *ShardedEngine) Insert(prefix IpNetwork, metadata Metadata) error {
@@ -194,7 +214,8 @@ func (e *ShardedEngine) Insert(prefix IpNetwork, metadata Metadata) error {
 }
 
 func (e *ShardedEngine) Lookup(ip *net.IP) *Metadata {
-	shardIdx := e.getShard(ip)
+	//todo: let user to customize the network cidr mask(second parameter to this function)
+	shardIdx := e.getShard(ip,24)
 	return e.shards[shardIdx].Lookup(ip)
 }
 
