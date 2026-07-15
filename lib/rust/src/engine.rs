@@ -145,11 +145,29 @@ impl ShardedEngine {
         Self { shards, num_shards }
     }
     
-    fn get_shard(&self, ip: &IpAddr) -> usize {
+    fn get_shard(&self, ip: &IpAddr, mask_bits: u32) -> usize {
         let hash = match ip {
-            IpAddr::V4(ip) => ip.to_bits() as usize,
+            IpAddr::V4(ip) => {
+                let ip = ip.octets();
+                let mut hash = 0u32;
+                 // Isolate the prefix and discard the host bits
+                let mask = if mask_bits == 32 {
+                    0xFFFFFFFF
+                } else {
+                    0xFFFFFFFF << (32 - mask_bits)
+                };
+                for byte in ip.iter().take(4) {
+                    hash = hash.wrapping_mul(31).wrapping_add(*byte as u32);
+                }
+                hash as usize
+            },
             IpAddr::V6(ip) => {
                 let bytes = ip.octets();
+                let mask = if mask_bits == 64 {
+                    0xFFFFFFFFFFFFFFFF
+                } else {
+                    0xFFFFFFFFFFFFFFFF << (64 - mask_bits)
+                };         
                 let mut hash = 0u64;
                 for byte in bytes.iter().take(8) {
                     hash = hash.wrapping_mul(31).wrapping_add(*byte as u64);
@@ -157,7 +175,7 @@ impl ShardedEngine {
                 hash as usize
             }
         };
-        hash % self.num_shards
+        hash & mask % self.num_shards
     }
     
 }
