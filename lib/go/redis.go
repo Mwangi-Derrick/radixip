@@ -245,3 +245,40 @@ func (r *RedisClient) Shutdown() {
 	close(r.inner.shutdownCh)
 	r.inner.subscriptions.Wait()
 }
+
+// Set sets a key-value pair
+func (r *RedisClient) Set(ctx context.Context, key string, value string) error {
+	return r.inner.client.Set(ctx, key, value, 0).Err()
+}
+
+// Get gets a value by key
+func (r *RedisClient) Get(ctx context.Context, key string) (string, error) {
+	return r.inner.client.Get(ctx, key).Result()
+}
+
+// PublishInsert publishes an insert operation
+func (r *RedisClient) PublishInsert(ctx context.Context, channel string, prefix IpNetwork, metadata Metadata) error {
+	update := RedisCacheUpdate{
+		Op:       OpInsert,
+		Prefix:   &prefix,
+		Metadata: &metadata,
+	}
+	return r.PublishJSON(ctx, channel, update)
+}
+
+// PublishRemove publishes a remove operation
+func (r *RedisClient) PublishRemove(ctx context.Context, channel string, prefix IpNetwork) error {
+	update := RedisCacheUpdate{
+		Op:     OpRemove,
+		Prefix: &prefix,
+	}
+	return r.PublishJSON(ctx, channel, update)
+}
+
+// PublishClear publishes a clear operation
+func (r *RedisClient) PublishClear(ctx context.Context, channel string) error {
+	update := RedisCacheUpdate{
+		Op: OpClear,
+	}
+	return r.PublishJSON(ctx, channel, update)
+}
