@@ -282,3 +282,29 @@ func (r *RedisClient) PublishClear(ctx context.Context, channel string) error {
 	}
 	return r.PublishJSON(ctx, channel, update)
 }
+
+// SubscribeEngineUpdates subscribes to engine updates and applies them
+func (r *RedisClient) SubscribeEngineUpdates(ctx context.Context, channel string, engine RadixEngine) error {
+	return r.Subscribe(ctx, channel, func(msg PubSubMessage) {
+		var update RedisCacheUpdate
+		if err := json.Unmarshal([]byte(msg.Payload), &update); err != nil {
+			// Log error
+			return
+		}
+
+		switch update.Op {
+		case OpInsert:
+			if update.Prefix != nil && update.Metadata != nil {
+				if err := engine.Insert(*update.Prefix, *update.Metadata); err != nil {
+					// Log error
+				}
+			}
+		case OpRemove:
+			if update.Prefix != nil {
+				engine.Remove(*update.Prefix)
+			}
+		case OpClear:
+			engine.Clear()
+		}
+	})
+}
