@@ -90,3 +90,21 @@ func NewRedisClient(config RedisConfig) (*RedisClient, error) {
 
 	return &RedisClient{inner: inner}, nil
 }
+
+// Publish publishes a message to a channel
+func (r *RedisClient) Publish(ctx context.Context, channel string, message string) error {
+	err := r.inner.client.Publish(ctx, channel, message).Err()
+	if err != nil {
+		return fmt.Errorf("failed to publish message: %w", err)
+	}
+	return nil
+}
+
+// PublishJSON publishes a JSON-serialized message to a channel
+func (r *RedisClient) PublishJSON(ctx context.Context, channel string, data interface{}) error {
+	jsonData, err := json.Marshal(data)
+	if err != nil {
+		return fmt.Errorf("failed to serialize message: %w", err)
+	}
+	return r.Publish(ctx, channel, string(jsonData))
+}
