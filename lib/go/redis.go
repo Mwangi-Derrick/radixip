@@ -2,6 +2,11 @@ package go
 
 import ("github.com/redis/go-redis/v9")
 
+// Custom error types
+var (
+	ErrSendError = errors.New("channel send error")
+	ErrRecvError = errors.New("channel receive error")
+)
 
 // Configuration for Redis connection
 type RedisConfig struct {
