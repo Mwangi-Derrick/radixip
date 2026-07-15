@@ -158,3 +158,34 @@ func (r *RedisClient) Subscribe(ctx context.Context, channel string, callback fu
 		}
 	}
 }
+
+// SubscribeToChannel subscribes to a channel and returns a channel of messages
+func (r *RedisClient) SubscribeToChannel(ctx context.Context, channel string) (<-chan PubSubMessage, error) {
+	pubsub := r.inner.client.Subscribe(ctx, channel)
+	ch := pubsub.Channel()
+
+	msgCh := make(chan PubSubMessage, 100)
+	
+	r.inner.subscriptions.Add(1)
+	go func() {
+		defer r.inner.subscriptions.Done()
+		defer close(msgCh)
+		
+		for {
+			select {
+			case msg := <-ch:
+				msgCh <- PubSubMessage{
+					Channel: msg.Channel,
+					Payload: msg.Payload,
+					Pattern: msg.Pattern,
+				}
+			case <-r.inner.shutdownCh:
+				return
+			case <-ctx.Done():
+				return
+			}
+		}
+	}()
+
+	return msgCh, nil
+}
