@@ -45,3 +45,48 @@ const (
 	OpRemove = "remove"
 	OpClear  = "clear"
 )
+
+// RedisClient wraps the go-redis client
+type RedisClient struct {
+	inner *RedisClientInner
+}
+
+type RedisClientInner struct {
+	client          *redis.Client
+	config          RedisConfig
+	pubsubSender    chan PubSubMessage
+	shutdownCh      chan struct{}
+	subscriptions   sync.WaitGroup
+	mu              sync.RWMutex
+	subscribers     map[string][]chan PubSubMessage
+}
+
+// NewRedisClient creates a new Redis client
+func NewRedisClient(config RedisConfig) (*RedisClient, error) {
+	rdb := redis.NewClient(&redis.Options{
+		Addr:            config.URL,
+		PoolSize:        config.PoolSize,
+		DialTimeout:     config.ConnectTimeout,
+		MaxRetries:      config.MaxRetries,
+		ReadTimeout:     10 * time.Second,
+		WriteTimeout:    10 * time.Second,
+	})
+
+	// Test connection
+	ctx, cancel := context.WithTimeout(context.Background(), config.ConnectTimeout)
+	defer cancel()
+	
+	if err := rdb.Ping(ctx).Err(); err != nil {
+		return nil, fmt.Errorf("failed to connect to Redis: %w", err)
+	}
+
+	inner := &RedisClientInner{
+		client:        rdb,
+		config:        config,
+		pubsubSender:  make(chan PubSubMessage, 100),
+		shutdownCh:    make(chan struct{}),
+		subscribers:   make(map[string][]chan PubSubMessage),
+	}
+
+	return &RedisClient{inner: inner}, nil
+}
