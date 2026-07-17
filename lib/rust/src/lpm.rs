@@ -57,11 +57,23 @@ pub fn ip_to_binary_string(ip: IpAddr) -> String {
     match ip {
         IpAddr::V4(ipv4) => {
             let octets = ipv4.octets();
+                    /*
+        in rust {:08b} this is a format specifier for integer in binary(base-2) representation.
+        in rust 08 8 means we get a 8-bit binary and padds the rest with zeros
+        here, we are dealing with ipv4 which is 32 bits long
+        ipv6 is divided ito 4 octets which are 8 bits long each
+        */
             octets.iter()
                 .map(|&octet| format!("{:08b}", octet))
                 .collect::<Vec<String>>()
                 .concat()
         }
+        /*
+        in rust {:016b} this is a format specifier for integer in binary(base-2) representation.
+        016 16 means we get a 16-bit binary and padds the rest with zeros
+        here, we are dealing with ipv6 which is 128 bits long
+        ipv6 is divided ito 8 hectets which are 64 bits long each
+        */
         IpAddr::V6(ipv6) => {
             let segments = ipv6.segments();
             segments.iter()
