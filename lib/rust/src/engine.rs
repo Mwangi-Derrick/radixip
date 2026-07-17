@@ -145,39 +145,52 @@ impl ShardedEngine {
         Self { shards, num_shards }
     }
     
-    fn get_shard(&self, ip: &IpAddr, mask_bits: u32) -> usize {
-        let hash = match ip {
-            IpAddr::V4(ip) => {
-                let ip = ip.octets();
-                let mut hash = 0u32;
-                 // Isolate the prefix and discard the host bits
-                let mask = if mask_bits == 32 {
-                    0xFFFFFFFF
-                } else {
-                    0xFFFFFFFF << (32 - mask_bits)
-                };
-                for byte in ip.iter().take(4) {
-                    hash = hash.wrapping_mul(31).wrapping_add(*byte as u32);
-                }
-                hash as usize
-            },
-            IpAddr::V6(ip) => {
-                let bytes = ip.octets();
-                let mask = if mask_bits == 64 {
-                    0xFFFFFFFFFFFFFFFF
-                } else {
-                    0xFFFFFFFFFFFFFFFF << (64 - mask_bits)
-                };         
-                let mut hash = 0u64;
-                for byte in bytes.iter().take(8) {
+fn get_shard(&self, ip: &IpAddr, mask_bits: u32) -> usize {
+    let hash = match ip {
+        IpAddr::V4(ip) => {
+            let ip_u32 = u32::from_be_bytes(ip.octets());
+            // Mask the IP to keep only prefix bits
+            let mask = if mask_bits >= 32 {
+                u32::MAX
+            } else {
+                u32::MAX << (32 - mask_bits)
+            };
+            // this way we isolate the ip-adress from the network prefix
+            let masked_ip = ip_u32 & mask;
+            
+            // Hash the masked IP
+            let mut hash = 0u32;
+            for byte in masked_ip.to_be_bytes() {
+                hash = hash.wrapping_mul(31).wrapping_add(byte as u32);
+            }
+            hash as usize
+        }
+        IpAddr::V6(ip) => {
+            let bytes = ip.octets();
+            let mut hash = 0u64;
+            let bytes_to_hash = if mask_bits <= 64 {
+                // Hash only the masked prefix part
+                let bytes_to_keep = ((mask_bits + 7) / 8) as usize;
+                for byte in bytes.iter().take(bytes_to_keep) {
                     hash = hash.wrapping_mul(31).wrapping_add(*byte as u64);
                 }
-                hash as usize
+                // Handle partial byte masking if needed
+                if mask_bits % 8 != 0 && bytes_to_keep < bytes.len() {
+                    let mask = 0xFFu8 << (8 - (mask_bits % 8) as u8);
+                    let partial_byte = bytes[bytes_to_keep] & mask;
+                    hash = hash.wrapping_mul(31).wrapping_add(partial_byte as u64);
+                }
+            } else {
+                // Hash first 16 bytes for large prefix lengths
+                for byte in bytes.iter().take(16) {
+                    hash = hash.wrapping_mul(31).wrapping_add(*byte as u64);
+                }
             }
-        };
-        hash & mask % self.num_shards
-    }
-    
+            hash as usize
+        }
+    };
+    hash % self.num_shards
+}
 }
 
 impl RadixEngine for ShardedEngine {
