@@ -1,10 +1,10 @@
-use std::collections::HashMap;
-use std::sync::{Arc, RwLock};
-use std::net::IpAddr;
-use ipnetwork::IpNetwork;
 use super::traits::*;
 use crate::lpm::network_contains_ip;
 use crate::types::{EngineStats, Metadata};
+use ipnetwork::IpNetwork;
+use std::collections::HashMap;
+use std::net::IpAddr;
+use std::sync::{Arc, RwLock};
 
 // Cache configuration between redis and engine
 pub struct CacheConfig {
@@ -20,6 +20,7 @@ pub struct RadixCache {
     redis: Option<crate::redis::RedisClient>,
 }
 
+impl RadixCache {
     #[cfg(not(feature = "redis"))]
     pub fn new(config: CacheConfig, engine: Arc<dyn RadixEngine>) -> Self {
         Self {
@@ -30,7 +31,11 @@ pub struct RadixCache {
     }
 
     #[cfg(feature = "redis")]
-    pub fn new(config: CacheConfig, engine: Arc<dyn RadixEngine>, redis: Option<crate::redis::RedisClient>) -> Self {
+    pub fn new(
+        config: CacheConfig,
+        engine: Arc<dyn RadixEngine>,
+        redis: Option<crate::redis::RedisClient>,
+    ) -> Self {
         let cache = Self {
             cache: RwLock::new(HashMap::new()),
             config,
@@ -52,18 +57,18 @@ pub struct RadixCache {
         }
         cache
     }
-    
+
     pub fn lookup_with_cache(&self, ip: &IpAddr) -> Option<Metadata> {
         // Check cache first
         if let Some(entry) = self.cache.read().unwrap().get(ip) {
             return entry.clone();
         }
-        
+
         // Cache miss - query engine
         let mut result = self.engine.lookup(ip);
-        
+
         // If not found in engine, and redis is enabled, we could query Redis.
-        // Wait, the engine has been boot-loaded with all prefixes! 
+        // Wait, the engine has been boot-loaded with all prefixes!
         // So if it's not in the engine, it's not in Redis either.
         // However, if we want to query a shared lookup cache in Redis:
         #[cfg(feature = "redis")]
@@ -87,7 +92,7 @@ pub struct RadixCache {
             }
         }
         cache.insert(ip.clone(), result.clone());
-        
+
         // Also store in Redis lookup cache
         #[cfg(feature = "redis")]
         if let (Some(r), Some(res)) = (&self.redis, &result) {
@@ -96,10 +101,10 @@ pub struct RadixCache {
                 let _ = r.set_sync(&key, &json);
             }
         }
-        
+
         result
     }
-    
+
     pub fn invalidate(&self, prefix: &IpNetwork) {
         // Remove entries that match prefix
         let mut cache = self.cache.write().unwrap();
@@ -125,7 +130,11 @@ impl CachedEngine {
     }
 
     #[cfg(feature = "redis")]
-    pub fn new(inner: Arc<dyn RadixEngine>, config: CacheConfig, redis: Option<crate::redis::RedisClient>) -> Self {
+    pub fn new(
+        inner: Arc<dyn RadixEngine>,
+        config: CacheConfig,
+        redis: Option<crate::redis::RedisClient>,
+    ) -> Self {
         let cache = RadixCache::new(config, inner.clone(), redis);
         Self { inner, cache }
     }
@@ -134,7 +143,7 @@ impl CachedEngine {
 impl RadixEngine for CachedEngine {
     fn insert(&self, prefix: IpNetwork, metadata: Metadata) -> Result<(), String> {
         self.inner.insert(prefix, metadata.clone())?;
-        
+
         // Persist to Redis
         #[cfg(feature = "redis")]
         if let Some(r) = &self.cache.redis {
@@ -147,14 +156,14 @@ impl RadixEngine for CachedEngine {
         self.cache.invalidate(&prefix);
         Ok(())
     }
-    
+
     fn lookup(&self, ip: &IpAddr) -> Option<Metadata> {
         self.cache.lookup_with_cache(ip)
     }
-    
+
     fn remove(&self, prefix: &IpNetwork) -> Option<Metadata> {
         let result = self.inner.remove(prefix);
-        
+
         // Remove from Redis
         #[cfg(feature = "redis")]
         if let Some(r) = &self.cache.redis {
@@ -164,16 +173,16 @@ impl RadixEngine for CachedEngine {
         self.cache.invalidate(prefix);
         result
     }
-    
+
     fn contains(&self, prefix: &IpNetwork) -> bool {
         self.inner.contains(prefix)
     }
-    
+
     fn clear(&self) {
         self.inner.clear();
         self.cache.clear();
     }
-    
+
     fn size(&self) -> usize {
         self.inner.size()
     }
