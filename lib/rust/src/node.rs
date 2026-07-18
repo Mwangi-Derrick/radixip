@@ -324,6 +324,7 @@ impl RadixNode for NodeWrapper {
 
 // ============ NODE BUILDER ============
 
+#[derive(Clone)]
 pub struct NodeBuilder {
     variant: NodeVariant,
 }
