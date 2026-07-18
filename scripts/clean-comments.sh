@@ -1,33 +1,35 @@
 #!/bin/bash
 
-# Find and clean comment decorations in all code files
-find . -type f \
+echo "🧹 Cleaning AI-generated comments in .go, .py, .rs files..."
+
+# Get repo root (where .git is)
+REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || pwd)
+echo "Repository root: $REPO_ROOT"
+
+cd "$REPO_ROOT" || exit 1
+
+# Count files
+COUNT=0
+
+# Find and process all files
+while IFS= read -r file; do
+    if grep -q "===" "$file" 2>/dev/null; then
+        # Clean the file
+        sed -i -E \
+            -e 's/\/\/\s*=*\s*(.*)\s*=*\s*$/\/\/ \1/g' \
+            -e 's/#\s*=*\s*(.*)\s*=*\s*$/# \1/g' \
+            "$file" 2>/dev/null
+        
+        echo "✓ Cleaned: $file"
+        COUNT=$((COUNT + 1))
+    fi
+done < <(find . -type f \
     -not -path "./.git/*" \
+    -not -path "./scripts/*" \
     -not -path "./node_modules/*" \
     -not -path "./vendor/*" \
-    -not -path "./dist/*" \
-    -not -path "./build/*" \
-    \( -name "*.go" -o \
-       -name "*.py" -o \
-       -name "*.js" -o \
-       -name "*.ts" -o \
-       -name "*.jsx" -o \
-       -name "*.tsx" -o \
-       -name "*.java" -o \
-       -name "*.rs" -o \
-       -name "*.c" -o \
-       -name "*.cpp" -o \
-       -name "*.h" -o \
-       -name "*.rb" -o \
-       -name "*.php" -o \
-       -name "*.swift" -o \
-       -name "*.kt" -o \
-       -name "*.sh" \) \
-    -exec sed -i -E \
-        -e 's/\/\/\s*=+\s*(.*?)\s*=+\s*$$/\/\/ \1/g' \
-        -e 's/\/\*\s*=+\s*(.*?)\s*=+\s*\*\//\/\/ \1/g' \
-        -e 's/#\s*=+\s*(.*?)\s*=+\s*$$/# \1/g' \
-        -e 's/<!--\s*=+\s*(.*?)\s*=+\s*-->/\1/g' \
-        {} +
+    -not -path "./target/*" \
+    -not -path "./__pycache__/*" \
+    \( -name "*.go" -o -name "*.py" -o -name "*.rs" \))
 
-echo "✅ Cleaned AI-generated comment decorations!"
+echo "✅ Cleaned $COUNT files!"
