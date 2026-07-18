@@ -594,11 +594,48 @@ Every commit to `main` triggers our continuous benchmarking pipeline:
 - [x] Rust port with zero-cost abstractions  
 - [x] C-FFI bindings for multi-language support
 - [x] CI benchmarking pipeline
-- [ ] IPv6 support (planned)
+- [x] **Uncompressed binary trie** — control-plane optimized, O(prefix_len) writes
+- [x] **Compressed Patricia trie** — data-plane optimized, O(k) reads, 4× memory savings
+- [x] Generic engines — any engine can use any tree via `StandardEngine<T: RouteTree>`
+- [x] Redis state bus — boot-load, cache hydration, Pub/Sub sync
+- [ ] IPv6 full support (Patricia trie path)
 - [ ] Python bindings via PyO3
 - [ ] Node.js bindings via N-API
 - [ ] gRPC service layer
 - [ ] Prometheus metrics integration
+- [ ] Lock-free CompressedTree (CAS-based node splitting)
+
+## 🌲 Tree Type Selection
+
+RadixIP provides two routing tree implementations. Choose based on your workload:
+
+| | UncompressedTree | CompressedTree (Patricia) |
+|---|---|---|
+| **Write throughput** | ⚡ Fastest (no splitting) | 🟡 Moderate |
+| **Read throughput** | 🟡 Good | ⚡ Fastest |
+| **Memory (500K routes)** | ~4–8 MB | ~1–2 MB |
+| **Best for** | BGP control plane | Packet forwarding / FIB |
+
+```rust
+// Rust — choose at construction time, zero runtime overhead
+let control = StandardEngine::new(UncompressedTree::new(NodeVariant::Normal));
+let fib     = StandardEngine::new(CompressedTree::new(NodeVariant::Normal));
+```
+
+```go
+// Go — same API, different tree
+control := NewStandardEngine(NewUncompressedTree(NodeNormal))
+fib     := NewStandardEngine(NewCompressedTree(NodeNormal))
+```
+
+```go
+// Or via EngineWrapper with compressed flag
+controlPlane := NewEngineWrapperWithTree(EngineStandard, NodeNormal, false) // uncompressed
+dataPlane    := NewEngineWrapperWithTree(EngineConcurrent, NodeAtomic, true)  // compressed
+```
+
+See [ARCHITECTURE.md](./ARCHITECTURE.md) for the full design rationale, hybrid Redis architecture, and performance reference.
+
 
 ## 🤝 Contributing
 
