@@ -1,15 +1,12 @@
-use std::sync::Arc;
-use std::time::Duration;
-use redis::{
-    aio::ConnectionManager,
-    AsyncCommands, Client, RedisError,
-};
 use futures_util::StreamExt;
 use ipnetwork::IpNetwork;
+use redis::{AsyncCommands, Client, RedisError, aio::ConnectionManager};
 use serde::{Deserialize, Serialize};
-use tokio::sync::{mpsc, Mutex, broadcast};
+use std::sync::Arc;
+use std::time::Duration;
+use tokio::sync::{Mutex, broadcast, mpsc};
 use tokio::task::JoinHandle;
-use tracing::{info, error, debug};
+use tracing::{debug, error, info};
 
 use crate::traits::RadixEngine;
 use crate::types::Metadata;
@@ -85,7 +82,7 @@ impl RedisClient {
     /// Create a new Redis client with connection pooling
     pub async fn new(config: RedisConfig) -> Result<Self> {
         let client = Client::open(config.url.clone())?;
-        
+
         // Create connection manager with retry logic
         let connection_manager = ConnectionManager::new(client.clone())
             .await
@@ -114,10 +111,13 @@ impl RedisClient {
 
     /// Get a synchronous connection
     pub fn get_sync_connection(&self) -> Result<redis::Connection> {
-        self.inner.client.get_connection().map_err(RedisPubSubError::Redis)
+        self.inner
+            .client
+            .get_connection()
+            .map_err(RedisPubSubError::Redis)
     }
 
-        /// Publish a message to a channel
+    /// Publish a message to a channel
     pub async fn publish(&self, channel: &str, message: &str) -> Result<()> {
         let mut conn = self.get_connection().await?;
         let _: usize = conn.publish(channel, message).await?;
@@ -127,12 +127,13 @@ impl RedisClient {
 
     /// Publish a JSON message
     pub async fn publish_json<T: serde::Serialize>(&self, channel: &str, data: &T) -> Result<()> {
-        let json = serde_json::to_string(data)
-            .map_err(|e| RedisPubSubError::Redis(RedisError::from((
+        let json = serde_json::to_string(data).map_err(|e| {
+            RedisPubSubError::Redis(RedisError::from((
                 redis::ErrorKind::TypeError,
                 "Serialization error",
                 e.to_string(),
-            ))))?;
+            )))
+        })?;
         self.publish(channel, &json).await
     }
 
@@ -145,7 +146,7 @@ impl RedisClient {
         let client = self.inner.client.clone();
         let channel_name = channel.to_string();
         let shutdown_rx = self.inner.shutdown_tx.subscribe();
-        
+
         let handle = tokio::spawn(async move {
             let mut shutdown = shutdown_rx;
             let mut pubsub = match client.get_async_pubsub().await {
@@ -168,13 +169,13 @@ impl RedisClient {
                             Some(msg) => {
                                 let payload: String = msg.get_payload().unwrap_or_default();
                                 let channel_name = msg.get_channel_name().to_string();
-                                
+
                                 let pubsub_msg = PubSubMessage {
                                     channel: channel_name,
                                     payload,
                                     pattern: None,
                                 };
-                                
+
                                 callback(pubsub_msg).await;
                             }
                             None => {
@@ -194,7 +195,7 @@ impl RedisClient {
         Ok(handle)
     }
 
-     /// Subscribe to a channel and send messages to an mpsc channel
+    /// Subscribe to a channel and send messages to an mpsc channel
     pub async fn subscribe_to_channel(
         &self,
         channel: &str,
@@ -228,13 +229,13 @@ impl RedisClient {
                             Some(msg) => {
                                 let payload: String = msg.get_payload().unwrap_or_default();
                                 let channel_name = msg.get_channel_name().to_string();
-                                
+
                                 let pubsub_msg = PubSubMessage {
                                     channel: channel_name,
                                     payload,
                                     pattern: None,
                                 };
-                                
+
                                 if let Err(e) = tx_clone.send(pubsub_msg).await {
                                     error!("Failed to send message to channel: {}", e);
                                     break;
@@ -257,7 +258,7 @@ impl RedisClient {
         Ok((rx, handle))
     }
 
-       /// Subscribe to a pattern (e.g., "news.*")
+    /// Subscribe to a pattern (e.g., "news.*")
     pub async fn psubscribe(
         &self,
         pattern: &str,
@@ -292,13 +293,13 @@ impl RedisClient {
                                 let payload: String = msg.get_payload().unwrap_or_default();
                                 let channel_name = msg.get_channel_name().to_string();
                                 let pattern = msg.get_pattern::<String>().ok();
-                                
+
                                 let pubsub_msg = PubSubMessage {
                                     channel: channel_name,
                                     payload,
                                     pattern,
                                 };
-                                
+
                                 if let Err(e) = tx_clone.send(pubsub_msg).await {
                                     error!("Failed to send message to channel: {}", e);
                                     break;
@@ -321,7 +322,7 @@ impl RedisClient {
         Ok((rx, handle))
     }
 
-      /// Broadcast to all subscribers
+    /// Broadcast to all subscribers
     pub fn broadcast(&self) -> broadcast::Sender<PubSubMessage> {
         self.inner.pubsub_sender.clone()
     }
@@ -335,7 +336,7 @@ impl RedisClient {
         &self.inner.config
     }
 
-      /// Shutdown all subscriptions
+    /// Shutdown all subscriptions
     pub async fn shutdown(&self) -> Result<()> {
         let _ = self.inner.shutdown_tx.send(());
         Ok(())
@@ -358,7 +359,7 @@ impl RedisClient {
     /// Synchronous Set
     pub fn set_sync(&self, key: &str, value: &str) -> Result<()> {
         let mut conn = self.get_sync_connection()?;
-        redis::cmd("SET").arg(key).arg(value).query(&mut conn)?;
+        let _: () = redis::cmd("SET").arg(key).arg(value).query(&mut conn)?;
         Ok(())
     }
 
@@ -372,21 +373,26 @@ impl RedisClient {
     /// Synchronous HGetAll for boot-loading prefixes
     pub fn hgetall_sync(&self, key: &str) -> Result<std::collections::HashMap<String, String>> {
         let mut conn = self.get_sync_connection()?;
-        let result: std::collections::HashMap<String, String> = redis::cmd("HGETALL").arg(key).query(&mut conn)?;
+        let result: std::collections::HashMap<String, String> =
+            redis::cmd("HGETALL").arg(key).query(&mut conn)?;
         Ok(result)
     }
-    
+
     /// Synchronous HSet
     pub fn hset_sync(&self, key: &str, field: &str, value: &str) -> Result<()> {
         let mut conn = self.get_sync_connection()?;
-        redis::cmd("HSET").arg(key).arg(field).arg(value).query(&mut conn)?;
+        let _: () = redis::cmd("HSET")
+            .arg(key)
+            .arg(field)
+            .arg(value)
+            .query(&mut conn)?;
         Ok(())
     }
 
     /// Synchronous HDel
     pub fn hdel_sync(&self, key: &str, field: &str) -> Result<()> {
         let mut conn = self.get_sync_connection()?;
-        redis::cmd("HDEL").arg(key).arg(field).query(&mut conn)?;
+        let _: () = redis::cmd("HDEL").arg(key).arg(field).query(&mut conn)?;
         Ok(())
     }
 
@@ -396,15 +402,13 @@ impl RedisClient {
         prefix: IpNetwork,
         metadata: Metadata,
     ) -> Result<()> {
-        self.publish_json(
-            channel,
-            &RedisCacheUpdate::Insert { prefix, metadata },
-        )
-        .await
+        self.publish_json(channel, &RedisCacheUpdate::Insert { prefix, metadata })
+            .await
     }
 
     pub async fn publish_remove(&self, channel: &str, prefix: IpNetwork) -> Result<()> {
-        self.publish_json(channel, &RedisCacheUpdate::Remove { prefix }).await
+        self.publish_json(channel, &RedisCacheUpdate::Remove { prefix })
+            .await
     }
 
     pub async fn publish_clear(&self, channel: &str) -> Result<()> {
