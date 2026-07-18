@@ -1,0 +1,268 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'   # e.g. v1.0.0
+
+permissions:
+  contents: write   # needed to create GitHub Releases
+
+jobs:
+  # ===========================================================================
+  # 1. Create the GitHub Release (once per tag)
+  # ===========================================================================
+  create-release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    outputs:
+      upload_url: ${{ steps.release.outputs.upload_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create Release
+        id: release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "RadixIP ${{ github.ref_name }}"
+          generate_release_notes: true
+
+  # ===========================================================================
+  # 2. Publish Rust crate to crates.io
+  # ===========================================================================
+  publish-rust:
+    name: Publish Rust → crates.io
+    runs-on: ubuntu-latest
+    needs: create-release
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+
+      - name: Publish radixip-rs
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        run: cargo publish -p radixip-rs --no-verify
+
+  # ===========================================================================
+  # 3. Build & publish C/C++ shared libraries for Linux, macOS, Windows
+  # ===========================================================================
+  build-c-libs:
+    name: Build C shared lib (${{ matrix.target }})
+    runs-on: ${{ matrix.runner }}
+    needs: create-release
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: x86_64-unknown-linux-gnu
+            runner: ubuntu-latest
+            artifact: libradixip.so
+          - target: aarch64-unknown-linux-gnu
+            runner: ubuntu-latest
+            artifact: libradixip-aarch64.so
+            cross: true
+          - target: x86_64-apple-darwin
+            runner: macos-13
+            artifact: libradixip.dylib
+          - target: aarch64-apple-darwin
+            runner: macos-14
+            artifact: libradixip-arm64.dylib
+          - target: x86_64-pc-windows-msvc
+            runner: windows-latest
+            artifact: radixip.dll
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+
+      - name: Install cross (for aarch64 Linux)
+        if: matrix.cross
+        run: cargo install cross --git https://github.com/cross-rs/cross
+
+      - name: Build shared library (native)
+        if: "!matrix.cross"
+        run: cargo build -p radixip-rs --release --target ${{ matrix.target }}
+
+      - name: Build shared library (cross)
+        if: matrix.cross
+        run: cross build -p radixip-rs --release --target ${{ matrix.target }}
+
+      - name: Rename artifact
+        shell: bash
+        run: |
+          src=$(find target/${{ matrix.target }}/release -maxdepth 1 \( -name "libradixip*.so" -o -name "libradixip*.dylib" -o -name "radixip*.dll" \) | head -n1)
+          cp "$src" "${{ matrix.artifact }}"
+
+      - name: Upload C shared lib to Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ matrix.artifact }}
+
+      - name: Upload header files
+        if: matrix.target == 'x86_64-unknown-linux-gnu'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            lib/cpp/include/radixip.h
+            lib/cpp/include/RadixEngine.hpp
+
+  # ===========================================================================
+  # 4. Build Node native addons for all platforms & publish to npm
+  # ===========================================================================
+  build-node:
+    name: Build Node addon (${{ matrix.target }})
+    runs-on: ${{ matrix.runner }}
+    needs: create-release
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: x86_64-unknown-linux-gnu
+            runner: ubuntu-latest
+          - target: aarch64-unknown-linux-gnu
+            runner: ubuntu-latest
+            cross: true
+          - target: x86_64-apple-darwin
+            runner: macos-13
+          - target: aarch64-apple-darwin
+            runner: macos-14
+          - target: x86_64-pc-windows-msvc
+            runner: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install napi-rs cli
+        run: npm install -g @napi-rs/cli
+
+      - name: Build
+        working-directory: lib/node
+        run: |
+          npm install
+          napi build --platform --release --target ${{ matrix.target }}
+
+      - name: Upload .node file
+        uses: actions/upload-artifact@v4
+        with:
+          name: node-addon-${{ matrix.target }}
+          path: lib/node/*.node
+
+  publish-node:
+    name: Publish Node → npm
+    runs-on: ubuntu-latest
+    needs: build-node
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Download all .node artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: node-addon-*
+          merge-multiple: true
+          path: lib/node/prebuilt
+
+      - name: Publish
+        working-directory: lib/node
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public
+
+  # ===========================================================================
+  # 5. Build Python wheels for all platforms & publish to PyPI
+  # ===========================================================================
+  build-python-wheels:
+    name: Build Python wheel (${{ matrix.target }})
+    runs-on: ${{ matrix.runner }}
+    needs: create-release
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: x86_64
+            runner: ubuntu-latest
+          - target: aarch64
+            runner: ubuntu-latest
+          - target: x86_64
+            runner: macos-13
+          - target: aarch64
+            runner: macos-14
+          - target: x86_64
+            runner: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install maturin
+        run: pip install maturin
+
+      - name: Build wheels
+        working-directory: lib/python
+        run: maturin build --release --out dist
+
+      - name: Upload wheel artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-wheel-${{ matrix.runner }}-${{ matrix.target }}
+          path: lib/python/dist/*.whl
+
+  publish-python:
+    name: Publish Python → PyPI
+    runs-on: ubuntu-latest
+    needs: build-python-wheels
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Download all wheels
+        uses: actions/download-artifact@v4
+        with:
+          pattern: python-wheel-*
+          merge-multiple: true
+          path: dist
+
+      - name: Publish to PyPI
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+        run: |
+          pip install twine
+          twine upload dist/*.whl
+
+  # ===========================================================================
+  # 6. Go module — tagged automatically via Git (no publish step needed)
+  #    We just verify it builds cleanly at release time.
+  # ===========================================================================
+  verify-go:
+    name: Verify Go module
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+      - name: Build
+        working-directory: lib/go
+        run: go build ./...
+      - name: Test
+        working-directory: lib/go
+        run: go test ./...
