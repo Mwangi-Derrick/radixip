@@ -19,7 +19,6 @@ pub struct NormalNode {
     right: RwLock<Option<Arc<dyn RadixNode>>>,
     metadata: RwLock<Option<Metadata>>,
     prefix: RwLock<Option<IpNetwork>>,
-    children: RwLock<HashMap<IpNetwork, Arc<dyn RadixNode>>>,
 }
 
 impl NormalNode {
@@ -49,16 +48,12 @@ impl RadixNode for NormalNode {
         *self.prefix.read().unwrap()
     }
 
-    fn get_child(&self, network: &IpNetwork) -> Option<Arc<dyn RadixNode>> {
-        self.children.read().unwrap().get(network).cloned()
+    fn set_left(&self, node: Option<Arc<dyn RadixNode>>) {
+        *self.left.write().unwrap() = node;
     }
 
-    fn insert_child(&self, network: IpNetwork, node: Arc<dyn RadixNode>) {
-        self.children.write().unwrap().insert(network, node);
-    }
-
-    fn remove_child(&self, network: &IpNetwork) -> Option<Arc<dyn RadixNode>> {
-        self.children.write().unwrap().remove(network)
+    fn set_right(&self, node: Option<Arc<dyn RadixNode>>) {
+        *self.right.write().unwrap() = node;
     }
 
     fn set_metadata(&self, metadata: Metadata) {
@@ -87,7 +82,6 @@ pub struct AtomicNode {
     right: RwLock<Option<Arc<dyn RadixNode>>>, // Child for bit 1
     metadata: RwLock<Option<Metadata>>,      // Terminal data
     prefix: RwLock<Option<IpNetwork>>,       // Associated prefix
-    children: DashMap<IpNetwork, Arc<dyn RadixNode>>,
 }
 
 impl AtomicNode {
@@ -98,7 +92,6 @@ impl AtomicNode {
             right: RwLock::new(None),
             metadata: RwLock::new(None),
             prefix: RwLock::new(None),
-            children: DashMap::new(),
         }
     }
 
@@ -137,16 +130,12 @@ impl RadixNode for AtomicNode {
         *self.prefix.read().unwrap()
     }
 
-    fn get_child(&self, network: &IpNetwork) -> Option<Arc<dyn RadixNode>> {
-        self.children.get(network).map(|entry| entry.value().clone())
+    fn set_left(&self, node: Option<Arc<dyn RadixNode>>) {
+        *self.left.write().unwrap() = node;
     }
 
-    fn insert_child(&self, network: IpNetwork, node: Arc<dyn RadixNode>) {
-        self.children.insert(network, node);
-    }
-
-    fn remove_child(&self, network: &IpNetwork) -> Option<Arc<dyn RadixNode>> {
-        self.children.remove(network).map(|(_, node)| node)
+    fn set_right(&self, node: Option<Arc<dyn RadixNode>>) {
+        *self.right.write().unwrap() = node;
     }
 
     fn set_metadata(&self, metadata: Metadata) {
@@ -182,8 +171,6 @@ pub struct PaddedNode {
     _pad5: [u8; 56],
     prefix: RwLock<Option<IpNetwork>>,
     _pad6: [u8; 56],
-    children: RwLock<HashMap<IpNetwork, Arc<dyn RadixNode>>>,
-    _pad7: [u8; 56],
 }
 
 impl PaddedNode {
@@ -194,14 +181,12 @@ impl PaddedNode {
             right: RwLock::new(None),
             metadata: RwLock::new(None),
             prefix: RwLock::new(None),
-            children: RwLock::new(HashMap::new()),
             _pad1: [0; 64],
             _pad2: [0; 56],
             _pad3: [0; 56],
             _pad4: [0; 56],
             _pad5: [0; 56],
             _pad6: [0; 56],
-            _pad7: [0; 56],
         }
     }
 }
@@ -219,14 +204,11 @@ impl RadixNode for PaddedNode {
     fn right(&self) -> Option<Arc<dyn RadixNode>> { self.right.read().unwrap().clone() }
     fn metadata(&self) -> Option<Metadata> { self.metadata.read().unwrap().clone() }
     fn prefix(&self) -> Option<IpNetwork> { *self.prefix.read().unwrap() }
-    fn get_child(&self, network: &IpNetwork) -> Option<Arc<dyn RadixNode>> {
-        self.children.read().unwrap().get(network).cloned()
+    fn set_left(&self, node: Option<Arc<dyn RadixNode>>) {
+        *self.left.write().unwrap() = node;
     }
-    fn insert_child(&self, network: IpNetwork, node: Arc<dyn RadixNode>) {
-        self.children.write().unwrap().insert(network, node);
-    }
-    fn remove_child(&self, network: &IpNetwork) -> Option<Arc<dyn RadixNode>> {
-        self.children.write().unwrap().remove(network)
+    fn set_right(&self, node: Option<Arc<dyn RadixNode>>) {
+        *self.right.write().unwrap() = node;
     }
     fn set_metadata(&self, metadata: Metadata) {
         *self.metadata.write().unwrap() = Some(metadata);
@@ -291,27 +273,19 @@ impl RadixNode for NodeWrapper {
         }
     }
 
-    fn get_child(&self, network: &IpNetwork) -> Option<Arc<dyn RadixNode>> {
+    fn set_left(&self, node: Option<Arc<dyn RadixNode>>) {
         match self {
-            NodeWrapper::Normal(n) => n.get_child(network),
-            NodeWrapper::Atomic(n) => n.get_child(network),
-            NodeWrapper::Padded(n) => n.get_child(network),
+            NodeWrapper::Normal(n) => n.set_left(node),
+            NodeWrapper::Atomic(n) => n.set_left(node),
+            NodeWrapper::Padded(n) => n.set_left(node),
         }
     }
 
-    fn insert_child(&self, network: IpNetwork, node: Arc<dyn RadixNode>) {
+    fn set_right(&self, node: Option<Arc<dyn RadixNode>>) {
         match self {
-            NodeWrapper::Normal(n) => n.insert_child(network, node),
-            NodeWrapper::Atomic(n) => n.insert_child(network, node),
-            NodeWrapper::Padded(n) => n.insert_child(network, node),
-        }
-    }
-
-    fn remove_child(&self, network: &IpNetwork) -> Option<Arc<dyn RadixNode>> {
-        match self {
-            NodeWrapper::Normal(n) => n.remove_child(network),
-            NodeWrapper::Atomic(n) => n.remove_child(network),
-            NodeWrapper::Padded(n) => n.remove_child(network),
+            NodeWrapper::Normal(n) => n.set_right(node),
+            NodeWrapper::Atomic(n) => n.set_right(node),
+            NodeWrapper::Padded(n) => n.set_right(node),
         }
     }
 
