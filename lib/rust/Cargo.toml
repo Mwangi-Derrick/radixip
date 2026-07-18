@@ -32,6 +32,7 @@ thiserror = { workspace = true }
 tracing = { workspace = true }
 tokio = { workspace = true }
 futures-util = { workspace = true }
+async-std = { workspace = true }
 
 # Atomic pointer swap
 arc-swap = { workspace = true }
@@ -47,6 +48,7 @@ napi = { workspace = true, optional = true }
 napi-derive = { workspace = true, optional = true }
 dashmap = { workspace = true }
 crossbeam = { workspace = true }
+
 
 # Optional: Benchmarks
 
