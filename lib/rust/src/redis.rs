@@ -109,7 +109,12 @@ impl RedisClient {
 
     /// Get a connection from the pool
     async fn get_connection(&self) -> Result<tokio::sync::MutexGuard<'_, ConnectionManager>> {
-    Ok(self.inner.connection_manager.lock().await)
+        Ok(self.inner.connection_manager.lock().await)
+    }
+
+    /// Get a synchronous connection
+    pub fn get_sync_connection(&self) -> Result<redis::Connection> {
+        self.inner.client.get_connection().map_err(RedisPubSubError::Redis)
     }
 
         /// Publish a message to a channel
@@ -348,6 +353,41 @@ impl RedisClient {
         let mut conn = self.get_connection().await?;
         let result: Option<String> = conn.get(key).await?;
         Ok(result)
+    }
+
+    /// Synchronous Set
+    pub fn set_sync(&self, key: &str, value: &str) -> Result<()> {
+        let mut conn = self.get_sync_connection()?;
+        redis::cmd("SET").arg(key).arg(value).query(&mut conn)?;
+        Ok(())
+    }
+
+    /// Synchronous Get
+    pub fn get_sync(&self, key: &str) -> Result<Option<String>> {
+        let mut conn = self.get_sync_connection()?;
+        let result: Option<String> = redis::cmd("GET").arg(key).query(&mut conn)?;
+        Ok(result)
+    }
+
+    /// Synchronous HGetAll for boot-loading prefixes
+    pub fn hgetall_sync(&self, key: &str) -> Result<std::collections::HashMap<String, String>> {
+        let mut conn = self.get_sync_connection()?;
+        let result: std::collections::HashMap<String, String> = redis::cmd("HGETALL").arg(key).query(&mut conn)?;
+        Ok(result)
+    }
+    
+    /// Synchronous HSet
+    pub fn hset_sync(&self, key: &str, field: &str, value: &str) -> Result<()> {
+        let mut conn = self.get_sync_connection()?;
+        redis::cmd("HSET").arg(key).arg(field).arg(value).query(&mut conn)?;
+        Ok(())
+    }
+
+    /// Synchronous HDel
+    pub fn hdel_sync(&self, key: &str, field: &str) -> Result<()> {
+        let mut conn = self.get_sync_connection()?;
+        redis::cmd("HDEL").arg(key).arg(field).query(&mut conn)?;
+        Ok(())
     }
 
     pub async fn publish_insert(
