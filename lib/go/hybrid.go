@@ -69,8 +69,16 @@ func (e *HybridEngine) StartSync(ctx context.Context) error {
 	if e.redis == nil {
 		return fmt.Errorf("redis is not configured")
 	}
-	// We subscribe the dataPlane so it receives updates from Redis
-	return e.redis.SubscribeEngineUpdates(ctx, e.channel, e.dataPlane)
+	
+	// Subscribe the dataPlane in a goroutine so it doesn't block
+	go func() {
+		err := e.redis.SubscribeEngineUpdates(ctx, e.channel, e.dataPlane)
+		if err != nil {
+			fmt.Printf("HybridEngine Redis sync stopped: %v\n", err)
+		}
+	}()
+	
+	return nil
 }
 
 // Insert adds a prefix with metadata to the control plane and publishes to Redis
