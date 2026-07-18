@@ -1,16 +1,34 @@
 {
   "name": "radixip",
   "version": "0.1.0",
-  "description": "High-performance IP subnet caching engine",
+  "description": "High-performance IP subnet longest-prefix match engine (Rust-backed native addon)",
   "main": "index.js",
   "types": "index.d.ts",
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "radixip.node",
+    "prebuilt/**"
+  ],
   "scripts": {
-    "build": "cargo build --release && npm run copy",
-    "copy": "cp ../target/release/libradixip_node.so .",
+    "build": "napi build --platform --release",
+    "build:debug": "napi build --platform",
+    "prepublishOnly": "napi build --platform --release",
     "test": "node tests/test.js",
     "bench": "node benchmarks/bench.js"
   },
-  "keywords": ["radix", "ip", "subnet", "networking"],
+  "napi": {
+    "name": "radixip",
+    "triples": {
+      "defaults": true,
+      "additional": [
+        "aarch64-unknown-linux-gnu",
+        "aarch64-apple-darwin",
+        "x86_64-unknown-linux-musl"
+      ]
+    }
+  },
+  "keywords": ["radix", "ip", "subnet", "networking", "napi", "native"],
   "license": "MIT",
   "repository": {
     "type": "git",
