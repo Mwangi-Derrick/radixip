@@ -1,8 +1,8 @@
 //! optional Runtime configuration for RadixIP
 
-use crate::traits::{EngineVariant, NodeVariant};
 #[cfg(feature = "redis")]
 use crate::redis::RedisConfig;
+use crate::traits::{EngineVariant, NodeVariant};
 
 #[derive(Debug, Clone)]
 pub struct RadixConfig {
@@ -16,7 +16,7 @@ pub struct RadixConfig {
     pub redis_channel: String,
     pub num_shards: Option<usize>,
     pub enable_stats: bool,
-    
+
     // Split Plane Architecture Config
     pub enable_split_plane: bool,
     pub write_compressed: bool, // true = CompressedTree, false = UncompressedTree
@@ -47,17 +47,17 @@ impl RadixConfig {
     pub fn new() -> Self {
         Self::default()
     }
-    
+
     pub fn with_engine(mut self, variant: EngineVariant) -> Self {
         self.engine_variant = variant;
         self
     }
-    
+
     pub fn with_node(mut self, variant: NodeVariant) -> Self {
         self.node_variant = variant;
         self
     }
-    
+
     pub fn with_cache(mut self, enabled: bool, max_entries: usize) -> Self {
         self.cache_enabled = enabled;
         self.cache_max_entries = max_entries;
@@ -70,7 +70,7 @@ impl RadixConfig {
         self.redis_channel = channel.into();
         self
     }
-    
+
     pub fn high_performance() -> Self {
         Self {
             engine_variant: EngineVariant::LockFree,
@@ -83,9 +83,12 @@ impl RadixConfig {
             redis_channel: "radixip:updates".to_string(),
             num_shards: Some(32),
             enable_stats: false,
+            enable_split_plane: false,
+            write_compressed: false, // Control plane defaults to uncompressed
+            read_compressed: true,   // Data plane defaults to compressed
         }
     }
-    
+
     pub fn memory_efficient() -> Self {
         Self {
             engine_variant: EngineVariant::Standard,
@@ -98,9 +101,12 @@ impl RadixConfig {
             redis_channel: "radixip:updates".to_string(),
             num_shards: None,
             enable_stats: false,
+            enable_split_plane: false,
+            write_compressed: false, // Control plane defaults to uncompressed
+            read_compressed: true,   // Data plane defaults to compressed
         }
     }
-    
+
     pub fn balanced() -> Self {
         Self {
             engine_variant: EngineVariant::Concurrent,
@@ -113,6 +119,9 @@ impl RadixConfig {
             redis_channel: "radixip:updates".to_string(),
             num_shards: Some(16),
             enable_stats: true,
+            enable_split_plane: false,
+            write_compressed: false, // Control plane defaults to uncompressed
+            read_compressed: true,   // Data plane defaults to compressed
         }
     }
 }
