@@ -10,57 +10,25 @@ import (
 )
 
 type StandardEngine struct {
-	root        RadixNode
+	tree        RouteTree
 	size        int64
 	stats       sync.RWMutex
 	statsData   EngineStats
-	nodeBuilder *NodeBuilder
 }
 
-func NewStandardEngine(nodeVariant NodeVariant) *StandardEngine {
-	builder := NewNodeBuilder(nodeVariant)
+func NewStandardEngine(tree RouteTree) *StandardEngine {
 	return &StandardEngine{
-		root:        builder.Build(),
+		tree:        tree,
 		size:        0,
 		statsData:   EngineStats{},
-		nodeBuilder: builder,
 	}
 }
 
 func (e *StandardEngine) Insert(prefix IpNetwork, metadata Metadata) error {
-	ip := prefix.IP
-	ones, _ := prefix.Mask.Size()
-	prefixLen := ones
-
-	current := e.root
-
-	for depth := 0; depth < prefixLen; depth++ {
-		bit := getBit(ip, depth)
-		var next RadixNode
-		if bit == 0 {
-			next = current.Left()
-		} else {
-			next = current.Right()
-		}
-
-		if next != nil {
-			current = next
-		} else {
-			newNode := e.nodeBuilder.Build()
-			if bit == 0 {
-				current.SetLeft(newNode)
-			} else {
-				current.SetRight(newNode)
-			}
-			current = newNode
-		}
+	isNew, err := e.tree.Insert(prefix, metadata)
+	if err != nil {
+		return err
 	}
-
-	isNew := current.Metadata() == nil
-	
-	netPrefix := net.IPNet{IP: prefix.IP, Mask: prefix.Mask}
-	current.SetPrefix(&netPrefix)
-	current.SetMetadata(&metadata)
 
 	if isNew {
 		atomic.AddInt64(&e.size, 1)
@@ -75,25 +43,7 @@ func (e *StandardEngine) Insert(prefix IpNetwork, metadata Metadata) error {
 }
 
 func (e *StandardEngine) Lookup(ip *net.IP) *Metadata {
-	var bestMatch *Metadata
-	current := e.root
-	depth := 0
-
-	for current != nil {
-		if p := current.Prefix(); p != nil {
-			if p.Contains(*ip) {
-				bestMatch = current.Metadata()
-			}
-		}
-
-		bit := getBit(*ip, depth)
-		if bit == 0 {
-			current = current.Left()
-		} else {
-			current = current.Right()
-		}
-		depth++
-	}
+	bestMatch := e.tree.Lookup(ip)
 
 	e.stats.Lock()
 	e.statsData.Lookups++
@@ -108,26 +58,9 @@ func (e *StandardEngine) Lookup(ip *net.IP) *Metadata {
 }
 
 func (e *StandardEngine) Remove(prefix *IpNetwork) *Metadata {
-	ip := prefix.IP
-	ones, _ := prefix.Mask.Size()
-	prefixLen := ones
+	removed := e.tree.Remove(prefix)
 
-	current := e.root
-	for depth := 0; depth < prefixLen; depth++ {
-		bit := getBit(ip, depth)
-		if bit == 0 {
-			current = current.Left()
-		} else {
-			current = current.Right()
-		}
-		if current == nil {
-			return nil
-		}
-	}
-
-	removed := current.Metadata()
 	if removed != nil {
-		current.ClearMetadata()
 		atomic.AddInt64(&e.size, -1)
 		
 		e.stats.Lock()
@@ -140,28 +73,11 @@ func (e *StandardEngine) Remove(prefix *IpNetwork) *Metadata {
 }
 
 func (e *StandardEngine) Contains(prefix *IpNetwork) bool {
-	ip := prefix.IP
-	ones, _ := prefix.Mask.Size()
-	prefixLen := ones
-
-	current := e.root
-	for depth := 0; depth < prefixLen; depth++ {
-		bit := getBit(ip, depth)
-		if bit == 0 {
-			current = current.Left()
-		} else {
-			current = current.Right()
-		}
-		if current == nil {
-			return false
-		}
-	}
-	return current.Metadata() != nil
+	return e.tree.Contains(prefix)
 }
 
 func (e *StandardEngine) Clear() {
-	e.root.SetLeft(nil)
-	e.root.SetRight(nil)
+	e.tree.Clear()
 
 	atomic.StoreInt64(&e.size, 0)
 
@@ -185,18 +101,21 @@ func (e *StandardEngine) Stats() EngineStats {
 // SHARDED ENGINE
 
 type ShardedEngine struct {
-	shards     []*StandardEngine
-	numShards  int
+	shards    []*StandardEngine
+	numShards int
+	maskBits  int
 }
 
 func NewShardedEngine(numShards int, nodeVariant NodeVariant) *ShardedEngine {
 	shards := make([]*StandardEngine, numShards)
 	for i := 0; i < numShards; i++ {
-		shards[i] = NewStandardEngine(nodeVariant)
+		tree := NewUncompressedTree(nodeVariant)
+		shards[i] = NewStandardEngine(tree)
 	}
 	return &ShardedEngine{
 		shards:    shards,
 		numShards: numShards,
+		maskBits:  32,
 	}
 }
 
@@ -262,8 +181,7 @@ func (e *ShardedEngine) Insert(prefix IpNetwork, metadata Metadata) error {
 }
 
 func (e *ShardedEngine) Lookup(ip *net.IP) *Metadata {
-	//todo: let user to customize the network cidr mask(second parameter to this function)
-	shardIdx := e.getShard(ip,24)
+	shardIdx := e.getShard(ip, e.maskBits)
 	return e.shards[shardIdx].Lookup(ip)
 }
 
@@ -316,30 +234,17 @@ func (e *ShardedEngine) Stats() EngineStats {
 }
 
 
+// ============ ENGINE WRAPPER ============
+
 type EngineWrapper struct {
-	standard   *StandardEngine
-	concurrent *ShardedEngine
-	variant    EngineVariant
+	engine   RadixEngine
+	variant  EngineVariant
 }
 
 func NewEngineWrapper(variant EngineVariant, nodeVariant NodeVariant) *EngineWrapper {
+	var engine RadixEngine
+
 	switch variant {
-	case EngineVariantStandard:
-		return &EngineWrapper{
-			standard: NewStandardEngine(nodeVariant),
-			variant:  EngineVariantStandard,
-		}
-	case EngineVariantConcurrent:
-		return &EngineWrapper{
-			concurrent: NewShardedEngine(16, nodeVariant),
-			variant:    EngineVariantConcurrent,
-		}
-	case EngineVariantLockFree:
-		return &EngineWrapper{
-			standard: NewStandardEngine(NodeVariantLockFree),
-			variant:  EngineVariantLockFree,
-		}
-	case EngineVariantAdaptive:
 		// Choose based on system characteristics
 		cpus := getNumCPU()
 		if cpus > 4 {
