@@ -8,9 +8,9 @@ use std::sync::{
 };
 
 use crate::traits::*;
+use crate::tree::UncompressedTree;
 use crate::types::{EngineStats, Metadata};
 use ipnetwork::IpNetwork;
-use crate::tree::UncompressedTree;
 
 // ============ STANDARD ENGINE ============
 
@@ -189,7 +189,7 @@ impl<T: RouteTree> RadixEngine for StandardEngine<T> {
     }
 }
 
-impl<T: RouteTree> RadixEngine for ShardedEngine<T> {
+impl<T: RouteTree + Clone> RadixEngine for ShardedEngine<T> {
     fn insert(&self, prefix: IpNetwork, metadata: Metadata) -> Result<(), String> {
         for shard in &self.shards {
             shard.insert(prefix, metadata.clone())?;
@@ -258,7 +258,7 @@ pub enum EngineWrapper {
 impl EngineWrapper {
     pub fn new(variant: EngineVariant, node_variant: NodeVariant) -> Self {
         let base_tree = UncompressedTree::new(node_variant);
-        
+
         match variant {
             EngineVariant::Standard => {
                 EngineWrapper::StandardUncompressed(Arc::new(StandardEngine::new(base_tree)))
