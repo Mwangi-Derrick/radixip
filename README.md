@@ -55,6 +55,7 @@ short on purpose; this folder is where the engineering reasoning lives.
 | Document | notes |
 |---|---|
 | [Architecture](./docs/guides/architecture.md) | How the L1 (in-process) / L2 (Redis) layers fit together |
+[Sharding Architecture](./docs/sharding-architecture.md) | Scaling with sharding |
 | [Radix Tree Design](./docs/guides/radix-tree-design.md) | The data structure at the core of RadixIP, and why it beats a hashmap or standard trie for this problem |
 | [Longest Prefix Match](./docs/guides/longest-prefix-match.md) | The algorithm every IP router on the internet runs, explained from first principles |
 | [IPv4 vs IPv6](./docs/guides/ipv4-vs-ipv6.md) | How address structure differs, and what that means for caching strategy |
