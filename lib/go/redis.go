@@ -1,6 +1,15 @@
-package go
+package radixip
 
-import ("github.com/redis/go-redis/v9")
+import (
+	"context"
+	"encoding/json"
+	"errors"
+	"fmt"
+	"sync"
+	"time"
+
+	"github.com/redis/go-redis/v9"
+)
 
 // Custom error types
 var (
@@ -34,9 +43,9 @@ type PubSubMessage struct {
 
 // RedisCacheUpdate represents cache update operations
 type RedisCacheUpdate struct {
-	Op       string      `json:"op"`
-	Prefix   *IpNetwork  `json:"prefix,omitempty"`
-	Metadata *Metadata   `json:"metadata,omitempty"`
+	Op       string     `json:"op"`
+	Prefix   *IpNetwork `json:"prefix,omitempty"`
+	Metadata *Metadata  `json:"metadata,omitempty"`
 }
 
 // Cache update operation constants
@@ -52,40 +61,40 @@ type RedisClient struct {
 }
 
 type RedisClientInner struct {
-	client          *redis.Client
-	config          RedisConfig
-	pubsubSender    chan PubSubMessage
-	shutdownCh      chan struct{}
-	subscriptions   sync.WaitGroup
-	mu              sync.RWMutex
-	subscribers     map[string][]chan PubSubMessage
+	client        *redis.Client
+	config        RedisConfig
+	pubsubSender  chan PubSubMessage
+	shutdownCh    chan struct{}
+	subscriptions sync.WaitGroup
+	mu            sync.RWMutex
+	subscribers   map[string][]chan PubSubMessage
 }
 
 // NewRedisClient creates a new Redis client
 func NewRedisClient(config RedisConfig) (*RedisClient, error) {
 	rdb := redis.NewClient(&redis.Options{
-		Addr:            config.URL,
-		PoolSize:        config.PoolSize,
-		DialTimeout:     config.ConnectTimeout,
-		MaxRetries:      config.MaxRetries,
-		ReadTimeout:     10 * time.Second,
-		WriteTimeout:    10 * time.Second,
+		Addr:         config.URL,
+		PoolSize:     config.PoolSize,
+		DialTimeout:  config.ConnectTimeout,
+		MaxRetries:   config.MaxRetries,
+		ReadTimeout:  10 * time.Second,
+		WriteTimeout: 10 * time.Second,
 	})
 
 	// Test connection
 	ctx, cancel := context.WithTimeout(context.Background(), config.ConnectTimeout)
 	defer cancel()
-	
+
 	if err := rdb.Ping(ctx).Err(); err != nil {
 		return nil, fmt.Errorf("failed to connect to Redis: %w", err)
 	}
 
 	inner := &RedisClientInner{
-		client:        rdb,
-		config:        config,
-		pubsubSender:  make(chan PubSubMessage, 100),
-		shutdownCh:    make(chan struct{}),
-		subscribers:   make(map[string][]chan PubSubMessage),
+		client:       rdb,
+		config:       config,
+		pubsubSender: make(chan PubSubMessage, 100),
+		shutdownCh:   make(chan struct{}),
+		subscribers:  make(map[string][]chan PubSubMessage),
 	}
 
 	return &RedisClient{inner: inner}, nil
@@ -136,7 +145,7 @@ func (r *RedisClient) Subscribe(ctx context.Context, channel string, callback fu
 				Payload: msg.Payload,
 				Pattern: msg.Pattern,
 			}
-			
+
 			// Send to internal subscribers
 			r.inner.mu.RLock()
 			for _, ch := range r.inner.subscribers[channel] {
@@ -147,10 +156,10 @@ func (r *RedisClient) Subscribe(ctx context.Context, channel string, callback fu
 				}
 			}
 			r.inner.mu.RUnlock()
-			
+
 			// Call the callback
 			callback(pubsubMsg)
-			
+
 		case <-r.inner.shutdownCh:
 			return nil
 		case <-ctx.Done():
@@ -165,12 +174,12 @@ func (r *RedisClient) SubscribeToChannel(ctx context.Context, channel string) (<
 	ch := pubsub.Channel()
 
 	msgCh := make(chan PubSubMessage, 100)
-	
+
 	r.inner.subscriptions.Add(1)
 	go func() {
 		defer r.inner.subscriptions.Done()
 		defer close(msgCh)
-		
+
 		for {
 			select {
 			case msg := <-ch:
@@ -196,12 +205,12 @@ func (r *RedisClient) PSubscribe(ctx context.Context, pattern string) (<-chan Pu
 	ch := pubsub.Channel()
 
 	msgCh := make(chan PubSubMessage, 100)
-	
+
 	r.inner.subscriptions.Add(1)
 	go func() {
 		defer r.inner.subscriptions.Done()
 		defer close(msgCh)
-		
+
 		for {
 			select {
 			case msg := <-ch:
