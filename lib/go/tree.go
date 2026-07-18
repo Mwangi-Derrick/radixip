@@ -131,9 +131,9 @@ func (t *UncompressedTree) Clear() {
 	t.root.SetRight(nil)
 }
 
-// ============================================================
-//  COMPRESSED TREE  (Patricia / Radix trie)
-// ============================================================
+// 
+// COMPRESSED TREE  (Patricia / Radix trie)
+// 
 // Each node stores a compressed bit-string edge.
 // Non-branching chains are folded into single nodes, so O(k)
 // where k = branching points, not prefix length.

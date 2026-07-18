@@ -6,7 +6,7 @@ use crate::node::NodeBuilder;
 use crate::traits::{NodeVariant, RadixNode, RouteTree};
 use crate::types::Metadata;
 
-#[derive(Clone)]
+# [derive(Clone)]
 pub struct UncompressedTree {
     root: Arc<dyn RadixNode>,
     node_builder: NodeBuilder,
@@ -119,40 +119,40 @@ impl RouteTree for UncompressedTree {
     }
 }
 
-// ============================================================
-//  COMPRESSED TREE  (Patricia / Radix trie)
-// ============================================================
-//
+// 
+// COMPRESSED TREE  (Patricia / Radix trie)
+// 
+// 
 // Each node stores a `prefix_bits: Vec<u8>` representing the
 // compressed bit-string for that edge, instead of traversing
 // one bit at a time. Non-branching chains of nodes are folded
 // into a single node, giving O(k) lookups where k is the
 // number of *branching points*, not the prefix length.
-//
+// 
 // On insert: if an existing edge partially matches the new
 // prefix we split the node at the diverging bit, creating a
 // new internal node and two children.
-//
+// 
 // On lookup: at each node we check that `prefix_bits` fully
 // matches the corresponding bits of the query before moving
 // to the next child.
 
 use std::sync::{Mutex};
 
-/// A single node in the compressed (Patricia) radix tree.
+// / A single node in the compressed (Patricia) radix tree.
 struct CompressedNode {
-    /// The bit-string stored on the edge *into* this node.
-    /// Bit 0 of prefix_bits[0] is the most-significant bit of that byte.
+    // / The bit-string stored on the edge *into* this node.
+    // / Bit 0 of prefix_bits[0] is the most-significant bit of that byte.
     edge_bits: Vec<u8>,
-    /// Number of valid bits in edge_bits (may be < edge_bits.len()*8)
+    // / Number of valid bits in edge_bits (may be < edge_bits.len()*8)
     edge_len: usize,
-    /// Terminal data stored at this node (if this node represents a real prefix).
+    // / Terminal data stored at this node (if this node represents a real prefix).
     metadata: Option<Metadata>,
-    /// The network prefix that produced this node.
+    // / The network prefix that produced this node.
     prefix: Option<IpNetwork>,
-    /// Left child (next bit == 0)
+    // / Left child (next bit == 0)
     left: Option<Arc<Mutex<CompressedNode>>>,
-    /// Right child (next bit == 1)
+    // / Right child (next bit == 1)
     right: Option<Arc<Mutex<CompressedNode>>>,
 }
 
@@ -180,7 +180,7 @@ impl CompressedNode {
     }
 }
 
-/// Extract bit `pos` from a byte slice (big-endian, MSB-first).
+// / Extract bit `pos` from a byte slice (big-endian, MSB-first).
 fn get_bit_from_bytes(bytes: &[u8], pos: usize) -> u8 {
     let byte_idx = pos / 8;
     let bit_idx = 7 - (pos % 8);
@@ -188,7 +188,7 @@ fn get_bit_from_bytes(bytes: &[u8], pos: usize) -> u8 {
     (bytes[byte_idx] >> bit_idx) & 1
 }
 
-/// Extract up to `len` bits starting at `start` from `bytes` into a new Vec<u8>.
+// / Extract up to `len` bits starting at `start` from `bytes` into a new Vec<u8>.
 fn extract_bits(bytes: &[u8], start: usize, len: usize) -> Vec<u8> {
     let byte_count = (len + 7) / 8;
     let mut out = vec![0u8; byte_count];
@@ -201,7 +201,7 @@ fn extract_bits(bytes: &[u8], start: usize, len: usize) -> Vec<u8> {
     out
 }
 
-/// How many leading bits do two bit-arrays share?
+// / How many leading bits do two bit-arrays share?
 fn common_prefix_len(a: &[u8], a_len: usize, b: &[u8], b_len: usize) -> usize {
     let max = a_len.min(b_len);
     for i in 0..max {
@@ -212,7 +212,7 @@ fn common_prefix_len(a: &[u8], a_len: usize, b: &[u8], b_len: usize) -> usize {
     max
 }
 
-/// Convert an IpAddr to its canonical big-endian byte representation.
+// / Convert an IpAddr to its canonical big-endian byte representation.
 fn ip_to_bytes(ip: IpAddr) -> Vec<u8> {
     match ip {
         IpAddr::V4(v4) => v4.octets().to_vec(),
@@ -222,7 +222,7 @@ fn ip_to_bytes(ip: IpAddr) -> Vec<u8> {
 
 // ---- Public interface ----
 
-#[derive(Clone)]
+# [derive(Clone)]
 pub struct CompressedTree {
     root: Arc<Mutex<CompressedNode>>,
 }
@@ -234,7 +234,7 @@ impl CompressedTree {
         Self { root: CompressedNode::new_empty() }
     }
 
-    /// Insert into the Patricia trie, splitting nodes as needed.
+    // / Insert into the Patricia trie, splitting nodes as needed.
     fn insert_inner(
         node: &Arc<Mutex<CompressedNode>>,
         key: &[u8],
@@ -339,7 +339,7 @@ impl CompressedTree {
         }
     }
 
-    /// Walk the trie returning the most-specific matching prefix.
+    // / Walk the trie returning the most-specific matching prefix.
     fn lookup_inner(node: &Arc<Mutex<CompressedNode>>, key: &[u8], depth: usize) -> Option<Metadata> {
         let n = node.lock().unwrap();
         if n.edge_len == 0 && n.metadata.is_none() {

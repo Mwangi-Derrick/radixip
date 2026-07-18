@@ -1,4 +1,4 @@
-//! Radix tree engine implementations with different concurrency models
+// ! Radix tree engine implementations with different concurrency models
 
 use std::net::IpAddr;
 use std::sync::{
@@ -11,7 +11,7 @@ use crate::tree::UncompressedTree;
 use crate::types::{EngineStats, Metadata};
 use ipnetwork::IpNetwork;
 
-// ============ STANDARD ENGINE ============
+// STANDARD ENGINE ============
 
 pub struct StandardEngine<T: RouteTree> {
     tree: T,
@@ -90,8 +90,8 @@ impl<T: RouteTree> StandardEngine<T> {
     }
 }
 
-// ============ SHARDED ENGINE ============
-//throughput = number_shards * throughput per shard
+// SHARDED ENGINE ============
+// throughput = number_shards * throughput per shard
 pub struct ShardedEngine<T: RouteTree> {
     pub shards: Vec<Arc<StandardEngine<T>>>,
     pub num_shards: usize,
@@ -247,7 +247,7 @@ impl<T: RouteTree + Clone> RadixEngine for ShardedEngine<T> {
     }
 }
 
-// ============ ENGINE WRAPPER ============
+// ENGINE WRAPPER ============
 // allows switch of different engine modes
 pub enum EngineWrapper {
     StandardUncompressed(Arc<StandardEngine<UncompressedTree>>),

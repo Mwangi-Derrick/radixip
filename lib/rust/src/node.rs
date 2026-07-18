@@ -1,4 +1,4 @@
-//! Radix tree node implementations with different characteristics
+// ! Radix tree node implementations with different characteristics
 
 use std::collections::HashMap;
 use std::sync::{Arc, RwLock};
@@ -155,7 +155,7 @@ impl RadixNode for AtomicNode {
     }
 }
 
-// ============ PADDED NODE (Cache-line aligned) ============
+// PADDED NODE (Cache-line aligned) ============
 
 #[repr(C, align(64))] // 64-byte cache line alignment
 pub struct PaddedNode {
@@ -224,7 +224,7 @@ impl RadixNode for PaddedNode {
     }
 }
 
-// ============ NODE WRAPPER ENUM ============
+// NODE WRAPPER ENUM ============
 
 pub enum NodeWrapper {
     Normal(Arc<NormalNode>),
@@ -322,9 +322,9 @@ impl RadixNode for NodeWrapper {
     }
 }
 
-// ============ NODE BUILDER ============
+// NODE BUILDER ============
 
-#[derive(Clone)]
+# [derive(Clone)]
 pub struct NodeBuilder {
     variant: NodeVariant,
 }
