@@ -3,10 +3,11 @@ use std::net::IpAddr;
 use std::sync::Arc;
 
 use crate::config::RadixConfig;
-use crate::engine::{EngineWrapper, RadixEngine};
+use crate::engine::EngineWrapper;
 #[cfg(feature = "redis")]
 use crate::redis::RedisClient;
-use crate::traits::{EngineStats, Metadata};
+use crate::traits::RadixEngine;
+use crate::types::{EngineStats, Metadata};
 use ipnetwork::IpNetwork;
 
 pub struct HybridEngine {
@@ -33,7 +34,9 @@ impl HybridEngine {
 
         #[cfg(feature = "redis")]
         let redis = if let Some(redis_config) = &config.redis {
-            Some(Arc::new(RedisClient::new(redis_config.clone()).map_err(|e| e.to_string())?))
+            Some(Arc::new(
+                RedisClient::new(redis_config.clone()).map_err(|e| e.to_string())?,
+            ))
         } else {
             None
         };
@@ -49,7 +52,7 @@ impl HybridEngine {
         #[cfg(feature = "redis")]
         if let Some(r) = &engine.redis {
             // Boot-load the data plane from Redis
-            if let Ok(entries) = r.hgetall("radixip:entries") {
+            if let Ok(entries) = r.hgetall_sync("radixip:entries") {
                 for (cidr, meta_json) in entries {
                     if let Ok(ipnet) = cidr.parse::<IpNetwork>() {
                         if let Ok(meta) = serde_json::from_str::<Metadata>(&meta_json) {
@@ -77,7 +80,8 @@ impl HybridEngine {
 
 impl RadixEngine for HybridEngine {
     fn insert(&self, prefix: IpNetwork, metadata: Metadata) -> Result<(), String> {
-        self.control_plane.insert(prefix.clone(), metadata.clone())?;
+        self.control_plane
+            .insert(prefix.clone(), metadata.clone())?;
 
         #[cfg(feature = "redis")]
         if let Some(redis) = &self.redis {
