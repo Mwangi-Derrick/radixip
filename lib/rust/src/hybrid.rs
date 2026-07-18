@@ -70,9 +70,15 @@ impl HybridEngine {
     #[cfg(feature = "redis")]
     pub async fn start_sync(&self) -> Result<(), String> {
         if let Some(redis) = &self.redis {
-            // Setup async subscriber in background
-            // Requires async context to run properly
-            // Implementation left as integration specific since Rust async is heavily dependent on Tokio/async-std
+            let redis_clone = redis.clone();
+            let channel = self.channel.clone();
+            let data_plane = Arc::new(self.data_plane.clone());
+
+            tokio::spawn(async move {
+                if let Err(e) = redis_clone.subscribe_engine_updates(&channel, data_plane).await {
+                    eprintln!("HybridEngine Redis sync stopped: {}", e);
+                }
+            });
         }
         Ok(())
     }
