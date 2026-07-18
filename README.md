@@ -276,7 +276,7 @@ For networking, routing, and access-control workloads, that difference is often 
 
 ## 🏗️ Architecture
 
-# 🔄 The Hybrid L1/L2 Pipeline
+### 🔄 The Hybrid L1/L2 Pipeline
 
 Redis is completely removed from the critical lookup path. Every validation runs locally inside the application's process memory.
 
