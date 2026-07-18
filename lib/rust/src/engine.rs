@@ -1,6 +1,5 @@
 //! Radix tree engine implementations with different concurrency models
 
-use std::collections::HashMap;
 use std::net::IpAddr;
 use std::sync::{
     Arc, RwLock,
