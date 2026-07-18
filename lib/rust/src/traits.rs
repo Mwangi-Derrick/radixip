@@ -56,6 +56,15 @@ pub trait RadixEngine: Send + Sync {
     }
 }
 
+// RouteTree trait to separate routing logic from engine logic
+pub trait RouteTree: Send + Sync {
+    fn insert(&self, prefix: IpNetwork, metadata: Metadata) -> Result<bool, String>; // returns true if new
+    fn lookup(&self, ip: &IpAddr) -> Option<Metadata>;
+    fn remove(&self, prefix: &IpNetwork) -> Option<Metadata>;
+    fn contains(&self, prefix: &IpNetwork) -> bool;
+    fn clear(&self);
+}
+
 // Factory trait for creating engines with different variants
 pub trait EngineFactory {
     fn create_engine(variant: EngineVariant) -> Box<dyn RadixEngine>;
