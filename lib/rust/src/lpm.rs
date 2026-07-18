@@ -103,7 +103,7 @@ pub fn longest_common_prefix_len(left: &str, right: &str) -> usize {
     index
 }
 
-fn get_bit(ip: IpAddr, bit_pos: usize) -> u8 {
+pub fn get_bit(ip: IpAddr, bit_pos: usize) -> u8 {
     // If using ipv6.octets(), use this variant:
     enum IpOctetsBytes {
         V4([u8; 4]),
@@ -126,12 +126,50 @@ fn get_bit(ip: IpAddr, bit_pos: usize) -> u8 {
     }
 
     let bit_idx = 7 - (bit_pos % 8);
-    ((ip_bytes[byte_idx] >> bit_idx) & 1)
+    (ip_bytes[byte_idx] >> bit_idx) & 1
 }
 
 /// More efficient implementation using binary string representation
 pub fn longest_prefix_match_binary(root: &dyn RadixNode, ip: IpAddr) -> Option<Metadata> {
-    longest_prefix_match(root, ip)
+    let mut best_match = None;
+    let mut depth = 0;
+
+    // First check root
+    if let Some(prefix) = root.prefix() {
+        if network_contains_ip(&prefix, &ip) {
+            if let Some(meta) = root.metadata() {
+                best_match = Some(meta);
+            }
+        }
+    }
+
+    let mut current_arc = if get_bit(ip, 0) == 0 {
+        root.left()
+    } else {
+        root.right()
+    };
+    depth += 1;
+
+    while let Some(node) = current_arc {
+        if let Some(prefix) = node.prefix() {
+            if network_contains_ip(&prefix, &ip) {
+                if let Some(meta) = node.metadata() {
+                    best_match = Some(meta);
+                }
+            }
+        }
+
+        let bit = get_bit(ip, depth);
+        if bit == 0 {
+            current_arc = node.left();
+        } else {
+            current_arc = node.right();
+        }
+        
+        depth += 1;
+    }
+
+    best_match
 }
 
 pub fn network_contains_ip(network: &IpNetwork, ip: &IpAddr) -> bool {
