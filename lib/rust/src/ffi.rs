@@ -24,12 +24,15 @@ fn read_c_str(ptr: *const c_char) -> Option<String> {
     unsafe { CStr::from_ptr(ptr).to_str().ok().map(str::to_string) }
 }
 
-/// Create a new RadixEngine
+/// Create a new RadixEngine (blocks until complete)
 #[unsafe(no_mangle)]
-pub async extern "C" fn radix_engine_new() -> *mut RadixEngineHandle {
-    Box::into_raw(Box::new(RadixEngineHandle {
-        inner: new_balanced().await,
-    }))
+pub extern "C" fn radix_engine_new() -> *mut RadixEngineHandle {
+    // Create a runtime and block on the async operation
+    let inner = tokio::runtime::Runtime::new()
+        .unwrap()
+        .block_on(new_balanced());
+
+    Box::into_raw(Box::new(RadixEngineHandle { inner }))
 }
 
 /// Free a RadixEngine
