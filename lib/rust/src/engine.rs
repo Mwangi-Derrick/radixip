@@ -250,6 +250,7 @@ use crate::tree::{CompressedTree, UncompressedTree};
 
 // ENGINE WRAPPER ============
 // allows switch of different engine modes
+#[derive(Clone)]
 pub enum EngineWrapper {
     StandardUncompressed(Arc<StandardEngine<UncompressedTree>>),
     ConcurrentUncompressed(Arc<ShardedEngine<UncompressedTree>>),
