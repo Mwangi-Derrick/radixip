@@ -1,6 +1,4 @@
-package go
-
-
+package radixip
 
 // RedisConfig represents Redis configuration (placeholder)
 type RedisConfig struct {
@@ -17,7 +15,7 @@ type RadixConfig struct {
 	CacheEnabled    bool
 	CacheMaxEntries int
 	CacheTTLSeconds *uint64
-	Redis           *RedisConfig   // nil if Redis is not enabled
+	Redis           *RedisConfig // nil if Redis is not enabled
 	RedisChannel    string
 	NumShards       *int
 	EnableStats     bool
