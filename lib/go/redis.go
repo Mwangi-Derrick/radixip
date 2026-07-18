@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"net"
 	"sync"
 	"time"
 
@@ -319,13 +320,24 @@ func (r *RedisClient) SubscribeEngineUpdates(ctx context.Context, channel string
 		switch update.Op {
 		case OpInsert:
 			if update.Prefix != nil && update.Metadata != nil {
-				if err := engine.Insert(*update.Prefix, *update.Metadata); err != nil {
+				// Extract the IP and Mask from your custom struct
+				ipNet := net.IPNet{
+					IP:   update.Prefix.IP,
+					Mask: update.Prefix.Mask,
+				}
+
+				if err := engine.Insert(&ipNet, *update.Metadata); err != nil {
 					// Log error
 				}
 			}
 		case OpRemove:
 			if update.Prefix != nil {
-				engine.Remove(*update.Prefix)
+				// Extract the IP and Mask from your custom struct
+				ipNet := net.IPNet{
+					IP:   update.Prefix.IP,
+					Mask: update.Prefix.Mask,
+				}
+				engine.Remove(&ipNet)
 			}
 		case OpClear:
 			engine.Clear()
