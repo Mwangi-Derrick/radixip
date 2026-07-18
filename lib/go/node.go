@@ -39,126 +39,98 @@ func (n IpNetwork) Equal(other IpNetwork) bool {
            bytesEqual(n.Mask, other.Mask)
 }
 
-// Metadata represents arbitrary metadata (similar to crate::types::Metadata)
-type Metadata struct {
-    // Add your metadata fields here
-    // For example:
-    Data interface{}
-}
-
-// RadixNode represents a binary radix tree node with 64-byte cache alignment
-// Note: Go doesn't have direct control over alignment like Rust's repr(C, align(64))
-// but we can use struct padding to achieve similar alignment
-type RadixNode struct {
-	bit      int          // When to branch
-    // Using atomic pointers for thread-safety (similar to Arc in Rust)
-    left   unsafe.Pointer // *RadixNode with atomic operations
-    right  unsafe.Pointer // *RadixNode with atomic operations
-    
-    // Metadata (could be nil)
-    metadata unsafe.Pointer // *Metadata
-    
-    // Prefix network (could be nil)
-    // Prefix network (could be nil)
-    prefix unsafe.Pointer // *IpNetwork
-}
-
 // IpNetworkKey is a comparable key for maps (since IpNetwork contains slices)
 type IpNetworkKey struct {
     IP   string
     Mask string
 }
 
-// NewRadixNode creates a new RadixNode
-func NewRadixNode() *RadixNode {
-    return &RadixNode{
-        left:     nil,
-        right:    nil,
-        metadata: nil,
-        prefix:   nil,
+// NodeBuilder is a factory for RadixNodes
+type NodeBuilder struct {
+    variant NodeVariant
+}
+
+func NewNodeBuilder(variant NodeVariant) *NodeBuilder {
+    return &NodeBuilder{variant: variant}
+}
+
+func (b *NodeBuilder) Build() RadixNode {
+    // For now, always return atomicNode, we can add paddedNode or normalNode later if needed
+    return newAtomicNode()
+}
+
+// atomicNode implements RadixNode using atomic operations for thread safety
+type atomicNode struct {
+    bit      unsafe.Pointer // *uint8
+    left     unsafe.Pointer // *atomicNode
+    right    unsafe.Pointer // *atomicNode
+    metadata unsafe.Pointer // *Metadata
+    prefix   unsafe.Pointer // *net.IPNet
+}
+
+func newAtomicNode() *atomicNode {
+    return &atomicNode{}
+}
+
+func (n *atomicNode) Bit() *uint8 {
+    return (*uint8)(atomic.LoadPointer(&n.bit))
+}
+
+func (n *atomicNode) SetBit(bit uint8) {
+    bitVal := bit
+    atomic.StorePointer(&n.bit, unsafe.Pointer(&bitVal))
+}
+
+func (n *atomicNode) Left() RadixNode {
+    ptr := atomic.LoadPointer(&n.left)
+    if ptr == nil {
+        return nil
+    }
+    return (*atomicNode)(ptr)
+}
+
+func (n *atomicNode) SetLeft(node RadixNode) {
+    if node == nil {
+        atomic.StorePointer(&n.left, nil)
+    } else {
+        atomic.StorePointer(&n.left, unsafe.Pointer(node.(*atomicNode)))
     }
 }
 
-    return NewRadixNode()
+func (n *atomicNode) Right() RadixNode {
+    ptr := atomic.LoadPointer(&n.right)
+    if ptr == nil {
+        return nil
+    }
+    return (*atomicNode)(ptr)
 }
 
-// GetLeft safely gets the left child
-func (n *RadixNode) GetLeft() *RadixNode {
-    return (*RadixNode)(atomic.LoadPointer(&n.left))
+func (n *atomicNode) SetRight(node RadixNode) {
+    if node == nil {
+        atomic.StorePointer(&n.right, nil)
+    } else {
+        atomic.StorePointer(&n.right, unsafe.Pointer(node.(*atomicNode)))
+    }
 }
 
-// SetLeft safely sets the left child
-func (n *RadixNode) SetLeft(child *RadixNode) {
-    atomic.StorePointer(&n.left, unsafe.Pointer(child))
-}
-
-// GetRight safely gets the right child
-func (n *RadixNode) GetRight() *RadixNode {
-    return (*RadixNode)(atomic.LoadPointer(&n.right))
-}
-
-// SetRight safely sets the right child
-func (n *RadixNode) SetRight(child *RadixNode) {
-    atomic.StorePointer(&n.right, unsafe.Pointer(child))
-}
-
-// GetMetadata safely gets the metadata
-func (n *RadixNode) GetMetadata() *Metadata {
+func (n *atomicNode) Metadata() *Metadata {
     return (*Metadata)(atomic.LoadPointer(&n.metadata))
 }
 
-// SetMetadata safely sets the metadata
-func (n *RadixNode) SetMetadata(meta *Metadata) {
-    atomic.StorePointer(&n.metadata, unsafe.Pointer(meta))
+func (n *atomicNode) SetMetadata(metadata *Metadata) {
+    atomic.StorePointer(&n.metadata, unsafe.Pointer(metadata))
 }
 
-// GetPrefix safely gets the prefix
-func (n *RadixNode) GetPrefix() *IpNetwork {
-    return (*IpNetwork)(atomic.LoadPointer(&n.prefix))
+func (n *atomicNode) ClearMetadata() {
+    atomic.StorePointer(&n.metadata, nil)
 }
 
-// SetPrefix safely sets the prefix
-func (n *RadixNode) SetPrefix(prefix *IpNetwork) {
+func (n *atomicNode) Prefix() *net.IPNet {
+    return (*net.IPNet)(atomic.LoadPointer(&n.prefix))
+}
+
+func (n *atomicNode) SetPrefix(prefix *net.IPNet) {
     atomic.StorePointer(&n.prefix, unsafe.Pointer(prefix))
-}
-
-// Clone creates a deep copy of the node (similar to Rust's Clone trait)
-func (n *RadixNode) Clone() *RadixNode {
-    newNode := &RadixNode{}
-    
-    // Copy atomic fields
-    left := n.GetLeft()
-    if left != nil {
-        newNode.SetLeft(left)
-    }
-    
-    right := n.GetRight()
-    if right != nil {
-        newNode.SetRight(right)
-    }
-    
-    meta := n.GetMetadata()
-    if meta != nil {
-        // Deep copy metadata if needed
-        metaCopy := &Metadata{
-            Data: meta.Data,
-        }
-        newNode.SetMetadata(metaCopy)
-    }
-    
-    prefix := n.GetPrefix()
-    if prefix != nil {
-        // Deep copy prefix
-        prefixCopy := &IpNetwork{
-            IP:   make(net.IP, len(prefix.IP)),
-            Mask: make(net.IPMask, len(prefix.Mask)),
-        }
-        copy(prefixCopy.IP, prefix.IP)
-        copy(prefixCopy.Mask, prefix.Mask)
-        newNode.SetPrefix(prefixCopy)
-    }
-    
-    return newNode
 }
 
 // Helper function to convert IpNetwork to map key
@@ -190,3 +162,4 @@ func bytesEqual(a, b []byte) bool {
     }
     return true
 }
+
