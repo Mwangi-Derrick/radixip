@@ -26,10 +26,10 @@ func NewIpNetwork(cidr string) (IpNetwork, error) {
 
 // String returns the CIDR notation
 func (n IpNetwork) String() string {
-	return net.IPNet{
+	return (&net.IPNet{
 		IP:   n.IP,
 		Mask: n.Mask,
-	}.String()
+	}).String()
 }
 
 // Equal checks if two IpNetworks are equal
