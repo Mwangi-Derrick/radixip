@@ -143,7 +143,7 @@ func (r *RedisClient) Subscribe(ctx context.Context, channel string, callback fu
 			pubsubMsg := PubSubMessage{
 				Channel: msg.Channel,
 				Payload: msg.Payload,
-				Pattern: msg.Pattern,
+				Pattern: &msg.Pattern,
 			}
 
 			// Send to internal subscribers
@@ -186,7 +186,7 @@ func (r *RedisClient) SubscribeToChannel(ctx context.Context, channel string) (<
 				msgCh <- PubSubMessage{
 					Channel: msg.Channel,
 					Payload: msg.Payload,
-					Pattern: msg.Pattern,
+					Pattern: &msg.Pattern,
 				}
 			case <-r.inner.shutdownCh:
 				return
@@ -217,7 +217,7 @@ func (r *RedisClient) PSubscribe(ctx context.Context, pattern string) (<-chan Pu
 				msgCh <- PubSubMessage{
 					Channel: msg.Channel,
 					Payload: msg.Payload,
-					Pattern: msg.Pattern,
+					Pattern: &msg.Pattern,
 				}
 			case <-r.inner.shutdownCh:
 				return
