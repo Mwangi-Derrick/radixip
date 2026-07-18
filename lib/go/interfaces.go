@@ -50,6 +50,16 @@ type RadixEngine interface {
 }
 
 
+//  ROUTE TREE INTERFACE 
+// Separates the routing logic from the concurrency engine
+type RouteTree interface {
+    Insert(prefix IpNetwork, metadata Metadata) (bool, error) // Returns true if it was a new prefix
+    Lookup(ip *net.IP) *Metadata
+    Remove(prefix *IpNetwork) *Metadata
+    Contains(prefix *IpNetwork) bool
+    Clear()
+}
+
 // FACTORY INTERFACE 
 type EngineFactory interface {
     CreateEngine(variant EngineVariant) RadixEngine
