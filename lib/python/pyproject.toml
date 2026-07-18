@@ -1,0 +1,45 @@
+[build-system]
+requires = ["maturin>=1.5,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "radixip"
+version = "0.1.0"
+description = "High-performance IP subnet longest-prefix matching engine"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.9"
+keywords = ["radix", "ip", "subnet", "networking", "cidr"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Internet",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+[project.urls]
+Homepage    = "https://github.com/Mwangi-Derrick/radixip"
+Repository  = "https://github.com/Mwangi-Derrick/radixip"
+"Bug Tracker" = "https://github.com/Mwangi-Derrick/radixip/issues"
+
+[tool.maturin]
+# The Rust package that builds the PyO3 extension
+manifest-path   = "Cargo.toml"
+module-name     = "radixip"
+python-source   = "radixip"
+features        = ["pyo3/extension-module"]
+# Build in release mode
+release         = true
+
+[tool.maturin.target.x86_64-unknown-linux-gnu]
+[tool.maturin.target.x86_64-apple-darwin]
+[tool.maturin.target.aarch64-apple-darwin]
+[tool.maturin.target.x86_64-pc-windows-msvc]
