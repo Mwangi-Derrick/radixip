@@ -16,6 +16,11 @@ pub struct RadixConfig {
     pub redis_channel: String,
     pub num_shards: Option<usize>,
     pub enable_stats: bool,
+    
+    // Split Plane Architecture Config
+    pub enable_split_plane: bool,
+    pub write_compressed: bool, // true = CompressedTree, false = UncompressedTree
+    pub read_compressed: bool,  // true = CompressedTree, false = UncompressedTree
 }
 
 impl Default for RadixConfig {
@@ -31,6 +36,9 @@ impl Default for RadixConfig {
             redis_channel: "radixip:updates".to_string(),
             num_shards: None,
             enable_stats: true,
+            enable_split_plane: false,
+            write_compressed: false, // Control plane defaults to uncompressed
+            read_compressed: true,   // Data plane defaults to compressed
         }
     }
 }
