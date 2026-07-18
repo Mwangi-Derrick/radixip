@@ -9,6 +9,7 @@ pub mod config;
 pub mod engine;
 pub mod errors;
 pub mod ffi;
+pub mod hybrid;
 pub mod lpm;
 pub mod node;
 pub mod traits;
@@ -29,6 +30,7 @@ pub mod nodejs;
 
 pub use engine::{EngineWrapper, ShardedEngine, StandardEngine};
 pub use errors::{RadixError, Result};
+pub use hybrid::HybridEngine;
 pub use lpm::LPM;
 pub use node::{AtomicNode, NodeWrapper, NormalNode, PaddedNode};
 pub use types::{Metadata, SubnetRule};
@@ -41,7 +43,11 @@ use std::sync::Arc;
 
 /// Create a new RadixIP engine with the given configuration
 pub fn new(config: RadixConfig) -> Box<dyn RadixEngine> {
-    let engine = EngineWrapper::new(config.engine_variant, config.node_variant);
+    if config.enable_split_plane {
+        return Box::new(HybridEngine::new(&config).expect("Failed to initialize HybridEngine"));
+    }
+
+    let engine = EngineWrapper::new(config.engine_variant, config.node_variant, false); // Default to uncompressed if no split plane configured
 
     if config.cache_enabled {
         let cache_config = CacheConfig {
