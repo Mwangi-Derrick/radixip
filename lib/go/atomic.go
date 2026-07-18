@@ -1,8 +1,9 @@
-package go
+package radixip
 
-import ("sync"
-    "unsafe")
-
+import (
+	"sync"
+	"unsafe"
+)
 
 type AtomicNodeRef struct {
 	ptr unsafe.Pointer // points to *RadixNode
@@ -20,7 +21,7 @@ func NewAtomicNodeRef() *AtomicNodeRef {
 func (a *AtomicNodeRef) Load() RadixNode {
 	a.mu.RLock()
 	defer a.mu.RUnlock()
-	
+
 	if a.ptr == nil {
 		return nil
 	}
@@ -40,19 +41,19 @@ func (a *AtomicNodeRef) Store(node RadixNode) {
 func (a *AtomicNodeRef) CompareAndSwap(current, new RadixNode) (bool, RadixNode) {
 	a.mu.Lock()
 	defer a.mu.Unlock()
-	
+
 	if a.ptr == nil {
 		return false, nil
 	}
-	
+
 	existing := *(*RadixNode)(a.ptr)
-	
+
 	// Compare by pointer equality
 	if existing == current {
 		a.ptr = unsafe.Pointer(&new)
 		return true, new
 	}
-	
+
 	return false, existing
 }
 

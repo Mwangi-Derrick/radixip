@@ -1,11 +1,10 @@
-package go
+package radixip
 
 import (
 	"encoding/json"
 	"fmt"
 	"net"
 )
-
 
 // Metadata stores user payload at a terminal prefix.
 // The string map keeps the ABI and Redis payloads simple while still allowing
@@ -59,11 +58,11 @@ func (r *SubnetRule) UnmarshalJSON(data []byte) error {
 	}{
 		Alias: (*Alias)(r),
 	}
-	
+
 	if err := json.Unmarshal(data, &aux); err != nil {
 		return err
 	}
-	
+
 	_, ipnet, err := net.ParseCIDR(aux.Prefix)
 	if err != nil {
 		return fmt.Errorf("invalid prefix: %w", err)

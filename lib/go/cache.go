@@ -1,4 +1,4 @@
-package go
+package radixip
 
 import (
 	"context"
