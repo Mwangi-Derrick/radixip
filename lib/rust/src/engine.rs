@@ -7,7 +7,7 @@ use std::sync::{
     atomic::{AtomicUsize, Ordering},
 };
 
-use crate::lpm::longest_prefix_match_entries;
+use crate::lpm::{get_bit, longest_prefix_match_binary};
 use crate::node::NodeBuilder;
 use crate::traits::*;
 use crate::types::{EngineStats, Metadata};
@@ -17,7 +17,6 @@ use ipnetwork::IpNetwork;
 
 pub struct StandardEngine {
     root: Arc<dyn RadixNode>,
-    entries: RwLock<HashMap<IpNetwork, Metadata>>,
     size: AtomicUsize,
     stats: RwLock<EngineStats>,
     node_builder: NodeBuilder,
@@ -28,47 +27,45 @@ impl StandardEngine {
         let builder = NodeBuilder::new(node_variant);
         Self {
             root: builder.build(),
-            entries: RwLock::new(HashMap::new()),
             size: AtomicUsize::new(0),
             stats: RwLock::new(EngineStats::default()),
             node_builder: builder,
         }
     }
 
-    #[allow(dead_code)]
-    fn insert_recursive(
-        &self,
-        node: &dyn RadixNode,
-        network: &IpNetwork,
-        metadata: Metadata,
-        _bit_pos: usize,
-    ) -> Arc<dyn RadixNode> {
-        // Recursive insertion with longest prefix matching
-        // This is simplified - actual implementation would be more complex
-        let child = self.node_builder.build_leaf(*network, metadata);
-        node.insert_child(*network, child.clone());
-        child
-    }
-
-    #[allow(dead_code)]
-    fn lookup_recursive(
-        &self,
-        _node: &dyn RadixNode,
-        ip: &IpAddr,
-        _bit_pos: usize,
-    ) -> Option<Metadata> {
-        // Recursive lookup with longest prefix matching
-        let entries = self.entries.read().unwrap();
-        longest_prefix_match_entries(entries.iter(), ip)
-    }
-}
-
-impl RadixEngine for StandardEngine {
     fn insert(&self, prefix: IpNetwork, metadata: Metadata) -> Result<(), String> {
-        let mut entries = self.entries.write().unwrap();
-        let is_new = entries.insert(prefix, metadata.clone()).is_none();
-        let child = self.node_builder.build_leaf(prefix, metadata);
-        self.root.insert_child(prefix, child);
+        let ip = prefix.network();
+        let prefix_len = prefix.prefix() as usize;
+
+        let mut current_arc = self.root.clone();
+        
+        for depth in 0..prefix_len {
+            let bit = get_bit(ip, depth);
+            let next = if bit == 0 {
+                current_arc.left()
+            } else {
+                current_arc.right()
+            };
+
+            match next {
+                Some(node) => {
+                    current_arc = node;
+                }
+                None => {
+                    let new_node = self.node_builder.build();
+                    if bit == 0 {
+                        current_arc.set_left(Some(new_node.clone()));
+                    } else {
+                        current_arc.set_right(Some(new_node.clone()));
+                    }
+                    current_arc = new_node;
+                }
+            }
+        }
+        
+        let is_new = current_arc.metadata().is_none();
+        current_arc.set_prefix(prefix);
+        current_arc.set_metadata(metadata);
 
         if is_new {
             self.size.fetch_add(1, Ordering::Relaxed);
@@ -81,8 +78,7 @@ impl RadixEngine for StandardEngine {
     }
 
     fn lookup(&self, ip: &IpAddr) -> Option<Metadata> {
-        let entries = self.entries.read().unwrap();
-        let result = longest_prefix_match_entries(entries.iter(), ip);
+        let result = longest_prefix_match_binary(&*self.root, *ip);
 
         let mut stats = self.stats.write().unwrap();
         stats.lookups += 1;
@@ -96,11 +92,27 @@ impl RadixEngine for StandardEngine {
     }
 
     fn remove(&self, prefix: &IpNetwork) -> Option<Metadata> {
-        let mut entries = self.entries.write().unwrap();
-        let removed = entries.remove(prefix);
-        self.root.remove_child(prefix);
+        let ip = prefix.network();
+        let prefix_len = prefix.prefix() as usize;
 
+        let mut current_arc = self.root.clone();
+        
+        for depth in 0..prefix_len {
+            let bit = get_bit(ip, depth);
+            let next = if bit == 0 {
+                current_arc.left()
+            } else {
+                current_arc.right()
+            };
+            match next {
+                Some(node) => current_arc = node,
+                None => return None,
+            }
+        }
+
+        let removed = current_arc.metadata();
         if removed.is_some() {
+            current_arc.clear_metadata();
             self.size.fetch_sub(1, Ordering::Relaxed);
             let mut stats = self.stats.write().unwrap();
             stats.removals += 1;
@@ -111,12 +123,30 @@ impl RadixEngine for StandardEngine {
     }
 
     fn contains(&self, prefix: &IpNetwork) -> bool {
-        self.entries.read().unwrap().contains_key(prefix)
+        let ip = prefix.network();
+        let prefix_len = prefix.prefix() as usize;
+
+        let mut current_arc = self.root.clone();
+        
+        for depth in 0..prefix_len {
+            let bit = get_bit(ip, depth);
+            let next = if bit == 0 {
+                current_arc.left()
+            } else {
+                current_arc.right()
+            };
+            match next {
+                Some(node) => current_arc = node,
+                None => return false,
+            }
+        }
+
+        current_arc.metadata().is_some()
     }
 
     fn clear(&self) {
-        // Reset root
-        self.entries.write().unwrap().clear();
+        self.root.set_left(None);
+        self.root.set_right(None);
         self.size.store(0, Ordering::Relaxed);
         let mut stats = self.stats.write().unwrap();
         stats.size = 0;
