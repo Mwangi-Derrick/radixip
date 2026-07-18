@@ -57,13 +57,14 @@ pub fn ip_to_binary_string(ip: IpAddr) -> String {
     match ip {
         IpAddr::V4(ipv4) => {
             let octets = ipv4.octets();
-                    /*
-        in rust {:08b} this is a format specifier for integer in binary(base-2) representation.
-        in rust 08 8 means we get a 8-bit binary and padds the rest with zeros
-        here, we are dealing with ipv4 which is 32 bits long
-        ipv6 is divided ito 4 octets which are 8 bits long each
-        */
-            octets.iter()
+            /*
+            in rust {:08b} this is a format specifier for integer in binary(base-2) representation.
+            in rust 08 8 means we get a 8-bit binary and padds the rest with zeros
+            here, we are dealing with ipv4 which is 32 bits long
+            ipv6 is divided ito 4 octets which are 8 bits long each
+            */
+            octets
+                .iter()
                 .map(|&octet| format!("{:08b}", octet))
                 .collect::<Vec<String>>()
                 .concat()
@@ -76,7 +77,8 @@ pub fn ip_to_binary_string(ip: IpAddr) -> String {
         */
         IpAddr::V6(ipv6) => {
             let segments = ipv6.segments();
-            segments.iter()
+            segments
+                .iter()
                 .map(|&segment| format!("{:016b}", segment))
                 .collect::<Vec<String>>()
                 .concat()
@@ -102,9 +104,20 @@ pub fn longest_common_prefix_len(left: &str, right: &str) -> usize {
 }
 
 fn get_bit(ip: IpAddr, bit_pos: usize) -> u8 {
-    let ip_bytes: &[u8] = match ip {
-        IpAddr::V4(ipv4) => ipv4.octets().as_slice(),
-        IpAddr::V6(ipv6) => ipv6.octets().as_slice(),
+    // If using ipv6.octets(), use this variant:
+    enum IpOctetsBytes {
+        V4([u8; 4]),
+        V6([u8; 16]),
+    }
+
+    let octets_storage = match ip {
+        IpAddr::V4(ipv4) => IpOctetsBytes::V4(ipv4.octets()),
+        IpAddr::V6(ipv6) => IpOctetsBytes::V6(ipv6.octets()),
+    };
+
+    let ip_bytes: &[u8] = match &octets_storage {
+        IpOctetsBytes::V4(bytes) => bytes,
+        IpOctetsBytes::V6(bytes) => bytes,
     };
 
     let byte_idx = bit_pos / 8;
