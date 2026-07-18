@@ -7,65 +7,30 @@ use std::sync::{
     atomic::{AtomicUsize, Ordering},
 };
 
-use crate::lpm::{get_bit, longest_prefix_match_binary};
-use crate::node::NodeBuilder;
 use crate::traits::*;
 use crate::types::{EngineStats, Metadata};
 use ipnetwork::IpNetwork;
+use crate::tree::UncompressedTree;
 
 // ============ STANDARD ENGINE ============
 
-pub struct StandardEngine {
-    root: Arc<dyn RadixNode>,
+pub struct StandardEngine<T: RouteTree> {
+    tree: T,
     size: AtomicUsize,
     stats: RwLock<EngineStats>,
-    node_builder: NodeBuilder,
 }
 
-impl StandardEngine {
-    pub fn new(node_variant: NodeVariant) -> Self {
-        let builder = NodeBuilder::new(node_variant);
+impl<T: RouteTree> StandardEngine<T> {
+    pub fn new(tree: T) -> Self {
         Self {
-            root: builder.build(),
+            tree,
             size: AtomicUsize::new(0),
             stats: RwLock::new(EngineStats::default()),
-            node_builder: builder,
         }
     }
 
     fn insert(&self, prefix: IpNetwork, metadata: Metadata) -> Result<(), String> {
-        let ip = prefix.network();
-        let prefix_len = prefix.prefix() as usize;
-
-        let mut current_arc = self.root.clone();
-        
-        for depth in 0..prefix_len {
-            let bit = get_bit(ip, depth);
-            let next = if bit == 0 {
-                current_arc.left()
-            } else {
-                current_arc.right()
-            };
-
-            match next {
-                Some(node) => {
-                    current_arc = node;
-                }
-                None => {
-                    let new_node = self.node_builder.build();
-                    if bit == 0 {
-                        current_arc.set_left(Some(new_node.clone()));
-                    } else {
-                        current_arc.set_right(Some(new_node.clone()));
-                    }
-                    current_arc = new_node;
-                }
-            }
-        }
-        
-        let is_new = current_arc.metadata().is_none();
-        current_arc.set_prefix(prefix);
-        current_arc.set_metadata(metadata);
+        let is_new = self.tree.insert(prefix, metadata)?;
 
         if is_new {
             self.size.fetch_add(1, Ordering::Relaxed);
@@ -78,7 +43,7 @@ impl StandardEngine {
     }
 
     fn lookup(&self, ip: &IpAddr) -> Option<Metadata> {
-        let result = longest_prefix_match_binary(&*self.root, *ip);
+        let result = self.tree.lookup(ip);
 
         let mut stats = self.stats.write().unwrap();
         stats.lookups += 1;
@@ -92,27 +57,9 @@ impl StandardEngine {
     }
 
     fn remove(&self, prefix: &IpNetwork) -> Option<Metadata> {
-        let ip = prefix.network();
-        let prefix_len = prefix.prefix() as usize;
+        let removed = self.tree.remove(prefix);
 
-        let mut current_arc = self.root.clone();
-        
-        for depth in 0..prefix_len {
-            let bit = get_bit(ip, depth);
-            let next = if bit == 0 {
-                current_arc.left()
-            } else {
-                current_arc.right()
-            };
-            match next {
-                Some(node) => current_arc = node,
-                None => return None,
-            }
-        }
-
-        let removed = current_arc.metadata();
         if removed.is_some() {
-            current_arc.clear_metadata();
             self.size.fetch_sub(1, Ordering::Relaxed);
             let mut stats = self.stats.write().unwrap();
             stats.removals += 1;
@@ -123,30 +70,11 @@ impl StandardEngine {
     }
 
     fn contains(&self, prefix: &IpNetwork) -> bool {
-        let ip = prefix.network();
-        let prefix_len = prefix.prefix() as usize;
-
-        let mut current_arc = self.root.clone();
-        
-        for depth in 0..prefix_len {
-            let bit = get_bit(ip, depth);
-            let next = if bit == 0 {
-                current_arc.left()
-            } else {
-                current_arc.right()
-            };
-            match next {
-                Some(node) => current_arc = node,
-                None => return false,
-            }
-        }
-
-        current_arc.metadata().is_some()
+        self.tree.contains(prefix)
     }
 
     fn clear(&self) {
-        self.root.set_left(None);
-        self.root.set_right(None);
+        self.tree.clear();
         self.size.store(0, Ordering::Relaxed);
         let mut stats = self.stats.write().unwrap();
         stats.size = 0;
@@ -165,16 +93,16 @@ impl StandardEngine {
 
 // ============ SHARDED ENGINE ============
 //throughput = number_shards * throughput per shard
-pub struct ShardedEngine {
-    pub shards: Vec<Arc<StandardEngine>>,
+pub struct ShardedEngine<T: RouteTree> {
+    pub shards: Vec<Arc<StandardEngine<T>>>,
     pub num_shards: usize,
     pub mask_bits: u8,
 }
 
-impl ShardedEngine {
-    fn new(num_shards: usize, node_variant: NodeVariant) -> Self {
+impl<T: RouteTree + Clone> ShardedEngine<T> {
+    fn new(num_shards: usize, tree: T) -> Self {
         let shards = (0..num_shards)
-            .map(|_| Arc::new(StandardEngine::new(node_variant)))
+            .map(|_| Arc::new(StandardEngine::new(tree.clone())))
             .collect();
         Self {
             shards,
@@ -231,7 +159,37 @@ impl ShardedEngine {
     }
 }
 
-impl RadixEngine for ShardedEngine {
+impl<T: RouteTree> RadixEngine for StandardEngine<T> {
+    fn insert(&self, prefix: IpNetwork, metadata: Metadata) -> Result<(), String> {
+        StandardEngine::insert(self, prefix, metadata)
+    }
+
+    fn lookup(&self, ip: &IpAddr) -> Option<Metadata> {
+        StandardEngine::lookup(self, ip)
+    }
+
+    fn remove(&self, prefix: &IpNetwork) -> Option<Metadata> {
+        StandardEngine::remove(self, prefix)
+    }
+
+    fn contains(&self, prefix: &IpNetwork) -> bool {
+        StandardEngine::contains(self, prefix)
+    }
+
+    fn clear(&self) {
+        StandardEngine::clear(self)
+    }
+
+    fn size(&self) -> usize {
+        StandardEngine::size(self)
+    }
+
+    fn stats(&self) -> EngineStats {
+        StandardEngine::stats(self)
+    }
+}
+
+impl<T: RouteTree> RadixEngine for ShardedEngine<T> {
     fn insert(&self, prefix: IpNetwork, metadata: Metadata) -> Result<(), String> {
         for shard in &self.shards {
             shard.insert(prefix, metadata.clone())?;
@@ -293,23 +251,27 @@ impl RadixEngine for ShardedEngine {
 // ============ ENGINE WRAPPER ============
 // allows switch of different engine modes
 pub enum EngineWrapper {
-    Standard(Arc<StandardEngine>),
-    Concurrent(Arc<ShardedEngine>),
+    StandardUncompressed(Arc<StandardEngine<UncompressedTree>>),
+    ConcurrentUncompressed(Arc<ShardedEngine<UncompressedTree>>),
 }
 
 impl EngineWrapper {
     pub fn new(variant: EngineVariant, node_variant: NodeVariant) -> Self {
+        let base_tree = UncompressedTree::new(node_variant);
+        
         match variant {
             EngineVariant::Standard => {
-                EngineWrapper::Standard(Arc::new(StandardEngine::new(node_variant)))
+                EngineWrapper::StandardUncompressed(Arc::new(StandardEngine::new(base_tree)))
             }
             EngineVariant::Concurrent => {
                 // Use 16 shards by default
-                EngineWrapper::Concurrent(Arc::new(ShardedEngine::new(16, node_variant)))
+                // Note: UncompressedTree must be Clone if ShardedEngine uses tree.clone()
+                // Let's implement Clone for UncompressedTree in tree.rs soon
+                EngineWrapper::ConcurrentUncompressed(Arc::new(ShardedEngine::new(16, base_tree)))
             }
             EngineVariant::LockFree => {
-                // Use atomic variant with lock-free implementations
-                EngineWrapper::Standard(Arc::new(StandardEngine::new(NodeVariant::LockFree)))
+                let lf_tree = UncompressedTree::new(NodeVariant::LockFree);
+                EngineWrapper::StandardUncompressed(Arc::new(StandardEngine::new(lf_tree)))
             }
             EngineVariant::Adaptive => {
                 // Choose based on system characteristics
@@ -317,12 +279,14 @@ impl EngineWrapper {
                     .map(|count| count.get())
                     .unwrap_or(1);
                 if cpus > 4 {
-                    EngineWrapper::Concurrent(Arc::new(ShardedEngine::new(
+                    let at_tree = UncompressedTree::new(NodeVariant::Atomic);
+                    EngineWrapper::ConcurrentUncompressed(Arc::new(ShardedEngine::new(
                         cpus * 2,
-                        NodeVariant::Atomic,
+                        at_tree,
                     )))
                 } else {
-                    EngineWrapper::Standard(Arc::new(StandardEngine::new(NodeVariant::Atomic)))
+                    let at_tree = UncompressedTree::new(NodeVariant::Atomic);
+                    EngineWrapper::StandardUncompressed(Arc::new(StandardEngine::new(at_tree)))
                 }
             }
         }
@@ -332,50 +296,50 @@ impl EngineWrapper {
 impl RadixEngine for EngineWrapper {
     fn insert(&self, prefix: IpNetwork, metadata: Metadata) -> Result<(), String> {
         match self {
-            EngineWrapper::Standard(e) => e.insert(prefix, metadata),
-            EngineWrapper::Concurrent(e) => e.insert(prefix, metadata),
+            EngineWrapper::StandardUncompressed(e) => e.insert(prefix, metadata),
+            EngineWrapper::ConcurrentUncompressed(e) => e.insert(prefix, metadata),
         }
     }
 
     fn lookup(&self, ip: &IpAddr) -> Option<Metadata> {
         match self {
-            EngineWrapper::Standard(e) => e.lookup(ip),
-            EngineWrapper::Concurrent(e) => e.lookup(ip),
+            EngineWrapper::StandardUncompressed(e) => e.lookup(ip),
+            EngineWrapper::ConcurrentUncompressed(e) => e.lookup(ip),
         }
     }
 
     fn remove(&self, prefix: &IpNetwork) -> Option<Metadata> {
         match self {
-            EngineWrapper::Standard(e) => e.remove(prefix),
-            EngineWrapper::Concurrent(e) => e.remove(prefix),
+            EngineWrapper::StandardUncompressed(e) => e.remove(prefix),
+            EngineWrapper::ConcurrentUncompressed(e) => e.remove(prefix),
         }
     }
 
     fn contains(&self, prefix: &IpNetwork) -> bool {
         match self {
-            EngineWrapper::Standard(e) => e.contains(prefix),
-            EngineWrapper::Concurrent(e) => e.contains(prefix),
+            EngineWrapper::StandardUncompressed(e) => e.contains(prefix),
+            EngineWrapper::ConcurrentUncompressed(e) => e.contains(prefix),
         }
     }
 
     fn clear(&self) {
         match self {
-            EngineWrapper::Standard(e) => e.clear(),
-            EngineWrapper::Concurrent(e) => e.clear(),
+            EngineWrapper::StandardUncompressed(e) => e.clear(),
+            EngineWrapper::ConcurrentUncompressed(e) => e.clear(),
         }
     }
 
     fn size(&self) -> usize {
         match self {
-            EngineWrapper::Standard(e) => e.size(),
-            EngineWrapper::Concurrent(e) => e.size(),
+            EngineWrapper::StandardUncompressed(e) => e.size(),
+            EngineWrapper::ConcurrentUncompressed(e) => e.size(),
         }
     }
 
     fn stats(&self) -> EngineStats {
         match self {
-            EngineWrapper::Standard(e) => e.stats(),
-            EngineWrapper::Concurrent(e) => e.stats(),
+            EngineWrapper::StandardUncompressed(e) => e.stats(),
+            EngineWrapper::ConcurrentUncompressed(e) => e.stats(),
         }
     }
 }
