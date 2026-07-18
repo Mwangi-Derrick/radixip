@@ -566,14 +566,14 @@ radixip-rs = "0.1.0"
 
 ### C/C++ (FFI)
 
-# Download pre-built shared library
+## Download pre-built shared library
 ```curl
 curl -LO https://github.com/Mwangi-Derrick/radixip/releases/latest/libradixip.so
 ```
 
-### **CI Pipeline**
+## **CI Pipeline**
 
-## 🔄 CI/CD Pipeline
+### 🔄 CI/CD Pipeline
 
 Every commit to `main` triggers our continuous benchmarking pipeline:
 
