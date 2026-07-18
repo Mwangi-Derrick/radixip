@@ -2,43 +2,7 @@ package radixip
 
 import "net"
 
-// longestPrefixMatch finds the longest prefix match for an IP
-func (n *radixNode) longestPrefixMatch(ip net.IP) (Metadata, bool) {
-	if n == nil {
-		return nil, false
-	}
-
-	// Check if this node matches
-	var bestMatch Metadata
-	var found bool
-
-	if n.network != nil && n.network.Contains(ip) {
-		bestMatch = n.metadata
-		found = true
-	}
-
-	// If we have a bit position, traverse down
-	if n.bit >= 0 {
-		bit := getBit(ip, n.bit)
-		var child *radixNode
-
-		if bit == 0 && n.left != nil {
-			child = (*radixNode)(n.left)
-		} else if bit == 1 && n.right != nil {
-			child = (*radixNode)(n.right)
-		}
-
-		if child != nil {
-			if meta, ok := child.longestPrefixMatch(ip); ok {
-				// Child found a more specific match
-				return meta, true
-			}
-		}
-	}
-
-	// Return the best match found at this level or below
-	return bestMatch, found
-}
+// longestPrefixMatch is now implemented directly in UncompressedTree and CompressedTree Lookups
 
 // getBit returns the bit at the specified position from an IP
 func getBit(ip net.IP, bitPos int) int {
