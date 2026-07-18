@@ -247,45 +247,75 @@ impl<T: RouteTree + Clone> RadixEngine for ShardedEngine<T> {
     }
 }
 
+use crate::tree::{UncompressedTree, CompressedTree};
+
 // ENGINE WRAPPER ============
 // allows switch of different engine modes
 pub enum EngineWrapper {
     StandardUncompressed(Arc<StandardEngine<UncompressedTree>>),
     ConcurrentUncompressed(Arc<ShardedEngine<UncompressedTree>>),
+    StandardCompressed(Arc<StandardEngine<CompressedTree>>),
+    ConcurrentCompressed(Arc<ShardedEngine<CompressedTree>>),
 }
 
 impl EngineWrapper {
-    pub fn new(variant: EngineVariant, node_variant: NodeVariant) -> Self {
-        let base_tree = UncompressedTree::new(node_variant);
-
-        match variant {
-            EngineVariant::Standard => {
-                EngineWrapper::StandardUncompressed(Arc::new(StandardEngine::new(base_tree)))
+    pub fn new(variant: EngineVariant, node_variant: NodeVariant, compressed: bool) -> Self {
+        if compressed {
+            let base_tree = CompressedTree::new(node_variant.clone());
+            match variant {
+                EngineVariant::Standard => {
+                    EngineWrapper::StandardCompressed(Arc::new(StandardEngine::new(base_tree)))
+                }
+                EngineVariant::Concurrent => {
+                    EngineWrapper::ConcurrentCompressed(Arc::new(ShardedEngine::new(16, base_tree)))
+                }
+                EngineVariant::LockFree => {
+                    let lf_tree = CompressedTree::new(NodeVariant::LockFree);
+                    EngineWrapper::StandardCompressed(Arc::new(StandardEngine::new(lf_tree)))
+                }
+                EngineVariant::Adaptive => {
+                    let cpus = std::thread::available_parallelism()
+                        .map(|count| count.get())
+                        .unwrap_or(1);
+                    if cpus > 4 {
+                        let at_tree = CompressedTree::new(NodeVariant::Atomic);
+                        EngineWrapper::ConcurrentCompressed(Arc::new(ShardedEngine::new(
+                            cpus * 2,
+                            at_tree,
+                        )))
+                    } else {
+                        let at_tree = CompressedTree::new(NodeVariant::Atomic);
+                        EngineWrapper::StandardCompressed(Arc::new(StandardEngine::new(at_tree)))
+                    }
+                }
             }
-            EngineVariant::Concurrent => {
-                // Use 16 shards by default
-                // Note: UncompressedTree must be Clone if ShardedEngine uses tree.clone()
-                // Let's implement Clone for UncompressedTree in tree.rs soon
-                EngineWrapper::ConcurrentUncompressed(Arc::new(ShardedEngine::new(16, base_tree)))
-            }
-            EngineVariant::LockFree => {
-                let lf_tree = UncompressedTree::new(NodeVariant::LockFree);
-                EngineWrapper::StandardUncompressed(Arc::new(StandardEngine::new(lf_tree)))
-            }
-            EngineVariant::Adaptive => {
-                // Choose based on system characteristics
-                let cpus = std::thread::available_parallelism()
-                    .map(|count| count.get())
-                    .unwrap_or(1);
-                if cpus > 4 {
-                    let at_tree = UncompressedTree::new(NodeVariant::Atomic);
-                    EngineWrapper::ConcurrentUncompressed(Arc::new(ShardedEngine::new(
-                        cpus * 2,
-                        at_tree,
-                    )))
-                } else {
-                    let at_tree = UncompressedTree::new(NodeVariant::Atomic);
-                    EngineWrapper::StandardUncompressed(Arc::new(StandardEngine::new(at_tree)))
+        } else {
+            let base_tree = UncompressedTree::new(node_variant.clone());
+            match variant {
+                EngineVariant::Standard => {
+                    EngineWrapper::StandardUncompressed(Arc::new(StandardEngine::new(base_tree)))
+                }
+                EngineVariant::Concurrent => {
+                    EngineWrapper::ConcurrentUncompressed(Arc::new(ShardedEngine::new(16, base_tree)))
+                }
+                EngineVariant::LockFree => {
+                    let lf_tree = UncompressedTree::new(NodeVariant::LockFree);
+                    EngineWrapper::StandardUncompressed(Arc::new(StandardEngine::new(lf_tree)))
+                }
+                EngineVariant::Adaptive => {
+                    let cpus = std::thread::available_parallelism()
+                        .map(|count| count.get())
+                        .unwrap_or(1);
+                    if cpus > 4 {
+                        let at_tree = UncompressedTree::new(NodeVariant::Atomic);
+                        EngineWrapper::ConcurrentUncompressed(Arc::new(ShardedEngine::new(
+                            cpus * 2,
+                            at_tree,
+                        )))
+                    } else {
+                        let at_tree = UncompressedTree::new(NodeVariant::Atomic);
+                        EngineWrapper::StandardUncompressed(Arc::new(StandardEngine::new(at_tree)))
+                    }
                 }
             }
         }
@@ -297,6 +327,8 @@ impl RadixEngine for EngineWrapper {
         match self {
             EngineWrapper::StandardUncompressed(e) => e.insert(prefix, metadata),
             EngineWrapper::ConcurrentUncompressed(e) => e.insert(prefix, metadata),
+            EngineWrapper::StandardCompressed(e) => e.insert(prefix, metadata),
+            EngineWrapper::ConcurrentCompressed(e) => e.insert(prefix, metadata),
         }
     }
 
@@ -304,6 +336,8 @@ impl RadixEngine for EngineWrapper {
         match self {
             EngineWrapper::StandardUncompressed(e) => e.lookup(ip),
             EngineWrapper::ConcurrentUncompressed(e) => e.lookup(ip),
+            EngineWrapper::StandardCompressed(e) => e.lookup(ip),
+            EngineWrapper::ConcurrentCompressed(e) => e.lookup(ip),
         }
     }
 
@@ -311,6 +345,8 @@ impl RadixEngine for EngineWrapper {
         match self {
             EngineWrapper::StandardUncompressed(e) => e.remove(prefix),
             EngineWrapper::ConcurrentUncompressed(e) => e.remove(prefix),
+            EngineWrapper::StandardCompressed(e) => e.remove(prefix),
+            EngineWrapper::ConcurrentCompressed(e) => e.remove(prefix),
         }
     }
 
@@ -318,6 +354,8 @@ impl RadixEngine for EngineWrapper {
         match self {
             EngineWrapper::StandardUncompressed(e) => e.contains(prefix),
             EngineWrapper::ConcurrentUncompressed(e) => e.contains(prefix),
+            EngineWrapper::StandardCompressed(e) => e.contains(prefix),
+            EngineWrapper::ConcurrentCompressed(e) => e.contains(prefix),
         }
     }
 
@@ -325,6 +363,8 @@ impl RadixEngine for EngineWrapper {
         match self {
             EngineWrapper::StandardUncompressed(e) => e.clear(),
             EngineWrapper::ConcurrentUncompressed(e) => e.clear(),
+            EngineWrapper::StandardCompressed(e) => e.clear(),
+            EngineWrapper::ConcurrentCompressed(e) => e.clear(),
         }
     }
 
@@ -332,6 +372,8 @@ impl RadixEngine for EngineWrapper {
         match self {
             EngineWrapper::StandardUncompressed(e) => e.size(),
             EngineWrapper::ConcurrentUncompressed(e) => e.size(),
+            EngineWrapper::StandardCompressed(e) => e.size(),
+            EngineWrapper::ConcurrentCompressed(e) => e.size(),
         }
     }
 
@@ -339,6 +381,8 @@ impl RadixEngine for EngineWrapper {
         match self {
             EngineWrapper::StandardUncompressed(e) => e.stats(),
             EngineWrapper::ConcurrentUncompressed(e) => e.stats(),
+            EngineWrapper::StandardCompressed(e) => e.stats(),
+            EngineWrapper::ConcurrentCompressed(e) => e.stats(),
         }
     }
 }
