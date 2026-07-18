@@ -9,6 +9,7 @@ use std::ptr;
 use ipnetwork::IpNetwork;
 
 use crate::{Metadata, RadixEngine, new_balanced};
+use crate::types::EngineStats;
 
 /// Opaque handle to a RadixEngine
 #[repr(C)]
@@ -158,6 +159,49 @@ pub unsafe extern "C" fn radix_engine_clear(handle: *mut RadixEngineHandle) {
         let handle = unsafe { &*handle };
         handle.inner.clear();
     }
+}
+
+/// Remove a subnet from the engine. Returns 0 if removed, -1 if not found.
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn radix_engine_remove(
+    handle: *mut RadixEngineHandle,
+    subnet: *const c_char,
+) -> c_int {
+    if handle.is_null() {
+        return -1;
+    }
+    let Some(subnet_str) = read_c_str(subnet) else {
+        return -1;
+    };
+    let Ok(prefix) = subnet_str.parse::<IpNetwork>() else {
+        return -1;
+    };
+    let handle = unsafe { &*handle };
+    if handle.inner.remove(&prefix).is_some() { 0 } else { -1 }
+}
+
+/// Return engine statistics as a JSON string. Caller must free with radix_engine_free_string.
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn radix_engine_stats_json(
+    handle: *const RadixEngineHandle,
+) -> *mut c_char {
+    if handle.is_null() {
+        return ptr::null_mut();
+    }
+    let handle = unsafe { &*handle };
+    let stats: EngineStats = handle.inner.stats();
+    serde_json::json!({
+        "size":     stats.size,
+        "inserts":  stats.inserts,
+        "lookups":  stats.lookups,
+        "hits":     stats.hits,
+        "misses":   stats.misses,
+        "removals": stats.removals,
+    })
+    .to_string()
+    .pipe(|s| CString::new(s).ok())
+    .map(CString::into_raw)
+    .unwrap_or(ptr::null_mut())
 }
 
 /// Get the library version
