@@ -32,9 +32,8 @@ pub trait RadixNode: Send + Sync {
     fn right(&self) -> Option<Arc<dyn RadixNode>>;
     fn metadata(&self) -> Option<Metadata>;
     fn prefix(&self) -> Option<IpNetwork>;
-    fn get_child(&self, network: &IpNetwork) -> Option<Arc<dyn RadixNode>>;
-    fn insert_child(&self, network: IpNetwork, node: Arc<dyn RadixNode>);
-    fn remove_child(&self, network: &IpNetwork) -> Option<Arc<dyn RadixNode>>;
+    fn set_left(&self, node: Option<Arc<dyn RadixNode>>);
+    fn set_right(&self, node: Option<Arc<dyn RadixNode>>);
     fn set_metadata(&self, metadata: Metadata);
     fn clear_metadata(&self);
     fn set_bit(&self, bit: u8);
