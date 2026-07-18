@@ -7,6 +7,10 @@ generate:
 	@echo "Generating ipv4 and ipv6 datasets..."
 	python scripts/generate_mock_data.py
 
+clean-comments:
+	@echo "Clean comments"
+	cd scripts && ./clean-comments.sh
+
 
 build:
 	@echo "Building Rust core..."
