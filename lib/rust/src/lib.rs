@@ -47,10 +47,21 @@ pub fn new(config: RadixConfig) -> Box<dyn RadixEngine> {
             max_entries: config.cache_max_entries,
             ttl_seconds: config.cache_ttl_seconds,
         };
-        Box::new(CachedEngine::new(
-            Arc::new(engine),
-            cache_config,
-        ))
+        #[cfg(feature = "redis")]
+        {
+            Box::new(CachedEngine::new(
+                Arc::new(engine),
+                cache_config,
+                None, // Provide a way for advanced users to pass RedisClient
+            ))
+        }
+        #[cfg(not(feature = "redis"))]
+        {
+            Box::new(CachedEngine::new(
+                Arc::new(engine),
+                cache_config,
+            ))
+        }
     } else {
         Box::new(engine)
     }
