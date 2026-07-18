@@ -1,3 +1,4 @@
+use futures_util::TryFutureExt;
 use std::net::IpAddr;
 #[cfg(feature = "redis")]
 use std::sync::Arc;
@@ -19,7 +20,7 @@ pub struct HybridEngine {
 }
 
 impl HybridEngine {
-    pub fn new(config: &RadixConfig) -> Result<Self, String> {
+    pub async fn new(config: &RadixConfig) -> Result<Self, String> {
         let control_plane = EngineWrapper::new(
             config.engine_variant.clone(),
             config.node_variant.clone(),
@@ -35,7 +36,9 @@ impl HybridEngine {
         #[cfg(feature = "redis")]
         let redis = if let Some(redis_config) = &config.redis {
             Some(Arc::new(
-                RedisClient::new(redis_config.clone()).map_err(|e| e.to_string())?,
+                RedisClient::new(redis_config.clone())
+                    .await
+                    .map_err(|e| e.to_string())?,
             ))
         } else {
             None
@@ -75,7 +78,10 @@ impl HybridEngine {
             let data_plane = Arc::new(self.data_plane.clone());
 
             tokio::spawn(async move {
-                if let Err(e) = redis_clone.subscribe_engine_updates(&channel, data_plane).await {
+                if let Err(e) = redis_clone
+                    .subscribe_engine_updates(&channel, data_plane)
+                    .await
+                {
                     eprintln!("HybridEngine Redis sync stopped: {}", e);
                 }
             });
@@ -92,7 +98,7 @@ impl RadixEngine for HybridEngine {
         #[cfg(feature = "redis")]
         if let Some(redis) = &self.redis {
             if let Ok(json_data) = serde_json::to_string(&metadata) {
-                let _ = redis.hset("radixip:entries", &prefix.to_string(), &json_data);
+                let _ = redis.hset_sync("radixip:entries", &prefix.to_string(), &json_data);
             }
             let _ = redis.publish_insert(&self.channel, prefix, metadata);
         } else {
@@ -111,7 +117,7 @@ impl RadixEngine for HybridEngine {
 
         #[cfg(feature = "redis")]
         if let Some(redis) = &self.redis {
-            let _ = redis.hdel("radixip:entries", &prefix.to_string());
+            let _ = redis.hdel_sync("radixip:entries", &prefix.to_string());
             let _ = redis.publish_remove(&self.channel, prefix.clone());
         } else {
             let _ = self.data_plane.remove(prefix);

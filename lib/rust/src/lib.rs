@@ -42,9 +42,13 @@ pub use traits::*;
 use std::sync::Arc;
 
 /// Create a new RadixIP engine with the given configuration
-pub fn new(config: RadixConfig) -> Box<dyn RadixEngine> {
+pub async fn new(config: RadixConfig) -> Box<dyn RadixEngine> {
     if config.enable_split_plane {
-        return Box::new(HybridEngine::new(&config).expect("Failed to initialize HybridEngine"));
+        return Box::new(
+            HybridEngine::new(&config)
+                .await
+                .expect("Failed to initialize HybridEngine"),
+        );
     }
 
     let engine = EngineWrapper::new(config.engine_variant, config.node_variant, false); // Default to uncompressed if no split plane configured
@@ -72,18 +76,18 @@ pub fn new(config: RadixConfig) -> Box<dyn RadixEngine> {
 }
 
 /// Create a high-performance RadixIP engine
-pub fn new_high_performance() -> Box<dyn RadixEngine> {
-    new(RadixConfig::high_performance())
+pub async fn new_high_performance() -> Box<dyn RadixEngine> {
+    new(RadixConfig::high_performance()).await
 }
 
 /// Create a memory-efficient RadixIP engine
-pub fn new_memory_efficient() -> Box<dyn RadixEngine> {
-    new(RadixConfig::memory_efficient())
+pub async fn new_memory_efficient() -> Box<dyn RadixEngine> {
+    new(RadixConfig::memory_efficient()).await
 }
 
 /// Create a balanced RadixIP engine
-pub fn new_balanced() -> Box<dyn RadixEngine> {
-    new(RadixConfig::balanced())
+pub async fn new_balanced() -> Box<dyn RadixEngine> {
+    new(RadixConfig::balanced()).await
 }
 
 /// Library version

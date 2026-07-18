@@ -8,7 +8,7 @@ use std::ptr;
 
 use ipnetwork::IpNetwork;
 
-use crate::{new_balanced, Metadata, RadixEngine};
+use crate::{Metadata, RadixEngine, new_balanced};
 
 /// Opaque handle to a RadixEngine
 #[repr(C)]
@@ -26,9 +26,9 @@ fn read_c_str(ptr: *const c_char) -> Option<String> {
 
 /// Create a new RadixEngine
 #[unsafe(no_mangle)]
-pub extern "C" fn radix_engine_new() -> *mut RadixEngineHandle {
+pub async extern "C" fn radix_engine_new() -> *mut RadixEngineHandle {
     Box::into_raw(Box::new(RadixEngineHandle {
-        inner: new_balanced(),
+        inner: new_balanced().await,
     }))
 }
 
