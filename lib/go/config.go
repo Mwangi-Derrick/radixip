@@ -1,13 +1,5 @@
 package radixip
 
-// RedisConfig represents Redis configuration (placeholder)
-type RedisConfig struct {
-	// Add Redis configuration fields as needed
-	Addr     string
-	Password string
-	DB       int
-}
-
 // RadixConfig holds the runtime configuration for RadixIP
 type RadixConfig struct {
 	EngineVariant   EngineVariant
