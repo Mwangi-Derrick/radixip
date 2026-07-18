@@ -1,12 +1,15 @@
 //! Radix tree engine implementations with different concurrency models
 
-use std::net::IpAddr;
-use std::sync::{Arc, RwLock, atomic::{AtomicUsize, Ordering}};
 use std::collections::HashMap;
+use std::net::IpAddr;
+use std::sync::{
+    Arc, RwLock,
+    atomic::{AtomicUsize, Ordering},
+};
 
-use crate::traits::*;
-use crate::node::NodeBuilder;
 use crate::lpm::longest_prefix_match_entries;
+use crate::node::NodeBuilder;
+use crate::traits::*;
 use crate::types::{EngineStats, Metadata};
 use ipnetwork::IpNetwork;
 
@@ -31,7 +34,7 @@ impl StandardEngine {
             node_builder: builder,
         }
     }
-    
+
     #[allow(dead_code)]
     fn insert_recursive(
         &self,
@@ -46,7 +49,7 @@ impl StandardEngine {
         node.insert_child(*network, child.clone());
         child
     }
-    
+
     #[allow(dead_code)]
     fn lookup_recursive(
         &self,
@@ -76,7 +79,7 @@ impl RadixEngine for StandardEngine {
         stats.size = self.size();
         Ok(())
     }
-    
+
     fn lookup(&self, ip: &IpAddr) -> Option<Metadata> {
         let entries = self.entries.read().unwrap();
         let result = longest_prefix_match_entries(entries.iter(), ip);
@@ -91,7 +94,7 @@ impl RadixEngine for StandardEngine {
 
         result
     }
-    
+
     fn remove(&self, prefix: &IpNetwork) -> Option<Metadata> {
         let mut entries = self.entries.write().unwrap();
         let removed = entries.remove(prefix);
@@ -106,11 +109,11 @@ impl RadixEngine for StandardEngine {
 
         removed
     }
-    
+
     fn contains(&self, prefix: &IpNetwork) -> bool {
         self.entries.read().unwrap().contains_key(prefix)
     }
-    
+
     fn clear(&self) {
         // Reset root
         self.entries.write().unwrap().clear();
@@ -118,11 +121,11 @@ impl RadixEngine for StandardEngine {
         let mut stats = self.stats.write().unwrap();
         stats.size = 0;
     }
-    
+
     fn size(&self) -> usize {
         self.size.load(Ordering::Relaxed)
     }
-    
+
     fn stats(&self) -> EngineStats {
         let mut stats = self.stats.read().unwrap().clone();
         stats.size = self.size();
@@ -133,64 +136,69 @@ impl RadixEngine for StandardEngine {
 // ============ SHARDED ENGINE ============
 //throughput = number_shards * throughput per shard
 pub struct ShardedEngine {
-    shards: Vec<Arc<StandardEngine>>,
-    num_shards: usize,
+    pub shards: Vec<Arc<StandardEngine>>,
+    pub num_shards: usize,
+    pub mask_bits: u8,
 }
 
 impl ShardedEngine {
-    pub fn new(num_shards: usize, node_variant: NodeVariant) -> Self {
+    fn new(num_shards: usize, node_variant: NodeVariant) -> Self {
         let shards = (0..num_shards)
             .map(|_| Arc::new(StandardEngine::new(node_variant)))
             .collect();
-        Self { shards, num_shards }
+        Self {
+            shards,
+            num_shards,
+            mask_bits: 32,
+        }
     }
-    
-fn get_shard(&self, ip: &IpAddr, mask_bits: u32) -> usize {
-    let hash = match ip {
-        IpAddr::V4(ip) => {
-            let ip_u32 = u32::from_be_bytes(ip.octets());
-            // Mask the IP to keep only prefix bits
-            let mask = if mask_bits >= 32 {
-                u32::MAX
-            } else {
-                u32::MAX << (32 - mask_bits)
-            };
-            // this way we isolate the ip-adress from the network prefix
-            let masked_ip = ip_u32 & mask;
-            
-            // Hash the masked IP
-            let mut hash = 0u32;
-            for byte in masked_ip.to_be_bytes() {
-                hash = hash.wrapping_mul(31).wrapping_add(byte as u32);
+
+    fn get_shard(&self, ip: &IpAddr) -> usize {
+        let hash = match ip {
+            IpAddr::V4(ip) => {
+                let ip_u32 = u32::from_be_bytes(ip.octets());
+                // Mask the IP to keep only prefix bits
+                let mask = if self.mask_bits >= 32 {
+                    u32::MAX
+                } else {
+                    u32::MAX << (32 - self.mask_bits)
+                };
+                // this way we isolate the ip-adress from the network prefix
+                let masked_ip = ip_u32 & mask;
+
+                // Hash the masked IP
+                let mut hash = 0u32;
+                for byte in masked_ip.to_be_bytes() {
+                    hash = hash.wrapping_mul(31).wrapping_add(byte as u32);
+                }
+                hash as usize
             }
-            hash as usize
-        }
-        IpAddr::V6(ip) => {
-            let bytes = ip.octets();
-            let mut hash = 0u64;
-            let bytes_to_hash = if mask_bits <= 64 {
-                // Hash only the masked prefix part
-                let bytes_to_keep = ((mask_bits + 7) / 8) as usize;
-                for byte in bytes.iter().take(bytes_to_keep) {
-                    hash = hash.wrapping_mul(31).wrapping_add(*byte as u64);
-                }
-                // Handle partial byte masking if needed
-                if mask_bits % 8 != 0 && bytes_to_keep < bytes.len() {
-                    let mask = 0xFFu8 << (8 - (mask_bits % 8) as u8);
-                    let partial_byte = bytes[bytes_to_keep] & mask;
-                    hash = hash.wrapping_mul(31).wrapping_add(partial_byte as u64);
-                }
-            } else {
-                // Hash first 16 bytes for large prefix lengths
-                for byte in bytes.iter().take(16) {
-                    hash = hash.wrapping_mul(31).wrapping_add(*byte as u64);
-                }
+            IpAddr::V6(ip) => {
+                let bytes = ip.octets();
+                let mut hash = 0u64;
+                let bytes_to_hash = if self.mask_bits <= 64 {
+                    // Hash only the masked prefix part
+                    let bytes_to_keep = ((self.mask_bits + 7) / 8) as usize;
+                    for byte in bytes.iter().take(bytes_to_keep) {
+                        hash = hash.wrapping_mul(31).wrapping_add(*byte as u64);
+                    }
+                    // Handle partial byte masking if needed
+                    if self.mask_bits % 8 != 0 && bytes_to_keep < bytes.len() {
+                        let mask = 0xFFu8 << (8 - (self.mask_bits % 8) as u8);
+                        let partial_byte = bytes[bytes_to_keep] & mask;
+                        hash = hash.wrapping_mul(31).wrapping_add(partial_byte as u64);
+                    }
+                } else {
+                    // Hash first 16 bytes for large prefix lengths
+                    for byte in bytes.iter().take(16) {
+                        hash = hash.wrapping_mul(31).wrapping_add(*byte as u64);
+                    }
+                };
+                hash as usize
             }
-            hash as usize
-        }
-    };
-    hash % self.num_shards
-}
+        };
+        hash % self.num_shards
+    }
 }
 
 impl RadixEngine for ShardedEngine {
@@ -200,12 +208,12 @@ impl RadixEngine for ShardedEngine {
         }
         Ok(())
     }
-    
+
     fn lookup(&self, ip: &IpAddr) -> Option<Metadata> {
         let shard_idx = self.get_shard(ip);
         self.shards[shard_idx].lookup(ip)
     }
-    
+
     fn remove(&self, prefix: &IpNetwork) -> Option<Metadata> {
         let mut removed = None;
         for shard in &self.shards {
@@ -216,21 +224,24 @@ impl RadixEngine for ShardedEngine {
         }
         removed
     }
-    
+
     fn contains(&self, prefix: &IpNetwork) -> bool {
-        self.shards.first().map(|s| s.contains(prefix)).unwrap_or(false)
+        self.shards
+            .first()
+            .map(|s| s.contains(prefix))
+            .unwrap_or(false)
     }
-    
+
     fn clear(&self) {
         for shard in &self.shards {
             shard.clear();
         }
     }
-    
+
     fn size(&self) -> usize {
         self.shards.first().map(|s| s.size()).unwrap_or(0)
     }
-    
+
     fn stats(&self) -> EngineStats {
         let mut total = EngineStats::default();
         for shard in &self.shards {
@@ -295,42 +306,42 @@ impl RadixEngine for EngineWrapper {
             EngineWrapper::Concurrent(e) => e.insert(prefix, metadata),
         }
     }
-    
+
     fn lookup(&self, ip: &IpAddr) -> Option<Metadata> {
         match self {
             EngineWrapper::Standard(e) => e.lookup(ip),
             EngineWrapper::Concurrent(e) => e.lookup(ip),
         }
     }
-    
+
     fn remove(&self, prefix: &IpNetwork) -> Option<Metadata> {
         match self {
             EngineWrapper::Standard(e) => e.remove(prefix),
             EngineWrapper::Concurrent(e) => e.remove(prefix),
         }
     }
-    
+
     fn contains(&self, prefix: &IpNetwork) -> bool {
         match self {
             EngineWrapper::Standard(e) => e.contains(prefix),
             EngineWrapper::Concurrent(e) => e.contains(prefix),
         }
     }
-    
+
     fn clear(&self) {
         match self {
             EngineWrapper::Standard(e) => e.clear(),
             EngineWrapper::Concurrent(e) => e.clear(),
         }
     }
-    
+
     fn size(&self) -> usize {
         match self {
             EngineWrapper::Standard(e) => e.size(),
             EngineWrapper::Concurrent(e) => e.size(),
         }
     }
-    
+
     fn stats(&self) -> EngineStats {
         match self {
             EngineWrapper::Standard(e) => e.stats(),
