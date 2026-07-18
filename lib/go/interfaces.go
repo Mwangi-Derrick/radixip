@@ -30,10 +30,9 @@ type RadixNode interface {
     Right() RadixNode
     Metadata() *Metadata
     Prefix() *net.IPNet
-    GetChild(network *net.IPNet) RadixNode
-    InsertChild(network *net.IPNet, node RadixNode)
-    RemoveChild(network *net.IPNet) RadixNode
-    SetMetadata(metadata Metadata)
+    SetLeft(node RadixNode)
+    SetRight(node RadixNode)
+    SetMetadata(metadata *Metadata)
     ClearMetadata()
     SetBit(bit uint8)
     SetPrefix(prefix *net.IPNet)

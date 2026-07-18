@@ -256,6 +256,21 @@ func (r *RedisClient) Get(ctx context.Context, key string) (string, error) {
 	return r.inner.client.Get(ctx, key).Result()
 }
 
+// HSet sets a field in a hash
+func (r *RedisClient) HSet(ctx context.Context, key string, field string, value string) error {
+	return r.inner.client.HSet(ctx, key, field, value).Err()
+}
+
+// HGetAll gets all fields in a hash
+func (r *RedisClient) HGetAll(ctx context.Context, key string) (map[string]string, error) {
+	return r.inner.client.HGetAll(ctx, key).Result()
+}
+
+// HDel deletes a field in a hash
+func (r *RedisClient) HDel(ctx context.Context, key string, field string) error {
+	return r.inner.client.HDel(ctx, key, field).Err()
+}
+
 // PublishInsert publishes an insert operation
 func (r *RedisClient) PublishInsert(ctx context.Context, channel string, prefix IpNetwork, metadata Metadata) error {
 	update := RedisCacheUpdate{

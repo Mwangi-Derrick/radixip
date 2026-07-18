@@ -11,8 +11,6 @@ import (
 
 type StandardEngine struct {
 	root        RadixNode
-	entries     sync.RWMutex
-	entriesMap  map[IpNetwork]Metadata
 	size        int64
 	stats       sync.RWMutex
 	statsData   EngineStats
@@ -23,36 +21,48 @@ func NewStandardEngine(nodeVariant NodeVariant) *StandardEngine {
 	builder := NewNodeBuilder(nodeVariant)
 	return &StandardEngine{
 		root:        builder.Build(),
-		entriesMap:  make(map[IpNetwork]Metadata),
 		size:        0,
 		statsData:   EngineStats{},
 		nodeBuilder: builder,
 	}
 }
 
-func (e *StandardEngine) insertRecursive(node RadixNode, network *IpNetwork, metadata Metadata, bitPos int) RadixNode {
-	child := e.nodeBuilder.BuildLeaf(*network, metadata)
-	node.InsertChild(*network, child)
-	return child
-}
-
-func (e *StandardEngine) lookupRecursive(node RadixNode, ip *net.IP, bitPos int) *Metadata {
-	e.entries.RLock()
-	defer e.entries.RUnlock()
-	return LongestPrefixMatchEntries(e.entriesMap, ip)
-}
-
-// RadixEngine implementation
 func (e *StandardEngine) Insert(prefix IpNetwork, metadata Metadata) error {
-	e.entries.Lock()
-	_, isNew := e.entriesMap[prefix]
-	e.entriesMap[prefix] = metadata
-	e.entries.Unlock()
+	ip := prefix.IP
+	ones, _ := prefix.Mask.Size()
+	prefixLen := ones
 
-	child := e.nodeBuilder.BuildLeaf(prefix, metadata)
-	e.root.InsertChild(prefix, child)
+	current := e.root
 
-	if !isNew {
+	for depth := 0; depth < prefixLen; depth++ {
+		bit := getBit(ip, depth)
+		var next RadixNode
+		if bit == 0 {
+			next = current.Left()
+		} else {
+			next = current.Right()
+		}
+
+		if next != nil {
+			current = next
+		} else {
+			newNode := e.nodeBuilder.Build()
+			if bit == 0 {
+				current.SetLeft(newNode)
+			} else {
+				current.SetRight(newNode)
+			}
+			current = newNode
+		}
+	}
+
+	isNew := current.Metadata() == nil
+	
+	netPrefix := net.IPNet{IP: prefix.IP, Mask: prefix.Mask}
+	current.SetPrefix(&netPrefix)
+	current.SetMetadata(&metadata)
+
+	if isNew {
 		atomic.AddInt64(&e.size, 1)
 	}
 
@@ -65,55 +75,93 @@ func (e *StandardEngine) Insert(prefix IpNetwork, metadata Metadata) error {
 }
 
 func (e *StandardEngine) Lookup(ip *net.IP) *Metadata {
-	e.entries.RLock()
-	result := LongestPrefixMatchEntries(e.entriesMap, ip)
-	e.entries.RUnlock()
+	var bestMatch *Metadata
+	current := e.root
+	depth := 0
+
+	for current != nil {
+		if p := current.Prefix(); p != nil {
+			if p.Contains(*ip) {
+				bestMatch = current.Metadata()
+			}
+		}
+
+		bit := getBit(*ip, depth)
+		if bit == 0 {
+			current = current.Left()
+		} else {
+			current = current.Right()
+		}
+		depth++
+	}
 
 	e.stats.Lock()
 	e.statsData.Lookups++
-	if result != nil {
+	if bestMatch != nil {
 		e.statsData.Hits++
 	} else {
 		e.statsData.Misses++
 	}
 	e.stats.Unlock()
 
-	return result
+	return bestMatch
 }
 
 func (e *StandardEngine) Remove(prefix *IpNetwork) *Metadata {
-	e.entries.Lock()
-	removed, exists := e.entriesMap[*prefix]
-	delete(e.entriesMap, *prefix)
-	e.entries.Unlock()
+	ip := prefix.IP
+	ones, _ := prefix.Mask.Size()
+	prefixLen := ones
 
-	e.root.RemoveChild(prefix)
+	current := e.root
+	for depth := 0; depth < prefixLen; depth++ {
+		bit := getBit(ip, depth)
+		if bit == 0 {
+			current = current.Left()
+		} else {
+			current = current.Right()
+		}
+		if current == nil {
+			return nil
+		}
+	}
 
-	if exists {
+	removed := current.Metadata()
+	if removed != nil {
+		current.ClearMetadata()
 		atomic.AddInt64(&e.size, -1)
+		
 		e.stats.Lock()
 		e.statsData.Removals++
 		e.statsData.Size = e.Size()
 		e.stats.Unlock()
 	}
 
-	if exists {
-		return &removed
-	}
-	return nil
+	return removed
 }
 
 func (e *StandardEngine) Contains(prefix *IpNetwork) bool {
-	e.entries.RLock()
-	defer e.entries.RUnlock()
-	_, exists := e.entriesMap[*prefix]
-	return exists
+	ip := prefix.IP
+	ones, _ := prefix.Mask.Size()
+	prefixLen := ones
+
+	current := e.root
+	for depth := 0; depth < prefixLen; depth++ {
+		bit := getBit(ip, depth)
+		if bit == 0 {
+			current = current.Left()
+		} else {
+			current = current.Right()
+		}
+		if current == nil {
+			return false
+		}
+	}
+	return current.Metadata() != nil
 }
 
 func (e *StandardEngine) Clear() {
-	e.entries.Lock()
-	e.entriesMap = make(map[IpNetwork]Metadata)
-	e.entries.Unlock()
+	e.root.SetLeft(nil)
+	e.root.SetRight(nil)
 
 	atomic.StoreInt64(&e.size, 0)
 

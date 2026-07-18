@@ -59,11 +59,8 @@ type RadixNode struct {
     metadata unsafe.Pointer // *Metadata
     
     // Prefix network (could be nil)
+    // Prefix network (could be nil)
     prefix unsafe.Pointer // *IpNetwork
-    
-    // Children map - in Go we use a map with IpNetwork as key
-    // Note: This is different from Rust's HashMap but serves the same purpose
-    children map[IpNetworkKey]*RadixNode
 }
 
 // IpNetworkKey is a comparable key for maps (since IpNetwork contains slices)
@@ -79,19 +76,10 @@ func NewRadixNode() *RadixNode {
         right:    nil,
         metadata: nil,
         prefix:   nil,
-        children: make(map[IpNetworkKey]*RadixNode),
     }
 }
 
-// NewRadixNodeWithChildren creates a node with pre-allocated children map
-func NewRadixNodeWithChildren(capacity int) *RadixNode {
-    return &RadixNode{
-        left:     nil,
-        right:    nil,
-        metadata: nil,
-        prefix:   nil,
-        children: make(map[IpNetworkKey]*RadixNode, capacity),
-    }
+    return NewRadixNode()
 }
 
 // GetLeft safely gets the left child
@@ -136,17 +124,7 @@ func (n *RadixNode) SetPrefix(prefix *IpNetwork) {
 
 // Clone creates a deep copy of the node (similar to Rust's Clone trait)
 func (n *RadixNode) Clone() *RadixNode {
-    newNode := &RadixNode{
-        children: make(map[IpNetworkKey]*RadixNode, len(n.children)),
-    }
-    
-    // Copy children map
-    for key, child := range n.children {
-        // Deep copy child nodes if needed, or just share references
-        // This is the copy-on-write pattern - we can share children
-        // that aren't being modified
-        newNode.children[key] = child
-    }
+    newNode := &RadixNode{}
     
     // Copy atomic fields
     left := n.GetLeft()
@@ -183,23 +161,6 @@ func (n *RadixNode) Clone() *RadixNode {
     return newNode
 }
 
-// CloneWithInsert creates a clone with a new subnet inserted (copy-on-write pattern)
-func (n *RadixNode) CloneWithInsert(network IpNetwork, metadata Metadata) *RadixNode {
-    // Create a clone of the current node
-    newNode := n.Clone()
-    
-    // Insert the new subnet into the cloned node
-    // This is where you'd implement your insertion logic
-    key := ipNetworkToKey(network)
-    newNode.children[key] = &RadixNode{
-        metadata: unsafe.Pointer(&metadata),
-        prefix:   unsafe.Pointer(&network),
-        children: make(map[IpNetworkKey]*RadixNode),
-    }
-    
-    return newNode
-}
-
 // Helper function to convert IpNetwork to map key
 func ipNetworkToKey(network IpNetwork) IpNetworkKey {
     return IpNetworkKey{
@@ -228,32 +189,4 @@ func bytesEqual(a, b []byte) bool {
         }
     }
     return true
-}
-
-// GetChild retrieves a child by network
-func (n *RadixNode) GetChild(network IpNetwork) *RadixNode {
-    key := ipNetworkToKey(network)
-    return n.children[key]
-}
-
-// AddChild adds a child node
-func (n *RadixNode) AddChild(network IpNetwork, child *RadixNode) {
-    key := ipNetworkToKey(network)
-    n.children[key] = child
-}
-
-// RemoveChild removes a child node
-func (n *RadixNode) RemoveChild(network IpNetwork) {
-    key := ipNetworkToKey(network)
-    delete(n.children, key)
-}
-
-// HasChildren checks if the node has any children
-func (n *RadixNode) HasChildren() bool {
-    return len(n.children) > 0
-}
-
-// GetChildren returns all children
-func (n *RadixNode) GetChildren() map[IpNetworkKey]*RadixNode {
-    return n.children
 }
