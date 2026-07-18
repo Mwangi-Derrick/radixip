@@ -7,7 +7,6 @@ use std::sync::{
 };
 
 use crate::traits::*;
-use crate::tree::UncompressedTree;
 use crate::types::{EngineStats, Metadata};
 use ipnetwork::IpNetwork;
 
@@ -247,7 +246,7 @@ impl<T: RouteTree + Clone> RadixEngine for ShardedEngine<T> {
     }
 }
 
-use crate::tree::{UncompressedTree, CompressedTree};
+use crate::tree::{CompressedTree, UncompressedTree};
 
 // ENGINE WRAPPER ============
 // allows switch of different engine modes
@@ -295,9 +294,9 @@ impl EngineWrapper {
                 EngineVariant::Standard => {
                     EngineWrapper::StandardUncompressed(Arc::new(StandardEngine::new(base_tree)))
                 }
-                EngineVariant::Concurrent => {
-                    EngineWrapper::ConcurrentUncompressed(Arc::new(ShardedEngine::new(16, base_tree)))
-                }
+                EngineVariant::Concurrent => EngineWrapper::ConcurrentUncompressed(Arc::new(
+                    ShardedEngine::new(16, base_tree),
+                )),
                 EngineVariant::LockFree => {
                     let lf_tree = UncompressedTree::new(NodeVariant::LockFree);
                     EngineWrapper::StandardUncompressed(Arc::new(StandardEngine::new(lf_tree)))
