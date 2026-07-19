@@ -48,9 +48,13 @@ func buildEngine(n int, compressed bool) RadixEngine {
 	e := NewEngineWrapperWithTree(EngineConcurrent, NodeAtomic, compressed)
 	meta := Metadata{Value: "bench", Attributes: map[string]string{"type": "benchmark"}}
 	for _, cidr := range generateCIDRs(n) {
-		_ = e.Insert(cidr, meta)
+		ip := &IpNetwork{
+			IP:   cidr.IP,
+			Mask: cidr.Mask,
+		}
+		_ = e.Insert(*ip, meta)
 	}
-	return e
+	return RadixEngine(e.engine)
 }
 
 // ---------------------------------------------------------------------------
@@ -64,7 +68,11 @@ func BenchmarkInsert_Uncompressed_10k(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		e := NewEngineWrapperWithTree(EngineConcurrent, NodeAtomic, false)
 		for _, cidr := range cidrs {
-			_ = e.Insert(cidr, meta)
+			ip := &IpNetwork{
+				IP:   cidr.IP,
+				Mask: cidr.Mask,
+			}
+			_ = e.Insert(*ip, meta)
 		}
 	}
 }
@@ -76,7 +84,11 @@ func BenchmarkInsert_Compressed_10k(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		e := NewEngineWrapperWithTree(EngineConcurrent, NodeAtomic, true)
 		for _, cidr := range cidrs {
-			_ = e.Insert(cidr, meta)
+			ip := &IpNetwork{
+				IP:   cidr.IP,
+				Mask: cidr.Mask,
+			}
+			_ = e.Insert(*ip, meta)
 		}
 	}
 }
