@@ -36,8 +36,8 @@ func NewHybridEngine(config *RadixConfig) (*HybridEngine, error) {
 	}
 
 	engine := &HybridEngine{
-		controlPlane: controlPlane,
-		dataPlane:    dataPlane,
+		controlPlane: controlPlane.engine,
+		dataPlane:    dataPlane.engine,
 		redis:        redisClient,
 		channel:      config.RedisChannel,
 	}
@@ -69,7 +69,7 @@ func (e *HybridEngine) StartSync(ctx context.Context) error {
 	if e.redis == nil {
 		return fmt.Errorf("redis is not configured")
 	}
-	
+
 	// Subscribe the dataPlane in a goroutine so it doesn't block
 	go func() {
 		err := e.redis.SubscribeEngineUpdates(ctx, e.channel, e.dataPlane)
@@ -77,7 +77,7 @@ func (e *HybridEngine) StartSync(ctx context.Context) error {
 			fmt.Printf("HybridEngine Redis sync stopped: %v\n", err)
 		}
 	}()
-	
+
 	return nil
 }
 
@@ -91,12 +91,12 @@ func (e *HybridEngine) Insert(prefix *net.IPNet, metadata Metadata) error {
 	// 2. Persist and Broadcast via Redis
 	if e.redis != nil {
 		ctx := context.Background()
-		
+
 		// Save state
 		if jsonData, err := json.Marshal(metadata); err == nil {
 			e.redis.HSet(ctx, "radixip:entries", prefix.String(), string(jsonData))
 		}
-		
+
 		// Broadcast to all data planes (including our own local data plane)
 		ipNetwork := IpNetwork{IP: prefix.IP, Mask: prefix.Mask}
 		e.redis.PublishInsert(ctx, e.channel, ipNetwork, metadata)
@@ -122,7 +122,7 @@ func (e *HybridEngine) Remove(prefix *net.IPNet) *Metadata {
 	if e.redis != nil {
 		ctx := context.Background()
 		e.redis.HDel(ctx, "radixip:entries", prefix.String())
-		
+
 		ipNetwork := IpNetwork{IP: prefix.IP, Mask: prefix.Mask}
 		e.redis.PublishRemove(ctx, e.channel, ipNetwork)
 	} else {
