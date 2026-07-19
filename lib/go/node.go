@@ -203,6 +203,54 @@ func (n *normalNode) SetPrefix(prefix *net.IPNet) {
 	n.prefix = prefix
 }
 
+func newPaddedNode() *paddedNode {
+	return &paddedNode{}
+}
+
+func (n *paddedNode) Bit() *uint8 {
+	return &n.bit
+}
+
+func (n *paddedNode) SetBit(bit uint8) {
+	n.bit = bit
+}
+
+func (n *paddedNode) Left() RadixNode {
+	return n.left
+}
+
+func (n *paddedNode) SetLeft(node RadixNode) {
+	n.left = node.(*paddedNode)
+}
+
+func (n *paddedNode) Right() RadixNode {
+	return n.right
+}
+
+func (n *paddedNode) SetRight(node RadixNode) {
+	n.right = node.(*paddedNode)
+}
+
+func (n *paddedNode) Metadata() *Metadata {
+	return n.metadata
+}
+
+func (n *paddedNode) SetMetadata(metadata *Metadata) {
+	n.metadata = metadata
+}
+
+func (n *paddedNode) ClearMetadata() {
+	n.metadata = nil
+}
+
+func (n *paddedNode) Prefix() *net.IPNet {
+	return n.prefix
+}
+
+func (n *paddedNode) SetPrefix(prefix *net.IPNet) {
+	n.prefix = prefix
+}
+
 // Helper function to convert IpNetwork to map key
 func ipNetworkToKey(network IpNetwork) IpNetworkKey {
 	return IpNetworkKey{
