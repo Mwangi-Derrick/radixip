@@ -293,6 +293,7 @@ func (e *EngineWrapper) Size() int64 {
 	return int64(e.engine.Size())
 }
 
-func (e *EngineWrapper) Stats() EngineStats {
-	return e.engine.Stats()
+func (e *EngineWrapper) Stats() *EngineStats {
+	stats := e.engine.Stats()
+	return stats
 }
