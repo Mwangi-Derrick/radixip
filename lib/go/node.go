@@ -155,6 +155,54 @@ func (n *atomicNode) SetPrefix(prefix *net.IPNet) {
 	atomic.StorePointer(&n.prefix, unsafe.Pointer(prefix))
 }
 
+func newNormalNode() *normalNode {
+	return &normalNode{}
+}
+
+func (n *normalNode) Bit() *uint8 {
+	return &n.bit
+}
+
+func (n *normalNode) SetBit(bit uint8) {
+	n.bit = bit
+}
+
+func (n *normalNode) Left() RadixNode {
+	return n.left
+}
+
+func (n *normalNode) SetLeft(node RadixNode) {
+	n.left = node.(*normalNode)
+}
+
+func (n *normalNode) Right() RadixNode {
+	return n.right
+}
+
+func (n *normalNode) SetRight(node RadixNode) {
+	n.right = node.(*normalNode)
+}
+
+func (n *normalNode) Metadata() *Metadata {
+	return n.metadata
+}
+
+func (n *normalNode) SetMetadata(metadata *Metadata) {
+	n.metadata = metadata
+}
+
+func (n *normalNode) ClearMetadata() {
+	n.metadata = nil
+}
+
+func (n *normalNode) Prefix() *net.IPNet {
+	return n.prefix
+}
+
+func (n *normalNode) SetPrefix(prefix *net.IPNet) {
+	n.prefix = prefix
+}
+
 // Helper function to convert IpNetwork to map key
 func ipNetworkToKey(network IpNetwork) IpNetworkKey {
 	return IpNetworkKey{
