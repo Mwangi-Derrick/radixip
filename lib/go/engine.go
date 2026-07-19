@@ -270,19 +270,22 @@ func NewEngineWrapperWithTree(variant EngineVariant, nodeVariant NodeVariant, co
 }
 
 func (e *EngineWrapper) Insert(prefix IpNetwork, metadata Metadata) error {
-	return e.engine.Insert(prefix, metadata)
+	ipPrefix := net.IPNet{IP: prefix.IP, Mask: prefix.Mask}
+	return e.engine.Insert(&ipPrefix, metadata)
 }
 
 func (e *EngineWrapper) Lookup(ip *net.IP) *Metadata {
-	return e.engine.Lookup(ip)
+	return e.engine.Lookup(*ip)
 }
 
 func (e *EngineWrapper) Remove(prefix *IpNetwork) *Metadata {
-	return e.engine.Remove(prefix)
+	ipPrefix := net.IPNet{IP: prefix.IP, Mask: prefix.Mask}
+	return e.engine.Remove(&ipPrefix)
 }
 
 func (e *EngineWrapper) Contains(prefix *IpNetwork) bool {
-	return e.engine.Contains(prefix)
+	ipPrefix := net.IPNet{IP: prefix.IP, Mask: prefix.Mask}
+	return e.engine.Contains(&ipPrefix)
 }
 
 func (e *EngineWrapper) Clear() {
