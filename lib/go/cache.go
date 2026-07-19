@@ -181,7 +181,12 @@ func NewCachedEngine(inner RadixEngine, config CacheConfig, redisClient *RedisCl
 
 // Insert adds a prefix with metadata and invalidates cache
 func (e *CachedEngine) Insert(prefix *IpNetwork, metadata Metadata) error {
-	if err := e.inner.Insert(prefix, metadata); err != nil {
+	// Convert to *net.IPNet
+	ipNetObj := &net.IPNet{
+		IP:   prefix.IP,
+		Mask: prefix.Mask,
+	}
+	if err := e.inner.Insert(ipNetObj, metadata); err != nil {
 		return err
 	}
 
@@ -206,7 +211,12 @@ func (e *CachedEngine) Lookup(ip net.IP) *Metadata {
 
 // Remove deletes a prefix and invalidates cache
 func (e *CachedEngine) Remove(prefix *IpNetwork) *Metadata {
-	result := e.inner.Remove(prefix)
+	// Convert to *net.IPNet
+	ipNetObj := &net.IPNet{
+		IP:   prefix.IP,
+		Mask: prefix.Mask,
+	}
+	result := e.inner.Remove(ipNetObj)
 
 	// Remove from Redis
 	if e.cache.redis != nil {
@@ -221,7 +231,12 @@ func (e *CachedEngine) Remove(prefix *IpNetwork) *Metadata {
 
 // Contains checks if a prefix exists
 func (e *CachedEngine) Contains(prefix *IpNetwork) bool {
-	return e.inner.Contains(prefix)
+	// Convert to *net.IPNet
+	ipNetObj := &net.IPNet{
+		IP:   prefix.IP,
+		Mask: prefix.Mask,
+	}
+	return e.inner.Contains(ipNetObj)
 }
 
 // Clear removes all entries and clears cache
