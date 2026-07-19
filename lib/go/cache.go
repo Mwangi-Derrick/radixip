@@ -10,8 +10,8 @@ import (
 
 // CacheConfig holds configuration for the cache
 type CacheConfig struct {
-	MaxEntries  int
-	TTLSeconds  *uint64
+	MaxEntries int
+	TTLSeconds *uint64
 }
 
 // RadixCache manages caching between Redis and the engine
@@ -51,7 +51,12 @@ func NewRadixCache(config CacheConfig, engine RadixEngine, redisClient *RedisCli
 					}
 					var meta Metadata
 					if json.Unmarshal([]byte(metaJSON), &meta) == nil {
-						rc.engine.Insert(&network, meta)
+						// Convert to *net.IPNet
+						ipNetObj := &net.IPNet{
+							IP:   network.IP,
+							Mask: network.Mask,
+						}
+						rc.engine.Insert(ipNetObj, meta)
 					}
 				}
 			}
@@ -64,7 +69,7 @@ func NewRadixCache(config CacheConfig, engine RadixEngine, redisClient *RedisCli
 // lookupWithCache performs a lookup with caching
 func (c *RadixCache) lookupWithCache(ip net.IP) *Metadata {
 	ipStr := ip.String()
-	
+
 	// Check cache first (read lock)
 	c.cache.RLock()
 	if entry, exists := c.entries[ipStr]; exists {
@@ -87,10 +92,10 @@ func (c *RadixCache) lookupWithCache(ip net.IP) *Metadata {
 	} else {
 		c.cache.RUnlock()
 	}
-	
+
 	// Cache miss - query engine
 	result := c.engine.Lookup(ip)
-	
+
 	// If not found in engine, check Redis lookup cache
 	if result == nil && c.redis != nil {
 		ctx := context.Background()
@@ -102,11 +107,11 @@ func (c *RadixCache) lookupWithCache(ip net.IP) *Metadata {
 			}
 		}
 	}
-	
+
 	// Store in cache
 	c.cache.Lock()
 	defer c.cache.Unlock()
-	
+
 	// Check if we need to evict
 	if len(c.entries) >= c.config.MaxEntries {
 		// Simple eviction - remove oldest (first key)
@@ -115,19 +120,19 @@ func (c *RadixCache) lookupWithCache(ip net.IP) *Metadata {
 			break
 		}
 	}
-	
+
 	// Store the result (even if nil)
 	var expiresAt *time.Time
 	if c.config.TTLSeconds != nil {
 		t := time.Now().Add(time.Duration(*c.config.TTLSeconds) * time.Second)
 		expiresAt = &t
 	}
-	
+
 	c.entries[ipStr] = &cacheEntry{
 		metadata:  result,
 		expiresAt: expiresAt,
 	}
-	
+
 	// Also store in Redis lookup cache
 	if c.redis != nil && result != nil {
 		ctx := context.Background()
@@ -135,7 +140,7 @@ func (c *RadixCache) lookupWithCache(ip net.IP) *Metadata {
 			c.redis.Set(ctx, "radixip:lookup:"+ipStr, string(jsonData))
 		}
 	}
-	
+
 	return result
 }
 
@@ -143,7 +148,7 @@ func (c *RadixCache) lookupWithCache(ip net.IP) *Metadata {
 func (c *RadixCache) invalidate(prefix *net.IPNet) {
 	c.cache.Lock()
 	defer c.cache.Unlock()
-	
+
 	for ipStr := range c.entries {
 		ip := net.ParseIP(ipStr)
 		if ip != nil && networkContainsIP(prefix, ip) {
@@ -179,7 +184,7 @@ func (e *CachedEngine) Insert(prefix *IpNetwork, metadata Metadata) error {
 	if err := e.inner.Insert(prefix, metadata); err != nil {
 		return err
 	}
-	
+
 	// Persist to Redis
 	if e.cache.redis != nil {
 		ctx := context.Background()
@@ -187,7 +192,7 @@ func (e *CachedEngine) Insert(prefix *IpNetwork, metadata Metadata) error {
 			e.cache.redis.HSet(ctx, "radixip:entries", prefix.String(), string(jsonData))
 		}
 	}
-	
+
 	// Invalidate relevant cache entries
 	netPrefix := net.IPNet{IP: prefix.IP, Mask: prefix.Mask}
 	e.cache.invalidate(&netPrefix)
@@ -202,13 +207,13 @@ func (e *CachedEngine) Lookup(ip net.IP) *Metadata {
 // Remove deletes a prefix and invalidates cache
 func (e *CachedEngine) Remove(prefix *IpNetwork) *Metadata {
 	result := e.inner.Remove(prefix)
-	
+
 	// Remove from Redis
 	if e.cache.redis != nil {
 		ctx := context.Background()
 		e.cache.redis.HDel(ctx, "radixip:entries", prefix.String())
 	}
-	
+
 	netPrefix := net.IPNet{IP: prefix.IP, Mask: prefix.Mask}
 	e.cache.invalidate(&netPrefix)
 	return result
