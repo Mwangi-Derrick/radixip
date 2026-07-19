@@ -290,7 +290,7 @@ func (e *EngineWrapper) Clear() {
 }
 
 func (e *EngineWrapper) Size() int64 {
-	return e.engine.Size()
+	return int64(e.engine.Size())
 }
 
 func (e *EngineWrapper) Stats() EngineStats {
