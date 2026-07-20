@@ -599,8 +599,8 @@ Every commit to `main` triggers our continuous benchmarking pipeline:
 - [x] Generic engines — any engine can use any tree via `StandardEngine<T: RouteTree>`
 - [x] Redis state bus — boot-load, cache hydration, Pub/Sub sync
 - [ ] IPv6 full support (Patricia trie path)
-- [ ] Python bindings via PyO3
-- [ ] Node.js bindings via N-API
+- [x] Python bindings via PyO3
+- [x] Node.js bindings via N-API
 - [ ] gRPC service layer
 - [ ] Prometheus metrics integration
 - [ ] Lock-free CompressedTree (CAS-based node splitting)
