@@ -8,8 +8,8 @@ use std::ptr;
 
 use ipnetwork::IpNetwork;
 
-use crate::{Metadata, RadixEngine, new_balanced};
 use crate::types::EngineStats;
+use crate::{Metadata, RadixEngine, new_balanced};
 
 /// Opaque handle to a RadixEngine
 #[repr(C)]
@@ -177,20 +177,22 @@ pub unsafe extern "C" fn radix_engine_remove(
         return -1;
     };
     let handle = unsafe { &*handle };
-    if handle.inner.remove(&prefix).is_some() { 0 } else { -1 }
+    if handle.inner.remove(&prefix).is_some() {
+        0
+    } else {
+        -1
+    }
 }
 
 /// Return engine statistics as a JSON string. Caller must free with radix_engine_free_string.
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn radix_engine_stats_json(
-    handle: *const RadixEngineHandle,
-) -> *mut c_char {
+pub unsafe extern "C" fn radix_engine_stats_json(handle: *const RadixEngineHandle) -> *mut c_char {
     if handle.is_null() {
         return ptr::null_mut();
     }
     let handle = unsafe { &*handle };
     let stats: EngineStats = handle.inner.stats();
-    serde_json::json!({
+    let json_string = serde_json::json!({
         "size":     stats.size,
         "inserts":  stats.inserts,
         "lookups":  stats.lookups,
@@ -198,10 +200,12 @@ pub unsafe extern "C" fn radix_engine_stats_json(
         "misses":   stats.misses,
         "removals": stats.removals,
     })
-    .to_string()
-    .pipe(|s| CString::new(s).ok())
-    .map(CString::into_raw)
-    .unwrap_or(ptr::null_mut())
+    .to_string();
+
+    CString::new(json_string)
+        .ok()
+        .map(CString::into_raw)
+        .unwrap_or(ptr::null_mut())
 }
 
 /// Get the library version
