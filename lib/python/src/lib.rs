@@ -89,7 +89,7 @@ impl PyRadixEngine {
                 c.engine_variant = radixip_rs::EngineVariant::Adaptive;
                 c
             }
-            _ => RadixConfig::balanced(),
+            _ => RadixConfig::memory_efficient(),
         };
 
         // Block on the async constructor
