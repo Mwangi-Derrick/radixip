@@ -1,3 +1,15 @@
+//! Route tree implementations.
+//!
+//! Two concrete [`RouteTree`] types are provided:
+//!
+//! - [`UncompressedTree`] — bit-by-bit binary trie; every edge is exactly 1 bit.
+//! - [`CompressedTree`]   — Patricia / radix trie; each edge carries a variable-length
+//!   bit string, skipping over non-branching paths for faster traversal.
+//!
+//! Both trees store `Arc<dyn RadixNode>`, so the node variant (Normal, Atomic,
+//! Padded, LockFree, or their Compressed equivalents) is chosen at construction
+//! time via [`NodeBuilder`] and [`NodeVariant`].
+
 use crate::lpm::{get_bit, longest_prefix_match_binary};
 use crate::node::NodeBuilder;
 use crate::traits::{NodeVariant, RadixNode, RouteTree};
@@ -5,6 +17,10 @@ use crate::types::Metadata;
 use ipnetwork::IpNetwork;
 use std::net::IpAddr;
 use std::sync::Arc;
+
+// ============================================================================
+// UNCOMPRESSED TREE  (bit-by-bit binary trie)
+// ============================================================================
 
 #[derive(Clone)]
 pub struct UncompressedTree {
@@ -119,73 +135,27 @@ impl RouteTree for UncompressedTree {
     }
 }
 
+// ============================================================================
+// COMPRESSED TREE  (Patricia / radix trie)
 //
-// COMPRESSED TREE  (Patricia / Radix trie)
+// Each node stores an `edge_bits: Vec<u8>` representing the compressed
+// bit-string for that edge, instead of traversing one bit at a time.
+// Non-branching chains of nodes are folded into a single node, giving
+// O(k) lookups where k is the number of *branching points*, not the
+// prefix length.
 //
+// On insert: if an existing edge partially matches the new prefix we split
+// the node at the diverging bit, creating a new internal node and two children.
 //
-// Each node stores a `prefix_bits: Vec<u8>` representing the
-// compressed bit-string for that edge, instead of traversing
-// one bit at a time. Non-branching chains of nodes are folded
-// into a single node, giving O(k) lookups where k is the
-// number of *branching points*, not the prefix length.
+// On lookup: at each node we check that `edge_bits` fully matches the
+// corresponding bits of the query before moving to the next child.
 //
-// On insert: if an existing edge partially matches the new
-// prefix we split the node at the diverging bit, creating a
-// new internal node and two children.
-//
-// On lookup: at each node we check that `prefix_bits` fully
-// matches the corresponding bits of the query before moving
-// to the next child.
+// The tree works with any node variant that implements the `edge_bits`,
+// `edge_len`, and `set_edge` extensions of `RadixNode`.  Compressed variants
+// are picked via `NodeBuilder` from `NodeVariant::Compressed*`.
+// ============================================================================
 
-use std::sync::Mutex;
-
-// / A single node in the compressed (Patricia) radix tree.
-struct CompressedNode {
-    // / The bit-string stored on the edge *into* this node.
-    // / Bit 0 of prefix_bits[0] is the most-significant bit of that byte.
-    edge_bits: Vec<u8>,
-    // / Number of valid bits in edge_bits (may be < edge_bits.len()*8)
-    edge_len: usize,
-    // / Terminal data stored at this node (if this node represents a real prefix).
-    metadata: Option<Metadata>,
-    // / The network prefix that produced this node.
-    prefix: Option<IpNetwork>,
-    // / Left child (next bit == 0)
-    left: Option<Arc<Mutex<CompressedNode>>>,
-    // / Right child (next bit == 1)
-    right: Option<Arc<Mutex<CompressedNode>>>,
-}
-
-impl CompressedNode {
-    fn new_empty() -> Arc<Mutex<Self>> {
-        Arc::new(Mutex::new(Self {
-            edge_bits: Vec::new(),
-            edge_len: 0,
-            metadata: None,
-            prefix: None,
-            left: None,
-            right: None,
-        }))
-    }
-
-    fn new_leaf(
-        edge_bits: Vec<u8>,
-        edge_len: usize,
-        prefix: IpNetwork,
-        metadata: Metadata,
-    ) -> Arc<Mutex<Self>> {
-        Arc::new(Mutex::new(Self {
-            edge_bits,
-            edge_len,
-            metadata: Some(metadata),
-            prefix: Some(prefix),
-            left: None,
-            right: None,
-        }))
-    }
-}
-
-// / Extract bit `pos` from a byte slice (big-endian, MSB-first).
+/// Extract bit `pos` from a byte slice (big-endian, MSB-first).
 fn get_bit_from_bytes(bytes: &[u8], pos: usize) -> u8 {
     let byte_idx = pos / 8;
     let bit_idx = 7 - (pos % 8);
@@ -195,7 +165,7 @@ fn get_bit_from_bytes(bytes: &[u8], pos: usize) -> u8 {
     (bytes[byte_idx] >> bit_idx) & 1
 }
 
-// / Extract up to `len` bits starting at `start` from `bytes` into a new Vec<u8>.
+/// Extract up to `len` bits starting at `start` from `bytes` into a new `Vec<u8>`.
 fn extract_bits(bytes: &[u8], start: usize, len: usize) -> Vec<u8> {
     let byte_count = (len + 7) / 8;
     let mut out = vec![0u8; byte_count];
@@ -208,7 +178,7 @@ fn extract_bits(bytes: &[u8], start: usize, len: usize) -> Vec<u8> {
     out
 }
 
-// / How many leading bits do two bit-arrays share?
+/// How many leading bits do two bit-arrays share?
 fn common_prefix_len(a: &[u8], a_len: usize, b: &[u8], b_len: usize) -> usize {
     let max = a_len.min(b_len);
     for i in 0..max {
@@ -219,7 +189,7 @@ fn common_prefix_len(a: &[u8], a_len: usize, b: &[u8], b_len: usize) -> usize {
     max
 }
 
-// / Convert an IpAddr to its canonical big-endian byte representation.
+/// Convert an `IpAddr` to its canonical big-endian byte representation.
 fn ip_to_bytes(ip: IpAddr) -> Vec<u8> {
     match ip {
         IpAddr::V4(v4) => v4.octets().to_vec(),
@@ -227,154 +197,177 @@ fn ip_to_bytes(ip: IpAddr) -> Vec<u8> {
     }
 }
 
-// ---- Public interface ----
+// ---- Helper: read edge fields from a node via the trait extension ----
+
+/// Returns (edge_bits_clone, edge_len) for a compressed node.
+/// Panics if called on an uncompressed node (would be a programming error).
+fn node_edge(node: &Arc<dyn RadixNode>) -> (Vec<u8>, usize) {
+    let bits = node.edge_bits().unwrap_or_default();
+    let len = node.edge_len().unwrap_or(0);
+    (bits, len)
+}
 
 #[derive(Clone)]
 pub struct CompressedTree {
-    root: Arc<Mutex<CompressedNode>>,
+    root: Arc<dyn RadixNode>,
+    node_builder: NodeBuilder,
 }
 
 impl CompressedTree {
-    pub fn new(_node_variant: NodeVariant) -> Self {
-        // NodeVariant is accepted for API parity but the compressed tree
-        // manages its own nodes internally via Arc<Mutex<>>.
+    pub fn new(node_variant: NodeVariant) -> Self {
+        // If the caller passes an uncompressed variant, silently upgrade to
+        // the equivalent compressed variant so the tree always works correctly.
+        let variant = match node_variant {
+            NodeVariant::Normal | NodeVariant::CompressedNormal => NodeVariant::CompressedNormal,
+            NodeVariant::Atomic | NodeVariant::CompressedAtomic => NodeVariant::CompressedAtomic,
+            NodeVariant::Padded | NodeVariant::CompressedPadded => NodeVariant::CompressedPadded,
+            NodeVariant::LockFree | NodeVariant::CompressedLockFree => {
+                NodeVariant::CompressedLockFree
+            }
+        };
+        let builder = NodeBuilder::new(variant);
         Self {
-            root: CompressedNode::new_empty(),
+            root: builder.build(),
+            node_builder: builder,
         }
     }
 
-    // / Insert into the Patricia trie, splitting nodes as needed.
+    // ---- Private Patricia trie operations ----
+
     fn insert_inner(
-        node: &Arc<Mutex<CompressedNode>>,
+        node: &Arc<dyn RadixNode>,
+        node_builder: &NodeBuilder,
         key: &[u8],
         key_len: usize,
         depth: usize,
         prefix: IpNetwork,
         metadata: Metadata,
     ) -> bool {
-        let mut n = node.lock().unwrap();
+        let (edge_bits, edge_len) = node_edge(node);
         let remaining = key_len.saturating_sub(depth);
 
-        if n.edge_len == 0 && n.metadata.is_none() && n.left.is_none() && n.right.is_none() {
-            // Empty node: store directly
-            n.edge_bits = extract_bits(key, depth, remaining);
-            n.edge_len = remaining;
-            n.prefix = Some(prefix);
-            let is_new = n.metadata.is_none();
-            n.metadata = Some(metadata);
-            return is_new;
+        // Root or empty node: store directly.
+        if edge_len == 0 && node.metadata().is_none() && node.left().is_none() && node.right().is_none() {
+            let new_bits = extract_bits(key, depth, remaining);
+            node.set_edge(new_bits, remaining);
+            node.set_prefix(prefix);
+            node.set_metadata(metadata);
+            return true;
         }
 
-        // How many bits of edge match the incoming key?
         let key_rem = extract_bits(key, depth, remaining);
-        let shared = common_prefix_len(&n.edge_bits, n.edge_len, &key_rem, remaining);
+        let shared = common_prefix_len(&edge_bits, edge_len, &key_rem, remaining);
 
-        if shared == n.edge_len && shared == remaining {
-            // Exact match — update metadata at this node
-            let is_new = n.metadata.is_none();
-            n.metadata = Some(metadata);
-            n.prefix = Some(prefix);
+        // Exact match — update metadata at this node.
+        if shared == edge_len && shared == remaining {
+            let is_new = node.metadata().is_none();
+            node.set_metadata(metadata);
+            node.set_prefix(prefix);
             return is_new;
         }
 
-        if shared < n.edge_len {
-            // Partial match — split this node
-            let pivot_bit = get_bit_from_bytes(&n.edge_bits, shared);
+        // Partial match — split this node at the diverging bit.
+        if shared < edge_len {
+            let pivot_bit = get_bit_from_bytes(&edge_bits, shared);
 
-            // Create a new child carrying the remainder of the current edge
-            let child_edge_bits = extract_bits(&n.edge_bits, shared + 1, n.edge_len - shared - 1);
-            let child_edge_len = n.edge_len - shared - 1;
-            let child = Arc::new(Mutex::new(CompressedNode {
-                edge_bits: child_edge_bits,
-                edge_len: child_edge_len,
-                metadata: n.metadata.take(),
-                prefix: n.prefix.take(),
-                left: n.left.take(),
-                right: n.right.take(),
-            }));
+            // Build a child carrying the remainder of the current edge.
+            let child_edge_bits = extract_bits(&edge_bits, shared + 1, edge_len - shared - 1);
+            let child_edge_len = edge_len - shared - 1;
+            let child = node_builder.build();
+            child.set_edge(child_edge_bits, child_edge_len);
+            if let Some(m) = node.metadata() {
+                child.set_metadata(m);
+                node.clear_metadata();
+            }
+            if let Some(p) = node.prefix() {
+                child.set_prefix(p);
+            }
+            // Move children of current node down to child.
+            child.set_left(node.left());
+            child.set_right(node.right());
 
-            // Trim current node edge to shared prefix
-            n.edge_bits = extract_bits(&n.edge_bits, 0, shared);
-            n.edge_len = shared;
+            // Trim current node edge to shared prefix.
+            let new_edge = extract_bits(&edge_bits, 0, shared);
+            node.set_edge(new_edge, shared);
+            node.set_left(None);
+            node.set_right(None);
 
-            // Wire child into appropriate side
+            // Wire child into the appropriate side.
             if pivot_bit == 0 {
-                n.left = Some(child);
+                node.set_left(Some(child));
             } else {
-                n.right = Some(child);
+                node.set_right(Some(child));
             }
 
-            // Now place the new prefix in the other side (or here if shared == remaining)
+            // Place the new prefix in the other side (or here if shared == remaining).
             if shared == remaining {
-                n.metadata = Some(metadata);
-                n.prefix = Some(prefix);
+                node.set_metadata(metadata);
+                node.set_prefix(prefix);
                 return true;
             }
 
             let new_bit = get_bit_from_bytes(&key_rem, shared);
             let new_leaf_edge = extract_bits(&key_rem, shared + 1, remaining - shared - 1);
-            let new_leaf =
-                CompressedNode::new_leaf(new_leaf_edge, remaining - shared - 1, prefix, metadata);
+            let new_leaf = node_builder.build();
+            new_leaf.set_edge(new_leaf_edge, remaining - shared - 1);
+            new_leaf.set_prefix(prefix);
+            new_leaf.set_metadata(metadata);
+
             if new_bit == 0 {
-                n.left = Some(new_leaf);
+                node.set_left(Some(new_leaf));
             } else {
-                n.right = Some(new_leaf);
+                node.set_right(Some(new_leaf));
             }
             return true;
         }
 
-        // shared == edge_len but we still have bits left to place — descend
+        // shared == edge_len but bits remain — descend into the correct child.
         let next_bit = get_bit_from_bytes(&key_rem, shared);
-        drop(n); // release lock before recursing
-
-        let mut n = node.lock().unwrap();
         let child_opt = if next_bit == 0 {
-            n.left.clone()
+            node.left()
         } else {
-            n.right.clone()
+            node.right()
         };
-        drop(n);
 
         if let Some(child) = child_opt {
-            Self::insert_inner(&child, key, key_len, depth + shared + 1, prefix, metadata)
+            Self::insert_inner(&child, node_builder, key, key_len, depth + shared + 1, prefix, metadata)
         } else {
-            // Create a new leaf child
+            // Allocate a new leaf child.
             let new_depth = depth + shared + 1;
             let new_remaining = key_len.saturating_sub(new_depth);
             let leaf_edge = extract_bits(key, new_depth, new_remaining);
-            let leaf = CompressedNode::new_leaf(leaf_edge, new_remaining, prefix, metadata);
-            let mut n = node.lock().unwrap();
+            let leaf = node_builder.build();
+            leaf.set_edge(leaf_edge, new_remaining);
+            leaf.set_prefix(prefix);
+            leaf.set_metadata(metadata);
+
             if next_bit == 0 {
-                n.left = Some(leaf);
+                node.set_left(Some(leaf));
             } else {
-                n.right = Some(leaf);
+                node.set_right(Some(leaf));
             }
             true
         }
     }
 
-    // / Walk the trie returning the most-specific matching prefix.
-    fn lookup_inner(
-        node: &Arc<Mutex<CompressedNode>>,
-        key: &[u8],
-        depth: usize,
-    ) -> Option<Metadata> {
-        let n = node.lock().unwrap();
-        if n.edge_len == 0 && n.metadata.is_none() {
+    fn lookup_inner(node: &Arc<dyn RadixNode>, key: &[u8], depth: usize) -> Option<Metadata> {
+        let (edge_bits, edge_len) = node_edge(node);
+
+        if edge_len == 0 && node.metadata().is_none() {
             return None;
         }
 
         let remaining = (key.len() * 8).saturating_sub(depth);
         let key_rem = extract_bits(key, depth, remaining);
-        let shared = common_prefix_len(&n.edge_bits, n.edge_len, &key_rem, remaining);
+        let shared = common_prefix_len(&edge_bits, edge_len, &key_rem, remaining);
 
-        if shared < n.edge_len {
-            // The edge doesn't fully match — no route here
+        // Edge doesn't fully match — no route here.
+        if shared < edge_len {
             return None;
         }
 
-        // Edge matched: record any terminal at this node, then keep descending
-        let mut best = n.metadata.clone();
+        // Edge matched: record any terminal at this node, then keep descending.
+        let mut best = node.metadata();
         let new_depth = depth + shared;
 
         if new_depth >= key.len() * 8 {
@@ -383,11 +376,10 @@ impl CompressedTree {
 
         let next_bit = get_bit_from_bytes(key, new_depth);
         let child_opt = if next_bit == 0 {
-            n.left.clone()
+            node.left()
         } else {
-            n.right.clone()
+            node.right()
         };
-        drop(n);
 
         if let Some(child) = child_opt {
             if let Some(deeper) = Self::lookup_inner(&child, key, new_depth + 1) {
@@ -398,41 +390,34 @@ impl CompressedTree {
     }
 
     fn remove_inner(
-        node: &Arc<Mutex<CompressedNode>>,
+        node: &Arc<dyn RadixNode>,
         key: &[u8],
         key_len: usize,
         depth: usize,
     ) -> Option<Metadata> {
-        let n = node.lock().unwrap();
+        let (edge_bits, edge_len) = node_edge(node);
         let remaining = key_len.saturating_sub(depth);
         let key_rem = extract_bits(key, depth, remaining);
-        let shared = common_prefix_len(&n.edge_bits, n.edge_len, &key_rem, remaining);
-        drop(n);
+        let shared = common_prefix_len(&edge_bits, edge_len, &key_rem, remaining);
 
-        if shared < {
-            let n2 = node.lock().unwrap();
-            n2.edge_len
-        } {
+        if shared < edge_len {
             return None;
         }
 
         if shared == remaining {
-            let mut n = node.lock().unwrap();
-            let removed = n.metadata.take();
-            n.prefix = None;
+            let removed = node.metadata();
+            node.clear_metadata();
             return removed;
         }
 
-        let n = node.lock().unwrap();
-        let new_depth = depth + shared + 1;
         let next_bit = get_bit_from_bytes(key, depth + shared);
         let child_opt = if next_bit == 0 {
-            n.left.clone()
+            node.left()
         } else {
-            n.right.clone()
+            node.right()
         };
-        drop(n);
 
+        let new_depth = depth + shared + 1;
         if let Some(child) = child_opt {
             Self::remove_inner(&child, key, key_len, new_depth)
         } else {
@@ -441,30 +426,29 @@ impl CompressedTree {
     }
 
     fn contains_inner(
-        node: &Arc<Mutex<CompressedNode>>,
+        node: &Arc<dyn RadixNode>,
         key: &[u8],
         key_len: usize,
         depth: usize,
     ) -> bool {
-        let n = node.lock().unwrap();
+        let (edge_bits, edge_len) = node_edge(node);
         let remaining = key_len.saturating_sub(depth);
         let key_rem = extract_bits(key, depth, remaining);
-        let shared = common_prefix_len(&n.edge_bits, n.edge_len, &key_rem, remaining);
+        let shared = common_prefix_len(&edge_bits, edge_len, &key_rem, remaining);
 
-        if shared < n.edge_len {
+        if shared < edge_len {
             return false;
         }
         if shared == remaining {
-            return n.metadata.is_some();
+            return node.metadata().is_some();
         }
 
         let next_bit = get_bit_from_bytes(key, depth + shared);
         let child_opt = if next_bit == 0 {
-            n.left.clone()
+            node.left()
         } else {
-            n.right.clone()
+            node.right()
         };
-        drop(n);
 
         if let Some(child) = child_opt {
             Self::contains_inner(&child, key, key_len, depth + shared + 1)
@@ -473,14 +457,11 @@ impl CompressedTree {
         }
     }
 
-    fn clear_inner(node: &Arc<Mutex<CompressedNode>>) {
-        let mut n = node.lock().unwrap();
-        n.edge_bits.clear();
-        n.edge_len = 0;
-        n.metadata = None;
-        n.prefix = None;
-        n.left = None;
-        n.right = None;
+    fn clear_inner(node: &Arc<dyn RadixNode>) {
+        node.set_edge(Vec::new(), 0);
+        node.clear_metadata();
+        node.set_left(None);
+        node.set_right(None);
     }
 }
 
@@ -489,19 +470,12 @@ impl RouteTree for CompressedTree {
         let ip = prefix.network();
         let key = ip_to_bytes(ip);
         let key_len = prefix.prefix() as usize;
-        let is_new = Self::insert_inner(&self.root, &key, key_len, 0, prefix, metadata);
+        let is_new = Self::insert_inner(&self.root, &self.node_builder, &key, key_len, 0, prefix, metadata);
         Ok(is_new)
     }
 
     fn lookup(&self, ip: &IpAddr) -> Option<Metadata> {
         let key = ip_to_bytes(*ip);
-        let key_bits = key.len() * 8;
-        Self::lookup_inner(&self.root, &key, 0).filter(|_| {
-            // Validate the match actually covers the IP
-            // (lookup_inner already handles this via prefix containment)
-            true
-        });
-        // Re-run with full key length available
         Self::lookup_inner(&self.root, &key, 0)
     }
 
@@ -529,15 +503,23 @@ mod tests {
     use super::*;
     use std::str::FromStr;
 
+    fn create_metadata(label: &str) -> Metadata {
+        Metadata::new(label.to_string())
+    }
+
+    // ============================================================
+    // COMPRESSED TREE TESTS
+    // ============================================================
+
     #[test]
     fn test_compressed_trie_v4() {
-        let tree = CompressedTree::new(NodeVariant::Normal);
+        let tree = CompressedTree::new(NodeVariant::CompressedNormal);
 
         let prefix1 = IpNetwork::from_str("192.168.0.0/16").unwrap();
         let prefix2 = IpNetwork::from_str("192.168.1.0/24").unwrap();
 
-        tree.insert(prefix1, Metadata::new("local"));
-        tree.insert(prefix2, Metadata::new("subnet"));
+        tree.insert(prefix1, Metadata::new("local")).unwrap();
+        tree.insert(prefix2, Metadata::new("subnet")).unwrap();
 
         let ip = IpAddr::from_str("192.168.1.5").unwrap();
         assert_eq!(tree.lookup(&ip), Some(Metadata::new("subnet")));
@@ -545,36 +527,39 @@ mod tests {
 
     #[test]
     fn test_compressed_trie_v6() {
-        let tree = CompressedTree::new(NodeVariant::Normal);
+        let tree = CompressedTree::new(NodeVariant::CompressedNormal);
 
         let prefix = IpNetwork::from_str("2001:db8::/32").unwrap();
-        tree.insert(prefix, Metadata::new("v6_network"));
+        tree.insert(prefix, Metadata::new("v6_network")).unwrap();
 
         let ip = IpAddr::from_str("2001:db8:1234::1").unwrap();
         assert!(tree.lookup(&ip).is_some());
     }
 
-    // Helper to create test metadata
-    fn create_metadata(label: &str) -> Metadata {
-        // Adjust based on your Metadata struct
-        // For example, if Metadata is just a String wrapper:
-        Metadata::new(label.to_string())
-
-        // Or if it's a more complex struct:
-        // Metadata {
-        //     label: label.to_string(),
-        //     ..Normal::default()
-        // }
+    #[test]
+    fn test_compressed_all_variants() {
+        for variant in [
+            NodeVariant::CompressedNormal,
+            NodeVariant::CompressedAtomic,
+            NodeVariant::CompressedPadded,
+            NodeVariant::CompressedLockFree,
+        ] {
+            let tree = CompressedTree::new(variant);
+            let prefix = IpNetwork::from_str("10.0.0.0/8").unwrap();
+            tree.insert(prefix, create_metadata("test")).unwrap();
+            let ip = IpAddr::from_str("10.1.2.3").unwrap();
+            assert_eq!(tree.lookup(&ip), Some(create_metadata("test")),
+                "variant {:?} failed", variant);
+        }
     }
 
     // ============================================================
-    // BASIC OPERATIONS TESTS
+    // UNCOMPRESSED TREE TESTS
     // ============================================================
 
     #[test]
     fn test_new_tree() {
         let tree = UncompressedTree::new(NodeVariant::Normal);
-        // Should be empty
         let ip = IpAddr::from_str("192.168.1.1").unwrap();
         assert_eq!(tree.lookup(&ip), None);
     }
@@ -587,13 +572,11 @@ mod tests {
 
         let result = tree.insert(prefix, metadata.clone());
         assert!(result.is_ok());
-        assert_eq!(result.unwrap(), true); // New entry
+        assert_eq!(result.unwrap(), true);
 
-        // Test lookup for IP within prefix
         let ip = IpAddr::from_str("192.168.1.5").unwrap();
         assert_eq!(tree.lookup(&ip), Some(metadata.clone()));
 
-        // Test lookup for IP outside prefix
         let ip_outside = IpAddr::from_str("10.0.0.1").unwrap();
         assert_eq!(tree.lookup(&ip_outside), None);
     }
@@ -612,15 +595,10 @@ mod tests {
         assert_eq!(tree.lookup(&ip), Some(metadata.clone()));
     }
 
-    // ============================================================
-    // LONGEST PREFIX MATCH TESTS
-    // ============================================================
-
     #[test]
     fn test_longest_prefix_match_v4() {
         let tree = UncompressedTree::new(NodeVariant::Normal);
 
-        // Insert overlapping prefixes
         let prefix1 = IpNetwork::from_str("192.168.0.0/16").unwrap();
         let prefix2 = IpNetwork::from_str("192.168.1.0/24").unwrap();
         let prefix3 = IpNetwork::from_str("192.168.1.128/25").unwrap();
@@ -633,15 +611,14 @@ mod tests {
         tree.insert(prefix2, meta2.clone()).unwrap();
         tree.insert(prefix3, meta3.clone()).unwrap();
 
-        // Should return most specific match
         let ip = IpAddr::from_str("192.168.1.200").unwrap();
-        assert_eq!(tree.lookup(&ip), Some(meta3.clone())); // /25 matches
+        assert_eq!(tree.lookup(&ip), Some(meta3.clone()));
 
         let ip = IpAddr::from_str("192.168.1.50").unwrap();
-        assert_eq!(tree.lookup(&ip), Some(meta2.clone())); // /24 matches
+        assert_eq!(tree.lookup(&ip), Some(meta2.clone()));
 
         let ip = IpAddr::from_str("192.168.2.1").unwrap();
-        assert_eq!(tree.lookup(&ip), Some(meta1.clone())); // Only /16 matches
+        assert_eq!(tree.lookup(&ip), Some(meta1.clone()));
     }
 
     #[test]
@@ -661,18 +638,14 @@ mod tests {
         tree.insert(prefix3, meta3.clone()).unwrap();
 
         let ip = IpAddr::from_str("2001:db8:1234:5678::1").unwrap();
-        assert_eq!(tree.lookup(&ip), Some(meta3.clone())); // Most specific
+        assert_eq!(tree.lookup(&ip), Some(meta3.clone()));
 
         let ip = IpAddr::from_str("2001:db8:1234:5679::1").unwrap();
-        assert_eq!(tree.lookup(&ip), Some(meta2.clone())); // /48 match
+        assert_eq!(tree.lookup(&ip), Some(meta2.clone()));
 
         let ip = IpAddr::from_str("2001:db8:5678::1").unwrap();
-        assert_eq!(tree.lookup(&ip), Some(meta1.clone())); // Only /32 match
+        assert_eq!(tree.lookup(&ip), Some(meta1.clone()));
     }
-
-    // ============================================================
-    // REMOVE OPERATIONS TESTS
-    // ============================================================
 
     #[test]
     fn test_remove_existing_prefix() {
@@ -682,15 +655,12 @@ mod tests {
 
         tree.insert(prefix, metadata.clone()).unwrap();
 
-        // Verify it exists
         let ip = IpAddr::from_str("192.168.1.1").unwrap();
         assert_eq!(tree.lookup(&ip), Some(metadata.clone()));
 
-        // Remove it
         let removed = tree.remove(&prefix);
         assert_eq!(removed, Some(metadata.clone()));
 
-        // Verify it's gone
         assert_eq!(tree.lookup(&ip), None);
     }
 
@@ -716,25 +686,17 @@ mod tests {
         tree.insert(prefix1, meta1.clone()).unwrap();
         tree.insert(prefix2, meta2.clone()).unwrap();
 
-        // Remove specific prefix
         let removed = tree.remove(&prefix2);
         assert_eq!(removed, Some(meta2.clone()));
 
-        // Should still match the broader prefix
         let ip = IpAddr::from_str("192.168.1.5").unwrap();
         assert_eq!(tree.lookup(&ip), Some(meta1.clone()));
 
-        // Remove broader prefix
         let removed = tree.remove(&prefix1);
         assert_eq!(removed, Some(meta1.clone()));
 
-        // Nothing should match now
         assert_eq!(tree.lookup(&ip), None);
     }
-
-    // ============================================================
-    // CONTAINS TESTS
-    // ============================================================
 
     #[test]
     fn test_contains() {
@@ -750,10 +712,6 @@ mod tests {
         assert!(!tree.contains(&different_prefix));
     }
 
-    // ============================================================
-    // CLEAR TESTS
-    // ============================================================
-
     #[test]
     fn test_clear() {
         let tree = UncompressedTree::new(NodeVariant::Normal);
@@ -764,29 +722,21 @@ mod tests {
         tree.insert(prefix1, create_metadata("network1")).unwrap();
         tree.insert(prefix2, create_metadata("network2")).unwrap();
 
-        // Verify entries exist
         let ip1 = IpAddr::from_str("192.168.1.1").unwrap();
         let ip2 = IpAddr::from_str("10.0.0.1").unwrap();
         assert!(tree.lookup(&ip1).is_some());
         assert!(tree.lookup(&ip2).is_some());
 
-        // Clear all
         tree.clear();
 
-        // Verify all gone
         assert!(tree.lookup(&ip1).is_none());
         assert!(tree.lookup(&ip2).is_none());
     }
-
-    // ============================================================
-    // EDGE CASE TESTS
-    // ============================================================
 
     #[test]
     fn test_default_route() {
         let tree = UncompressedTree::new(NodeVariant::Normal);
 
-        // 0.0.0.0/0 - matches all IPv4 addresses
         let default_v4 = IpNetwork::from_str("0.0.0.0/0").unwrap();
         let meta_default = create_metadata("default");
         tree.insert(default_v4, meta_default.clone()).unwrap();
@@ -799,7 +749,6 @@ mod tests {
         assert_eq!(tree.lookup(&ip2), Some(meta_default.clone()));
         assert_eq!(tree.lookup(&ip3), Some(meta_default.clone()));
 
-        // IPv6 default route
         let default_v6 = IpNetwork::from_str("::/0").unwrap();
         let meta_v6_default = create_metadata("v6_default");
         tree.insert(default_v6, meta_v6_default.clone()).unwrap();
@@ -812,7 +761,6 @@ mod tests {
     fn test_host_address_32_prefix() {
         let tree = UncompressedTree::new(NodeVariant::Normal);
 
-        // /32 prefix - exact host match
         let host_prefix = IpNetwork::from_str("192.168.1.100/32").unwrap();
         let meta_host = create_metadata("host");
         tree.insert(host_prefix, meta_host.clone()).unwrap();
@@ -831,17 +779,14 @@ mod tests {
         let meta1 = create_metadata("first");
         let meta2 = create_metadata("second");
 
-        // First insert should return true (new)
         let result1 = tree.insert(prefix, meta1.clone());
         assert!(result1.is_ok());
         assert_eq!(result1.unwrap(), true);
 
-        // Second insert of same prefix should return false (already exists)
         let result2 = tree.insert(prefix, meta2.clone());
         assert!(result2.is_ok());
         assert_eq!(result2.unwrap(), false);
 
-        // Should have the new metadata
         let ip = IpAddr::from_str("192.168.1.1").unwrap();
         assert_eq!(tree.lookup(&ip), Some(meta2));
     }
@@ -864,7 +809,6 @@ mod tests {
             assert_eq!(result.unwrap(), true);
         }
 
-        // Verify all lookups work
         let test_cases = vec![
             ("192.168.1.5", "subnet_a"),
             ("192.168.2.1", "network_a"),
@@ -879,56 +823,41 @@ mod tests {
         }
     }
 
-    // ============================================================
-    // MIXED IPv4 AND IPv6 TESTS
-    // ============================================================
-
     #[test]
     fn test_mixed_ipv4_ipv6() {
         let tree = UncompressedTree::new(NodeVariant::Normal);
 
-        // Insert IPv4 routes
         let v4_prefix = IpNetwork::from_str("192.168.0.0/16").unwrap();
         let v4_meta = create_metadata("v4_network");
         tree.insert(v4_prefix, v4_meta.clone()).unwrap();
 
-        // Insert IPv6 routes
         let v6_prefix = IpNetwork::from_str("2001:db8::/32").unwrap();
         let v6_meta = create_metadata("v6_network");
         tree.insert(v6_prefix, v6_meta.clone()).unwrap();
 
-        // Test IPv4 lookup
         let v4_ip = IpAddr::from_str("192.168.1.1").unwrap();
         assert_eq!(tree.lookup(&v4_ip), Some(v4_meta));
 
-        // Test IPv6 lookup
         let v6_ip = IpAddr::from_str("2001:db8:1234::1").unwrap();
         assert_eq!(tree.lookup(&v6_ip), Some(v6_meta));
 
-        // Test wrong family doesn't match
         let wrong_ip = IpAddr::from_str("10.0.0.1").unwrap();
         assert_eq!(tree.lookup(&wrong_ip), None);
     }
-
-    // ============================================================
-    // PERFORMANCE/BENCHMARK HELPER TESTS
-    // ============================================================
 
     #[test]
     fn test_large_number_of_routes() {
         let tree = UncompressedTree::new(NodeVariant::Normal);
 
-        // Insert many /24 prefixes
-        for i in 0..100 {
+        for i in 0..100u32 {
             let prefix_str = format!("192.168.{}.0/24", i);
             let prefix = IpNetwork::from_str(&prefix_str).unwrap();
             let meta = create_metadata(&format!("subnet_{}", i));
             tree.insert(prefix, meta).unwrap();
         }
 
-        // Test random lookups
-        for i in 0..100 {
-            let ip_str = format!("192.168.{}.{}.1", i, i % 255);
+        for i in 0..100u32 {
+            let ip_str = format!("192.168.{}.1", i);
             let ip = IpAddr::from_str(&ip_str).unwrap();
             let result = tree.lookup(&ip);
             assert!(result.is_some());
