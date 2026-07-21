@@ -23,8 +23,9 @@ func NewStandardEngine(tree RouteTree) *StandardEngine {
 	}
 }
 
-func (e *StandardEngine) Insert(prefix IpNetwork, metadata Metadata) error {
-	isNew, err := e.tree.Insert(prefix, metadata)
+func (e *StandardEngine) Insert(prefix *net.IPNet, metadata Metadata) error {
+	ipnet := IpNetwork{IP: prefix.IP, Mask: prefix.Mask}
+	isNew, err := e.tree.Insert(ipnet, metadata)
 	if err != nil {
 		return err
 	}
@@ -38,8 +39,8 @@ func (e *StandardEngine) Insert(prefix IpNetwork, metadata Metadata) error {
 	return nil
 }
 
-func (e *StandardEngine) Lookup(ip *net.IP) *Metadata {
-	result := e.tree.Lookup(ip)
+func (e *StandardEngine) Lookup(ip net.IP) *Metadata {
+	result := e.tree.Lookup(&ip)
 	e.mu.Lock()
 	e.statsData.Lookups++
 	if result != nil {
@@ -51,8 +52,9 @@ func (e *StandardEngine) Lookup(ip *net.IP) *Metadata {
 	return result
 }
 
-func (e *StandardEngine) Remove(prefix *IpNetwork) *Metadata {
-	removed := e.tree.Remove(prefix)
+func (e *StandardEngine) Remove(prefix *net.IPNet) *Metadata {
+	ipnet := IpNetwork{IP: prefix.IP, Mask: prefix.Mask}
+	removed := e.tree.Remove(&ipnet)
 	if removed != nil {
 		atomic.AddInt64(&e.size, -1)
 		e.mu.Lock()
@@ -63,8 +65,9 @@ func (e *StandardEngine) Remove(prefix *IpNetwork) *Metadata {
 	return removed
 }
 
-func (e *StandardEngine) Contains(prefix *IpNetwork) bool {
-	return e.tree.Contains(prefix)
+func (e *StandardEngine) Contains(prefix *net.IPNet) bool {
+	ipnet := IpNetwork{IP: prefix.IP, Mask: prefix.Mask}
+	return e.tree.Contains(&ipnet)
 }
 
 func (e *StandardEngine) Clear() {
@@ -75,16 +78,16 @@ func (e *StandardEngine) Clear() {
 	e.mu.Unlock()
 }
 
-func (e *StandardEngine) Size() int64 {
-	return atomic.LoadInt64(&e.size)
+func (e *StandardEngine) Size() int {
+	return int(atomic.LoadInt64(&e.size))
 }
 
-func (e *StandardEngine) Stats() EngineStats {
+func (e *StandardEngine) Stats() *EngineStats {
 	e.mu.RLock()
 	defer e.mu.RUnlock()
 	s := e.statsData
 	s.Size = int(atomic.LoadInt64(&e.size))
-	return s
+	return &s
 }
 
 // SHARDED ENGINE ============
@@ -162,7 +165,7 @@ func (e *ShardedEngine) getShard(ip *net.IP) int {
 	return int(hash % uint64(e.numShards))
 }
 
-func (e *ShardedEngine) Insert(prefix IpNetwork, metadata Metadata) error {
+func (e *ShardedEngine) Insert(prefix *net.IPNet, metadata Metadata) error {
 	// Insert into all shards so any shard can serve lookups correctly
 	for _, shard := range e.shards {
 		if err := shard.Insert(prefix, metadata); err != nil {
@@ -172,11 +175,11 @@ func (e *ShardedEngine) Insert(prefix IpNetwork, metadata Metadata) error {
 	return nil
 }
 
-func (e *ShardedEngine) Lookup(ip *net.IP) *Metadata {
-	return e.shards[e.getShard(ip)].Lookup(ip)
+func (e *ShardedEngine) Lookup(ip net.IP) *Metadata {
+	return e.shards[e.getShard(&ip)].Lookup(ip)
 }
 
-func (e *ShardedEngine) Remove(prefix *IpNetwork) *Metadata {
+func (e *ShardedEngine) Remove(prefix *net.IPNet) *Metadata {
 	var removed *Metadata
 	for _, shard := range e.shards {
 		if r := shard.Remove(prefix); removed == nil {
@@ -186,7 +189,7 @@ func (e *ShardedEngine) Remove(prefix *IpNetwork) *Metadata {
 	return removed
 }
 
-func (e *ShardedEngine) Contains(prefix *IpNetwork) bool {
+func (e *ShardedEngine) Contains(prefix *net.IPNet) bool {
 	if len(e.shards) > 0 {
 		return e.shards[0].Contains(prefix)
 	}
@@ -199,14 +202,14 @@ func (e *ShardedEngine) Clear() {
 	}
 }
 
-func (e *ShardedEngine) Size() int64 {
+func (e *ShardedEngine) Size() int {
 	if len(e.shards) > 0 {
 		return e.shards[0].Size()
 	}
 	return 0
 }
 
-func (e *ShardedEngine) Stats() EngineStats {
+func (e *ShardedEngine) Stats() *EngineStats {
 	var total EngineStats
 	for _, shard := range e.shards {
 		s := shard.Stats()
@@ -219,8 +222,8 @@ func (e *ShardedEngine) Stats() EngineStats {
 		total.Inserts = s.Inserts
 		total.Removals = s.Removals
 	}
-	total.Size = int(e.Size())
-	return total
+	total.Size = e.Size()
+	return &total
 }
 
 // ENGINE WRAPPER ============
@@ -269,31 +272,28 @@ func NewEngineWrapperWithTree(variant EngineVariant, nodeVariant NodeVariant, co
 	return &EngineWrapper{engine: engine, variant: variant}
 }
 
-func (e *EngineWrapper) Insert(prefix IpNetwork, metadata Metadata) error {
-	ipPrefix := net.IPNet{IP: prefix.IP, Mask: prefix.Mask}
-	return e.engine.Insert(&ipPrefix, metadata)
+func (e *EngineWrapper) Insert(prefix *net.IPNet, metadata Metadata) error {
+	return e.engine.Insert(prefix, metadata)
 }
 
-func (e *EngineWrapper) Lookup(ip *net.IP) *Metadata {
-	return e.engine.Lookup(*ip)
+func (e *EngineWrapper) Lookup(ip net.IP) *Metadata {
+	return e.engine.Lookup(ip)
 }
 
-func (e *EngineWrapper) Remove(prefix *IpNetwork) *Metadata {
-	ipPrefix := net.IPNet{IP: prefix.IP, Mask: prefix.Mask}
-	return e.engine.Remove(&ipPrefix)
+func (e *EngineWrapper) Remove(prefix *net.IPNet) *Metadata {
+	return e.engine.Remove(prefix)
 }
 
-func (e *EngineWrapper) Contains(prefix *IpNetwork) bool {
-	ipPrefix := net.IPNet{IP: prefix.IP, Mask: prefix.Mask}
-	return e.engine.Contains(&ipPrefix)
+func (e *EngineWrapper) Contains(prefix *net.IPNet) bool {
+	return e.engine.Contains(prefix)
 }
 
 func (e *EngineWrapper) Clear() {
 	e.engine.Clear()
 }
 
-func (e *EngineWrapper) Size() int64 {
-	return int64(e.engine.Size())
+func (e *EngineWrapper) Size() int {
+	return e.engine.Size()
 }
 
 func (e *EngineWrapper) Stats() *EngineStats {
