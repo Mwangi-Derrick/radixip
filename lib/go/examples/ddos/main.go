@@ -1,4 +1,4 @@
-package main
+package ddos
 
 import (
 	"fmt"
@@ -7,7 +7,7 @@ import (
 	"sync"
 	"time"
 
-	"radixip"
+	radixip "github.com/Mwangi-Derrick/radixip/lib/go"
 )
 
 // Global threshold config for the DDoS protection engine
@@ -17,14 +17,14 @@ const (
 )
 
 type DDoSProtector struct {
-	engine *radixip.EngineWrapper
+	engine *radixip.HybridEngine
 
 	// Internal tracking: maps source IP to their current counts in the window
 	mu     sync.Mutex
 	counts map[string]int
 }
 
-func NewDDoSProtector(e *radixip.EngineWrapper) *DDoSProtector {
+func NewDDoSProtector(e *radixip.HybridEngine) *DDoSProtector {
 	return &DDoSProtector{
 		engine: e,
 		counts: make(map[string]int),
@@ -104,7 +104,7 @@ func main() {
 	// Example: Blocking a known bad AS or region
 	_, badNet, _ := net.ParseCIDR("100.100.100.0/24")
 	engine.Insert(badNet, radixip.Metadata{
-		Data: map[string]interface{}{
+		Attributes: map[string]string{
 			"reason": "Known malicious AS",
 		},
 	})
@@ -141,10 +141,10 @@ func main() {
 	protector.RefreshWindow()
 
 	// 4. Show dynamic update capability
-	// A new route is announced (e.g., new BGP route)
+	// A new route is announced (e.g., new BGP(border gateway protocol) route)
 	_, newNet, _ := net.ParseCIDR("10.10.0.0/16")
 	protector.InsertRoute(newNet, radixip.Metadata{
-		Data: map[string]interface{}{
+		Attributes: map[string]string{
 			"reason": "Emergency Traffic Lane",
 		},
 	})
@@ -152,6 +152,6 @@ func main() {
 	fmt.Println("\nQuerying new route...")
 	meta := protector.engine.Lookup(net.ParseIP("10.10.5.5"))
 	if meta != nil {
-		fmt.Printf("Found: %v\n", meta.Data)
+		fmt.Printf("Found: %v\n", meta.Attributes)
 	}
 }

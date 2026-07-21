@@ -5,7 +5,7 @@ import (
 	"log"
 	"net"
 
-	"github.com/Mwangi-Derrick/radixip/lib/go/radixip"
+	radixip "github.com/Mwangi-Derrick/radixip/lib/go"
 )
 
 func main() {
@@ -14,9 +14,10 @@ func main() {
 	// 1. Initialize the Engine
 	// In this basic example, we use the standard Engine (control plane style)
 	// It uses UncompressedTree by default, which is great for inserts/updates.
-	engine, err := radixip.NewStandardEngine(radixip.NodeNormal)
-	if err != nil {
-		log.Fatalf("Failed to initialize engine: %v", err)
+	tree := radixip.NewUncompressedTree(radixip.NodeNormal)
+	engine := radixip.NewStandardEngine(tree)
+	if engine == nil {
+		log.Fatalf("Failed to initialize engine")
 	}
 
 	// 2. Insert some IP prefixes with metadata
@@ -42,7 +43,8 @@ func main() {
 
 		// Create metadata
 		meta := radixip.Metadata{
-			Data: p.data,
+			Value:      p.cidr,
+			Attributes: p.data,
 		}
 
 		// Insert into the engine
@@ -71,11 +73,20 @@ func main() {
 
 		if result != nil {
 			fmt.Printf("-> %s: Matched %v (Data: %v)\n",
-				ipStr, result.Prefix, result.Data)
+				ipStr, result.Attributes, result.Value)
 		} else {
 			fmt.Printf("-> %s: No match\n", ipStr)
 		}
 	}
 
 	fmt.Println("\nSuccess!")
+}
+
+func toStringMap(data map[string]interface{}) map[string]string {
+	// make a slice
+	result := make(map[string]string)
+	for key, value := range data {
+		result[key] = value.(string)
+	}
+	return result
 }

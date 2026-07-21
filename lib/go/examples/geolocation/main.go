@@ -1,13 +1,13 @@
 package main
 
 import (
-	"context"
+	//"context"
 	"fmt"
 	"log"
 	"net"
 	"time"
 
-	"radixip"
+	radixip "github.com/Mwangi-Derrick/radixip/lib/go"
 )
 
 func main() {
@@ -23,7 +23,7 @@ func main() {
 
 	// Optional: Configure Redis to sync the planes across a cluster
 	// (We leave it nil here to demonstrate the local split-plane sync)
-	config.Redis = nil 
+	config.Redis = nil
 
 	// 2. Initialize the Hybrid Engine
 	engine, err := radixip.NewHybridEngine(config)
@@ -38,7 +38,7 @@ func main() {
 
 	// 4. Insert some geolocation data (goes to Control Plane)
 	fmt.Println("Populating routing table...")
-	
+
 	prefixes := []struct {
 		cidr    string
 		country string
@@ -53,12 +53,12 @@ func main() {
 	for _, p := range prefixes {
 		_, ipNet, _ := net.ParseCIDR(p.cidr)
 		meta := radixip.Metadata{
-			Data: map[string]interface{}{
+			Attributes: map[string]string{
 				"country": p.country,
 				"region":  p.region,
 			},
 		}
-		
+
 		err := engine.Insert(ipNet, meta)
 		if err != nil {
 			log.Printf("Failed to insert %s: %v", p.cidr, err)
@@ -72,24 +72,24 @@ func main() {
 
 	// 5. Perform lookups (goes to Data Plane)
 	ipsToTest := []string{
-		"192.168.1.50",   // Should match /24 (California)
-		"192.168.1.150",  // Should match /25 (Nevada)
-		"10.10.5.5",      // Should match /16 (France)
-		"10.20.5.5",      // Should match /8 (Germany)
-		"8.8.8.8",        // Should not match
+		"192.168.1.50",  // Should match /24 (California)
+		"192.168.1.150", // Should match /25 (Nevada)
+		"10.10.5.5",     // Should match /16 (France)
+		"10.20.5.5",     // Should match /8 (Germany)
+		"8.8.8.8",       // Should not match
 	}
 
 	fmt.Println("Performing lookups...")
 	for _, ipStr := range ipsToTest {
 		ip := net.ParseIP(ipStr)
 		start := time.Now()
-		
+
 		meta := engine.Lookup(ip)
-		
+
 		duration := time.Since(start)
-		
+
 		if meta != nil {
-			data := meta.Data.(map[string]interface{})
+			data := meta.Attributes
 			fmt.Printf("[ %s ] Found: %s - %s (%v)\n", ipStr, data["country"], data["region"], duration)
 		} else {
 			fmt.Printf("[ %s ] No match found (%v)\n", ipStr, duration)
