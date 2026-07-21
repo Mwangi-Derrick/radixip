@@ -1,6 +1,6 @@
 use napi::bindgen_prelude::*;
 use napi_derive::napi;
-use radixip_rs::{new_balanced, Error, Metadata, RadixEngine};
+use radixip_rs::{new_memory_efficient, Error, Metadata, RadixEngine};
 use std::collections::HashMap;
 use std::net::IpAddr;
 
@@ -59,13 +59,14 @@ impl RadixIP {
     /// Pass an optional `EngineConfig` to customise the variant.
     #[napi(constructor)]
     pub fn new(_config: Option<EngineConfig>) -> Self {
-        // For now, always create a balanced engine.
-        // When split-plane is needed users call `new_split_plane()`.
+        // Node.js is single-threaded; using the Concurrent Sharded engine adds locking overhead
+        // with no parallel execution benefits. The memory_efficient config uses the StandardEngine
+        // with a compressed Patricia tree, which is optimal for the V8 Event Loop.
         let inner = tokio::runtime::Builder::new_current_thread()
             .enable_all()
             .build()
             .unwrap()
-            .block_on(new_balanced());
+            .block_on(radixip_rs::new_memory_efficient());
 
         Self { inner }
     }
