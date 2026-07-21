@@ -44,7 +44,7 @@ func main() {
 		// Create metadata
 		meta := radixip.Metadata{
 			Value:      p.cidr,
-			Attributes: p.data,
+			Attributes: toStringMap(p.data),
 		}
 
 		// Insert into the engine
