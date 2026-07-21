@@ -1,6 +1,6 @@
 use napi::bindgen_prelude::*;
 use napi_derive::napi;
-use radixip_rs::{new_balanced, Metadata, RadixEngine};
+use radixip_rs::{new_balanced, Error, Metadata, RadixEngine};
 use std::collections::HashMap;
 use std::net::IpAddr;
 
@@ -147,11 +147,11 @@ impl RadixIP {
     pub fn stats(&self) -> JsEngineStats {
         let s = self.inner.stats();
         JsEngineStats {
-            size:     s.size as u32,
-            inserts:  s.inserts as u32,
-            lookups:  s.lookups as u32,
-            hits:     s.hits as u32,
-            misses:   s.misses as u32,
+            size: s.size as u32,
+            inserts: s.inserts as u32,
+            lookups: s.lookups as u32,
+            hits: s.hits as u32,
+            misses: s.misses as u32,
             removals: s.removals as u32,
         }
     }
