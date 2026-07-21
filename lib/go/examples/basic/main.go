@@ -5,7 +5,7 @@ import (
 	"log"
 	"net"
 
-	radixip "github.com/Mwangi-Derrick/radixip/lib/go"
+	radixIp "github.com/Mwangi-Derrick/radixip/lib/go"
 )
 
 func main() {
@@ -14,8 +14,8 @@ func main() {
 	// 1. Initialize the Engine
 	// In this basic example, we use the standard Engine (control plane style)
 	// It uses UncompressedTree by default, which is great for inserts/updates.
-	tree := radixip.NewUncompressedTree(radixip.NodeNormal)
-	engine := radixip.NewStandardEngine(tree)
+	tree := radixIp.NewUncompressedTree(radixIp.NodeNormal)
+	engine := radixIp.NewStandardEngine(tree)
 	if engine == nil {
 		log.Fatalf("Failed to initialize engine")
 	}
@@ -42,7 +42,7 @@ func main() {
 		}
 
 		// Create metadata
-		meta := radixip.Metadata{
+		meta := radixIp.Metadata{
 			Value:      p.cidr,
 			Attributes: toStringMap(p.data),
 		}
