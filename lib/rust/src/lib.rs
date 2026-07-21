@@ -32,7 +32,13 @@ pub use engine::{EngineWrapper, ShardedEngine, StandardEngine};
 pub use errors::{RadixError, Result};
 pub use hybrid::HybridEngine;
 pub use lpm::LPM;
-pub use node::{AtomicNode, NodeWrapper, NormalNode, PaddedNode};
+// Uncompressed node types
+pub use node::{AtomicNode, LockFreeNode, NodeWrapper, NormalNode, PaddedNode};
+// Compressed (Patricia) node types
+pub use node::NodeBuilder;
+pub use node::{
+    CompressedAtomicNode, CompressedLockFreeNode, CompressedNormalNode, CompressedPaddedNode,
+};
 pub use types::{Metadata, SubnetRule};
 
 pub use cache::{CacheConfig, CachedEngine};
@@ -52,9 +58,9 @@ pub async fn new(config: RadixConfig) -> Box<dyn RadixEngine> {
     }
 
     let engine = EngineWrapper::new(
-        config.engine_variant, 
-        config.node_variant, 
-        config.read_compressed
+        config.engine_variant,
+        config.node_variant,
+        config.read_compressed,
     );
 
     if config.cache_enabled {
