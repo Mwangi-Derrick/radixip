@@ -21,7 +21,7 @@ categories = ["network-programming", "caching", "data-structures"]
 
 [workspace.dependencies]
 # Core
-radixip-rs = { path = "lib/rust" }
+radixip_rs = { path = "lib/rust" }
 
 # For Python bindings
 pyo3 = "0.22"

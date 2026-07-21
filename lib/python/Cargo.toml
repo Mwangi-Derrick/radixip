@@ -11,7 +11,7 @@ crate-type = ["cdylib"]
 name = "radixip"
 
 [dependencies]
-radixip-rs = { path = "../rust" }
+radixip_rs = { path = "../rust" }
 pyo3 = { workspace = true, features = ["extension-module"] }
 serde = { workspace = true }
 serde_json = { workspace = true }
