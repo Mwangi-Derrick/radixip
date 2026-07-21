@@ -51,7 +51,11 @@ pub async fn new(config: RadixConfig) -> Box<dyn RadixEngine> {
         );
     }
 
-    let engine = EngineWrapper::new(config.engine_variant, config.node_variant, false); // Default to uncompressed if no split plane configured
+    let engine = EngineWrapper::new(
+        config.engine_variant, 
+        config.node_variant, 
+        config.read_compressed
+    );
 
     if config.cache_enabled {
         let cache_config = CacheConfig {
