@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  # The Redis Control Plane / State Bus
+  redis:
+    image: redis:7.2-alpine
+    container_name: radixip-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./docker/redis.conf:/usr/local/etc/redis/redis.conf
+    command: [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
+
+  # Go Engine (e.g. running the DDoS Demo)
+  go-engine:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.go
+    container_name: radixip-go
+    depends_on:
+      - redis
+    environment:
+      - REDIS_URL=redis:6379
+      - REDIS_CHANNEL=radixip:updates
+
+  # Rust Engine 
+  rust-engine:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.rust
+    container_name: radixip-rust
+    depends_on:
+      - redis
+    environment:
+      - REDIS_URL=redis:6379
+      - REDIS_CHANNEL=radixip:updates
