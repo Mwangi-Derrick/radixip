@@ -5,7 +5,7 @@ import (
 	"log"
 	"net"
 
-	"radixip"
+	"github.com/Mwangi-Derrick/radixip/lib/go/radixip"
 )
 
 func main() {
@@ -46,7 +46,7 @@ func main() {
 		}
 
 		// Insert into the engine
-		err := engine.Insert(ipNet, meta)
+		err = engine.Insert(ipNet, meta)
 		if err != nil {
 			log.Printf("Failed to insert %s: %v", p.cidr, err)
 		}
