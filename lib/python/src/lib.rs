@@ -5,6 +5,7 @@ use radixip_rs::{new_balanced, Metadata, RadixConfig, RadixEngine};
 use std::collections::HashMap;
 use std::net::IpAddr;
 use std::sync::Arc;
+use tokio;
 
 // ---------------------------------------------------------------------------
 // Internal helper: Metadata <-> Python dict
@@ -74,17 +75,17 @@ impl PyRadixEngine {
     #[pyo3(signature = (variant=None))]
     fn new(variant: Option<String>) -> PyResult<Self> {
         let config = match variant.as_deref() {
-            Some("standard")  => {
+            Some("standard") => {
                 let mut c = RadixConfig::new();
                 c.engine_variant = radixip_rs::EngineVariant::Standard;
                 c
             }
-            Some("lockfree")  => {
+            Some("lockfree") => {
                 let mut c = RadixConfig::new();
                 c.engine_variant = radixip_rs::EngineVariant::LockFree;
                 c
             }
-            Some("adaptive")  => {
+            Some("adaptive") => {
                 let mut c = RadixConfig::new();
                 c.engine_variant = radixip_rs::EngineVariant::Adaptive;
                 c
@@ -99,7 +100,9 @@ impl PyRadixEngine {
             .map_err(|e| PyValueError::new_err(e.to_string()))?
             .block_on(radixip_rs::new(config));
 
-        Ok(Self { inner: Arc::new(inner) })
+        Ok(Self {
+            inner: Arc::new(inner),
+        })
     }
 
     /// Insert a CIDR prefix with associated metadata dict.
@@ -130,7 +133,7 @@ impl PyRadixEngine {
             .map_err(|_| PyValueError::new_err(format!("Invalid IP address: {ip}")))?;
         match self.inner.lookup(&addr) {
             Some(meta) => Ok(Some(meta_to_dict(py, meta)?)),
-            None       => Ok(None),
+            None => Ok(None),
         }
     }
 
@@ -164,11 +167,11 @@ impl PyRadixEngine {
     fn stats(&self, py: Python<'_>) -> PyResult<PyObject> {
         let s = self.inner.stats();
         let dict = PyDict::new(py);
-        dict.set_item("size",     s.size)?;
-        dict.set_item("inserts",  s.inserts)?;
-        dict.set_item("lookups",  s.lookups)?;
-        dict.set_item("hits",     s.hits)?;
-        dict.set_item("misses",   s.misses)?;
+        dict.set_item("size", s.size)?;
+        dict.set_item("inserts", s.inserts)?;
+        dict.set_item("lookups", s.lookups)?;
+        dict.set_item("hits", s.hits)?;
+        dict.set_item("misses", s.misses)?;
         dict.set_item("removals", s.removals)?;
         Ok(dict.into())
     }
