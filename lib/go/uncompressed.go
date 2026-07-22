@@ -37,6 +37,97 @@ type paddedNode struct {
 	_pad6    [56]byte
 }
 
+type lockFreeNode struct {
+	metadata unsafe.Pointer // *Metadata
+	left     unsafe.Pointer // *lockFreeNode
+	right    unsafe.Pointer // *lockFreeNode
+	prefix   unsafe.Pointer // *net.IPNet
+	bit      uint8          // Not atomic - read-only after node creation?
+	edgeLen  int            // Not atomic - read-only after node creation?
+	edgeBits []byte         // Not atomic - read-only after node creation?
+}
+
+func NewLockFreeNode() *lockFreeNode {
+	return &lockFreeNode{}
+}
+
+func (n *lockFreeNode) Bit() *uint8 {
+	return &n.bit // Return pointer to the bit field
+}
+
+func (n *lockFreeNode) SetBit(bit uint8) {
+	// Only call if node is not yet published!
+	n.bit = bit
+}
+
+func (n *lockFreeNode) Left() RadixNode {
+	ptr := atomic.LoadPointer(&n.left)
+	if ptr == nil {
+		return nil
+	}
+	return (*lockFreeNode)(ptr)
+}
+
+func (n *lockFreeNode) SetLeft(node RadixNode) {
+	if node == nil {
+		atomic.StorePointer(&n.left, nil)
+	} else {
+		atomic.StorePointer(&n.left, unsafe.Pointer(node.(*lockFreeNode)))
+	}
+}
+
+func (n *lockFreeNode) Right() RadixNode {
+	ptr := atomic.LoadPointer(&n.right)
+	if ptr == nil {
+		return nil
+	}
+	return (*lockFreeNode)(ptr)
+}
+
+func (n *lockFreeNode) SetRight(node RadixNode) {
+	if node == nil {
+		atomic.StorePointer(&n.right, nil)
+	} else {
+		atomic.StorePointer(&n.right, unsafe.Pointer(node.(*lockFreeNode)))
+	}
+}
+
+func (n *lockFreeNode) Metadata() *Metadata {
+	return (*Metadata)(atomic.LoadPointer(&n.metadata))
+}
+
+func (n *lockFreeNode) SetMetadata(metadata *Metadata) {
+	atomic.StorePointer(&n.metadata, unsafe.Pointer(metadata))
+}
+
+func (n *lockFreeNode) ClearMetadata() {
+	atomic.StorePointer(&n.metadata, nil)
+}
+
+func (n *lockFreeNode) Prefix() *net.IPNet {
+	return (*net.IPNet)(atomic.LoadPointer(&n.prefix))
+}
+
+func (n *lockFreeNode) SetPrefix(prefix *net.IPNet) {
+	atomic.StorePointer(&n.prefix, unsafe.Pointer(prefix))
+}
+
+func (n *lockFreeNode) EdgeLen() int {
+	return n.edgeLen
+}
+
+func (n *lockFreeNode) SetEdgeLen(edgeLen int) {
+	n.edgeLen = edgeLen
+}
+
+func (n *lockFreeNode) EdgeBits() []byte {
+	return n.edgeBits
+}
+
+func (n *lockFreeNode) SetEdgeBits(edgeBits []byte) {
+	n.edgeBits = edgeBits
+}
+
 func NewAtomicNode() *atomicNode {
 	return &atomicNode{}
 }
