@@ -1,25 +1,23 @@
-package node
+package radixip
 
 import (
 	"net"
-
-	radixip "github.com/Mwangi-Derrick/radixip/lib/go"
 )
 
 // NewIpNetwork creates a new IpNetwork from CIDR string
-func NewIpNetwork(cidr string) (radixip.IpNetwork, error) {
+func NewIpNetwork(cidr string) (IpNetwork, error) {
 	ip, ipnet, err := net.ParseCIDR(cidr)
 	if err != nil {
-		return radixip.IpNetwork{}, err
+		return IpNetwork{}, err
 	}
-	return radixip.IpNetwork{
+	return IpNetwork{
 		IP:   ip,
 		Mask: ipnet.Mask,
 	}, nil
 }
 
 // // String returns the CIDR notation
-// func (n radixip.IpNetwork) String() string {
+// func (n IpNetwork) String() string {
 // 	return (&net.IPNet{
 // 		IP:   n.IP,
 // 		Mask: n.Mask,
@@ -27,7 +25,7 @@ func NewIpNetwork(cidr string) (radixip.IpNetwork, error) {
 // }
 
 // // Equal checks if two IpNetworks are equal
-// func (n radixip.IpNetwork) Equal(other radixip.IpNetwork) bool {
+// func (n IpNetwork) Equal(other IpNetwork) bool {
 // 	return n.IP.Equal(other.IP) &&
 // 		len(n.Mask) == len(other.Mask) &&
 // 		bytesEqual(n.Mask, other.Mask)
@@ -40,7 +38,7 @@ type IpNetworkKey struct {
 }
 
 // Helper function to convert IpNetwork to map key
-func ipNetworkToKey(network radixip.IpNetwork) IpNetworkKey {
+func ipNetworkToKey(network IpNetwork) IpNetworkKey {
 	return IpNetworkKey{
 		IP:   network.IP.String(),
 		Mask: maskToString(network.Mask),

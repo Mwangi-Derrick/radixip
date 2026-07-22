@@ -1,29 +1,27 @@
-package node
+package radixip
 
 import (
 	"net"
 	"sync"
 	"sync/atomic"
 	"unsafe"
-
-	radix "github.com/Mwangi-Derrick/radixip/lib/go"
 )
 
 type CompressedNormalNode struct {
 	mu       sync.Mutex
 	edgeBits []byte
 	edgeLen  int
-	metadata *radix.Metadata
+	metadata *Metadata
 	prefix   *net.IPNet
 	left     *CompressedNormalNode
 	right    *CompressedNormalNode
 }
 
-func (n *CompressedNormalNode) Metadata() *radix.Metadata {
+func (n *CompressedNormalNode) Metadata() *Metadata {
 	return n.metadata
 }
 
-func (n *CompressedNormalNode) SetMetadata(metadata *radix.Metadata) {
+func (n *CompressedNormalNode) SetMetadata(metadata *Metadata) {
 	n.metadata = metadata
 }
 
@@ -72,7 +70,7 @@ func (n *CompressedNormalNode) SetEdgeBits(edgeBits []byte) {
 }
 
 type CompressedAtomicNode struct {
-	metadata unsafe.Pointer // *radix.Metadata
+	metadata unsafe.Pointer // *Metadata
 	left     *CompressedAtomicNode
 	right    *CompressedAtomicNode
 	prefix   *net.IPNet
@@ -80,11 +78,11 @@ type CompressedAtomicNode struct {
 	edgeBits []byte
 }
 
-func (n *CompressedAtomicNode) Metadata() *radix.Metadata {
-	return (*radix.Metadata)(atomic.LoadPointer(&n.metadata))
+func (n *CompressedAtomicNode) Metadata() *Metadata {
+	return (*Metadata)(atomic.LoadPointer(&n.metadata))
 }
 
-func (n *CompressedAtomicNode) SetMetadata(metadata *radix.Metadata) {
+func (n *CompressedAtomicNode) SetMetadata(metadata *Metadata) {
 	atomic.StorePointer(&n.metadata, unsafe.Pointer(metadata))
 }
 
@@ -134,7 +132,7 @@ func (n *CompressedAtomicNode) SetEdgeBits(edgeBits []byte) {
 
 type CompressedPaddedNode struct {
 	_pad1    [64]byte
-	metadata unsafe.Pointer // *radix.Metadata
+	metadata unsafe.Pointer // *Metadata
 	_pad2    [56]byte
 	left     *CompressedPaddedNode
 	_pad3    [56]byte
@@ -148,11 +146,11 @@ type CompressedPaddedNode struct {
 	_pad7    [64]byte
 }
 
-func (n *CompressedPaddedNode) Metadata() *radix.Metadata {
-	return (*radix.Metadata)(atomic.LoadPointer(&n.metadata))
+func (n *CompressedPaddedNode) Metadata() *Metadata {
+	return (*Metadata)(atomic.LoadPointer(&n.metadata))
 }
 
-func (n *CompressedPaddedNode) SetMetadata(metadata *radix.Metadata) {
+func (n *CompressedPaddedNode) SetMetadata(metadata *Metadata) {
 	atomic.StorePointer(&n.metadata, unsafe.Pointer(metadata))
 }
 
@@ -201,7 +199,7 @@ func (n *CompressedPaddedNode) SetEdgeBits(edgeBits []byte) {
 }
 
 type CompressedLockFreeNode struct {
-	metadata unsafe.Pointer // *radix.Metadata
+	metadata unsafe.Pointer // *Metadata
 	left     *CompressedLockFreeNode
 	right    *CompressedLockFreeNode
 	prefix   *net.IPNet
@@ -213,11 +211,11 @@ func NewCompressedLockFreeNode() *CompressedLockFreeNode {
 	return &CompressedLockFreeNode{}
 }
 
-func (n *CompressedLockFreeNode) Metadata() *radix.Metadata {
-	return (*radix.Metadata)(atomic.LoadPointer(&n.metadata))
+func (n *CompressedLockFreeNode) Metadata() *Metadata {
+	return (*Metadata)(atomic.LoadPointer(&n.metadata))
 }
 
-func (n *CompressedLockFreeNode) SetMetadata(metadata *radix.Metadata) {
+func (n *CompressedLockFreeNode) SetMetadata(metadata *Metadata) {
 	atomic.StorePointer(&n.metadata, unsafe.Pointer(metadata))
 }
 

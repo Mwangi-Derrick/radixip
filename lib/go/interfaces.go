@@ -67,3 +67,17 @@ type EngineFactory interface {
 	CreateEngine(variant EngineVariant) RadixEngine
 	CreateNode(variant NodeVariant) RadixNode
 }
+
+// NodeBuilder is a factory for RadixNodes
+type NodeBuilder struct {
+	variant NodeVariant
+}
+
+func NewNodeBuilder(variant NodeVariant) *NodeBuilder {
+	return &NodeBuilder{variant: variant}
+}
+
+func (b *NodeBuilder) Build() RadixNode {
+	// For now, always return atomicNode, we can add paddedNode or normalNode later if needed
+	return NewAtomicNode()
+}

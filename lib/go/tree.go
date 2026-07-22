@@ -3,8 +3,6 @@ package radixip
 import (
 	"net"
 	"sync"
-
-	"github.com/Mwangi-Derrick/radixip/lib/go/node"
 )
 
 //
@@ -16,11 +14,11 @@ import (
 
 type UncompressedTree struct {
 	root        RadixNode
-	nodeBuilder *node.NodeBuilder
+	nodeBuilder *NodeBuilder
 }
 
 func NewUncompressedTree(nodeVariant NodeVariant) *UncompressedTree {
-	builder := node.NewNodeBuilder(nodeVariant)
+	builder := NewNodeBuilder(nodeVariant)
 	return &UncompressedTree{
 		root:        builder.Build(),
 		nodeBuilder: builder,
@@ -189,11 +187,54 @@ type compressedNode struct {
 // CompressedTree is a Patricia / compressed radix trie.
 // It is safe for concurrent use via per-node mutexes (fine-grained locking).
 type CompressedTree struct {
-	root *compressedNode
+	//TODO: root should be radixnode
+	root        *compressedNode
+	nodeBuilder *NodeBuilder
 }
 
-func NewCompressedTree(_ NodeVariant) *CompressedTree {
-	return &CompressedTree{root: &compressedNode{}}
+func NewCompressedTree(variant NodeVariant) *CompressedTree {
+	return &CompressedTree{
+		root:        &compressedNode{},
+		nodeBuilder: NewNodeBuilder(variant),
+	}
+}
+
+func (t *CompressedTree) Insert(prefix IpNetwork, metadata Metadata) (bool, error) {
+	ip := prefix.IP
+	ones, _ := prefix.Mask.Size()
+	prefixLen := ones
+
+	current := t.root
+
+	for depth := 0; depth < prefixLen; depth++ {
+		bit := t.getBit(ip, depth)
+		var next RadixNode
+		if bit == 0 {
+			next = current.Left()
+		} else {
+			next = current.Right()
+		}
+
+		if next != nil {
+			current = next
+		} else {
+			newNode := t.nodeBuilder.Build()
+			if bit == 0 {
+				current.SetLeft(newNode)
+			} else {
+				current.SetRight(newNode)
+			}
+			current = newNode
+		}
+	}
+
+	isNew := current.Metadata() == nil
+
+	netPrefix := net.IPNet{IP: prefix.IP, Mask: prefix.Mask}
+	current.SetPrefix(&netPrefix)
+	current.SetMetadata(&metadata)
+
+	return isNew, nil
 }
 
 func (t *CompressedTree) insertNode(n *compressedNode, key []byte, keyLen, depth int, prefix *net.IPNet, meta *Metadata) bool {

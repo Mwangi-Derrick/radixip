@@ -1,11 +1,9 @@
-package node
+package radixip
 
 import (
 	"net"
 	"sync/atomic"
 	"unsafe"
-
-	types "github.com/Mwangi-Derrick/radixip/lib/go"
 )
 
 // atomicNode implements RadixNode using atomic operations for thread safety
@@ -13,7 +11,7 @@ type atomicNode struct {
 	bit      unsafe.Pointer // *uint8
 	left     unsafe.Pointer // *atomicNode
 	right    unsafe.Pointer // *atomicNode
-	metadata unsafe.Pointer // *types.Metadata
+	metadata unsafe.Pointer // *Metadata
 	prefix   unsafe.Pointer // *net.IPNet
 }
 
@@ -21,7 +19,7 @@ type normalNode struct {
 	bit      uint8
 	left     *normalNode
 	right    *normalNode
-	metadata *types.Metadata
+	metadata *Metadata
 	prefix   *net.IPNet
 }
 
@@ -33,7 +31,7 @@ type paddedNode struct {
 	_pad3    [56]byte
 	right    *paddedNode
 	_pad4    [56]byte
-	metadata *types.Metadata
+	metadata *Metadata
 	_pad5    [56]byte
 	prefix   *net.IPNet
 	_pad6    [56]byte
@@ -52,7 +50,7 @@ func (n *atomicNode) SetBit(bit uint8) {
 	atomic.StorePointer(&n.bit, unsafe.Pointer(&bitVal))
 }
 
-func (n *atomicNode) Left() types.RadixNode {
+func (n *atomicNode) Left() RadixNode {
 	ptr := atomic.LoadPointer(&n.left)
 	if ptr == nil {
 		return nil
@@ -60,7 +58,7 @@ func (n *atomicNode) Left() types.RadixNode {
 	return (*atomicNode)(ptr)
 }
 
-func (n *atomicNode) SetLeft(node types.RadixNode) {
+func (n *atomicNode) SetLeft(node RadixNode) {
 	if node == nil {
 		atomic.StorePointer(&n.left, nil)
 	} else {
@@ -68,7 +66,7 @@ func (n *atomicNode) SetLeft(node types.RadixNode) {
 	}
 }
 
-func (n *atomicNode) Right() types.RadixNode {
+func (n *atomicNode) Right() RadixNode {
 	ptr := atomic.LoadPointer(&n.right)
 	if ptr == nil {
 		return nil
@@ -76,7 +74,7 @@ func (n *atomicNode) Right() types.RadixNode {
 	return (*atomicNode)(ptr)
 }
 
-func (n *atomicNode) SetRight(node types.RadixNode) {
+func (n *atomicNode) SetRight(node RadixNode) {
 	if node == nil {
 		atomic.StorePointer(&n.right, nil)
 	} else {
@@ -84,11 +82,11 @@ func (n *atomicNode) SetRight(node types.RadixNode) {
 	}
 }
 
-func (n *atomicNode) Metadata() *types.Metadata {
-	return (*types.Metadata)(atomic.LoadPointer(&n.metadata))
+func (n *atomicNode) Metadata() *Metadata {
+	return (*Metadata)(atomic.LoadPointer(&n.metadata))
 }
 
-func (n *atomicNode) SetMetadata(metadata *types.Metadata) {
+func (n *atomicNode) SetMetadata(metadata *Metadata) {
 	atomic.StorePointer(&n.metadata, unsafe.Pointer(metadata))
 }
 
@@ -116,27 +114,27 @@ func (n *normalNode) SetBit(bit uint8) {
 	n.bit = bit
 }
 
-func (n *normalNode) Left() types.RadixNode {
+func (n *normalNode) Left() RadixNode {
 	return n.left
 }
 
-func (n *normalNode) SetLeft(node types.RadixNode) {
+func (n *normalNode) SetLeft(node RadixNode) {
 	n.left = node.(*normalNode)
 }
 
-func (n *normalNode) Right() types.RadixNode {
+func (n *normalNode) Right() RadixNode {
 	return n.right
 }
 
-func (n *normalNode) SetRight(node types.RadixNode) {
+func (n *normalNode) SetRight(node RadixNode) {
 	n.right = node.(*normalNode)
 }
 
-func (n *normalNode) Metadata() *types.Metadata {
+func (n *normalNode) Metadata() *Metadata {
 	return n.metadata
 }
 
-func (n *normalNode) SetMetadata(metadata *types.Metadata) {
+func (n *normalNode) SetMetadata(metadata *Metadata) {
 	n.metadata = metadata
 }
 
@@ -164,27 +162,27 @@ func (n *paddedNode) SetBit(bit uint8) {
 	n.bit = bit
 }
 
-func (n *paddedNode) Left() types.RadixNode {
+func (n *paddedNode) Left() RadixNode {
 	return n.left
 }
 
-func (n *paddedNode) SetLeft(node types.RadixNode) {
+func (n *paddedNode) SetLeft(node RadixNode) {
 	n.left = node.(*paddedNode)
 }
 
-func (n *paddedNode) Right() types.RadixNode {
+func (n *paddedNode) Right() RadixNode {
 	return n.right
 }
 
-func (n *paddedNode) SetRight(node types.RadixNode) {
+func (n *paddedNode) SetRight(node RadixNode) {
 	n.right = node.(*paddedNode)
 }
 
-func (n *paddedNode) Metadata() *types.Metadata {
+func (n *paddedNode) Metadata() *Metadata {
 	return n.metadata
 }
 
-func (n *paddedNode) SetMetadata(metadata *types.Metadata) {
+func (n *paddedNode) SetMetadata(metadata *Metadata) {
 	n.metadata = metadata
 }
 
