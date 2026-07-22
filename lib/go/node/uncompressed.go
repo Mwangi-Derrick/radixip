@@ -39,7 +39,7 @@ type paddedNode struct {
 	_pad6    [56]byte
 }
 
-func newAtomicNode() *atomicNode {
+func NewAtomicNode() *atomicNode {
 	return &atomicNode{}
 }
 
@@ -104,7 +104,7 @@ func (n *atomicNode) SetPrefix(prefix *net.IPNet) {
 	atomic.StorePointer(&n.prefix, unsafe.Pointer(prefix))
 }
 
-func newNormalNode() *normalNode {
+func NewNormalNode() *normalNode {
 	return &normalNode{}
 }
 
@@ -152,7 +152,7 @@ func (n *normalNode) SetPrefix(prefix *net.IPNet) {
 	n.prefix = prefix
 }
 
-func newPaddedNode() *paddedNode {
+func NewPaddedNode() *paddedNode {
 	return &paddedNode{}
 }
 
