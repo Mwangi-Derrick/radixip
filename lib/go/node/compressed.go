@@ -131,3 +131,71 @@ func (n *CompressedAtomicNode) EdgeBits() []byte {
 func (n *CompressedAtomicNode) SetEdgeBits(edgeBits []byte) {
 	n.edgeBits = edgeBits
 }
+
+type CompressedPaddedNode struct {
+	_pad1    [64]byte
+	metadata unsafe.Pointer // *radix.Metadata
+	_pad2    [56]byte
+	left     *CompressedPaddedNode
+	_pad3    [56]byte
+	right    *CompressedPaddedNode
+	_pad4    [56]byte
+	prefix   *net.IPNet
+	_pad5    [56]byte
+	edgeLen  int
+	_pad6    [56]byte
+	edgeBits []byte
+	_pad7    [64]byte
+}
+
+func (n *CompressedPaddedNode) Metadata() *radix.Metadata {
+	return (*radix.Metadata)(atomic.LoadPointer(&n.metadata))
+}
+
+func (n *CompressedPaddedNode) SetMetadata(metadata *radix.Metadata) {
+	atomic.StorePointer(&n.metadata, unsafe.Pointer(metadata))
+}
+
+func (n *CompressedPaddedNode) ClearMetadata() {
+	atomic.StorePointer(&n.metadata, nil)
+}
+
+func (n *CompressedPaddedNode) GetLeft() *CompressedPaddedNode {
+	return n.left
+}
+
+func (n *CompressedPaddedNode) GetRight() *CompressedPaddedNode {
+	return n.right
+}
+
+func (n *CompressedPaddedNode) SetLeft(left *CompressedPaddedNode) {
+	n.left = left
+}
+
+func (n *CompressedPaddedNode) SetRight(right *CompressedPaddedNode) {
+	n.right = right
+}
+
+func (n *CompressedPaddedNode) Prefix() *net.IPNet {
+	return n.prefix
+}
+
+func (n *CompressedPaddedNode) SetPrefix(prefix *net.IPNet) {
+	n.prefix = prefix
+}
+
+func (n *CompressedPaddedNode) EdgeLen() int {
+	return n.edgeLen
+}
+
+func (n *CompressedPaddedNode) SetEdgeLen(edgeLen int) {
+	n.edgeLen = edgeLen
+}
+
+func (n *CompressedPaddedNode) EdgeBits() []byte {
+	return n.edgeBits
+}
+
+func (n *CompressedPaddedNode) SetEdgeBits(edgeBits []byte) {
+	n.edgeBits = edgeBits
+}
