@@ -17,6 +17,10 @@ type CompressedNormalNode struct {
 	right    *CompressedNormalNode
 }
 
+func NewCompressedNormalNode() *CompressedNormalNode {
+	return &CompressedNormalNode{}
+}
+
 func (n *CompressedNormalNode) Metadata() *Metadata {
 	return n.metadata
 }
@@ -76,6 +80,10 @@ type CompressedAtomicNode struct {
 	prefix   *net.IPNet
 	edgeLen  int
 	edgeBits []byte
+}
+
+func NewCompressedAtomicNode() *CompressedAtomicNode {
+	return &CompressedAtomicNode{}
 }
 
 func (n *CompressedAtomicNode) Metadata() *Metadata {
@@ -144,6 +152,10 @@ type CompressedPaddedNode struct {
 	_pad6    [56]byte
 	edgeBits []byte
 	_pad7    [64]byte
+}
+
+func NewCompressedPaddedNode() *CompressedPaddedNode {
+	return &CompressedPaddedNode{}
 }
 
 func (n *CompressedPaddedNode) Metadata() *Metadata {
