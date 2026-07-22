@@ -115,19 +115,19 @@ Proposed Patch:   41.1 ns/op (~9% improvement)
 ### Go Layer
 
 ```go
-// ✅ GOOD: Use net/netip.Addr (allocation-free)
+// ✅ GOOD: Use netip.Addr (24 bytes, comparable as integers, no dynamic backing array)
 import "net/netip"
 
 func lookup(ip netip.Addr) *GeoData {
-    // Stack-allocated, zero heap allocations
+    // May still escape if stored in an interface/map, but memory footprint is smaller.
     return radixTree.Lookup(ip)
 }
 
-// ❌ BAD: Avoid net.IP (heap allocations)
+// ❌ BETTER TO AVOID: net.IP (slice header + backing array, slower comparisons)
 import "net"
 
 func lookup(ip net.IP) *GeoData {
-    // Heap allocated, causes GC pressure
+    // Backing array may or may not allocate depending on where the IP came from.
     return radixTree.Lookup(ip)
 }
 ```
