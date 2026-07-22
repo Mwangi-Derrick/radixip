@@ -174,71 +174,35 @@ func (t *UncompressedTree) getBit(ip net.IP, bitPos int) int {
 // Non-branching chains are folded into single nodes, so O(k)
 // where k = branching points, not prefix length.
 
-type compressedNode struct {
-	mu       sync.Mutex
-	edgeBits []byte
-	edgeLen  int
-	metadata *Metadata
-	prefix   *net.IPNet
-	left     *compressedNode
-	right    *compressedNode
-}
-
 // CompressedTree is a Patricia / compressed radix trie.
-// It is safe for concurrent use via per-node mutexes (fine-grained locking).
 type CompressedTree struct {
-	//TODO: root should be radixnode
-	root        *compressedNode
+	root        RadixNode
 	nodeBuilder *NodeBuilder
 }
 
 func NewCompressedTree(variant NodeVariant) *CompressedTree {
+	compressedVariant := variant
+	switch variant {
+	case NodeNormal, NodeCompressedNormal:
+		compressedVariant = NodeCompressedNormal
+	case NodeAtomic, NodeCompressedAtomic:
+		compressedVariant = NodeCompressedAtomic
+	case NodePadded, NodeCompressedPadded:
+		compressedVariant = NodeCompressedPadded
+	case NodeLockFree, NodeCompressedLockFree:
+		compressedVariant = NodeCompressedLockFree
+	}
+
+	builder := NewNodeBuilder(compressedVariant)
 	return &CompressedTree{
-		root:        &compressedNode{},
-		nodeBuilder: NewNodeBuilder(variant),
+		root:        builder.Build(),
+		nodeBuilder: builder,
 	}
 }
 
-func (t *CompressedTree) Insert(prefix IpNetwork, metadata Metadata) (bool, error) {
-	ip := prefix.IP
-	ones, _ := prefix.Mask.Size()
-	prefixLen := ones
-
-	current := t.root
-
-	for depth := 0; depth < prefixLen; depth++ {
-		bit := t.getBit(ip, depth)
-		var next RadixNode
-		if bit == 0 {
-			next = current.Left()
-		} else {
-			next = current.Right()
-		}
-
-		if next != nil {
-			current = next
-		} else {
-			newNode := t.nodeBuilder.Build()
-			if bit == 0 {
-				current.SetLeft(newNode)
-			} else {
-				current.SetRight(newNode)
-			}
-			current = newNode
-		}
-	}
-
-	isNew := current.Metadata() == nil
-
-	netPrefix := net.IPNet{IP: prefix.IP, Mask: prefix.Mask}
-	current.SetPrefix(&netPrefix)
-	current.SetMetadata(&metadata)
-
-	return isNew, nil
-}
-
-func (t *CompressedTree) insertNode(n *compressedNode, key []byte, keyLen, depth int, prefix *net.IPNet, meta *Metadata) bool {
-	n.mu.Lock()
+func (t *CompressedTree) insertNode(n RadixNode, key []byte, keyLen, depth int, prefix *net.IPNet, meta *Metadata) bool {
+	edgeBits := n.EdgeBits()
+	edgeLen := n.EdgeLen()
 
 	remaining := keyLen - depth
 	if remaining < 0 {
@@ -246,139 +210,130 @@ func (t *CompressedTree) insertNode(n *compressedNode, key []byte, keyLen, depth
 	}
 
 	// Empty node — store directly
-	if n.edgeLen == 0 && n.metadata == nil && n.left == nil && n.right == nil {
-		n.edgeBits = extractBits(key, depth, remaining)
-		n.edgeLen = remaining
-		n.prefix = prefix
-		isNew := n.metadata == nil
-		n.metadata = meta
-		n.mu.Unlock()
+	if edgeLen == 0 && n.Metadata() == nil && n.Left() == nil && n.Right() == nil {
+		n.SetEdge(extractBits(key, depth, remaining), remaining)
+		n.SetPrefix(prefix)
+		isNew := n.Metadata() == nil
+		n.SetMetadata(meta)
 		return isNew
 	}
 
 	keyRem := extractBits(key, depth, remaining)
-	shared := commonPrefixLen(n.edgeBits, n.edgeLen, keyRem, remaining)
+	shared := commonPrefixLen(edgeBits, edgeLen, keyRem, remaining)
 
 	// Exact match
-	if shared == n.edgeLen && shared == remaining {
-		isNew := n.metadata == nil
-		n.metadata = meta
-		n.prefix = prefix
-		n.mu.Unlock()
+	if shared == edgeLen && shared == remaining {
+		isNew := n.Metadata() == nil
+		n.SetMetadata(meta)
+		n.SetPrefix(prefix)
 		return isNew
 	}
 
 	// Partial match — split
-	if shared < n.edgeLen {
-		pivotBit := getBitFromBytes(n.edgeBits, shared)
+	if shared < edgeLen {
+		pivotBit := getBitFromBytes(edgeBits, shared)
 		// New child carries current edge's remainder
-		child := &compressedNode{
-			edgeBits: extractBits(n.edgeBits, shared+1, n.edgeLen-shared-1),
-			edgeLen:  n.edgeLen - shared - 1,
-			metadata: n.metadata,
-			prefix:   n.prefix,
-			left:     n.left,
-			right:    n.right,
-		}
+		child := t.nodeBuilder.Build()
+		child.SetEdge(extractBits(edgeBits, shared+1, edgeLen-shared-1), edgeLen-shared-1)
+		child.SetMetadata(n.Metadata())
+		child.SetPrefix(n.Prefix())
+		child.SetLeft(n.Left())
+		child.SetRight(n.Right())
+
 		// Trim current node to shared prefix
-		n.edgeBits = extractBits(n.edgeBits, 0, shared)
-		n.edgeLen = shared
-		n.metadata = nil
-		n.prefix = nil
-		n.left = nil
-		n.right = nil
+		n.SetEdge(extractBits(edgeBits, 0, shared), shared)
+		n.ClearMetadata()
+		n.SetPrefix(nil)
+		n.SetLeft(nil)
+		n.SetRight(nil)
 
 		if pivotBit == 0 {
-			n.left = child
+			n.SetLeft(child)
 		} else {
-			n.right = child
+			n.SetRight(child)
 		}
 
 		if shared == remaining {
-			n.metadata = meta
-			n.prefix = prefix
-			n.mu.Unlock()
+			n.SetMetadata(meta)
+			n.SetPrefix(prefix)
 			return true
 		}
 
 		newBit := getBitFromBytes(keyRem, shared)
 		newLeafEdge := extractBits(keyRem, shared+1, remaining-shared-1)
-		newLeaf := &compressedNode{
-			edgeBits: newLeafEdge,
-			edgeLen:  remaining - shared - 1,
-			metadata: meta,
-			prefix:   prefix,
-		}
+		newLeaf := t.nodeBuilder.Build()
+		newLeaf.SetEdge(newLeafEdge, remaining-shared-1)
+		newLeaf.SetMetadata(meta)
+		newLeaf.SetPrefix(prefix)
+
 		if newBit == 0 {
-			n.left = newLeaf
+			n.SetLeft(newLeaf)
 		} else {
-			n.right = newLeaf
+			n.SetRight(newLeaf)
 		}
-		n.mu.Unlock()
 		return true
 	}
 
 	// Descend
 	nextBit := getBitFromBytes(keyRem, shared)
-	var childPtr **compressedNode
+	var child RadixNode
 	if nextBit == 0 {
-		childPtr = &n.left
+		child = n.Left()
 	} else {
-		childPtr = &n.right
+		child = n.Right()
 	}
 
-	if *childPtr == nil {
+	if child == nil {
 		newDepth := depth + shared + 1
 		newRemaining := keyLen - newDepth
 		if newRemaining < 0 {
 			newRemaining = 0
 		}
-		newLeaf := &compressedNode{
-			edgeBits: extractBits(key, newDepth, newRemaining),
-			edgeLen:  newRemaining,
-			metadata: meta,
-			prefix:   prefix,
+		newLeaf := t.nodeBuilder.Build()
+		newLeaf.SetEdge(extractBits(key, newDepth, newRemaining), newRemaining)
+		newLeaf.SetMetadata(meta)
+		newLeaf.SetPrefix(prefix)
+
+		if nextBit == 0 {
+			n.SetLeft(newLeaf)
+		} else {
+			n.SetRight(newLeaf)
 		}
-		*childPtr = newLeaf
-		n.mu.Unlock()
 		return true
 	}
 
-	child := *childPtr
-	n.mu.Unlock()
 	return t.insertNode(child, key, keyLen, depth+shared+1, prefix, meta)
 }
 
-func (t *CompressedTree) lookupNode(n *compressedNode, key []byte, depth int) *Metadata {
+func (t *CompressedTree) lookupNode(n RadixNode, key []byte, depth int) *Metadata {
 	if n == nil {
 		return nil
 	}
-	n.mu.Lock()
+	edgeBits := n.EdgeBits()
+	edgeLen := n.EdgeLen()
 
 	remaining := len(key)*8 - depth
 	if remaining < 0 {
 		remaining = 0
 	}
 	keyRem := extractBits(key, depth, remaining)
-	shared := commonPrefixLen(n.edgeBits, n.edgeLen, keyRem, remaining)
+	shared := commonPrefixLen(edgeBits, edgeLen, keyRem, remaining)
 
-	if shared < n.edgeLen {
-		n.mu.Unlock()
+	if shared < edgeLen {
 		return nil
 	}
 
-	best := n.metadata
+	best := n.Metadata()
 	newDepth := depth + shared
-	var nextChild *compressedNode
+	var nextChild RadixNode
 	if newDepth < len(key)*8 {
 		nextBit := getBitFromBytes(key, newDepth)
 		if nextBit == 0 {
-			nextChild = n.left
+			nextChild = n.Left()
 		} else {
-			nextChild = n.right
+			nextChild = n.Right()
 		}
 	}
-	n.mu.Unlock()
 
 	if nextChild != nil {
 		if deeper := t.lookupNode(nextChild, key, newDepth+1); deeper != nil {
@@ -388,71 +343,68 @@ func (t *CompressedTree) lookupNode(n *compressedNode, key []byte, depth int) *M
 	return best
 }
 
-func (t *CompressedTree) removeNode(n *compressedNode, key []byte, keyLen, depth int) *Metadata {
+func (t *CompressedTree) removeNode(n RadixNode, key []byte, keyLen, depth int) *Metadata {
 	if n == nil {
 		return nil
 	}
-	n.mu.Lock()
+	edgeBits := n.EdgeBits()
+	edgeLen := n.EdgeLen()
+
 	remaining := keyLen - depth
 	if remaining < 0 {
 		remaining = 0
 	}
 	keyRem := extractBits(key, depth, remaining)
-	shared := commonPrefixLen(n.edgeBits, n.edgeLen, keyRem, remaining)
+	shared := commonPrefixLen(edgeBits, edgeLen, keyRem, remaining)
 
-	if shared < n.edgeLen {
-		n.mu.Unlock()
+	if shared < edgeLen {
 		return nil
 	}
 
 	if shared == remaining {
-		removed := n.metadata
-		n.metadata = nil
-		n.prefix = nil
-		n.mu.Unlock()
+		removed := n.Metadata()
+		n.ClearMetadata()
+		n.SetPrefix(nil)
 		return removed
 	}
 
 	nextBit := getBitFromBytes(keyRem, shared)
-	var child *compressedNode
+	var child RadixNode
 	if nextBit == 0 {
-		child = n.left
+		child = n.Left()
 	} else {
-		child = n.right
+		child = n.Right()
 	}
-	n.mu.Unlock()
 	return t.removeNode(child, key, keyLen, depth+shared+1)
 }
 
-func (t *CompressedTree) containsNode(n *compressedNode, key []byte, keyLen, depth int) bool {
+func (t *CompressedTree) containsNode(n RadixNode, key []byte, keyLen, depth int) bool {
 	if n == nil {
 		return false
 	}
-	n.mu.Lock()
+	edgeBits := n.EdgeBits()
+	edgeLen := n.EdgeLen()
+
 	remaining := keyLen - depth
 	if remaining < 0 {
 		remaining = 0
 	}
 	keyRem := extractBits(key, depth, remaining)
-	shared := commonPrefixLen(n.edgeBits, n.edgeLen, keyRem, remaining)
+	shared := commonPrefixLen(edgeBits, edgeLen, keyRem, remaining)
 
-	if shared < n.edgeLen {
-		n.mu.Unlock()
+	if shared < edgeLen {
 		return false
 	}
 	if shared == remaining {
-		found := n.metadata != nil
-		n.mu.Unlock()
-		return found
+		return n.Metadata() != nil
 	}
 	nextBit := getBitFromBytes(keyRem, shared)
-	var child *compressedNode
+	var child RadixNode
 	if nextBit == 0 {
-		child = n.left
+		child = n.Left()
 	} else {
-		child = n.right
+		child = n.Right()
 	}
-	n.mu.Unlock()
 	return t.containsNode(child, key, keyLen, depth+shared+1)
 }
 
@@ -481,14 +433,7 @@ func (t *CompressedTree) Contains(prefix *IpNetwork) bool {
 }
 
 func (t *CompressedTree) Clear() {
-	t.root.mu.Lock()
-	defer t.root.mu.Unlock()
-	t.root.edgeBits = nil
-	t.root.edgeLen = 0
-	t.root.metadata = nil
-	t.root.prefix = nil
-	t.root.left = nil
-	t.root.right = nil
+	t.root = t.nodeBuilder.Build()
 }
 
 func getBitFromBytes(b []byte, pos int) uint8 {
@@ -531,3 +476,4 @@ func ipToBytes(ip net.IP) []byte {
 	}
 	return ip.To16()
 }
+
