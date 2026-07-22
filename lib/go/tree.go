@@ -2,7 +2,6 @@ package radixip
 
 import (
 	"net"
-	"sync"
 )
 
 //
@@ -476,4 +475,3 @@ func ipToBytes(ip net.IP) []byte {
 	}
 	return ip.To16()
 }
-
