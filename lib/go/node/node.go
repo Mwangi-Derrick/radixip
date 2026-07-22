@@ -3,49 +3,35 @@ package node
 import (
 	"net"
 
-	types "github.com/Mwangi-Derrick/radixip/lib/go"
+	radixip "github.com/Mwangi-Derrick/radixip/lib/go"
 )
 
-// NodeBuilder is a factory for RadixNodes
-type NodeBuilder struct {
-	variant types.NodeVariant
-}
-
-func NewNodeBuilder(variant types.NodeVariant) *NodeBuilder {
-	return &NodeBuilder{variant: variant}
-}
-
-func (b *NodeBuilder) Build() types.RadixNode {
-	// For now, always return atomicNode, we can add paddedNode or normalNode later if needed
-	return newAtomicNode()
-}
-
 // NewIpNetwork creates a new IpNetwork from CIDR string
-func NewIpNetwork(cidr string) (types.IpNetwork, error) {
+func NewIpNetwork(cidr string) (radixip.IpNetwork, error) {
 	ip, ipnet, err := net.ParseCIDR(cidr)
 	if err != nil {
-		return types.IpNetwork{}, err
+		return radixip.IpNetwork{}, err
 	}
-	return types.IpNetwork{
+	return radixip.IpNetwork{
 		IP:   ip,
 		Mask: ipnet.Mask,
 	}, nil
 }
 
-// String returns the CIDR notation
-func (n types.IpNetwork) String() string {
-	return (&net.IPNet{
-		IP:   n.IP,
-		Mask: n.Mask,
-	}).String()
-}
+// // String returns the CIDR notation
+// func (n radixip.IpNetwork) String() string {
+// 	return (&net.IPNet{
+// 		IP:   n.IP,
+// 		Mask: n.Mask,
+// 	}).String()
+// }
 
-// Equal checks if two IpNetworks are equal
-func (n types.IpNetwork) Equal(other types.IpNetwork) bool {
-	return n.IP.Equal(other.IP) &&
-		len(n.Mask) == len(other.Mask) &&
-		bytesEqual(n.Mask, other.Mask)
-}
+// // Equal checks if two IpNetworks are equal
+// func (n radixip.IpNetwork) Equal(other radixip.IpNetwork) bool {
+// 	return n.IP.Equal(other.IP) &&
+// 		len(n.Mask) == len(other.Mask) &&
+// 		bytesEqual(n.Mask, other.Mask)
+// }
 
 // IpNetworkKey is a comparable key for maps (since IpNetwork contains slices)
 type IpNetworkKey struct {
@@ -54,7 +40,7 @@ type IpNetworkKey struct {
 }
 
 // Helper function to convert IpNetwork to map key
-func ipNetworkToKey(network types.IpNetwork) IpNetworkKey {
+func ipNetworkToKey(network radixip.IpNetwork) IpNetworkKey {
 	return IpNetworkKey{
 		IP:   network.IP.String(),
 		Mask: maskToString(network.Mask),
