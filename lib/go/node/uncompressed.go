@@ -2,168 +2,200 @@ package node
 
 import (
 	"net"
+	"sync/atomic"
+	"unsafe"
 
-	radixIp "github.com/Mwangi-Derrick/radixip/lib/go"
+	types "github.com/Mwangi-Derrick/radixip/lib/go"
 )
 
-//
-// UNCOMPRESSED TREE
-//
-// Each prefix is a full path from root to leaf.
-// O(P) where P = max prefix length (128 for IPv6), regardless of branching.
-// Best for heavy modification workloads where tree shape changes often.
-
-type UncompressedTree struct {
-	root        radixIp.RadixNode
-	nodeBuilder *radixIp.NodeBuilder
+// atomicNode implements RadixNode using atomic operations for thread safety
+type atomicNode struct {
+	bit      unsafe.Pointer // *uint8
+	left     unsafe.Pointer // *atomicNode
+	right    unsafe.Pointer // *atomicNode
+	metadata unsafe.Pointer // *types.Metadata
+	prefix   unsafe.Pointer // *net.IPNet
 }
 
-func NewUncompressedTree(nodeVariant radixIp.NodeVariant) *UncompressedTree {
-	builder := radixIp.NewNodeBuilder(nodeVariant)
-	return &UncompressedTree{
-		root:        builder.Build(),
-		nodeBuilder: builder,
+type normalNode struct {
+	bit      uint8
+	left     *normalNode
+	right    *normalNode
+	metadata *types.Metadata
+	prefix   *net.IPNet
+}
+
+type paddedNode struct {
+	_pad1    [64]byte
+	bit      uint8
+	_pad2    [56]byte
+	left     *paddedNode
+	_pad3    [56]byte
+	right    *paddedNode
+	_pad4    [56]byte
+	metadata *types.Metadata
+	_pad5    [56]byte
+	prefix   *net.IPNet
+	_pad6    [56]byte
+}
+
+func newAtomicNode() *atomicNode {
+	return &atomicNode{}
+}
+
+func (n *atomicNode) Bit() *uint8 {
+	return (*uint8)(atomic.LoadPointer(&n.bit))
+}
+
+func (n *atomicNode) SetBit(bit uint8) {
+	bitVal := bit
+	atomic.StorePointer(&n.bit, unsafe.Pointer(&bitVal))
+}
+
+func (n *atomicNode) Left() types.RadixNode {
+	ptr := atomic.LoadPointer(&n.left)
+	if ptr == nil {
+		return nil
+	}
+	return (*atomicNode)(ptr)
+}
+
+func (n *atomicNode) SetLeft(node types.RadixNode) {
+	if node == nil {
+		atomic.StorePointer(&n.left, nil)
+	} else {
+		atomic.StorePointer(&n.left, unsafe.Pointer(node.(*atomicNode)))
 	}
 }
 
-func (t *UncompressedTree) Insert(prefix radixIp.IpNetwork, metadata radixIp.Metadata) (bool, error) {
-	ip := prefix.IP
-	ones, _ := prefix.Mask.Size()
-	prefixLen := ones
-
-	current := t.root
-
-	for depth := 0; depth < prefixLen; depth++ {
-		bit := t.getBit(ip, depth)
-		var next radixIp.RadixNode
-		if bit == 0 {
-			next = current.Left()
-		} else {
-			next = current.Right()
-		}
-
-		if next != nil {
-			current = next
-		} else {
-			newNode := t.nodeBuilder.Build()
-			if bit == 0 {
-				current.SetLeft(newNode)
-			} else {
-				current.SetRight(newNode)
-			}
-			current = newNode
-		}
+func (n *atomicNode) Right() types.RadixNode {
+	ptr := atomic.LoadPointer(&n.right)
+	if ptr == nil {
+		return nil
 	}
-
-	isNew := current.Metadata() == nil
-
-	netPrefix := net.IPNet{IP: prefix.IP, Mask: prefix.Mask}
-	current.SetPrefix(&netPrefix)
-	current.SetMetadata(&metadata)
-
-	return isNew, nil
+	return (*atomicNode)(ptr)
 }
 
-func (t *UncompressedTree) Lookup(ip *net.IP) *radixIp.Metadata {
-	var bestMatch *radixIp.Metadata
-	current := t.root
-	depth := 0
-
-	for current != nil {
-		if p := current.Prefix(); p != nil {
-			if p.Contains(*ip) {
-				bestMatch = current.Metadata()
-			}
-		}
-
-		bit := t.getBit(*ip, depth)
-		if bit == 0 {
-			current = current.Left()
-		} else {
-			current = current.Right()
-		}
-		depth++
+func (n *atomicNode) SetRight(node types.RadixNode) {
+	if node == nil {
+		atomic.StorePointer(&n.right, nil)
+	} else {
+		atomic.StorePointer(&n.right, unsafe.Pointer(node.(*atomicNode)))
 	}
-
-	return bestMatch
 }
 
-func (t *UncompressedTree) Remove(prefix *radixIp.IpNetwork) *radixIp.Metadata {
-	ip := prefix.IP
-	ones, _ := prefix.Mask.Size()
-	prefixLen := ones
-
-	current := t.root
-	for depth := 0; depth < prefixLen; depth++ {
-		bit := t.getBit(ip, depth)
-		if bit == 0 {
-			current = current.Left()
-		} else {
-			current = current.Right()
-		}
-		if current == nil {
-			return nil
-		}
-	}
-
-	removed := current.Metadata()
-	if removed != nil {
-		current.ClearMetadata()
-	}
-
-	return removed
+func (n *atomicNode) Metadata() *types.Metadata {
+	return (*types.Metadata)(atomic.LoadPointer(&n.metadata))
 }
 
-func (t *UncompressedTree) Contains(prefix *radixIp.IpNetwork) bool {
-	ip := prefix.IP
-	ones, _ := prefix.Mask.Size()
-	prefixLen := ones
-
-	current := t.root
-	for depth := 0; depth < prefixLen; depth++ {
-		bit := t.getBit(ip, depth)
-		if bit == 0 {
-			current = current.Left()
-		} else {
-			current = current.Right()
-		}
-		if current == nil {
-			return false
-		}
-	}
-	return current.Metadata() != nil
+func (n *atomicNode) SetMetadata(metadata *types.Metadata) {
+	atomic.StorePointer(&n.metadata, unsafe.Pointer(metadata))
 }
 
-func (t *UncompressedTree) Clear() {
-	t.root.SetLeft(nil)
-	t.root.SetRight(nil)
+func (n *atomicNode) ClearMetadata() {
+	atomic.StorePointer(&n.metadata, nil)
 }
 
-// longestPrefixMatch is now implemented directly in UncompressedTree and CompressedTree Lookups
+func (n *atomicNode) Prefix() *net.IPNet {
+	return (*net.IPNet)(atomic.LoadPointer(&n.prefix))
+}
 
-// t.getBit returns the bit at the specified position from an IP
-func (t *UncompressedTree) getBit(ip net.IP, bitPos int) int {
-	// Convert IP to byte slice
-	ipBytes := ip.To4()
-	if ipBytes == nil {
-		ipBytes = ip.To16()
-	}
+func (n *atomicNode) SetPrefix(prefix *net.IPNet) {
+	atomic.StorePointer(&n.prefix, unsafe.Pointer(prefix))
+}
 
-	if ipBytes == nil {
-		return 0
-	}
+func newNormalNode() *normalNode {
+	return &normalNode{}
+}
 
-	// Find the byte and bit within the byte
-	byteIdx := bitPos / 8
-	// we count bits from left to right( most significant to least significant )
-	bitIdx := 7 - (bitPos % 8) // Most significant bit first
+func (n *normalNode) Bit() *uint8 {
+	return &n.bit
+}
 
-	if byteIdx >= len(ipBytes) {
-		return 0
-	}
+func (n *normalNode) SetBit(bit uint8) {
+	n.bit = bit
+}
 
-	if (ipBytes[byteIdx]>>bitIdx)&1 == 1 {
-		return 1
-	}
-	return 0
+func (n *normalNode) Left() types.RadixNode {
+	return n.left
+}
+
+func (n *normalNode) SetLeft(node types.RadixNode) {
+	n.left = node.(*normalNode)
+}
+
+func (n *normalNode) Right() types.RadixNode {
+	return n.right
+}
+
+func (n *normalNode) SetRight(node types.RadixNode) {
+	n.right = node.(*normalNode)
+}
+
+func (n *normalNode) Metadata() *types.Metadata {
+	return n.metadata
+}
+
+func (n *normalNode) SetMetadata(metadata *types.Metadata) {
+	n.metadata = metadata
+}
+
+func (n *normalNode) ClearMetadata() {
+	n.metadata = nil
+}
+
+func (n *normalNode) Prefix() *net.IPNet {
+	return n.prefix
+}
+
+func (n *normalNode) SetPrefix(prefix *net.IPNet) {
+	n.prefix = prefix
+}
+
+func newPaddedNode() *paddedNode {
+	return &paddedNode{}
+}
+
+func (n *paddedNode) Bit() *uint8 {
+	return &n.bit
+}
+
+func (n *paddedNode) SetBit(bit uint8) {
+	n.bit = bit
+}
+
+func (n *paddedNode) Left() types.RadixNode {
+	return n.left
+}
+
+func (n *paddedNode) SetLeft(node types.RadixNode) {
+	n.left = node.(*paddedNode)
+}
+
+func (n *paddedNode) Right() types.RadixNode {
+	return n.right
+}
+
+func (n *paddedNode) SetRight(node types.RadixNode) {
+	n.right = node.(*paddedNode)
+}
+
+func (n *paddedNode) Metadata() *types.Metadata {
+	return n.metadata
+}
+
+func (n *paddedNode) SetMetadata(metadata *types.Metadata) {
+	n.metadata = metadata
+}
+
+func (n *paddedNode) ClearMetadata() {
+	n.metadata = nil
+}
+
+func (n *paddedNode) Prefix() *net.IPNet {
+	return n.prefix
+}
+
+func (n *paddedNode) SetPrefix(prefix *net.IPNet) {
+	n.prefix = prefix
 }
