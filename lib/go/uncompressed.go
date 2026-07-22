@@ -116,16 +116,13 @@ func (n *lockFreeNode) EdgeLen() int {
 	return n.edgeLen
 }
 
-func (n *lockFreeNode) SetEdgeLen(edgeLen int) {
-	n.edgeLen = edgeLen
-}
-
 func (n *lockFreeNode) EdgeBits() []byte {
 	return n.edgeBits
 }
 
-func (n *lockFreeNode) SetEdgeBits(edgeBits []byte) {
-	n.edgeBits = edgeBits
+func (n *lockFreeNode) SetEdge(bits []byte, length int) {
+	n.edgeBits = bits
+	n.edgeLen = length
 }
 
 func NewAtomicNode() *atomicNode {
@@ -193,6 +190,16 @@ func (n *atomicNode) SetPrefix(prefix *net.IPNet) {
 	atomic.StorePointer(&n.prefix, unsafe.Pointer(prefix))
 }
 
+func (n *atomicNode) EdgeBits() []byte {
+	return nil
+}
+
+func (n *atomicNode) EdgeLen() int {
+	return 0
+}
+
+func (n *atomicNode) SetEdge(bits []byte, length int) {}
+
 func NewNormalNode() *normalNode {
 	return &normalNode{}
 }
@@ -210,7 +217,11 @@ func (n *normalNode) Left() RadixNode {
 }
 
 func (n *normalNode) SetLeft(node RadixNode) {
-	n.left = node.(*normalNode)
+	if node == nil {
+		n.left = nil
+	} else {
+		n.left = node.(*normalNode)
+	}
 }
 
 func (n *normalNode) Right() RadixNode {
@@ -218,7 +229,11 @@ func (n *normalNode) Right() RadixNode {
 }
 
 func (n *normalNode) SetRight(node RadixNode) {
-	n.right = node.(*normalNode)
+	if node == nil {
+		n.right = nil
+	} else {
+		n.right = node.(*normalNode)
+	}
 }
 
 func (n *normalNode) Metadata() *Metadata {
@@ -241,6 +256,16 @@ func (n *normalNode) SetPrefix(prefix *net.IPNet) {
 	n.prefix = prefix
 }
 
+func (n *normalNode) EdgeBits() []byte {
+	return nil
+}
+
+func (n *normalNode) EdgeLen() int {
+	return 0
+}
+
+func (n *normalNode) SetEdge(bits []byte, length int) {}
+
 func NewPaddedNode() *paddedNode {
 	return &paddedNode{}
 }
@@ -258,7 +283,11 @@ func (n *paddedNode) Left() RadixNode {
 }
 
 func (n *paddedNode) SetLeft(node RadixNode) {
-	n.left = node.(*paddedNode)
+	if node == nil {
+		n.left = nil
+	} else {
+		n.left = node.(*paddedNode)
+	}
 }
 
 func (n *paddedNode) Right() RadixNode {
@@ -266,7 +295,11 @@ func (n *paddedNode) Right() RadixNode {
 }
 
 func (n *paddedNode) SetRight(node RadixNode) {
-	n.right = node.(*paddedNode)
+	if node == nil {
+		n.right = nil
+	} else {
+		n.right = node.(*paddedNode)
+	}
 }
 
 func (n *paddedNode) Metadata() *Metadata {
@@ -288,3 +321,14 @@ func (n *paddedNode) Prefix() *net.IPNet {
 func (n *paddedNode) SetPrefix(prefix *net.IPNet) {
 	n.prefix = prefix
 }
+
+func (n *paddedNode) EdgeBits() []byte {
+	return nil
+}
+
+func (n *paddedNode) EdgeLen() int {
+	return 0
+}
+
+func (n *paddedNode) SetEdge(bits []byte, length int) {}
+
