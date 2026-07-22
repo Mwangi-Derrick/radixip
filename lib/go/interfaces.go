@@ -39,6 +39,11 @@ type RadixNode interface {
 	ClearMetadata()
 	SetBit(bit uint8)
 	SetPrefix(prefix *net.IPNet)
+
+	// Compressed-node methods (uncompressed nodes return default/nil/0)
+	EdgeBits() []byte
+	EdgeLen() int
+	SetEdge(bits []byte, length int)
 }
 
 //  RADIX ENGINE INTERFACE
@@ -78,6 +83,25 @@ func NewNodeBuilder(variant NodeVariant) *NodeBuilder {
 }
 
 func (b *NodeBuilder) Build() RadixNode {
-	// For now, always return atomicNode, we can add paddedNode or normalNode later if needed
-	return NewAtomicNode()
+	switch b.variant {
+	case NodeNormal:
+		return NewNormalNode()
+	case NodeAtomic:
+		return NewAtomicNode()
+	case NodePadded:
+		return NewPaddedNode()
+	case NodeLockFree:
+		return NewLockFreeNode()
+	case NodeCompressedNormal:
+		return NewCompressedNormalNode()
+	case NodeCompressedAtomic:
+		return NewCompressedAtomicNode()
+	case NodeCompressedPadded:
+		return NewCompressedPaddedNode()
+	case NodeCompressedLockFree:
+		return NewCompressedLockFreeNode()
+	default:
+		return NewAtomicNode()
+	}
 }
+
