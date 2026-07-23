@@ -68,7 +68,7 @@ services:
     ports:
       - "9092:9090"
     volumes:
-      - ./docker/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./metrics/prometheus.yml:/etc/prometheus/prometheus.yml
     depends_on:
       - radixip-grpc-go
       - radixip-grpc-rust
