@@ -598,7 +598,7 @@ Every commit to `main` triggers our continuous benchmarking pipeline:
 - [x] **Compressed Patricia trie** — data-plane optimized, O(k) reads, 4× memory savings
 - [x] Generic engines — any engine can use any tree via `StandardEngine<T: RouteTree>`
 - [x] Redis state bus — boot-load, cache hydration, Pub/Sub sync
-- [ ] IPv6 full support (Patricia trie path)
+- [x] IPv6 full support (Patricia trie path)
 - [x] Python bindings via PyO3
 - [x] Node.js bindings via N-API
 - [ ] gRPC service layer
