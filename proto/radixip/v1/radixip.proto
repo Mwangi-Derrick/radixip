@@ -1,0 +1,93 @@
+syntax = "proto3";
+
+package radixip.v1;
+
+option go_package = "github.com/Mwangi-Derrick/radixip/proto/radixip/v1;radixipv1";
+
+// Metadata stores payload string and optional attributes map for a prefix.
+message Metadata {
+  string value = 1;
+  map<string, string> attributes = 2;
+}
+
+// Request to insert a subnet prefix into the trie.
+message InsertRequest {
+  string prefix = 1;
+  Metadata metadata = 2;
+}
+
+// Response for insert operation.
+message InsertResponse {
+  bool success = 1;
+  bool is_new = 2;
+  string error_message = 3;
+}
+
+// Request to lookup an IP address.
+message LookupRequest {
+  string ip = 1;
+}
+
+// Response for IP lookup.
+message LookupResponse {
+  bool found = 1;
+  Metadata metadata = 2;
+}
+
+// Request to remove a prefix.
+message RemoveRequest {
+  string prefix = 1;
+}
+
+// Response for prefix removal.
+message RemoveResponse {
+  bool found = 1;
+  Metadata metadata = 2;
+}
+
+// Request to check if a prefix exists.
+message ContainsRequest {
+  string prefix = 1;
+}
+
+// Response for prefix existence check.
+message ContainsResponse {
+  bool contains = 1;
+}
+
+// Request to clear the radix tree.
+message ClearRequest {}
+
+// Response for tree clear operation.
+message ClearResponse {
+  bool success = 1;
+}
+
+// Request for engine statistics.
+message StatsRequest {}
+
+// Response containing engine statistics.
+message StatsResponse {
+  int64 inserts = 1;
+  int64 lookups = 2;
+  int64 hits = 3;
+  int64 misses = 4;
+  int64 removals = 5;
+  int64 size = 6;
+}
+
+// Response for streamed batch insert.
+message StreamInsertResponse {
+  uint64 inserted_count = 1;
+}
+
+// RadixService provides high-performance gRPC operations for IP routing & metadata lookups.
+service RadixService {
+  rpc Insert(InsertRequest) returns (InsertResponse);
+  rpc Lookup(LookupRequest) returns (LookupResponse);
+  rpc Remove(RemoveRequest) returns (RemoveResponse);
+  rpc Contains(ContainsRequest) returns (ContainsResponse);
+  rpc Clear(ClearRequest) returns (ClearResponse);
+  rpc GetStats(StatsRequest) returns (StatsResponse);
+  rpc StreamInsert(stream InsertRequest) returns (StreamInsertResponse);
+}
