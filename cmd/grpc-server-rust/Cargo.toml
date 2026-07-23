@@ -1,0 +1,17 @@
+[package]
+name = "radixip-grpc-server"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+radixip = { path = "../../lib/rust" }
+tonic = "0.11"
+prost = "0.12"
+tokio = { version = "1.36", features = ["full"] }
+ipnetwork = "0.20"
+prometheus = "0.13"
+lazy_static = "1.4"
+hyper = { version = "0.14", features = ["full"] }
+
+[build-dependencies]
+tonic-build = "0.11"
