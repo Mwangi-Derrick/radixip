@@ -25,12 +25,12 @@ use crate::types::Metadata;
 use ipnetwork::IpNetwork;
 use std::sync::Arc;
 
-// ============================================================================
+//
 // NODE WRAPPER ENUM
 // Provides a single concrete type that implements `RadixNode` for all variants.
 // Trees store `Arc<dyn RadixNode>` — the NodeWrapper is the concrete type
 // that gets erased behind that pointer.
-// ============================================================================
+//
 
 pub enum NodeWrapper {
     // Uncompressed variants
@@ -119,10 +119,10 @@ impl RadixNode for NodeWrapper {
     }
 }
 
-// ============================================================================
+//
 // NODE BUILDER
 // Factory that creates the right NodeWrapper variant from a NodeVariant enum.
-// ============================================================================
+//
 
 #[derive(Clone)]
 pub struct NodeBuilder {
@@ -137,38 +137,22 @@ impl NodeBuilder {
     /// Build an empty node of the configured variant.
     pub fn build(&self) -> Arc<dyn RadixNode> {
         match self.variant {
-            NodeVariant::Normal => {
-                Arc::new(NodeWrapper::Normal(Arc::new(NormalNode::new())))
-            }
-            NodeVariant::Atomic => {
-                Arc::new(NodeWrapper::Atomic(Arc::new(AtomicNode::new())))
-            }
-            NodeVariant::Padded => {
-                Arc::new(NodeWrapper::Padded(Arc::new(PaddedNode::new())))
-            }
-            NodeVariant::LockFree => {
-                Arc::new(NodeWrapper::LockFree(Arc::new(LockFreeNode::new())))
-            }
-            NodeVariant::CompressedNormal => {
-                Arc::new(NodeWrapper::CompressedNormal(Arc::new(
-                    CompressedNormalNode::new(),
-                )))
-            }
-            NodeVariant::CompressedAtomic => {
-                Arc::new(NodeWrapper::CompressedAtomic(Arc::new(
-                    CompressedAtomicNode::new(),
-                )))
-            }
-            NodeVariant::CompressedPadded => {
-                Arc::new(NodeWrapper::CompressedPadded(Arc::new(
-                    CompressedPaddedNode::new(),
-                )))
-            }
-            NodeVariant::CompressedLockFree => {
-                Arc::new(NodeWrapper::CompressedLockFree(Arc::new(
-                    CompressedLockFreeNode::new(),
-                )))
-            }
+            NodeVariant::Normal => Arc::new(NodeWrapper::Normal(Arc::new(NormalNode::new()))),
+            NodeVariant::Atomic => Arc::new(NodeWrapper::Atomic(Arc::new(AtomicNode::new()))),
+            NodeVariant::Padded => Arc::new(NodeWrapper::Padded(Arc::new(PaddedNode::new()))),
+            NodeVariant::LockFree => Arc::new(NodeWrapper::LockFree(Arc::new(LockFreeNode::new()))),
+            NodeVariant::CompressedNormal => Arc::new(NodeWrapper::CompressedNormal(Arc::new(
+                CompressedNormalNode::new(),
+            ))),
+            NodeVariant::CompressedAtomic => Arc::new(NodeWrapper::CompressedAtomic(Arc::new(
+                CompressedAtomicNode::new(),
+            ))),
+            NodeVariant::CompressedPadded => Arc::new(NodeWrapper::CompressedPadded(Arc::new(
+                CompressedPaddedNode::new(),
+            ))),
+            NodeVariant::CompressedLockFree => Arc::new(NodeWrapper::CompressedLockFree(Arc::new(
+                CompressedLockFreeNode::new(),
+            ))),
         }
     }
 

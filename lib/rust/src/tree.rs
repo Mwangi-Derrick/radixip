@@ -18,9 +18,9 @@ use ipnetwork::IpNetwork;
 use std::net::IpAddr;
 use std::sync::Arc;
 
-// ============================================================================
+//
 // UNCOMPRESSED TREE  (bit-by-bit binary trie)
-// ============================================================================
+//
 
 #[derive(Clone)]
 pub struct UncompressedTree {
@@ -135,7 +135,7 @@ impl RouteTree for UncompressedTree {
     }
 }
 
-// ============================================================================
+//
 // COMPRESSED TREE  (Patricia / radix trie)
 //
 // Each node stores an `edge_bits: Vec<u8>` representing the compressed
@@ -153,7 +153,7 @@ impl RouteTree for UncompressedTree {
 // The tree works with any node variant that implements the `edge_bits`,
 // `edge_len`, and `set_edge` extensions of `RadixNode`.  Compressed variants
 // are picked via `NodeBuilder` from `NodeVariant::Compressed*`.
-// ============================================================================
+//
 
 /// Helper to read edge fields from a node via the trait extension.
 /// Returns (edge_bits_clone, edge_len) for a compressed node.
@@ -521,9 +521,9 @@ mod tests {
         Metadata::new(label.to_string())
     }
 
-    // ============================================================
+    //
     // COMPRESSED TREE TESTS
-    // ============================================================
+    //
 
     #[test]
     fn test_compressed_trie_v4() {
@@ -571,9 +571,9 @@ mod tests {
         }
     }
 
-    // ============================================================
+    //
     // UNCOMPRESSED TREE TESTS
-    // ============================================================
+    //
 
     #[test]
     fn test_new_tree() {
@@ -613,9 +613,9 @@ mod tests {
         assert_eq!(tree.lookup(&ip), Some(metadata.clone()));
     }
 
-    // ============================================================
+    //
     // LONGEST PREFIX MATCH TESTS
-    // ============================================================
+    //
 
     #[test]
     fn test_longest_prefix_match_v4() {
@@ -669,9 +669,9 @@ mod tests {
         assert_eq!(tree.lookup(&ip), Some(meta1.clone()));
     }
 
-    // ============================================================
+    //
     // REMOVE OPERATIONS TESTS
-    // ============================================================
+    //
 
     #[test]
     fn test_remove_existing_prefix() {
@@ -724,9 +724,9 @@ mod tests {
         assert_eq!(tree.lookup(&ip), None);
     }
 
-    // ============================================================
+    //
     // CONTAINS TESTS
-    // ============================================================
+    //
 
     #[test]
     fn test_contains() {
@@ -742,9 +742,9 @@ mod tests {
         assert!(!tree.contains(&different_prefix));
     }
 
-    // ============================================================
+    //
     // CLEAR TESTS
-    // ============================================================
+    //
 
     #[test]
     fn test_clear() {
@@ -767,9 +767,9 @@ mod tests {
         assert!(tree.lookup(&ip2).is_none());
     }
 
-    // ============================================================
+    //
     // EDGE CASE TESTS
-    // ============================================================
+    //
 
     #[test]
     fn test_default_route() {
@@ -861,9 +861,9 @@ mod tests {
         }
     }
 
-    // ============================================================
+    //
     // MIXED IPv4 AND IPv6 TESTS
-    // ============================================================
+    //
 
     #[test]
     fn test_mixed_ipv4_ipv6() {
@@ -887,9 +887,9 @@ mod tests {
         assert_eq!(tree.lookup(&wrong_ip), None);
     }
 
-    // ============================================================
+    //
     // PERFORMANCE/BENCHMARK HELPER TESTS
-    // ============================================================
+    //
 
     #[test]
     fn test_large_number_of_routes() {

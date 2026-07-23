@@ -7,7 +7,7 @@ import (
 	"sync/atomic"
 )
 
-// STANDARD ENGINE ============
+// STANDARD ENGINE
 
 type StandardEngine struct {
 	tree      RouteTree
@@ -90,7 +90,7 @@ func (e *StandardEngine) Stats() *EngineStats {
 	return &s
 }
 
-// SHARDED ENGINE ============
+// SHARDED ENGINE
 // throughput = num_shards * throughput_per_shard
 
 type ShardedEngine struct {
@@ -226,7 +226,7 @@ func (e *ShardedEngine) Stats() *EngineStats {
 	return &total
 }
 
-// ENGINE WRAPPER ============
+// ENGINE WRAPPER
 // Single entry-point that dispatches to the right engine+tree combination.
 
 type EngineWrapper struct {

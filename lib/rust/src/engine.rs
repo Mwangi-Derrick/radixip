@@ -10,7 +10,7 @@ use crate::traits::*;
 use crate::types::{EngineStats, Metadata};
 use ipnetwork::IpNetwork;
 
-// STANDARD ENGINE ============
+// STANDARD ENGINE
 
 pub struct StandardEngine<T: RouteTree> {
     tree: T,
@@ -89,7 +89,7 @@ impl<T: RouteTree> StandardEngine<T> {
     }
 }
 
-// SHARDED ENGINE ============
+// SHARDED ENGINE
 // throughput = number_shards * throughput per shard
 pub struct ShardedEngine<T: RouteTree> {
     pub shards: Vec<Arc<StandardEngine<T>>>,
@@ -248,7 +248,7 @@ impl<T: RouteTree + Clone> RadixEngine for ShardedEngine<T> {
 
 use crate::tree::{CompressedTree, UncompressedTree};
 
-// ENGINE WRAPPER ============
+// ENGINE WRAPPER
 // allows switch of different engine modes
 #[derive(Clone)]
 pub enum EngineWrapper {

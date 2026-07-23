@@ -23,9 +23,9 @@ use std::sync::{
 use crate::traits::RadixNode;
 use crate::types::Metadata;
 
-// ============================================================================
+//
 // COMPRESSED NORMAL NODE  (RwLock on every field)
-// ============================================================================
+//
 
 #[derive(Default)]
 pub struct CompressedNormalNode {
@@ -112,10 +112,10 @@ impl RadixNode for CompressedNormalNode {
     }
 }
 
-// ============================================================================
+//
 // COMPRESSED ATOMIC NODE
 // (AtomicU8 encodes edge_len up to 254; RwLock for the bit-vector and children)
-// ============================================================================
+//
 
 pub struct CompressedAtomicNode {
     /// Encodes edge_len: 0 = "empty/root", 1..=254 = actual length, 255 = overflow sentinel.
@@ -218,9 +218,9 @@ impl RadixNode for CompressedAtomicNode {
     }
 }
 
-// ============================================================================
+//
 // COMPRESSED PADDED NODE  (Cache-line padded Patricia node)
-// ============================================================================
+//
 
 #[repr(C, align(64))]
 pub struct CompressedPaddedNode {
@@ -322,9 +322,9 @@ impl RadixNode for CompressedPaddedNode {
     }
 }
 
-// ============================================================================
+//
 // COMPRESSED LOCK-FREE NODE  (DashMap children + RwLock for edge data)
-// ============================================================================
+//
 
 /// Key enum for the DashMap children store.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
@@ -366,11 +366,15 @@ impl RadixNode for CompressedLockFreeNode {
     }
 
     fn left(&self) -> Option<Arc<dyn RadixNode>> {
-        self.children.get(&ChildKey::Left).map(|r| r.value().clone())
+        self.children
+            .get(&ChildKey::Left)
+            .map(|r| r.value().clone())
     }
 
     fn right(&self) -> Option<Arc<dyn RadixNode>> {
-        self.children.get(&ChildKey::Right).map(|r| r.value().clone())
+        self.children
+            .get(&ChildKey::Right)
+            .map(|r| r.value().clone())
     }
 
     fn metadata(&self) -> Option<Metadata> {
@@ -383,15 +387,23 @@ impl RadixNode for CompressedLockFreeNode {
 
     fn set_left(&self, node: Option<Arc<dyn RadixNode>>) {
         match node {
-            Some(n) => { self.children.insert(ChildKey::Left, n); }
-            None => { self.children.remove(&ChildKey::Left); }
+            Some(n) => {
+                self.children.insert(ChildKey::Left, n);
+            }
+            None => {
+                self.children.remove(&ChildKey::Left);
+            }
         }
     }
 
     fn set_right(&self, node: Option<Arc<dyn RadixNode>>) {
         match node {
-            Some(n) => { self.children.insert(ChildKey::Right, n); }
-            None => { self.children.remove(&ChildKey::Right); }
+            Some(n) => {
+                self.children.insert(ChildKey::Right, n);
+            }
+            None => {
+                self.children.remove(&ChildKey::Right);
+            }
         }
     }
 

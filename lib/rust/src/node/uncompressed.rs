@@ -18,9 +18,9 @@ use std::sync::{
 use crate::traits::RadixNode;
 use crate::types::Metadata;
 
-// ============================================================================
+//
 // NORMAL NODE (RwLock on all fields)
-// ============================================================================
+//
 
 #[derive(Default)]
 pub struct NormalNode {
@@ -83,9 +83,9 @@ impl RadixNode for NormalNode {
     }
 }
 
-// ============================================================================
+//
 // ATOMIC NODE (AtomicU8 bit + RwLock children)
-// ============================================================================
+//
 
 #[repr(C)]
 pub struct AtomicNode {
@@ -169,9 +169,9 @@ impl RadixNode for AtomicNode {
     }
 }
 
-// ============================================================================
+//
 // PADDED NODE (Cache-line aligned, 64-byte padding between fields)
-// ============================================================================
+//
 
 #[repr(C, align(64))]
 pub struct PaddedNode {
@@ -258,9 +258,9 @@ impl RadixNode for PaddedNode {
     }
 }
 
-// ============================================================================
+//
 // LOCK-FREE NODE (DashMap-based, for maximum concurrent read throughput)
-// ============================================================================
+//
 
 /// Key enum used inside the DashMap for left/right children.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
