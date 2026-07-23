@@ -11,7 +11,7 @@ services:
       - ./docker/redis.conf:/usr/local/etc/redis/redis.conf
     command: [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
 
-  # Go Engine (e.g. running the DDoS Demo)
+  # Go Engine (DDoS Demo)
   go-engine:
     build:
       context: .
@@ -34,3 +34,41 @@ services:
     environment:
       - REDIS_URL=redis:6379
       - REDIS_CHANNEL=radixip:updates
+
+  # Go gRPC Microservice
+  radixip-grpc-go:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.grpc-go
+    container_name: radixip-grpc-go
+    ports:
+      - "50051:50051"
+      - "9090:9090"
+    environment:
+      - GRPC_PORT=50051
+      - METRICS_PORT=9090
+
+  # Rust gRPC Microservice
+  radixip-grpc-rust:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.grpc-rust
+    container_name: radixip-grpc-rust
+    ports:
+      - "50052:50052"
+      - "9091:9091"
+    environment:
+      - GRPC_PORT=50052
+      - METRICS_PORT=9091
+
+  # Prometheus Monitoring Server
+  prometheus:
+    image: prom/prometheus:v2.49.1
+    container_name: radixip-prometheus
+    ports:
+      - "9092:9090"
+    volumes:
+      - ./docker/prometheus.yml:/etc/prometheus/prometheus.yml
+    depends_on:
+      - radixip-grpc-go
+      - radixip-grpc-rust
