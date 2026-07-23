@@ -7,6 +7,13 @@ generate:
 	@echo "Generating ipv4 and ipv6 datasets..."
 	python scripts/generate_mock_data.py
 
+generate_protobuf_go:
+	@echo "Generating protobuf files..."
+	protoc --go_out=proto/radixip/v1 --go_opt=paths=source_relative \
+	    --go-grpc_out=proto/radixip/v1 --go-grpc_opt=paths=source_relative \
+	    -I=proto/radixip/v1 proto/radixip/v1/radixip.proto
+
+
 
 build:
 	@echo "Building Rust core..."
@@ -46,4 +53,5 @@ help:
 	@echo "  make build  - Build all implementations"
 	@echo "  make test   - Test all implementations"
 	@echo "  make bench  - Run all benchmarks"
+	@echo "  make generate_protobuf_go - Generate protobuf files for go"
 	@echo "  make clean  - Clean all artifacts"
