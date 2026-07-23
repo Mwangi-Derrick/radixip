@@ -6,6 +6,12 @@ import (
 	"net"
 )
 
+// IpNetwork represents a CIDR network (similar to ipnetwork::IpNetwork)
+type IpNetwork struct {
+	IP   net.IP
+	Mask net.IPMask
+}
+
 // Metadata stores user payload at a terminal prefix.
 // The string map keeps the ABI and Redis payloads simple while still allowing
 // callers to attach labels such as "action", "asn", "country", or "reason".
