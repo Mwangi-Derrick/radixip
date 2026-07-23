@@ -1,0 +1,26 @@
+# Build stage for Go gRPC server
+FROM golang:1.22-alpine AS builder
+
+WORKDIR /app
+
+# Copy lib/go and proto
+COPY lib/go ./lib/go
+COPY proto ./proto
+COPY cmd/grpc-server-go ./cmd/grpc-server-go
+
+WORKDIR /app/cmd/grpc-server-go
+
+RUN go mod init github.com/Mwangi-Derrick/radixip/cmd/grpc-server-go 2>/dev/null || true
+RUN go mod edit -replace github.com/Mwangi-Derrick/radixip/lib/go=../../lib/go
+RUN go mod tidy
+RUN CGO_ENABLED=0 GOOS=linux go build -o /app/grpc-server-go .
+
+# Final minimal runtime image
+FROM alpine:3.19
+
+WORKDIR /app
+COPY --from=builder /app/grpc-server-go /app/grpc-server-go
+
+EXPOSE 50051 9090
+
+CMD ["/app/grpc-server-go"]
