@@ -142,8 +142,11 @@ func (t *UncompressedTree) Clear() {
 // t.getBit returns the bit at the specified position from an IP
 func (t *UncompressedTree) getBit(ip net.IP, bitPos int) int {
 	// Convert IP to byte slice
-	ipBytes := ip.To4()
+	// For IPv4 192.168.1.0, ipBytes = [192, 168, 1, 0]
+	ipBytes := ip.To4() // [192, 168, 1, 0]
 	if ipBytes == nil {
+		//for ipv6
+		// ipBytes = ip.To16() // [fd00::1] -> [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
 		ipBytes = ip.To16()
 	}
 
@@ -152,14 +155,18 @@ func (t *UncompressedTree) getBit(ip net.IP, bitPos int) int {
 	}
 
 	// Find the byte and bit within the byte
-	byteIdx := bitPos / 8
+	byteIdx := bitPos / 8 // Which byte?
+	// bitPos 0-7 → byte 0 (192)
+	// bitPos 8-15 → byte 1 (168)
 	// we count bits from left to right( most significant to least significant )
+	//index is from (0-7) right-most to left-most
 	bitIdx := 7 - (bitPos % 8) // Most significant bit first
 
 	if byteIdx >= len(ipBytes) {
 		return 0
 	}
 
+	//this ensures that we mask the bit with padded 0s
 	if (ipBytes[byteIdx]>>bitIdx)&1 == 1 {
 		return 1
 	}
@@ -216,8 +223,9 @@ func (t *CompressedTree) insertNode(n RadixNode, key []byte, keyLen, depth int, 
 		n.SetMetadata(meta)
 		return isNew
 	}
-
+	//extract bits from the key
 	keyRem := extractBits(key, depth, remaining)
+	//find the common prefix length
 	shared := commonPrefixLen(edgeBits, edgeLen, keyRem, remaining)
 
 	// Exact match
