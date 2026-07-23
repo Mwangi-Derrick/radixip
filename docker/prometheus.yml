@@ -1,0 +1,12 @@
+global:
+  scrape_interval: 5s
+  evaluation_interval: 5s
+
+scrape_configs:
+  - job_name: 'radixip-grpc-go'
+    static_configs:
+      - targets: ['radixip-grpc-go:9090']
+
+  - job_name: 'radixip-grpc-rust'
+    static_configs:
+      - targets: ['radixip-grpc-rust:9091']
