@@ -601,9 +601,10 @@ Every commit to `main` triggers our continuous benchmarking pipeline:
 - [x] IPv6 full support (Patricia trie path)
 - [x] Python bindings via PyO3
 - [x] Node.js bindings via N-API
-- [ ] gRPC service layer
-- [ ] Prometheus metrics integration
+- [x] gRPC service layer
+- [x] Prometheus metrics integration
 - [ ] Lock-free CompressedTree (CAS-based node splitting)
+
 
 ## 🌲 Tree Type Selection
 
