@@ -1,0 +1,25 @@
+# Build stage for Rust gRPC server
+FROM rust:1.77-alpine AS builder
+
+RUN apk add --no-pkg-config protobuf-dev musl-dev gcc
+
+WORKDIR /app
+
+COPY Cargo.toml Cargo.lock ./
+COPY lib/rust ./lib/rust
+COPY proto ./proto
+COPY cmd/grpc-server-rust ./cmd/grpc-server-rust
+
+# Register member in Cargo workspace if needed or build directly
+WORKDIR /app/cmd/grpc-server-rust
+RUN cargo build --release
+
+# Final runtime image
+FROM alpine:3.19
+
+WORKDIR /app
+COPY --from=builder /app/target/release/radixip-grpc-server /app/radixip-grpc-server
+
+EXPOSE 50052 9091
+
+CMD ["/app/radixip-grpc-server"]
