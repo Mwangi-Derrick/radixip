@@ -13,7 +13,7 @@ import (
 	"time"
 
 	radixip "github.com/Mwangi-Derrick/radixip/lib/go"
-	pb "github.com/Mwangi-Derrick/radixip/proto/radixip/v1"
+	pb "github.com/Mwangi-Derrick/radixip/proto/radixip"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"google.golang.org/grpc"
