@@ -12,6 +12,7 @@ services:
       - "6379:6379"
     volumes:
       - redis-data:/data
+      - ../config/redis.conf:/usr/local/etc/redis/redis.conf
     command: redis-server --appendonly yes
 
   # Go benchmark runner
