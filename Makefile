@@ -25,6 +25,17 @@ build:
 	@echo "Building CLI..."
 	cd cmd/radixip-cli && cargo build --release
 
+build-grpc:
+	@echo "Building Go grpc server..."
+	cd cmd/grpc-server-go && go build -o radixip-grpc-go
+
+build-grpc-release:
+	@echo "Building Go grpc server..."
+	cd cmd/grpc-server-go && go build -o radixip-grpc-go -race
+	@echo "Building rust grpc server..."
+	cd cmd/grpc-server-rust && cargo build --release --bin grpc-server-rust
+	
+
 test:
 	@echo "Testing Rust..."
 	cd lib/rust && cargo test
@@ -55,3 +66,5 @@ help:
 	@echo "  make bench  - Run all benchmarks"
 	@echo "  make generate_protobuf_go - Generate protobuf files for go"
 	@echo "  make clean  - Clean all artifacts"
+	@echo "  make build-grpc - Build Go grpc server"
+	@echo "  make build-grpc-release - Build Go grpc and Rust server release"
