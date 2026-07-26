@@ -61,7 +61,7 @@ func BenchmarkInsert_Uncompressed_10k(b *testing.B) {
 	cidrs := generateCIDRs(10_000)
 	meta := Metadata{Value: "bench"}
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		e := NewEngineWrapperWithTree(EngineConcurrent, NodeAtomic, false)
 		for _, cidr := range cidrs {
 			_ = e.Insert(cidr, meta)
@@ -73,7 +73,7 @@ func BenchmarkInsert_Compressed_10k(b *testing.B) {
 	cidrs := generateCIDRs(10_000)
 	meta := Metadata{Value: "bench"}
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		e := NewEngineWrapperWithTree(EngineConcurrent, NodeAtomic, true)
 		for _, cidr := range cidrs {
 			_ = e.Insert(cidr, meta)
@@ -86,7 +86,7 @@ func BenchmarkLookup_Hit_Uncompressed_50k(b *testing.B) {
 	ips := generateHitIPs(50_000)
 	b.ResetTimer()
 	b.ReportAllocs()
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		for _, ip := range ips {
 			_ = e.Lookup(ip)
 		}
@@ -98,7 +98,7 @@ func BenchmarkLookup_Hit_Compressed_50k(b *testing.B) {
 	ips := generateHitIPs(50_000)
 	b.ResetTimer()
 	b.ReportAllocs()
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		for _, ip := range ips {
 			_ = e.Lookup(ip)
 		}
@@ -109,7 +109,7 @@ func BenchmarkLookup_Miss_Uncompressed_50k(b *testing.B) {
 	e := buildEngine(50_000, false)
 	ips := generateMissIPs(50_000)
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		for _, ip := range ips {
 			_ = e.Lookup(ip)
 		}
@@ -120,7 +120,7 @@ func BenchmarkLookup_Miss_Compressed_50k(b *testing.B) {
 	e := buildEngine(50_000, true)
 	ips := generateMissIPs(50_000)
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		for _, ip := range ips {
 			_ = e.Lookup(ip)
 		}
