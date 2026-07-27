@@ -16,7 +16,7 @@ pyo3 = { workspace = true, features = ["extension-module"] }
 serde = { workspace = true }
 serde_json = { workspace = true }
 tokio = { workspace = true, features = ["rt-multi-thread", "macros"] }
-ipnetwork = { workspace = true, features = ["ip"] }
+ipnetwork = { workspace = true }
 
 [build-dependencies]
 pyo3-build-config = "0.22"
