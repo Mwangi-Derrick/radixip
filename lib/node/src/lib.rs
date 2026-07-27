@@ -1,6 +1,5 @@
 use ipnetwork;
 use napi::bindgen_prelude::*;
-use napi::*;
 use napi_derive::napi;
 use radixip::{Metadata, RadixEngine}; // Note: no UncompressedTree import needed for wrapper approach
 use std::collections::HashMap;
@@ -55,7 +54,11 @@ impl RadixEngineWrapper {
         Self { engine }
     }
 
-    fn insert(&self, prefix: ipnetwork::IpNetwork, metadata: Metadata) -> Result<(), String> {
+    fn insert(
+        &self,
+        prefix: ipnetwork::IpNetwork,
+        metadata: Metadata,
+    ) -> std::result::Result<(), String> {
         self.engine
             .insert(prefix, metadata)
             .map_err(|e| e.to_string())
@@ -86,7 +89,6 @@ impl RadixEngineWrapper {
 // RadixIP class
 // ---------------------------------------------------------------------------
 
-#[napi]
 pub struct RadixIP {
     inner: RadixEngineWrapper,
 }
