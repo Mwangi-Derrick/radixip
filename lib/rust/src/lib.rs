@@ -8,7 +8,6 @@ pub mod cache;
 pub mod config;
 pub mod engine;
 pub mod errors;
-pub mod ffi;
 pub mod hybrid;
 pub mod lpm;
 pub mod node;
