@@ -31,7 +31,7 @@ jobs:
       - name: Run benchmarks
         working-directory: ./lib/rust
         run: |
-          cargo bench --bench lookup_bench 2>&1 | tee ../../rust_bench_results.txt
+          cargo bench --bench lookup_bench > ../../rust_bench_results.txt 2>&1
 
 
       - name: Check if benchmarks ran
