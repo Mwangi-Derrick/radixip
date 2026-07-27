@@ -32,9 +32,9 @@ fn meta_from_dict(dict: &Bound<'_, PyDict>) -> PyResult<Metadata> {
 }
 
 fn meta_to_dict(py: Python<'_>, meta: Metadata) -> PyResult<PyObject> {
-    let dict = PyDict::new(py);
+    let dict = PyDict::new_bound(py);
     dict.set_item("value", meta.value)?;
-    let attrs = PyDict::new(py);
+    let attrs = PyDict::new_bound(py);
     for (k, v) in meta.attributes {
         attrs.set_item(k, v)?;
     }
@@ -166,7 +166,7 @@ impl PyRadixEngine {
     /// Engine performance statistics.
     fn stats(&self, py: Python<'_>) -> PyResult<PyObject> {
         let s = self.inner.stats();
-        let dict = PyDict::new(py);
+        let dict = PyDict::new_bound(py);
         dict.set_item("size", s.size)?;
         dict.set_item("inserts", s.inserts)?;
         dict.set_item("lookups", s.lookups)?;
