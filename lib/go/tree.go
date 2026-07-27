@@ -25,38 +25,51 @@ func NewUncompressedTree(nodeVariant NodeVariant) *UncompressedTree {
 }
 
 func (t *UncompressedTree) Insert(prefix IpNetwork, metadata Metadata) (bool, error) {
-	ip := prefix.IP
-	ones, _ := prefix.Mask.Size()
-	prefixLen := ones
+	ip := prefix.IP               //gets the ip address
+	ones, _ := prefix.Mask.Size() // gets the prefix of the network
+	prefixLen := ones             // sets the prefix length or the number of bits we process
 
-	current := t.root
+	current := t.root //starts at the root
 
+	// only loop the number of bits in the mask
 	for depth := 0; depth < prefixLen; depth++ {
-		bit := t.getBit(ip, depth)
+		bit := t.getBit(ip, depth) // gets the bit at the current depth (0 or 1)
 		var next RadixNode
 		if bit == 0 {
+			// if bit is 0, go left
 			next = current.Left()
 		} else {
+			// if bit is 1, go right
 			next = current.Right()
 		}
 
+		// if the next node is not nil, just continue
 		if next != nil {
-			current = next
+			// this means we traverse node down the tree
+			// if there is a node no need to create it
+			current = next // moves the current node down to the next node
 		} else {
+			// if the next node is nil, we create it
 			newNode := t.nodeBuilder.Build()
 			if bit == 0 {
+				//if the bit was 0 and node was nil, we set the left child
 				current.SetLeft(newNode)
 			} else {
+				//if the bit was 1 and node was nil, we set the right child
 				current.SetRight(newNode)
 			}
+			// moves the current node down to the newly created node
 			current = newNode
 		}
 	}
 
+	// checks if the current node is new
 	isNew := current.Metadata() == nil
 
+	// sets the prefix of the current node since we have reached the end of our prefix
 	netPrefix := net.IPNet{IP: prefix.IP, Mask: prefix.Mask}
 	current.SetPrefix(&netPrefix)
+	// sets the metadata of the current node
 	current.SetMetadata(&metadata)
 
 	return isNew, nil
@@ -67,17 +80,24 @@ func (t *UncompressedTree) Lookup(ip *net.IP) *Metadata {
 	current := t.root
 	depth := 0
 
+	// the loop continues as long as the current node is not nil
 	for current != nil {
+		// check if current has prefix
 		if p := current.Prefix(); p != nil {
+			// check if the prefix contains the ip
 			if p.Contains(*ip) {
+				// if yes, bestmatch is the metadata of the current node
 				bestMatch = current.Metadata()
 			}
 		}
 
+		// gets the bit at the current depth (0 or 1)
 		bit := t.getBit(*ip, depth)
 		if bit == 0 {
+			// if bit is 0, go left
 			current = current.Left()
 		} else {
+			// if bit is 1, go right
 			current = current.Right()
 		}
 		depth++
@@ -138,7 +158,7 @@ func (t *UncompressedTree) Clear() {
 }
 
 // longestPrefixMatch is now implemented directly in UncompressedTree and CompressedTree Lookups
-
+// uses bit masking to get the 1 bit if it matches otherwise it retruns 0
 // t.getBit returns the bit at the specified position from an IP
 func (t *UncompressedTree) getBit(ip net.IP, bitPos int) int {
 	// Convert IP to byte slice
@@ -207,9 +227,18 @@ func NewCompressedTree(variant NodeVariant) *CompressedTree {
 }
 
 func (t *CompressedTree) insertNode(n RadixNode, key []byte, keyLen, depth int, prefix *net.IPNet, meta *Metadata) bool {
+	// edgeBits are ALL the bits stored in this node
+	// (the compressed path from parent to this node)
 	edgeBits := n.EdgeBits()
+
+	// edgeLen is how many bits are in this edge
 	edgeLen := n.EdgeLen()
 
+	// get the remaining bits
+	// depth is the length of the prefix already processed
+	// keyLen is the total length of the prefix
+	// i.e depth is the bits that matter or mask bits
+	// remaining is the number of bits left to process
 	remaining := keyLen - depth
 	if remaining < 0 {
 		remaining = 0
@@ -217,6 +246,7 @@ func (t *CompressedTree) insertNode(n RadixNode, key []byte, keyLen, depth int, 
 
 	// Empty node — store directly
 	if edgeLen == 0 && n.Metadata() == nil && n.Left() == nil && n.Right() == nil {
+		// set the edge bits
 		n.SetEdge(extractBits(key, depth, remaining), remaining)
 		n.SetPrefix(prefix)
 		isNew := n.Metadata() == nil
@@ -236,8 +266,13 @@ func (t *CompressedTree) insertNode(n RadixNode, key []byte, keyLen, depth int, 
 		return isNew
 	}
 
-	// Partial match — split
+	/*
+		shared is the bits shared between the key and the current node
+		edgeLen is the length of the bits from root to current node
+		if shared is less than the edgelen it means we have a partial match, we need to split the node
+	*/
 	if shared < edgeLen {
+		// Look at the NEXT BIT after the shared prefix
 		pivotBit := getBitFromBytes(edgeBits, shared)
 		// New child carries current edge's remainder
 		child := t.nodeBuilder.Build()
@@ -246,20 +281,22 @@ func (t *CompressedTree) insertNode(n RadixNode, key []byte, keyLen, depth int, 
 		child.SetPrefix(n.Prefix())
 		child.SetLeft(n.Left())
 		child.SetRight(n.Right())
-
+		// HERE is where we get to compress the tree node
+		// because the shared prefix will take most space
 		// Trim current node to shared prefix
 		n.SetEdge(extractBits(edgeBits, 0, shared), shared)
 		n.ClearMetadata()
 		n.SetPrefix(nil)
 		n.SetLeft(nil)
 		n.SetRight(nil)
-
+		// pivot bit is the bit after the shared bits that determine the node split
 		if pivotBit == 0 {
 			n.SetLeft(child)
 		} else {
 			n.SetRight(child)
 		}
-
+		// if shared is equal to remaining, it means we have a full match on the key
+		// otherwise we need to continue down the trie
 		if shared == remaining {
 			n.SetMetadata(meta)
 			n.SetPrefix(prefix)
@@ -465,10 +502,13 @@ func extractBits(b []byte, start, length int) []byte {
 }
 
 func commonPrefixLen(a []byte, aLen int, bb []byte, bLen int) int {
+	// a is the edge of fisrt bits
+	// bb is the key of what we want to lookup or insert
 	max := aLen
 	if bLen < max {
 		max = bLen
 	}
+	// Compare bits one by one
 	for i := 0; i < max; i++ {
 		if getBitFromBytes(a, i) != getBitFromBytes(bb, i) {
 			return i
