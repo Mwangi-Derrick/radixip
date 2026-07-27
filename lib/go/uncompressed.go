@@ -158,12 +158,19 @@ func (n *atomicNode) Bit() *uint8 {
 	return (*uint8)(atomic.LoadPointer(&n.bit))
 }
 
+var bitCacheUncompressed = func() [256]uint8 {
+	var cache [256]uint8
+	for i := 0; i < 256; i++ {
+		cache[i] = uint8(i)
+	}
+	return cache
+}()
+
 func (n *atomicNode) SetBit(bit uint8) {
 	if n == nil {
 		return
 	}
-	bitVal := bit
-	atomic.StorePointer(&n.bit, unsafe.Pointer(&bitVal))
+	atomic.StorePointer(&n.bit, unsafe.Pointer(&bitCacheUncompressed[bit]))
 }
 
 func (n *atomicNode) Left() RadixNode {

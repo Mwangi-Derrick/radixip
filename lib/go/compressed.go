@@ -150,12 +150,19 @@ func (n *CompressedAtomicNode) Bit() *uint8 {
 	return (*uint8)(atomic.LoadPointer(&n.bit))
 }
 
+var bitCacheCompressed = func() [256]uint8 {
+	var cache [256]uint8
+	for i := 0; i < 256; i++ {
+		cache[i] = uint8(i)
+	}
+	return cache
+}()
+
 func (n *CompressedAtomicNode) SetBit(bit uint8) {
 	if n == nil {
 		return
 	}
-	bitVal := bit
-	atomic.StorePointer(&n.bit, unsafe.Pointer(&bitVal))
+	atomic.StorePointer(&n.bit, unsafe.Pointer(&bitCacheCompressed[bit]))
 }
 
 func (n *CompressedAtomicNode) Metadata() *Metadata {
