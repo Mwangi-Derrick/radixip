@@ -58,8 +58,8 @@ fn generate_miss_ips(n: usize) -> Vec<IpAddr> {
 // Helpers
 // ---------------------------------------------------------------------------
 
-fn build_engine(variant: EngineVariant, compressed: bool, routes: usize) -> EngineWrapper {
-    let engine = EngineWrapper::new(variant, NodeVariant::Atomic, compressed);
+fn build_engine(variant: EngineVariant, node_variant: NodeVariant, compressed: bool, routes: usize) -> EngineWrapper {
+    let engine = EngineWrapper::new(variant, node_variant, compressed);
     let meta = Metadata::new("bench").with_attribute("type", "benchmark");
     for cidr in generate_cidrs(routes) {
         let _ = engine.insert(cidr, meta.clone());
@@ -73,53 +73,93 @@ fn build_engine(variant: EngineVariant, compressed: bool, routes: usize) -> Engi
 
 fn bench_insert(c: &mut Criterion) {
     let mut group = c.benchmark_group("insert");
-    for &n in &[1_000usize, 10_000, 100_000] {
+    for &n in &[1_000usize, 10_000] {
         let cidrs = generate_cidrs(n);
         let meta = Metadata::new("bench");
 
         group.throughput(Throughput::Elements(n as u64));
-        group.bench_with_input(BenchmarkId::new("uncompressed", n), &n, |b, _| {
-            b.iter(|| {
-                let engine = EngineWrapper::new(EngineVariant::Concurrent, NodeVariant::Atomic, false);
-                for cidr in &cidrs {
-                    let _ = engine.insert(*cidr, meta.clone());
-                }
-            });
-        });
-        group.bench_with_input(BenchmarkId::new("compressed", n), &n, |b, _| {
-            b.iter(|| {
-                let engine = EngineWrapper::new(EngineVariant::Concurrent, NodeVariant::Atomic, true);
-                for cidr in &cidrs {
-                    let _ = engine.insert(*cidr, meta.clone());
-                }
-            });
-        });
+
+        for &nv in &[NodeVariant::Normal, NodeVariant::Atomic, NodeVariant::Padded, NodeVariant::LockFree] {
+            group.bench_with_input(
+                BenchmarkId::new(format!("uncompressed/{nv:?}"), n),
+                &n,
+                |b, _| {
+                    b.iter(|| {
+                        let engine = EngineWrapper::new(EngineVariant::Concurrent, nv, false);
+                        for cidr in &cidrs {
+                            let _ = engine.insert(*cidr, meta.clone());
+                        }
+                    });
+                },
+            );
+
+            // Match compressed variants
+            let cnv = match nv {
+                NodeVariant::Normal => NodeVariant::CompressedNormal,
+                NodeVariant::Atomic => NodeVariant::CompressedAtomic,
+                NodeVariant::Padded => NodeVariant::CompressedPadded,
+                NodeVariant::LockFree => NodeVariant::CompressedLockFree,
+                _ => nv,
+            };
+
+            group.bench_with_input(
+                BenchmarkId::new(format!("compressed/{cnv:?}"), n),
+                &n,
+                |b, _| {
+                    b.iter(|| {
+                        let engine = EngineWrapper::new(EngineVariant::Concurrent, cnv, true);
+                        for cidr in &cidrs {
+                            let _ = engine.insert(*cidr, meta.clone());
+                        }
+                    });
+                },
+            );
+        }
     }
     group.finish();
 }
 
 fn bench_lookup_hit(c: &mut Criterion) {
     let mut group = c.benchmark_group("lookup/hit");
-    for &n in &[10_000usize, 100_000, 500_000] {
+    for &n in &[10_000usize, 100_000] {
         let ips = generate_ips(n);
-        let engine_u = build_engine(EngineVariant::Concurrent, false, n);
-        let engine_c = build_engine(EngineVariant::Concurrent, true, n);
-
         group.throughput(Throughput::Elements(n as u64));
-        group.bench_with_input(BenchmarkId::new("uncompressed", n), &n, |b, _| {
-            b.iter(|| {
-                for ip in &ips {
-                    let _ = engine_u.lookup(ip);
-                }
-            });
-        });
-        group.bench_with_input(BenchmarkId::new("compressed", n), &n, |b, _| {
-            b.iter(|| {
-                for ip in &ips {
-                    let _ = engine_c.lookup(ip);
-                }
-            });
-        });
+
+        for &nv in &[NodeVariant::Normal, NodeVariant::Atomic, NodeVariant::Padded, NodeVariant::LockFree] {
+            let engine_u = build_engine(EngineVariant::Concurrent, nv, false, n);
+            group.bench_with_input(
+                BenchmarkId::new(format!("uncompressed/{nv:?}"), n),
+                &n,
+                |b, _| {
+                    b.iter(|| {
+                        for ip in &ips {
+                            let _ = engine_u.lookup(ip);
+                        }
+                    });
+                },
+            );
+
+            let cnv = match nv {
+                NodeVariant::Normal => NodeVariant::CompressedNormal,
+                NodeVariant::Atomic => NodeVariant::CompressedAtomic,
+                NodeVariant::Padded => NodeVariant::CompressedPadded,
+                NodeVariant::LockFree => NodeVariant::CompressedLockFree,
+                _ => nv,
+            };
+
+            let engine_c = build_engine(EngineVariant::Concurrent, cnv, true, n);
+            group.bench_with_input(
+                BenchmarkId::new(format!("compressed/{cnv:?}"), n),
+                &n,
+                |b, _| {
+                    b.iter(|| {
+                        for ip in &ips {
+                            let _ = engine_c.lookup(ip);
+                        }
+                    });
+                },
+            );
+        }
     }
     group.finish();
 }
@@ -128,24 +168,43 @@ fn bench_lookup_miss(c: &mut Criterion) {
     let mut group = c.benchmark_group("lookup/miss");
     for &n in &[10_000usize, 100_000] {
         let miss_ips = generate_miss_ips(n);
-        let engine_u = build_engine(EngineVariant::Concurrent, false, n);
-        let engine_c = build_engine(EngineVariant::Concurrent, true, n);
-
         group.throughput(Throughput::Elements(n as u64));
-        group.bench_with_input(BenchmarkId::new("uncompressed", n), &n, |b, _| {
-            b.iter(|| {
-                for ip in &miss_ips {
-                    let _ = engine_u.lookup(ip);
-                }
-            });
-        });
-        group.bench_with_input(BenchmarkId::new("compressed", n), &n, |b, _| {
-            b.iter(|| {
-                for ip in &miss_ips {
-                    let _ = engine_c.lookup(ip);
-                }
-            });
-        });
+
+        for &nv in &[NodeVariant::Normal, NodeVariant::Atomic, NodeVariant::Padded, NodeVariant::LockFree] {
+            let engine_u = build_engine(EngineVariant::Concurrent, nv, false, n);
+            group.bench_with_input(
+                BenchmarkId::new(format!("uncompressed/{nv:?}"), n),
+                &n,
+                |b, _| {
+                    b.iter(|| {
+                        for ip in &miss_ips {
+                            let _ = engine_u.lookup(ip);
+                        }
+                    });
+                },
+            );
+
+            let cnv = match nv {
+                NodeVariant::Normal => NodeVariant::CompressedNormal,
+                NodeVariant::Atomic => NodeVariant::CompressedAtomic,
+                NodeVariant::Padded => NodeVariant::CompressedPadded,
+                NodeVariant::LockFree => NodeVariant::CompressedLockFree,
+                _ => nv,
+            };
+
+            let engine_c = build_engine(EngineVariant::Concurrent, cnv, true, n);
+            group.bench_with_input(
+                BenchmarkId::new(format!("compressed/{cnv:?}"), n),
+                &n,
+                |b, _| {
+                    b.iter(|| {
+                        for ip in &miss_ips {
+                            let _ = engine_c.lookup(ip);
+                        }
+                    });
+                },
+            );
+        }
     }
     group.finish();
 }
@@ -157,25 +216,27 @@ fn bench_concurrent_lookup(c: &mut Criterion) {
     let mut group = c.benchmark_group("concurrent_lookup");
     let n = 50_000usize;
     let ips = Arc::new(generate_ips(n));
-    let engine = Arc::new(build_engine(EngineVariant::Concurrent, true, n));
 
-    group.throughput(Throughput::Elements((n * 4) as u64)); // 4 threads
-    group.bench_function("4_threads_compressed", |b| {
-        b.iter(|| {
-            let handles: Vec<_> = (0..4)
-                .map(|_| {
-                    let e = Arc::clone(&engine);
-                    let ips = Arc::clone(&ips);
-                    thread::spawn(move || {
-                        for ip in ips.iter() {
-                            let _ = e.lookup(ip);
-                        }
+    for &nv in &[NodeVariant::CompressedNormal, NodeVariant::CompressedAtomic, NodeVariant::CompressedPadded, NodeVariant::CompressedLockFree] {
+        let engine = Arc::new(build_engine(EngineVariant::Concurrent, nv, true, n));
+        group.throughput(Throughput::Elements((n * 4) as u64)); // 4 threads
+        group.bench_function(format!("4_threads/{nv:?}"), |b| {
+            b.iter(|| {
+                let handles: Vec<_> = (0..4)
+                    .map(|_| {
+                        let e = Arc::clone(&engine);
+                        let ips = Arc::clone(&ips);
+                        thread::spawn(move || {
+                            for ip in ips.iter() {
+                                let _ = e.lookup(ip);
+                            }
+                        })
                     })
-                })
-                .collect();
-            for h in handles { h.join().unwrap(); }
+                    .collect();
+                for h in handles { h.join().unwrap(); }
+            });
         });
-    });
+    }
     group.finish();
 }
 
