@@ -1,7 +1,7 @@
 use pyo3::exceptions::{PyTypeError, PyValueError};
 use pyo3::prelude::*;
 use pyo3::types::PyDict;
-use radixip_rs::{new_balanced, Metadata, RadixConfig, RadixEngine};
+use radixip::{new_balanced, Metadata, RadixConfig, RadixEngine};
 use std::collections::HashMap;
 use std::net::IpAddr;
 use std::sync::Arc;
@@ -77,17 +77,17 @@ impl PyRadixEngine {
         let config = match variant.as_deref() {
             Some("standard") => {
                 let mut c = RadixConfig::new();
-                c.engine_variant = radixip_rs::EngineVariant::Standard;
+                c.engine_variant = radixip::EngineVariant::Standard;
                 c
             }
             Some("lockfree") => {
                 let mut c = RadixConfig::new();
-                c.engine_variant = radixip_rs::EngineVariant::LockFree;
+                c.engine_variant = radixip::EngineVariant::LockFree;
                 c
             }
             Some("adaptive") => {
                 let mut c = RadixConfig::new();
-                c.engine_variant = radixip_rs::EngineVariant::Adaptive;
+                c.engine_variant = radixip::EngineVariant::Adaptive;
                 c
             }
             _ => RadixConfig::memory_efficient(),
@@ -98,7 +98,7 @@ impl PyRadixEngine {
             .enable_all()
             .build()
             .map_err(|e| PyValueError::new_err(e.to_string()))?
-            .block_on(radixip_rs::new(config));
+            .block_on(radixip::new(config));
 
         Ok(Self {
             inner: Arc::new(inner),
@@ -176,8 +176,9 @@ impl PyRadixEngine {
         Ok(dict.into())
     }
 
-    fn __repr__(&self) -> String {
-        format!("RadixEngine(size={})", self.inner.size())
+    fn __repr__(&self, py: Python<'_>) -> PyResult<PyObject> {
+        let s = format!("RadixEngine(size={})", self.inner.size());
+        Ok(s.to_object(py))
     }
 }
 
@@ -197,5 +198,5 @@ fn radixip_module(m: &Bound<'_, PyModule>) -> PyResult<()> {
 #[pyfunction]
 #[pyo3(name = "version")]
 fn py_version() -> String {
-    radixip_rs::VERSION.to_string()
+    radixip::VERSION.to_string()
 }

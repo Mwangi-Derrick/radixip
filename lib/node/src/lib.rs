@@ -2,7 +2,7 @@ use ipnetwork;
 use napi::bindgen_prelude::*;
 use napi::*;
 use napi_derive::napi;
-use radixip_rs::{new_memory_efficient, Error, Metadata, RadixEngine};
+use radixip::{Error, Metadata, RadixEngine};
 use std::collections::HashMap;
 use std::net::IpAddr;
 use tokio::*;
@@ -69,7 +69,7 @@ impl RadixIP {
             .enable_all()
             .build()
             .unwrap()
-            .block_on(radixip_rs::new_memory_efficient());
+            .block_on(radixip::new_memory_efficient());
 
         Self { inner }
     }
@@ -164,5 +164,5 @@ impl RadixIP {
 /// Library semantic version.
 #[napi]
 pub fn version() -> String {
-    radixip_rs::VERSION.to_string()
+    radixip::VERSION.to_string()
 }
