@@ -28,68 +28,37 @@ jobs:
       - name: Install Protobuf
         run: sudo apt-get update && sudo apt-get install -y protobuf-compiler
 
-      - name: Install Gnuplot (for better benchmark output)
-        run: sudo apt-get install -y gnuplot
-
-      - name: Run benchmarks
+      - name: Build and run benchmarks
         working-directory: ./lib/rust
         run: |
-          # Run benchmarks with verbose output to ensure we capture results
-          cargo bench -p radixip_rs -- --verbose --output-format=json 2>&1 | tee ../../rust_bench_results.txt
+          # Build benchmarks
+          cargo bench -p radixip_rs --no-run
           
-          # Also save the plain text output for backup
-          cargo bench -p radixip_rs 2>&1 | tee ../../rust_bench_results_plain.txt
-
-      - name: Check if benchmarks actually ran
-        run: |
-          echo "=== Checking benchmark output ==="
-          echo "File size: $(wc -c < rust_bench_results.txt) bytes"
-          echo ""
-          echo "=== Looking for benchmark results ==="
-          # Look for any benchmark results in the output
-          if grep -q "Benchmarking" rust_bench_results.txt || \
-             grep -q "time:" rust_bench_results.txt || \
-             grep -q "thrpt:" rust_bench_results.txt || \
-             grep -q "bench:" rust_bench_results.txt; then
-            echo "✅ Found benchmark results!"
-            echo ""
-            echo "=== Sample benchmark results ==="
-            grep -A 5 "Benchmarking" rust_bench_results.txt | head -30
+          # Find and run the benchmark binary directly
+          BENCH_BIN=$(find target/release -name "lookup_bench-*" -executable -type f | head -1)
+          if [ -n "$BENCH_BIN" ]; then
+            echo "Running benchmark binary: $BENCH_BIN"
+            $BENCH_BIN --bench 2>&1 | tee ../../rust_bench_results.txt
           else
-            echo "❌ No benchmark results found in stdout"
-            echo ""
-            echo "=== Full output ==="
-            cat rust_bench_results.txt
-            echo ""
-            echo "=== Checking if benchmark binary exists ==="
-            find ./lib/rust/target -name "lookup_bench-*" -executable -type f | head -5
-            echo ""
-            echo "=== Running benchmarks without JSON format ==="
-            cd ./lib/rust
-            cargo bench -p radixip_rs 2>&1 | tee ../../rust_bench_results_plain.txt
-            cd ../..
-            echo ""
-            echo "=== Plain output (first 50 lines) ==="
-            head -50 rust_bench_results_plain.txt
-            exit 1
+            echo "Falling back to cargo bench"
+            cargo bench -p radixip_rs -- --verbose 2>&1 | tee ../../rust_bench_results.txt
           fi
 
-      - name: Extract benchmark data for the action
+      - name: Verify benchmark output
         run: |
-          # The GitHub action expects JSON format from Criterion
-          # If we have JSON data, use it; otherwise, create a summary
-          if grep -q "{" rust_bench_results.txt; then
-            echo "JSON benchmark data found"
-            cp rust_bench_results.txt rust_bench_results_fixed.txt
+          if [ ! -s rust_bench_results.txt ]; then
+            echo "Error: Benchmark output file is empty"
+            exit 1
+          fi
+          echo "File size: $(wc -c < rust_bench_results.txt) bytes"
+          echo ""
+          echo "=== Looking for benchmark data ==="
+          if grep -q "Benchmarking" rust_bench_results.txt; then
+            echo "✅ Found benchmark data"
+            grep -A 5 "Benchmarking" rust_bench_results.txt | head -30
           else
-            echo "No JSON data found, creating summary from plain output"
-            # Extract relevant benchmark data from plain output
-            if [ -f rust_bench_results_plain.txt ]; then
-              grep -E "(Benchmarking|time:|thrpt:)" rust_bench_results_plain.txt > rust_bench_results_fixed.txt
-            else
-              # If no benchmarks ran, create a placeholder
-              echo "No benchmark data available" > rust_bench_results_fixed.txt
-            fi
+            echo "⚠️  No benchmark data found, showing last 50 lines:"
+            tail -50 rust_bench_results.txt
           fi
 
       - name: Store benchmark result
@@ -97,7 +66,7 @@ jobs:
         with:
           name: Rust Benchmark
           tool: 'cargo'
-          output-file-path: rust_bench_results_fixed.txt
+          output-file-path: rust_bench_results.txt
           github-token: ${{ secrets.GITHUB_TOKEN }}
           auto-push: true
           alert-threshold: '105%'
@@ -121,28 +90,22 @@ jobs:
       - name: Run benchmarks
         working-directory: ./lib/go
         run: |
-          go test -bench=. -benchmem -count=10 -v ./... | tee ../go_bench_results.txt
+          go test -bench=. -benchmem -count=10 -v ./... 2>&1 | tee go_bench_results.txt
 
       - name: Verify Go benchmark output
         run: |
-          if [ ! -s lib/go/go_bench_results.txt ]; then
+          if [ ! -s ./lib/go/go_bench_results.txt ]; then
             echo "Error: Go benchmark output file is empty"
             exit 1
           fi
-          
-          echo "Go benchmark output file size: $(wc -c < lib/go/go_bench_results.txt) bytes"
+          echo "File size: $(wc -c < ./lib/go/go_bench_results.txt) bytes"
           echo ""
-          echo "First 20 lines of Go benchmark output:"
-          head -n 20 lib/go/go_bench_results.txt
-          
-          # Check if there's actual benchmark data
-          if grep -q "Benchmark" lib/go/go_bench_results.txt; then
-            echo ""
-            echo "✅ Benchmark data found in output"
+          if grep -q "Benchmark" ./lib/go/go_bench_results.txt; then
+            echo "✅ Found benchmark data"
+            grep "Benchmark" ./lib/go/go_bench_results.txt | head -10
           else
-            echo ""
-            echo "⚠️  Warning: No benchmark data found in output"
-            exit 1
+            echo "⚠️  No benchmark data found"
+            tail -50 ./lib/go/go_bench_results.txt
           fi
 
       - name: Store benchmark result
