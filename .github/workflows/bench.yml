@@ -40,7 +40,7 @@ jobs:
         
       - name: Run Rust benchmarks
         run: |
-          cd radixip-rs
+          cd radixip_rs
           cargo bench -- --output-format bencher > ../rust_bench_results.txt
           
       - name: Upload artifacts
