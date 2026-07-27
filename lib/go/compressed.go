@@ -23,6 +23,9 @@ func NewCompressedNormalNode() *CompressedNormalNode {
 }
 
 func (n *CompressedNormalNode) Bit() *uint8 {
+	if n == nil {
+		return nil
+	}
 	return &n.bit
 }
 
@@ -31,18 +34,30 @@ func (n *CompressedNormalNode) SetBit(bit uint8) {
 }
 
 func (n *CompressedNormalNode) Metadata() *Metadata {
+	if n == nil {
+		return nil
+	}
 	return n.metadata
 }
 
 func (n *CompressedNormalNode) SetMetadata(metadata *Metadata) {
+	if n == nil {
+		return
+	}
 	n.metadata = metadata
 }
 
 func (n *CompressedNormalNode) ClearMetadata() {
+	if n == nil {
+		return
+	}
 	n.metadata = nil
 }
 
 func (n *CompressedNormalNode) Left() RadixNode {
+	if n == nil {
+		return nil
+	}
 	if n.left == nil {
 		return nil
 	}
@@ -50,6 +65,9 @@ func (n *CompressedNormalNode) Left() RadixNode {
 }
 
 func (n *CompressedNormalNode) SetLeft(node RadixNode) {
+	if n == nil {
+		return
+	}
 	if node == nil {
 		n.left = nil
 	} else {
@@ -58,6 +76,9 @@ func (n *CompressedNormalNode) SetLeft(node RadixNode) {
 }
 
 func (n *CompressedNormalNode) Right() RadixNode {
+	if n == nil {
+		return nil
+	}
 	if n.right == nil {
 		return nil
 	}
@@ -65,6 +86,9 @@ func (n *CompressedNormalNode) Right() RadixNode {
 }
 
 func (n *CompressedNormalNode) SetRight(node RadixNode) {
+	if n == nil {
+		return
+	}
 	if node == nil {
 		n.right = nil
 	} else {
@@ -73,10 +97,16 @@ func (n *CompressedNormalNode) SetRight(node RadixNode) {
 }
 
 func (n *CompressedNormalNode) Prefix() *net.IPNet {
+	if n == nil {
+		return nil
+	}
 	return n.prefix
 }
 
 func (n *CompressedNormalNode) SetPrefix(prefix *net.IPNet) {
+	if n == nil {
+		return
+	}
 	n.prefix = prefix
 }
 
@@ -85,10 +115,16 @@ func (n *CompressedNormalNode) EdgeLen() int {
 }
 
 func (n *CompressedNormalNode) EdgeBits() []byte {
+	if n == nil {
+		return nil
+	}
 	return n.edgeBits
 }
 
 func (n *CompressedNormalNode) SetEdge(bits []byte, length int) {
+	if n == nil {
+		return
+	}
 	n.edgeBits = bits
 	n.edgeLen = length
 }
@@ -108,27 +144,45 @@ func NewCompressedAtomicNode() *CompressedAtomicNode {
 }
 
 func (n *CompressedAtomicNode) Bit() *uint8 {
+	if n == nil {
+		return nil
+	}
 	return (*uint8)(atomic.LoadPointer(&n.bit))
 }
 
 func (n *CompressedAtomicNode) SetBit(bit uint8) {
+	if n == nil {
+		return
+	}
 	bitVal := bit
 	atomic.StorePointer(&n.bit, unsafe.Pointer(&bitVal))
 }
 
 func (n *CompressedAtomicNode) Metadata() *Metadata {
+	if n == nil {
+		return nil
+	}
 	return (*Metadata)(atomic.LoadPointer(&n.metadata))
 }
 
 func (n *CompressedAtomicNode) SetMetadata(metadata *Metadata) {
+	if n == nil {
+		return
+	}
 	atomic.StorePointer(&n.metadata, unsafe.Pointer(metadata))
 }
 
 func (n *CompressedAtomicNode) ClearMetadata() {
+	if n == nil {
+		return
+	}
 	atomic.StorePointer(&n.metadata, nil)
 }
 
 func (n *CompressedAtomicNode) Left() RadixNode {
+	if n == nil {
+		return nil
+	}
 	ptr := atomic.LoadPointer(&n.left)
 	if ptr == nil {
 		return nil
@@ -137,6 +191,9 @@ func (n *CompressedAtomicNode) Left() RadixNode {
 }
 
 func (n *CompressedAtomicNode) SetLeft(node RadixNode) {
+	if n == nil {
+		return
+	}
 	if node == nil {
 		atomic.StorePointer(&n.left, nil)
 	} else {
@@ -145,6 +202,9 @@ func (n *CompressedAtomicNode) SetLeft(node RadixNode) {
 }
 
 func (n *CompressedAtomicNode) Right() RadixNode {
+	if n == nil {
+		return nil
+	}
 	ptr := atomic.LoadPointer(&n.right)
 	if ptr == nil {
 		return nil
@@ -153,6 +213,9 @@ func (n *CompressedAtomicNode) Right() RadixNode {
 }
 
 func (n *CompressedAtomicNode) SetRight(node RadixNode) {
+	if n == nil {
+		return
+	}
 	if node == nil {
 		atomic.StorePointer(&n.right, nil)
 	} else {
@@ -161,22 +224,35 @@ func (n *CompressedAtomicNode) SetRight(node RadixNode) {
 }
 
 func (n *CompressedAtomicNode) Prefix() *net.IPNet {
+	if n == nil {
+		return nil
+	}
 	return (*net.IPNet)(atomic.LoadPointer(&n.prefix))
 }
 
 func (n *CompressedAtomicNode) SetPrefix(prefix *net.IPNet) {
+	if n == nil {
+		return
+	}
 	atomic.StorePointer(&n.prefix, unsafe.Pointer(prefix))
 }
 
 func (n *CompressedAtomicNode) EdgeLen() int {
+
 	return n.edgeLen
 }
 
 func (n *CompressedAtomicNode) EdgeBits() []byte {
+	if n == nil {
+		return nil
+	}
 	return n.edgeBits
 }
 
 func (n *CompressedAtomicNode) SetEdge(bits []byte, length int) {
+	if n == nil {
+		return
+	}
 	n.edgeBits = bits
 	n.edgeLen = length
 }
@@ -204,26 +280,44 @@ func NewCompressedPaddedNode() *CompressedPaddedNode {
 }
 
 func (n *CompressedPaddedNode) Bit() *uint8 {
+	if n == nil {
+		return nil
+	}
 	return &n.bit
 }
 
 func (n *CompressedPaddedNode) SetBit(bit uint8) {
+	if n == nil {
+		return
+	}
 	n.bit = bit
 }
 
 func (n *CompressedPaddedNode) Metadata() *Metadata {
+	if n == nil {
+		return nil
+	}
 	return (*Metadata)(atomic.LoadPointer(&n.metadata))
 }
 
 func (n *CompressedPaddedNode) SetMetadata(metadata *Metadata) {
+	if n == nil {
+		return
+	}
 	atomic.StorePointer(&n.metadata, unsafe.Pointer(metadata))
 }
 
 func (n *CompressedPaddedNode) ClearMetadata() {
+	if n == nil {
+		return
+	}
 	atomic.StorePointer(&n.metadata, nil)
 }
 
 func (n *CompressedPaddedNode) Left() RadixNode {
+	if n == nil {
+		return nil
+	}
 	if n.left == nil {
 		return nil
 	}
@@ -231,6 +325,9 @@ func (n *CompressedPaddedNode) Left() RadixNode {
 }
 
 func (n *CompressedPaddedNode) SetLeft(node RadixNode) {
+	if n == nil {
+		return
+	}
 	if node == nil {
 		n.left = nil
 	} else {
@@ -239,6 +336,9 @@ func (n *CompressedPaddedNode) SetLeft(node RadixNode) {
 }
 
 func (n *CompressedPaddedNode) Right() RadixNode {
+	if n == nil {
+		return nil
+	}
 	if n.right == nil {
 		return nil
 	}
@@ -246,6 +346,9 @@ func (n *CompressedPaddedNode) Right() RadixNode {
 }
 
 func (n *CompressedPaddedNode) SetRight(node RadixNode) {
+	if n == nil {
+		return
+	}
 	if node == nil {
 		n.right = nil
 	} else {
@@ -254,10 +357,16 @@ func (n *CompressedPaddedNode) SetRight(node RadixNode) {
 }
 
 func (n *CompressedPaddedNode) Prefix() *net.IPNet {
+	if n == nil {
+		return nil
+	}
 	return n.prefix
 }
 
 func (n *CompressedPaddedNode) SetPrefix(prefix *net.IPNet) {
+	if n == nil {
+		return
+	}
 	n.prefix = prefix
 }
 
@@ -266,10 +375,16 @@ func (n *CompressedPaddedNode) EdgeLen() int {
 }
 
 func (n *CompressedPaddedNode) EdgeBits() []byte {
+	if n == nil {
+		return nil
+	}
 	return n.edgeBits
 }
 
 func (n *CompressedPaddedNode) SetEdge(bits []byte, length int) {
+	if n == nil {
+		return
+	}
 	n.edgeBits = bits
 	n.edgeLen = length
 }
@@ -289,26 +404,44 @@ func NewCompressedLockFreeNode() *CompressedLockFreeNode {
 }
 
 func (n *CompressedLockFreeNode) Bit() *uint8 {
+	if n == nil {
+		return nil
+	}
 	return &n.bit
 }
 
 func (n *CompressedLockFreeNode) SetBit(bit uint8) {
+	if n == nil {
+		return
+	}
 	n.bit = bit
 }
 
 func (n *CompressedLockFreeNode) Metadata() *Metadata {
+	if n == nil {
+		return nil
+	}
 	return (*Metadata)(atomic.LoadPointer(&n.metadata))
 }
 
 func (n *CompressedLockFreeNode) SetMetadata(metadata *Metadata) {
+	if n == nil {
+		return
+	}
 	atomic.StorePointer(&n.metadata, unsafe.Pointer(metadata))
 }
 
 func (n *CompressedLockFreeNode) ClearMetadata() {
+	if n == nil {
+		return
+	}
 	atomic.StorePointer(&n.metadata, nil)
 }
 
 func (n *CompressedLockFreeNode) Left() RadixNode {
+	if n == nil {
+		return nil
+	}
 	ptr := atomic.LoadPointer(&n.left)
 	if ptr == nil {
 		return nil
@@ -317,6 +450,9 @@ func (n *CompressedLockFreeNode) Left() RadixNode {
 }
 
 func (n *CompressedLockFreeNode) SetLeft(node RadixNode) {
+	if n == nil {
+		return
+	}
 	if node == nil {
 		atomic.StorePointer(&n.left, nil)
 	} else {
@@ -325,6 +461,9 @@ func (n *CompressedLockFreeNode) SetLeft(node RadixNode) {
 }
 
 func (n *CompressedLockFreeNode) Right() RadixNode {
+	if n == nil {
+		return nil
+	}
 	ptr := atomic.LoadPointer(&n.right)
 	if ptr == nil {
 		return nil
@@ -333,6 +472,9 @@ func (n *CompressedLockFreeNode) Right() RadixNode {
 }
 
 func (n *CompressedLockFreeNode) SetRight(node RadixNode) {
+	if n == nil {
+		return
+	}
 	if node == nil {
 		atomic.StorePointer(&n.right, nil)
 	} else {
@@ -341,10 +483,16 @@ func (n *CompressedLockFreeNode) SetRight(node RadixNode) {
 }
 
 func (n *CompressedLockFreeNode) Prefix() *net.IPNet {
+	if n == nil {
+		return nil
+	}
 	return (*net.IPNet)(atomic.LoadPointer(&n.prefix))
 }
 
 func (n *CompressedLockFreeNode) SetPrefix(prefix *net.IPNet) {
+	if n == nil {
+		return
+	}
 	atomic.StorePointer(&n.prefix, unsafe.Pointer(prefix))
 }
 
@@ -354,12 +502,18 @@ func (n *CompressedLockFreeNode) EdgeLen() int {
 
 func (n *CompressedLockFreeNode) EdgeBits() []byte {
 	// return edge bits
+	if n == nil {
+		return nil
+	}
 	return n.edgeBits
 }
 
 func (n *CompressedLockFreeNode) SetEdge(bits []byte, length int) {
 	// set edge bits
 	// and also set length of the edge bits
+	if n == nil {
+		return
+	}
 	n.edgeBits = bits
 	n.edgeLen = length
 }
