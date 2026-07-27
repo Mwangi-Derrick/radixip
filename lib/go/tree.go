@@ -271,23 +271,19 @@ func (t *CompressedTree) insertNode(n RadixNode, key []byte, keyLen, depth int, 
 	// So the next bit to process is at position 'depth'
 	remaining := keyLen - depth // how many bits are remaining to process
 	if remaining < 0 {
-		remaining = 0 // set to 0 cannot be negative
+		remaining = 0
 	}
 
 	// Empty node — store directly
 	if edgeLen == 0 && n.Metadata() == nil && n.Left() == nil && n.Right() == nil {
-		// set the edge bits
-		// start postion to end( depth(processed bits)-> end)
 		n.SetEdge(extractBits(key, depth, remaining), remaining)
 		n.SetPrefix(prefix)
 		isNew := n.Metadata() == nil
 		n.SetMetadata(meta)
 		return isNew
 	}
-	//extract bits from the key
-	keyRem := extractBits(key, depth, remaining)
-	//find the common prefix length
-	shared := commonPrefixLen(edgeBits, edgeLen, keyRem, remaining)
+
+	shared := commonPrefixLenOffset(edgeBits, 0, edgeLen, key, depth, remaining)
 
 	// Exact match
 	if shared == edgeLen && shared == remaining {
@@ -297,47 +293,36 @@ func (t *CompressedTree) insertNode(n RadixNode, key []byte, keyLen, depth int, 
 		return isNew
 	}
 
-	/*
-		shared is the bits shared between the key and the current node
-		edgeLen is the length of the bits from root to current node
-		if shared is less than the edgelen it means we have a partial match, we need to split the node
-	*/
 	if shared < edgeLen {
-		// we split the node at postion depth + shared
-		// Example: if depth=0, shared=22, split at bit 22
-		// Look at the NEXT BIT after the shared prefix
+		// Split node
 		pivotBit := getBitFromBytes(edgeBits, shared)
-		// New child carries current edge's remainder
 		child := t.nodeBuilder.Build()
 		child.SetEdge(extractBits(edgeBits, shared+1, edgeLen-shared-1), edgeLen-shared-1)
 		child.SetMetadata(n.Metadata())
 		child.SetPrefix(n.Prefix())
 		child.SetLeft(n.Left())
 		child.SetRight(n.Right())
-		// HERE is where we get to compress the tree node
-		// because the shared prefix will take most space
-		// Trim current node to shared prefix
+
 		n.SetEdge(extractBits(edgeBits, 0, shared), shared)
 		n.ClearMetadata()
 		n.SetPrefix(nil)
 		n.SetLeft(nil)
 		n.SetRight(nil)
-		// pivot bit is the bit after the shared bits that determine the node split
+
 		if pivotBit == 0 {
 			n.SetLeft(child)
 		} else {
 			n.SetRight(child)
 		}
-		// if shared is equal to remaining, it means we have a full match on the key
-		// otherwise we need to continue down the trie
+
 		if shared == remaining {
 			n.SetMetadata(meta)
 			n.SetPrefix(prefix)
 			return true
 		}
 
-		newBit := getBitFromBytes(keyRem, shared)
-		newLeafEdge := extractBits(keyRem, shared+1, remaining-shared-1)
+		newBit := getBitFromBytes(key, depth+shared)
+		newLeafEdge := extractBits(key, depth+shared+1, remaining-shared-1)
 		newLeaf := t.nodeBuilder.Build()
 		newLeaf.SetEdge(newLeafEdge, remaining-shared-1)
 		newLeaf.SetMetadata(meta)
@@ -351,8 +336,8 @@ func (t *CompressedTree) insertNode(n RadixNode, key []byte, keyLen, depth int, 
 		return true
 	}
 
-	// Descend case when edge bits is less than or equal to the shared bits
-	nextBit := getBitFromBytes(keyRem, shared)
+	// Descend case
+	nextBit := getBitFromBytes(key, depth+shared)
 	var child RadixNode
 	if nextBit == 0 {
 		child = n.Left()
@@ -378,7 +363,6 @@ func (t *CompressedTree) insertNode(n RadixNode, key []byte, keyLen, depth int, 
 		}
 		return true
 	}
-	// recursion ensures that we descend down the tree
 	return t.insertNode(child, key, keyLen, depth+shared+1, prefix, meta)
 }
 
@@ -393,8 +377,7 @@ func (t *CompressedTree) lookupNode(n RadixNode, key []byte, depth int) *Metadat
 	if remaining < 0 {
 		remaining = 0
 	}
-	keyRem := extractBits(key, depth, remaining)
-	shared := commonPrefixLen(edgeBits, edgeLen, keyRem, remaining)
+	shared := commonPrefixLenOffset(edgeBits, 0, edgeLen, key, depth, remaining)
 
 	if shared < edgeLen {
 		return nil
@@ -431,8 +414,7 @@ func (t *CompressedTree) removeNode(n RadixNode, key []byte, keyLen, depth int) 
 	if remaining < 0 {
 		remaining = 0
 	}
-	keyRem := extractBits(key, depth, remaining)
-	shared := commonPrefixLen(edgeBits, edgeLen, keyRem, remaining)
+	shared := commonPrefixLenOffset(edgeBits, 0, edgeLen, key, depth, remaining)
 
 	if shared < edgeLen {
 		return nil
@@ -445,7 +427,7 @@ func (t *CompressedTree) removeNode(n RadixNode, key []byte, keyLen, depth int) 
 		return removed
 	}
 
-	nextBit := getBitFromBytes(keyRem, shared)
+	nextBit := getBitFromBytes(key, depth+shared)
 	var child RadixNode
 	if nextBit == 0 {
 		child = n.Left()
@@ -466,8 +448,7 @@ func (t *CompressedTree) containsNode(n RadixNode, key []byte, keyLen, depth int
 	if remaining < 0 {
 		remaining = 0
 	}
-	keyRem := extractBits(key, depth, remaining)
-	shared := commonPrefixLen(edgeBits, edgeLen, keyRem, remaining)
+	shared := commonPrefixLenOffset(edgeBits, 0, edgeLen, key, depth, remaining)
 
 	if shared < edgeLen {
 		return false
@@ -475,7 +456,7 @@ func (t *CompressedTree) containsNode(n RadixNode, key []byte, keyLen, depth int
 	if shared == remaining {
 		return n.Metadata() != nil
 	}
-	nextBit := getBitFromBytes(keyRem, shared)
+	nextBit := getBitFromBytes(key, depth+shared)
 	var child RadixNode
 	if nextBit == 0 {
 		child = n.Left()
@@ -489,7 +470,6 @@ func (t *CompressedTree) Insert(prefix IpNetwork, metadata Metadata) (bool, erro
 	key := ipToBytes(prefix.IP)
 	ones, _ := prefix.Mask.Size()
 	netPrefix := net.IPNet{IP: prefix.IP, Mask: prefix.Mask}
-	// the depth(bits processed) is 0
 	return t.insertNode(t.root, key, ones, 0, &netPrefix, &metadata), nil
 }
 
@@ -535,7 +515,21 @@ func extractBits(b []byte, start, length int) []byte {
 	return out
 }
 
+func commonPrefixLenOffset(a []byte, aOffset, aLen int, b []byte, bOffset, bLen int) int {
+	max := aLen
+	if bLen < max {
+		max = bLen
+	}
+	for i := 0; i < max; i++ {
+		if getBitFromBytes(a, aOffset+i) != getBitFromBytes(b, bOffset+i) {
+			return i
+		}
+	}
+	return max
+}
+
 func commonPrefixLen(a []byte, aLen int, bb []byte, bLen int) int {
+
 	// a is the edge of fisrt bits
 	// bb is the key of what we want to lookup or insert
 	max := aLen
