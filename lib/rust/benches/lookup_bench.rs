@@ -87,7 +87,7 @@ fn bench_insert(c: &mut Criterion) {
                     b.iter(|| {
                         let engine = EngineWrapper::new(EngineVariant::Concurrent, nv, false);
                         for cidr in &cidrs {
-                            let _ = engine.insert(*cidr, meta.clone());
+                            let _ = criterion::black_box(engine.insert(*cidr, criterion::black_box(meta.clone())));
                         }
                     });
                 },
@@ -109,7 +109,7 @@ fn bench_insert(c: &mut Criterion) {
                     b.iter(|| {
                         let engine = EngineWrapper::new(EngineVariant::Concurrent, cnv, true);
                         for cidr in &cidrs {
-                            let _ = engine.insert(*cidr, meta.clone());
+                            let _ = criterion::black_box(engine.insert(*cidr, criterion::black_box(meta.clone())));
                         }
                     });
                 },
@@ -133,7 +133,7 @@ fn bench_lookup_hit(c: &mut Criterion) {
                 |b, _| {
                     b.iter(|| {
                         for ip in &ips {
-                            let _ = engine_u.lookup(ip);
+                            let _ = criterion::black_box(engine_u.lookup(criterion::black_box(ip)));
                         }
                     });
                 },
@@ -154,7 +154,7 @@ fn bench_lookup_hit(c: &mut Criterion) {
                 |b, _| {
                     b.iter(|| {
                         for ip in &ips {
-                            let _ = engine_c.lookup(ip);
+                            let _ = criterion::black_box(engine_c.lookup(criterion::black_box(ip)));
                         }
                     });
                 },
@@ -178,7 +178,7 @@ fn bench_lookup_miss(c: &mut Criterion) {
                 |b, _| {
                     b.iter(|| {
                         for ip in &miss_ips {
-                            let _ = engine_u.lookup(ip);
+                            let _ = criterion::black_box(engine_u.lookup(criterion::black_box(ip)));
                         }
                     });
                 },
@@ -199,7 +199,7 @@ fn bench_lookup_miss(c: &mut Criterion) {
                 |b, _| {
                     b.iter(|| {
                         for ip in &miss_ips {
-                            let _ = engine_c.lookup(ip);
+                            let _ = criterion::black_box(engine_c.lookup(criterion::black_box(ip)));
                         }
                     });
                 },
@@ -228,7 +228,7 @@ fn bench_concurrent_lookup(c: &mut Criterion) {
                         let ips = Arc::clone(&ips);
                         thread::spawn(move || {
                             for ip in ips.iter() {
-                                let _ = e.lookup(ip);
+                                let _ = criterion::black_box(e.lookup(criterion::black_box(ip)));
                             }
                         })
                     })
