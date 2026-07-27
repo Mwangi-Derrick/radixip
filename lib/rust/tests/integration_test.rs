@@ -114,7 +114,6 @@ fn cached_engine_invalidates_ips_under_changed_prefix() {
             max_entries: 32,
             ttl_seconds: None,
         },
-        RedisClient,
     );
 
     engine
