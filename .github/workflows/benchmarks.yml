@@ -29,9 +29,9 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y protobuf-compiler
 
       - name: Run benchmarks
-        working-directory: radixip_rs
+        working-directory: ./lib/rust
         run: |
-          cargo bench -- --output-format=json 2>&1 | tee ../rust_bench_results.txt
+          cargo bench -- --output-format=json 2>&1 | tee ../../rust_bench_results.txt
 
       - name: Verify benchmark output
         run: |
@@ -70,9 +70,9 @@ jobs:
           cache: true
 
       - name: Run benchmarks
-        working-directory: lib/go
+        working-directory: ./lib/go
         run: |
-          go test -bench=. -benchmem -count=10 ./... | tee go_bench_results.txt
+          go test -bench=. -benchmem -count=10 ./... | tee ../go_bench_results.txt
 
       - name: Verify Go benchmark output
         run: |
