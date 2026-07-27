@@ -28,34 +28,68 @@ jobs:
       - name: Install Protobuf
         run: sudo apt-get update && sudo apt-get install -y protobuf-compiler
 
+      - name: Install Gnuplot (for better benchmark output)
+        run: sudo apt-get install -y gnuplot
+
       - name: Run benchmarks
         working-directory: ./lib/rust
         run: |
-          # Run benchmarks for the specific package (using underscore, not hyphen)
-          cargo bench -p radixip_rs -- --output-format=json 2>&1 | tee ../../rust_bench_results.txt
+          # Run benchmarks with verbose output to ensure we capture results
+          cargo bench -p radixip_rs -- --verbose --output-format=json 2>&1 | tee ../../rust_bench_results.txt
+          
+          # Also save the plain text output for backup
+          cargo bench -p radixip_rs 2>&1 | tee ../../rust_bench_results_plain.txt
 
-      - name: Verify benchmark output
+      - name: Check if benchmarks actually ran
         run: |
-          if [ ! -s rust_bench_results.txt ]; then
-            echo "Error: Benchmark output file is empty"
+          echo "=== Checking benchmark output ==="
+          echo "File size: $(wc -c < rust_bench_results.txt) bytes"
+          echo ""
+          echo "=== Looking for benchmark results ==="
+          # Look for any benchmark results in the output
+          if grep -q "Benchmarking" rust_bench_results.txt || \
+             grep -q "time:" rust_bench_results.txt || \
+             grep -q "thrpt:" rust_bench_results.txt || \
+             grep -q "bench:" rust_bench_results.txt; then
+            echo "✅ Found benchmark results!"
+            echo ""
+            echo "=== Sample benchmark results ==="
+            grep -A 5 "Benchmarking" rust_bench_results.txt | head -30
+          else
+            echo "❌ No benchmark results found in stdout"
+            echo ""
+            echo "=== Full output ==="
+            cat rust_bench_results.txt
+            echo ""
+            echo "=== Checking if benchmark binary exists ==="
+            find ./lib/rust/target -name "lookup_bench-*" -executable -type f | head -5
+            echo ""
+            echo "=== Running benchmarks without JSON format ==="
+            cd ./lib/rust
+            cargo bench -p radixip_rs 2>&1 | tee ../../rust_bench_results_plain.txt
+            cd ../..
+            echo ""
+            echo "=== Plain output (first 50 lines) ==="
+            head -50 rust_bench_results_plain.txt
             exit 1
           fi
-          
-          echo "Benchmark output file size: $(wc -c < rust_bench_results.txt) bytes"
-          echo ""
-          echo "First 30 lines of benchmark output:"
-          head -n 30 rust_bench_results.txt
-          
-          # Check if there's actual benchmark data
-          if grep -q "Benchmark" rust_bench_results.txt || grep -q "time:" rust_bench_results.txt; then
-            echo ""
-            echo "✅ Benchmark data found in output"
+
+      - name: Extract benchmark data for the action
+        run: |
+          # The GitHub action expects JSON format from Criterion
+          # If we have JSON data, use it; otherwise, create a summary
+          if grep -q "{" rust_bench_results.txt; then
+            echo "JSON benchmark data found"
+            cp rust_bench_results.txt rust_bench_results_fixed.txt
           else
-            echo ""
-            echo "⚠️  Warning: No benchmark data found in output"
-            echo "Full output:"
-            cat rust_bench_results.txt
-            exit 1
+            echo "No JSON data found, creating summary from plain output"
+            # Extract relevant benchmark data from plain output
+            if [ -f rust_bench_results_plain.txt ]; then
+              grep -E "(Benchmarking|time:|thrpt:)" rust_bench_results_plain.txt > rust_bench_results_fixed.txt
+            else
+              # If no benchmarks ran, create a placeholder
+              echo "No benchmark data available" > rust_bench_results_fixed.txt
+            fi
           fi
 
       - name: Store benchmark result
@@ -63,7 +97,7 @@ jobs:
         with:
           name: Rust Benchmark
           tool: 'cargo'
-          output-file-path: rust_bench_results.txt
+          output-file-path: rust_bench_results_fixed.txt
           github-token: ${{ secrets.GITHUB_TOKEN }}
           auto-push: true
           alert-threshold: '105%'
@@ -87,7 +121,7 @@ jobs:
       - name: Run benchmarks
         working-directory: ./lib/go
         run: |
-          go test -bench=. -benchmem -count=10 ./... | tee ../go_bench_results.txt
+          go test -bench=. -benchmem -count=10 -v ./... | tee ../go_bench_results.txt
 
       - name: Verify Go benchmark output
         run: |
