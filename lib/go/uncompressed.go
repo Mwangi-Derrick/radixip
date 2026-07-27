@@ -121,6 +121,9 @@ func (n *lockFreeNode) SetMetadata(metadata *Metadata) {
 }
 
 func (n *lockFreeNode) ClearMetadata() {
+	if n == nil {
+		return
+	}
 	atomic.StorePointer(&n.metadata, nil)
 }
 
@@ -274,6 +277,9 @@ func (n *normalNode) Left() RadixNode {
 }
 
 func (n *normalNode) SetLeft(node RadixNode) {
+	if n == nil {
+		return
+	}
 	if node == nil {
 		n.left = nil
 	} else {
@@ -328,6 +334,9 @@ func (n *normalNode) Prefix() *net.IPNet {
 }
 
 func (n *normalNode) SetPrefix(prefix *net.IPNet) {
+	if n == nil {
+		return
+	}
 	n.prefix = prefix
 }
 
@@ -357,10 +366,16 @@ func (n *paddedNode) SetBit(bit uint8) {
 }
 
 func (n *paddedNode) Left() RadixNode {
+	if n == nil {
+		return nil
+	}
 	return n.left
 }
 
 func (n *paddedNode) SetLeft(node RadixNode) {
+	if n == nil {
+		return
+	}
 	if node == nil {
 		n.left = nil
 	} else {
@@ -369,6 +384,9 @@ func (n *paddedNode) SetLeft(node RadixNode) {
 }
 
 func (n *paddedNode) Right() RadixNode {
+	if n == nil {
+		return nil
+	}
 	return n.right
 }
 
@@ -384,6 +402,9 @@ func (n *paddedNode) SetRight(node RadixNode) {
 }
 
 func (n *paddedNode) Metadata() *Metadata {
+	if n == nil {
+		return nil
+	}
 	return n.metadata
 }
 
@@ -402,6 +423,9 @@ func (n *paddedNode) ClearMetadata() {
 }
 
 func (n *paddedNode) Prefix() *net.IPNet {
+	if n == nil {
+		return nil
+	}
 	return n.prefix
 }
 
