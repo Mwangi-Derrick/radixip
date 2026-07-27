@@ -31,8 +31,8 @@ jobs:
       - name: Run benchmarks
         working-directory: ./lib/rust
         run: |
-          # Simple cargo bench without extra flags
-          cargo bench -p radixip_rs 2>&1 | tee ../../rust_bench_results.txt
+          cargo bench -p radixip_rs -- --output-format bencher 2>&1 | tee ../../rust_bench_results.txt
+
 
       - name: Check if benchmarks ran
         run: |
