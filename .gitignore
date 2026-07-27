@@ -4,6 +4,7 @@
 **/coverage.out
 **/*.log
 **/go.sum
+**.txt
 
 **data
 
