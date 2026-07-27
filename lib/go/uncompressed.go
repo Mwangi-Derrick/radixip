@@ -213,6 +213,9 @@ func (n *normalNode) SetBit(bit uint8) {
 }
 
 func (n *normalNode) Left() RadixNode {
+	if n == nil {
+		return nil
+	}
 	return n.left
 }
 
@@ -225,6 +228,9 @@ func (n *normalNode) SetLeft(node RadixNode) {
 }
 
 func (n *normalNode) Right() RadixNode {
+	if n == nil {
+		return nil
+	}
 	return n.right
 }
 
@@ -237,6 +243,9 @@ func (n *normalNode) SetRight(node RadixNode) {
 }
 
 func (n *normalNode) Metadata() *Metadata {
+	if n == nil {
+		return nil
+	}
 	return n.metadata
 }
 
@@ -249,6 +258,9 @@ func (n *normalNode) ClearMetadata() {
 }
 
 func (n *normalNode) Prefix() *net.IPNet {
+	if n == nil {
+		return nil
+	}
 	return n.prefix
 }
 
@@ -331,4 +343,3 @@ func (n *paddedNode) EdgeLen() int {
 }
 
 func (n *paddedNode) SetEdge(bits []byte, length int) {}
-

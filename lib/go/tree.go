@@ -28,7 +28,9 @@ func (t *UncompressedTree) Insert(prefix IpNetwork, metadata Metadata) (bool, er
 	ip := prefix.IP               //gets the ip address
 	ones, _ := prefix.Mask.Size() // gets the prefix of the network
 	prefixLen := ones             // sets the prefix length or the number of bits we process
-
+	if t.root == nil {
+		t.root = &normalNode{}
+	}
 	current := t.root //starts at the root
 
 	// only loop the number of bits in the mask
