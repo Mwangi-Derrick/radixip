@@ -28,37 +28,29 @@ jobs:
       - name: Install Protobuf
         run: sudo apt-get update && sudo apt-get install -y protobuf-compiler
 
-      - name: Build and run benchmarks
+      - name: Run benchmarks
         working-directory: ./lib/rust
         run: |
-          # Build benchmarks
-          cargo bench -p radixip_rs --no-run
-          
-          # Find and run the benchmark binary directly
-          BENCH_BIN=$(find target/release -name "lookup_bench-*" -executable -type f | head -1)
-          if [ -n "$BENCH_BIN" ]; then
-            echo "Running benchmark binary: $BENCH_BIN"
-            $BENCH_BIN --bench 2>&1 | tee ../../rust_bench_results.txt
-          else
-            echo "Falling back to cargo bench"
-            cargo bench -p radixip_rs -- --verbose 2>&1 | tee ../../rust_bench_results.txt
-          fi
+          # Simple cargo bench without extra flags
+          cargo bench -p radixip_rs 2>&1 | tee ../../rust_bench_results.txt
 
-      - name: Verify benchmark output
+      - name: Check if benchmarks ran
         run: |
-          if [ ! -s rust_bench_results.txt ]; then
-            echo "Error: Benchmark output file is empty"
-            exit 1
-          fi
-          echo "File size: $(wc -c < rust_bench_results.txt) bytes"
-          echo ""
-          echo "=== Looking for benchmark data ==="
-          if grep -q "Benchmarking" rust_bench_results.txt; then
-            echo "✅ Found benchmark data"
-            grep -A 5 "Benchmarking" rust_bench_results.txt | head -30
+          echo "=== Checking Rust benchmark output ==="
+          if [ -s rust_bench_results.txt ]; then
+            echo "✅ File exists with size: $(wc -c < rust_bench_results.txt) bytes"
+            echo ""
+            echo "=== Looking for benchmark data ==="
+            if grep -q "Benchmarking" rust_bench_results.txt; then
+              echo "✅ Found benchmark results!"
+              grep -E "(Benchmarking|time:|thrpt:)" rust_bench_results.txt | head -20
+            else
+              echo "⚠️  No 'Benchmarking' found. Showing last 50 lines:"
+              tail -50 rust_bench_results.txt
+            fi
           else
-            echo "⚠️  No benchmark data found, showing last 50 lines:"
-            tail -50 rust_bench_results.txt
+            echo "❌ No output file generated"
+            exit 1
           fi
 
       - name: Store benchmark result
@@ -87,25 +79,28 @@ jobs:
           go-version: '1.22'
           cache: true
 
-      - name: Run benchmarks
+      - name: Run benchmarks only (skip tests)
         working-directory: ./lib/go
         run: |
-          go test -bench=. -benchmem -count=10 -v ./... 2>&1 | tee go_bench_results.txt
+          # Run ONLY benchmarks, skip tests with -run=NONE
+          go test -run=NONE -bench=. -benchmem -count=10 ./... 2>&1 | tee go_bench_results.txt
 
-      - name: Verify Go benchmark output
+      - name: Check Go benchmark output
         run: |
-          if [ ! -s ./lib/go/go_bench_results.txt ]; then
-            echo "Error: Go benchmark output file is empty"
-            exit 1
-          fi
-          echo "File size: $(wc -c < ./lib/go/go_bench_results.txt) bytes"
-          echo ""
-          if grep -q "Benchmark" ./lib/go/go_bench_results.txt; then
-            echo "✅ Found benchmark data"
-            grep "Benchmark" ./lib/go/go_bench_results.txt | head -10
+          echo "=== Checking Go benchmark output ==="
+          if [ -s ./lib/go/go_bench_results.txt ]; then
+            echo "✅ File exists with size: $(wc -c < ./lib/go/go_bench_results.txt) bytes"
+            echo ""
+            if grep -q "Benchmark" ./lib/go/go_bench_results.txt; then
+              echo "✅ Found benchmark results!"
+              grep "Benchmark" ./lib/go/go_bench_results.txt | head -20
+            else
+              echo "⚠️  No benchmark data found. Showing last 50 lines:"
+              tail -50 ./lib/go/go_bench_results.txt
+            fi
           else
-            echo "⚠️  No benchmark data found"
-            tail -50 ./lib/go/go_bench_results.txt
+            echo "❌ No output file generated"
+            exit 1
           fi
 
       - name: Store benchmark result
