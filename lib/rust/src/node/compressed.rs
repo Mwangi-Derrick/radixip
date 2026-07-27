@@ -224,37 +224,25 @@ impl RadixNode for CompressedAtomicNode {
 
 #[repr(C, align(64))]
 pub struct CompressedPaddedNode {
-    _pad1: [u8; 64],
     edge_bits: RwLock<Vec<u8>>,
-    _pad2: [u8; 48],
+    _pad1: [u8; 63],
     edge_len: RwLock<usize>,
-    _pad3: [u8; 56],
     metadata: RwLock<Option<Metadata>>,
-    _pad4: [u8; 56],
     prefix: RwLock<Option<IpNetwork>>,
-    _pad5: [u8; 56],
     left: RwLock<Option<Arc<dyn RadixNode>>>,
-    _pad6: [u8; 56],
     right: RwLock<Option<Arc<dyn RadixNode>>>,
-    _pad7: [u8; 56],
 }
 
 impl CompressedPaddedNode {
     pub fn new() -> Self {
         Self {
             edge_bits: RwLock::new(Vec::new()),
+            _pad1: [0; 63],
             edge_len: RwLock::new(0),
             metadata: RwLock::new(None),
             prefix: RwLock::new(None),
             left: RwLock::new(None),
             right: RwLock::new(None),
-            _pad1: [0; 64],
-            _pad2: [0; 48],
-            _pad3: [0; 56],
-            _pad4: [0; 56],
-            _pad5: [0; 56],
-            _pad6: [0; 56],
-            _pad7: [0; 56],
         }
     }
 }
