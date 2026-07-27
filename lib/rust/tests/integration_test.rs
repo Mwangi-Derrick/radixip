@@ -1,9 +1,10 @@
-use std::net::IpAddr;
 use ipnetwork::IpNetwork;
 use radixip::{
-    CacheConfig, CachedEngine, Metadata, NodeVariant, RadixEngine, StandardEngine,
-    EngineVariant, engine::EngineWrapper,
+    CacheConfig, CachedEngine, EngineVariant, Metadata, NodeVariant, RadixEngine, StandardEngine,
+    engine::EngineWrapper,
 };
+use redis;
+use std::net::IpAddr;
 
 #[test]
 fn test_all_rust_engine_and_node_combinations() {
@@ -29,7 +30,7 @@ fn test_all_rust_engine_and_node_combinations() {
         for nv in &node_variants {
             for compressed in &[false, true] {
                 let engine = EngineWrapper::new_with_tree(*ev, *nv, *compressed);
-                
+
                 assert_eq!(engine.size(), 0);
 
                 // Insert broad
@@ -38,7 +39,9 @@ fn test_all_rust_engine_and_node_combinations() {
 
                 // Insert specific
                 let specific_prefix = "10.1.2.0/24".parse::<IpNetwork>().unwrap();
-                engine.insert(specific_prefix, Metadata::new("specific")).unwrap();
+                engine
+                    .insert(specific_prefix, Metadata::new("specific"))
+                    .unwrap();
 
                 // Check contains
                 assert!(engine.contains(&broad_prefix));
@@ -73,16 +76,27 @@ fn test_all_rust_engine_and_node_combinations() {
 #[test]
 fn test_ipv6_longest_prefix_match() {
     for compressed in &[false, true] {
-        let engine = EngineWrapper::new_with_tree(EngineVariant::Standard, NodeVariant::CompressedAtomic, *compressed);
+        let engine = EngineWrapper::new_with_tree(
+            EngineVariant::Standard,
+            NodeVariant::CompressedAtomic,
+            *compressed,
+        );
 
         let broad_v6 = "2001:db8::/32".parse::<IpNetwork>().unwrap();
         let specific_v6 = "2001:db8:85a3::/48".parse::<IpNetwork>().unwrap();
 
         engine.insert(broad_v6, Metadata::new("v6-broad")).unwrap();
-        engine.insert(specific_v6, Metadata::new("v6-specific")).unwrap();
+        engine
+            .insert(specific_v6, Metadata::new("v6-specific"))
+            .unwrap();
 
-        let ip_specific = "2001:db8:85a3:0000:0000:8a2e:0370:7334".parse::<IpAddr>().unwrap();
-        assert_eq!(engine.lookup(&ip_specific), Some(Metadata::new("v6-specific")));
+        let ip_specific = "2001:db8:85a3:0000:0000:8a2e:0370:7334"
+            .parse::<IpAddr>()
+            .unwrap();
+        assert_eq!(
+            engine.lookup(&ip_specific),
+            Some(Metadata::new("v6-specific"))
+        );
 
         let ip_broad = "2001:db8:9999::1".parse::<IpAddr>().unwrap();
         assert_eq!(engine.lookup(&ip_broad), Some(Metadata::new("v6-broad")));
@@ -98,6 +112,7 @@ fn cached_engine_invalidates_ips_under_changed_prefix() {
             max_entries: 32,
             ttl_seconds: None,
         },
+        redis::Client,
     );
 
     engine
@@ -119,4 +134,3 @@ fn cached_engine_invalidates_ips_under_changed_prefix() {
 
     assert_eq!(engine.lookup(&ip), Some(Metadata::new("deny")));
 }
-
