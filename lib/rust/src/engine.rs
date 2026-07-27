@@ -132,7 +132,7 @@ impl<T: RouteTree + Clone> ShardedEngine<T> {
             IpAddr::V6(ip) => {
                 let bytes = ip.octets();
                 let mut hash = 0u64;
-                let bytes_to_hash = if self.mask_bits <= 64 {
+                if self.mask_bits <= 64 {
                     // Hash only the masked prefix part
                     let bytes_to_keep = ((self.mask_bits + 7) / 8) as usize;
                     for byte in bytes.iter().take(bytes_to_keep) {
