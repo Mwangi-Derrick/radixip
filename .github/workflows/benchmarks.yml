@@ -1,21 +1,21 @@
 name: Benchmarks
 
 on:
-  # push:
-  #   branches: [main]
-  # pull_request:
-  #   branches: [main]
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
-# Cancel old runs on new pushes to the same PR/branch
 concurrency:
   group: benchmarks-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: write
+  deployments: write
+
 jobs:
-  # -------------------------------------------------------------------------
-  # Rust benchmarks (criterion)
-  # -------------------------------------------------------------------------
   bench-rust:
     name: Rust (criterion)
     runs-on: ubuntu-latest
@@ -25,32 +25,26 @@ jobs:
       - name: Install Rust stable
         uses: dtolnay/rust-toolchain@stable
 
-      - name: Cache Cargo registry
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cargo/registry
-            ~/.cargo/git
-            target/
-          key: rust-bench-${{ hashFiles('Cargo.lock') }}
+      - name: Install Protobuf
+        run: sudo apt-get update && sudo apt-get install -y protobuf-compiler
 
       - name: Run benchmarks
         run: |
-          cargo bench -p radixip-rs -- \
-            --output-format bencher \
-            2>&1 | tee rust_bench_results.txt
+          cargo bench -p radixip-rs -- --output-format bencher 2>&1 | tee rust_bench_results.txt
 
-      - name: Upload Rust results
-        uses: actions/upload-artifact@v4
+      - name: Store benchmark result
+        uses: benchmark-action/github-action-benchmark@v1
         with:
-          name: rust-bench-results
-          path: |
-            rust_bench_results.txt
-            target/criterion/
+          name: Rust Benchmark
+          tool: 'cargo'
+          output-file-path: rust_bench_results.txt
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          auto-push: true
+          alert-threshold: '105%'
+          comment-on-header: 'Rust Performance Change'
+          fail-on-alert: false
+          comment-always: true
 
-  # -------------------------------------------------------------------------
-  # Go benchmarks (testing.B)
-  # -------------------------------------------------------------------------
   bench-go:
     name: Go (testing.B)
     runs-on: ubuntu-latest
@@ -66,129 +60,17 @@ jobs:
       - name: Run benchmarks
         working-directory: lib/go
         run: |
-          go test -bench=. -benchmem -benchtime=3s ./... \
-            | tee ../../go_bench_results.txt
+          go test -bench=. -benchmem -count=10 ./... | tee go_bench_results.txt
 
-      - name: Upload Go results
-        uses: actions/upload-artifact@v4
+      - name: Store benchmark result
+        uses: benchmark-action/github-action-benchmark@v1
         with:
-          name: go-bench-results
-          path: go_bench_results.txt
-
-  # -------------------------------------------------------------------------
-  # Python benchmarks (pytest-benchmark)
-  # -------------------------------------------------------------------------
-  bench-python:
-    name: Python (pytest-benchmark)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install Rust stable
-        uses: dtolnay/rust-toolchain@stable
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
-      - name: Install maturin and pytest
-        run: pip install maturin pytest pytest-benchmark
-
-      - name: Build Python extension
-        working-directory: lib/python
-        run: maturin develop --release
-
-      - name: Run benchmarks
-        working-directory: lib/python
-        run: |
-          pytest tests/test_benchmark.py -v \
-            --benchmark-autosave \
-            --benchmark-json=../../python_bench_results.json
-
-      - name: Upload Python results
-        uses: actions/upload-artifact@v4
-        with:
-          name: python-bench-results
-          path: python_bench_results.json
-
-  # -------------------------------------------------------------------------
-  # Node benchmarks (custom perf_hooks runner)
-  # -------------------------------------------------------------------------
-  bench-node:
-    name: Node.js (perf_hooks)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install Rust stable
-        uses: dtolnay/rust-toolchain@stable
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Install napi-rs cli
-        run: npm install -g @napi-rs/cli
-
-      - name: Build Node extension
-        working-directory: lib/node
-        run: |
-          npm install
-          napi build --platform --release --pipe "node -e 'process.exit(0)'"
-
-      - name: Run benchmarks
-        working-directory: lib/node
-        run: node benchmarks/bench.js | tee ../../node_bench_results.txt
-
-      - name: Upload Node results
-        uses: actions/upload-artifact@v4
-        with:
-          name: node-bench-results
-          path: node_bench_results.txt
-
-  # -------------------------------------------------------------------------
-  # Summarise results in a single artifact and post to PR
-  # -------------------------------------------------------------------------
-  bench-summary:
-    name: Publish Summary
-    needs: [bench-rust, bench-go, bench-python, bench-node]
-    runs-on: ubuntu-latest
-    if: always()
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Download all results
-        uses: actions/download-artifact@v4
-        with:
-          path: bench-artifacts
-
-      - name: Generate Markdown Summary
-        run: |
-          echo "# Benchmark Results" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "## Rust (criterion)" >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
-          cat bench-artifacts/rust-bench-results/rust_bench_results.txt 2>/dev/null \
-            || echo "No results" >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "## Go" >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
-          cat bench-artifacts/go-bench-results/go_bench_results.txt 2>/dev/null \
-            || echo "No results" >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "## Node.js" >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
-          cat bench-artifacts/node-bench-results/node_bench_results.txt 2>/dev/null \
-            || echo "No results" >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
-
-      - name: Upload combined results
-        uses: actions/upload-artifact@v4
-        with:
-          name: all-bench-results
-          path: bench-artifacts/
-          retention-days: 90
+          name: Go Benchmark
+          tool: 'go'
+          output-file-path: lib/go/go_bench_results.txt
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          auto-push: true
+          alert-threshold: '105%'
+          comment-on-header: 'Go Performance Change'
+          fail-on-alert: false
+          comment-always: true
