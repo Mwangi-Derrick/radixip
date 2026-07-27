@@ -239,14 +239,17 @@ func (t *CompressedTree) insertNode(n RadixNode, key []byte, keyLen, depth int, 
 	// keyLen is the total length of the prefix
 	// i.e depth is the bits that matter or mask bits
 	// remaining is the number of bits left to process
-	remaining := keyLen - depth
+	// depth tells us: "We've already processed 'depth' bits"
+	// So the next bit to process is at position 'depth'
+	remaining := keyLen - depth // how many bits are remaining to process
 	if remaining < 0 {
-		remaining = 0
+		remaining = 0 // set to 0 cannot be negative
 	}
 
 	// Empty node — store directly
 	if edgeLen == 0 && n.Metadata() == nil && n.Left() == nil && n.Right() == nil {
 		// set the edge bits
+		// start postion to end( depth(processed bits)-> end)
 		n.SetEdge(extractBits(key, depth, remaining), remaining)
 		n.SetPrefix(prefix)
 		isNew := n.Metadata() == nil
@@ -272,6 +275,8 @@ func (t *CompressedTree) insertNode(n RadixNode, key []byte, keyLen, depth int, 
 		if shared is less than the edgelen it means we have a partial match, we need to split the node
 	*/
 	if shared < edgeLen {
+		// we split the node at postion depth + shared
+		// Example: if depth=0, shared=22, split at bit 22
 		// Look at the NEXT BIT after the shared prefix
 		pivotBit := getBitFromBytes(edgeBits, shared)
 		// New child carries current edge's remainder
@@ -318,7 +323,7 @@ func (t *CompressedTree) insertNode(n RadixNode, key []byte, keyLen, depth int, 
 		return true
 	}
 
-	// Descend
+	// Descend case when edge bits is less than or equal to the shared bits
 	nextBit := getBitFromBytes(keyRem, shared)
 	var child RadixNode
 	if nextBit == 0 {
@@ -345,7 +350,7 @@ func (t *CompressedTree) insertNode(n RadixNode, key []byte, keyLen, depth int, 
 		}
 		return true
 	}
-
+	// recursion ensures that we descend down the tree
 	return t.insertNode(child, key, keyLen, depth+shared+1, prefix, meta)
 }
 
@@ -456,6 +461,7 @@ func (t *CompressedTree) Insert(prefix IpNetwork, metadata Metadata) (bool, erro
 	key := ipToBytes(prefix.IP)
 	ones, _ := prefix.Mask.Size()
 	netPrefix := net.IPNet{IP: prefix.IP, Mask: prefix.Mask}
+	// the depth(bits processed) is 0
 	return t.insertNode(t.root, key, ones, 0, &netPrefix, &metadata), nil
 }
 
