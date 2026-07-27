@@ -28,21 +28,17 @@ type normalNode struct {
 }
 
 type paddedNode struct {
-	_pad1    [64]byte
-	bit      uint8
-	_pad2    [56]byte
+	// Only bit needs atomic access/cache line isolation
+	bit  uint8
+	_pad [63]byte
+
+	// Everything else packed normally - they're read-only!
 	left     *paddedNode
-	_pad3    [56]byte
 	right    *paddedNode
-	_pad4    [56]byte
 	metadata *Metadata
-	_pad5    [56]byte
 	prefix   *net.IPNet
-	_pad6    [56]byte
-	edgeLen  int // Not atomic - read-only after node creation?
-	_pad7    [56]byte
-	edgeBits []byte // Not atomic - read-only after node creation?
-	_pad8    [56]byte
+	edgeLen  int
+	edgeBits []byte
 }
 
 type lockFreeNode struct {

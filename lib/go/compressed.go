@@ -258,21 +258,17 @@ func (n *CompressedAtomicNode) SetEdge(bits []byte, length int) {
 }
 
 type CompressedPaddedNode struct {
-	_pad1    [64]byte
-	bit      uint8
-	_pad2    [56]byte
-	metadata unsafe.Pointer // *Metadata
-	_pad3    [56]byte
+	// Only bit needs special treatment
+	bit  uint8
+	_pad [63]byte
+
+	// Pack everything else tightly
+	metadata unsafe.Pointer
 	left     *CompressedPaddedNode
-	_pad4    [56]byte
 	right    *CompressedPaddedNode
-	_pad5    [56]byte
 	prefix   *net.IPNet
-	_pad6    [56]byte
 	edgeLen  int
-	_pad7    [56]byte
 	edgeBits []byte
-	_pad8    [64]byte
 }
 
 func NewCompressedPaddedNode() *CompressedPaddedNode {
