@@ -353,10 +353,13 @@ func (n *CompressedLockFreeNode) EdgeLen() int {
 }
 
 func (n *CompressedLockFreeNode) EdgeBits() []byte {
+	// return edge bits
 	return n.edgeBits
 }
 
 func (n *CompressedLockFreeNode) SetEdge(bits []byte, length int) {
+	// set edge bits
+	// and also set length of the edge bits
 	n.edgeBits = bits
 	n.edgeLen = length
 }
