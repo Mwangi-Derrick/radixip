@@ -29,9 +29,13 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y protobuf-compiler
 
       - name: Run benchmarks
-        working-directory: ./lib/rust
         run: |
-          cargo bench -p radixip_rs 2>&1 | tee ../../rust_bench_results.txt
+          # Run only the named bench binary; strip cdylib-poisoning optional features
+          cargo bench \
+            --manifest-path lib/rust/Cargo.toml \
+            --bench lookup_bench \
+            --no-default-features \
+            -- --color never 2>&1 | tee rust_bench_results.txt
 
       - name: Check if benchmarks ran
         run: |
