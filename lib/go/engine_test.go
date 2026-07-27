@@ -57,7 +57,19 @@ func buildEngine(n int, compressed bool) RadixEngine {
 // Benchmarks
 // ---------------------------------------------------------------------------
 
-func BenchmarkInsert_Uncompressed_10k(b *testing.B) {
+func BenchmarkInsert_Uncompressed_10k_Normal(b *testing.B) {
+	cidrs := generateCIDRs(10_000)
+	meta := Metadata{Value: "bench"}
+	b.ResetTimer()
+	for b.Loop() {
+		e := NewEngineWrapperWithTree(EngineConcurrent, NodeNormal, false)
+		for _, cidr := range cidrs {
+			_ = e.Insert(cidr, meta)
+		}
+	}
+}
+
+func BenchmarkInsert_Uncompressed_10k_Atomic(b *testing.B) {
 	cidrs := generateCIDRs(10_000)
 	meta := Metadata{Value: "bench"}
 	b.ResetTimer()
@@ -69,12 +81,72 @@ func BenchmarkInsert_Uncompressed_10k(b *testing.B) {
 	}
 }
 
-func BenchmarkInsert_Compressed_10k(b *testing.B) {
+func BenchmarkInsert_Uncompressed_10k_Padded(b *testing.B) {
 	cidrs := generateCIDRs(10_000)
 	meta := Metadata{Value: "bench"}
 	b.ResetTimer()
 	for b.Loop() {
-		e := NewEngineWrapperWithTree(EngineConcurrent, NodeAtomic, true)
+		e := NewEngineWrapperWithTree(EngineConcurrent, NodePadded, false)
+		for _, cidr := range cidrs {
+			_ = e.Insert(cidr, meta)
+		}
+	}
+}
+
+func BenchmarkInsert_Uncompressed_10k_LockFree(b *testing.B) {
+	cidrs := generateCIDRs(10_000)
+	meta := Metadata{Value: "bench"}
+	b.ResetTimer()
+	for b.Loop() {
+		e := NewEngineWrapperWithTree(EngineConcurrent, NodeLockFree, false)
+		for _, cidr := range cidrs {
+			_ = e.Insert(cidr, meta)
+		}
+	}
+}
+
+func BenchmarkInsert_Compressed_10k_Normal(b *testing.B) {
+	cidrs := generateCIDRs(10_000)
+	meta := Metadata{Value: "bench"}
+	b.ResetTimer()
+	for b.Loop() {
+		e := NewEngineWrapperWithTree(EngineConcurrent, NodeCompressedNormal, true)
+		for _, cidr := range cidrs {
+			_ = e.Insert(cidr, meta)
+		}
+	}
+}
+
+func BenchmarkInsert_Compressed_10k_Atomic(b *testing.B) {
+	cidrs := generateCIDRs(10_000)
+	meta := Metadata{Value: "bench"}
+	b.ResetTimer()
+	for b.Loop() {
+		e := NewEngineWrapperWithTree(EngineConcurrent, NodeCompressedAtomic, true)
+		for _, cidr := range cidrs {
+			_ = e.Insert(cidr, meta)
+		}
+	}
+}
+
+func BenchmarkInsert_Compressed_10k_Padded(b *testing.B) {
+	cidrs := generateCIDRs(10_000)
+	meta := Metadata{Value: "bench"}
+	b.ResetTimer()
+	for b.Loop() {
+		e := NewEngineWrapperWithTree(EngineConcurrent, NodeCompressedPadded, true)
+		for _, cidr := range cidrs {
+			_ = e.Insert(cidr, meta)
+		}
+	}
+}
+
+func BenchmarkInsert_Compressed_10k_LockFree(b *testing.B) {
+	cidrs := generateCIDRs(10_000)
+	meta := Metadata{Value: "bench"}
+	b.ResetTimer()
+	for b.Loop() {
+		e := NewEngineWrapperWithTree(EngineConcurrent, NodeCompressedLockFree, true)
 		for _, cidr := range cidrs {
 			_ = e.Insert(cidr, meta)
 		}
@@ -140,3 +212,4 @@ func BenchmarkConcurrent_Lookup_Compressed(b *testing.B) {
 		}
 	})
 }
+
