@@ -89,6 +89,7 @@ impl RadixEngineWrapper {
 // RadixIP class
 // ---------------------------------------------------------------------------
 
+#[napi]
 pub struct RadixIP {
     inner: RadixEngineWrapper,
 }
