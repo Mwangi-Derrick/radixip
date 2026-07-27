@@ -153,6 +153,10 @@ func BenchmarkInsert_Compressed_10k_LockFree(b *testing.B) {
 	}
 }
 
+var (
+	GlobalResult *Metadata
+)
+
 func BenchmarkLookup_Hit_Uncompressed_50k(b *testing.B) {
 	e := buildEngine(50_000, false)
 	ips := generateHitIPs(50_000)
@@ -160,7 +164,7 @@ func BenchmarkLookup_Hit_Uncompressed_50k(b *testing.B) {
 	b.ReportAllocs()
 	for b.Loop() {
 		for _, ip := range ips {
-			_ = e.Lookup(ip)
+			GlobalResult = e.Lookup(ip)
 		}
 	}
 }
@@ -172,7 +176,7 @@ func BenchmarkLookup_Hit_Compressed_50k(b *testing.B) {
 	b.ReportAllocs()
 	for b.Loop() {
 		for _, ip := range ips {
-			_ = e.Lookup(ip)
+			GlobalResult = e.Lookup(ip)
 		}
 	}
 }
@@ -183,7 +187,7 @@ func BenchmarkLookup_Miss_Uncompressed_50k(b *testing.B) {
 	b.ResetTimer()
 	for b.Loop() {
 		for _, ip := range ips {
-			_ = e.Lookup(ip)
+			GlobalResult = e.Lookup(ip)
 		}
 	}
 }
@@ -194,7 +198,7 @@ func BenchmarkLookup_Miss_Compressed_50k(b *testing.B) {
 	b.ResetTimer()
 	for b.Loop() {
 		for _, ip := range ips {
-			_ = e.Lookup(ip)
+			GlobalResult = e.Lookup(ip)
 		}
 	}
 }
@@ -207,9 +211,10 @@ func BenchmarkConcurrent_Lookup_Compressed(b *testing.B) {
 	b.RunParallel(func(pb *testing.PB) {
 		i := 0
 		for pb.Next() {
-			_ = e.Lookup(ips[i%n])
+			GlobalResult = e.Lookup(ips[i%n])
 			i++
 		}
 	})
 }
+
 
