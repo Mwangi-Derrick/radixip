@@ -1,9 +1,10 @@
 use ipnetwork::IpNetwork;
+use radixip::tree::UncompressedTree;
 use radixip::{
     CacheConfig, CachedEngine, EngineVariant, Metadata, NodeVariant, RadixEngine, StandardEngine,
     engine::EngineWrapper,
 };
-use redis;
+use redis::Client as RedisClient;
 use std::net::IpAddr;
 
 #[test]
@@ -29,7 +30,7 @@ fn test_all_rust_engine_and_node_combinations() {
     for ev in &engine_variants {
         for nv in &node_variants {
             for compressed in &[false, true] {
-                let engine = EngineWrapper::new_with_tree(*ev, *nv, *compressed);
+                let engine = EngineWrapper::new(*ev, *nv, *compressed);
 
                 assert_eq!(engine.size(), 0);
 
@@ -76,7 +77,7 @@ fn test_all_rust_engine_and_node_combinations() {
 #[test]
 fn test_ipv6_longest_prefix_match() {
     for compressed in &[false, true] {
-        let engine = EngineWrapper::new_with_tree(
+        let engine = EngineWrapper::new(
             EngineVariant::Standard,
             NodeVariant::CompressedAtomic,
             *compressed,
@@ -105,14 +106,15 @@ fn test_ipv6_longest_prefix_match() {
 
 #[test]
 fn cached_engine_invalidates_ips_under_changed_prefix() {
-    let inner = std::sync::Arc::new(StandardEngine::new(NodeVariant::Atomic));
     let engine = CachedEngine::new(
-        inner,
+        std::sync::Arc::new(StandardEngine::new(UncompressedTree::new(
+            NodeVariant::Atomic,
+        ))),
         CacheConfig {
             max_entries: 32,
             ttl_seconds: None,
         },
-        redis::Client,
+        RedisClient,
     );
 
     engine
