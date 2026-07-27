@@ -2,7 +2,7 @@ use ipnetwork;
 use napi::bindgen_prelude::*;
 use napi::*;
 use napi_derive::napi;
-use radixip::{Error, Metadata, RadixEngine};
+use radixip::{Metadata, RadixEngine};
 use std::collections::HashMap;
 use std::net::IpAddr;
 use tokio::*;
