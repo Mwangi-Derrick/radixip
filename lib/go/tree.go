@@ -1,6 +1,7 @@
 package radixip
 
 import (
+	"fmt"
 	"net"
 )
 
@@ -29,8 +30,12 @@ func (t *UncompressedTree) Insert(prefix IpNetwork, metadata Metadata) (bool, er
 	ones, _ := prefix.Mask.Size() // gets the prefix of the network
 	prefixLen := ones             // sets the prefix length or the number of bits we process
 	if t.root == nil {
-		t.root = &normalNode{}
+		t.root = t.nodeBuilder.Build()
+		if t.root == nil {
+			return false, fmt.Errorf("failed to create root node")
+		}
 	}
+
 	current := t.root //starts at the root
 
 	// only loop the number of bits in the mask
@@ -79,6 +84,9 @@ func (t *UncompressedTree) Insert(prefix IpNetwork, metadata Metadata) (bool, er
 
 func (t *UncompressedTree) Lookup(ip *net.IP) *Metadata {
 	var bestMatch *Metadata
+	if t.root == nil {
+		return nil
+	}
 	current := t.root
 	depth := 0
 
@@ -109,6 +117,9 @@ func (t *UncompressedTree) Lookup(ip *net.IP) *Metadata {
 }
 
 func (t *UncompressedTree) Remove(prefix *IpNetwork) *Metadata {
+	if t.root == nil {
+		return nil
+	}
 	ip := prefix.IP
 	ones, _ := prefix.Mask.Size()
 	prefixLen := ones
@@ -135,6 +146,9 @@ func (t *UncompressedTree) Remove(prefix *IpNetwork) *Metadata {
 }
 
 func (t *UncompressedTree) Contains(prefix *IpNetwork) bool {
+	if t.root == nil {
+		return false
+	}
 	ip := prefix.IP
 	ones, _ := prefix.Mask.Size()
 	prefixLen := ones
@@ -155,6 +169,10 @@ func (t *UncompressedTree) Contains(prefix *IpNetwork) bool {
 }
 
 func (t *UncompressedTree) Clear() {
+	if t.root != nil {
+		t.root.SetLeft(nil)
+		t.root.SetRight(nil)
+	}
 	t.root.SetLeft(nil)
 	t.root.SetRight(nil)
 }
