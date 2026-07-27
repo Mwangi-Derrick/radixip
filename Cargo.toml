@@ -28,7 +28,7 @@ pyo3 = "0.22"
 maturin = "0.18"
 
 # For Node.js bindings
-napi = { version = "2.12", features = ["serde-json", "tokio-rt"] }
+napi = { version = "2.12", features = ["serde-json"] }
 napi-derive = "2.12"
 
 # For benchmarks
