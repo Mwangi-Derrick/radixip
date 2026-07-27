@@ -173,8 +173,6 @@ func (t *UncompressedTree) Clear() {
 		t.root.SetLeft(nil)
 		t.root.SetRight(nil)
 	}
-	t.root.SetLeft(nil)
-	t.root.SetRight(nil)
 }
 
 // longestPrefixMatch is now implemented directly in UncompressedTree and CompressedTree Lookups
