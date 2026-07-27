@@ -31,7 +31,8 @@ jobs:
       - name: Run benchmarks
         working-directory: ./lib/rust
         run: |
-          cargo bench -- --output-format=json 2>&1 | tee ../../rust_bench_results.txt
+          # Run benchmarks for the specific package (using underscore, not hyphen)
+          cargo bench -p radixip_rs -- --output-format=json 2>&1 | tee ../../rust_bench_results.txt
 
       - name: Verify benchmark output
         run: |
@@ -39,9 +40,23 @@ jobs:
             echo "Error: Benchmark output file is empty"
             exit 1
           fi
+          
           echo "Benchmark output file size: $(wc -c < rust_bench_results.txt) bytes"
-          echo "First 10 lines of benchmark output:"
-          head -n 10 rust_bench_results.txt
+          echo ""
+          echo "First 30 lines of benchmark output:"
+          head -n 30 rust_bench_results.txt
+          
+          # Check if there's actual benchmark data
+          if grep -q "Benchmark" rust_bench_results.txt || grep -q "time:" rust_bench_results.txt; then
+            echo ""
+            echo "✅ Benchmark data found in output"
+          else
+            echo ""
+            echo "⚠️  Warning: No benchmark data found in output"
+            echo "Full output:"
+            cat rust_bench_results.txt
+            exit 1
+          fi
 
       - name: Store benchmark result
         uses: benchmark-action/github-action-benchmark@v1
@@ -80,9 +95,21 @@ jobs:
             echo "Error: Go benchmark output file is empty"
             exit 1
           fi
+          
           echo "Go benchmark output file size: $(wc -c < lib/go/go_bench_results.txt) bytes"
-          echo "First 10 lines of Go benchmark output:"
-          head -n 10 lib/go/go_bench_results.txt
+          echo ""
+          echo "First 20 lines of Go benchmark output:"
+          head -n 20 lib/go/go_bench_results.txt
+          
+          # Check if there's actual benchmark data
+          if grep -q "Benchmark" lib/go/go_bench_results.txt; then
+            echo ""
+            echo "✅ Benchmark data found in output"
+          else
+            echo ""
+            echo "⚠️  Warning: No benchmark data found in output"
+            exit 1
+          fi
 
       - name: Store benchmark result
         uses: benchmark-action/github-action-benchmark@v1

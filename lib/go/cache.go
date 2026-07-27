@@ -194,7 +194,7 @@ func (e *CachedEngine) Insert(prefix *IpNetwork, metadata Metadata) error {
 	if e.cache.redis != nil {
 		ctx := context.Background()
 		if jsonData, err := json.Marshal(metadata); err == nil {
-			e.cache.redis.HSet(ctx, "radixip:entries", prefix.String(), string(jsonData))
+			e.cache.redis.HSet(ctx, "radixip:entries", prefix.IP.String(), string(jsonData))
 		}
 	}
 
@@ -221,7 +221,7 @@ func (e *CachedEngine) Remove(prefix *IpNetwork) *Metadata {
 	// Remove from Redis
 	if e.cache.redis != nil {
 		ctx := context.Background()
-		e.cache.redis.HDel(ctx, "radixip:entries", prefix.String())
+		e.cache.redis.HDel(ctx, "radixip:entries", prefix.IP.String())
 	}
 
 	netPrefix := net.IPNet{IP: prefix.IP, Mask: prefix.Mask}
