@@ -29,8 +29,19 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y protobuf-compiler
 
       - name: Run benchmarks
+        working-directory: radixip_rs
         run: |
-          cargo bench -p radixip_rs -- --output-format bencher 2>&1 | tee rust_bench_results.txt
+          cargo bench -- --output-format=json 2>&1 | tee ../rust_bench_results.txt
+
+      - name: Verify benchmark output
+        run: |
+          if [ ! -s rust_bench_results.txt ]; then
+            echo "Error: Benchmark output file is empty"
+            exit 1
+          fi
+          echo "Benchmark output file size: $(wc -c < rust_bench_results.txt) bytes"
+          echo "First 10 lines of benchmark output:"
+          head -n 10 rust_bench_results.txt
 
       - name: Store benchmark result
         uses: benchmark-action/github-action-benchmark@v1
@@ -41,10 +52,8 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           auto-push: true
           alert-threshold: '105%'
-          # comment-on-header: 'Rust Performance Change'  # REMOVED - invalid input
           fail-on-alert: false
           comment-always: true
-          # These are the default values, but you can explicitly set them:
           gh-pages-branch: gh-pages
           benchmark-data-dir-path: dev/bench
 
@@ -65,6 +74,16 @@ jobs:
         run: |
           go test -bench=. -benchmem -count=10 ./... | tee go_bench_results.txt
 
+      - name: Verify Go benchmark output
+        run: |
+          if [ ! -s lib/go/go_bench_results.txt ]; then
+            echo "Error: Go benchmark output file is empty"
+            exit 1
+          fi
+          echo "Go benchmark output file size: $(wc -c < lib/go/go_bench_results.txt) bytes"
+          echo "First 10 lines of Go benchmark output:"
+          head -n 10 lib/go/go_bench_results.txt
+
       - name: Store benchmark result
         uses: benchmark-action/github-action-benchmark@v1
         with:
@@ -74,9 +93,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           auto-push: true
           alert-threshold: '105%'
-          # comment-on-header: 'Go Performance Change'  # REMOVED - invalid input
           fail-on-alert: false
           comment-always: true
-          # These are the default values, but you can explicitly set them:
           gh-pages-branch: gh-pages
           benchmark-data-dir-path: dev/bench
