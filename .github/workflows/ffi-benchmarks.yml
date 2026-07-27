@@ -1,0 +1,73 @@
+name: FFI Benchmarks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ffi-benchmarks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  bench-node:
+    name: Node.js FFI Benchmarks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install Protobuf
+        run: sudo apt-get update && sudo apt-get install -y protobuf-compiler
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: lib/node/package.json
+
+      - name: Install dependencies and build addon
+        working-directory: lib/node
+        run: |
+          npm install
+          npm run build
+
+      - name: Run Node Benchmarks
+        working-directory: lib/node
+        run: |
+          node benchmarks/bench.js
+
+  bench-python:
+    name: Python FFI Benchmarks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install Protobuf
+        run: sudo apt-get update && sudo apt-get install -y protobuf-compiler
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        working-directory: lib/python
+        run: |
+          pip install --upgrade pip
+          pip install pytest pytest-benchmark maturin patchelf
+          maturin develop --release
+
+      - name: Run Python Benchmarks
+        working-directory: lib/python
+        run: |
+          pytest tests/test_benchmark.py --benchmark-columns=mean,stddev,ops,rounds
