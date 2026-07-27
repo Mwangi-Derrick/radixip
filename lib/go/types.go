@@ -12,6 +12,15 @@ type IpNetwork struct {
 	Mask net.IPMask
 }
 
+// String returns the CIDR string representation
+func (n IpNetwork) String() string {
+	return (&net.IPNet{
+		IP:   n.IP,
+		Mask: n.Mask,
+	}).String()
+}
+
+
 // Metadata stores user payload at a terminal prefix.
 // The string map keeps the ABI and Redis payloads simple while still allowing
 // callers to attach labels such as "action", "asn", "country", or "reason".
