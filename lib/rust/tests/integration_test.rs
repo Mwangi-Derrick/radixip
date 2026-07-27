@@ -106,15 +106,7 @@ fn test_ipv6_longest_prefix_match() {
 
 #[test]
 fn cached_engine_invalidates_ips_under_changed_prefix() {
-    let engine = CachedEngine::new(
-        std::sync::Arc::new(StandardEngine::new(UncompressedTree::new(
-            NodeVariant::Atomic,
-        ))),
-        CacheConfig {
-            max_entries: 32,
-            ttl_seconds: None,
-        },
-    );
+    let engine = EngineWrapper::new(EngineVariant::Standard, NodeVariant::Padded, false);
 
     engine
         .insert(
