@@ -41,9 +41,12 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           auto-push: true
           alert-threshold: '105%'
-          comment-on-header: 'Rust Performance Change'
+          # comment-on-header: 'Rust Performance Change'  # REMOVED - invalid input
           fail-on-alert: false
           comment-always: true
+          # These are the default values, but you can explicitly set them:
+          gh-pages-branch: gh-pages
+          benchmark-data-dir-path: dev/bench
 
   bench-go:
     name: Go (testing.B)
@@ -71,6 +74,9 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           auto-push: true
           alert-threshold: '105%'
-          comment-on-header: 'Go Performance Change'
+          # comment-on-header: 'Go Performance Change'  # REMOVED - invalid input
           fail-on-alert: false
           comment-always: true
+          # These are the default values, but you can explicitly set them:
+          gh-pages-branch: gh-pages
+          benchmark-data-dir-path: dev/bench
