@@ -1,10 +1,5 @@
 use ipnetwork::IpNetwork;
-use radixip::tree::UncompressedTree;
-use radixip::{
-    CacheConfig, CachedEngine, EngineVariant, Metadata, NodeVariant, RadixEngine, StandardEngine,
-    engine::EngineWrapper,
-};
-use redis::Client as RedisClient;
+use radixip::{EngineVariant, Metadata, NodeVariant, RadixEngine, engine::EngineWrapper};
 use std::net::IpAddr;
 
 #[test]

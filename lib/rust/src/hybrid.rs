@@ -1,4 +1,3 @@
-use futures_util::TryFutureExt;
 use std::net::IpAddr;
 #[cfg(feature = "redis")]
 use std::sync::Arc;
