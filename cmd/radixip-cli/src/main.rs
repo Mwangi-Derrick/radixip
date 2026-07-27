@@ -13,14 +13,9 @@ struct Cli {
 #[derive(Subcommand)]
 enum Commands {
     /// Insert a subnet with metadata
-    Insert {
-        subnet: String,
-        metadata: String,
-    },
+    Insert { subnet: String, metadata: String },
     /// Match an IP address
-    Match {
-        ip: String,
-    },
+    Match { ip: String },
     /// Show engine stats
     Stats,
     /// Clear all subnets
