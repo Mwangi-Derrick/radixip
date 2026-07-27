@@ -43,9 +43,19 @@ func (t *UncompressedTree) Insert(prefix IpNetwork, metadata Metadata) (bool, er
 		bit := t.getBit(ip, depth) // gets the bit at the current depth (0 or 1)
 		var next RadixNode
 		if bit == 0 {
+			if current == nil {
+				// Handle nil current
+				current = t.nodeBuilder.Build()
+				t.root = current
+			}
 			// if bit is 0, go left
 			next = current.Left()
 		} else {
+			if current == nil {
+				// Handle nil current
+				current = t.nodeBuilder.Build()
+				t.root = current
+			}
 			// if bit is 1, go right
 			next = current.Right()
 		}
