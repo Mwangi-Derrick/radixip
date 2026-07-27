@@ -13,6 +13,8 @@ type atomicNode struct {
 	right    unsafe.Pointer // *atomicNode
 	metadata unsafe.Pointer // *Metadata
 	prefix   unsafe.Pointer // *net.IPNet
+	edgeLen  int            // Not atomic - read-only after node creation?
+	edgeBits []byte         // Not atomic - read-only after node creation?
 }
 
 type normalNode struct {
@@ -21,6 +23,8 @@ type normalNode struct {
 	right    *normalNode
 	metadata *Metadata
 	prefix   *net.IPNet
+	edgeLen  int    // Not atomic - read-only after node creation?
+	edgeBits []byte // Not atomic - read-only after node creation?
 }
 
 type paddedNode struct {
@@ -35,6 +39,10 @@ type paddedNode struct {
 	_pad5    [56]byte
 	prefix   *net.IPNet
 	_pad6    [56]byte
+	edgeLen  int // Not atomic - read-only after node creation?
+	_pad7    [56]byte
+	edgeBits []byte // Not atomic - read-only after node creation?
+	_pad8    [56]byte
 }
 
 type lockFreeNode struct {
@@ -56,6 +64,9 @@ func (n *lockFreeNode) Bit() *uint8 {
 }
 
 func (n *lockFreeNode) SetBit(bit uint8) {
+	if n == nil {
+		return
+	}
 	// Only call if node is not yet published!
 	n.bit = bit
 }
@@ -69,6 +80,9 @@ func (n *lockFreeNode) Left() RadixNode {
 }
 
 func (n *lockFreeNode) SetLeft(node RadixNode) {
+	if n == nil {
+		return
+	}
 	if node == nil {
 		atomic.StorePointer(&n.left, nil)
 	} else {
@@ -85,6 +99,9 @@ func (n *lockFreeNode) Right() RadixNode {
 }
 
 func (n *lockFreeNode) SetRight(node RadixNode) {
+	if n == nil {
+		return
+	}
 	if node == nil {
 		atomic.StorePointer(&n.right, nil)
 	} else {
@@ -97,6 +114,9 @@ func (n *lockFreeNode) Metadata() *Metadata {
 }
 
 func (n *lockFreeNode) SetMetadata(metadata *Metadata) {
+	if n == nil {
+		return
+	}
 	atomic.StorePointer(&n.metadata, unsafe.Pointer(metadata))
 }
 
@@ -109,6 +129,9 @@ func (n *lockFreeNode) Prefix() *net.IPNet {
 }
 
 func (n *lockFreeNode) SetPrefix(prefix *net.IPNet) {
+	if n == nil {
+		return
+	}
 	atomic.StorePointer(&n.prefix, unsafe.Pointer(prefix))
 }
 
@@ -121,6 +144,9 @@ func (n *lockFreeNode) EdgeBits() []byte {
 }
 
 func (n *lockFreeNode) SetEdge(bits []byte, length int) {
+	if n == nil {
+		return
+	}
 	n.edgeBits = bits
 	n.edgeLen = length
 }
@@ -134,6 +160,9 @@ func (n *atomicNode) Bit() *uint8 {
 }
 
 func (n *atomicNode) SetBit(bit uint8) {
+	if n == nil {
+		return
+	}
 	bitVal := bit
 	atomic.StorePointer(&n.bit, unsafe.Pointer(&bitVal))
 }
@@ -147,6 +176,9 @@ func (n *atomicNode) Left() RadixNode {
 }
 
 func (n *atomicNode) SetLeft(node RadixNode) {
+	if n == nil {
+		return
+	}
 	if node == nil {
 		atomic.StorePointer(&n.left, nil)
 	} else {
@@ -163,6 +195,9 @@ func (n *atomicNode) Right() RadixNode {
 }
 
 func (n *atomicNode) SetRight(node RadixNode) {
+	if n == nil {
+		return
+	}
 	if node == nil {
 		atomic.StorePointer(&n.right, nil)
 	} else {
@@ -175,10 +210,16 @@ func (n *atomicNode) Metadata() *Metadata {
 }
 
 func (n *atomicNode) SetMetadata(metadata *Metadata) {
+	if n == nil {
+		return
+	}
 	atomic.StorePointer(&n.metadata, unsafe.Pointer(metadata))
 }
 
 func (n *atomicNode) ClearMetadata() {
+	if n == nil {
+		return
+	}
 	atomic.StorePointer(&n.metadata, nil)
 }
 
@@ -187,6 +228,9 @@ func (n *atomicNode) Prefix() *net.IPNet {
 }
 
 func (n *atomicNode) SetPrefix(prefix *net.IPNet) {
+	if n == nil {
+		return
+	}
 	atomic.StorePointer(&n.prefix, unsafe.Pointer(prefix))
 }
 
@@ -198,7 +242,14 @@ func (n *atomicNode) EdgeLen() int {
 	return 0
 }
 
-func (n *atomicNode) SetEdge(bits []byte, length int) {}
+func (n *atomicNode) SetEdge(bits []byte, length int) {
+	if n == nil {
+		return
+	}
+	// Take the address of the slice header to get a *[]byte, then cast to unsafe.Pointer
+	atomic.StorePointer((*unsafe.Pointer)(unsafe.Pointer(&n.edgeBits)), unsafe.Pointer(&bits))
+	atomic.StoreInt32((*int32)(unsafe.Pointer(&n.edgeLen)), int32(length))
+}
 
 func NewNormalNode() *normalNode {
 	return &normalNode{}
@@ -209,6 +260,9 @@ func (n *normalNode) Bit() *uint8 {
 }
 
 func (n *normalNode) SetBit(bit uint8) {
+	if n == nil {
+		return
+	}
 	n.bit = bit
 }
 
@@ -235,6 +289,9 @@ func (n *normalNode) Right() RadixNode {
 }
 
 func (n *normalNode) SetRight(node RadixNode) {
+	if n == nil {
+		return
+	}
 	if node == nil {
 		n.right = nil
 	} else {
@@ -250,10 +307,16 @@ func (n *normalNode) Metadata() *Metadata {
 }
 
 func (n *normalNode) SetMetadata(metadata *Metadata) {
+	if n == nil {
+		return
+	}
 	n.metadata = metadata
 }
 
 func (n *normalNode) ClearMetadata() {
+	if n == nil {
+		return
+	}
 	n.metadata = nil
 }
 
@@ -287,6 +350,9 @@ func (n *paddedNode) Bit() *uint8 {
 }
 
 func (n *paddedNode) SetBit(bit uint8) {
+	if n == nil {
+		return
+	}
 	n.bit = bit
 }
 
@@ -307,6 +373,9 @@ func (n *paddedNode) Right() RadixNode {
 }
 
 func (n *paddedNode) SetRight(node RadixNode) {
+	if n == nil {
+		return
+	}
 	if node == nil {
 		n.right = nil
 	} else {
@@ -319,10 +388,16 @@ func (n *paddedNode) Metadata() *Metadata {
 }
 
 func (n *paddedNode) SetMetadata(metadata *Metadata) {
+	if n == nil {
+		return
+	}
 	n.metadata = metadata
 }
 
 func (n *paddedNode) ClearMetadata() {
+	if n == nil {
+		return
+	}
 	n.metadata = nil
 }
 
@@ -331,6 +406,9 @@ func (n *paddedNode) Prefix() *net.IPNet {
 }
 
 func (n *paddedNode) SetPrefix(prefix *net.IPNet) {
+	if n == nil {
+		return
+	}
 	n.prefix = prefix
 }
 
@@ -342,4 +420,10 @@ func (n *paddedNode) EdgeLen() int {
 	return 0
 }
 
-func (n *paddedNode) SetEdge(bits []byte, length int) {}
+func (n *paddedNode) SetEdge(bits []byte, length int) {
+	if n == nil {
+		return
+	}
+	n.edgeBits = bits
+	n.edgeLen = length
+}
