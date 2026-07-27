@@ -12,7 +12,7 @@ keywords.workspace = true
 categories.workspace = true
 
 [lib]
-crate-type = ["cdylib", "rlib"]  # For FFI + static linking
+crate-type = ["rlib"]  # rlib for Rust consumers; cdylib is in lib/node and lib/python
 name = "radixip"
 
 [features]
