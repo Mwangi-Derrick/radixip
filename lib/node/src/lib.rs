@@ -2,10 +2,9 @@ use ipnetwork;
 use napi::bindgen_prelude::*;
 use napi::*;
 use napi_derive::napi;
-use radixip::{Metadata, RadixEngine};
+use radixip::{Metadata, RadixEngine}; // Note: no UncompressedTree import needed for wrapper approach
 use std::collections::HashMap;
 use std::net::IpAddr;
-use tokio::*;
 
 // ---------------------------------------------------------------------------
 // Config object passed from JS/TS
@@ -13,13 +12,9 @@ use tokio::*;
 
 #[napi(object)]
 pub struct EngineConfig {
-    /// "standard" | "concurrent" | "lockfree" | "adaptive"
     pub variant: Option<String>,
-    /// Whether to use the compressed Patricia trie for reads.
     pub read_compressed: Option<bool>,
-    /// Whether to use the compressed Patricia trie for writes.
     pub write_compressed: Option<bool>,
-    /// Enable the split-plane (Hybrid) architecture.
     pub enable_split_plane: Option<bool>,
 }
 
@@ -48,37 +43,69 @@ pub struct JsEngineStats {
 }
 
 // ---------------------------------------------------------------------------
+// Wrapper for RadixEngine trait object
+// ---------------------------------------------------------------------------
+
+struct RadixEngineWrapper {
+    engine: Box<dyn RadixEngine>,
+}
+
+impl RadixEngineWrapper {
+    fn new(engine: Box<dyn RadixEngine>) -> Self {
+        Self { engine }
+    }
+
+    fn insert(&self, prefix: ipnetwork::IpNetwork, metadata: Metadata) -> Result<(), String> {
+        self.engine
+            .insert(prefix, metadata)
+            .map_err(|e| e.to_string())
+    }
+
+    fn lookup(&self, addr: &IpAddr) -> Option<&Metadata> {
+        self.engine.lookup(&addr).as_ref()
+    }
+
+    fn remove(&self, prefix: &ipnetwork::IpNetwork) -> Option<Metadata> {
+        self.engine.remove(prefix)
+    }
+
+    fn clear(&self) {
+        self.engine.clear();
+    }
+
+    fn size(&self) -> usize {
+        self.engine.size()
+    }
+
+    fn stats(&self) -> radixip::types::EngineStats {
+        self.engine.stats()
+    }
+}
+
+// ---------------------------------------------------------------------------
 // RadixIP class
 // ---------------------------------------------------------------------------
 
 #[napi]
 pub struct RadixIP {
-    inner: Box<dyn RadixEngine>,
+    inner: RadixEngineWrapper,
 }
 
 #[napi]
 impl RadixIP {
-    /// Create a new RadixIP engine.
-    /// Pass an optional `EngineConfig` to customise the variant.
     #[napi(constructor)]
     pub fn new(_config: Option<EngineConfig>) -> Self {
-        // Node.js is single-threaded; using the Concurrent Sharded engine adds locking overhead
-        // with no parallel execution benefits. The memory_efficient config uses the StandardEngine
-        // with a compressed Patricia tree, which is optimal for the V8 Event Loop.
-        let inner = tokio::runtime::Builder::new_current_thread()
+        let engine = tokio::runtime::Builder::new_current_thread()
             .enable_all()
             .build()
             .unwrap()
             .block_on(radixip::new_memory_efficient());
 
-        Self { inner }
+        Self {
+            inner: RadixEngineWrapper::new(engine),
+        }
     }
 
-    /// Insert a CIDR prefix with associated metadata.
-    ///
-    /// ```ts
-    /// engine.insert("10.0.0.0/8", { value: "allow", attributes: { asn: "AS12345" } });
-    /// ```
     #[napi]
     pub fn insert(&self, subnet: String, metadata: JsMetadata) -> napi::Result<()> {
         let Ok(prefix) = subnet.parse::<ipnetwork::IpNetwork>() else {
@@ -87,33 +114,29 @@ impl RadixIP {
                 format!("Invalid CIDR: {subnet}"),
             ));
         };
+
         let meta = Metadata {
             value: metadata.value,
             attributes: metadata.attributes,
         };
+
         self.inner
             .insert(prefix, meta)
             .map_err(|e| Error::new(Status::GenericFailure, e))
     }
 
-    /// Longest-prefix match. Returns `null` when no prefix covers the IP.
-    ///
-    /// ```ts
-    /// const result = engine.lookup("10.1.2.3");
-    /// if (result) console.log(result.value);
-    /// ```
     #[napi]
     pub fn lookup(&self, ip: String) -> napi::Result<Option<JsMetadata>> {
         let Ok(addr) = ip.parse::<IpAddr>() else {
             return Err(Error::new(Status::InvalidArg, format!("Invalid IP: {ip}")));
         };
+
         Ok(self.inner.lookup(&addr).map(|m| JsMetadata {
-            value: m.value,
-            attributes: m.attributes,
+            value: m.value.clone(),
+            attributes: m.attributes.clone(),
         }))
     }
 
-    /// Remove a prefix from the engine. Returns `true` if the entry was found.
     #[napi]
     pub fn remove(&self, subnet: String) -> napi::Result<bool> {
         let Ok(prefix) = subnet.parse::<ipnetwork::IpNetwork>() else {
@@ -122,31 +145,29 @@ impl RadixIP {
                 format!("Invalid CIDR: {subnet}"),
             ));
         };
+
         Ok(self.inner.remove(&prefix).is_some())
     }
 
-    /// Returns `true` if any stored prefix covers the given IP.
     #[napi]
     pub fn contains(&self, ip: String) -> napi::Result<bool> {
         let Ok(addr) = ip.parse::<IpAddr>() else {
             return Err(Error::new(Status::InvalidArg, format!("Invalid IP: {ip}")));
         };
+
         Ok(self.inner.lookup(&addr).is_some())
     }
 
-    /// Remove all entries.
     #[napi]
     pub fn clear(&self) {
         self.inner.clear();
     }
 
-    /// Return the number of stored prefixes.
     #[napi(getter)]
     pub fn size(&self) -> u32 {
         self.inner.size() as u32
     }
 
-    /// Return engine performance statistics.
     #[napi]
     pub fn stats(&self) -> JsEngineStats {
         let s = self.inner.stats();
