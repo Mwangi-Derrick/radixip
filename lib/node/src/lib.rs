@@ -61,8 +61,8 @@ impl RadixEngineWrapper {
             .map_err(|e| e.to_string())
     }
 
-    fn lookup(&self, addr: &IpAddr) -> Option<&Metadata> {
-        self.engine.lookup(&addr).as_ref()
+    fn lookup(&self, addr: &IpAddr) -> Option<Metadata> {
+        self.engine.lookup(&addr)
     }
 
     fn remove(&self, prefix: &ipnetwork::IpNetwork) -> Option<Metadata> {
@@ -109,8 +109,8 @@ impl RadixIP {
     #[napi]
     pub fn insert(&self, subnet: String, metadata: JsMetadata) -> napi::Result<()> {
         let Ok(prefix) = subnet.parse::<ipnetwork::IpNetwork>() else {
-            return Err(Error::new(
-                Status::InvalidArg,
+            return Err(napi::Error::new(
+                napi::Status::InvalidArg,
                 format!("Invalid CIDR: {subnet}"),
             ));
         };
@@ -122,18 +122,21 @@ impl RadixIP {
 
         self.inner
             .insert(prefix, meta)
-            .map_err(|e| Error::new(Status::GenericFailure, e))
+            .map_err(|e| napi::Error::new(napi::Status::GenericFailure, e))
     }
 
     #[napi]
     pub fn lookup(&self, ip: String) -> napi::Result<Option<JsMetadata>> {
         let Ok(addr) = ip.parse::<IpAddr>() else {
-            return Err(Error::new(Status::InvalidArg, format!("Invalid IP: {ip}")));
+            return Err(napi::Error::new(
+                napi::Status::InvalidArg,
+                format!("Invalid IP: {ip}"),
+            ));
         };
 
         Ok(self.inner.lookup(&addr).map(|m| JsMetadata {
-            value: m.value.clone(),
-            attributes: m.attributes.clone(),
+            value: m.value,
+            attributes: m.attributes,
         }))
     }
 
