@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1785203977433,
+  "lastUpdate": 1785250494979,
   "repoUrl": "https://github.com/Mwangi-Derrick/radixip",
   "entries": {
     "Go Benchmark": [
@@ -34584,6 +34584,8190 @@ window.BENCHMARK_DATA = {
             "value": 1,
             "unit": "allocs/op",
             "extra": "7672108 times\n4 procs"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "mwangiderrick640@gmail.com",
+            "name": "Derrick Mwangi",
+            "username": "Mwangi-Derrick"
+          },
+          "committer": {
+            "email": "mwangiderrick640@gmail.com",
+            "name": "Derrick Mwangi",
+            "username": "Mwangi-Derrick"
+          },
+          "distinct": true,
+          "id": "421a7c397cff43233129e38310f961ed0f75862e",
+          "message": "chore(comments): clarify compressed and uncompressed tree variants",
+          "timestamp": "2026-07-28T17:41:59+03:00",
+          "tree_id": "6f8a5e935d51cf217ac52b56039294c99401b4a5",
+          "url": "https://github.com/Mwangi-Derrick/radixip/commit/421a7c397cff43233129e38310f961ed0f75862e"
+        },
+        "date": 1785250494157,
+        "tool": "go",
+        "benches": [
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal",
+            "value": 142185551,
+            "unit": "ns/op\t165124575 B/op\t 2240070 allocs/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal - ns/op",
+            "value": 142185551,
+            "unit": "ns/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal - B/op",
+            "value": 165124575,
+            "unit": "B/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal - allocs/op",
+            "value": 2240070,
+            "unit": "allocs/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal",
+            "value": 143573171,
+            "unit": "ns/op\t165123952 B/op\t 2240069 allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal - ns/op",
+            "value": 143573171,
+            "unit": "ns/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal - B/op",
+            "value": 165123952,
+            "unit": "B/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal - allocs/op",
+            "value": 2240069,
+            "unit": "allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal",
+            "value": 143879016,
+            "unit": "ns/op\t165123824 B/op\t 2240068 allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal - ns/op",
+            "value": 143879016,
+            "unit": "ns/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal - B/op",
+            "value": 165123824,
+            "unit": "B/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal - allocs/op",
+            "value": 2240068,
+            "unit": "allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal",
+            "value": 148126066,
+            "unit": "ns/op\t165124080 B/op\t 2240070 allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal - ns/op",
+            "value": 148126066,
+            "unit": "ns/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal - B/op",
+            "value": 165124080,
+            "unit": "B/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal - allocs/op",
+            "value": 2240070,
+            "unit": "allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal",
+            "value": 148969634,
+            "unit": "ns/op\t165123936 B/op\t 2240069 allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal - ns/op",
+            "value": 148969634,
+            "unit": "ns/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal - B/op",
+            "value": 165123936,
+            "unit": "B/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal - allocs/op",
+            "value": 2240069,
+            "unit": "allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal",
+            "value": 146278735,
+            "unit": "ns/op\t165123920 B/op\t 2240069 allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal - ns/op",
+            "value": 146278735,
+            "unit": "ns/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal - B/op",
+            "value": 165123920,
+            "unit": "B/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal - allocs/op",
+            "value": 2240069,
+            "unit": "allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal",
+            "value": 144825770,
+            "unit": "ns/op\t165124000 B/op\t 2240070 allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal - ns/op",
+            "value": 144825770,
+            "unit": "ns/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal - B/op",
+            "value": 165124000,
+            "unit": "B/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal - allocs/op",
+            "value": 2240070,
+            "unit": "allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal",
+            "value": 146141930,
+            "unit": "ns/op\t165123968 B/op\t 2240069 allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal - ns/op",
+            "value": 146141930,
+            "unit": "ns/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal - B/op",
+            "value": 165123968,
+            "unit": "B/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal - allocs/op",
+            "value": 2240069,
+            "unit": "allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal",
+            "value": 143903766,
+            "unit": "ns/op\t165123952 B/op\t 2240069 allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal - ns/op",
+            "value": 143903766,
+            "unit": "ns/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal - B/op",
+            "value": 165123952,
+            "unit": "B/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal - allocs/op",
+            "value": 2240069,
+            "unit": "allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal",
+            "value": 148613393,
+            "unit": "ns/op\t165124144 B/op\t 2240071 allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal - ns/op",
+            "value": 148613393,
+            "unit": "ns/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal - B/op",
+            "value": 165124144,
+            "unit": "B/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal - allocs/op",
+            "value": 2240071,
+            "unit": "allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic",
+            "value": 37977498,
+            "unit": "ns/op\t11649114 B/op\t  321635 allocs/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic - ns/op",
+            "value": 37977498,
+            "unit": "ns/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic - B/op",
+            "value": 11649114,
+            "unit": "B/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic - allocs/op",
+            "value": 321635,
+            "unit": "allocs/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic",
+            "value": 38063869,
+            "unit": "ns/op\t11649118 B/op\t  321635 allocs/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic - ns/op",
+            "value": 38063869,
+            "unit": "ns/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic - B/op",
+            "value": 11649118,
+            "unit": "B/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic - allocs/op",
+            "value": 321635,
+            "unit": "allocs/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic",
+            "value": 40810010,
+            "unit": "ns/op\t11649132 B/op\t  321635 allocs/op",
+            "extra": "28 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic - ns/op",
+            "value": 40810010,
+            "unit": "ns/op",
+            "extra": "28 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic - B/op",
+            "value": 11649132,
+            "unit": "B/op",
+            "extra": "28 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic - allocs/op",
+            "value": 321635,
+            "unit": "allocs/op",
+            "extra": "28 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic",
+            "value": 38506064,
+            "unit": "ns/op\t11649158 B/op\t  321635 allocs/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic - ns/op",
+            "value": 38506064,
+            "unit": "ns/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic - B/op",
+            "value": 11649158,
+            "unit": "B/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic - allocs/op",
+            "value": 321635,
+            "unit": "allocs/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic",
+            "value": 40955016,
+            "unit": "ns/op\t11649144 B/op\t  321635 allocs/op",
+            "extra": "28 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic - ns/op",
+            "value": 40955016,
+            "unit": "ns/op",
+            "extra": "28 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic - B/op",
+            "value": 11649144,
+            "unit": "B/op",
+            "extra": "28 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic - allocs/op",
+            "value": 321635,
+            "unit": "allocs/op",
+            "extra": "28 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic",
+            "value": 38064602,
+            "unit": "ns/op\t11649136 B/op\t  321635 allocs/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic - ns/op",
+            "value": 38064602,
+            "unit": "ns/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic - B/op",
+            "value": 11649136,
+            "unit": "B/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic - allocs/op",
+            "value": 321635,
+            "unit": "allocs/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic",
+            "value": 38527288,
+            "unit": "ns/op\t11649143 B/op\t  321635 allocs/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic - ns/op",
+            "value": 38527288,
+            "unit": "ns/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic - B/op",
+            "value": 11649143,
+            "unit": "B/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic - allocs/op",
+            "value": 321635,
+            "unit": "allocs/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic",
+            "value": 38092239,
+            "unit": "ns/op\t11649125 B/op\t  321635 allocs/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic - ns/op",
+            "value": 38092239,
+            "unit": "ns/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic - B/op",
+            "value": 11649125,
+            "unit": "B/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic - allocs/op",
+            "value": 321635,
+            "unit": "allocs/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic",
+            "value": 37843881,
+            "unit": "ns/op\t11649147 B/op\t  321635 allocs/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic - ns/op",
+            "value": 37843881,
+            "unit": "ns/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic - B/op",
+            "value": 11649147,
+            "unit": "B/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic - allocs/op",
+            "value": 321635,
+            "unit": "allocs/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic",
+            "value": 38134166,
+            "unit": "ns/op\t11649147 B/op\t  321635 allocs/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic - ns/op",
+            "value": 38134166,
+            "unit": "ns/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic - B/op",
+            "value": 11649147,
+            "unit": "B/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic - allocs/op",
+            "value": 321635,
+            "unit": "allocs/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded",
+            "value": 160893417,
+            "unit": "ns/op\t257285120 B/op\t 2240073 allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded - ns/op",
+            "value": 160893417,
+            "unit": "ns/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded - B/op",
+            "value": 257285120,
+            "unit": "B/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded - allocs/op",
+            "value": 2240073,
+            "unit": "allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded",
+            "value": 172161496,
+            "unit": "ns/op\t257285104 B/op\t 2240073 allocs/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded - ns/op",
+            "value": 172161496,
+            "unit": "ns/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded - B/op",
+            "value": 257285104,
+            "unit": "B/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded - allocs/op",
+            "value": 2240073,
+            "unit": "allocs/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded",
+            "value": 164014922,
+            "unit": "ns/op\t257285152 B/op\t 2240073 allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded - ns/op",
+            "value": 164014922,
+            "unit": "ns/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded - B/op",
+            "value": 257285152,
+            "unit": "B/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded - allocs/op",
+            "value": 2240073,
+            "unit": "allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded",
+            "value": 161593870,
+            "unit": "ns/op\t257284912 B/op\t 2240071 allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded - ns/op",
+            "value": 161593870,
+            "unit": "ns/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded - B/op",
+            "value": 257284912,
+            "unit": "B/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded - allocs/op",
+            "value": 2240071,
+            "unit": "allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded",
+            "value": 164965456,
+            "unit": "ns/op\t257284784 B/op\t 2240070 allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded - ns/op",
+            "value": 164965456,
+            "unit": "ns/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded - B/op",
+            "value": 257284784,
+            "unit": "B/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded - allocs/op",
+            "value": 2240070,
+            "unit": "allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded",
+            "value": 165821969,
+            "unit": "ns/op\t257284896 B/op\t 2240071 allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded - ns/op",
+            "value": 165821969,
+            "unit": "ns/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded - B/op",
+            "value": 257284896,
+            "unit": "B/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded - allocs/op",
+            "value": 2240071,
+            "unit": "allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded",
+            "value": 163133822,
+            "unit": "ns/op\t257285296 B/op\t 2240074 allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded - ns/op",
+            "value": 163133822,
+            "unit": "ns/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded - B/op",
+            "value": 257285296,
+            "unit": "B/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded - allocs/op",
+            "value": 2240074,
+            "unit": "allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded",
+            "value": 161141729,
+            "unit": "ns/op\t257285168 B/op\t 2240073 allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded - ns/op",
+            "value": 161141729,
+            "unit": "ns/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded - B/op",
+            "value": 257285168,
+            "unit": "B/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded - allocs/op",
+            "value": 2240073,
+            "unit": "allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded",
+            "value": 162258440,
+            "unit": "ns/op\t257284976 B/op\t 2240071 allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded - ns/op",
+            "value": 162258440,
+            "unit": "ns/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded - B/op",
+            "value": 257284976,
+            "unit": "B/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded - allocs/op",
+            "value": 2240071,
+            "unit": "allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded",
+            "value": 175663970,
+            "unit": "ns/op\t257284992 B/op\t 2240072 allocs/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded - ns/op",
+            "value": 175663970,
+            "unit": "ns/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded - B/op",
+            "value": 257284992,
+            "unit": "B/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded - allocs/op",
+            "value": 2240072,
+            "unit": "allocs/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree",
+            "value": 38027333,
+            "unit": "ns/op\t11649118 B/op\t  321635 allocs/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree - ns/op",
+            "value": 38027333,
+            "unit": "ns/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree - B/op",
+            "value": 11649118,
+            "unit": "B/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree - allocs/op",
+            "value": 321635,
+            "unit": "allocs/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree",
+            "value": 38473674,
+            "unit": "ns/op\t11649126 B/op\t  321635 allocs/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree - ns/op",
+            "value": 38473674,
+            "unit": "ns/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree - B/op",
+            "value": 11649126,
+            "unit": "B/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree - allocs/op",
+            "value": 321635,
+            "unit": "allocs/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree",
+            "value": 38203853,
+            "unit": "ns/op\t11649122 B/op\t  321635 allocs/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree - ns/op",
+            "value": 38203853,
+            "unit": "ns/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree - B/op",
+            "value": 11649122,
+            "unit": "B/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree - allocs/op",
+            "value": 321635,
+            "unit": "allocs/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree",
+            "value": 38482088,
+            "unit": "ns/op\t11649145 B/op\t  321635 allocs/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree - ns/op",
+            "value": 38482088,
+            "unit": "ns/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree - B/op",
+            "value": 11649145,
+            "unit": "B/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree - allocs/op",
+            "value": 321635,
+            "unit": "allocs/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree",
+            "value": 38476483,
+            "unit": "ns/op\t11649148 B/op\t  321635 allocs/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree - ns/op",
+            "value": 38476483,
+            "unit": "ns/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree - B/op",
+            "value": 11649148,
+            "unit": "B/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree - allocs/op",
+            "value": 321635,
+            "unit": "allocs/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree",
+            "value": 38131753,
+            "unit": "ns/op\t11649161 B/op\t  321635 allocs/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree - ns/op",
+            "value": 38131753,
+            "unit": "ns/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree - B/op",
+            "value": 11649161,
+            "unit": "B/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree - allocs/op",
+            "value": 321635,
+            "unit": "allocs/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree",
+            "value": 38214779,
+            "unit": "ns/op\t11649145 B/op\t  321635 allocs/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree - ns/op",
+            "value": 38214779,
+            "unit": "ns/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree - B/op",
+            "value": 11649145,
+            "unit": "B/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree - allocs/op",
+            "value": 321635,
+            "unit": "allocs/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree",
+            "value": 38213766,
+            "unit": "ns/op\t11649133 B/op\t  321635 allocs/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree - ns/op",
+            "value": 38213766,
+            "unit": "ns/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree - B/op",
+            "value": 11649133,
+            "unit": "B/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree - allocs/op",
+            "value": 321635,
+            "unit": "allocs/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree",
+            "value": 38201315,
+            "unit": "ns/op\t11649141 B/op\t  321635 allocs/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree - ns/op",
+            "value": 38201315,
+            "unit": "ns/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree - B/op",
+            "value": 11649141,
+            "unit": "B/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree - allocs/op",
+            "value": 321635,
+            "unit": "allocs/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree",
+            "value": 38078699,
+            "unit": "ns/op\t11649190 B/op\t  321635 allocs/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree - ns/op",
+            "value": 38078699,
+            "unit": "ns/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree - B/op",
+            "value": 11649190,
+            "unit": "B/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree - allocs/op",
+            "value": 321635,
+            "unit": "allocs/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal",
+            "value": 31488006,
+            "unit": "ns/op\t11624440 B/op\t  321971 allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal - ns/op",
+            "value": 31488006,
+            "unit": "ns/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal - B/op",
+            "value": 11624440,
+            "unit": "B/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal",
+            "value": 30994237,
+            "unit": "ns/op\t11624409 B/op\t  321971 allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal - ns/op",
+            "value": 30994237,
+            "unit": "ns/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal - B/op",
+            "value": 11624409,
+            "unit": "B/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal",
+            "value": 31082038,
+            "unit": "ns/op\t11624471 B/op\t  321971 allocs/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal - ns/op",
+            "value": 31082038,
+            "unit": "ns/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal - B/op",
+            "value": 11624471,
+            "unit": "B/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal",
+            "value": 30861528,
+            "unit": "ns/op\t11624452 B/op\t  321971 allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal - ns/op",
+            "value": 30861528,
+            "unit": "ns/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal - B/op",
+            "value": 11624452,
+            "unit": "B/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal",
+            "value": 30952138,
+            "unit": "ns/op\t11624421 B/op\t  321971 allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal - ns/op",
+            "value": 30952138,
+            "unit": "ns/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal - B/op",
+            "value": 11624421,
+            "unit": "B/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal",
+            "value": 30944824,
+            "unit": "ns/op\t11624416 B/op\t  321971 allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal - ns/op",
+            "value": 30944824,
+            "unit": "ns/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal - B/op",
+            "value": 11624416,
+            "unit": "B/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal",
+            "value": 31503364,
+            "unit": "ns/op\t11624436 B/op\t  321971 allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal - ns/op",
+            "value": 31503364,
+            "unit": "ns/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal - B/op",
+            "value": 11624436,
+            "unit": "B/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal",
+            "value": 31098232,
+            "unit": "ns/op\t11624429 B/op\t  321971 allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal - ns/op",
+            "value": 31098232,
+            "unit": "ns/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal - B/op",
+            "value": 11624429,
+            "unit": "B/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal",
+            "value": 31064725,
+            "unit": "ns/op\t11624425 B/op\t  321971 allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal - ns/op",
+            "value": 31064725,
+            "unit": "ns/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal - B/op",
+            "value": 11624425,
+            "unit": "B/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal",
+            "value": 31275628,
+            "unit": "ns/op\t11624444 B/op\t  321971 allocs/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal - ns/op",
+            "value": 31275628,
+            "unit": "ns/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal - B/op",
+            "value": 11624444,
+            "unit": "B/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic",
+            "value": 31927431,
+            "unit": "ns/op\t11624447 B/op\t  321971 allocs/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic - ns/op",
+            "value": 31927431,
+            "unit": "ns/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic - B/op",
+            "value": 11624447,
+            "unit": "B/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic",
+            "value": 31684012,
+            "unit": "ns/op\t11624428 B/op\t  321971 allocs/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic - ns/op",
+            "value": 31684012,
+            "unit": "ns/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic - B/op",
+            "value": 11624428,
+            "unit": "B/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic",
+            "value": 31762868,
+            "unit": "ns/op\t11624416 B/op\t  321971 allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic - ns/op",
+            "value": 31762868,
+            "unit": "ns/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic - B/op",
+            "value": 11624416,
+            "unit": "B/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic",
+            "value": 32165662,
+            "unit": "ns/op\t11624426 B/op\t  321971 allocs/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic - ns/op",
+            "value": 32165662,
+            "unit": "ns/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic - B/op",
+            "value": 11624426,
+            "unit": "B/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic",
+            "value": 32058433,
+            "unit": "ns/op\t11624421 B/op\t  321971 allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic - ns/op",
+            "value": 32058433,
+            "unit": "ns/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic - B/op",
+            "value": 11624421,
+            "unit": "B/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic",
+            "value": 32160878,
+            "unit": "ns/op\t11624433 B/op\t  321971 allocs/op",
+            "extra": "34 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic - ns/op",
+            "value": 32160878,
+            "unit": "ns/op",
+            "extra": "34 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic - B/op",
+            "value": 11624433,
+            "unit": "B/op",
+            "extra": "34 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "34 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic",
+            "value": 32091532,
+            "unit": "ns/op\t11624443 B/op\t  321971 allocs/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic - ns/op",
+            "value": 32091532,
+            "unit": "ns/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic - B/op",
+            "value": 11624443,
+            "unit": "B/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic",
+            "value": 31960081,
+            "unit": "ns/op\t11624407 B/op\t  321971 allocs/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic - ns/op",
+            "value": 31960081,
+            "unit": "ns/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic - B/op",
+            "value": 11624407,
+            "unit": "B/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic",
+            "value": 31932977,
+            "unit": "ns/op\t11624419 B/op\t  321971 allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic - ns/op",
+            "value": 31932977,
+            "unit": "ns/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic - B/op",
+            "value": 11624419,
+            "unit": "B/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic",
+            "value": 32166151,
+            "unit": "ns/op\t11624415 B/op\t  321971 allocs/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic - ns/op",
+            "value": 32166151,
+            "unit": "ns/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic - B/op",
+            "value": 11624415,
+            "unit": "B/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded",
+            "value": 31272600,
+            "unit": "ns/op\t11685155 B/op\t  321971 allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded - ns/op",
+            "value": 31272600,
+            "unit": "ns/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded - B/op",
+            "value": 11685155,
+            "unit": "B/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded",
+            "value": 31353532,
+            "unit": "ns/op\t11685148 B/op\t  321971 allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded - ns/op",
+            "value": 31353532,
+            "unit": "ns/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded - B/op",
+            "value": 11685148,
+            "unit": "B/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded",
+            "value": 31391610,
+            "unit": "ns/op\t11685137 B/op\t  321971 allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded - ns/op",
+            "value": 31391610,
+            "unit": "ns/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded - B/op",
+            "value": 11685137,
+            "unit": "B/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded",
+            "value": 31125299,
+            "unit": "ns/op\t11685123 B/op\t  321971 allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded - ns/op",
+            "value": 31125299,
+            "unit": "ns/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded - B/op",
+            "value": 11685123,
+            "unit": "B/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded",
+            "value": 31634087,
+            "unit": "ns/op\t11685097 B/op\t  321971 allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded - ns/op",
+            "value": 31634087,
+            "unit": "ns/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded - B/op",
+            "value": 11685097,
+            "unit": "B/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded",
+            "value": 31329543,
+            "unit": "ns/op\t11685088 B/op\t  321971 allocs/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded - ns/op",
+            "value": 31329543,
+            "unit": "ns/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded - B/op",
+            "value": 11685088,
+            "unit": "B/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded",
+            "value": 31212619,
+            "unit": "ns/op\t11685097 B/op\t  321971 allocs/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded - ns/op",
+            "value": 31212619,
+            "unit": "ns/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded - B/op",
+            "value": 11685097,
+            "unit": "B/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded",
+            "value": 31480915,
+            "unit": "ns/op\t11685122 B/op\t  321971 allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded - ns/op",
+            "value": 31480915,
+            "unit": "ns/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded - B/op",
+            "value": 11685122,
+            "unit": "B/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded",
+            "value": 31192692,
+            "unit": "ns/op\t11685147 B/op\t  321971 allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded - ns/op",
+            "value": 31192692,
+            "unit": "ns/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded - B/op",
+            "value": 11685147,
+            "unit": "B/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded",
+            "value": 31137255,
+            "unit": "ns/op\t11685095 B/op\t  321971 allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded - ns/op",
+            "value": 31137255,
+            "unit": "ns/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded - B/op",
+            "value": 11685095,
+            "unit": "B/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree",
+            "value": 31650467,
+            "unit": "ns/op\t11624422 B/op\t  321971 allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree - ns/op",
+            "value": 31650467,
+            "unit": "ns/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree - B/op",
+            "value": 11624422,
+            "unit": "B/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree",
+            "value": 31636707,
+            "unit": "ns/op\t11624431 B/op\t  321971 allocs/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree - ns/op",
+            "value": 31636707,
+            "unit": "ns/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree - B/op",
+            "value": 11624431,
+            "unit": "B/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree",
+            "value": 31619389,
+            "unit": "ns/op\t11624430 B/op\t  321971 allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree - ns/op",
+            "value": 31619389,
+            "unit": "ns/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree - B/op",
+            "value": 11624430,
+            "unit": "B/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree",
+            "value": 31721204,
+            "unit": "ns/op\t11624425 B/op\t  321971 allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree - ns/op",
+            "value": 31721204,
+            "unit": "ns/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree - B/op",
+            "value": 11624425,
+            "unit": "B/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree",
+            "value": 31945622,
+            "unit": "ns/op\t11624447 B/op\t  321971 allocs/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree - ns/op",
+            "value": 31945622,
+            "unit": "ns/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree - B/op",
+            "value": 11624447,
+            "unit": "B/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree",
+            "value": 31876752,
+            "unit": "ns/op\t11624434 B/op\t  321971 allocs/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree - ns/op",
+            "value": 31876752,
+            "unit": "ns/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree - B/op",
+            "value": 11624434,
+            "unit": "B/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree",
+            "value": 32019801,
+            "unit": "ns/op\t11624428 B/op\t  321971 allocs/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree - ns/op",
+            "value": 32019801,
+            "unit": "ns/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree - B/op",
+            "value": 11624428,
+            "unit": "B/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree",
+            "value": 31855967,
+            "unit": "ns/op\t11624424 B/op\t  321971 allocs/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree - ns/op",
+            "value": 31855967,
+            "unit": "ns/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree - B/op",
+            "value": 11624424,
+            "unit": "B/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree",
+            "value": 32320409,
+            "unit": "ns/op\t11624421 B/op\t  321971 allocs/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree - ns/op",
+            "value": 32320409,
+            "unit": "ns/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree - B/op",
+            "value": 11624421,
+            "unit": "B/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree",
+            "value": 31869755,
+            "unit": "ns/op\t11624419 B/op\t  321971 allocs/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree - ns/op",
+            "value": 31869755,
+            "unit": "ns/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree - B/op",
+            "value": 11624419,
+            "unit": "B/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal",
+            "value": 4833399,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "248 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal - ns/op",
+            "value": 4833399,
+            "unit": "ns/op",
+            "extra": "248 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "248 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "248 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal",
+            "value": 4885320,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "244 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal - ns/op",
+            "value": 4885320,
+            "unit": "ns/op",
+            "extra": "244 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "244 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "244 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal",
+            "value": 4869823,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "244 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal - ns/op",
+            "value": 4869823,
+            "unit": "ns/op",
+            "extra": "244 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "244 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "244 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal",
+            "value": 4892274,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "243 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal - ns/op",
+            "value": 4892274,
+            "unit": "ns/op",
+            "extra": "243 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "243 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "243 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal",
+            "value": 4895122,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "242 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal - ns/op",
+            "value": 4895122,
+            "unit": "ns/op",
+            "extra": "242 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "242 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "242 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal",
+            "value": 4901174,
+            "unit": "ns/op\t 1200005 B/op\t   50000 allocs/op",
+            "extra": "243 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal - ns/op",
+            "value": 4901174,
+            "unit": "ns/op",
+            "extra": "243 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal - B/op",
+            "value": 1200005,
+            "unit": "B/op",
+            "extra": "243 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "243 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal",
+            "value": 4858272,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "246 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal - ns/op",
+            "value": 4858272,
+            "unit": "ns/op",
+            "extra": "246 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "246 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "246 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal",
+            "value": 4828189,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "247 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal - ns/op",
+            "value": 4828189,
+            "unit": "ns/op",
+            "extra": "247 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "247 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "247 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal",
+            "value": 4828659,
+            "unit": "ns/op\t 1200004 B/op\t   50000 allocs/op",
+            "extra": "247 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal - ns/op",
+            "value": 4828659,
+            "unit": "ns/op",
+            "extra": "247 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal - B/op",
+            "value": 1200004,
+            "unit": "B/op",
+            "extra": "247 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "247 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal",
+            "value": 4845579,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "247 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal - ns/op",
+            "value": 4845579,
+            "unit": "ns/op",
+            "extra": "247 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "247 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "247 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic",
+            "value": 21906009,
+            "unit": "ns/op\t 1200008 B/op\t   50000 allocs/op",
+            "extra": "52 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic - ns/op",
+            "value": 21906009,
+            "unit": "ns/op",
+            "extra": "52 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic - B/op",
+            "value": 1200008,
+            "unit": "B/op",
+            "extra": "52 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "52 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic",
+            "value": 21725933,
+            "unit": "ns/op\t 1200017 B/op\t   50000 allocs/op",
+            "extra": "52 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic - ns/op",
+            "value": 21725933,
+            "unit": "ns/op",
+            "extra": "52 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic - B/op",
+            "value": 1200017,
+            "unit": "B/op",
+            "extra": "52 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "52 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic",
+            "value": 21722271,
+            "unit": "ns/op\t 1200006 B/op\t   50000 allocs/op",
+            "extra": "50 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic - ns/op",
+            "value": 21722271,
+            "unit": "ns/op",
+            "extra": "50 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic - B/op",
+            "value": 1200006,
+            "unit": "B/op",
+            "extra": "50 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "50 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic",
+            "value": 21833900,
+            "unit": "ns/op\t 1200015 B/op\t   50000 allocs/op",
+            "extra": "52 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic - ns/op",
+            "value": 21833900,
+            "unit": "ns/op",
+            "extra": "52 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic - B/op",
+            "value": 1200015,
+            "unit": "B/op",
+            "extra": "52 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "52 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic",
+            "value": 21753214,
+            "unit": "ns/op\t 1200012 B/op\t   50000 allocs/op",
+            "extra": "52 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic - ns/op",
+            "value": 21753214,
+            "unit": "ns/op",
+            "extra": "52 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic - B/op",
+            "value": 1200012,
+            "unit": "B/op",
+            "extra": "52 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "52 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic",
+            "value": 21638242,
+            "unit": "ns/op\t 1200012 B/op\t   50000 allocs/op",
+            "extra": "52 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic - ns/op",
+            "value": 21638242,
+            "unit": "ns/op",
+            "extra": "52 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic - B/op",
+            "value": 1200012,
+            "unit": "B/op",
+            "extra": "52 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "52 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic",
+            "value": 21678421,
+            "unit": "ns/op\t 1200016 B/op\t   50000 allocs/op",
+            "extra": "54 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic - ns/op",
+            "value": 21678421,
+            "unit": "ns/op",
+            "extra": "54 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic - B/op",
+            "value": 1200016,
+            "unit": "B/op",
+            "extra": "54 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "54 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic",
+            "value": 21974866,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "52 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic - ns/op",
+            "value": 21974866,
+            "unit": "ns/op",
+            "extra": "52 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "52 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "52 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic",
+            "value": 21735990,
+            "unit": "ns/op\t 1200008 B/op\t   50000 allocs/op",
+            "extra": "55 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic - ns/op",
+            "value": 21735990,
+            "unit": "ns/op",
+            "extra": "55 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic - B/op",
+            "value": 1200008,
+            "unit": "B/op",
+            "extra": "55 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "55 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic",
+            "value": 21655773,
+            "unit": "ns/op\t 1200016 B/op\t   50000 allocs/op",
+            "extra": "54 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic - ns/op",
+            "value": 21655773,
+            "unit": "ns/op",
+            "extra": "54 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic - B/op",
+            "value": 1200016,
+            "unit": "B/op",
+            "extra": "54 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "54 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded",
+            "value": 4817741,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "248 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded - ns/op",
+            "value": 4817741,
+            "unit": "ns/op",
+            "extra": "248 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "248 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "248 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded",
+            "value": 4884495,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "243 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded - ns/op",
+            "value": 4884495,
+            "unit": "ns/op",
+            "extra": "243 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "243 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "243 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded",
+            "value": 4833582,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "248 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded - ns/op",
+            "value": 4833582,
+            "unit": "ns/op",
+            "extra": "248 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "248 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "248 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded",
+            "value": 4885853,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "247 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded - ns/op",
+            "value": 4885853,
+            "unit": "ns/op",
+            "extra": "247 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "247 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "247 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded",
+            "value": 4850250,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "247 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded - ns/op",
+            "value": 4850250,
+            "unit": "ns/op",
+            "extra": "247 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "247 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "247 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded",
+            "value": 4867906,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "246 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded - ns/op",
+            "value": 4867906,
+            "unit": "ns/op",
+            "extra": "246 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "246 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "246 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded",
+            "value": 4878703,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "246 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded - ns/op",
+            "value": 4878703,
+            "unit": "ns/op",
+            "extra": "246 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "246 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "246 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded",
+            "value": 4871398,
+            "unit": "ns/op\t 1200004 B/op\t   50000 allocs/op",
+            "extra": "246 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded - ns/op",
+            "value": 4871398,
+            "unit": "ns/op",
+            "extra": "246 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded - B/op",
+            "value": 1200004,
+            "unit": "B/op",
+            "extra": "246 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "246 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded",
+            "value": 4891515,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "246 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded - ns/op",
+            "value": 4891515,
+            "unit": "ns/op",
+            "extra": "246 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "246 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "246 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded",
+            "value": 4853674,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "246 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded - ns/op",
+            "value": 4853674,
+            "unit": "ns/op",
+            "extra": "246 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "246 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "246 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree",
+            "value": 21660040,
+            "unit": "ns/op\t 1200014 B/op\t   50000 allocs/op",
+            "extra": "54 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree - ns/op",
+            "value": 21660040,
+            "unit": "ns/op",
+            "extra": "54 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree - B/op",
+            "value": 1200014,
+            "unit": "B/op",
+            "extra": "54 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "54 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree",
+            "value": 21770094,
+            "unit": "ns/op\t 1200006 B/op\t   50000 allocs/op",
+            "extra": "54 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree - ns/op",
+            "value": 21770094,
+            "unit": "ns/op",
+            "extra": "54 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree - B/op",
+            "value": 1200006,
+            "unit": "B/op",
+            "extra": "54 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "54 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree",
+            "value": 21637700,
+            "unit": "ns/op\t 1200006 B/op\t   50000 allocs/op",
+            "extra": "54 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree - ns/op",
+            "value": 21637700,
+            "unit": "ns/op",
+            "extra": "54 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree - B/op",
+            "value": 1200006,
+            "unit": "B/op",
+            "extra": "54 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "54 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree",
+            "value": 21646060,
+            "unit": "ns/op\t 1200004 B/op\t   50000 allocs/op",
+            "extra": "51 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree - ns/op",
+            "value": 21646060,
+            "unit": "ns/op",
+            "extra": "51 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree - B/op",
+            "value": 1200004,
+            "unit": "B/op",
+            "extra": "51 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "51 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree",
+            "value": 21734721,
+            "unit": "ns/op\t 1200014 B/op\t   50000 allocs/op",
+            "extra": "55 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree - ns/op",
+            "value": 21734721,
+            "unit": "ns/op",
+            "extra": "55 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree - B/op",
+            "value": 1200014,
+            "unit": "B/op",
+            "extra": "55 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "55 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree",
+            "value": 21741597,
+            "unit": "ns/op\t 1200012 B/op\t   50000 allocs/op",
+            "extra": "52 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree - ns/op",
+            "value": 21741597,
+            "unit": "ns/op",
+            "extra": "52 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree - B/op",
+            "value": 1200012,
+            "unit": "B/op",
+            "extra": "52 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "52 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree",
+            "value": 21662940,
+            "unit": "ns/op\t 1200004 B/op\t   50000 allocs/op",
+            "extra": "51 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree - ns/op",
+            "value": 21662940,
+            "unit": "ns/op",
+            "extra": "51 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree - B/op",
+            "value": 1200004,
+            "unit": "B/op",
+            "extra": "51 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "51 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree",
+            "value": 21713509,
+            "unit": "ns/op\t 1200012 B/op\t   50000 allocs/op",
+            "extra": "52 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree - ns/op",
+            "value": 21713509,
+            "unit": "ns/op",
+            "extra": "52 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree - B/op",
+            "value": 1200012,
+            "unit": "B/op",
+            "extra": "52 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "52 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree",
+            "value": 21708274,
+            "unit": "ns/op\t 1200017 B/op\t   50000 allocs/op",
+            "extra": "52 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree - ns/op",
+            "value": 21708274,
+            "unit": "ns/op",
+            "extra": "52 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree - B/op",
+            "value": 1200017,
+            "unit": "B/op",
+            "extra": "52 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "52 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree",
+            "value": 21678543,
+            "unit": "ns/op\t 1200008 B/op\t   50000 allocs/op",
+            "extra": "52 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree - ns/op",
+            "value": 21678543,
+            "unit": "ns/op",
+            "extra": "52 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree - B/op",
+            "value": 1200008,
+            "unit": "B/op",
+            "extra": "52 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "52 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal",
+            "value": 4888595,
+            "unit": "ns/op\t 1200007 B/op\t   50000 allocs/op",
+            "extra": "244 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal - ns/op",
+            "value": 4888595,
+            "unit": "ns/op",
+            "extra": "244 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal - B/op",
+            "value": 1200007,
+            "unit": "B/op",
+            "extra": "244 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "244 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal",
+            "value": 4914004,
+            "unit": "ns/op\t 1200004 B/op\t   50000 allocs/op",
+            "extra": "242 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal - ns/op",
+            "value": 4914004,
+            "unit": "ns/op",
+            "extra": "242 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal - B/op",
+            "value": 1200004,
+            "unit": "B/op",
+            "extra": "242 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "242 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal",
+            "value": 4894741,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "243 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal - ns/op",
+            "value": 4894741,
+            "unit": "ns/op",
+            "extra": "243 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "243 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "243 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal",
+            "value": 4921620,
+            "unit": "ns/op\t 1200007 B/op\t   50000 allocs/op",
+            "extra": "243 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal - ns/op",
+            "value": 4921620,
+            "unit": "ns/op",
+            "extra": "243 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal - B/op",
+            "value": 1200007,
+            "unit": "B/op",
+            "extra": "243 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "243 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal",
+            "value": 4917828,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "242 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal - ns/op",
+            "value": 4917828,
+            "unit": "ns/op",
+            "extra": "242 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "242 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "242 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal",
+            "value": 4884132,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "246 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal - ns/op",
+            "value": 4884132,
+            "unit": "ns/op",
+            "extra": "246 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "246 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "246 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal",
+            "value": 4905439,
+            "unit": "ns/op\t 1200004 B/op\t   50000 allocs/op",
+            "extra": "242 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal - ns/op",
+            "value": 4905439,
+            "unit": "ns/op",
+            "extra": "242 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal - B/op",
+            "value": 1200004,
+            "unit": "B/op",
+            "extra": "242 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "242 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal",
+            "value": 4913689,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "243 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal - ns/op",
+            "value": 4913689,
+            "unit": "ns/op",
+            "extra": "243 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "243 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "243 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal",
+            "value": 4922953,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "244 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal - ns/op",
+            "value": 4922953,
+            "unit": "ns/op",
+            "extra": "244 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "244 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "244 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal",
+            "value": 4866985,
+            "unit": "ns/op\t 1200003 B/op\t   50000 allocs/op",
+            "extra": "244 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal - ns/op",
+            "value": 4866985,
+            "unit": "ns/op",
+            "extra": "244 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal - B/op",
+            "value": 1200003,
+            "unit": "B/op",
+            "extra": "244 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "244 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic",
+            "value": 4027986,
+            "unit": "ns/op\t 1200005 B/op\t   50000 allocs/op",
+            "extra": "301 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic - ns/op",
+            "value": 4027986,
+            "unit": "ns/op",
+            "extra": "301 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic - B/op",
+            "value": 1200005,
+            "unit": "B/op",
+            "extra": "301 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "301 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic",
+            "value": 3979239,
+            "unit": "ns/op\t 1200003 B/op\t   50000 allocs/op",
+            "extra": "301 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic - ns/op",
+            "value": 3979239,
+            "unit": "ns/op",
+            "extra": "301 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic - B/op",
+            "value": 1200003,
+            "unit": "B/op",
+            "extra": "301 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "301 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic",
+            "value": 3989845,
+            "unit": "ns/op\t 1200003 B/op\t   50000 allocs/op",
+            "extra": "300 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic - ns/op",
+            "value": 3989845,
+            "unit": "ns/op",
+            "extra": "300 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic - B/op",
+            "value": 1200003,
+            "unit": "B/op",
+            "extra": "300 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "300 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic",
+            "value": 3968239,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "300 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic - ns/op",
+            "value": 3968239,
+            "unit": "ns/op",
+            "extra": "300 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "300 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "300 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic",
+            "value": 3985756,
+            "unit": "ns/op\t 1200003 B/op\t   50000 allocs/op",
+            "extra": "298 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic - ns/op",
+            "value": 3985756,
+            "unit": "ns/op",
+            "extra": "298 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic - B/op",
+            "value": 1200003,
+            "unit": "B/op",
+            "extra": "298 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "298 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic",
+            "value": 3977453,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "303 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic - ns/op",
+            "value": 3977453,
+            "unit": "ns/op",
+            "extra": "303 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "303 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "303 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic",
+            "value": 4006131,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "300 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic - ns/op",
+            "value": 4006131,
+            "unit": "ns/op",
+            "extra": "300 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "300 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "300 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic",
+            "value": 3978106,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "300 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic - ns/op",
+            "value": 3978106,
+            "unit": "ns/op",
+            "extra": "300 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "300 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "300 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic",
+            "value": 4012186,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "297 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic - ns/op",
+            "value": 4012186,
+            "unit": "ns/op",
+            "extra": "297 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "297 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "297 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic",
+            "value": 4009818,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "296 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic - ns/op",
+            "value": 4009818,
+            "unit": "ns/op",
+            "extra": "296 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "296 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "296 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded",
+            "value": 4830186,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "248 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded - ns/op",
+            "value": 4830186,
+            "unit": "ns/op",
+            "extra": "248 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "248 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "248 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded",
+            "value": 4821081,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "246 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded - ns/op",
+            "value": 4821081,
+            "unit": "ns/op",
+            "extra": "246 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "246 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "246 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded",
+            "value": 4858175,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "246 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded - ns/op",
+            "value": 4858175,
+            "unit": "ns/op",
+            "extra": "246 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "246 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "246 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded",
+            "value": 4836617,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "247 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded - ns/op",
+            "value": 4836617,
+            "unit": "ns/op",
+            "extra": "247 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "247 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "247 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded",
+            "value": 4767976,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "252 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded - ns/op",
+            "value": 4767976,
+            "unit": "ns/op",
+            "extra": "252 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "252 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "252 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded",
+            "value": 4808573,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "247 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded - ns/op",
+            "value": 4808573,
+            "unit": "ns/op",
+            "extra": "247 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "247 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "247 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded",
+            "value": 4817093,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "248 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded - ns/op",
+            "value": 4817093,
+            "unit": "ns/op",
+            "extra": "248 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "248 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "248 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded",
+            "value": 4803827,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "248 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded - ns/op",
+            "value": 4803827,
+            "unit": "ns/op",
+            "extra": "248 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "248 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "248 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded",
+            "value": 4858116,
+            "unit": "ns/op\t 1200004 B/op\t   50000 allocs/op",
+            "extra": "247 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded - ns/op",
+            "value": 4858116,
+            "unit": "ns/op",
+            "extra": "247 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded - B/op",
+            "value": 1200004,
+            "unit": "B/op",
+            "extra": "247 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "247 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded",
+            "value": 4821780,
+            "unit": "ns/op\t 1200003 B/op\t   50000 allocs/op",
+            "extra": "247 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded - ns/op",
+            "value": 4821780,
+            "unit": "ns/op",
+            "extra": "247 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded - B/op",
+            "value": 1200003,
+            "unit": "B/op",
+            "extra": "247 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "247 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree",
+            "value": 4251050,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "282 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree - ns/op",
+            "value": 4251050,
+            "unit": "ns/op",
+            "extra": "282 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "282 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "282 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree",
+            "value": 4273296,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "279 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree - ns/op",
+            "value": 4273296,
+            "unit": "ns/op",
+            "extra": "279 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "279 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "279 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree",
+            "value": 4253137,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "280 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree - ns/op",
+            "value": 4253137,
+            "unit": "ns/op",
+            "extra": "280 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "280 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "280 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree",
+            "value": 4238858,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "280 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree - ns/op",
+            "value": 4238858,
+            "unit": "ns/op",
+            "extra": "280 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "280 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "280 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree",
+            "value": 4235946,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "280 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree - ns/op",
+            "value": 4235946,
+            "unit": "ns/op",
+            "extra": "280 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "280 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "280 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree",
+            "value": 4220931,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "283 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree - ns/op",
+            "value": 4220931,
+            "unit": "ns/op",
+            "extra": "283 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "283 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "283 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree",
+            "value": 4217225,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "284 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree - ns/op",
+            "value": 4217225,
+            "unit": "ns/op",
+            "extra": "284 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "284 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "284 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree",
+            "value": 4247604,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "280 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree - ns/op",
+            "value": 4247604,
+            "unit": "ns/op",
+            "extra": "280 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "280 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "280 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree",
+            "value": 4249449,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "279 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree - ns/op",
+            "value": 4249449,
+            "unit": "ns/op",
+            "extra": "279 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "279 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "279 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree",
+            "value": 4278945,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "282 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree - ns/op",
+            "value": 4278945,
+            "unit": "ns/op",
+            "extra": "282 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "282 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "282 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal",
+            "value": 11082051,
+            "unit": "ns/op\t 1200006 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal - ns/op",
+            "value": 11082051,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal - B/op",
+            "value": 1200006,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal",
+            "value": 11050749,
+            "unit": "ns/op\t 1200012 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal - ns/op",
+            "value": 11050749,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal - B/op",
+            "value": 1200012,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal",
+            "value": 10967890,
+            "unit": "ns/op\t 1200006 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal - ns/op",
+            "value": 10967890,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal - B/op",
+            "value": 1200006,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal",
+            "value": 10958391,
+            "unit": "ns/op\t 1200016 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal - ns/op",
+            "value": 10958391,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal - B/op",
+            "value": 1200016,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal",
+            "value": 11073065,
+            "unit": "ns/op\t 1200007 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal - ns/op",
+            "value": 11073065,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal - B/op",
+            "value": 1200007,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal",
+            "value": 10906203,
+            "unit": "ns/op\t 1200012 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal - ns/op",
+            "value": 10906203,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal - B/op",
+            "value": 1200012,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal",
+            "value": 11010457,
+            "unit": "ns/op\t 1200007 B/op\t   50000 allocs/op",
+            "extra": "99 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal - ns/op",
+            "value": 11010457,
+            "unit": "ns/op",
+            "extra": "99 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal - B/op",
+            "value": 1200007,
+            "unit": "B/op",
+            "extra": "99 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "99 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal",
+            "value": 11111500,
+            "unit": "ns/op\t 1200015 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal - ns/op",
+            "value": 11111500,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal - B/op",
+            "value": 1200015,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal",
+            "value": 11029469,
+            "unit": "ns/op\t 1200012 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal - ns/op",
+            "value": 11029469,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal - B/op",
+            "value": 1200012,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal",
+            "value": 11107498,
+            "unit": "ns/op\t 1200012 B/op\t   50000 allocs/op",
+            "extra": "98 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal - ns/op",
+            "value": 11107498,
+            "unit": "ns/op",
+            "extra": "98 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal - B/op",
+            "value": 1200012,
+            "unit": "B/op",
+            "extra": "98 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "98 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic",
+            "value": 11153760,
+            "unit": "ns/op\t 1200008 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic - ns/op",
+            "value": 11153760,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic - B/op",
+            "value": 1200008,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic",
+            "value": 11244962,
+            "unit": "ns/op\t 1200008 B/op\t   50000 allocs/op",
+            "extra": "105 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic - ns/op",
+            "value": 11244962,
+            "unit": "ns/op",
+            "extra": "105 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic - B/op",
+            "value": 1200008,
+            "unit": "B/op",
+            "extra": "105 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "105 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic",
+            "value": 11135587,
+            "unit": "ns/op\t 1200010 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic - ns/op",
+            "value": 11135587,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic - B/op",
+            "value": 1200010,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic",
+            "value": 11155974,
+            "unit": "ns/op\t 1200010 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic - ns/op",
+            "value": 11155974,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic - B/op",
+            "value": 1200010,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic",
+            "value": 11218628,
+            "unit": "ns/op\t 1200013 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic - ns/op",
+            "value": 11218628,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic - B/op",
+            "value": 1200013,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic",
+            "value": 11151747,
+            "unit": "ns/op\t 1200017 B/op\t   50000 allocs/op",
+            "extra": "98 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic - ns/op",
+            "value": 11151747,
+            "unit": "ns/op",
+            "extra": "98 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic - B/op",
+            "value": 1200017,
+            "unit": "B/op",
+            "extra": "98 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "98 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic",
+            "value": 11193028,
+            "unit": "ns/op\t 1200017 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic - ns/op",
+            "value": 11193028,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic - B/op",
+            "value": 1200017,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic",
+            "value": 11098151,
+            "unit": "ns/op\t 1200014 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic - ns/op",
+            "value": 11098151,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic - B/op",
+            "value": 1200014,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic",
+            "value": 11223813,
+            "unit": "ns/op\t 1200013 B/op\t   50000 allocs/op",
+            "extra": "99 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic - ns/op",
+            "value": 11223813,
+            "unit": "ns/op",
+            "extra": "99 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic - B/op",
+            "value": 1200013,
+            "unit": "B/op",
+            "extra": "99 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "99 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic",
+            "value": 11098410,
+            "unit": "ns/op\t 1200014 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic - ns/op",
+            "value": 11098410,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic - B/op",
+            "value": 1200014,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded",
+            "value": 11032855,
+            "unit": "ns/op\t 1200004 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded - ns/op",
+            "value": 11032855,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded - B/op",
+            "value": 1200004,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded",
+            "value": 11102925,
+            "unit": "ns/op\t 1200006 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded - ns/op",
+            "value": 11102925,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded - B/op",
+            "value": 1200006,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded",
+            "value": 11121425,
+            "unit": "ns/op\t 1200006 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded - ns/op",
+            "value": 11121425,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded - B/op",
+            "value": 1200006,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded",
+            "value": 11133957,
+            "unit": "ns/op\t 1200011 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded - ns/op",
+            "value": 11133957,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded - B/op",
+            "value": 1200011,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded",
+            "value": 11230474,
+            "unit": "ns/op\t 1200013 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded - ns/op",
+            "value": 11230474,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded - B/op",
+            "value": 1200013,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded",
+            "value": 11142698,
+            "unit": "ns/op\t 1200011 B/op\t   50000 allocs/op",
+            "extra": "98 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded - ns/op",
+            "value": 11142698,
+            "unit": "ns/op",
+            "extra": "98 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded - B/op",
+            "value": 1200011,
+            "unit": "B/op",
+            "extra": "98 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "98 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded",
+            "value": 11073719,
+            "unit": "ns/op\t 1200008 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded - ns/op",
+            "value": 11073719,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded - B/op",
+            "value": 1200008,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded",
+            "value": 11131481,
+            "unit": "ns/op\t 1200012 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded - ns/op",
+            "value": 11131481,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded - B/op",
+            "value": 1200012,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded",
+            "value": 11092084,
+            "unit": "ns/op\t 1200010 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded - ns/op",
+            "value": 11092084,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded - B/op",
+            "value": 1200010,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded",
+            "value": 11042033,
+            "unit": "ns/op\t 1200013 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded - ns/op",
+            "value": 11042033,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded - B/op",
+            "value": 1200013,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree",
+            "value": 10929801,
+            "unit": "ns/op\t 1200012 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree - ns/op",
+            "value": 10929801,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree - B/op",
+            "value": 1200012,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree",
+            "value": 10998858,
+            "unit": "ns/op\t 1200007 B/op\t   50000 allocs/op",
+            "extra": "99 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree - ns/op",
+            "value": 10998858,
+            "unit": "ns/op",
+            "extra": "99 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree - B/op",
+            "value": 1200007,
+            "unit": "B/op",
+            "extra": "99 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "99 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree",
+            "value": 10968855,
+            "unit": "ns/op\t 1200015 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree - ns/op",
+            "value": 10968855,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree - B/op",
+            "value": 1200015,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree",
+            "value": 11001137,
+            "unit": "ns/op\t 1200013 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree - ns/op",
+            "value": 11001137,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree - B/op",
+            "value": 1200013,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree",
+            "value": 10952970,
+            "unit": "ns/op\t 1200013 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree - ns/op",
+            "value": 10952970,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree - B/op",
+            "value": 1200013,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree",
+            "value": 10952990,
+            "unit": "ns/op\t 1200009 B/op\t   50000 allocs/op",
+            "extra": "96 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree - ns/op",
+            "value": 10952990,
+            "unit": "ns/op",
+            "extra": "96 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree - B/op",
+            "value": 1200009,
+            "unit": "B/op",
+            "extra": "96 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "96 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree",
+            "value": 10946087,
+            "unit": "ns/op\t 1200011 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree - ns/op",
+            "value": 10946087,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree - B/op",
+            "value": 1200011,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree",
+            "value": 10911476,
+            "unit": "ns/op\t 1200011 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree - ns/op",
+            "value": 10911476,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree - B/op",
+            "value": 1200011,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree",
+            "value": 10918791,
+            "unit": "ns/op\t 1200005 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree - ns/op",
+            "value": 10918791,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree - B/op",
+            "value": 1200005,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree",
+            "value": 11063224,
+            "unit": "ns/op\t 1200004 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree - ns/op",
+            "value": 11063224,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree - B/op",
+            "value": 1200004,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal",
+            "value": 3647512,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "324 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal - ns/op",
+            "value": 3647512,
+            "unit": "ns/op",
+            "extra": "324 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "324 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "324 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal",
+            "value": 3623057,
+            "unit": "ns/op\t 1200004 B/op\t   50000 allocs/op",
+            "extra": "330 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal - ns/op",
+            "value": 3623057,
+            "unit": "ns/op",
+            "extra": "330 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal - B/op",
+            "value": 1200004,
+            "unit": "B/op",
+            "extra": "330 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "330 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal",
+            "value": 3624025,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "327 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal - ns/op",
+            "value": 3624025,
+            "unit": "ns/op",
+            "extra": "327 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "327 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "327 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal",
+            "value": 3614512,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "328 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal - ns/op",
+            "value": 3614512,
+            "unit": "ns/op",
+            "extra": "328 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "328 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "328 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal",
+            "value": 3632863,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "328 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal - ns/op",
+            "value": 3632863,
+            "unit": "ns/op",
+            "extra": "328 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "328 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "328 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal",
+            "value": 3626392,
+            "unit": "ns/op\t 1200003 B/op\t   50000 allocs/op",
+            "extra": "328 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal - ns/op",
+            "value": 3626392,
+            "unit": "ns/op",
+            "extra": "328 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal - B/op",
+            "value": 1200003,
+            "unit": "B/op",
+            "extra": "328 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "328 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal",
+            "value": 3641679,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "327 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal - ns/op",
+            "value": 3641679,
+            "unit": "ns/op",
+            "extra": "327 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "327 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "327 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal",
+            "value": 3618526,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "331 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal - ns/op",
+            "value": 3618526,
+            "unit": "ns/op",
+            "extra": "331 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "331 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "331 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal",
+            "value": 3612330,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "328 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal - ns/op",
+            "value": 3612330,
+            "unit": "ns/op",
+            "extra": "328 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "328 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "328 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal",
+            "value": 3610200,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "330 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal - ns/op",
+            "value": 3610200,
+            "unit": "ns/op",
+            "extra": "330 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "330 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "330 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic",
+            "value": 3626655,
+            "unit": "ns/op\t 1200003 B/op\t   50000 allocs/op",
+            "extra": "330 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic - ns/op",
+            "value": 3626655,
+            "unit": "ns/op",
+            "extra": "330 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic - B/op",
+            "value": 1200003,
+            "unit": "B/op",
+            "extra": "330 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "330 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic",
+            "value": 3636723,
+            "unit": "ns/op\t 1200003 B/op\t   50000 allocs/op",
+            "extra": "330 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic - ns/op",
+            "value": 3636723,
+            "unit": "ns/op",
+            "extra": "330 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic - B/op",
+            "value": 1200003,
+            "unit": "B/op",
+            "extra": "330 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "330 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic",
+            "value": 3646239,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "326 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic - ns/op",
+            "value": 3646239,
+            "unit": "ns/op",
+            "extra": "326 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "326 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "326 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic",
+            "value": 3658634,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "327 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic - ns/op",
+            "value": 3658634,
+            "unit": "ns/op",
+            "extra": "327 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "327 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "327 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic",
+            "value": 3657878,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "328 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic - ns/op",
+            "value": 3657878,
+            "unit": "ns/op",
+            "extra": "328 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "328 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "328 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic",
+            "value": 3663361,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "326 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic - ns/op",
+            "value": 3663361,
+            "unit": "ns/op",
+            "extra": "326 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "326 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "326 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic",
+            "value": 3664289,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "326 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic - ns/op",
+            "value": 3664289,
+            "unit": "ns/op",
+            "extra": "326 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "326 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "326 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic",
+            "value": 3635621,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "327 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic - ns/op",
+            "value": 3635621,
+            "unit": "ns/op",
+            "extra": "327 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "327 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "327 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic",
+            "value": 3651329,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "327 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic - ns/op",
+            "value": 3651329,
+            "unit": "ns/op",
+            "extra": "327 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "327 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "327 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic",
+            "value": 3640757,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "327 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic - ns/op",
+            "value": 3640757,
+            "unit": "ns/op",
+            "extra": "327 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "327 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "327 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded",
+            "value": 3603287,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "334 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded - ns/op",
+            "value": 3603287,
+            "unit": "ns/op",
+            "extra": "334 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "334 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "334 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded",
+            "value": 3603788,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "332 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded - ns/op",
+            "value": 3603788,
+            "unit": "ns/op",
+            "extra": "332 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "332 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "332 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded",
+            "value": 3596760,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "336 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded - ns/op",
+            "value": 3596760,
+            "unit": "ns/op",
+            "extra": "336 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "336 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "336 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded",
+            "value": 3606040,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "332 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded - ns/op",
+            "value": 3606040,
+            "unit": "ns/op",
+            "extra": "332 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "332 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "332 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded",
+            "value": 3586670,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "333 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded - ns/op",
+            "value": 3586670,
+            "unit": "ns/op",
+            "extra": "333 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "333 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "333 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded",
+            "value": 3588583,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "332 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded - ns/op",
+            "value": 3588583,
+            "unit": "ns/op",
+            "extra": "332 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "332 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "332 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded",
+            "value": 3579717,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "333 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded - ns/op",
+            "value": 3579717,
+            "unit": "ns/op",
+            "extra": "333 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "333 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "333 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded",
+            "value": 3599453,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "332 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded - ns/op",
+            "value": 3599453,
+            "unit": "ns/op",
+            "extra": "332 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "332 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "332 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded",
+            "value": 3628153,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "333 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded - ns/op",
+            "value": 3628153,
+            "unit": "ns/op",
+            "extra": "333 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "333 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "333 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded",
+            "value": 3596863,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "330 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded - ns/op",
+            "value": 3596863,
+            "unit": "ns/op",
+            "extra": "330 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "330 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "330 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree",
+            "value": 3635150,
+            "unit": "ns/op\t 1200003 B/op\t   50000 allocs/op",
+            "extra": "330 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree - ns/op",
+            "value": 3635150,
+            "unit": "ns/op",
+            "extra": "330 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree - B/op",
+            "value": 1200003,
+            "unit": "B/op",
+            "extra": "330 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "330 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree",
+            "value": 3652626,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "321 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree - ns/op",
+            "value": 3652626,
+            "unit": "ns/op",
+            "extra": "321 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "321 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "321 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree",
+            "value": 3628276,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "327 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree - ns/op",
+            "value": 3628276,
+            "unit": "ns/op",
+            "extra": "327 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "327 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "327 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree",
+            "value": 3633329,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "328 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree - ns/op",
+            "value": 3633329,
+            "unit": "ns/op",
+            "extra": "328 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "328 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "328 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree",
+            "value": 3638599,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "326 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree - ns/op",
+            "value": 3638599,
+            "unit": "ns/op",
+            "extra": "326 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "326 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "326 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree",
+            "value": 3652802,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "327 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree - ns/op",
+            "value": 3652802,
+            "unit": "ns/op",
+            "extra": "327 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "327 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "327 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree",
+            "value": 3648345,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "326 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree - ns/op",
+            "value": 3648345,
+            "unit": "ns/op",
+            "extra": "326 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "326 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "326 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree",
+            "value": 3653869,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "325 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree - ns/op",
+            "value": 3653869,
+            "unit": "ns/op",
+            "extra": "325 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "325 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "325 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree",
+            "value": 3641682,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "328 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree - ns/op",
+            "value": 3641682,
+            "unit": "ns/op",
+            "extra": "328 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "328 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "328 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree",
+            "value": 3643316,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "327 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree - ns/op",
+            "value": 3643316,
+            "unit": "ns/op",
+            "extra": "327 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "327 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "327 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed",
+            "value": 217.7,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5443401 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed - ns/op",
+            "value": 217.7,
+            "unit": "ns/op",
+            "extra": "5443401 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5443401 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5443401 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed",
+            "value": 217.2,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5495922 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed - ns/op",
+            "value": 217.2,
+            "unit": "ns/op",
+            "extra": "5495922 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5495922 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5495922 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed",
+            "value": 218.6,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5535813 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed - ns/op",
+            "value": 218.6,
+            "unit": "ns/op",
+            "extra": "5535813 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5535813 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5535813 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed",
+            "value": 217.1,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5555818 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed - ns/op",
+            "value": 217.1,
+            "unit": "ns/op",
+            "extra": "5555818 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5555818 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5555818 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed",
+            "value": 215.8,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5465936 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed - ns/op",
+            "value": 215.8,
+            "unit": "ns/op",
+            "extra": "5465936 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5465936 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5465936 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed",
+            "value": 216.7,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5544976 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed - ns/op",
+            "value": 216.7,
+            "unit": "ns/op",
+            "extra": "5544976 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5544976 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5544976 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed",
+            "value": 217.2,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5531530 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed - ns/op",
+            "value": 217.2,
+            "unit": "ns/op",
+            "extra": "5531530 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5531530 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5531530 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed",
+            "value": 217.9,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5521088 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed - ns/op",
+            "value": 217.9,
+            "unit": "ns/op",
+            "extra": "5521088 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5521088 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5521088 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed",
+            "value": 217.1,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "4952088 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed - ns/op",
+            "value": 217.1,
+            "unit": "ns/op",
+            "extra": "4952088 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "4952088 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "4952088 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed",
+            "value": 218.3,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5457644 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed - ns/op",
+            "value": 218.3,
+            "unit": "ns/op",
+            "extra": "5457644 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5457644 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5457644 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed",
+            "value": 169.8,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7004107 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed - ns/op",
+            "value": 169.8,
+            "unit": "ns/op",
+            "extra": "7004107 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7004107 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7004107 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed",
+            "value": 170.1,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6936562 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed - ns/op",
+            "value": 170.1,
+            "unit": "ns/op",
+            "extra": "6936562 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6936562 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6936562 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed",
+            "value": 170.7,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7004467 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed - ns/op",
+            "value": 170.7,
+            "unit": "ns/op",
+            "extra": "7004467 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7004467 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7004467 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed",
+            "value": 171.4,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7032391 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed - ns/op",
+            "value": 171.4,
+            "unit": "ns/op",
+            "extra": "7032391 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7032391 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7032391 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed",
+            "value": 170.5,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6997146 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed - ns/op",
+            "value": 170.5,
+            "unit": "ns/op",
+            "extra": "6997146 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6997146 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6997146 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed",
+            "value": 170.1,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7044934 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed - ns/op",
+            "value": 170.1,
+            "unit": "ns/op",
+            "extra": "7044934 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7044934 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7044934 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed",
+            "value": 170.2,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7123646 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed - ns/op",
+            "value": 170.2,
+            "unit": "ns/op",
+            "extra": "7123646 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7123646 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7123646 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed",
+            "value": 171,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6983676 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed - ns/op",
+            "value": 171,
+            "unit": "ns/op",
+            "extra": "6983676 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6983676 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6983676 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed",
+            "value": 170.1,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7110121 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed - ns/op",
+            "value": 170.1,
+            "unit": "ns/op",
+            "extra": "7110121 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7110121 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7110121 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed",
+            "value": 169.7,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7099251 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed - ns/op",
+            "value": 169.7,
+            "unit": "ns/op",
+            "extra": "7099251 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7099251 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7099251 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal",
+            "value": 126.8,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "9286582 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal - ns/op",
+            "value": 126.8,
+            "unit": "ns/op",
+            "extra": "9286582 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "9286582 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "9286582 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal",
+            "value": 127.4,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "9393031 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal - ns/op",
+            "value": 127.4,
+            "unit": "ns/op",
+            "extra": "9393031 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "9393031 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "9393031 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal",
+            "value": 128.2,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "9392800 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal - ns/op",
+            "value": 128.2,
+            "unit": "ns/op",
+            "extra": "9392800 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "9392800 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "9392800 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal",
+            "value": 127.3,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "9369886 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal - ns/op",
+            "value": 127.3,
+            "unit": "ns/op",
+            "extra": "9369886 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "9369886 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "9369886 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal",
+            "value": 127.7,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "9353252 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal - ns/op",
+            "value": 127.7,
+            "unit": "ns/op",
+            "extra": "9353252 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "9353252 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "9353252 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal",
+            "value": 128.5,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "9393801 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal - ns/op",
+            "value": 128.5,
+            "unit": "ns/op",
+            "extra": "9393801 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "9393801 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "9393801 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal",
+            "value": 127,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "9438446 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal - ns/op",
+            "value": 127,
+            "unit": "ns/op",
+            "extra": "9438446 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "9438446 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "9438446 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal",
+            "value": 125.9,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "9401574 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal - ns/op",
+            "value": 125.9,
+            "unit": "ns/op",
+            "extra": "9401574 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "9401574 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "9401574 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal",
+            "value": 127.1,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "9345517 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal - ns/op",
+            "value": 127.1,
+            "unit": "ns/op",
+            "extra": "9345517 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "9345517 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "9345517 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal",
+            "value": 127.4,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "9421869 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal - ns/op",
+            "value": 127.4,
+            "unit": "ns/op",
+            "extra": "9421869 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "9421869 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "9421869 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic",
+            "value": 206.7,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5851003 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic - ns/op",
+            "value": 206.7,
+            "unit": "ns/op",
+            "extra": "5851003 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5851003 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5851003 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic",
+            "value": 204.6,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5768490 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic - ns/op",
+            "value": 204.6,
+            "unit": "ns/op",
+            "extra": "5768490 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5768490 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5768490 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic",
+            "value": 206.5,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5845704 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic - ns/op",
+            "value": 206.5,
+            "unit": "ns/op",
+            "extra": "5845704 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5845704 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5845704 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic",
+            "value": 206.6,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5840947 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic - ns/op",
+            "value": 206.6,
+            "unit": "ns/op",
+            "extra": "5840947 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5840947 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5840947 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic",
+            "value": 206.3,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5872490 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic - ns/op",
+            "value": 206.3,
+            "unit": "ns/op",
+            "extra": "5872490 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5872490 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5872490 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic",
+            "value": 205.6,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5734196 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic - ns/op",
+            "value": 205.6,
+            "unit": "ns/op",
+            "extra": "5734196 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5734196 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5734196 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic",
+            "value": 206,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5730889 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic - ns/op",
+            "value": 206,
+            "unit": "ns/op",
+            "extra": "5730889 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5730889 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5730889 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic",
+            "value": 207.4,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5764560 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic - ns/op",
+            "value": 207.4,
+            "unit": "ns/op",
+            "extra": "5764560 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5764560 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5764560 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic",
+            "value": 206.8,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5818023 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic - ns/op",
+            "value": 206.8,
+            "unit": "ns/op",
+            "extra": "5818023 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5818023 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5818023 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic",
+            "value": 205.5,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5823878 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic - ns/op",
+            "value": 205.5,
+            "unit": "ns/op",
+            "extra": "5823878 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5823878 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5823878 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded",
+            "value": 127.8,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "9191722 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded - ns/op",
+            "value": 127.8,
+            "unit": "ns/op",
+            "extra": "9191722 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "9191722 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "9191722 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded",
+            "value": 129,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "9342928 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded - ns/op",
+            "value": 129,
+            "unit": "ns/op",
+            "extra": "9342928 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "9342928 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "9342928 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded",
+            "value": 128.2,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "9251440 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded - ns/op",
+            "value": 128.2,
+            "unit": "ns/op",
+            "extra": "9251440 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "9251440 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "9251440 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded",
+            "value": 128,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "9304095 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded - ns/op",
+            "value": 128,
+            "unit": "ns/op",
+            "extra": "9304095 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "9304095 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "9304095 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded",
+            "value": 128.1,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "9353925 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded - ns/op",
+            "value": 128.1,
+            "unit": "ns/op",
+            "extra": "9353925 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "9353925 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "9353925 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded",
+            "value": 127,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "9411956 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded - ns/op",
+            "value": 127,
+            "unit": "ns/op",
+            "extra": "9411956 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "9411956 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "9411956 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded",
+            "value": 126.9,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "9371400 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded - ns/op",
+            "value": 126.9,
+            "unit": "ns/op",
+            "extra": "9371400 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "9371400 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "9371400 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded",
+            "value": 127.8,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "9277158 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded - ns/op",
+            "value": 127.8,
+            "unit": "ns/op",
+            "extra": "9277158 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "9277158 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "9277158 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded",
+            "value": 128.7,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "9345507 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded - ns/op",
+            "value": 128.7,
+            "unit": "ns/op",
+            "extra": "9345507 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "9345507 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "9345507 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded",
+            "value": 128,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "9340833 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded - ns/op",
+            "value": 128,
+            "unit": "ns/op",
+            "extra": "9340833 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "9340833 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "9340833 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree",
+            "value": 205.3,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5792575 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree - ns/op",
+            "value": 205.3,
+            "unit": "ns/op",
+            "extra": "5792575 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5792575 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5792575 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree",
+            "value": 205.9,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5835460 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree - ns/op",
+            "value": 205.9,
+            "unit": "ns/op",
+            "extra": "5835460 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5835460 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5835460 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree",
+            "value": 205.3,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5771517 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree - ns/op",
+            "value": 205.3,
+            "unit": "ns/op",
+            "extra": "5771517 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5771517 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5771517 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree",
+            "value": 204.8,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5366007 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree - ns/op",
+            "value": 204.8,
+            "unit": "ns/op",
+            "extra": "5366007 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5366007 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5366007 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree",
+            "value": 206.2,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5903396 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree - ns/op",
+            "value": 206.2,
+            "unit": "ns/op",
+            "extra": "5903396 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5903396 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5903396 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree",
+            "value": 205.8,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5860654 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree - ns/op",
+            "value": 205.8,
+            "unit": "ns/op",
+            "extra": "5860654 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5860654 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5860654 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree",
+            "value": 204.7,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5858952 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree - ns/op",
+            "value": 204.7,
+            "unit": "ns/op",
+            "extra": "5858952 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5858952 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5858952 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree",
+            "value": 204.8,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5885628 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree - ns/op",
+            "value": 204.8,
+            "unit": "ns/op",
+            "extra": "5885628 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5885628 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5885628 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree",
+            "value": 205,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5806740 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree - ns/op",
+            "value": 205,
+            "unit": "ns/op",
+            "extra": "5806740 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5806740 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5806740 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree",
+            "value": 205.2,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5808812 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree - ns/op",
+            "value": 205.2,
+            "unit": "ns/op",
+            "extra": "5808812 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5808812 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5808812 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal",
+            "value": 174.1,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6964228 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal - ns/op",
+            "value": 174.1,
+            "unit": "ns/op",
+            "extra": "6964228 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6964228 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6964228 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal",
+            "value": 171.1,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7004391 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal - ns/op",
+            "value": 171.1,
+            "unit": "ns/op",
+            "extra": "7004391 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7004391 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7004391 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal",
+            "value": 171,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7083679 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal - ns/op",
+            "value": 171,
+            "unit": "ns/op",
+            "extra": "7083679 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7083679 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7083679 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal",
+            "value": 171.6,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7093382 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal - ns/op",
+            "value": 171.6,
+            "unit": "ns/op",
+            "extra": "7093382 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7093382 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7093382 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal",
+            "value": 169.4,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7131756 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal - ns/op",
+            "value": 169.4,
+            "unit": "ns/op",
+            "extra": "7131756 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7131756 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7131756 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal",
+            "value": 169.8,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7036576 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal - ns/op",
+            "value": 169.8,
+            "unit": "ns/op",
+            "extra": "7036576 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7036576 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7036576 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal",
+            "value": 170.5,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7013608 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal - ns/op",
+            "value": 170.5,
+            "unit": "ns/op",
+            "extra": "7013608 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7013608 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7013608 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal",
+            "value": 171.6,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7122566 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal - ns/op",
+            "value": 171.6,
+            "unit": "ns/op",
+            "extra": "7122566 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7122566 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7122566 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal",
+            "value": 170.8,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7104073 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal - ns/op",
+            "value": 170.8,
+            "unit": "ns/op",
+            "extra": "7104073 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7104073 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7104073 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal",
+            "value": 171,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7034170 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal - ns/op",
+            "value": 171,
+            "unit": "ns/op",
+            "extra": "7034170 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7034170 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7034170 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic",
+            "value": 169.8,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6969204 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic - ns/op",
+            "value": 169.8,
+            "unit": "ns/op",
+            "extra": "6969204 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6969204 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6969204 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic",
+            "value": 170.8,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7064337 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic - ns/op",
+            "value": 170.8,
+            "unit": "ns/op",
+            "extra": "7064337 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7064337 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7064337 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic",
+            "value": 170.8,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7039728 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic - ns/op",
+            "value": 170.8,
+            "unit": "ns/op",
+            "extra": "7039728 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7039728 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7039728 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic",
+            "value": 170.7,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6983952 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic - ns/op",
+            "value": 170.7,
+            "unit": "ns/op",
+            "extra": "6983952 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6983952 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6983952 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic",
+            "value": 171,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6949087 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic - ns/op",
+            "value": 171,
+            "unit": "ns/op",
+            "extra": "6949087 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6949087 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6949087 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic",
+            "value": 171.9,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6973446 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic - ns/op",
+            "value": 171.9,
+            "unit": "ns/op",
+            "extra": "6973446 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6973446 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6973446 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic",
+            "value": 171.1,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7052385 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic - ns/op",
+            "value": 171.1,
+            "unit": "ns/op",
+            "extra": "7052385 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7052385 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7052385 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic",
+            "value": 171.1,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6934988 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic - ns/op",
+            "value": 171.1,
+            "unit": "ns/op",
+            "extra": "6934988 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6934988 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6934988 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic",
+            "value": 171.5,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6913311 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic - ns/op",
+            "value": 171.5,
+            "unit": "ns/op",
+            "extra": "6913311 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6913311 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6913311 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic",
+            "value": 171.1,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6914422 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic - ns/op",
+            "value": 171.1,
+            "unit": "ns/op",
+            "extra": "6914422 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6914422 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6914422 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded",
+            "value": 169.9,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7051710 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded - ns/op",
+            "value": 169.9,
+            "unit": "ns/op",
+            "extra": "7051710 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7051710 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7051710 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded",
+            "value": 171.3,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6999518 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded - ns/op",
+            "value": 171.3,
+            "unit": "ns/op",
+            "extra": "6999518 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6999518 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6999518 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded",
+            "value": 170.8,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6941871 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded - ns/op",
+            "value": 170.8,
+            "unit": "ns/op",
+            "extra": "6941871 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6941871 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6941871 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded",
+            "value": 171.4,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6837338 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded - ns/op",
+            "value": 171.4,
+            "unit": "ns/op",
+            "extra": "6837338 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6837338 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6837338 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded",
+            "value": 170.4,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6980372 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded - ns/op",
+            "value": 170.4,
+            "unit": "ns/op",
+            "extra": "6980372 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6980372 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6980372 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded",
+            "value": 170.9,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7061287 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded - ns/op",
+            "value": 170.9,
+            "unit": "ns/op",
+            "extra": "7061287 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7061287 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7061287 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded",
+            "value": 171.6,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7008346 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded - ns/op",
+            "value": 171.6,
+            "unit": "ns/op",
+            "extra": "7008346 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7008346 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7008346 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded",
+            "value": 170.7,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7161032 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded - ns/op",
+            "value": 170.7,
+            "unit": "ns/op",
+            "extra": "7161032 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7161032 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7161032 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded",
+            "value": 170.9,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7071542 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded - ns/op",
+            "value": 170.9,
+            "unit": "ns/op",
+            "extra": "7071542 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7071542 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7071542 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded",
+            "value": 170,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7013804 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded - ns/op",
+            "value": 170,
+            "unit": "ns/op",
+            "extra": "7013804 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7013804 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7013804 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree",
+            "value": 171.1,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7007557 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree - ns/op",
+            "value": 171.1,
+            "unit": "ns/op",
+            "extra": "7007557 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7007557 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7007557 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree",
+            "value": 170.6,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6957292 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree - ns/op",
+            "value": 170.6,
+            "unit": "ns/op",
+            "extra": "6957292 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6957292 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6957292 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree",
+            "value": 171,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6964467 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree - ns/op",
+            "value": 171,
+            "unit": "ns/op",
+            "extra": "6964467 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6964467 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6964467 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree",
+            "value": 170.9,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7107183 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree - ns/op",
+            "value": 170.9,
+            "unit": "ns/op",
+            "extra": "7107183 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7107183 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7107183 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree",
+            "value": 170.4,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7109278 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree - ns/op",
+            "value": 170.4,
+            "unit": "ns/op",
+            "extra": "7109278 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7109278 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7109278 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree",
+            "value": 170.6,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6974704 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree - ns/op",
+            "value": 170.6,
+            "unit": "ns/op",
+            "extra": "6974704 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6974704 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6974704 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree",
+            "value": 171.4,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6984712 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree - ns/op",
+            "value": 171.4,
+            "unit": "ns/op",
+            "extra": "6984712 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6984712 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6984712 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree",
+            "value": 170.8,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6924327 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree - ns/op",
+            "value": 170.8,
+            "unit": "ns/op",
+            "extra": "6924327 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6924327 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6924327 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree",
+            "value": 171.1,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6959836 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree - ns/op",
+            "value": 171.1,
+            "unit": "ns/op",
+            "extra": "6959836 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6959836 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6959836 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree",
+            "value": 169.8,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7012429 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree - ns/op",
+            "value": 169.8,
+            "unit": "ns/op",
+            "extra": "7012429 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7012429 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7012429 times\n4 procs"
           }
         ]
       }
