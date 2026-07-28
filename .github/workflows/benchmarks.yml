@@ -31,37 +31,14 @@ jobs:
       - name: Run benchmarks
         working-directory: ./lib/rust
         run: |
-          cargo bench --bench lookup_bench > ../../rust_bench_results_full.txt 2>&1
-          echo "=== Full benchmark output saved ==="
-          ls -la ../../rust_bench_results_full.txt
-
-      - name: Prepare final benchmark file
-        run: |
-          echo "=== Preparing final benchmark file ==="
-          
-          if [ -f rust_bench_results_full.txt ] && [ -s rust_bench_results_full.txt ]; then
-            # Extract from first "Benchmarking" to end
-            sed -n '/Benchmarking/,$p' rust_bench_results_full.txt > rust_bench_results_final.txt
-            echo "✅ Extracted benchmark data"
-          else
-            echo "❌ No benchmark output found!"
-            exit 1
-          fi
-          
-          echo "File size: $(wc -c < rust_bench_results_final.txt) bytes"
-          echo ""
-          echo "=== First 10 lines ==="
-          head -10 rust_bench_results_final.txt
-          echo ""
-          echo "=== Checking for Benchmarking ==="
-          grep "Benchmarking" rust_bench_results_final.txt | head -3
+          cargo bench --bench lookup_bench 2>&1 | tee ../../rust_bench_results.txt
 
       - name: Store benchmark result
         uses: benchmark-action/github-action-benchmark@v1
         with:
           name: Rust Benchmark
-          tool: 'cargo'
-          output-file-path: rust_bench_results_final.txt
+          tool: 'cargo-criterion'
+          output-file-path: rust_bench_results.txt
           github-token: ${{ secrets.GITHUB_TOKEN }}
           auto-push: true
           alert-threshold: '105%'
@@ -86,35 +63,13 @@ jobs:
         working-directory: ./lib/go
         run: |
           go test -run=NONE -bench=. -benchmem -count=10 -v ./... 2>&1 | tee go_bench_results.txt
-          echo "=== Go benchmark output saved ==="
-          ls -la go_bench_results.txt
-
-      - name: Prepare Go benchmark file
-        run: |
-          echo "=== Preparing Go benchmark file ==="
-          
-          if [ -f ./lib/go/go_bench_results.txt ] && [ -s ./lib/go/go_bench_results.txt ]; then
-            cp ./lib/go/go_bench_results.txt go_bench_results_final.txt
-            echo "✅ Go benchmark data prepared"
-          else
-            echo "❌ No Go benchmark output found!"
-            exit 1
-          fi
-          
-          echo "File size: $(wc -c < go_bench_results_final.txt) bytes"
-          echo ""
-          echo "=== First 10 lines ==="
-          head -10 go_bench_results_final.txt
-          echo ""
-          echo "=== Checking for Benchmark ==="
-          grep "Benchmark" go_bench_results_final.txt | head -3
 
       - name: Store benchmark result
         uses: benchmark-action/github-action-benchmark@v1
         with:
           name: Go Benchmark
           tool: 'go'
-          output-file-path: go_bench_results_final.txt
+          output-file-path: go_bench_results.txt
           github-token: ${{ secrets.GITHUB_TOKEN }}
           auto-push: true
           alert-threshold: '105%'
@@ -150,7 +105,6 @@ jobs:
             git add index.html
             git commit -m "update dashboard [skip ci]" || echo "No changes"
             git push origin gh-pages || echo "Nothing to push"
-            echo "✅ Dashboard deployed"
           else
             echo "⚠️  Dashboard not found, skipping"
           fi
