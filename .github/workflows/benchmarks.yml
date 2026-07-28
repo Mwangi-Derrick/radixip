@@ -37,7 +37,7 @@ jobs:
         uses: benchmark-action/github-action-benchmark@v1
         with:
           name: Rust Benchmark
-          tool: 'cargo-criterion'
+          tool: 'cargo-criterion'                # <-- Use correct parser
           output-file-path: rust_bench_results.txt
           github-token: ${{ secrets.GITHUB_TOKEN }}
           auto-push: true
@@ -69,7 +69,7 @@ jobs:
         with:
           name: Go Benchmark
           tool: 'go'
-          output-file-path: go_bench_results.txt
+          output-file-path: lib/go/go_bench_results.txt   # <-- Correct path
           github-token: ${{ secrets.GITHUB_TOKEN }}
           auto-push: true
           alert-threshold: '105%'
