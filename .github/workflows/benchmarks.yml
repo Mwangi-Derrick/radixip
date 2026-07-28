@@ -94,37 +94,23 @@ jobs:
         run: |
           echo "=== Preparing final benchmark file ==="
           
-          # Check if we have a good file with benchmark data
-          if [ -f rust_bench_results_filtered.txt ] && [ -s rust_bench_results_filtered.txt ]; then
-            echo "Using filtered benchmark results"
-            cp rust_bench_results_filtered.txt rust_bench_results_final.txt
-          elif [ -f rust_bench_results.txt ] && [ -s rust_bench_results.txt ]; then
-            echo "Using extracted benchmark results"
-            cp rust_bench_results.txt rust_bench_results_final.txt
-          elif [ -f rust_bench_results_full.txt ] && [ -s rust_bench_results_full.txt ]; then
-            echo "Using full benchmark output"
+          # ALWAYS use the FULL raw output - it has the Benchmarking lines
+          if [ -f rust_bench_results_full.txt ] && [ -s rust_bench_results_full.txt ]; then
+            echo "Using FULL raw benchmark output (contains Benchmarking lines)"
             cp rust_bench_results_full.txt rust_bench_results_final.txt
           else
-            echo "❌ No benchmark output found anywhere!"
-            # Try to find any file with benchmark data
-            FOUND_FILE=$(find . -name "*.txt" -type f -exec grep -l "time:" {} \; 2>/dev/null | head -1)
-            if [ -n "$FOUND_FILE" ]; then
-              echo "Found benchmark data in: $FOUND_FILE"
-              cp "$FOUND_FILE" rust_bench_results_final.txt
-            else
-              echo "No benchmark data found at all!"
-              exit 1
-            fi
+            echo "❌ No benchmark output found!"
+            exit 1
           fi
           
           echo "Final file: rust_bench_results_final.txt"
           echo "File size: $(wc -c < rust_bench_results_final.txt) bytes"
           echo ""
-          echo "=== First 20 lines of final file ==="
-          head -20 rust_bench_results_final.txt
+          echo "=== First 30 lines of final file (checking for Benchmarking) ==="
+          head -30 rust_bench_results_final.txt
           echo ""
-          echo "=== Checking for time: in final file ==="
-          grep "time:" rust_bench_results_final.txt | head -5 || echo "No time: found in final file"
+          echo "=== Checking for 'Benchmarking' in final file ==="
+          grep "Benchmarking" rust_bench_results_final.txt | head -5 || echo "❌ No 'Benchmarking' found!"
 
       - name: Check if benchmarks ran
         run: |
