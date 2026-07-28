@@ -1,7 +1,7 @@
 //! Compressed (Patricia) radix trie node implementations.
 //!
 //! Unlike uncompressed nodes which store a single `bit`, Patricia nodes
-//! store an `edge_bits: Vec<u8>` and `edge_len: usize` representing a
+//! store an `edge_bits: [u8;16]` and `edge_len: usize` representing a
 //! multi-bit path segment. This collapses non-branching chains of bits
 //! into a single node, giving O(k) lookups where k is the number of
 //! branching points rather than the full prefix length.
@@ -31,7 +31,7 @@ use crate::types::Metadata;
 #[repr(C, align(64))]
 pub struct CompressedNormalNode {
     /// Bit-string for the edge leading *into* this node (MSB-first, packed).
-    edge_bits: RwLock<Vec<u8>>,
+    edge_bits: RwLock<[u8; 16]>,
     /// Number of valid bits in `edge_bits` (may be < edge_bits.len()*8).
     edge_len: RwLock<usize>,
     /// Terminal metadata stored when this node represents a real prefix.
@@ -97,9 +97,9 @@ impl RadixNode for CompressedNormalNode {
         *self.prefix.write().unwrap() = Some(prefix);
     }
 
-    // Compressed-node extensions 
+    // Compressed-node extensions
 
-    fn edge_bits(&self) -> Option<Vec<u8>> {
+    fn edge_bits(&self) -> Option<[u8; 16]> {
         Some(self.edge_bits.read().unwrap().clone())
     }
 
@@ -107,7 +107,7 @@ impl RadixNode for CompressedNormalNode {
         Some(*self.edge_len.read().unwrap())
     }
 
-    fn set_edge(&self, bits: Vec<u8>, len: usize) {
+    fn set_edge(&self, bits: [u8; 16], len: usize) {
         *self.edge_bits.write().unwrap() = bits;
         *self.edge_len.write().unwrap() = len;
     }
@@ -123,7 +123,7 @@ pub struct CompressedAtomicNode {
     /// Encodes edge_len: 0 = "empty/root", 1..=254 = actual length, 255 = overflow sentinel.
     /// For edge lengths ≥ 255 we fall back to the RwLock below.
     atomic_edge_len: AtomicU8,
-    edge_bits: RwLock<Vec<u8>>,
+    edge_bits: RwLock<[u8; 16]>,
     edge_len_overflow: RwLock<usize>, // used only when edge_len >= 255
     metadata: RwLock<Option<Metadata>>,
     prefix: RwLock<Option<IpNetwork>>,
@@ -135,7 +135,7 @@ impl CompressedAtomicNode {
     pub fn new() -> Self {
         Self {
             atomic_edge_len: AtomicU8::new(0),
-            edge_bits: RwLock::new(Vec::new()),
+            edge_bits: RwLock::new([0u8; 16]),
             edge_len_overflow: RwLock::new(0),
             metadata: RwLock::new(None),
             prefix: RwLock::new(None),
@@ -194,7 +194,7 @@ impl RadixNode for CompressedAtomicNode {
         *self.prefix.write().unwrap() = Some(prefix);
     }
 
-    fn edge_bits(&self) -> Option<Vec<u8>> {
+    fn edge_bits(&self) -> Option<[u8; 16]> {
         Some(self.edge_bits.read().unwrap().clone())
     }
 
@@ -208,7 +208,7 @@ impl RadixNode for CompressedAtomicNode {
         }
     }
 
-    fn set_edge(&self, bits: Vec<u8>, len: usize) {
+    fn set_edge(&self, bits: [u8; 16], len: usize) {
         *self.edge_bits.write().unwrap() = bits;
         if len < 255 {
             self.atomic_edge_len.store(len as u8, Ordering::Release);
@@ -226,7 +226,7 @@ impl RadixNode for CompressedAtomicNode {
 
 #[repr(C, align(64))]
 pub struct CompressedPaddedNode {
-    edge_bits: RwLock<Vec<u8>>,
+    edge_bits: RwLock<[u8; 16]>,
     _pad1: [u8; 63],
     edge_len: RwLock<usize>,
     metadata: RwLock<Option<Metadata>>,
@@ -238,7 +238,7 @@ pub struct CompressedPaddedNode {
 impl CompressedPaddedNode {
     pub fn new() -> Self {
         Self {
-            edge_bits: RwLock::new(Vec::new()),
+            edge_bits: RwLock::new([0u8; 16]),
             _pad1: [0; 63],
             edge_len: RwLock::new(0),
             metadata: RwLock::new(None),
@@ -298,7 +298,7 @@ impl RadixNode for CompressedPaddedNode {
         *self.prefix.write().unwrap() = Some(prefix);
     }
 
-    fn edge_bits(&self) -> Option<Vec<u8>> {
+    fn edge_bits(&self) -> Option<[u8; 16]> {
         Some(self.edge_bits.read().unwrap().clone())
     }
 
@@ -306,7 +306,7 @@ impl RadixNode for CompressedPaddedNode {
         Some(*self.edge_len.read().unwrap())
     }
 
-    fn set_edge(&self, bits: Vec<u8>, len: usize) {
+    fn set_edge(&self, bits: [u8; 16], len: usize) {
         *self.edge_bits.write().unwrap() = bits;
         *self.edge_len.write().unwrap() = len;
     }
@@ -325,7 +325,7 @@ enum ChildKey {
 
 #[repr(C, align(64))]
 pub struct CompressedLockFreeNode {
-    edge_bits: RwLock<Vec<u8>>,
+    edge_bits: RwLock<[u8; 16]>,
     edge_len: RwLock<usize>,
     metadata: RwLock<Option<Metadata>>,
     prefix: RwLock<Option<IpNetwork>>,
@@ -336,7 +336,7 @@ pub struct CompressedLockFreeNode {
 impl CompressedLockFreeNode {
     pub fn new() -> Self {
         Self {
-            edge_bits: RwLock::new(Vec::new()),
+            edge_bits: RwLock::new([0u8; 16]),
             edge_len: RwLock::new(0),
             metadata: RwLock::new(None),
             prefix: RwLock::new(None),
@@ -412,7 +412,7 @@ impl RadixNode for CompressedLockFreeNode {
         *self.prefix.write().unwrap() = Some(prefix);
     }
 
-    fn edge_bits(&self) -> Option<Vec<u8>> {
+    fn edge_bits(&self) -> Option<[u8; 16]> {
         Some(self.edge_bits.read().unwrap().clone())
     }
 
@@ -420,7 +420,7 @@ impl RadixNode for CompressedLockFreeNode {
         Some(*self.edge_len.read().unwrap())
     }
 
-    fn set_edge(&self, bits: Vec<u8>, len: usize) {
+    fn set_edge(&self, bits: [u8; 16], len: usize) {
         *self.edge_bits.write().unwrap() = bits;
         *self.edge_len.write().unwrap() = len;
     }

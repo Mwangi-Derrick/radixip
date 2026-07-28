@@ -106,7 +106,7 @@ impl RadixNode for NodeWrapper {
         dispatch!(self, set_prefix, prefix)
     }
 
-    fn edge_bits(&self) -> Option<Vec<u8>> {
+    fn edge_bits(&self) -> Option<[u8; 16]> {
         dispatch!(self, edge_bits)
     }
 
@@ -114,7 +114,7 @@ impl RadixNode for NodeWrapper {
         dispatch!(self, edge_len)
     }
 
-    fn set_edge(&self, bits: Vec<u8>, len: usize) {
+    fn set_edge(&self, bits: [u8; 16], len: usize) {
         dispatch!(self, set_edge, bits, len)
     }
 }

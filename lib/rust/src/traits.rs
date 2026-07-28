@@ -67,7 +67,7 @@ pub trait RadixNode: Send + Sync {
 
     /// Returns the edge bit-string for Patricia trie nodes.
     /// Uncompressed nodes always return `None`.
-    fn edge_bits(&self) -> Option<Vec<u8>> {
+    fn edge_bits(&self) -> Option<[u8; 16]> {
         None
     }
 
@@ -79,7 +79,7 @@ pub trait RadixNode: Send + Sync {
 
     /// Set the edge bit-string and its valid bit length.
     /// Uncompressed nodes panic if called (programming error).
-    fn set_edge(&self, _bits: Vec<u8>, _len: usize) {
+    fn set_edge(&self, _bits: [u8; 16], _len: usize) {
         panic!("set_edge called on an uncompressed node");
     }
 }

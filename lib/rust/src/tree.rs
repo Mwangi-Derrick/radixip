@@ -138,7 +138,7 @@ impl RouteTree for UncompressedTree {
 //
 // COMPRESSED TREE  (Patricia / radix trie)
 //
-// Each node stores an `edge_bits: Vec<u8>` representing the compressed
+// Each node stores an `edge_bits: [u8;16]` representing the compressed
 // bit-string for that edge, instead of traversing one bit at a time.
 // Non-branching chains of nodes are folded into a single node, giving
 // O(k) lookups where k is the number of *branching points*, not the
@@ -157,7 +157,7 @@ impl RouteTree for UncompressedTree {
 
 /// Helper to read edge fields from a node via the trait extension.
 /// Returns (edge_bits_clone, edge_len) for a compressed node.
-fn node_edge(node: &Arc<dyn RadixNode>) -> (Vec<u8>, usize) {
+fn node_edge(node: &Arc<dyn RadixNode>) -> ([u8; 16], usize) {
     let bits = node.edge_bits().unwrap_or_default();
     let len = node.edge_len().unwrap_or(0);
     (bits, len)
@@ -173,15 +173,16 @@ fn get_bit_from_bytes(bytes: &[u8], pos: usize) -> u8 {
     (bytes[byte_idx] >> bit_idx) & 1
 }
 
-/// Extract up to `len` bits starting at `start` from `bytes` into a new `Vec<u8>`.
-fn extract_bits(bytes: &[u8], start: usize, len: usize) -> Vec<u8> {
-    let byte_count = (len + 7) / 8;
-    let mut out = vec![0u8; byte_count];
-    for i in 0..len {
+fn extract_bits(bytes: &[u8], start: usize, len: usize) -> [u8; 16] {
+    let mut out = [0u8; 16]; // Fixed 16-byte array
+    let max_len = len.min(128); // Max bits for 16 bytes
+    for i in 0..max_len {
         let b = get_bit_from_bytes(bytes, start + i);
         let byte_i = i / 8;
         let bit_i = 7 - (i % 8);
-        out[byte_i] |= b << bit_i;
+        if byte_i < 16 {
+            out[byte_i] |= b << bit_i;
+        }
     }
     out
 }
@@ -197,11 +198,15 @@ fn common_prefix_len(a: &[u8], a_len: usize, b: &[u8], b_len: usize) -> usize {
     max
 }
 
-/// Convert an `IpAddr` to its canonical big-endian byte representation.
-fn ip_to_bytes(ip: IpAddr) -> Vec<u8> {
+fn ip_to_bytes(ip: IpAddr) -> [u8; 16] {
     match ip {
-        IpAddr::V4(v4) => v4.octets().to_vec(),
-        IpAddr::V6(v6) => v6.octets().to_vec(),
+        IpAddr::V4(v4) => {
+            let octets = v4.octets();
+            let mut result = [0u8; 16];
+            result[12..16].copy_from_slice(&octets); // IPv4 in last 4 bytes
+            result
+        }
+        IpAddr::V6(v6) => v6.octets(),
     }
 }
 
@@ -464,7 +469,7 @@ impl CompressedTree {
     }
 
     fn clear_inner(node: &Arc<dyn RadixNode>) {
-        node.set_edge(Vec::new(), 0);
+        node.set_edge([0u8; 16], 0);
         node.clear_metadata();
         node.set_left(None);
         node.set_right(None);
