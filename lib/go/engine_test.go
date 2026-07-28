@@ -53,8 +53,21 @@ func buildEngine(n int, compressed bool) RadixEngine {
 	return RadixEngine(e.engine)
 }
 
+func buildEngineWithVariant(n int, compressed bool, nodeVariant NodeVariant) RadixEngine {
+	e := NewEngineWrapperWithTree(EngineConcurrent, nodeVariant, compressed)
+	meta := Metadata{Value: "bench", Attributes: map[string]string{"type": "benchmark"}}
+	for _, cidr := range generateCIDRs(n) {
+		_ = e.Insert(cidr, meta)
+	}
+	return RadixEngine(e.engine)
+}
+
+var (
+	GlobalResult *Metadata
+)
+
 // ---------------------------------------------------------------------------
-// Benchmarks
+// Insert Benchmarks (unchanged)
 // ---------------------------------------------------------------------------
 
 func BenchmarkInsert_Uncompressed_10k_Normal(b *testing.B) {
@@ -153,12 +166,12 @@ func BenchmarkInsert_Compressed_10k_LockFree(b *testing.B) {
 	}
 }
 
-var (
-	GlobalResult *Metadata
-)
+// ---------------------------------------------------------------------------
+// Lookup Benchmarks - Hit (Uncompressed)
+// ---------------------------------------------------------------------------
 
-func BenchmarkLookup_Hit_Uncompressed_50k(b *testing.B) {
-	e := buildEngine(50_000, false)
+func BenchmarkLookup_Hit_Uncompressed_50k_Normal(b *testing.B) {
+	e := buildEngineWithVariant(50_000, false, NodeNormal)
 	ips := generateHitIPs(50_000)
 	b.ResetTimer()
 	b.ReportAllocs()
@@ -169,8 +182,8 @@ func BenchmarkLookup_Hit_Uncompressed_50k(b *testing.B) {
 	}
 }
 
-func BenchmarkLookup_Hit_Compressed_50k(b *testing.B) {
-	e := buildEngine(50_000, true)
+func BenchmarkLookup_Hit_Uncompressed_50k_Atomic(b *testing.B) {
+	e := buildEngineWithVariant(50_000, false, NodeAtomic)
 	ips := generateHitIPs(50_000)
 	b.ResetTimer()
 	b.ReportAllocs()
@@ -181,10 +194,11 @@ func BenchmarkLookup_Hit_Compressed_50k(b *testing.B) {
 	}
 }
 
-func BenchmarkLookup_Miss_Uncompressed_50k(b *testing.B) {
-	e := buildEngine(50_000, false)
-	ips := generateMissIPs(50_000)
+func BenchmarkLookup_Hit_Uncompressed_50k_Padded(b *testing.B) {
+	e := buildEngineWithVariant(50_000, false, NodePadded)
+	ips := generateHitIPs(50_000)
 	b.ResetTimer()
+	b.ReportAllocs()
 	for b.Loop() {
 		for _, ip := range ips {
 			GlobalResult = e.Lookup(ip)
@@ -192,10 +206,11 @@ func BenchmarkLookup_Miss_Uncompressed_50k(b *testing.B) {
 	}
 }
 
-func BenchmarkLookup_Miss_Compressed_50k(b *testing.B) {
-	e := buildEngine(50_000, true)
-	ips := generateMissIPs(50_000)
+func BenchmarkLookup_Hit_Uncompressed_50k_LockFree(b *testing.B) {
+	e := buildEngineWithVariant(50_000, false, NodeLockFree)
+	ips := generateHitIPs(50_000)
 	b.ResetTimer()
+	b.ReportAllocs()
 	for b.Loop() {
 		for _, ip := range ips {
 			GlobalResult = e.Lookup(ip)
@@ -203,11 +218,172 @@ func BenchmarkLookup_Miss_Compressed_50k(b *testing.B) {
 	}
 }
 
-func BenchmarkConcurrent_Lookup_Compressed(b *testing.B) {
+// ---------------------------------------------------------------------------
+// Lookup Benchmarks - Miss (Uncompressed)
+// ---------------------------------------------------------------------------
+
+func BenchmarkLookup_Miss_Uncompressed_50k_Normal(b *testing.B) {
+	e := buildEngineWithVariant(50_000, false, NodeNormal)
+	ips := generateMissIPs(50_000)
+	b.ResetTimer()
+	b.ReportAllocs()
+	for b.Loop() {
+		for _, ip := range ips {
+			GlobalResult = e.Lookup(ip)
+		}
+	}
+}
+
+func BenchmarkLookup_Miss_Uncompressed_50k_Atomic(b *testing.B) {
+	e := buildEngineWithVariant(50_000, false, NodeAtomic)
+	ips := generateMissIPs(50_000)
+	b.ResetTimer()
+	b.ReportAllocs()
+	for b.Loop() {
+		for _, ip := range ips {
+			GlobalResult = e.Lookup(ip)
+		}
+	}
+}
+
+func BenchmarkLookup_Miss_Uncompressed_50k_Padded(b *testing.B) {
+	e := buildEngineWithVariant(50_000, false, NodePadded)
+	ips := generateMissIPs(50_000)
+	b.ResetTimer()
+	b.ReportAllocs()
+	for b.Loop() {
+		for _, ip := range ips {
+			GlobalResult = e.Lookup(ip)
+		}
+	}
+}
+
+func BenchmarkLookup_Miss_Uncompressed_50k_LockFree(b *testing.B) {
+	e := buildEngineWithVariant(50_000, false, NodeLockFree)
+	ips := generateMissIPs(50_000)
+	b.ResetTimer()
+	b.ReportAllocs()
+	for b.Loop() {
+		for _, ip := range ips {
+			GlobalResult = e.Lookup(ip)
+		}
+	}
+}
+
+// ---------------------------------------------------------------------------
+// Lookup Benchmarks - Hit (Compressed)
+// ---------------------------------------------------------------------------
+
+func BenchmarkLookup_Hit_Compressed_50k_Normal(b *testing.B) {
+	e := buildEngineWithVariant(50_000, true, NodeCompressedNormal)
+	ips := generateHitIPs(50_000)
+	b.ResetTimer()
+	b.ReportAllocs()
+	for b.Loop() {
+		for _, ip := range ips {
+			GlobalResult = e.Lookup(ip)
+		}
+	}
+}
+
+func BenchmarkLookup_Hit_Compressed_50k_Atomic(b *testing.B) {
+	e := buildEngineWithVariant(50_000, true, NodeCompressedAtomic)
+	ips := generateHitIPs(50_000)
+	b.ResetTimer()
+	b.ReportAllocs()
+	for b.Loop() {
+		for _, ip := range ips {
+			GlobalResult = e.Lookup(ip)
+		}
+	}
+}
+
+func BenchmarkLookup_Hit_Compressed_50k_Padded(b *testing.B) {
+	e := buildEngineWithVariant(50_000, true, NodeCompressedPadded)
+	ips := generateHitIPs(50_000)
+	b.ResetTimer()
+	b.ReportAllocs()
+	for b.Loop() {
+		for _, ip := range ips {
+			GlobalResult = e.Lookup(ip)
+		}
+	}
+}
+
+func BenchmarkLookup_Hit_Compressed_50k_LockFree(b *testing.B) {
+	e := buildEngineWithVariant(50_000, true, NodeCompressedLockFree)
+	ips := generateHitIPs(50_000)
+	b.ResetTimer()
+	b.ReportAllocs()
+	for b.Loop() {
+		for _, ip := range ips {
+			GlobalResult = e.Lookup(ip)
+		}
+	}
+}
+
+// ---------------------------------------------------------------------------
+// Lookup Benchmarks - Miss (Compressed)
+// ---------------------------------------------------------------------------
+
+func BenchmarkLookup_Miss_Compressed_50k_Normal(b *testing.B) {
+	e := buildEngineWithVariant(50_000, true, NodeCompressedNormal)
+	ips := generateMissIPs(50_000)
+	b.ResetTimer()
+	b.ReportAllocs()
+	for b.Loop() {
+		for _, ip := range ips {
+			GlobalResult = e.Lookup(ip)
+		}
+	}
+}
+
+func BenchmarkLookup_Miss_Compressed_50k_Atomic(b *testing.B) {
+	e := buildEngineWithVariant(50_000, true, NodeCompressedAtomic)
+	ips := generateMissIPs(50_000)
+	b.ResetTimer()
+	b.ReportAllocs()
+	for b.Loop() {
+		for _, ip := range ips {
+			GlobalResult = e.Lookup(ip)
+		}
+	}
+}
+
+func BenchmarkLookup_Miss_Compressed_50k_Padded(b *testing.B) {
+	e := buildEngineWithVariant(50_000, true, NodeCompressedPadded)
+	ips := generateMissIPs(50_000)
+	b.ResetTimer()
+	b.ReportAllocs()
+	for b.Loop() {
+		for _, ip := range ips {
+			GlobalResult = e.Lookup(ip)
+		}
+	}
+}
+
+func BenchmarkLookup_Miss_Compressed_50k_LockFree(b *testing.B) {
+	e := buildEngineWithVariant(50_000, true, NodeCompressedLockFree)
+	ips := generateMissIPs(50_000)
+	b.ResetTimer()
+	b.ReportAllocs()
+	for b.Loop() {
+		for _, ip := range ips {
+			GlobalResult = e.Lookup(ip)
+		}
+	}
+}
+
+// ---------------------------------------------------------------------------
+// Concurrent Lookup Benchmarks
+// ---------------------------------------------------------------------------
+
+func BenchmarkConcurrent_Lookup_Uncompressed(b *testing.B) {
 	const n = 50_000
-	e := buildEngine(n, true)
+	e := buildEngine(n, false)
 	ips := generateHitIPs(n)
 	b.ResetTimer()
+	b.ReportAllocs()
 	b.RunParallel(func(pb *testing.PB) {
 		i := 0
 		for pb.Next() {
@@ -217,4 +393,141 @@ func BenchmarkConcurrent_Lookup_Compressed(b *testing.B) {
 	})
 }
 
+func BenchmarkConcurrent_Lookup_Compressed(b *testing.B) {
+	const n = 50_000
+	e := buildEngine(n, true)
+	ips := generateHitIPs(n)
+	b.ResetTimer()
+	b.ReportAllocs()
+	b.RunParallel(func(pb *testing.PB) {
+		i := 0
+		for pb.Next() {
+			GlobalResult = e.Lookup(ips[i%n])
+			i++
+		}
+	})
+}
 
+// ---------------------------------------------------------------------------
+// Concurrent Lookup Benchmarks - Per Variant (to match Rust)
+// ---------------------------------------------------------------------------
+
+func BenchmarkConcurrent_Lookup_Uncompressed_Normal(b *testing.B) {
+	const n = 50_000
+	e := buildEngineWithVariant(n, false, NodeNormal)
+	ips := generateHitIPs(n)
+	b.ResetTimer()
+	b.ReportAllocs()
+	b.RunParallel(func(pb *testing.PB) {
+		i := 0
+		for pb.Next() {
+			GlobalResult = e.Lookup(ips[i%n])
+			i++
+		}
+	})
+}
+
+func BenchmarkConcurrent_Lookup_Uncompressed_Atomic(b *testing.B) {
+	const n = 50_000
+	e := buildEngineWithVariant(n, false, NodeAtomic)
+	ips := generateHitIPs(n)
+	b.ResetTimer()
+	b.ReportAllocs()
+	b.RunParallel(func(pb *testing.PB) {
+		i := 0
+		for pb.Next() {
+			GlobalResult = e.Lookup(ips[i%n])
+			i++
+		}
+	})
+}
+
+func BenchmarkConcurrent_Lookup_Uncompressed_Padded(b *testing.B) {
+	const n = 50_000
+	e := buildEngineWithVariant(n, false, NodePadded)
+	ips := generateHitIPs(n)
+	b.ResetTimer()
+	b.ReportAllocs()
+	b.RunParallel(func(pb *testing.PB) {
+		i := 0
+		for pb.Next() {
+			GlobalResult = e.Lookup(ips[i%n])
+			i++
+		}
+	})
+}
+
+func BenchmarkConcurrent_Lookup_Uncompressed_LockFree(b *testing.B) {
+	const n = 50_000
+	e := buildEngineWithVariant(n, false, NodeLockFree)
+	ips := generateHitIPs(n)
+	b.ResetTimer()
+	b.ReportAllocs()
+	b.RunParallel(func(pb *testing.PB) {
+		i := 0
+		for pb.Next() {
+			GlobalResult = e.Lookup(ips[i%n])
+			i++
+		}
+	})
+}
+
+func BenchmarkConcurrent_Lookup_Compressed_Normal(b *testing.B) {
+	const n = 50_000
+	e := buildEngineWithVariant(n, true, NodeCompressedNormal)
+	ips := generateHitIPs(n)
+	b.ResetTimer()
+	b.ReportAllocs()
+	b.RunParallel(func(pb *testing.PB) {
+		i := 0
+		for pb.Next() {
+			GlobalResult = e.Lookup(ips[i%n])
+			i++
+		}
+	})
+}
+
+func BenchmarkConcurrent_Lookup_Compressed_Atomic(b *testing.B) {
+	const n = 50_000
+	e := buildEngineWithVariant(n, true, NodeCompressedAtomic)
+	ips := generateHitIPs(n)
+	b.ResetTimer()
+	b.ReportAllocs()
+	b.RunParallel(func(pb *testing.PB) {
+		i := 0
+		for pb.Next() {
+			GlobalResult = e.Lookup(ips[i%n])
+			i++
+		}
+	})
+}
+
+func BenchmarkConcurrent_Lookup_Compressed_Padded(b *testing.B) {
+	const n = 50_000
+	e := buildEngineWithVariant(n, true, NodeCompressedPadded)
+	ips := generateHitIPs(n)
+	b.ResetTimer()
+	b.ReportAllocs()
+	b.RunParallel(func(pb *testing.PB) {
+		i := 0
+		for pb.Next() {
+			GlobalResult = e.Lookup(ips[i%n])
+			i++
+		}
+	})
+}
+
+func BenchmarkConcurrent_Lookup_Compressed_LockFree(b *testing.B) {
+	const n = 50_000
+	e := buildEngineWithVariant(n, true, NodeCompressedLockFree)
+	ips := generateHitIPs(n)
+	b.ResetTimer()
+	b.ReportAllocs()
+	b.RunParallel(func(pb *testing.PB) {
+		i := 0
+		for pb.Next() {
+			GlobalResult = e.Lookup(ips[i%n])
+			i++
+		}
+	})
+}
