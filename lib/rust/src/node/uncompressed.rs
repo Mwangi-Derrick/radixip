@@ -23,6 +23,7 @@ use crate::types::Metadata;
 //
 
 #[derive(Default)]
+#[repr(C, align(64))]
 pub struct NormalNode {
     bit: RwLock<Option<u8>>,
     left: RwLock<Option<Arc<dyn RadixNode>>>,
@@ -88,6 +89,7 @@ impl RadixNode for NormalNode {
 //
 
 #[repr(C)]
+#[repr(C, align(64))]
 pub struct AtomicNode {
     /// Encoded as 0 = None, n+1 = Some(n) so we can use AtomicU8.
     bit: AtomicU8,
@@ -262,6 +264,7 @@ enum ChildKey {
     Right,
 }
 
+#[repr(C, align(64))]
 pub struct LockFreeNode {
     bit: AtomicU8,
     children: DashMap<ChildKey, Arc<dyn RadixNode>>,

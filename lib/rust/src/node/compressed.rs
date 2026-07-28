@@ -28,6 +28,7 @@ use crate::types::Metadata;
 //
 
 #[derive(Default)]
+#[repr(C, align(64))]
 pub struct CompressedNormalNode {
     /// Bit-string for the edge leading *into* this node (MSB-first, packed).
     edge_bits: RwLock<Vec<u8>>,
@@ -50,7 +51,7 @@ impl CompressedNormalNode {
 }
 
 impl RadixNode for CompressedNormalNode {
-    // ---- Shared methods ----
+    // Shared methods
 
     /// Not meaningful for Patricia nodes; always returns `None`.
     fn bit(&self) -> Option<u8> {
@@ -96,7 +97,7 @@ impl RadixNode for CompressedNormalNode {
         *self.prefix.write().unwrap() = Some(prefix);
     }
 
-    // ---- Compressed-node extensions ----
+    // Compressed-node extensions 
 
     fn edge_bits(&self) -> Option<Vec<u8>> {
         Some(self.edge_bits.read().unwrap().clone())
@@ -117,6 +118,7 @@ impl RadixNode for CompressedNormalNode {
 // (AtomicU8 encodes edge_len up to 254; RwLock for the bit-vector and children)
 //
 
+#[repr(C, align(64))]
 pub struct CompressedAtomicNode {
     /// Encodes edge_len: 0 = "empty/root", 1..=254 = actual length, 255 = overflow sentinel.
     /// For edge lengths ≥ 255 we fall back to the RwLock below.
@@ -321,6 +323,7 @@ enum ChildKey {
     Right,
 }
 
+#[repr(C, align(64))]
 pub struct CompressedLockFreeNode {
     edge_bits: RwLock<Vec<u8>>,
     edge_len: RwLock<usize>,
