@@ -62,7 +62,8 @@ fn build_engine(
     routes: usize,
 ) -> EngineWrapper {
     let engine = EngineWrapper::new(variant, node_variant, compressed);
-    let meta = Metadata::new("bench").with_attribute("type", "benchmark");
+    // Simplified metadata to match Go implementation
+    let meta = Metadata::new("bench");
     for cidr in generate_cidrs(routes) {
         let _ = engine.insert(cidr, meta.clone());
     }
@@ -75,6 +76,7 @@ fn build_engine(
 
 fn bench_insert(c: &mut Criterion) {
     let mut group = c.benchmark_group("insert");
+    // Match Go's 10k only, or keep both? Keeping both for more comprehensive testing
     for &n in &[1_000usize, 10_000] {
         let cidrs = generate_cidrs(n);
         let meta = Metadata::new("bench");
@@ -132,7 +134,8 @@ fn bench_insert(c: &mut Criterion) {
 
 fn bench_lookup_hit(c: &mut Criterion) {
     let mut group = c.benchmark_group("lookup/hit");
-    for &n in &[10_000usize, 100_000] {
+    // Add 50k to match Go's primary benchmark size
+    for &n in &[10_000usize, 50_000, 100_000] {
         let ips = generate_ips(n);
         group.throughput(Throughput::Elements(n as u64));
 
@@ -182,7 +185,8 @@ fn bench_lookup_hit(c: &mut Criterion) {
 
 fn bench_lookup_miss(c: &mut Criterion) {
     let mut group = c.benchmark_group("lookup/miss");
-    for &n in &[10_000usize, 100_000] {
+    // Add 50k to match Go's primary benchmark size
+    for &n in &[10_000usize, 50_000, 100_000] {
         let miss_ips = generate_miss_ips(n);
         group.throughput(Throughput::Elements(n as u64));
 
@@ -230,11 +234,15 @@ fn bench_lookup_miss(c: &mut Criterion) {
     group.finish();
 }
 
-fn bench_concurrent_lookup(c: &mut Criterion) {
+// ---------------------------------------------------------------------------
+// Concurrent Lookup Benchmarks - Compressed
+// ---------------------------------------------------------------------------
+
+fn bench_concurrent_lookup_compressed(c: &mut Criterion) {
     use std::sync::Arc;
     use std::thread;
 
-    let mut group = c.benchmark_group("concurrent_lookup");
+    let mut group = c.benchmark_group("concurrent_lookup/compressed");
     let n = 50_000usize;
     let ips = Arc::new(generate_ips(n));
 
@@ -268,11 +276,54 @@ fn bench_concurrent_lookup(c: &mut Criterion) {
     group.finish();
 }
 
+// ---------------------------------------------------------------------------
+// Concurrent Lookup Benchmarks - Uncompressed (NEW to match Go)
+// ---------------------------------------------------------------------------
+
+fn bench_concurrent_lookup_uncompressed(c: &mut Criterion) {
+    use std::sync::Arc;
+    use std::thread;
+
+    let mut group = c.benchmark_group("concurrent_lookup/uncompressed");
+    let n = 50_000usize;
+    let ips = Arc::new(generate_ips(n));
+
+    for &nv in &[
+        NodeVariant::Normal,
+        NodeVariant::Atomic,
+        NodeVariant::Padded,
+        NodeVariant::LockFree,
+    ] {
+        let engine = Arc::new(build_engine(EngineVariant::Concurrent, nv, false, n));
+        group.throughput(Throughput::Elements((n * 4) as u64)); // 4 threads
+        group.bench_function(format!("4_threads/{nv:?}"), |b| {
+            b.iter(|| {
+                let handles: Vec<_> = (0..4)
+                    .map(|_| {
+                        let e = Arc::clone(&engine);
+                        let ips = Arc::clone(&ips);
+                        thread::spawn(move || {
+                            for ip in ips.iter() {
+                                let _ = criterion::black_box(e.lookup(criterion::black_box(ip)));
+                            }
+                        })
+                    })
+                    .collect();
+                for h in handles {
+                    h.join().unwrap();
+                }
+            });
+        });
+    }
+    group.finish();
+}
+
 criterion_group!(
     benches,
     bench_insert,
     bench_lookup_hit,
     bench_lookup_miss,
-    bench_concurrent_lookup,
+    bench_concurrent_lookup_compressed,
+    bench_concurrent_lookup_uncompressed,
 );
 criterion_main!(benches);
