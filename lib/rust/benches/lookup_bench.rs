@@ -138,7 +138,7 @@ fn bench_lookup_hit(c: &mut Criterion) {
     for &n in &[10_000usize, 50_000, 100_000] {
         let ips = generate_ips(n);
         group.throughput(Throughput::Elements(n as u64));
-
+        // uncompressed variants
         for &nv in &[
             NodeVariant::Normal,
             NodeVariant::Atomic,
@@ -189,7 +189,7 @@ fn bench_lookup_miss(c: &mut Criterion) {
     for &n in &[10_000usize, 50_000, 100_000] {
         let miss_ips = generate_miss_ips(n);
         group.throughput(Throughput::Elements(n as u64));
-
+        // uncompressed variants
         for &nv in &[
             NodeVariant::Normal,
             NodeVariant::Atomic,
@@ -208,7 +208,7 @@ fn bench_lookup_miss(c: &mut Criterion) {
                     });
                 },
             );
-
+            // compressed variants
             let cnv = match nv {
                 NodeVariant::Normal => NodeVariant::CompressedNormal,
                 NodeVariant::Atomic => NodeVariant::CompressedAtomic,
