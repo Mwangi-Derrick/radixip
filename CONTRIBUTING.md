@@ -17,8 +17,8 @@ Because RadixIP sits directly in the critical read path of API gateways, proxies
 ## 🛠️ Development Setup
 
 Ensure you have the required toolchains installed for both ecosystems:
-- **Go:** 1.22+
-- **Rust:** Stable 1.75+ (with `cargo`)
+- **Go:** 1.26.1+
+- **Rust:** Stable 1.97.1+ (with `cargo`)
 - **Python:** 3.10+ (for generating mock dataset matrices)
 
 ### 1. Clone & Initialize Dataset
