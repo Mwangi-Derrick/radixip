@@ -1,85 +1,102 @@
-// engine_art.go
+// engine_art.go — ARTEngineAdapter wires the art.Tree into the RadixEngine interface.
 package radixip
 
 import (
 	"net"
 	"net/netip"
+	"sync"
 	"unsafe"
 
 	"github.com/Mwangi-Derrick/radixip/lib/go/art"
 )
 
-type ARTEngine struct {
-	tree *art.Tree
+// metadataStore keeps *Metadata values alive so the GC never collects
+// something the ART tree points to via unsafe.Pointer.
+type metadataStore struct {
+	mu    sync.Mutex
+	store map[netip.Addr]*Metadata
 }
 
-func NewARTEngine() *ARTEngine {
-	return &ARTEngine{
-		tree: art.NewTree(),
-	}
+func newMetadataStore() *metadataStore {
+	return &metadataStore{store: make(map[netip.Addr]*Metadata)}
 }
 
-func (e *ARTEngine) Insert(cidr string, metadata interface{}) error {
-	// Parse CIDR
-	prefix, err := netip.ParsePrefix(cidr)
-	if err != nil {
-		return err
-	}
-
-	// Store metadata
-	metaPtr := unsafe.Pointer(&metadata)
-
-	// Insert the network address
-	e.tree.Insert(prefix.Addr(), metaPtr)
-	return nil
+func (s *metadataStore) set(addr netip.Addr, m *Metadata) {
+	s.mu.Lock()
+	s.store[addr] = m
+	s.mu.Unlock()
 }
 
-func (e *ARTEngine) Match(ip netip.Addr) (interface{}, bool) {
-	val, found := e.tree.Match(ip)
-	if !found {
-		return nil, false
-	}
-	return *(*interface{})(val), true
+func (s *metadataStore) get(addr netip.Addr) *Metadata {
+	s.mu.Lock()
+	m := s.store[addr]
+	s.mu.Unlock()
+	return m
 }
 
-func (e *ARTEngine) Delete(cidr string) bool {
-	prefix, err := netip.ParsePrefix(cidr)
-	if err != nil {
-		return false
-	}
-	return e.tree.Delete(prefix.Addr())
+func (s *metadataStore) del(addr netip.Addr) *Metadata {
+	s.mu.Lock()
+	m := s.store[addr]
+	delete(s.store, addr)
+	s.mu.Unlock()
+	return m
 }
 
-func (e *ARTEngine) Size() int {
-	return e.tree.Size()
+func (s *metadataStore) clear() {
+	s.mu.Lock()
+	s.store = make(map[netip.Addr]*Metadata)
+	s.mu.Unlock()
 }
 
-// Adapter to satisfy RadixEngine using the art.Tree implementation.
+func (s *metadataStore) size() int {
+	s.mu.Lock()
+	n := len(s.store)
+	s.mu.Unlock()
+	return n
+}
+
+// ---------------------------------------------------------------------------
+// ARTEngineAdapter — implements RadixEngine
+// ---------------------------------------------------------------------------
+
+// ARTEngineAdapter wraps art.Tree and satisfies the RadixEngine interface.
+// It stores *Metadata values in a side map so the Go GC never collects them
+// while the ART tree holds raw unsafe.Pointer references.
 type ARTEngineAdapter struct {
-	tree *art.Tree
+	tree  *art.Tree
+	metas *metadataStore
 }
 
+// NewARTEngineAdapter returns a RadixEngine backed by the Adaptive Radix Tree.
 func NewARTEngineAdapter() *ARTEngineAdapter {
-	return &ARTEngineAdapter{tree: art.NewTree()}
+	return &ARTEngineAdapter{
+		tree:  art.NewTree(),
+		metas: newMetadataStore(),
+	}
 }
 
 func (a *ARTEngineAdapter) Insert(prefix *net.IPNet, metadata Metadata) error {
-	// Convert to netip.Prefix
 	p, err := netip.ParsePrefix(prefix.String())
 	if err != nil {
 		return err
 	}
-	// Ensure metadata is heap-allocated (address escapes)
-	m := metadata
-	a.tree.Insert(p.Addr(), unsafe.Pointer(&m))
+
+	// Heap-allocate and pin in the side map so the GC never frees it.
+	m := new(Metadata)
+	*m = metadata
+	a.metas.set(p.Addr(), m)
+
+	a.tree.Insert(p.Addr(), unsafe.Pointer(m))
 	return nil
 }
 
 func (a *ARTEngineAdapter) Lookup(ip net.IP) *Metadata {
-	addr, err := netip.ParseAddr(ip.String())
-	if err != nil {
+	addr, ok := netip.AddrFromSlice(ip)
+	if !ok {
 		return nil
 	}
+	addr = addr.Unmap() // normalise IPv4-mapped IPv6 → IPv4
+
 	val, found := a.tree.Match(addr)
 	if !found || val == nil {
 		return nil
@@ -92,10 +109,10 @@ func (a *ARTEngineAdapter) Remove(prefix *net.IPNet) *Metadata {
 	if err != nil {
 		return nil
 	}
-	if a.tree.Delete(p.Addr()) {
-		return nil
-	}
-	return nil
+	// Retrieve the old metadata before deletion
+	old := a.metas.del(p.Addr())
+	a.tree.Delete(p.Addr())
+	return old
 }
 
 func (a *ARTEngineAdapter) Contains(prefix *net.IPNet) bool {
@@ -103,12 +120,15 @@ func (a *ARTEngineAdapter) Contains(prefix *net.IPNet) bool {
 	if err != nil {
 		return false
 	}
-	val, ok := a.tree.Match(p.Addr())
-	return ok && val != nil
+	_, found := a.tree.Match(p.Addr())
+	return found
 }
 
-func (a *ARTEngineAdapter) Clear() { a.tree = art.NewTree() }
+func (a *ARTEngineAdapter) Clear() {
+	a.tree = art.NewTree()
+	a.metas.clear()
+}
 
-func (a *ARTEngineAdapter) Size() int { return a.tree.Size() }
+func (a *ARTEngineAdapter) Size() int { return a.metas.size() }
 
 func (a *ARTEngineAdapter) Stats() *EngineStats { return &EngineStats{} }
