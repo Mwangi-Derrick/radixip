@@ -3,21 +3,21 @@
 
 package art
 
+import "bytes"
+
 // This file enables the SIMD shim when built with `-tags=simd`.
-// Replace the body of `simdFindKey` with a real SIMD implementation
-// (arch-specific intrinsics or the simd/archsimd package) to get
-// actual vectorized performance. Building without `-tags=simd` will
-// use the fallback in simd.go.
+// It provides a fast, pure-Go implementation using the runtime's
+// optimized `bytes.IndexByte` (which typically maps to a fast memchr).
+// Replace with platform-specific intrinsics later if needed.
 
 var useSIMD = true
 
 func simdFindKey(keys *[16]byte, target byte, count uint8) int {
-	// Placeholder optimized path: this matches the fallback but exists
-	// to be replaced by a real SIMD implementation behind the build tag.
-	for i := 0; i < int(count); i++ {
-		if keys[i] == target {
-			return i
-		}
+	if count == 0 {
+		return -1
 	}
-	return -1
+	// Create a slice header for the prefix
+	b := keys[:count]
+	idx := bytes.IndexByte(b, target)
+	return idx
 }
