@@ -265,6 +265,8 @@ func NewEngineWrapperWithTree(variant EngineVariant, nodeVariant NodeVariant, co
 		} else {
 			engine = NewStandardEngine(treeFn())
 		}
+	case EngineART:
+		engine = NewARTEngineAdapter()
 	default:
 		engine = NewStandardEngine(treeFn())
 	}
