@@ -10,6 +10,7 @@ const (
 	EngineConcurrent EngineVariant = "concurrent"
 	EngineLockFree   EngineVariant = "lockfree"
 	EngineAdaptive   EngineVariant = "adaptive"
+	EngineART        EngineVariant = "art"
 )
 
 // NodeVariant represents the type of node implementation
@@ -26,7 +27,7 @@ const (
 	NodeCompressedLockFree NodeVariant = "compressedlockfree"
 )
 
-//  RADIX NODE INTERFACE
+// RADIX NODE INTERFACE
 type RadixNode interface {
 	Bit() *uint8
 	Left() RadixNode
@@ -46,7 +47,7 @@ type RadixNode interface {
 	SetEdge(bits []byte, length int)
 }
 
-//  RADIX ENGINE INTERFACE
+// RADIX ENGINE INTERFACE
 type RadixEngine interface {
 	Insert(prefix *net.IPNet, metadata Metadata) error
 	Lookup(ip net.IP) *Metadata
@@ -57,7 +58,8 @@ type RadixEngine interface {
 	Stats() *EngineStats
 }
 
-//  ROUTE TREE INTERFACE
+//	ROUTE TREE INTERFACE
+//
 // Separates the routing logic from the concurrency engine
 type RouteTree interface {
 	Insert(prefix IpNetwork, metadata Metadata) (bool, error) // Returns true if it was a new prefix
@@ -104,4 +106,3 @@ func (b *NodeBuilder) Build() RadixNode {
 		return NewAtomicNode()
 	}
 }
-
