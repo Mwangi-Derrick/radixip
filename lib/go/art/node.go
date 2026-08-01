@@ -44,3 +44,16 @@ type Node256 struct {
     Header   Header
     Children [256]unsafe.Pointer
 }
+
+// Node interface
+type Node interface {
+    FindChild(byte byte) unsafe.Pointer
+    AddChild(byte byte, child unsafe.Pointer)
+    RemoveChild(byte byte)
+    IsFull() bool
+    IsEmpty() bool
+    Grow() Node
+    Shrink() Node
+    MaxChildren() int
+    MinChildren() int
+}
