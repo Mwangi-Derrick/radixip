@@ -614,6 +614,8 @@ Every commit to `main` triggers our continuous benchmarking pipeline:
    - [] Zero-alloc lookups
    - [] Lock-free concurrency support
 - [] Publish v1 of the rust crate to cargo.rs
+- [] Publish the NAPI-RS node bindings to npm
+- [] Publish the PyO3 bindings to PYPI
 
 
 ## 🌲 Tree Type Selection
