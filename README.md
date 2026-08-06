@@ -604,11 +604,11 @@ Every commit to `main` triggers our continuous benchmarking pipeline:
 - [x] gRPC service layer
 - [x] Prometheus metrics integration
 - [x] Lock-free CompressedTree (CAS-based node splitting)
-- [] 🚧 (Adaptive Radix Tree) ART implementation in Go & Rust
-   - [] Node4 (1-4 children, ~36 bytes)
-   - [] Node16 (5-16 children, SIMD support)
-   - [] Node48 (17-48 children, index array)
-   - [] Node256 (49-256 children, direct array)
+- [x] 🚧 (Adaptive Radix Tree) ART implementation in Go & Rust
+   - [x] Node4 (1-4 children, ~36 bytes)
+   - [x] Node16 (5-16 children, SIMD support)
+   - [x] Node48 (17-48 children, index array)
+   - [x] Node256 (49-256 children, direct array)
    - [] Auto-upgrade/downgrade logic
    - [] SIMD acceleration (x86 SSE / ARM NEON)
    - [] Zero-alloc lookups
