@@ -604,7 +604,6 @@ Every commit to `main` triggers our continuous benchmarking pipeline:
 - [x] gRPC service layer
 - [x] Prometheus metrics integration
 - [x] Lock-free CompressedTree (CAS-based node splitting)
-- [] Publish v1 of the rust crate to cargo.rs
 - [] 🚧 (Adaptive Radix Tree) ART implementation in Go & Rust
    - [] Node4 (1-4 children, ~36 bytes)
    - [] Node16 (5-16 children, SIMD support)
@@ -614,6 +613,7 @@ Every commit to `main` triggers our continuous benchmarking pipeline:
    - [] SIMD acceleration (x86 SSE / ARM NEON)
    - [] Zero-alloc lookups
    - [] Lock-free concurrency support
+- [] Publish v1 of the rust crate to cargo.rs
 
 
 ## 🌲 Tree Type Selection
