@@ -42,6 +42,8 @@ pub enum EngineVariant {
     LockFree,
     /// Hybrid engine with adaptive strategies
     Adaptive,
+    /// Adaptive Radix Tree (ART)
+    ART,
 }
 
 // Core trait that all nodes must implement.
