@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1786144363729,
+  "lastUpdate": 1786144736182,
   "repoUrl": "https://github.com/Mwangi-Derrick/radixip",
   "entries": {
     "Go Benchmark": [
@@ -103609,6 +103609,462 @@ window.BENCHMARK_DATA = {
             "name": "concurrent_lookup/uncompressed/4_threads/LockFree",
             "value": 335704314,
             "range": "± 8225729",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "mwangiderrick640@gmail.com",
+            "name": "Derrick Mwangi",
+            "username": "Mwangi-Derrick"
+          },
+          "committer": {
+            "email": "mwangiderrick640@gmail.com",
+            "name": "Derrick Mwangi",
+            "username": "Mwangi-Derrick"
+          },
+          "distinct": true,
+          "id": "d3469fa3a2a4120c0daf434d53308c6d8b101526",
+          "message": "fix: bind the inner LeafNode to a variable named leaf, and then accessed the fields directly from it, use 16 bit unsigned integer for max children and fill the masked_key with 16 zeros for the remove child method",
+          "timestamp": "2026-08-08T02:01:00+03:00",
+          "tree_id": "e9b8f51840a217051bed08388151c5d80c0f4d90",
+          "url": "https://github.com/Mwangi-Derrick/radixip/commit/d3469fa3a2a4120c0daf434d53308c6d8b101526"
+        },
+        "date": 1786144734852,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "insert/uncompressed/Normal/1000",
+            "value": 5063165,
+            "range": "± 26784",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/compressed/CompressedNormal/1000",
+            "value": 2410005,
+            "range": "± 19341",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/uncompressed/Atomic/1000",
+            "value": 5075886,
+            "range": "± 98053",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/compressed/CompressedAtomic/1000",
+            "value": 2356000,
+            "range": "± 10173",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/uncompressed/Padded/1000",
+            "value": 5096847,
+            "range": "± 19668",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/compressed/CompressedPadded/1000",
+            "value": 2440032,
+            "range": "± 6991",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/uncompressed/LockFree/1000",
+            "value": 20627588,
+            "range": "± 649380",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/compressed/CompressedLockFree/1000",
+            "value": 2430935,
+            "range": "± 15696",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/uncompressed/Normal/10000",
+            "value": 50858580,
+            "range": "± 541041",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/compressed/CompressedNormal/10000",
+            "value": 24189570,
+            "range": "± 133762",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/uncompressed/Atomic/10000",
+            "value": 50490951,
+            "range": "± 346981",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/compressed/CompressedAtomic/10000",
+            "value": 23470205,
+            "range": "± 132587",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/uncompressed/Padded/10000",
+            "value": 51002271,
+            "range": "± 330343",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/compressed/CompressedPadded/10000",
+            "value": 24307237,
+            "range": "± 251956",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/uncompressed/LockFree/10000",
+            "value": 207194727,
+            "range": "± 2281687",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/compressed/CompressedLockFree/10000",
+            "value": 24220251,
+            "range": "± 136482",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/hit/uncompressed/Normal/10000",
+            "value": 4564051,
+            "range": "± 148771",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/hit/compressed/CompressedNormal/10000",
+            "value": 3121209,
+            "range": "± 9959",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/hit/uncompressed/Atomic/10000",
+            "value": 4617439,
+            "range": "± 12533",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/hit/compressed/CompressedAtomic/10000",
+            "value": 3067164,
+            "range": "± 21908",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/hit/uncompressed/Padded/10000",
+            "value": 4611527,
+            "range": "± 32744",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/hit/compressed/CompressedPadded/10000",
+            "value": 3116981,
+            "range": "± 13668",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/hit/uncompressed/LockFree/10000",
+            "value": 14079171,
+            "range": "± 124519",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/hit/compressed/CompressedLockFree/10000",
+            "value": 3272288,
+            "range": "± 14129",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/hit/uncompressed/Normal/50000",
+            "value": 23675390,
+            "range": "± 97546",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/hit/compressed/CompressedNormal/50000",
+            "value": 15748265,
+            "range": "± 247494",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/hit/uncompressed/Atomic/50000",
+            "value": 23768971,
+            "range": "± 79528",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/hit/compressed/CompressedAtomic/50000",
+            "value": 15334210,
+            "range": "± 87370",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/hit/uncompressed/Padded/50000",
+            "value": 23634634,
+            "range": "± 470306",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/hit/compressed/CompressedPadded/50000",
+            "value": 15579215,
+            "range": "± 48071",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/hit/uncompressed/LockFree/50000",
+            "value": 74682877,
+            "range": "± 333385",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/hit/compressed/CompressedLockFree/50000",
+            "value": 16197837,
+            "range": "± 54971",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/hit/uncompressed/Normal/100000",
+            "value": 48777492,
+            "range": "± 411873",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/hit/compressed/CompressedNormal/100000",
+            "value": 31176444,
+            "range": "± 125918",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/hit/uncompressed/Atomic/100000",
+            "value": 48458965,
+            "range": "± 252661",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/hit/compressed/CompressedAtomic/100000",
+            "value": 30677482,
+            "range": "± 71171",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/hit/uncompressed/Padded/100000",
+            "value": 48864738,
+            "range": "± 551451",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/hit/compressed/CompressedPadded/100000",
+            "value": 31150212,
+            "range": "± 991356",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/hit/uncompressed/LockFree/100000",
+            "value": 143143166,
+            "range": "± 903261",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/hit/compressed/CompressedLockFree/100000",
+            "value": 32440973,
+            "range": "± 126380",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/miss/uncompressed/Normal/10000",
+            "value": 283595,
+            "range": "± 2028",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/miss/compressed/CompressedNormal/10000",
+            "value": 3122698,
+            "range": "± 12508",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/miss/uncompressed/Atomic/10000",
+            "value": 286834,
+            "range": "± 453",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/miss/compressed/CompressedAtomic/10000",
+            "value": 3066094,
+            "range": "± 10236",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/miss/uncompressed/Padded/10000",
+            "value": 282287,
+            "range": "± 2730",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/miss/compressed/CompressedPadded/10000",
+            "value": 3108721,
+            "range": "± 59035",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/miss/uncompressed/LockFree/10000",
+            "value": 428898,
+            "range": "± 1793",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/miss/compressed/CompressedLockFree/10000",
+            "value": 3245198,
+            "range": "± 16439",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/miss/uncompressed/Normal/50000",
+            "value": 1420248,
+            "range": "± 21684",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/miss/compressed/CompressedNormal/50000",
+            "value": 15727351,
+            "range": "± 465632",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/miss/uncompressed/Atomic/50000",
+            "value": 1418116,
+            "range": "± 30462",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/miss/compressed/CompressedAtomic/50000",
+            "value": 15353454,
+            "range": "± 39167",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/miss/uncompressed/Padded/50000",
+            "value": 1414427,
+            "range": "± 10836",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/miss/compressed/CompressedPadded/50000",
+            "value": 15553968,
+            "range": "± 299644",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/miss/uncompressed/LockFree/50000",
+            "value": 2145274,
+            "range": "± 4270",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/miss/compressed/CompressedLockFree/50000",
+            "value": 16266619,
+            "range": "± 153150",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/miss/uncompressed/Normal/100000",
+            "value": 2849631,
+            "range": "± 16115",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/miss/compressed/CompressedNormal/100000",
+            "value": 31274525,
+            "range": "± 270302",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/miss/uncompressed/Atomic/100000",
+            "value": 2832636,
+            "range": "± 5190",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/miss/compressed/CompressedAtomic/100000",
+            "value": 30730982,
+            "range": "± 89096",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/miss/uncompressed/Padded/100000",
+            "value": 2826059,
+            "range": "± 5677",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/miss/compressed/CompressedPadded/100000",
+            "value": 31054112,
+            "range": "± 663815",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/miss/uncompressed/LockFree/100000",
+            "value": 4358838,
+            "range": "± 36990",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/miss/compressed/CompressedLockFree/100000",
+            "value": 32529585,
+            "range": "± 79664",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "concurrent_lookup/compressed/4_threads/CompressedNormal",
+            "value": 34905355,
+            "range": "± 474856",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "concurrent_lookup/compressed/4_threads/CompressedAtomic",
+            "value": 33872572,
+            "range": "± 304051",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "concurrent_lookup/compressed/4_threads/CompressedPadded",
+            "value": 36662644,
+            "range": "± 154312",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "concurrent_lookup/compressed/4_threads/CompressedLockFree",
+            "value": 36812626,
+            "range": "± 332190",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "concurrent_lookup/uncompressed/4_threads/Normal",
+            "value": 140741909,
+            "range": "± 2559366",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "concurrent_lookup/uncompressed/4_threads/Atomic",
+            "value": 140431329,
+            "range": "± 3022958",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "concurrent_lookup/uncompressed/4_threads/Padded",
+            "value": 139316975,
+            "range": "± 2808541",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "concurrent_lookup/uncompressed/4_threads/LockFree",
+            "value": 242437372,
+            "range": "± 5021930",
             "unit": "ns/iter"
           }
         ]
