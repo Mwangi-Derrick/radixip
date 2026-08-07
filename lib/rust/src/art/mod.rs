@@ -1,7 +1,8 @@
 // mod.rs
 use std::ptr;
 pub mod node16_simd;
-
+pub mod tree;
+pub use tree::Tree;
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum NodeType {
