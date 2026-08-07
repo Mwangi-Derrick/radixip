@@ -187,7 +187,7 @@ fn insert_node(
                 existing_leaf.masked_key[depth]
             };
             let existing_ptr = Box::into_raw(Box::new(NodeBox::Leaf(existing_leaf)));
-            let new_box = node_box.add_child(existing_b, existing_ptr as *mut ());
+            let mut new_box = node_box.add_child(existing_b, existing_ptr as *mut ());
 
             let new_b = index_byte(key, depth, prefix_len);
             let new_child = insert_node(ptr::null_mut(), key, depth + 1, prefix_len, value);
