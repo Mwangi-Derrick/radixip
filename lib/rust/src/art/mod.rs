@@ -1,6 +1,7 @@
 // mod.rs
 use std::ptr;
 pub mod node16_simd;
+pub mod tree;
 
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -173,11 +174,7 @@ impl NodeBox {
             }
             NodeBox::N256(n) => {
                 let child = n.children[byte as usize];
-                if !child.is_null() {
-                    Some(child)
-                } else {
-                    None
-                }
+                if !child.is_null() { Some(child) } else { None }
             }
             NodeBox::Leaf(_) => None,
         }
@@ -188,7 +185,11 @@ impl NodeBox {
         match self {
             NodeBox::N4(n) => {
                 if n.header.num_children >= 4 {
-                    let mut new = Node16 { header: n.header, keys: [0;16], children: [ptr::null_mut();16] };
+                    let mut new = Node16 {
+                        header: n.header,
+                        keys: [0; 16],
+                        children: [ptr::null_mut(); 16],
+                    };
                     for i in 0..(n.header.num_children as usize) {
                         new.keys[i] = n.keys[i];
                         new.children[i] = n.children[i];
@@ -206,7 +207,11 @@ impl NodeBox {
             NodeBox::N16(n) => {
                 if n.header.num_children >= 16 {
                     // grow to 48
-                    let mut new = Node48 { header: n.header, index: [48;256], children: [ptr::null_mut();48] };
+                    let mut new = Node48 {
+                        header: n.header,
+                        index: [48; 256],
+                        children: [ptr::null_mut(); 48],
+                    };
                     for i in 0..(n.header.num_children as usize) {
                         let b = n.keys[i];
                         new.index[b as usize] = i as u8;
@@ -225,7 +230,10 @@ impl NodeBox {
             NodeBox::N48(n) => {
                 if n.header.num_children >= 48 {
                     // grow to 256
-                    let mut new = Node256 { header: n.header, children: [ptr::null_mut();256] };
+                    let mut new = Node256 {
+                        header: n.header,
+                        children: [ptr::null_mut(); 256],
+                    };
                     for i in 0..256usize {
                         let idx = n.index[i];
                         if (idx as usize) < 48 {
@@ -241,7 +249,10 @@ impl NodeBox {
                 n.children[idx] = child;
                 n.header.num_children += 1;
                 if n.header.num_children >= 45 {
-                    let mut new = Node256 { header: n.header, children: [ptr::null_mut();256] };
+                    let mut new = Node256 {
+                        header: n.header,
+                        children: [ptr::null_mut(); 256],
+                    };
                     for i in 0..256usize {
                         let idx = n.index[i];
                         if (idx as usize) < 48 {
@@ -260,7 +271,7 @@ impl NodeBox {
                 n.children[byte as usize] = child;
                 Box::new(NodeBox::N256(*n))
             }
-            NodeBox::Leaf(_) => Box::new(NodeBox::Leaf(LeafNode{ value: child })),
+            NodeBox::Leaf(_) => Box::new(NodeBox::Leaf(LeafNode { value: child })),
         }
     }
 
@@ -270,8 +281,8 @@ impl NodeBox {
                 for i in 0..(n.header.num_children as usize) {
                     if n.keys[i] == byte {
                         for j in i..(n.header.num_children as usize - 1) {
-                            n.keys[j] = n.keys[j+1];
-                            n.children[j] = n.children[j+1];
+                            n.keys[j] = n.keys[j + 1];
+                            n.children[j] = n.children[j + 1];
                         }
                         n.header.num_children -= 1;
                         return Box::new(NodeBox::N4(*n));
@@ -283,12 +294,16 @@ impl NodeBox {
                 for i in 0..(n.header.num_children as usize) {
                     if n.keys[i] == byte {
                         for j in i..(n.header.num_children as usize - 1) {
-                            n.keys[j] = n.keys[j+1];
-                            n.children[j] = n.children[j+1];
+                            n.keys[j] = n.keys[j + 1];
+                            n.children[j] = n.children[j + 1];
                         }
                         n.header.num_children -= 1;
                         if n.header.num_children < 4 {
-                            let mut new = Node4 { header: n.header, keys: [0;4], children: [ptr::null_mut();4] };
+                            let mut new = Node4 {
+                                header: n.header,
+                                keys: [0; 4],
+                                children: [ptr::null_mut(); 4],
+                            };
                             for k in 0..(n.header.num_children as usize) {
                                 new.keys[k] = n.keys[k];
                                 new.children[k] = n.children[k];
@@ -308,7 +323,11 @@ impl NodeBox {
                     n.index[byte as usize] = 48;
                     n.header.num_children -= 1;
                     if n.header.num_children < 17 {
-                        let mut new = Node16 { header: n.header, keys: [0;16], children: [ptr::null_mut();16] };
+                        let mut new = Node16 {
+                            header: n.header,
+                            keys: [0; 16],
+                            children: [ptr::null_mut(); 16],
+                        };
                         let mut child_idx = 0usize;
                         for i in 0..256usize {
                             let idx = n.index[i];
@@ -331,8 +350,14 @@ impl NodeBox {
                     n.children[byte as usize] = ptr::null_mut();
                     n.header.num_children -= 1;
                     if n.header.num_children < 49 {
-                        let mut new = Node48 { header: n.header, index: [48;256], children: [ptr::null_mut();48] };
-                        for i in 0..256usize { new.index[i] = 48; }
+                        let mut new = Node48 {
+                            header: n.header,
+                            index: [48; 256],
+                            children: [ptr::null_mut(); 48],
+                        };
+                        for i in 0..256usize {
+                            new.index[i] = 48;
+                        }
                         let mut child_idx: u8 = 0;
                         for i in 0..256usize {
                             if !n.children[i].is_null() {
@@ -348,7 +373,9 @@ impl NodeBox {
                 }
                 Box::new(NodeBox::N256(*n))
             }
-            NodeBox::Leaf(_) => Box::new(NodeBox::Leaf(LeafNode{ value: ptr::null_mut() })),
+            NodeBox::Leaf(_) => Box::new(NodeBox::Leaf(LeafNode {
+                value: ptr::null_mut(),
+            })),
         }
     }
 }
