@@ -3,6 +3,7 @@
 //! This library provides a lock-free binary radix tree for
 //! longest-prefix matching of IP addresses against CIDR blocks.
 
+pub mod art;
 pub mod atomic;
 pub mod cache;
 pub mod config;
