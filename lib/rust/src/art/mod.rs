@@ -52,8 +52,39 @@ pub struct Node256 {
     pub children: [*mut (); 256],
 }
 
+/// LeafNode stores the value pointer plus prefix metadata so that
+/// non-byte-aligned prefixes (/25, /17, etc.) can be matched correctly.
 pub struct LeafNode {
+    /// Raw pointer to the caller-managed value (e.g. Box<Metadata>).
     pub value: *mut (),
+    /// CIDR prefix length (0-32 for IPv4, 0-128 for IPv6).
+    pub prefix_len: u8,
+    /// Full IP key with host bits zeroed, stored as 16 bytes so both
+    /// IPv4 (4 bytes significant) and IPv6 (16 bytes significant) fit.
+    pub masked_key: [u8; 16],
+}
+
+impl LeafNode {
+    /// Returns true when the significant bits of `ip` match this leaf's prefix.
+    pub fn matches(&self, ip: &[u8]) -> bool {
+        let full_bytes = (self.prefix_len / 8) as usize;
+        let remain_bits = (self.prefix_len % 8) as usize;
+
+        // Full bytes must match exactly.
+        for i in 0..full_bytes.min(ip.len()) {
+            if ip[i] != self.masked_key[i] {
+                return false;
+            }
+        }
+        // Boundary byte: check only the significant high bits.
+        if remain_bits > 0 && full_bytes < ip.len() {
+            let mask = 0xFF_u8 << (8 - remain_bits);
+            if ip[full_bytes] & mask != self.masked_key[full_bytes] & mask {
+                return false;
+            }
+        }
+        true
+    }
 }
 
 pub enum NodeBox {
@@ -189,17 +220,6 @@ impl NodeBox {
                 n.keys[idx] = byte;
                 n.children[idx] = child;
                 n.header.num_children += 1;
-                if n.header.num_children >= 13 {
-                    // optional density threshold
-                    let mut new = Node48 { header: n.header, index: [48;256], children: [ptr::null_mut();48] };
-                    for i in 0..(n.header.num_children as usize) {
-                        let b = n.keys[i];
-                        new.index[b as usize] = i as u8;
-                        new.children[i] = n.children[i];
-                    }
-                    new.header.node_type = NodeType::Node48;
-                    return Box::new(NodeBox::N48(new));
-                }
                 Box::new(NodeBox::N16(*n))
             }
             NodeBox::N48(n) => {
