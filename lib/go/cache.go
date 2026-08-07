@@ -37,27 +37,27 @@ func NewRadixCache(config CacheConfig, engine RadixEngine, redisClient *RedisCli
 		redis:   redisClient,
 	}
 
-	// Boot-load prefixes from Redis
+	// Boot-load prefixes from Redis into the engine on startup.
+	// Redis keys are stored as CIDR strings (e.g. "10.0.1.0/25") so
+	// net.ParseCIDR is the single source of truth — it returns the
+	// canonical masked network address and the exact prefix mask for
+	// any prefix length, including non-byte-aligned ones like /25 or /17.
 	if rc.redis != nil {
 		ctx := context.Background()
 		entries, err := rc.redis.HGetAll(ctx, "radixip:entries")
 		if err == nil {
 			for cidr, metaJSON := range entries {
-				ipNet, _, err := net.ParseCIDR(cidr)
-				if err == nil {
-					network := IpNetwork{IP: ipNet, Mask: net.CIDRMask(24, 32)} // Simplify mask logic
-					if _, ipnet, err := net.ParseCIDR(cidr); err == nil {
-						network = IpNetwork{IP: ipnet.IP, Mask: ipnet.Mask}
-					}
-					var meta Metadata
-					if json.Unmarshal([]byte(metaJSON), &meta) == nil {
-						// Convert to *net.IPNet
-						ipNetObj := &net.IPNet{
-							IP:   network.IP,
-							Mask: network.Mask,
-						}
-						rc.engine.Insert(ipNetObj, meta)
-					}
+				// net.ParseCIDR returns:
+				//   ip     — the host address parsed from the string (may have host bits set)
+				//   ipnet  — the masked network address + correct mask
+				// We always use ipnet so host bits are properly zeroed regardless of prefix length.
+				_, ipnet, err := net.ParseCIDR(cidr)
+				if err != nil {
+					continue
+				}
+				var meta Metadata
+				if json.Unmarshal([]byte(metaJSON), &meta) == nil {
+					rc.engine.Insert(ipnet, meta)
 				}
 			}
 		}
@@ -65,6 +65,7 @@ func NewRadixCache(config CacheConfig, engine RadixEngine, redisClient *RedisCli
 
 	return rc
 }
+
 
 // lookupWithCache performs a lookup with caching
 func (c *RadixCache) lookupWithCache(ip net.IP) *Metadata {
