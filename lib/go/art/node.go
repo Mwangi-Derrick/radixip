@@ -23,9 +23,62 @@ type Header struct {
 	Prefix      [8]byte // inline path-compression prefix (up to 8 bytes)
 }
 
-// LeafNode stores the actual value pointer.
+// LeafNode stores the actual value pointer plus the original prefix
+// so that non-byte-aligned prefixes (e.g. /25, /17) can be matched
+// correctly without false positives.
+//
+// Problem without this:
+//
+//	A /25 prefix is keyed on 3 full bytes (24 bits) plus 1 partial byte
+//	(bit 25). ART naturally indexes by full bytes, so inserting 10.0.0.128/25
+//	and 10.0.0.0/25 would both land at the same depth-3 slot keyed by the
+//	first 3 bytes "10.0.0" — colliding on the partial 4th byte.
+//
+// Solution:
+//
+//	The tree traverses whole bytes up to floor(prefixLen/8).  At the
+//	boundary byte (when prefixLen % 8 != 0) it uses only the significant
+//	high bits as the index key, masking out the host bits.  At lookup time,
+//	the leaf's PrefixLen and MaskedKey are checked so that an IP address
+//	that shares the routed prefix bits matches, while one that differs in
+//	the significant bits does not.
 type LeafNode struct {
+	// Value is a GC-pinned pointer to the caller-managed metadata.
 	Value unsafe.Pointer
+
+	// PrefixLen is the CIDR prefix length (0-128).
+	// For IPv4 this is in the range 0-32.
+	// And For IPV6 this is in the range 0-128.
+	PrefixLen uint8
+
+	// MaskedKey is the full IP address with all host bits zeroed,
+	// stored as a [16]byte so both IPv4 (4 bytes significant) and
+	// IPv6 (16 bytes significant) are handled uniformly.
+	// In short it just stores the network prefix and zeros out the host bits
+	MaskedKey [16]byte
+}
+
+// matches returns true if the IP address `ip` (as a slice of the same
+// length as the original key) falls within this leaf's CIDR prefix.
+func (l *LeafNode) matches(ip []byte) bool {
+	fullBytes := int(l.PrefixLen) / 8
+	remainBits := int(l.PrefixLen) % 8
+
+	// Check every full byte.
+	for i := 0; i < fullBytes && i < len(ip); i++ {
+		if ip[i] != l.MaskedKey[i] {
+			return false
+		}
+	}
+
+	// Check the partial boundary byte (if any).
+	if remainBits > 0 && fullBytes < len(ip) {
+		mask := byte(0xFF << (8 - remainBits))
+		if ip[fullBytes]&mask != l.MaskedKey[fullBytes]&mask {
+			return false
+		}
+	}
+	return true
 }
 
 // ---- Node4 ---- (1-4 children, linear key scan)
@@ -48,7 +101,7 @@ type Node16 struct {
 
 type Node48 struct {
 	Header   Header
-	Index    [256]uint8     // Maps key byte → slot in Children; 0xFF = empty
+	Index    [256]uint8 // Maps key byte → slot in Children; 0xFF = empty
 	Children [48]unsafe.Pointer
 }
 
@@ -64,8 +117,8 @@ type Node256 struct {
 // can handle grow/shrink transparently.
 type Node interface {
 	findChild(b byte) (unsafe.Pointer, bool)
-	addChild(b byte, child unsafe.Pointer) Node   // returns possibly-grown node
-	removeChild(b byte) Node                      // returns possibly-shrunk node
+	addChild(b byte, child unsafe.Pointer) Node // returns possibly-grown node
+	removeChild(b byte) Node                    // returns possibly-shrunk node
 	isFull() bool
 	isEmpty() bool
 	numChildren() int
@@ -106,4 +159,24 @@ func asPtr(n Node) unsafe.Pointer {
 	default:
 		return nil
 	}
+}
+
+// indexByteForDepth returns the routing byte used to navigate the trie
+// at a given depth, masking out host bits for the boundary byte of a
+// non-byte-aligned prefix so that different subnets within the same /N
+// don't alias to the same child pointer.
+//
+//	depth     — current byte index (0-based)
+//	prefixLen — CIDR prefix length
+//	key       — full IP address bytes
+func indexByteForDepth(key []byte, depth int, prefixLen uint8) byte {
+	b := key[depth]
+	fullBytes := int(prefixLen) / 8
+	remainBits := int(prefixLen) % 8
+	if depth == fullBytes && remainBits > 0 {
+		// At the boundary byte: keep only the prefix bits.
+		mask := byte(0xFF << (8 - remainBits))
+		b &= mask
+	}
+	return b
 }
