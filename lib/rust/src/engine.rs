@@ -256,6 +256,7 @@ pub enum EngineWrapper {
     ConcurrentUncompressed(Arc<ShardedEngine<UncompressedTree>>),
     StandardCompressed(Arc<StandardEngine<CompressedTree>>),
     ConcurrentCompressed(Arc<ShardedEngine<CompressedTree>>),
+    ART(Arc<crate::engine_art::ARTEngineAdapter>),
 }
 
 impl EngineWrapper {
@@ -288,6 +289,9 @@ impl EngineWrapper {
                         EngineWrapper::StandardCompressed(Arc::new(StandardEngine::new(at_tree)))
                     }
                 }
+                EngineVariant::ART => {
+                    EngineWrapper::ART(Arc::new(crate::engine_art::ARTEngineAdapter::new()))
+                }
             }
         } else {
             let base_tree = UncompressedTree::new(node_variant.clone());
@@ -317,6 +321,9 @@ impl EngineWrapper {
                         EngineWrapper::StandardUncompressed(Arc::new(StandardEngine::new(at_tree)))
                     }
                 }
+                EngineVariant::ART => {
+                    EngineWrapper::ART(Arc::new(crate::engine_art::ARTEngineAdapter::new()))
+                }
             }
         }
     }
@@ -329,6 +336,7 @@ impl RadixEngine for EngineWrapper {
             EngineWrapper::ConcurrentUncompressed(e) => e.insert(prefix, metadata),
             EngineWrapper::StandardCompressed(e) => e.insert(prefix, metadata),
             EngineWrapper::ConcurrentCompressed(e) => e.insert(prefix, metadata),
+            EngineWrapper::ART(e) => e.insert(prefix, metadata),
         }
     }
 
@@ -338,6 +346,7 @@ impl RadixEngine for EngineWrapper {
             EngineWrapper::ConcurrentUncompressed(e) => e.lookup(ip),
             EngineWrapper::StandardCompressed(e) => e.lookup(ip),
             EngineWrapper::ConcurrentCompressed(e) => e.lookup(ip),
+            EngineWrapper::ART(e) => e.lookup(ip),
         }
     }
 
@@ -347,6 +356,7 @@ impl RadixEngine for EngineWrapper {
             EngineWrapper::ConcurrentUncompressed(e) => e.remove(prefix),
             EngineWrapper::StandardCompressed(e) => e.remove(prefix),
             EngineWrapper::ConcurrentCompressed(e) => e.remove(prefix),
+            EngineWrapper::ART(e) => e.remove(prefix),
         }
     }
 
@@ -356,6 +366,7 @@ impl RadixEngine for EngineWrapper {
             EngineWrapper::ConcurrentUncompressed(e) => e.contains(prefix),
             EngineWrapper::StandardCompressed(e) => e.contains(prefix),
             EngineWrapper::ConcurrentCompressed(e) => e.contains(prefix),
+            EngineWrapper::ART(e) => e.contains(prefix),
         }
     }
 
@@ -365,6 +376,7 @@ impl RadixEngine for EngineWrapper {
             EngineWrapper::ConcurrentUncompressed(e) => e.clear(),
             EngineWrapper::StandardCompressed(e) => e.clear(),
             EngineWrapper::ConcurrentCompressed(e) => e.clear(),
+            EngineWrapper::ART(e) => e.clear(),
         }
     }
 
@@ -374,6 +386,7 @@ impl RadixEngine for EngineWrapper {
             EngineWrapper::ConcurrentUncompressed(e) => e.size(),
             EngineWrapper::StandardCompressed(e) => e.size(),
             EngineWrapper::ConcurrentCompressed(e) => e.size(),
+            EngineWrapper::ART(e) => e.size(),
         }
     }
 
@@ -383,6 +396,7 @@ impl RadixEngine for EngineWrapper {
             EngineWrapper::ConcurrentUncompressed(e) => e.stats(),
             EngineWrapper::StandardCompressed(e) => e.stats(),
             EngineWrapper::ConcurrentCompressed(e) => e.stats(),
+            EngineWrapper::ART(e) => e.stats(),
         }
     }
 }
