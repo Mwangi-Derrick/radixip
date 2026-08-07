@@ -7,6 +7,7 @@ pub mod atomic;
 pub mod cache;
 pub mod config;
 pub mod engine;
+pub mod engine_art;
 pub mod errors;
 pub mod hybrid;
 pub mod lpm;
@@ -28,6 +29,7 @@ pub mod python;
 pub mod nodejs;
 
 pub use engine::{EngineWrapper, ShardedEngine, StandardEngine};
+pub use engine_art::ARTEngineAdapter;
 pub use errors::{RadixError, Result};
 pub use hybrid::HybridEngine;
 pub use lpm::LPM;
