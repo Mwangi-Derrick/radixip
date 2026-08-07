@@ -51,7 +51,7 @@ unsafe fn find_avx2(keys: &[u8; 16], target: u8, count: u8) -> Option<usize> {
     use std::arch::x86_64::*;
 
     // Load 16 keys into a 128-bit SSE register (AVX2 includes SSE).
-    let keys_vec = _mm_loadu_si128(keys.as_ptr() as *const __m128i);
+    let keys_vec = unsafe { _mm_loadu_si128(keys.as_ptr() as *const __m128i) };
     let target_vec = _mm_set1_epi8(target as i8);
     // Compare all 16 bytes at once — result byte is 0xFF on match, 0x00 on mismatch.
     let cmp = _mm_cmpeq_epi8(keys_vec, target_vec);
@@ -74,7 +74,7 @@ unsafe fn find_avx2(keys: &[u8; 16], target: u8, count: u8) -> Option<usize> {
 unsafe fn find_sse4_1(keys: &[u8; 16], target: u8, count: u8) -> Option<usize> {
     use std::arch::x86_64::*;
 
-    let keys_vec = _mm_loadu_si128(keys.as_ptr() as *const __m128i);
+    let keys_vec = unsafe { _mm_loadu_si128(keys.as_ptr() as *const __m128i) };
     let target_vec = _mm_set1_epi8(target as i8);
     let cmp = _mm_cmpeq_epi8(keys_vec, target_vec);
     let mask = _mm_movemask_epi8(cmp) as u32;
