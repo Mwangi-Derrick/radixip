@@ -12,39 +12,35 @@ import (
 
 // metadataStore keeps *Metadata values alive so the GC never collects
 // something the ART tree points to via unsafe.Pointer.
+// It is keyed on netip.Prefix (not just Addr) so that two different
+// prefix lengths on the same network address (e.g. /24 and /25) are
+// treated as distinct entries.
 type metadataStore struct {
 	mu    sync.Mutex
-	store map[netip.Addr]*Metadata
+	store map[netip.Prefix]*Metadata
 }
 
 func newMetadataStore() *metadataStore {
-	return &metadataStore{store: make(map[netip.Addr]*Metadata)}
+	return &metadataStore{store: make(map[netip.Prefix]*Metadata)}
 }
 
-func (s *metadataStore) set(addr netip.Addr, m *Metadata) {
+func (s *metadataStore) set(pfx netip.Prefix, m *Metadata) {
 	s.mu.Lock()
-	s.store[addr] = m
+	s.store[pfx] = m
 	s.mu.Unlock()
 }
 
-func (s *metadataStore) get(addr netip.Addr) *Metadata {
+func (s *metadataStore) del(pfx netip.Prefix) *Metadata {
 	s.mu.Lock()
-	m := s.store[addr]
-	s.mu.Unlock()
-	return m
-}
-
-func (s *metadataStore) del(addr netip.Addr) *Metadata {
-	s.mu.Lock()
-	m := s.store[addr]
-	delete(s.store, addr)
+	m := s.store[pfx]
+	delete(s.store, pfx)
 	s.mu.Unlock()
 	return m
 }
 
 func (s *metadataStore) clear() {
 	s.mu.Lock()
-	s.store = make(map[netip.Addr]*Metadata)
+	s.store = make(map[netip.Prefix]*Metadata)
 	s.mu.Unlock()
 }
 
@@ -80,13 +76,16 @@ func (a *ARTEngineAdapter) Insert(prefix *net.IPNet, metadata Metadata) error {
 	if err != nil {
 		return err
 	}
+	p = p.Masked() // canonical form: zero host bits
+	prefixLen := uint8(p.Bits())
 
-	// Heap-allocate and pin in the side map so the GC never frees it.
+	// Heap-allocate and GC-pin in the side map keyed by the full prefix
+	// (Addr + length) so /24 and /25 on the same base address don't collide.
 	m := new(Metadata)
 	*m = metadata
-	a.metas.set(p.Addr(), m)
+	a.metas.set(p, m)
 
-	a.tree.Insert(p.Addr(), unsafe.Pointer(m))
+	a.tree.InsertPrefix(p.Addr(), prefixLen, unsafe.Pointer(m))
 	return nil
 }
 
@@ -109,9 +108,10 @@ func (a *ARTEngineAdapter) Remove(prefix *net.IPNet) *Metadata {
 	if err != nil {
 		return nil
 	}
-	// Retrieve the old metadata before deletion
-	old := a.metas.del(p.Addr())
-	a.tree.Delete(p.Addr())
+	p = p.Masked()
+	// Retrieve the old metadata before deletion, keyed by full prefix.
+	old := a.metas.del(p)
+	a.tree.DeletePrefix(p.Addr(), uint8(p.Bits()))
 	return old
 }
 
