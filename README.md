@@ -128,6 +128,7 @@ This makes radix trees a natural fit for routing tables, ACLs, reverse proxies, 
 | Standard Trie | ✅ | ✅ | High | Large number of nodes |
 | Patricia / Radix Tree | ✅ | ✅ | Low | Path compression reduces memory |
 | Binary Radix Tree | ✅ | ✅ | Low | Well suited for IPv4 bit traversal |
+| Adaptive Radix Tree (ART) 🚧 | ✅ | ✅ | Very Low | Dynamic node sizes, SIMD/cache-friendly, ultra-fast reads |
 
 ---
 
@@ -620,14 +621,14 @@ Every commit to `main` triggers our continuous benchmarking pipeline:
 
 ## 🌲 Tree Type Selection
 
-RadixIP provides two routing tree implementations. Choose based on your workload:
+RadixIP provides three routing tree implementations. Choose based on your workload:
 
-| | UncompressedTree | CompressedTree (Patricia) |
-|---|---|---|
-| **Write throughput** | ⚡ Fastest (no splitting) | 🟡 Moderate |
-| **Read throughput** | 🟡 Good | ⚡ Fastest |
-| **Memory (500K routes)** | ~4–8 MB | ~1–2 MB |
-| **Best for** | BGP control plane | Packet forwarding / FIB |
+| | UncompressedTree (Binary Trie) | CompressedTree (Binary Patricia Tree) | Adaptive Radix Tree (ART) 🚧 |
+|---|---|---|---|
+| **Write throughput** | ⚡ Fastest (no splitting) | 🟡 Moderate | 🟡 Moderate (node upgrades) |
+| **Read throughput** | 🟡 Good | ⚡ Fast | ⚡⚡ Fastest (SIMD / cache-aligned) |
+| **Memory (500K routes)** | ~4–8 MB | ~1–2 MB | ~1.5–3 MB (dynamic node sizes) |
+| **Best for** | BGP control plane | Packet forwarding / FIB | Extremely high-performance routing |
 
 ```rust
 // Rust — choose at construction time, zero runtime overhead
