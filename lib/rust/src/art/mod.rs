@@ -1,7 +1,6 @@
 // mod.rs
 use std::ptr;
 pub mod node16_simd;
-pub mod tree;
 
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -28,6 +27,21 @@ pub struct Node4 {
     pub header: Header,
     pub keys: [u8; 4],
     pub children: [*mut (); 4],
+}
+
+impl Default for Node4 {
+    fn default() -> Self {
+        Self {
+            header: Header {
+                node_type: NodeType::Node4,
+                num_children: 0,
+                prefix_len: 0,
+                prefix: [0; 8],
+            },
+            keys: [0; 4],
+            children: [ptr::null_mut(); 4],
+        }
+    }
 }
 
 #[repr(C)]
@@ -271,7 +285,11 @@ impl NodeBox {
                 n.children[byte as usize] = child;
                 Box::new(NodeBox::N256(*n))
             }
-            NodeBox::Leaf(_) => Box::new(NodeBox::Leaf(LeafNode { value: child })),
+            NodeBox::Leaf(_) => Box::new(NodeBox::Leaf(LeafNode {
+                value: child,
+                prefix_len: self.header.prefix_len,
+                masked_key: self.header.masked_key,
+            })),
         }
     }
 
@@ -375,6 +393,8 @@ impl NodeBox {
             }
             NodeBox::Leaf(_) => Box::new(NodeBox::Leaf(LeafNode {
                 value: ptr::null_mut(),
+                prefix_len: 0,
+                masked_key: 0,
             })),
         }
     }
