@@ -142,7 +142,7 @@ impl NodeBox {
         }
     }
 
-    pub fn max_children(&self) -> u8 {
+    pub fn max_children(&self) -> u16 {
         match self {
             NodeBox::N4(_) => 4,
             NodeBox::N16(_) => 16,
@@ -286,10 +286,10 @@ impl NodeBox {
                 n.children[byte as usize] = child;
                 Box::new(NodeBox::N256(*n))
             }
-            NodeBox::Leaf(_) => Box::new(NodeBox::Leaf(LeafNode {
+            NodeBox::Leaf(leaf) => Box::new(NodeBox::Leaf(LeafNode {
                 value: child,
-                prefix_len: self.header.prefix_len,
-                masked_key: self.header.masked_key,
+                prefix_len: leaf.prefix_len,
+                masked_key: leaf.masked_key,
             })),
         }
     }
@@ -395,7 +395,7 @@ impl NodeBox {
             NodeBox::Leaf(_) => Box::new(NodeBox::Leaf(LeafNode {
                 value: ptr::null_mut(),
                 prefix_len: 0,
-                masked_key: 0,
+                masked_key: [0u8; 16],
             })),
         }
     }
