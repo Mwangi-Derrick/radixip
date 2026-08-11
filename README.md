@@ -62,6 +62,7 @@ short on purpose; this folder is where the engineering reasoning lives.
 | [Cache Locality](./docs/guides/cache-locality.md) | Why memory access patterns usually matter more than algorithmic complexity |
 | [How Routers Work](./docs/guides/how-routers-work.md) | The real-world context RadixIP borrows from |
 | [Benchmark Methodology](./docs/guides/benchmark-methodology.md) | Exactly how the numbers in the README were produced, so you can reproduce or challenge them |
+| [Go SIMD via Rust FFI](./docs/guides/go-simd-rust-ffi.md) | Why the Go ART Node16 uses a Rust-backed SIMD shared library instead of Go's experimental native SIMD |
 
 ## Reading order
 
@@ -75,6 +76,33 @@ If you're new to networking data structures, read in this order:
 6. [Architecture](./docs/guides/architecture.md) — how it's wired into a real system
 7. [Benchmark Methodology](./docs/guides/benchmark-methodology.md) — how to verify all of the above
 
+
+## ⚡ SIMD Acceleration (Node16)
+
+The Go ART Node16 node accelerates its 16-slot key scan using SIMD via a
+thin CGo bridge to a Rust shared library (`libnode16_simd_ffi`).
+
+| Architecture | Instruction set | How |
+|---|---|---|
+| x86_64 | **AVX2** → **SSE4.1** → scalar | Runtime dispatch in Rust |
+| aarch64 | **NEON** | Compile-time (mandatory baseline) |
+| other | Scalar | Pure-Rust fallback |
+
+This approach was chosen because Go 1.26's native SIMD is experimental and
+limited to x86_64.  The Rust path gives full multi-arch coverage today.
+
+```bash
+# Build the shared library, then compile Go with SIMD active:
+make build-go-simd
+
+# Run Go ART tests with SIMD:
+make test-go-simd
+```
+
+> 📖 Full rationale, build instructions, and memory-safety notes:
+> **[docs/guides/go-simd-rust-ffi.md](./docs/guides/go-simd-rust-ffi.md)**
+
+---
 
 ## 🧠 Design Goals
 
