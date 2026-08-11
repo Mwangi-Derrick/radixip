@@ -610,7 +610,7 @@ Every commit to `main` triggers our continuous benchmarking pipeline:
    - [x] Node16 (5-16 children, SIMD support)
    - [x] Node48 (17-48 children, index array)
    - [x] Node256 (49-256 children, direct array)
-   - [] Auto-upgrade/downgrade logic
+   - [x] Auto-upgrade/downgrade logic
    - [] SIMD acceleration (x86 SSE / ARM NEON)
    - [] Zero-alloc lookups
    - [] Lock-free concurrency support
