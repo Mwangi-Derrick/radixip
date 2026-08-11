@@ -1,0 +1,18 @@
+[package]
+name = "node16_simd_ffi"
+version = "0.1.0"
+edition = "2021"
+description = "Thin cdylib exposing SIMD Node16 key-search via a stable C ABI for CGo consumption"
+license.workspace = true
+repository.workspace = true
+
+# cdylib produces the shared object (.so / .dylib / .dll).
+# rlib is kept so the crate can also be used as a pure-Rust dep
+# if we later centralise all ART SIMD ops here.
+[lib]
+name = "node16_simd_ffi"
+crate-type = ["cdylib", "rlib"]
+
+# cbindgen is only needed at build-time to generate the C header.
+[build-dependencies]
+cbindgen = "0.29"
