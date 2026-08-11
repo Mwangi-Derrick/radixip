@@ -6,11 +6,29 @@ on:
     paths-ignore:
       - '**.md'
       - 'docs/**' # Ignores an entire docs folder
+      - 'proto'
+      - 'docker'
+      - '.gitignore'
+      - '.gitattributes'
+      - 'scripts/**'
+      - 'config'
+      - 'metrics'
+      - '.editorconfig'
+      - 'Makefile'
   pull_request:
     branches: [main]
     paths-ignore:
       - '**.md'
-      - 'docs/**' # Optional: Ignores an entire docs folder
+      - 'docs/**' # Ignores an entire docs folder
+      - 'proto'
+      - 'docker'
+      - '.gitignore'
+      - '.gitattributes'
+      - 'scripts/**'
+      - 'config'
+      - 'metrics'
+      - '.editorconfig'
+      - 'Makefile'
   workflow_dispatch:
 
 concurrency:

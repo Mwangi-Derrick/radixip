@@ -7,11 +7,29 @@ name: Continuous Benchmarking
       # paths-ignore:
       # - '**.md'
       # - 'docs/**' # Optional: Ignores an entire docs folder
+      # - 'proto'
+      #   - 'docker'
+      #   - '.gitignore'
+      #   - '.gitattributes'
+      #   - 'scripts/**'
+      #   - 'config'
+      #   - 'metrics'
+      #   - '.editorconfig'
+      #   - 'Makefile'
 #   pull_request:
 #     branches: [ main ]
       # paths-ignore:
       # - '**.md'
       # - 'docs/**' # Optional: Ignores an entire docs folder
+      # - 'proto'
+    #   - 'docker'
+    #   - '.gitignore'
+    #   - '.gitattributes'
+    #   - 'scripts/**'
+    #   - 'config'
+    #   - 'metrics'
+    #   - '.editorconfig'
+    #   - 'Makefile'
 
 # 2. Add this instead to make it strictly manual
 on:
