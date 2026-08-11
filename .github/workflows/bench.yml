@@ -4,8 +4,14 @@ name: Continuous Benchmarking
 # on:
 #   push:
 #     branches: [ main ]
+      # paths-ignore:
+      # - '**.md'
+      # - 'docs/**' # Optional: Ignores an entire docs folder
 #   pull_request:
 #     branches: [ main ]
+      # paths-ignore:
+      # - '**.md'
+      # - 'docs/**' # Optional: Ignores an entire docs folder
 
 # 2. Add this instead to make it strictly manual
 on:

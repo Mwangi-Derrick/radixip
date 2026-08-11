@@ -3,8 +3,14 @@ name: FFI Benchmarks
 on:
   # push:
   #   branches: [main]
+      # paths-ignore:
+      #   - '**.md'
+      #   - 'docs/**' # Ignores an entire docs folder
   # pull_request:
   #   branches: [main]
+      # paths-ignore:
+      #   - '**.md'
+      #   - 'docs/**' # Ignores an entire docs folder
   workflow_dispatch:
 
 concurrency:
