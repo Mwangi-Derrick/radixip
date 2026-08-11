@@ -5,6 +5,7 @@ members = [
     "lib/python",              # PyO3 bindings
     "lib/node",                # N-API bindings
     "cmd/radixip-cli",         # CLI tool
+    "lib/rust/node16_simd_ffi",# SIMD FFI bridge for Go CGo
 ]
 
 [workspace.package]
