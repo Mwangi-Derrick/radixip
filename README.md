@@ -611,9 +611,9 @@ Every commit to `main` triggers our continuous benchmarking pipeline:
    - [x] Node48 (17-48 children, index array)
    - [x] Node256 (49-256 children, direct array)
    - [x] Auto-upgrade/downgrade logic
-   - [] SIMD acceleration (x86 SSE / ARM NEON)
-   - [] Zero-alloc lookups
-   - [] Lock-free concurrency support
+   - [x] SIMD acceleration (x86 SSE / ARM NEON)
+   - [x] Zero-alloc lookups
+   - [x] Lock-free concurrency support
 - [] Publish v1 of the rust crate to cargo.rs
 - [] Publish the NAPI-RS node bindings to npm
 - [] Publish the PyO3 bindings to PYPI
