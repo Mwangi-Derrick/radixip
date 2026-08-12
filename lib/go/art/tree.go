@@ -105,8 +105,9 @@ func insertNode(ptr unsafe.Pointer, key []byte, depth int, prefixLen uint8, valu
 		if newB == b {
 			// Same byte at this depth — we need to push deeper into the subtree.
 			// Replace the child we just added with one that holds both entries.
-			combined, added2 := insertNode(n.(*Node4).Children[0], key, depth+1, prefixLen, value)
-			n = n.addChild(b, combined)
+			childPtr, _ := n.findChild(b)
+			combined, added2 := insertNode(childPtr, key, depth+1, prefixLen, value)
+			updateChild(n, b, combined)
 			return asPtr(n), added2
 		}
 		n = n.addChild(newB, newChild)
@@ -123,7 +124,7 @@ func insertNode(ptr unsafe.Pointer, key []byte, depth int, prefixLen uint8, valu
 	if found {
 		newChild, added := insertNode(child, key, depth+1, prefixLen, value)
 		if newChild != child {
-			node = node.addChild(b, newChild)
+			updateChild(node, b, newChild)
 		}
 		return asPtr(node), added
 	}
@@ -133,6 +134,33 @@ func insertNode(ptr unsafe.Pointer, key []byte, depth int, prefixLen uint8, valu
 	node = node.addChild(b, unsafe.Pointer(leaf))
 	return asPtr(node), true
 }
+
+func updateChild(n Node, b byte, newChild unsafe.Pointer) {
+	switch v := n.(type) {
+	case *Node4:
+		for i := 0; i < int(v.Header.NumChildren); i++ {
+			if v.Keys[i] == b {
+				v.Children[i] = newChild
+				return
+			}
+		}
+	case *Node16:
+		for i := 0; i < int(v.Header.NumChildren); i++ {
+			if v.Keys[i] == b {
+				v.Children[i] = newChild
+				return
+			}
+		}
+	case *Node48:
+		idx := v.Index[b]
+		if idx != node48Empty {
+			v.Children[idx] = newChild
+		}
+	case *Node256:
+		v.Children[b] = newChild
+	}
+}
+
 
 
 // makeLeaf constructs a heap-allocated LeafNode with MaskedKey pre-computed.
@@ -265,7 +293,7 @@ func deleteNode(ptr unsafe.Pointer, key []byte, depth int, prefixLen uint8) (uns
 	if newChild == nil {
 		node = node.removeChild(b)
 	} else if newChild != child {
-		node = node.addChild(b, newChild)
+		updateChild(node, b, newChild)
 	}
 
 	if node == nil || node.isEmpty() {
