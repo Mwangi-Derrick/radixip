@@ -79,15 +79,38 @@ func insertNode(ptr unsafe.Pointer, key []byte, depth int, prefixLen uint8, valu
 		return leafPtr, true
 	}
 
-	// If the current pointer is a leaf from a shorter prefix (already placed
-	// above us), keep it; we are inserting a longer prefix below it.
+	// If the current pointer is a leaf (shorter prefix lives higher), we need
+	// to expand it into an internal node so we can insert the new entry below.
+	// We do this by building a fresh Node4 and re-inserting BOTH the existing
+	// leaf and the new entry from the current depth. Both recursive calls will
+	// navigate deeper byte-by-byte until they diverge or reach their maxDepth.
 	if ptr != nil && (*Header)(ptr).Type == TypeLeaf {
-		// The existing leaf stays; we need to expand this slot into a node.
-		node := Node(NewNode4())
-		node = node.addChild(indexByteForDepth((*LeafNode)(ptr).MaskedKey[:], depth, (*LeafNode)(ptr).PrefixLen), ptr)
+		existingLeaf := (*LeafNode)(ptr)
+		n := Node(NewNode4())
+
+		// Re-insert the existing leaf from this depth.
+		b := indexByteForDepth(existingLeaf.MaskedKey[:], depth, existingLeaf.PrefixLen)
+		existingMaxDepth := int(existingLeaf.PrefixLen+7) / 8
+		if depth >= existingMaxDepth {
+			// Existing leaf terminates here — put it under a sentinel child.
+			n = n.addChild(b, unsafe.Pointer(existingLeaf))
+		} else {
+			newExistingChild, _ := insertNode(nil, existingLeaf.MaskedKey[:], depth+1, existingLeaf.PrefixLen, existingLeaf.Value)
+			n = n.addChild(b, newExistingChild)
+		}
+
+		// Insert the new entry from this depth.
+		newB := indexByteForDepth(key, depth, prefixLen)
 		newChild, added := insertNode(nil, key, depth+1, prefixLen, value)
-		node = node.addChild(indexByteForDepth(key, depth, prefixLen), newChild)
-		return asPtr(node), added
+		if newB == b {
+			// Same byte at this depth — we need to push deeper into the subtree.
+			// Replace the child we just added with one that holds both entries.
+			combined, added2 := insertNode(n.(*Node4).Children[0], key, depth+1, prefixLen, value)
+			n = n.addChild(b, combined)
+			return asPtr(n), added2
+		}
+		n = n.addChild(newB, newChild)
+		return asPtr(n), added
 	}
 
 	node := nodeToNode(ptr)
@@ -110,6 +133,7 @@ func insertNode(ptr unsafe.Pointer, key []byte, depth int, prefixLen uint8, valu
 	node = node.addChild(b, unsafe.Pointer(leaf))
 	return asPtr(node), true
 }
+
 
 // makeLeaf constructs a heap-allocated LeafNode with MaskedKey pre-computed.
 func makeLeaf(key []byte, prefixLen uint8, value unsafe.Pointer) *LeafNode {
