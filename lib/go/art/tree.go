@@ -166,6 +166,7 @@ func updateChild(n Node, b byte, newChild unsafe.Pointer) {
 // makeLeaf constructs a heap-allocated LeafNode with MaskedKey pre-computed.
 func makeLeaf(key []byte, prefixLen uint8, value unsafe.Pointer) *LeafNode {
 	leaf := &LeafNode{
+		Header:    Header{Type: TypeLeaf},
 		Value:     value,
 		PrefixLen: prefixLen,
 	}
