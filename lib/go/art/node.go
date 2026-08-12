@@ -43,6 +43,8 @@ type Header struct {
 //	that shares the routed prefix bits matches, while one that differs in
 //	the significant bits does not.
 type LeafNode struct {
+	Header Header
+
 	// Value is a GC-pinned pointer to the caller-managed metadata.
 	Value unsafe.Pointer
 
