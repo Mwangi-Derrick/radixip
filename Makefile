@@ -28,7 +28,7 @@ else
 endif
 
 SIMD_FFI_CRATE := lib/rust/node16_simd_ffi
-SIMD_FFI_SO    := $(SIMD_FFI_CRATE)/target/release/$(SOPREFIX)node16_simd_ffi.$(SOEXT)
+SIMD_FFI_SO    := target/release/$(SOPREFIX)node16_simd_ffi.$(SOEXT)
 VENDOR_LIB     := lib/vendor/lib
 VENDOR_INC     := lib/vendor/include
 
