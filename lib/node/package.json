@@ -18,15 +18,13 @@
     "bench": "node benchmarks/bench.js"
   },
   "napi": {
-    "name": "radixip",
-    "triples": {
-      "defaults": true,
-      "additional": [
-        "aarch64-unknown-linux-gnu",
-        "aarch64-apple-darwin",
-        "x86_64-unknown-linux-musl"
-      ]
-    }
+    "binaryName": "radixip",
+    "targets": [
+      "x86_64-unknown-linux-gnu",
+      "x86_64-apple-darwin",
+      "aarch64-apple-darwin",
+      "x86_64-pc-windows-msvc"
+    ]
   },
   "keywords": [
     "radix",
