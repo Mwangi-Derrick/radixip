@@ -41,7 +41,7 @@ func simdFindKey(keys *[16]byte, target byte, count uint8) int {
 		return -1
 	}
 	result := C.node16_simd_find(
-		(*C.uint8_t)(unsafe.Pointer(keys)), // pointer to the 16-byte array
+		(*[16]C.uint8_t)(unsafe.Pointer(keys)), // pointer to the 16-byte array
 		C.uint8_t(target),
 		C.uint8_t(count),
 	)
