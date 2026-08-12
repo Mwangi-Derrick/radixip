@@ -13,6 +13,15 @@ ifeq ($(UNAME_S),Darwin)
 else ifeq ($(UNAME_S),Windows)
   SOEXT     := dll
   SOPREFIX  :=
+else ifneq (,$(findstring MINGW,$(UNAME_S)))
+  SOEXT     := dll
+  SOPREFIX  :=
+else ifneq (,$(findstring CYGWIN,$(UNAME_S)))
+  SOEXT     := dll
+  SOPREFIX  :=
+else ifneq (,$(findstring MSYS,$(UNAME_S)))
+  SOEXT     := dll
+  SOPREFIX  :=
 else
   SOEXT     := so
   SOPREFIX  := lib
