@@ -28,10 +28,20 @@
       ]
     }
   },
-  "keywords": ["radix", "ip", "subnet", "networking", "napi", "native"],
+  "keywords": [
+    "radix",
+    "ip",
+    "subnet",
+    "networking",
+    "napi",
+    "native"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/Mwangi-Derrick/radixip"
+  },
+  "devDependencies": {
+    "@napi-rs/cli": "^3.8.6"
   }
 }
