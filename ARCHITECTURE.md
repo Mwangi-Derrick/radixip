@@ -185,20 +185,304 @@ fib     = Engine(variant="concurrent", compressed=True)
 
 ```
 lib/
-├── rust/src/
-│   ├── tree.rs        ← UncompressedTree + CompressedTree (RouteTree trait)
-│   ├── engine.rs      ← StandardEngine<T> + ShardedEngine<T> + EngineWrapper
-│   ├── traits.rs      ← RouteTree, RadixEngine, RadixNode traits
-│   ├── node.rs        ← NormalNode, AtomicNode, PaddedNode + NodeBuilder
-│   ├── lpm.rs         ← get_bit(), longest_prefix_match_binary()
-│   ├── cache.rs       ← CachedEngine (in-memory LRU + Redis integration)
-│   ├── redis.rs       ← Redis connection pool + HGET/HSET/HGETALL primitives
-│   └── ffi.rs         ← C-compatible FFI exports
-└── go/
-    ├── tree.go        ← UncompressedTree + CompressedTree (RouteTree interface)
-    ├── engine.go      ← StandardEngine, ShardedEngine, EngineWrapper
-    ├── interfaces.go  ← RouteTree, RadixEngine, RadixNode interfaces
-    ├── node.go        ← Node implementations + NodeBuilder
-    ├── cache.go       ← CachedEngine
-    └── redis.go       ← Redis integration
+├── cpp/
+│   ├── include/
+│   │   ├── RadixEngine.hpp
+│   │   ├── radixip.h
+│   │   └── radixip/
+│   │       └── radixip.h
+│   ├── src/
+│   │   ├── radixip.c
+│   │   └── radixip.cpp
+│   ├── benchmarks/
+│   │   └── main.cpp
+│   ├── examples/
+│   │   ├── basic.c
+│   │   ├── basic.cpp
+│   │   ├── geolocation.c
+│   │   └── geolocation.cpp
+│   ├── tests/
+│   │   ├── test_radixip.c
+│   │   └── test_radixip.cpp
+│   ├── CMakeLists.txt
+│   └── README.md
+│
+├── go/
+│   ├── engine.go              ← StandardEngine, ShardedEngine, EngineWrapper
+│   ├── engine_art.go          ← ART-specific engine implementations
+│   ├── tree.go                ← UncompressedTree + CompressedTree (RouteTree interface)
+│   ├── interfaces.go          ← RouteTree, RadixEngine, RadixNode interfaces
+│   ├── node.go                ← Node implementations + NodeBuilder
+│   ├── compressed.go          ← Compressed tree optimizations
+│   ├── uncompressed.go        ← Uncompressed tree implementation
+│   ├── hybrid.go              ← Hybrid tree strategies
+│   ├── cache.go               ← CachedEngine (in-memory LRU + Redis integration)
+│   ├── redis.go               ← Redis connection pool + HGET/HSET/HGETALL primitives
+│   ├── atomic.go              ← Atomic operations for concurrent access
+│   ├── config.go              ← Configuration management
+│   ├── errors.go              ← Error definitions
+│   ├── types.go               ← Type definitions
+│   ├── art/
+│   │   ├── node.go            ← ART node interface
+│   │   ├── node4.go           ← Node with 4 children
+│   │   ├── node16.go          ← Node with 16 children
+│   │   ├── node48.go          ← Node with 48 children
+│   │   ├── node256.go         ← Node with 256 children
+│   │   ├── simd.go            ← SIMD acceleration interface
+│   │   ├── simd_cgo.go        ← CGO bindings for SIMD
+│   │   ├── simd_enabled.go    ← SIMD feature detection
+│   │   ├── tree.go            ← ART tree implementation
+│   │   └── tree_test.go       ← ART tests
+│   ├── examples/
+│   │   ├── basic/
+│   │   │   └── main.go
+│   │   ├── ddos/
+│   │   │   └── main.go
+│   │   └── geolocation/
+│   │       └── main.go
+│   ├── benchmark/
+│   │   └── bench_test.go
+│   ├── tests/
+│   │   └── engine_test.go
+│   ├── engine_test.go         ← Root-level engine tests
+│   ├── go.mod
+│   ├── go.work
+│   └── README.md
+│
+├── rust/
+│   ├── src/
+│   │   ├── lib.rs             ← Library entry point
+│   │   ├── engine.rs          ← StandardEngine<T> + ShardedEngine<T> + EngineWrapper
+│   │   ├── engine_art.rs      ← ART-specific engine implementations
+│   │   ├── tree.rs            ← UncompressedTree + CompressedTree (RouteTree trait)
+│   │   ├── traits.rs          ← RouteTree, RadixEngine, RadixNode traits
+│   │   ├── lpm.rs             ← get_bit(), longest_prefix_match_binary()
+│   │   ├── cache.rs           ← CachedEngine (in-memory LRU + Redis integration)
+│   │   ├── redis.rs           ← Redis connection pool + HGET/HSET/HGETALL primitives
+│   │   ├── hybrid.rs          ← Hybrid tree strategies
+│   │   ├── atomic.rs          ← Atomic operations for concurrent access
+│   │   ├── config.rs          ← Configuration management
+│   │   ├── errors.rs          ← Error definitions
+│   │   ├── types.rs           ← Type definitions
+│   │   ├── ffi.rs             ← C-compatible FFI exports
+│   │   ├── art/
+│   │   │   ├── mod.rs         ← ART module exports
+│   │   │   ├── tree.rs        ← ART tree implementation
+│   │   │   ├── node4.rs       ← Node with 4 children
+│   │   │   └── node16_simd.rs ← Node with 16 children + SIMD acceleration
+│   │   └── node/
+│   │       ├── mod.rs         ← Node module exports
+│   │       ├── compressed.rs  ← Compressed node implementation
+│   │       └── uncompressed.rs ← Uncompressed node implementation
+│   ├── ffi/
+│   │   ├── radixip.h          ← C header for FFI
+│   │   ├── radixip_capi.h     ← C API definitions
+│   │   └── radixip.cpp        ← C++ wrapper for FFI
+│   ├── node16_simd_ffi/
+│   │   ├── src/
+│   │   │   └── lib.rs         ← SIMD FFI bindings
+│   │   ├── build.rs           ← Build script for SIMD
+│   │   └── Cargo.toml
+│   ├── examples/
+│   │   ├── basic.rs
+│   │   ├── geolocation.rs
+│   │   └── ddos.md
+│   ├── benches/
+│   │   └── lookup_bench.rs    ← Benchmarks
+│   ├── tests/
+│   │   ├── integration_test.rs ← Integration tests
+│   │   └── ffi_test.rs        ← FFI tests
+│   ├── Cargo.toml
+│   └── README.md
+│
+├── node/
+│   ├── src/
+│   │   └── lib.rs             ← Node.js bindings (via neon/napi-rs)
+│   ├── examples/
+│   │   ├── basic.js
+│   │   ├── ddos.js
+│   │   └── geolocation.js
+│   ├── benchmarks/
+│   │   └── bench.js
+│   ├── tests/
+│   │   └── test.js
+│   ├── index.js               ← Main entry point
+│   ├── index.d.ts             ← TypeScript definitions
+│   ├── Cargo.toml
+│   ├── package.json
+│   └── README.md
+│
+├── python/
+│   ├── src/
+│   │   ├── lib.rs             ← Python bindings (via PyO3)
+│   │   └── radixip.pyi        ← Python type hints
+│   ├── radixip/
+│   │   ├── __init__.py        ← Package exports
+│   │   ├── engine.py          ← Python wrapper for engine
+│   │   └── types.py           ← Python type definitions
+│   ├── examples/
+│   │   ├── basic.py
+│   │   ├── ddos.py
+│   │   └── geolocation.py
+│   ├── tests/
+│   │   ├── test_radixip.py
+│   │   └── test_benchmark.py
+│   ├── Cargo.toml
+│   ├── pyproject.toml
+│   ├── setup.py
+│   └── README.md
+│
+└── (root-level lib files)
+    ├── (no root-level lib files - all organized by language)
+    └── ...lib/
+├── cpp/
+│   ├── include/
+│   │   ├── RadixEngine.hpp
+│   │   ├── radixip.h
+│   │   └── radixip/
+│   │       └── radixip.h
+│   ├── src/
+│   │   ├── radixip.c
+│   │   └── radixip.cpp
+│   ├── benchmarks/
+│   │   └── main.cpp
+│   ├── examples/
+│   │   ├── basic.c
+│   │   ├── basic.cpp
+│   │   ├── geolocation.c
+│   │   └── geolocation.cpp
+│   ├── tests/
+│   │   ├── test_radixip.c
+│   │   └── test_radixip.cpp
+│   ├── CMakeLists.txt
+│   └── README.md
+│
+├── go/
+│   ├── engine.go              ← StandardEngine, ShardedEngine, EngineWrapper
+│   ├── engine_art.go          ← ART-specific engine implementations
+│   ├── tree.go                ← UncompressedTree + CompressedTree (RouteTree interface)
+│   ├── interfaces.go          ← RouteTree, RadixEngine, RadixNode interfaces
+│   ├── node.go                ← Node implementations + NodeBuilder
+│   ├── compressed.go          ← Compressed tree optimizations
+│   ├── uncompressed.go        ← Uncompressed tree implementation
+│   ├── hybrid.go              ← Hybrid tree strategies
+│   ├── cache.go               ← CachedEngine (in-memory LRU + Redis integration)
+│   ├── redis.go               ← Redis connection pool + HGET/HSET/HGETALL primitives
+│   ├── atomic.go              ← Atomic operations for concurrent access
+│   ├── config.go              ← Configuration management
+│   ├── errors.go              ← Error definitions
+│   ├── types.go               ← Type definitions
+│   ├── art/
+│   │   ├── node.go            ← ART node interface
+│   │   ├── node4.go           ← Node with 4 children
+│   │   ├── node16.go          ← Node with 16 children
+│   │   ├── node48.go          ← Node with 48 children
+│   │   ├── node256.go         ← Node with 256 children
+│   │   ├── simd.go            ← SIMD acceleration interface
+│   │   ├── simd_cgo.go        ← CGO bindings for SIMD
+│   │   ├── simd_enabled.go    ← SIMD feature detection
+│   │   ├── tree.go            ← ART tree implementation
+│   │   └── tree_test.go       ← ART tests
+│   ├── examples/
+│   │   ├── basic/
+│   │   │   └── main.go
+│   │   ├── ddos/
+│   │   │   └── main.go
+│   │   └── geolocation/
+│   │       └── main.go
+│   ├── benchmark/
+│   │   └── bench_test.go
+│   ├── tests/
+│   │   └── engine_test.go
+│   ├── engine_test.go         ← Root-level engine tests
+│   ├── go.mod
+│   ├── go.work
+│   └── README.md
+│
+├── rust/
+│   ├── src/
+│   │   ├── lib.rs             ← Library entry point
+│   │   ├── engine.rs          ← StandardEngine<T> + ShardedEngine<T> + EngineWrapper
+│   │   ├── engine_art.rs      ← ART-specific engine implementations
+│   │   ├── tree.rs            ← UncompressedTree + CompressedTree (RouteTree trait)
+│   │   ├── traits.rs          ← RouteTree, RadixEngine, RadixNode traits
+│   │   ├── lpm.rs             ← get_bit(), longest_prefix_match_binary()
+│   │   ├── cache.rs           ← CachedEngine (in-memory LRU + Redis integration)
+│   │   ├── redis.rs           ← Redis connection pool + HGET/HSET/HGETALL primitives
+│   │   ├── hybrid.rs          ← Hybrid tree strategies
+│   │   ├── atomic.rs          ← Atomic operations for concurrent access
+│   │   ├── config.rs          ← Configuration management
+│   │   ├── errors.rs          ← Error definitions
+│   │   ├── types.rs           ← Type definitions
+│   │   ├── ffi.rs             ← C-compatible FFI exports
+│   │   ├── art/
+│   │   │   ├── mod.rs         ← ART module exports
+│   │   │   ├── tree.rs        ← ART tree implementation
+│   │   │   ├── node4.rs       ← Node with 4 children
+│   │   │   └── node16_simd.rs ← Node with 16 children + SIMD acceleration
+│   │   └── node/
+│   │       ├── mod.rs         ← Node module exports
+│   │       ├── compressed.rs  ← Compressed node implementation
+│   │       └── uncompressed.rs ← Uncompressed node implementation
+│   ├── ffi/
+│   │   ├── radixip.h          ← C header for FFI
+│   │   ├── radixip_capi.h     ← C API definitions
+│   │   └── radixip.cpp        ← C++ wrapper for FFI
+│   ├── node16_simd_ffi/
+│   │   ├── src/
+│   │   │   └── lib.rs         ← SIMD FFI bindings
+│   │   ├── build.rs           ← Build script for SIMD
+│   │   └── Cargo.toml
+│   ├── examples/
+│   │   ├── basic.rs
+│   │   ├── geolocation.rs
+│   │   └── ddos.md
+│   ├── benches/
+│   │   └── lookup_bench.rs    ← Benchmarks
+│   ├── tests/
+│   │   ├── integration_test.rs ← Integration tests
+│   │   └── ffi_test.rs        ← FFI tests
+│   ├── Cargo.toml
+│   └── README.md
+│
+├── node/
+│   ├── src/
+│   │   └── lib.rs             ← Node.js bindings (via neon/napi-rs)
+│   ├── examples/
+│   │   ├── basic.js
+│   │   ├── ddos.js
+│   │   └── geolocation.js
+│   ├── benchmarks/
+│   │   └── bench.js
+│   ├── tests/
+│   │   └── test.js
+│   ├── index.js               ← Main entry point
+│   ├── index.d.ts             ← TypeScript definitions
+│   ├── Cargo.toml
+│   ├── package.json
+│   └── README.md
+│
+├── python/
+│   ├── src/
+│   │   ├── lib.rs             ← Python bindings (via PyO3)
+│   │   └── radixip.pyi        ← Python type hints
+│   ├── radixip/
+│   │   ├── __init__.py        ← Package exports
+│   │   ├── engine.py          ← Python wrapper for engine
+│   │   └── types.py           ← Python type definitions
+│   ├── examples/
+│   │   ├── basic.py
+│   │   ├── ddos.py
+│   │   └── geolocation.py
+│   ├── tests/
+│   │   ├── test_radixip.py
+│   │   └── test_benchmark.py
+│   ├── Cargo.toml
+│   ├── pyproject.toml
+│   ├── setup.py
+│   └── README.md
+│
+└── (root-level lib files)
+    ├── (no root-level lib files - all organized by language)
+    └── ...
 ```
