@@ -156,7 +156,7 @@ This makes radix trees a natural fit for routing tables, ACLs, reverse proxies, 
 | Standard Trie | ✅ | ✅ | High | Large number of nodes |
 | Patricia / Radix Tree | ✅ | ✅ | Low | Path compression reduces memory |
 | Binary Radix Tree | ✅ | ✅ | Low | Well suited for IPv4 bit traversal |
-| Adaptive Radix Tree (ART) 🚧 | ✅ | ✅ | Very Low | Dynamic node sizes, SIMD/cache-friendly, ultra-fast reads |
+| Adaptive Radix Tree (ART)  | ✅ | ✅ | Very Low | Dynamic node sizes, SIMD/cache-friendly, ultra-fast reads |
 
 ---
 
@@ -633,7 +633,7 @@ Every commit to `main` triggers our continuous benchmarking pipeline:
 - [x] gRPC service layer
 - [x] Prometheus metrics integration
 - [x] Lock-free CompressedTree (CAS-based node splitting)
-- [x] 🚧 (Adaptive Radix Tree) ART implementation in Go & Rust
+- [x]  (Adaptive Radix Tree) ART implementation in Go & Rust
    - [x] Node4 (1-4 children, ~36 bytes)
    - [x] Node16 (5-16 children, SIMD support)
    - [x] Node48 (17-48 children, index array)
@@ -651,7 +651,7 @@ Every commit to `main` triggers our continuous benchmarking pipeline:
 
 RadixIP provides three routing tree implementations. Choose based on your workload:
 
-| | UncompressedTree (Binary Trie) | CompressedTree (Binary Patricia Tree) | Adaptive Radix Tree (ART) 🚧 |
+| | UncompressedTree (Binary Trie) | CompressedTree (Binary Patricia Tree) | Adaptive Radix Tree (ART)  |
 |---|---|---|---|
 | **Write throughput** | ⚡ Fastest (no splitting) | 🟡 Moderate | 🟡 Moderate (node upgrades) |
 | **Read throughput** | 🟡 Good | ⚡ Fast | ⚡⚡ Fastest (SIMD / cache-aligned) |
