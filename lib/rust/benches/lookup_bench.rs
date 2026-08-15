@@ -98,7 +98,7 @@ fn bench_insert(c: &mut Criterion) {
                     b.iter(|| {
                         for cidr in &cidrs {
                             let _ = criterion::black_box(
-                                let _= engine.insert(*cidr, criterion::black_box(meta.clone())),
+                                 engine.insert(*cidr, criterion::black_box(meta.clone())),
                             );
                         }
                     });
@@ -121,7 +121,7 @@ fn bench_insert(c: &mut Criterion) {
                     b.iter(|| {
                         for cidr in &cidrs {
                             let _ = criterion::black_box(
-                                let _= engine.insert(*cidr, criterion::black_box(meta.clone())),
+                                 engine.insert(*cidr, criterion::black_box(meta.clone())),
                             );
                         }
                     });
@@ -136,7 +136,7 @@ fn bench_insert(c: &mut Criterion) {
                     b.iter(|| {
                         for cidr in &cidrs {
                             let _ = criterion::black_box(
-                                let _= engine.insert(*cidr, criterion::black_box(meta.clone())),
+                                 engine.insert(*cidr, criterion::black_box(meta.clone())),
                             );
         }
                     });
