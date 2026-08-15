@@ -90,15 +90,15 @@ fn bench_insert(c: &mut Criterion) {
             NodeVariant::PaddedTrieNode,
             NodeVariant::LockFreeTrieNode,
         ] {
+            let engine = EngineWrapper::new(EngineVariant::Concurrent, nv, false);
             group.bench_with_input(
                 BenchmarkId::new(format!("uncompressed/{nv:?}"), n),
                 &n,
                 |b, _| {
                     b.iter(|| {
-                        let engine = EngineWrapper::new(EngineVariant::Concurrent, nv, false);
                         for cidr in &cidrs {
                             let _ = criterion::black_box(
-                                engine.insert(*cidr, criterion::black_box(meta.clone())),
+                                let _= engine.insert(*cidr, criterion::black_box(meta.clone())),
                             );
                         }
                     });
@@ -113,32 +113,30 @@ fn bench_insert(c: &mut Criterion) {
                 NodeVariant::LockFreeTrieNode => NodeVariant::LockFreeRadixNode,
                 _ => nv,
             };
-
+            let engine = EngineWrapper::new(EngineVariant::Concurrent, cnv, true);
             group.bench_with_input(
                 BenchmarkId::new(format!("compressed/{cnv:?}"), n),
                 &n,
                 |b, _| {
                     b.iter(|| {
-                        let engine = EngineWrapper::new(EngineVariant::Concurrent, cnv, true);
                         for cidr in &cidrs {
                             let _ = criterion::black_box(
-                                engine.insert(*cidr, criterion::black_box(meta.clone())),
+                                let _= engine.insert(*cidr, criterion::black_box(meta.clone())),
                             );
                         }
                     });
                 },
             );
-
+            let engine = EngineWrapper::new(EngineVariant::ART, cnv, true);
             // create the ART variant for comparison
             group.bench_with_input(
                 BenchmarkId::new(format!("compressed/ART/{cnv:?}"), n),
                 &n,
                 |b, _| {
                     b.iter(|| {
-                        let engine = EngineWrapper::new(EngineVariant::ART, cnv, true);
                         for cidr in &cidrs {
                             let _ = criterion::black_box(
-                                engine.insert(*cidr, criterion::black_box(meta.clone())),
+                                let _= engine.insert(*cidr, criterion::black_box(meta.clone())),
                             );
         }
                     });
