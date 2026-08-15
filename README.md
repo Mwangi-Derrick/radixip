@@ -660,8 +660,8 @@ RadixIP provides three routing tree implementations. Choose based on your worklo
 
 ```rust
 // Rust — choose at construction time, zero runtime overhead
-let control = StandardEngine::new(UncompressedTree::new(NodeVariant::Normal));
-let fib     = StandardEngine::new(CompressedTree::new(NodeVariant::Normal));
+let control = StandardEngine::new(UncompressedTree::new(NodeVariant::NormalTrieNode));
+let fib     = StandardEngine::new(CompressedTree::new(NodeVariant::NormalRadixNode));
 ```
 
 ```go
