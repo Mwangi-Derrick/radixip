@@ -581,7 +581,7 @@ mod tests {
 
     #[test]
     fn test_new_tree() {
-        let tree = UncompressedTree::new(NodeVariant::Normal);
+        let tree = UncompressedTree::new(NodeVariant::NormalTrieNode);
         let ip = IpAddr::from_str("192.168.1.1").unwrap();
         assert_eq!(tree.lookup(&ip), None);
     }
