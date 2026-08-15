@@ -84,10 +84,10 @@ fn bench_insert(c: &mut Criterion) {
         group.throughput(Throughput::Elements(n as u64));
 
         for &nv in &[
-            NodeVariant::Normal,
-            NodeVariant::Atomic,
-            NodeVariant::Padded,
-            NodeVariant::LockFree,
+            NodeVariant::NormalTrieNode,
+            NodeVariant::AtomicTrieNode,
+            NodeVariant::PaddedTrieNode,
+            NodeVariant::LockFreeTrieNode,
         ] {
             group.bench_with_input(
                 BenchmarkId::new(format!("uncompressed/{nv:?}"), n),
@@ -106,10 +106,10 @@ fn bench_insert(c: &mut Criterion) {
 
             // Match compressed variants
             let cnv = match nv {
-                NodeVariant::Normal => NodeVariant::CompressedNormal,
-                NodeVariant::Atomic => NodeVariant::CompressedAtomic,
-                NodeVariant::Padded => NodeVariant::CompressedPadded,
-                NodeVariant::LockFree => NodeVariant::CompressedLockFree,
+                NodeVariant::NormalTrieNode => NodeVariant::NormalRadixNode,
+                NodeVariant::AtomicTrieNode => NodeVariant::AtomicRadixNode,
+                NodeVariant::PaddedTrieNode => NodeVariant::PaddedRadixNode,
+                NodeVariant::LockFreeTrieNode => NodeVariant::LockFreeRadixNode,
                 _ => nv,
             };
 
@@ -140,10 +140,10 @@ fn bench_lookup_hit(c: &mut Criterion) {
         group.throughput(Throughput::Elements(n as u64));
         // uncompressed variants
         for &nv in &[
-            NodeVariant::Normal,
-            NodeVariant::Atomic,
-            NodeVariant::Padded,
-            NodeVariant::LockFree,
+            NodeVariant::NormalTrieNode,
+            NodeVariant::AtomicTrieNode,
+            NodeVariant::PaddedTrieNode,
+            NodeVariant::LockFreeTrieNode,
         ] {
             let engine_u = build_engine(EngineVariant::Concurrent, nv, false, n);
             group.bench_with_input(
@@ -159,10 +159,10 @@ fn bench_lookup_hit(c: &mut Criterion) {
             );
 
             let cnv = match nv {
-                NodeVariant::Normal => NodeVariant::CompressedNormal,
-                NodeVariant::Atomic => NodeVariant::CompressedAtomic,
-                NodeVariant::Padded => NodeVariant::CompressedPadded,
-                NodeVariant::LockFree => NodeVariant::CompressedLockFree,
+                NodeVariant::NormalTrieNode => NodeVariant::NormalRadixNode,
+                NodeVariant::AtomicTrieNode => NodeVariant::AtomicRadixNode,
+                NodeVariant::PaddedTrieNode => NodeVariant::PaddedRadixNode,
+                NodeVariant::LockFreeTrieNode => NodeVariant::LockFreeRadixNode,
                 _ => nv,
             };
 
@@ -191,10 +191,10 @@ fn bench_lookup_miss(c: &mut Criterion) {
         group.throughput(Throughput::Elements(n as u64));
         // uncompressed variants
         for &nv in &[
-            NodeVariant::Normal,
-            NodeVariant::Atomic,
-            NodeVariant::Padded,
-            NodeVariant::LockFree,
+            NodeVariant::NormalTrieNode,
+            NodeVariant::AtomicTrieNode,
+            NodeVariant::PaddedTrieNode,
+            NodeVariant::LockFreeTrieNode,
         ] {
             let engine_u = build_engine(EngineVariant::Concurrent, nv, false, n);
             group.bench_with_input(
@@ -210,10 +210,10 @@ fn bench_lookup_miss(c: &mut Criterion) {
             );
             // compressed variants
             let cnv = match nv {
-                NodeVariant::Normal => NodeVariant::CompressedNormal,
-                NodeVariant::Atomic => NodeVariant::CompressedAtomic,
-                NodeVariant::Padded => NodeVariant::CompressedPadded,
-                NodeVariant::LockFree => NodeVariant::CompressedLockFree,
+                NodeVariant::NormalTrieNode => NodeVariant::NormalRadixNode,
+                NodeVariant::AtomicTrieNode => NodeVariant::AtomicRadixNode,
+                NodeVariant::PaddedTrieNode => NodeVariant::PaddedRadixNode,
+                NodeVariant::LockFreeTrieNode => NodeVariant::LockFreeRadixNode,
                 _ => nv,
             };
 
@@ -247,10 +247,10 @@ fn bench_concurrent_lookup_compressed(c: &mut Criterion) {
     let ips = Arc::new(generate_ips(n));
 
     for &nv in &[
-        NodeVariant::CompressedNormal,
-        NodeVariant::CompressedAtomic,
-        NodeVariant::CompressedPadded,
-        NodeVariant::CompressedLockFree,
+        NodeVariant::NormalRadixNode,
+        NodeVariant::AtomicRadixNode,
+        NodeVariant::PaddedRadixNode,
+        NodeVariant::LockFreeRadixNode,
     ] {
         let engine = Arc::new(build_engine(EngineVariant::Concurrent, nv, true, n));
         group.throughput(Throughput::Elements((n * 4) as u64)); // 4 threads
@@ -289,10 +289,10 @@ fn bench_concurrent_lookup_uncompressed(c: &mut Criterion) {
     let ips = Arc::new(generate_ips(n));
 
     for &nv in &[
-        NodeVariant::Normal,
-        NodeVariant::Atomic,
-        NodeVariant::Padded,
-        NodeVariant::LockFree,
+        NodeVariant::NormalTrieNode,
+        NodeVariant::AtomicTrieNode,
+        NodeVariant::PaddedTrieNode,
+        NodeVariant::LockFreeTrieNode,
     ] {
         let engine = Arc::new(build_engine(EngineVariant::Concurrent, nv, false, n));
         group.throughput(Throughput::Elements((n * 4) as u64)); // 4 threads
