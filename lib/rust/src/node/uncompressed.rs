@@ -14,7 +14,7 @@ use std::sync::{
     atomic::{AtomicU8, Ordering},
 };
 
-use crate::traits::RadixNode;
+use crate::traits::Node;
 use crate::types::Metadata;
 
 //
@@ -25,8 +25,8 @@ use crate::types::Metadata;
 #[repr(C, align(64))]
 pub struct NormalTrieNode {
     bit: RwLock<Option<u8>>,
-    left: RwLock<Option<Arc<dyn RadixNode>>>,
-    right: RwLock<Option<Arc<dyn RadixNode>>>,
+    left: RwLock<Option<Arc<dyn Node>>>,
+    right: RwLock<Option<Arc<dyn Node>>>,
     metadata: RwLock<Option<Metadata>>,
     prefix: RwLock<Option<IpNetwork>>,
 }
@@ -37,16 +37,16 @@ impl NormalTrieNode {
     }
 }
 
-impl RadixNode for NormalTrieNode {
+impl Node for NormalTrieNode {
     fn bit(&self) -> Option<u8> {
         *self.bit.read().unwrap()
     }
 
-    fn left(&self) -> Option<Arc<dyn RadixNode>> {
+    fn left(&self) -> Option<Arc<dyn Node>> {
         self.left.read().unwrap().clone()
     }
 
-    fn right(&self) -> Option<Arc<dyn RadixNode>> {
+    fn right(&self) -> Option<Arc<dyn Node>> {
         self.right.read().unwrap().clone()
     }
 
@@ -58,11 +58,11 @@ impl RadixNode for NormalTrieNode {
         *self.prefix.read().unwrap()
     }
 
-    fn set_left(&self, node: Option<Arc<dyn RadixNode>>) {
+    fn set_left(&self, node: Option<Arc<dyn Node>>) {
         *self.left.write().unwrap() = node;
     }
 
-    fn set_right(&self, node: Option<Arc<dyn RadixNode>>) {
+    fn set_right(&self, node: Option<Arc<dyn Node>>) {
         *self.right.write().unwrap() = node;
     }
 
@@ -92,8 +92,8 @@ impl RadixNode for NormalTrieNode {
 pub struct AtomicTrieNode {
     /// Encoded as 0 = None, n+1 = Some(n) so we can use AtomicU8.
     bit: AtomicU8,
-    left: RwLock<Option<Arc<dyn RadixNode>>>,
-    right: RwLock<Option<Arc<dyn RadixNode>>>,
+    left: RwLock<Option<Arc<dyn Node>>>,
+    right: RwLock<Option<Arc<dyn Node>>>,
     metadata: RwLock<Option<Metadata>>,
     prefix: RwLock<Option<IpNetwork>>,
 }
@@ -122,17 +122,17 @@ impl Default for UncompressedAtomicNode {
     }
 }
 
-impl RadixNode for AtomicTrieNode {
+impl Node for AtomicTrieNode {
     fn bit(&self) -> Option<u8> { // This impl should be for AtomicTrieNode
         let b = self.bit.load(Ordering::Acquire);
         if b == 0 { None } else { Some(b - 1) }
     }
 
-    fn left(&self) -> Option<Arc<dyn RadixNode>> {
+    fn left(&self) -> Option<Arc<dyn Node>> {
         self.left.read().unwrap().clone()
     }
 
-    fn right(&self) -> Option<Arc<dyn RadixNode>> {
+    fn right(&self) -> Option<Arc<dyn Node>> {
         self.right.read().unwrap().clone()
     }
 
@@ -144,11 +144,11 @@ impl RadixNode for AtomicTrieNode {
         *self.prefix.read().unwrap()
     }
 
-    fn set_left(&self, node: Option<Arc<dyn RadixNode>>) {
+    fn set_left(&self, node: Option<Arc<dyn Node>>) {
         *self.left.write().unwrap() = node;
     }
 
-    fn set_right(&self, node: Option<Arc<dyn RadixNode>>) {
+    fn set_right(&self, node: Option<Arc<dyn Node>>) {
         *self.right.write().unwrap() = node;
     }
 
@@ -178,9 +178,9 @@ impl RadixNode for AtomicTrieNode {
 pub struct PaddedTrieNode {
     bit: RwLock<Option<u8>>,
     _pad1: [u8; 63],
-    left: RwLock<Option<Arc<dyn RadixNode>>>,
+    left: RwLock<Option<Arc<dyn Node>>>,
 
-    right: RwLock<Option<Arc<dyn RadixNode>>>,
+    right: RwLock<Option<Arc<dyn Node>>>,
 
     metadata: RwLock<Option<Metadata>>,
 
@@ -206,16 +206,16 @@ impl Default for PaddedTrieNode {
     }
 }
 
-impl RadixNode for PaddedTrieNode {
+impl Node for PaddedTrieNode {
     fn bit(&self) -> Option<u8> {
         *self.bit.read().unwrap()
     }
 
-    fn left(&self) -> Option<Arc<dyn RadixNode>> {
+    fn left(&self) -> Option<Arc<dyn Node>> {
         self.left.read().unwrap().clone()
     }
 
-    fn right(&self) -> Option<Arc<dyn RadixNode>> {
+    fn right(&self) -> Option<Arc<dyn Node>> {
         self.right.read().unwrap().clone()
     }
 
@@ -227,11 +227,11 @@ impl RadixNode for PaddedTrieNode {
         *self.prefix.read().unwrap()
     }
 
-    fn set_left(&self, node: Option<Arc<dyn RadixNode>>) {
+    fn set_left(&self, node: Option<Arc<dyn Node>>) {
         *self.left.write().unwrap() = node;
     }
 
-    fn set_right(&self, node: Option<Arc<dyn RadixNode>>) {
+    fn set_right(&self, node: Option<Arc<dyn Node>>) {
         *self.right.write().unwrap() = node;
     }
 
@@ -266,7 +266,7 @@ enum ChildKey {
 #[repr(C, align(64))]
 pub struct LockFreeTrieNode {
     bit: AtomicU8,
-    children: DashMap<ChildKey, Arc<dyn RadixNode>>,
+    children: DashMap<ChildKey, Arc<dyn Node>>,
     metadata: RwLock<Option<Metadata>>,
     prefix: RwLock<Option<IpNetwork>>,
 }
@@ -288,19 +288,19 @@ impl Default for UncompressedLockFreeNode {
     }
 }
 
-impl RadixNode for LockFreeTrieNode {
+impl Node for LockFreeTrieNode {
     fn bit(&self) -> Option<u8> { // This impl should be for LockFreeTrieNode
         let b = self.bit.load(Ordering::Acquire);
         if b == 0 { None } else { Some(b - 1) }
     }
 
-    fn left(&self) -> Option<Arc<dyn RadixNode>> {
+    fn left(&self) -> Option<Arc<dyn Node>> {
         self.children
             .get(&ChildKey::Left)
             .map(|r| r.value().clone())
     }
 
-    fn right(&self) -> Option<Arc<dyn RadixNode>> {
+    fn right(&self) -> Option<Arc<dyn Node>> {
         self.children
             .get(&ChildKey::Right)
             .map(|r| r.value().clone())
@@ -314,7 +314,7 @@ impl RadixNode for LockFreeTrieNode {
         *self.prefix.read().unwrap()
     }
 
-    fn set_left(&self, node: Option<Arc<dyn RadixNode>>) {
+    fn set_left(&self, node: Option<Arc<dyn Node>>) {
         match node {
             Some(n) => {
                 self.children.insert(ChildKey::Left, n);
@@ -325,7 +325,7 @@ impl RadixNode for LockFreeTrieNode {
         }
     }
 
-    fn set_right(&self, node: Option<Arc<dyn RadixNode>>) {
+    fn set_right(&self, node: Option<Arc<dyn Node>>) {
         match node {
             Some(n) => {
                 self.children.insert(ChildKey::Right, n);

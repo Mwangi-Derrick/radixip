@@ -20,15 +20,15 @@ pub use compressed::{
 };
 pub use uncompressed::{AtomicNode, LockFreeNode, NormalNode, PaddedNode};
 
-use crate::traits::{NodeVariant, RadixNode};
+use crate::traits::{NodeVariant, Node};
 use crate::types::Metadata;
 use ipnetwork::IpNetwork;
 use std::sync::Arc;
 
 //
 // NODE WRAPPER ENUM
-// Provides a single concrete type that implements `RadixNode` for all variants.
-// Trees store `Arc<dyn RadixNode>` — the NodeWrapper is the concrete type
+// Provides a single concrete type that implements `Node` for all variants.
+// Trees store `Arc<dyn Node>` — the NodeWrapper is the concrete type
 // that gets erased behind that pointer.
 //
 
@@ -45,7 +45,7 @@ pub enum NodeWrapper {
     CompressedLockFree(Arc<CompressedLockFreeNode>),
 }
 
-/// Macro to dispatch all RadixNode methods across all variants.
+/// Macro to dispatch all Node methods across all variants.
 macro_rules! dispatch {
     ($self:ident, $method:ident $(, $arg:expr)*) => {
         match $self {
@@ -61,16 +61,16 @@ macro_rules! dispatch {
     };
 }
 
-impl RadixNode for NodeWrapper {
+impl Node for NodeWrapper {
     fn bit(&self) -> Option<u8> {
         dispatch!(self, bit)
     }
 
-    fn left(&self) -> Option<Arc<dyn RadixNode>> {
+    fn left(&self) -> Option<Arc<dyn Node>> {
         dispatch!(self, left)
     }
 
-    fn right(&self) -> Option<Arc<dyn RadixNode>> {
+    fn right(&self) -> Option<Arc<dyn Node>> {
         dispatch!(self, right)
     }
 
@@ -82,11 +82,11 @@ impl RadixNode for NodeWrapper {
         dispatch!(self, prefix)
     }
 
-    fn set_left(&self, node: Option<Arc<dyn RadixNode>>) {
+    fn set_left(&self, node: Option<Arc<dyn Node>>) {
         dispatch!(self, set_left, node)
     }
 
-    fn set_right(&self, node: Option<Arc<dyn RadixNode>>) {
+    fn set_right(&self, node: Option<Arc<dyn Node>>) {
         dispatch!(self, set_right, node)
     }
 
@@ -135,7 +135,7 @@ impl NodeBuilder {
     }
 
     /// Build an empty node of the configured variant.
-    pub fn build(&self) -> Arc<dyn RadixNode> {
+    pub fn build(&self) -> Arc<dyn Node> {
         match self.variant {
             NodeVariant::Normal => Arc::new(NodeWrapper::Normal(Arc::new(NormalNode::new()))),
             NodeVariant::Atomic => Arc::new(NodeWrapper::Atomic(Arc::new(AtomicNode::new()))),
@@ -157,7 +157,7 @@ impl NodeBuilder {
     }
 
     /// Build a leaf node (a node that immediately stores a prefix + metadata).
-    pub fn build_leaf(&self, network: IpNetwork, metadata: Metadata) -> Arc<dyn RadixNode> {
+    pub fn build_leaf(&self, network: IpNetwork, metadata: Metadata) -> Arc<dyn Node> {
         let node = self.build();
         node.set_prefix(network);
         node.set_metadata(metadata);

@@ -2,7 +2,7 @@ use std::net::IpAddr;
 
 use ipnetwork::IpNetwork;
 
-use crate::traits::RadixNode;
+use crate::traits::Node;
 use crate::types::Metadata;
 
 pub struct LPM;
@@ -38,7 +38,7 @@ where
 }
 
 /// Find the longest prefix match for a node tree that stores children by network.
-pub fn longest_prefix_match(root: &dyn RadixNode, ip: IpAddr) -> Option<Metadata> {
+pub fn longest_prefix_match(root: &dyn Node, ip: IpAddr) -> Option<Metadata> {
     let mut best_match = root.metadata();
 
     // The current node abstraction exposes keyed children, but not a child
@@ -87,7 +87,7 @@ pub fn ip_to_binary_string(ip: IpAddr) -> String {
 }
 
 /// Alternative implementation using the provided longest_common_prefix_len function
-pub fn longest_prefix_match_with_lcp(root: &dyn RadixNode, ip: IpAddr) -> Option<Metadata> {
+pub fn longest_prefix_match_with_lcp(root: &dyn Node, ip: IpAddr) -> Option<Metadata> {
     longest_prefix_match(root, ip)
 }
 
@@ -130,7 +130,7 @@ pub fn get_bit(ip: IpAddr, bit_pos: usize) -> u8 {
 }
 
 /// More efficient implementation using binary string representation
-pub fn longest_prefix_match_binary(root: &dyn RadixNode, ip: IpAddr) -> Option<Metadata> {
+pub fn longest_prefix_match_binary(root: &dyn Node, ip: IpAddr) -> Option<Metadata> {
     let mut best_match = None;
     let mut depth = 0;
 

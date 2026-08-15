@@ -6,13 +6,13 @@
 //! - [`CompressedTree`]   — Patricia / radix trie; each edge carries a variable-length
 //!   bit string, skipping over non-branching paths for faster traversal.
 //!
-//! Both trees store `Arc<dyn RadixNode>`, so the node variant (Normal, Atomic,
+//! Both trees store `Arc<dyn Node>`, so the node variant (Normal, Atomic,
 //! Padded, LockFree, or their Compressed equivalents) is chosen at construction
 //! time via [`NodeBuilder`] and [`NodeVariant`].
 
 use crate::lpm::{get_bit, longest_prefix_match_binary};
 use crate::node::NodeBuilder;
-use crate::traits::{NodeVariant, RadixNode, RouteTree};
+use crate::traits::{NodeVariant, Node, RouteTree};
 use crate::types::Metadata;
 use ipnetwork::IpNetwork;
 use std::net::IpAddr;
@@ -24,7 +24,7 @@ use std::sync::Arc;
 
 #[derive(Clone)]
 pub struct UncompressedTree {
-    root: Arc<dyn RadixNode>,
+    root: Arc<dyn Node>,
     node_builder: NodeBuilder,
 }
 
@@ -151,13 +151,13 @@ impl RouteTree for UncompressedTree {
 // corresponding bits of the query before moving to the next child.
 //
 // The tree works with any node variant that implements the `edge_bits`,
-// `edge_len`, and `set_edge` extensions of `RadixNode`.  Compressed variants
+// `edge_len`, and `set_edge` extensions of `Node`.  Compressed variants
 // are picked via `NodeBuilder` from `NodeVariant::Compressed*`.
 //
 
 /// Helper to read edge fields from a node via the trait extension.
 /// Returns (edge_bits_clone, edge_len) for a compressed node.
-fn node_edge(node: &Arc<dyn RadixNode>) -> ([u8; 16], usize) {
+fn node_edge(node: &Arc<dyn Node>) -> ([u8; 16], usize) {
     let bits = node.edge_bits().unwrap_or_default();
     let len = node.edge_len().unwrap_or(0);
     (bits, len)
@@ -212,7 +212,7 @@ fn ip_to_bytes(ip: IpAddr) -> [u8; 16] {
 
 #[derive(Clone)]
 pub struct CompressedTree {
-    root: Arc<dyn RadixNode>,
+    root: Arc<dyn Node>,
     node_builder: NodeBuilder,
 }
 
@@ -236,7 +236,7 @@ impl CompressedTree {
 
     /// Insert into the Patricia trie, splitting nodes as needed.
     fn insert_inner(
-        node: &Arc<dyn RadixNode>,
+        node: &Arc<dyn Node>,
         node_builder: &NodeBuilder,
         key: &[u8],
         key_len: usize,
@@ -367,7 +367,7 @@ impl CompressedTree {
     }
 
     /// Walk the trie returning the most-specific matching prefix.
-    fn lookup_inner(node: &Arc<dyn RadixNode>, key: &[u8], depth: usize) -> Option<Metadata> {
+    fn lookup_inner(node: &Arc<dyn Node>, key: &[u8], depth: usize) -> Option<Metadata> {
         let (edge_bits, edge_len) = node_edge(node);
 
         if edge_len == 0 && node.metadata().is_none() {
@@ -407,7 +407,7 @@ impl CompressedTree {
     }
 
     fn remove_inner(
-        node: &Arc<dyn RadixNode>,
+        node: &Arc<dyn Node>,
         key: &[u8],
         key_len: usize,
         depth: usize,
@@ -441,7 +441,7 @@ impl CompressedTree {
         }
     }
 
-    fn contains_inner(node: &Arc<dyn RadixNode>, key: &[u8], key_len: usize, depth: usize) -> bool {
+    fn contains_inner(node: &Arc<dyn Node>, key: &[u8], key_len: usize, depth: usize) -> bool {
         let (edge_bits, edge_len) = node_edge(node);
         let remaining = key_len.saturating_sub(depth);
         let key_rem = extract_bits(key, depth, remaining);
@@ -468,7 +468,7 @@ impl CompressedTree {
         }
     }
 
-    fn clear_inner(node: &Arc<dyn RadixNode>) {
+    fn clear_inner(node: &Arc<dyn Node>) {
         node.set_edge([0u8; 16], 0);
         node.clear_metadata();
         node.set_left(None);
