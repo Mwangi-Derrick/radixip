@@ -73,10 +73,25 @@ jobs:
           benchmark-data-dir-path: dev/bench
 
   bench-go:
-    name: Go (testing.B)
+    name: Go (testing.B) with SIMD CGO
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install Protobuf
+        run: sudo apt-get update && sudo apt-get install -y protobuf-compiler
+
+      - name: Install cbindgen
+        run: cargo install cbindgen
+
+      - name: Build SIMD FFI shared library
+        run: |
+          cd lib/rust/node16_simd_ffi && cargo build --release
+          mkdir -p lib/vendor/lib
+          cp -f target/release/libnode16_simd_ffi.so lib/vendor/lib/
 
       - name: Set up Go
         uses: actions/setup-go@v5
@@ -84,11 +99,13 @@ jobs:
           go-version: '1.26.1'
           cache: true
 
-      - name: Run benchmarks
+      - name: Run benchmarks with SIMD CGO
         working-directory: ./lib/go
         timeout-minutes: 10  # Increase timeout for this step
+        env:
+          CGO_ENABLED: '1'
         run: |
-          go test -run=NONE -bench=. -benchmem -count=10 -v ./... 2>&1 | tee go_bench_results.txt
+          go test -run=NONE -bench=. -benchmem -count=10 -v -tags simd_cgo ./... 2>&1 | tee go_bench_results.txt
 
       - name: Store benchmark result
         uses: benchmark-action/github-action-benchmark@v1
