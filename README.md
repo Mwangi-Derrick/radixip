@@ -672,8 +672,8 @@ fib     := NewStandardEngine(NewCompressedTree(NodeNormal))
 
 ```go
 // Or via EngineWrapper with compressed flag
-controlPlane := NewEngineWrapperWithTree(EngineStandard, NodeNormal, false) // uncompressed
-dataPlane    := NewEngineWrapperWithTree(EngineConcurrent, NodeAtomic, true)  // compressed
+controlPlane := NewEngineWrapperWithTree(EngineStandard, NormalTrieNode, false) // uncompressed
+dataPlane    := NewEngineWrapperWithTree(EngineConcurrent, AtomicRadixNode, true)  // compressed
 ```
 
 See [ARCHITECTURE.md](./ARCHITECTURE.md) for the full design rationale, hybrid Redis architecture, and performance reference.
