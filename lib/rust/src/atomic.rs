@@ -1,10 +1,10 @@
 use std::sync::{Arc, RwLock};
 
-use crate::traits::RadixNode;
+use crate::traits::Node;
 
 // Atomic reference counting utilities for lock-free operations
 pub struct AtomicNodeRef {
-    ptr: RwLock<Option<Arc<dyn RadixNode>>>,
+    ptr: RwLock<Option<Arc<dyn Node>>>,
 }
 
 impl AtomicNodeRef {
@@ -14,19 +14,19 @@ impl AtomicNodeRef {
         }
     }
 
-    pub fn load(&self) -> Option<Arc<dyn RadixNode>> {
+    pub fn load(&self) -> Option<Arc<dyn Node>> {
         self.ptr.read().unwrap().clone()
     }
 
-    pub fn store(&self, node: Arc<dyn RadixNode>) {
+    pub fn store(&self, node: Arc<dyn Node>) {
         *self.ptr.write().unwrap() = Some(node);
     }
 
     pub fn compare_exchange(
         &self,
-        current: Arc<dyn RadixNode>,
-        new: Arc<dyn RadixNode>,
-    ) -> std::result::Result<Arc<dyn RadixNode>, Arc<dyn RadixNode>> {
+        current: Arc<dyn Node>,
+        new: Arc<dyn Node>,
+    ) -> std::result::Result<Arc<dyn Node>, Arc<dyn Node>> {
         let mut guard = self.ptr.write().unwrap();
         match guard.as_ref() {
             Some(existing) if Arc::ptr_eq(existing, &current) => {
