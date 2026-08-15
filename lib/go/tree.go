@@ -237,14 +237,14 @@ type CompressedTree struct {
 func NewCompressedTree(variant NodeVariant) *CompressedTree {
 	compressedVariant := variant
 	switch variant {
-	case NodeNormal, NodeCompressedNormal:
-		compressedVariant = NodeCompressedNormal
-	case NodeAtomic, NodeCompressedAtomic:
-		compressedVariant = NodeCompressedAtomic
-	case NodePadded, NodeCompressedPadded:
-		compressedVariant = NodeCompressedPadded
-	case NodeLockFree, NodeCompressedLockFree:
-		compressedVariant = NodeCompressedLockFree
+	case NormalTrieNode, NormalRadixNode:
+		compressedVariant = NormalRadixNode
+	case AtomicTrieNode, AtomicRadixNode:
+		compressedVariant = AtomicRadixNode
+	case PaddedTrieNode, PaddedRadixNode:
+		compressedVariant = PaddedRadixNode
+	case LockFreeTrieNode, LockFreeRadixNode:
+		compressedVariant = LockFreeRadixNode
 	}
 
 	builder := NewNodeBuilder(compressedVariant)

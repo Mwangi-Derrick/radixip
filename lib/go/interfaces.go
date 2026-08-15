@@ -17,14 +17,14 @@ const (
 type NodeVariant string
 
 const (
-	NodeNormal             NodeVariant = "normal"
-	NodeAtomic             NodeVariant = "atomic"
-	NodeLockFree           NodeVariant = "lockfree"
-	NodePadded             NodeVariant = "padded"
-	NodeCompressedNormal   NodeVariant = "compressednormal"
-	NodeCompressedPadded   NodeVariant = "compressedpadded"
-	NodeCompressedAtomic   NodeVariant = "compressedatomic"
-	NodeCompressedLockFree NodeVariant = "compressedlockfree"
+	NormalTrieNode             NodeVariant = "normaltrie"
+	AtomicTrieNode             NodeVariant = "atomictrie"
+	LockFreeTrieNode           NodeVariant = "lockfreetrie"
+	PaddedTrieNode             NodeVariant = "paddedtrie"
+	NormalRadixNode   NodeVariant = "normalradix"
+	PaddedRadixNode   NodeVariant = "paddedradix"
+	AtomicRadixNode   NodeVariant = "atomicradix"
+	LockFreeRadixNode NodeVariant = "lockfreeradix"
 )
 
 // RADIX NODE INTERFACE
@@ -86,21 +86,21 @@ func NewNodeBuilder(variant NodeVariant) *NodeBuilder {
 
 func (b *NodeBuilder) Build() Node {
 	switch b.variant {
-	case NodeNormal:
+	case NormalTrieNode:
 		return NewNormalNode()
-	case NodeAtomic:
+	case AtomicTrieNode:
 		return NewAtomicNode()
-	case NodePadded:
+	case PaddedTrieNode:
 		return NewPaddedNode()
-	case NodeLockFree:
+	case LockFreeTrieNode:
 		return NewLockFreeNode()
-	case NodeCompressedNormal:
-		return NewCompressedNormalNode()
-	case NodeCompressedAtomic:
-		return NewCompressedAtomicNode()
-	case NodeCompressedPadded:
-		return NewCompressedPaddedNode()
-	case NodeCompressedLockFree:
+	case NormalRadixNode:
+		return NewNormalRadixNode()
+	case AtomicRadixNode:
+		return NewAtomicRadixNode()
+	case PaddedRadixNode:
+		return NewPaddedRadixNode()
+	case LockFreeRadixNode:
 		return NewCompressedLockFreeNode()
 	default:
 		return NewAtomicNode()

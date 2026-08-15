@@ -45,7 +45,7 @@ func generateMissIPs(n int) []net.IP {
 }
 
 func buildEngine(n int, compressed bool) RadixEngine {
-	e := NewEngineWrapperWithTree(EngineConcurrent, NodeAtomic, compressed)
+	e := NewEngineWrapperWithTree(EngineConcurrent, AtomicTrieNode, compressed)
 	meta := Metadata{Value: "bench", Attributes: map[string]string{"type": "benchmark"}}
 	for _, cidr := range generateCIDRs(n) {
 		_ = e.Insert(cidr, meta)
@@ -75,7 +75,7 @@ func BenchmarkInsert_Uncompressed_10k_Normal(b *testing.B) {
 	meta := Metadata{Value: "bench"}
 	b.ResetTimer()
 	for b.Loop() {
-		e := NewEngineWrapperWithTree(EngineConcurrent, NodeNormal, false)
+		e := NewEngineWrapperWithTree(EngineConcurrent, NormalTrieNode, false)
 		for _, cidr := range cidrs {
 			_ = e.Insert(cidr, meta)
 		}
@@ -87,7 +87,7 @@ func BenchmarkInsert_Uncompressed_10k_Atomic(b *testing.B) {
 	meta := Metadata{Value: "bench"}
 	b.ResetTimer()
 	for b.Loop() {
-		e := NewEngineWrapperWithTree(EngineConcurrent, NodeAtomic, false)
+		e := NewEngineWrapperWithTree(EngineConcurrent, AtomicTrieNode, false)
 		for _, cidr := range cidrs {
 			_ = e.Insert(cidr, meta)
 		}
@@ -99,7 +99,7 @@ func BenchmarkInsert_Uncompressed_10k_Padded(b *testing.B) {
 	meta := Metadata{Value: "bench"}
 	b.ResetTimer()
 	for b.Loop() {
-		e := NewEngineWrapperWithTree(EngineConcurrent, NodePadded, false)
+		e := NewEngineWrapperWithTree(EngineConcurrent, PaddedTrieNode, false)
 		for _, cidr := range cidrs {
 			_ = e.Insert(cidr, meta)
 		}
@@ -111,7 +111,7 @@ func BenchmarkInsert_Uncompressed_10k_LockFree(b *testing.B) {
 	meta := Metadata{Value: "bench"}
 	b.ResetTimer()
 	for b.Loop() {
-		e := NewEngineWrapperWithTree(EngineConcurrent, NodeLockFree, false)
+		e := NewEngineWrapperWithTree(EngineConcurrent, LockFreeTrieNode, false)
 		for _, cidr := range cidrs {
 			_ = e.Insert(cidr, meta)
 		}
@@ -123,7 +123,7 @@ func BenchmarkInsert_Compressed_10k_Normal(b *testing.B) {
 	meta := Metadata{Value: "bench"}
 	b.ResetTimer()
 	for b.Loop() {
-		e := NewEngineWrapperWithTree(EngineConcurrent, NodeCompressedNormal, true)
+		e := NewEngineWrapperWithTree(EngineConcurrent, NormalRadixNode, true)
 		for _, cidr := range cidrs {
 			_ = e.Insert(cidr, meta)
 		}
@@ -135,7 +135,7 @@ func BenchmarkInsert_Compressed_10k_Atomic(b *testing.B) {
 	meta := Metadata{Value: "bench"}
 	b.ResetTimer()
 	for b.Loop() {
-		e := NewEngineWrapperWithTree(EngineConcurrent, NodeCompressedAtomic, true)
+		e := NewEngineWrapperWithTree(EngineConcurrent, AtomicRadixNode, true)
 		for _, cidr := range cidrs {
 			_ = e.Insert(cidr, meta)
 		}
@@ -147,7 +147,7 @@ func BenchmarkInsert_Compressed_10k_Padded(b *testing.B) {
 	meta := Metadata{Value: "bench"}
 	b.ResetTimer()
 	for b.Loop() {
-		e := NewEngineWrapperWithTree(EngineConcurrent, NodeCompressedPadded, true)
+		e := NewEngineWrapperWithTree(EngineConcurrent, PaddedRadixNode, true)
 		for _, cidr := range cidrs {
 			_ = e.Insert(cidr, meta)
 		}
@@ -159,7 +159,7 @@ func BenchmarkInsert_Compressed_10k_LockFree(b *testing.B) {
 	meta := Metadata{Value: "bench"}
 	b.ResetTimer()
 	for b.Loop() {
-		e := NewEngineWrapperWithTree(EngineConcurrent, NodeCompressedLockFree, true)
+		e := NewEngineWrapperWithTree(EngineConcurrent, LockFreeRadixNode, true)
 		for _, cidr := range cidrs {
 			_ = e.Insert(cidr, meta)
 		}
@@ -171,7 +171,7 @@ func BenchmarkInsert_Compressed_10k_LockFree(b *testing.B) {
 // ---------------------------------------------------------------------------
 
 func BenchmarkLookup_Hit_Uncompressed_50k_Normal(b *testing.B) {
-	e := buildEngineWithVariant(50_000, false, NodeNormal)
+	e := buildEngineWithVariant(50_000, false, NormalTrieNode)
 	ips := generateHitIPs(50_000)
 	b.ResetTimer()
 	b.ReportAllocs()
@@ -183,7 +183,7 @@ func BenchmarkLookup_Hit_Uncompressed_50k_Normal(b *testing.B) {
 }
 
 func BenchmarkLookup_Hit_Uncompressed_50k_Atomic(b *testing.B) {
-	e := buildEngineWithVariant(50_000, false, NodeAtomic)
+	e := buildEngineWithVariant(50_000, false, AtomicTrieNode)
 	ips := generateHitIPs(50_000)
 	b.ResetTimer()
 	b.ReportAllocs()
@@ -195,7 +195,7 @@ func BenchmarkLookup_Hit_Uncompressed_50k_Atomic(b *testing.B) {
 }
 
 func BenchmarkLookup_Hit_Uncompressed_50k_Padded(b *testing.B) {
-	e := buildEngineWithVariant(50_000, false, NodePadded)
+	e := buildEngineWithVariant(50_000, false, PaddedTrieNode)
 	ips := generateHitIPs(50_000)
 	b.ResetTimer()
 	b.ReportAllocs()
@@ -207,7 +207,7 @@ func BenchmarkLookup_Hit_Uncompressed_50k_Padded(b *testing.B) {
 }
 
 func BenchmarkLookup_Hit_Uncompressed_50k_LockFree(b *testing.B) {
-	e := buildEngineWithVariant(50_000, false, NodeLockFree)
+	e := buildEngineWithVariant(50_000, false, LockFreeTrieNode)
 	ips := generateHitIPs(50_000)
 	b.ResetTimer()
 	b.ReportAllocs()
@@ -223,7 +223,7 @@ func BenchmarkLookup_Hit_Uncompressed_50k_LockFree(b *testing.B) {
 // ---------------------------------------------------------------------------
 
 func BenchmarkLookup_Miss_Uncompressed_50k_Normal(b *testing.B) {
-	e := buildEngineWithVariant(50_000, false, NodeNormal)
+	e := buildEngineWithVariant(50_000, false, NormalTrieNode)
 	ips := generateMissIPs(50_000)
 	b.ResetTimer()
 	b.ReportAllocs()
@@ -235,7 +235,7 @@ func BenchmarkLookup_Miss_Uncompressed_50k_Normal(b *testing.B) {
 }
 
 func BenchmarkLookup_Miss_Uncompressed_50k_Atomic(b *testing.B) {
-	e := buildEngineWithVariant(50_000, false, NodeAtomic)
+	e := buildEngineWithVariant(50_000, false, AtomicTrieNode)
 	ips := generateMissIPs(50_000)
 	b.ResetTimer()
 	b.ReportAllocs()
@@ -247,7 +247,7 @@ func BenchmarkLookup_Miss_Uncompressed_50k_Atomic(b *testing.B) {
 }
 
 func BenchmarkLookup_Miss_Uncompressed_50k_Padded(b *testing.B) {
-	e := buildEngineWithVariant(50_000, false, NodePadded)
+	e := buildEngineWithVariant(50_000, false, PaddedTrieNode)
 	ips := generateMissIPs(50_000)
 	b.ResetTimer()
 	b.ReportAllocs()
@@ -259,7 +259,7 @@ func BenchmarkLookup_Miss_Uncompressed_50k_Padded(b *testing.B) {
 }
 
 func BenchmarkLookup_Miss_Uncompressed_50k_LockFree(b *testing.B) {
-	e := buildEngineWithVariant(50_000, false, NodeLockFree)
+	e := buildEngineWithVariant(50_000, false, LockFreeTrieNode)
 	ips := generateMissIPs(50_000)
 	b.ResetTimer()
 	b.ReportAllocs()
@@ -275,7 +275,7 @@ func BenchmarkLookup_Miss_Uncompressed_50k_LockFree(b *testing.B) {
 // ---------------------------------------------------------------------------
 
 func BenchmarkLookup_Hit_Compressed_50k_Normal(b *testing.B) {
-	e := buildEngineWithVariant(50_000, true, NodeCompressedNormal)
+	e := buildEngineWithVariant(50_000, true, NormalRadixNode)
 	ips := generateHitIPs(50_000)
 	b.ResetTimer()
 	b.ReportAllocs()
@@ -287,7 +287,7 @@ func BenchmarkLookup_Hit_Compressed_50k_Normal(b *testing.B) {
 }
 
 func BenchmarkLookup_Hit_Compressed_50k_Atomic(b *testing.B) {
-	e := buildEngineWithVariant(50_000, true, NodeCompressedAtomic)
+	e := buildEngineWithVariant(50_000, true, AtomicRadixNode)
 	ips := generateHitIPs(50_000)
 	b.ResetTimer()
 	b.ReportAllocs()
@@ -299,7 +299,7 @@ func BenchmarkLookup_Hit_Compressed_50k_Atomic(b *testing.B) {
 }
 
 func BenchmarkLookup_Hit_Compressed_50k_Padded(b *testing.B) {
-	e := buildEngineWithVariant(50_000, true, NodeCompressedPadded)
+	e := buildEngineWithVariant(50_000, true, PaddedRadixNode)
 	ips := generateHitIPs(50_000)
 	b.ResetTimer()
 	b.ReportAllocs()
@@ -311,7 +311,7 @@ func BenchmarkLookup_Hit_Compressed_50k_Padded(b *testing.B) {
 }
 
 func BenchmarkLookup_Hit_Compressed_50k_LockFree(b *testing.B) {
-	e := buildEngineWithVariant(50_000, true, NodeCompressedLockFree)
+	e := buildEngineWithVariant(50_000, true, LockFreeRadixNode)
 	ips := generateHitIPs(50_000)
 	b.ResetTimer()
 	b.ReportAllocs()
@@ -327,7 +327,7 @@ func BenchmarkLookup_Hit_Compressed_50k_LockFree(b *testing.B) {
 // ---------------------------------------------------------------------------
 
 func BenchmarkLookup_Miss_Compressed_50k_Normal(b *testing.B) {
-	e := buildEngineWithVariant(50_000, true, NodeCompressedNormal)
+	e := buildEngineWithVariant(50_000, true, NormalRadixNode)
 	ips := generateMissIPs(50_000)
 	b.ResetTimer()
 	b.ReportAllocs()
@@ -339,7 +339,7 @@ func BenchmarkLookup_Miss_Compressed_50k_Normal(b *testing.B) {
 }
 
 func BenchmarkLookup_Miss_Compressed_50k_Atomic(b *testing.B) {
-	e := buildEngineWithVariant(50_000, true, NodeCompressedAtomic)
+	e := buildEngineWithVariant(50_000, true, AtomicRadixNode)
 	ips := generateMissIPs(50_000)
 	b.ResetTimer()
 	b.ReportAllocs()
@@ -351,7 +351,7 @@ func BenchmarkLookup_Miss_Compressed_50k_Atomic(b *testing.B) {
 }
 
 func BenchmarkLookup_Miss_Compressed_50k_Padded(b *testing.B) {
-	e := buildEngineWithVariant(50_000, true, NodeCompressedPadded)
+	e := buildEngineWithVariant(50_000, true, PaddedRadixNode)
 	ips := generateMissIPs(50_000)
 	b.ResetTimer()
 	b.ReportAllocs()
@@ -363,7 +363,7 @@ func BenchmarkLookup_Miss_Compressed_50k_Padded(b *testing.B) {
 }
 
 func BenchmarkLookup_Miss_Compressed_50k_LockFree(b *testing.B) {
-	e := buildEngineWithVariant(50_000, true, NodeCompressedLockFree)
+	e := buildEngineWithVariant(50_000, true, LockFreeRadixNode)
 	ips := generateMissIPs(50_000)
 	b.ResetTimer()
 	b.ReportAllocs()
@@ -414,7 +414,7 @@ func BenchmarkConcurrent_Lookup_Compressed(b *testing.B) {
 
 func BenchmarkConcurrent_Lookup_Uncompressed_Normal(b *testing.B) {
 	const n = 50_000
-	e := buildEngineWithVariant(n, false, NodeNormal)
+	e := buildEngineWithVariant(n, false, NormalTrieNode)
 	ips := generateHitIPs(n)
 	b.ResetTimer()
 	b.ReportAllocs()
@@ -429,7 +429,7 @@ func BenchmarkConcurrent_Lookup_Uncompressed_Normal(b *testing.B) {
 
 func BenchmarkConcurrent_Lookup_Uncompressed_Atomic(b *testing.B) {
 	const n = 50_000
-	e := buildEngineWithVariant(n, false, NodeAtomic)
+	e := buildEngineWithVariant(n, false, AtomicTrieNode)
 	ips := generateHitIPs(n)
 	b.ResetTimer()
 	b.ReportAllocs()
@@ -444,7 +444,7 @@ func BenchmarkConcurrent_Lookup_Uncompressed_Atomic(b *testing.B) {
 
 func BenchmarkConcurrent_Lookup_Uncompressed_Padded(b *testing.B) {
 	const n = 50_000
-	e := buildEngineWithVariant(n, false, NodePadded)
+	e := buildEngineWithVariant(n, false, PaddedTrieNode)
 	ips := generateHitIPs(n)
 	b.ResetTimer()
 	b.ReportAllocs()
@@ -459,7 +459,7 @@ func BenchmarkConcurrent_Lookup_Uncompressed_Padded(b *testing.B) {
 
 func BenchmarkConcurrent_Lookup_Uncompressed_LockFree(b *testing.B) {
 	const n = 50_000
-	e := buildEngineWithVariant(n, false, NodeLockFree)
+	e := buildEngineWithVariant(n, false, LockFreeTrieNode)
 	ips := generateHitIPs(n)
 	b.ResetTimer()
 	b.ReportAllocs()
@@ -474,7 +474,7 @@ func BenchmarkConcurrent_Lookup_Uncompressed_LockFree(b *testing.B) {
 
 func BenchmarkConcurrent_Lookup_Compressed_Normal(b *testing.B) {
 	const n = 50_000
-	e := buildEngineWithVariant(n, true, NodeCompressedNormal)
+	e := buildEngineWithVariant(n, true, NormalRadixNode)
 	ips := generateHitIPs(n)
 	b.ResetTimer()
 	b.ReportAllocs()
@@ -489,7 +489,7 @@ func BenchmarkConcurrent_Lookup_Compressed_Normal(b *testing.B) {
 
 func BenchmarkConcurrent_Lookup_Compressed_Atomic(b *testing.B) {
 	const n = 50_000
-	e := buildEngineWithVariant(n, true, NodeCompressedAtomic)
+	e := buildEngineWithVariant(n, true, AtomicRadixNode)
 	ips := generateHitIPs(n)
 	b.ResetTimer()
 	b.ReportAllocs()
@@ -504,7 +504,7 @@ func BenchmarkConcurrent_Lookup_Compressed_Atomic(b *testing.B) {
 
 func BenchmarkConcurrent_Lookup_Compressed_Padded(b *testing.B) {
 	const n = 50_000
-	e := buildEngineWithVariant(n, true, NodeCompressedPadded)
+	e := buildEngineWithVariant(n, true, PaddedRadixNode)
 	ips := generateHitIPs(n)
 	b.ResetTimer()
 	b.ReportAllocs()
@@ -519,7 +519,7 @@ func BenchmarkConcurrent_Lookup_Compressed_Padded(b *testing.B) {
 
 func BenchmarkConcurrent_Lookup_Compressed_LockFree(b *testing.B) {
 	const n = 50_000
-	e := buildEngineWithVariant(n, true, NodeCompressedLockFree)
+	e := buildEngineWithVariant(n, true, LockFreeRadixNode)
 	ips := generateHitIPs(n)
 	b.ResetTimer()
 	b.ReportAllocs()
@@ -621,7 +621,7 @@ func TestARTEngine_SatisfiesRadixEngineInterface(t *testing.T) {
 // ---------------------------------------------------------------------------
 
 func TestEngineWrapper_ART_InsertLookup(t *testing.T) {
-	e := NewEngineWrapper(EngineART, NodeNormal)
+	e := NewEngineWrapper(EngineART, NormalTrieNode)
 	_, ipnet, _ := net.ParseCIDR("172.16.0.1/32")
 	if err := e.Insert(ipnet, Metadata{Value: "art"}); err != nil {
 		t.Fatalf("Insert: %v", err)

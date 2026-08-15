@@ -17,14 +17,14 @@ func TestAllEngineAndNodeCombinations(t *testing.T) {
 	}
 
 	nodeVariants := []radixip.NodeVariant{
-		radixip.NodeNormal,
-		radixip.NodeAtomic,
-		radixip.NodePadded,
-		radixip.NodeLockFree,
-		radixip.NodeCompressedNormal,
-		radixip.NodeCompressedAtomic,
-		radixip.NodeCompressedPadded,
-		radixip.NodeCompressedLockFree,
+		radixip.NormalTrieNode,
+		radixip.AtomicTrieNode,
+		radixip.PaddedTrieNode,
+		radixip.LockFreeTrieNode,
+		radixip.NormalRadixNode,
+		radixip.AtomicRadixNode,
+		radixip.PaddedRadixNode,
+		radixip.LockFreeRadixNode,
 	}
 
 	for _, ev := range engineVariants {
@@ -107,7 +107,7 @@ func TestAllEngineAndNodeCombinations(t *testing.T) {
 func TestIPv6LongestPrefixMatch(t *testing.T) {
 	for _, compressed := range []bool{false, true} {
 		t.Run(fmt.Sprintf("Compressed_%v", compressed), func(t *testing.T) {
-			e := radixip.NewEngineWrapperWithTree(radixip.EngineStandard, radixip.NodeCompressedAtomic, compressed)
+			e := radixip.NewEngineWrapperWithTree(radixip.EngineStandard, radixip.AtomicRadixNode, compressed)
 
 			_, ipnet1, _ := net.ParseCIDR("2001:db8::/32")
 			_, ipnet2, _ := net.ParseCIDR("2001:db8:85a3::/48")

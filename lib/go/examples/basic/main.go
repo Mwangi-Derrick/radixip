@@ -14,7 +14,7 @@ func main() {
 	// 1. Initialize the Engine
 	// In this basic example, we use the standard Engine (control plane style)
 	// It uses UncompressedTree by default, which is great for inserts/updates.
-	tree := radixIp.NewUncompressedTree(radixIp.NodeNormal)
+	tree := radixIp.NewUncompressedTree(radixIp.NormalTrieNode)
 	engine := radixIp.NewStandardEngine(tree)
 	if engine == nil {
 		log.Fatalf("Failed to initialize engine")

@@ -257,7 +257,7 @@ func NewEngineWrapperWithTree(variant EngineVariant, nodeVariant NodeVariant, co
 		engine = NewShardedEngineWithTree(16, treeFn)
 	case EngineLockFree:
 		// LockFree uses atomic nodes; uncompressed for simplicity
-		engine = NewStandardEngine(NewUncompressedTree(NodeLockFree))
+		engine = NewStandardEngine(NewUncompressedTree(LockFreeTrieNode))
 	case EngineAdaptive:
 		cpus := runtime.NumCPU()
 		if cpus > 4 {

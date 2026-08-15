@@ -26,7 +26,7 @@ func ptrUint64(v uint64) *uint64 {
 func DefaultRadixConfig() *RadixConfig {
 	return &RadixConfig{
 		EngineVariant:    EngineConcurrent,
-		NodeVariant:      NodeAtomic,
+		NodeVariant:      AtomicTrieNode,
 		CacheEnabled:     true,
 		CacheMaxEntries:  10000,
 		CacheTTLSeconds:  ptrUint64(3600),
