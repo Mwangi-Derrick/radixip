@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1786826574384,
+  "lastUpdate": 1786827366533,
   "repoUrl": "https://github.com/Mwangi-Derrick/radixip",
   "entries": {
     "Go Benchmark": [
@@ -228127,6 +228127,228 @@ window.BENCHMARK_DATA = {
             "name": "concurrent_lookup/uncompressed/4_threads/LockFreeTrieNode",
             "value": 132977941,
             "range": "± 3449685",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "mwangiderrick640@gmail.com",
+            "name": "Derrick Mwangi",
+            "username": "Mwangi-Derrick"
+          },
+          "committer": {
+            "email": "mwangiderrick640@gmail.com",
+            "name": "Derrick Mwangi",
+            "username": "Mwangi-Derrick"
+          },
+          "distinct": true,
+          "id": "8cb85894e52f87b181a13a2c6ef482ca17a27ebb",
+          "message": "bench: increase measurement time from 500ms to 1500ms",
+          "timestamp": "2026-08-15T23:52:47+03:00",
+          "tree_id": "a0b92863069400a62744813701ccb019a4954d7a",
+          "url": "https://github.com/Mwangi-Derrick/radixip/commit/8cb85894e52f87b181a13a2c6ef482ca17a27ebb"
+        },
+        "date": 1786827364959,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "insert/uncompressed/NormalTrieNode/500",
+            "value": 2528115,
+            "range": "± 3083",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/compressed/NormalRadixNode/500",
+            "value": 1200682,
+            "range": "± 3068",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/compressed/ART/NormalRadixNode/500",
+            "value": 73404,
+            "range": "± 137",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/uncompressed/AtomicTrieNode/500",
+            "value": 2534269,
+            "range": "± 8810",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/compressed/AtomicRadixNode/500",
+            "value": 1160927,
+            "range": "± 5004",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/compressed/ART/AtomicRadixNode/500",
+            "value": 73490,
+            "range": "± 444",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/uncompressed/PaddedTrieNode/500",
+            "value": 2530509,
+            "range": "± 11097",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/compressed/PaddedRadixNode/500",
+            "value": 1178625,
+            "range": "± 1424",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/compressed/ART/PaddedRadixNode/500",
+            "value": 73476,
+            "range": "± 127",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/uncompressed/LockFreeTrieNode/500",
+            "value": 10011346,
+            "range": "± 22533",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/compressed/LockFreeRadixNode/500",
+            "value": 1176177,
+            "range": "± 4483",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/compressed/ART/LockFreeRadixNode/500",
+            "value": 73555,
+            "range": "± 121",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/uncompressed/NormalTrieNode/5000",
+            "value": 25275481,
+            "range": "± 345400",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/compressed/NormalRadixNode/5000",
+            "value": 11754339,
+            "range": "± 24873",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/compressed/ART/NormalRadixNode/5000",
+            "value": 761077,
+            "range": "± 1330",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/uncompressed/AtomicTrieNode/5000",
+            "value": 25141279,
+            "range": "± 184866",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/compressed/AtomicRadixNode/5000",
+            "value": 11580330,
+            "range": "± 40616",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/compressed/ART/AtomicRadixNode/5000",
+            "value": 758687,
+            "range": "± 1241",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/uncompressed/PaddedTrieNode/5000",
+            "value": 25249906,
+            "range": "± 148281",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/compressed/PaddedRadixNode/5000",
+            "value": 11816202,
+            "range": "± 35773",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/compressed/ART/PaddedRadixNode/5000",
+            "value": 760630,
+            "range": "± 881",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/uncompressed/LockFreeTrieNode/5000",
+            "value": 100555213,
+            "range": "± 854673",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/compressed/LockFreeRadixNode/5000",
+            "value": 11751235,
+            "range": "± 9217",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/compressed/ART/LockFreeRadixNode/5000",
+            "value": 759969,
+            "range": "± 1884",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "concurrent_lookup/compressed/4_threads/NormalRadixNode",
+            "value": 17766579,
+            "range": "± 33848",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "concurrent_lookup/compressed/4_threads/AtomicRadixNode",
+            "value": 17128069,
+            "range": "± 828487",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "concurrent_lookup/compressed/4_threads/PaddedRadixNode",
+            "value": 18413767,
+            "range": "± 86003",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "concurrent_lookup/compressed/4_threads/LockFreeRadixNode",
+            "value": 17758032,
+            "range": "± 58626",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "concurrent_lookup/art/4_threads/ART",
+            "value": 6086165,
+            "range": "± 14564",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "concurrent_lookup/uncompressed/4_threads/NormalTrieNode",
+            "value": 72855391,
+            "range": "± 437285",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "concurrent_lookup/uncompressed/4_threads/AtomicTrieNode",
+            "value": 72641552,
+            "range": "± 304159",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "concurrent_lookup/uncompressed/4_threads/PaddedTrieNode",
+            "value": 73604180,
+            "range": "± 469642",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "concurrent_lookup/uncompressed/4_threads/LockFreeTrieNode",
+            "value": 121257836,
+            "range": "± 2026325",
             "unit": "ns/iter"
           }
         ]
