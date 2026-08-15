@@ -6,7 +6,7 @@
 // using the byte as a child index.  The leaf stores `prefix_len` and
 // `masked_key` so lookup can validate the significant bits.
 
-use super::{LeafNode, Node4, NodeBox, NodeType};
+use super::{LeafNode, Node4, NodeBox};
 use std::ptr;
 
 pub struct Tree {
@@ -176,7 +176,7 @@ fn insert_node(
             };
 
             // Build a new Node4 to hold both the existing leaf and the new one.
-            let mut n4 = Node4::default();
+            let n4 = Node4::default();
             let mut node_box = Box::new(NodeBox::N4(n4));
             let existing_depth = (existing_leaf.prefix_len / 8) as usize;
             let existing_b = if depth < existing_depth {
