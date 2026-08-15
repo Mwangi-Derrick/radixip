@@ -218,7 +218,7 @@ Examples include:
 
 - branch-compressed Patricia nodes
 - compact metadata storage
-- zero-allocation read path
+- allocation-aware read path, with zero-allocation ART lookups in the Go CI benchmark
 - predictable traversal
 - cache-line friendly structures where practical
 
@@ -523,7 +523,7 @@ By caching both individual IPs and entire structural subnet masks locally, Radix
 
 - **80%+ of IPs are repeat visitors** → cache hit
 - **Subnet caching** → entire blocks cached at once
-- **Zero-latency lookups** → no speed tradeoff
+- **Local memory-speed lookups** → no external API call on cache hit
 - **Automatic TTL** → fresh data when needed
 
 ## 📊 Performance Benchmarks
@@ -573,17 +573,30 @@ cargo bench --bench lookup_bench -- --output-format bencher
 ```
 ### Use the Go library
 ```go
-import "github.com/Mwangi-Derrick/radixip/radixip-go"
+import (
+    "net"
+
+    radixip "github.com/Mwangi-Derrick/radixip/lib/go"
+)
 
 func main() {
-    engine := radixip.NewEngine()
-    engine.Insert("192.168.0.0/16", map[string]string{
-        "region": "Nairobi",
-        "isp": "Safaricom",
+    engine := radixip.NewEngineWrapperWithTree(
+        radixip.EngineConcurrent,
+        radixip.NormalRadixNode,
+        true,
+    )
+
+    _, prefix, _ := net.ParseCIDR("192.168.0.0/16")
+    _ = engine.Insert(prefix, radixip.Metadata{
+        Value: "allow",
+        Attributes: map[string]string{
+            "region": "Nairobi",
+            "isp":    "Safaricom",
+        },
     })
-    
-    result, found := engine.Match(netip.MustParseAddr("192.168.1.100"))
-    // found = true, result = metadata
+
+    result := engine.Lookup(net.ParseIP("192.168.1.100"))
+    // result != nil; result.Value == "allow"
 }
 ```
 
@@ -615,7 +628,7 @@ radix_engine_free(engine);
 
 ### Go
 ```bash
-go get github.com/Mwangi-Derrick/radixip/radixip-go
+go get github.com/Mwangi-Derrick/radixip/lib/go
 ```
 ### Rust
 ```rust
