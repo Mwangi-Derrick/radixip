@@ -20,7 +20,7 @@ use std::sync::{
     atomic::{AtomicU8, Ordering},
 };
 
-use crate::traits::RadixNode;
+use crate::traits::Node;
 use crate::types::Metadata;
 
 //
@@ -39,9 +39,9 @@ pub struct CompressedNormalNode {
     /// The IP network prefix that produced this node.
     prefix: RwLock<Option<IpNetwork>>,
     /// Left child  (next routing bit == 0).
-    left: RwLock<Option<Arc<dyn RadixNode>>>,
+    left: RwLock<Option<Arc<dyn Node>>>,
     /// Right child (next routing bit == 1).
-    right: RwLock<Option<Arc<dyn RadixNode>>>,
+    right: RwLock<Option<Arc<dyn Node>>>,
 }
 
 impl CompressedNormalNode {
@@ -50,7 +50,7 @@ impl CompressedNormalNode {
     }
 }
 
-impl RadixNode for CompressedNormalNode {
+impl Node for CompressedNormalNode {
     // Shared methods
 
     /// Not meaningful for Patricia nodes; always returns `None`.
@@ -58,11 +58,11 @@ impl RadixNode for CompressedNormalNode {
         None
     }
 
-    fn left(&self) -> Option<Arc<dyn RadixNode>> {
+    fn left(&self) -> Option<Arc<dyn Node>> {
         self.left.read().unwrap().clone()
     }
 
-    fn right(&self) -> Option<Arc<dyn RadixNode>> {
+    fn right(&self) -> Option<Arc<dyn Node>> {
         self.right.read().unwrap().clone()
     }
 
@@ -74,11 +74,11 @@ impl RadixNode for CompressedNormalNode {
         *self.prefix.read().unwrap()
     }
 
-    fn set_left(&self, node: Option<Arc<dyn RadixNode>>) {
+    fn set_left(&self, node: Option<Arc<dyn Node>>) {
         *self.left.write().unwrap() = node;
     }
 
-    fn set_right(&self, node: Option<Arc<dyn RadixNode>>) {
+    fn set_right(&self, node: Option<Arc<dyn Node>>) {
         *self.right.write().unwrap() = node;
     }
 
@@ -127,8 +127,8 @@ pub struct CompressedAtomicNode {
     edge_len_overflow: RwLock<usize>, // used only when edge_len >= 255
     metadata: RwLock<Option<Metadata>>,
     prefix: RwLock<Option<IpNetwork>>,
-    left: RwLock<Option<Arc<dyn RadixNode>>>,
-    right: RwLock<Option<Arc<dyn RadixNode>>>,
+    left: RwLock<Option<Arc<dyn Node>>>,
+    right: RwLock<Option<Arc<dyn Node>>>,
 }
 
 impl CompressedAtomicNode {
@@ -151,16 +151,16 @@ impl Default for CompressedAtomicNode {
     }
 }
 
-impl RadixNode for CompressedAtomicNode {
+impl Node for CompressedAtomicNode {
     fn bit(&self) -> Option<u8> {
         None
     }
 
-    fn left(&self) -> Option<Arc<dyn RadixNode>> {
+    fn left(&self) -> Option<Arc<dyn Node>> {
         self.left.read().unwrap().clone()
     }
 
-    fn right(&self) -> Option<Arc<dyn RadixNode>> {
+    fn right(&self) -> Option<Arc<dyn Node>> {
         self.right.read().unwrap().clone()
     }
 
@@ -172,11 +172,11 @@ impl RadixNode for CompressedAtomicNode {
         *self.prefix.read().unwrap()
     }
 
-    fn set_left(&self, node: Option<Arc<dyn RadixNode>>) {
+    fn set_left(&self, node: Option<Arc<dyn Node>>) {
         *self.left.write().unwrap() = node;
     }
 
-    fn set_right(&self, node: Option<Arc<dyn RadixNode>>) {
+    fn set_right(&self, node: Option<Arc<dyn Node>>) {
         *self.right.write().unwrap() = node;
     }
 
@@ -231,8 +231,8 @@ pub struct CompressedPaddedNode {
     edge_len: RwLock<usize>,
     metadata: RwLock<Option<Metadata>>,
     prefix: RwLock<Option<IpNetwork>>,
-    left: RwLock<Option<Arc<dyn RadixNode>>>,
-    right: RwLock<Option<Arc<dyn RadixNode>>>,
+    left: RwLock<Option<Arc<dyn Node>>>,
+    right: RwLock<Option<Arc<dyn Node>>>,
 }
 
 impl CompressedPaddedNode {
@@ -255,16 +255,16 @@ impl Default for CompressedPaddedNode {
     }
 }
 
-impl RadixNode for CompressedPaddedNode {
+impl Node for CompressedPaddedNode {
     fn bit(&self) -> Option<u8> {
         None
     }
 
-    fn left(&self) -> Option<Arc<dyn RadixNode>> {
+    fn left(&self) -> Option<Arc<dyn Node>> {
         self.left.read().unwrap().clone()
     }
 
-    fn right(&self) -> Option<Arc<dyn RadixNode>> {
+    fn right(&self) -> Option<Arc<dyn Node>> {
         self.right.read().unwrap().clone()
     }
 
@@ -276,11 +276,11 @@ impl RadixNode for CompressedPaddedNode {
         *self.prefix.read().unwrap()
     }
 
-    fn set_left(&self, node: Option<Arc<dyn RadixNode>>) {
+    fn set_left(&self, node: Option<Arc<dyn Node>>) {
         *self.left.write().unwrap() = node;
     }
 
-    fn set_right(&self, node: Option<Arc<dyn RadixNode>>) {
+    fn set_right(&self, node: Option<Arc<dyn Node>>) {
         *self.right.write().unwrap() = node;
     }
 
@@ -330,7 +330,7 @@ pub struct CompressedLockFreeNode {
     metadata: RwLock<Option<Metadata>>,
     prefix: RwLock<Option<IpNetwork>>,
     /// Lock-free child store: at most 2 entries (Left, Right).
-    children: DashMap<ChildKey, Arc<dyn RadixNode>>,
+    children: DashMap<ChildKey, Arc<dyn Node>>,
 }
 
 impl CompressedLockFreeNode {
@@ -351,18 +351,18 @@ impl Default for CompressedLockFreeNode {
     }
 }
 
-impl RadixNode for CompressedLockFreeNode {
+impl Node for CompressedLockFreeNode {
     fn bit(&self) -> Option<u8> {
         None
     }
 
-    fn left(&self) -> Option<Arc<dyn RadixNode>> {
+    fn left(&self) -> Option<Arc<dyn Node>> {
         self.children
             .get(&ChildKey::Left)
             .map(|r| r.value().clone())
     }
 
-    fn right(&self) -> Option<Arc<dyn RadixNode>> {
+    fn right(&self) -> Option<Arc<dyn Node>> {
         self.children
             .get(&ChildKey::Right)
             .map(|r| r.value().clone())
@@ -376,7 +376,7 @@ impl RadixNode for CompressedLockFreeNode {
         *self.prefix.read().unwrap()
     }
 
-    fn set_left(&self, node: Option<Arc<dyn RadixNode>>) {
+    fn set_left(&self, node: Option<Arc<dyn Node>>) {
         match node {
             Some(n) => {
                 self.children.insert(ChildKey::Left, n);
@@ -387,7 +387,7 @@ impl RadixNode for CompressedLockFreeNode {
         }
     }
 
-    fn set_right(&self, node: Option<Arc<dyn RadixNode>>) {
+    fn set_right(&self, node: Option<Arc<dyn Node>>) {
         match node {
             Some(n) => {
                 self.children.insert(ChildKey::Right, n);
