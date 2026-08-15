@@ -1,6 +1,6 @@
 use clap::{Parser, Subcommand};
-use radixip_core::{NodeVariant, StandardEngine, RadixEngine};
-use radixip_core::tree::{CompressedTree};
+use radixip_core::tree::CompressedTree;
+use radixip_core::{NodeVariant, RadixEngine, StandardEngine};
 use std::net::IpAddr;
 
 #[derive(Parser)]

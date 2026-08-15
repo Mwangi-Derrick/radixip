@@ -35,11 +35,7 @@ use node16_simd::simd_find_child;
 /// The function is pure (no side-effects, no allocations) and is safe to call
 /// from any thread concurrently.
 #[no_mangle]
-pub unsafe extern "C" fn node16_simd_find(
-    keys: *const [u8; 16],
-    target: u8,
-    count: u8,
-) -> i8 {
+pub unsafe extern "C" fn node16_simd_find(keys: *const [u8; 16], target: u8, count: u8) -> i8 {
     // SAFETY: caller guarantees `keys` is non-null and points to 16 valid bytes.
     let keys_ref = unsafe { &*keys };
     match simd_find_child(keys_ref, target, count) {

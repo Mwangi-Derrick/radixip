@@ -10,8 +10,8 @@
 
 fn main() {
     let crate_dir = std::env::var("CARGO_MANIFEST_DIR").unwrap();
-    let out_header = std::path::PathBuf::from(&crate_dir)
-        .join("../../../lib/vendor/include/node16_simd.h");
+    let out_header =
+        std::path::PathBuf::from(&crate_dir).join("../../../lib/vendor/include/node16_simd.h");
 
     // Ensure the target directory exists.
     if let Some(parent) = out_header.parent() {
