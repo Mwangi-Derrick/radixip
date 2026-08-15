@@ -95,11 +95,11 @@ func (b *NodeBuilder) Build() Node {
 	case LockFreeTrieNode:
 		return NewLockFreeNode()
 	case NormalRadixNode:
-		return NewNormalRadixNode()
+		return NewCompressedNormalNode()
 	case AtomicRadixNode:
-		return NewAtomicRadixNode()
+		return NewCompressedAtomicNode()
 	case PaddedRadixNode:
-		return NewPaddedRadixNode()
+		return NewCompressedPaddedNode()
 	case LockFreeRadixNode:
 		return NewCompressedLockFreeNode()
 	default:
