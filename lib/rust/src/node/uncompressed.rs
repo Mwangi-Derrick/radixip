@@ -116,7 +116,7 @@ impl AtomicTrieNode {
     }
 }
 
-impl Default for UncompressedAtomicNode {
+impl Default for AtomicTrieNode {
     fn default() -> Self { // This impl should be for AtomicTrieNode
         Self::new()
     }
@@ -271,7 +271,7 @@ pub struct LockFreeTrieNode {
     prefix: RwLock<Option<IpNetwork>>,
 }
 
-impl UncompressedLockFreeNode {
+impl LockFreeTrieNode {
     pub fn new() -> Self { // This impl should be for LockFreeTrieNode
         Self {
             bit: AtomicU8::new(0),
@@ -282,7 +282,7 @@ impl UncompressedLockFreeNode {
     }
 }
 
-impl Default for UncompressedLockFreeNode {
+impl Default for LockFreeTrieNode {
     fn default() -> Self { // This impl should be for LockFreeTrieNode
         Self::new()
     }

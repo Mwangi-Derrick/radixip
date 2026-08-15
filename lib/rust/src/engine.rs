@@ -271,7 +271,7 @@ impl EngineWrapper {
                     EngineWrapper::ConcurrentCompressed(Arc::new(ShardedEngine::new(16, base_tree)))
                 }
                 EngineVariant::LockFree => {
-                    let lf_tree = CompressedTree::new(NodeVariant::LockFree);
+                    let lf_tree = CompressedTree::new(NodeVariant::LockFreeRadixNode);
                     EngineWrapper::StandardCompressed(Arc::new(StandardEngine::new(lf_tree)))
                 }
                 EngineVariant::Adaptive => {
@@ -279,13 +279,13 @@ impl EngineWrapper {
                         .map(|count| count.get())
                         .unwrap_or(1);
                     if cpus > 4 {
-                        let at_tree = CompressedTree::new(NodeVariant::Atomic);
+                        let at_tree = CompressedTree::new(NodeVariant::AtomicRadixNode);
                         EngineWrapper::ConcurrentCompressed(Arc::new(ShardedEngine::new(
                             cpus * 2,
                             at_tree,
                         )))
                     } else {
-                        let at_tree = CompressedTree::new(NodeVariant::Atomic);
+                        let at_tree = CompressedTree::new(NodeVariant::AtomicRadixNode);
                         EngineWrapper::StandardCompressed(Arc::new(StandardEngine::new(at_tree)))
                     }
                 }
@@ -303,7 +303,7 @@ impl EngineWrapper {
                     ShardedEngine::new(16, base_tree),
                 )),
                 EngineVariant::LockFree => {
-                    let lf_tree = UncompressedTree::new(NodeVariant::LockFree);
+                    let lf_tree = UncompressedTree::new(NodeVariant::LockFreeTrieNode);
                     EngineWrapper::StandardUncompressed(Arc::new(StandardEngine::new(lf_tree)))
                 }
                 EngineVariant::Adaptive => {
@@ -311,13 +311,13 @@ impl EngineWrapper {
                         .map(|count| count.get())
                         .unwrap_or(1);
                     if cpus > 4 {
-                        let at_tree = UncompressedTree::new(NodeVariant::Atomic);
+                        let at_tree = UncompressedTree::new(NodeVariant::AtomicTrieNode);
                         EngineWrapper::ConcurrentUncompressed(Arc::new(ShardedEngine::new(
                             cpus * 2,
                             at_tree,
                         )))
                     } else {
-                        let at_tree = UncompressedTree::new(NodeVariant::Atomic);
+                        let at_tree = UncompressedTree::new(NodeVariant::AtomicTrieNode);
                         EngineWrapper::StandardUncompressed(Arc::new(StandardEngine::new(at_tree)))
                     }
                 }

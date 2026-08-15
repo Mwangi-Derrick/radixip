@@ -35,11 +35,11 @@ pub use errors::{RadixError, Result};
 pub use hybrid::HybridEngine;
 pub use lpm::LPM;
 // Uncompressed node types
-pub use node::{AtomicNode, LockFreeNode, NodeWrapper, NormalNode, PaddedNode};
-// Compressed (Patricia) node types
+pub use node::{AtomicTrieNode, LockFreeTrieNode, NodeWrapper, NormalTrieNode, PaddedTrieNode};
 pub use node::NodeBuilder;
+// Compressed (Patricia/Radix) node types
 pub use node::{
-    CompressedAtomicNode, CompressedLockFreeNode, CompressedNormalNode, CompressedPaddedNode,
+    AtomicRadixNode, LockFreeRadixNode, NormalRadixNode, PaddedRadixNode,
 };
 pub use types::{Metadata, SubnetRule};
 

@@ -27,7 +27,7 @@ impl Default for RadixConfig {
     fn default() -> Self {
         Self {
             engine_variant: EngineVariant::Concurrent,
-            node_variant: NodeVariant::Atomic,
+            node_variant: NodeVariant::AtomicTrieNode,
             cache_enabled: true,
             cache_max_entries: 10000,
             cache_ttl_seconds: Some(3600),
@@ -74,7 +74,7 @@ impl RadixConfig {
     pub fn high_performance() -> Self {
         Self {
             engine_variant: EngineVariant::LockFree,
-            node_variant: NodeVariant::LockFree,
+            node_variant: NodeVariant::LockFreeTrieNode,
             cache_enabled: true,
             cache_max_entries: 100000,
             cache_ttl_seconds: None,
@@ -92,7 +92,7 @@ impl RadixConfig {
     pub fn memory_efficient() -> Self {
         Self {
             engine_variant: EngineVariant::Standard,
-            node_variant: NodeVariant::Normal,
+            node_variant: NodeVariant::NormalTrieNode,
             cache_enabled: false,
             cache_max_entries: 0,
             cache_ttl_seconds: None,
@@ -110,7 +110,7 @@ impl RadixConfig {
     pub fn balanced() -> Self {
         Self {
             engine_variant: EngineVariant::Concurrent,
-            node_variant: NodeVariant::Atomic,
+            node_variant: NodeVariant::AtomicTrieNode,
             cache_enabled: true,
             cache_max_entries: 10000,
             cache_ttl_seconds: Some(3600),

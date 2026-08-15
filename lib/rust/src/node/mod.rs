@@ -16,9 +16,9 @@ pub mod compressed;
 pub mod uncompressed;
 
 pub use compressed::{
-    CompressedAtomicNode, CompressedLockFreeNode, CompressedNormalNode, CompressedPaddedNode,
+    AtomicRadixNode, LockFreeRadixNode, NormalRadixNode, PaddedRadixNode,
 };
-pub use uncompressed::{AtomicNode, LockFreeNode, NormalNode, PaddedNode};
+pub use uncompressed::{AtomicTrieNode, LockFreeTrieNode, NormalTrieNode, PaddedTrieNode};
 
 use crate::traits::{NodeVariant, Node};
 use crate::types::Metadata;
@@ -34,29 +34,29 @@ use std::sync::Arc;
 
 pub enum NodeWrapper {
     // Uncompressed variants
-    Normal(Arc<NormalNode>),
-    Atomic(Arc<AtomicNode>),
-    Padded(Arc<PaddedNode>),
-    LockFree(Arc<LockFreeNode>),
+    NormalTrieNode(Arc<NormalTrieNode>),
+    AtomicTrieNode(Arc<AtomicTrieNode>),
+    PaddedTrieNode(Arc<PaddedTrieNode>),
+    LockFreeTrieNode(Arc<LockFreeTrieNode>),
     // Compressed (Patricia) variants
-    CompressedNormal(Arc<CompressedNormalNode>),
-    CompressedAtomic(Arc<CompressedAtomicNode>),
-    CompressedPadded(Arc<CompressedPaddedNode>),
-    CompressedLockFree(Arc<CompressedLockFreeNode>),
+    NormalRadixNode(Arc<NormalRadixNode>),
+    AtomicRadixNode(Arc<AtomicRadixNode>),
+    PaddedRadixNode(Arc<PaddedRadixNode>),
+    LockFreeRadixNode(Arc<LockFreeRadixNode>),
 }
 
 /// Macro to dispatch all Node methods across all variants.
 macro_rules! dispatch {
     ($self:ident, $method:ident $(, $arg:expr)*) => {
         match $self {
-            NodeWrapper::Normal(n)            => n.$method($($arg),*),
-            NodeWrapper::Atomic(n)            => n.$method($($arg),*),
-            NodeWrapper::Padded(n)            => n.$method($($arg),*),
-            NodeWrapper::LockFree(n)          => n.$method($($arg),*),
-            NodeWrapper::CompressedNormal(n)  => n.$method($($arg),*),
-            NodeWrapper::CompressedAtomic(n)  => n.$method($($arg),*),
-            NodeWrapper::CompressedPadded(n)  => n.$method($($arg),*),
-            NodeWrapper::CompressedLockFree(n)=> n.$method($($arg),*),
+            NodeWrapper::NormalTrieNode(n)            => n.$method($($arg),*),
+            NodeWrapper::AtomicTrieNode(n)            => n.$method($($arg),*),
+            NodeWrapper::PaddedTrieNode(n)            => n.$method($($arg),*),
+            NodeWrapper::LockFreeTrieNode(n)          => n.$method($($arg),*),
+            NodeWrapper::NormalRadixNode(n)  => n.$method($($arg),*),
+            NodeWrapper::AtomicRadixNode(n)  => n.$method($($arg),*),
+            NodeWrapper::PaddedRadixNode(n)  => n.$method($($arg),*),
+            NodeWrapper::LockFreeRadixNode(n)=> n.$method($($arg),*),
         }
     };
 }
@@ -137,21 +137,21 @@ impl NodeBuilder {
     /// Build an empty node of the configured variant.
     pub fn build(&self) -> Arc<dyn Node> {
         match self.variant {
-            NodeVariant::Normal => Arc::new(NodeWrapper::Normal(Arc::new(NormalNode::new()))),
-            NodeVariant::Atomic => Arc::new(NodeWrapper::Atomic(Arc::new(AtomicNode::new()))),
-            NodeVariant::Padded => Arc::new(NodeWrapper::Padded(Arc::new(PaddedNode::new()))),
-            NodeVariant::LockFree => Arc::new(NodeWrapper::LockFree(Arc::new(LockFreeNode::new()))),
-            NodeVariant::CompressedNormal => Arc::new(NodeWrapper::CompressedNormal(Arc::new(
-                CompressedNormalNode::new(),
+            NodeVariant::NormalTrieNode => Arc::new(NodeWrapper::NormalTrieNode(Arc::new(NormalTrieNode::new()))),
+            NodeVariant::AtomicTrieNode => Arc::new(NodeWrapper::AtomicTrieNode(Arc::new(AtomicTrieNode::new()))),
+            NodeVariant::PaddedTrieNode => Arc::new(NodeWrapper::PaddedTrieNode(Arc::new(PaddedTrieNode::new()))),
+            NodeVariant::LockFreeTrieNode => Arc::new(NodeWrapper::LockFreeTrieNode(Arc::new(LockFreeTrieNode::new()))),
+            NodeVariant::NormalRadixNode => Arc::new(NodeWrapper::NormalRadixNode(Arc::new(
+                NormalRadixNode::new(),
             ))),
-            NodeVariant::CompressedAtomic => Arc::new(NodeWrapper::CompressedAtomic(Arc::new(
-                CompressedAtomicNode::new(),
+            NodeVariant::AtomicRadixNode => Arc::new(NodeWrapper::AtomicRadixNode(Arc::new(
+                AtomicRadixNode::new(),
             ))),
-            NodeVariant::CompressedPadded => Arc::new(NodeWrapper::CompressedPadded(Arc::new(
-                CompressedPaddedNode::new(),
+            NodeVariant::PaddedRadixNode => Arc::new(NodeWrapper::PaddedRadixNode(Arc::new(
+                PaddedRadixNode::new(),
             ))),
-            NodeVariant::CompressedLockFree => Arc::new(NodeWrapper::CompressedLockFree(Arc::new(
-                CompressedLockFreeNode::new(),
+            NodeVariant::LockFreeRadixNode => Arc::new(NodeWrapper::LockFreeRadixNode(Arc::new(
+                LockFreeRadixNode::new(),
             ))),
         }
     }
