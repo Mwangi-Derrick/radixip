@@ -8,10 +8,10 @@
 
 > **The missing link between network security, DDoS mitigation, and geolocation caching.**
 >
-> RadixIP gives you IP filtering at **45ns per lookup**—self-hosted and open source.
+> RadixIP gives you IP filtering at memory speed: **72.6 ns/lookup in Go ART** and **60.9 ns/lookup in Rust ART** on the current CI benchmark runner.
 > Block attacks, secure databases, and save **$3.6M/year** on geolocation APIs.
 
-> 🚀 **Go:** ~45ns/lookup · 🦀 **Rust:** ~12ns/lookup · 🔌 **FFI:** Native performance from any language
+> **Go ART:** 72.6 ns/lookup - **Rust ART:** 60.9 ns/lookup - **Binary radix:** 177.7-223.4 ns/lookup - **FFI:** native SIMD support from Go
 
 ## 🎯 What is RadixIP?
 
@@ -20,9 +20,10 @@ RadixIP is a production-grade IP subnet caching engine that solves a critical in
 **The Problem**: Standard hash maps can't efficiently match IPs against dynamic CIDR blocks (`/8`, `/16`, `/24`, `/32`) at scale. Database ACLs, API gateways, and edge proxies need sub-microsecond lookups with zero GC pressure.
 
 **The Solution**: A lock-free binary radix tree with L1 (in-memory) + L2 (Redis look-aside) architecture, enabling:
-- **~45ns** LPM lookups in Go
-- **~12ns** LPM lookups in Rust
-- **Zero heap allocations** on the read path
+- **72.6 ns** concurrent LPM lookups in Go ART
+- **60.9 ns** concurrent LPM lookups in Rust ART
+- **177.7 ns** Rust binary Patricia/radix lookups and **223.4 ns** Go binary Patricia/radix lookups
+- **Zero heap allocations** on the Go ART read path; allocation behavior varies by engine variant
 - **Instant global sync** via Redis Pub/Sub
 - **Multi-language support** through C-FFI bindings
 
@@ -108,7 +109,7 @@ make test-go-simd
 
 RadixIP is designed around a few core principles:
 
-- ⚡ Zero allocations on the read path
+- ⚡ Zero-allocation ART read path, with allocation behavior tracked per engine variant
 - 🔒 Lock-free lookups for highly concurrent workloads
 - 🌳 Efficient longest-prefix matching (LPM)
 - 💾 Cache-conscious memory layout
@@ -270,25 +271,57 @@ Since IPv4 addresses are only 32 bits, lookup time is effectively bounded by a s
 
 ## 📈 Benchmark Methodology
 
-Benchmarks are executed using:
+Benchmarks are executed by the GitHub Actions `Benchmarks` workflow on `ubuntu-latest`.
 
-- 10,000 CIDR prefixes
-- 100,000 randomized lookups
-- 80% hit rate / 20% miss rate
-- warm caches
-- release builds
-- dedicated benchmark workflow in GitHub Actions
+Current CI runner details from the Go benchmark log:
+
+- OS/arch: `linux/amd64`
+- CPU: `INTEL(R) XEON(R) PLATINUM 8573C`
+- Go command: `go test -run=NONE -bench=. -benchmem -count=10 -v -tags simd_cgo ./...`
+- Rust command: `cargo bench --bench lookup_bench -- --output-format bencher`
+
+The benchmark source mapping is:
+
+| Runtime | Source | Benchmark functions |
+|---|---|---|
+| Rust | [`lib/rust/benches/lookup_bench.rs`](./lib/rust/benches/lookup_bench.rs) | `bench_insert`, `bench_concurrent_lookup_uncompressed`, `bench_concurrent_lookup_compressed`, `bench_concurrent_lookup_art` |
+| Go engine | [`lib/go/engine_test.go`](./lib/go/engine_test.go) | `BenchmarkInsert_*`, `BenchmarkLookup_Hit_*`, `BenchmarkLookup_Miss_*`, `BenchmarkConcurrent_Lookup_*`, `Benchmark*_ART_*` |
+| Go ART tree | [`lib/go/art/tree_test.go`](./lib/go/art/tree_test.go) | `BenchmarkTree_Insert`, `BenchmarkTree_Match_Hit`, `BenchmarkTree_Match_Miss` |
+| Go integration tests | [`lib/go/tests/engine_test.go`](./lib/go/tests/engine_test.go) | Functional tests only; no benchmark functions |
+
+Rust Criterion reports whole-batch times for these benchmarks. Insert results below divide `ns/iter` by `5,000` prefixes, and Rust concurrent lookup results divide `ns/iter` by `4 * 25,000 = 100,000` lookups. Go batched hit/miss lookup results divide `ns/op` by the loop size in the benchmark source; Go `RunParallel` concurrent results are already per lookup.
 
 Results should be interpreted as measurements for the tested hardware and compiler versions rather than universal performance guarantees.
 
 ---
 
-## 📊 Example Results
+## 📊 CI Benchmark Results
 
-| Implementation | Lookup | Allocations |
-|----------------|--------|-------------|
-| Go | ~45 ns | 0 B/op |
-| Rust | ~12 ns | 0 heap allocations |
+Representative CI results comparing the normal binary trie, normal binary Patricia/radix tree, and ART implementations:
+
+| Runtime | Structure | Insert batch | Insert / prefix | Concurrent lookup / op | Source benchmark |
+|---|---|---:|---:|---:|---|
+| Rust | Binary trie (`NormalTrieNode`) | 25,275,481 ns / 5k | 5,055 ns | 728.6 ns | `bench_insert`, `bench_concurrent_lookup_uncompressed` |
+| Rust | Binary radix (`NormalRadixNode`) | 11,754,339 ns / 5k | 2,351 ns | 177.7 ns | `bench_insert`, `bench_concurrent_lookup_compressed` |
+| Rust | ART (`EngineVariant::ART`) | 761,077 ns / 5k | 152.2 ns | 60.9 ns | `bench_insert`, `bench_concurrent_lookup_art` |
+| Go | Binary trie (`NormalTrieNode`) | 49,013,688 ns / 5k | 9,803 ns | 118.7 ns | `BenchmarkInsert_Uncompressed_5k_Normal`, `BenchmarkConcurrent_Lookup_Uncompressed_Normal` |
+| Go | Binary radix (`NormalRadixNode`) | 12,021,442 ns / 5k | 2,404 ns | 223.4 ns | `BenchmarkInsert_Compressed_5k_Normal`, `BenchmarkConcurrent_Lookup_Compressed_Normal` |
+| Go | ART (`NewARTEngineAdapter`) | 2,393,602 ns / 10k | 239.4 ns | 72.6 ns | `BenchmarkInsert_ART_10k`, `BenchmarkConcurrent_Lookup_ART_50k` |
+
+Sequential Go lookup batches from `lib/go/engine_test.go`:
+
+| Structure | Hit workload | Hit / lookup | Miss workload | Miss / lookup | Allocations |
+|---|---:|---:|---:|---:|---:|
+| Binary trie (`NormalTrieNode`) | 1,717,544 ns / 25k | 68.7 ns | 1,726,589 ns / 25k | 69.1 ns | 24 B/op, 1 alloc/lookup |
+| Binary radix (`NormalRadixNode`) | 8,349,666 ns / 50k | 167.0 ns | 3,077,318 ns / 50k | 61.5 ns | 24 B/op, 1 alloc/lookup |
+| ART (`NewARTEngineAdapter`) | 1,347,823 ns / 50k | 27.0 ns | 1,041,880 ns / 50k | 20.8 ns | 0 B/op, 0 allocs |
+
+Key takeaways from this CI run:
+
+- Rust ART is the fastest concurrent lookup path measured here at **60.9 ns/lookup**.
+- Go ART is close at **72.6 ns/lookup** and has **0 B/op** on ART lookup benchmarks.
+- Binary Patricia/radix insert is about **2.1x faster than Rust binary trie** for the normal Rust nodes, and ART insert is about **15.4x faster than Rust binary radix** in the measured insert workload.
+- The old `~45 ns Go` and `~12 ns Rust` headline numbers are no longer claimed by this README; the tables above are derived directly from the current CI logs.
 
 See the CI artifacts for complete benchmark logs and hardware information.
 
@@ -327,7 +360,7 @@ Redis is completely removed from the critical lookup path. Every validation runs
 │                                                                                                    │
 │  ┌──────────────────────────────────────────────────────────────────────────────────────────────┐  │
 │  │ Lock-Free Binary Radix Tree                                                                  │  │
-│  │ • Zero allocations on read                                                                   │  │
+│  │ • Allocation-aware read path                                                                 │  │
 │  │ • Branch-compressed Patricia trie                                                            │  │
 │  │ • Atomic pointer traversal                                                                   │  │
 │  │ • Read-Copy-Update (RCU) friendly                                                            │  │
@@ -442,7 +475,7 @@ At scale, they can cost **$100,000+/month**.
 RadixIP solves this with **intelligent IP caching**:
 
 ```text
-[Incoming Request] ──> L1: Local Radix (45ns, FREE) ──[Hit]──> Return Metadata
+[Incoming Request] ──> L1: Local Radix (memory-speed, FREE) ──[Hit]──> Return Metadata
                              │
                           [Miss]
                              ▼
@@ -455,7 +488,7 @@ RadixIP solves this with **intelligent IP caching**:
 
 ### The Cache Hierarchy
 
-1. **L1: RadixIP** (45ns, FREE)
+1. **L1: RadixIP** (local memory-speed lookup, FREE)
    - Caches exact IPs
    - Caches /24, /16 subnets
    - Caches ASN and country blocks
@@ -495,26 +528,24 @@ By caching both individual IPs and entire structural subnet masks locally, Radix
 
 ## 📊 Performance Benchmarks
 
-Benchmarks run against a high-entropy dataset of **10,000 subnets** and **100,000 interleaved IPs** (80% hits, 20% misses). Verified automatically on every commit via GitHub Actions.
+The current headline benchmark is the CI-measured concurrent lookup path:
 
-| Implementation | Latency / Lookup | Throughput | Allocations | Memory |
-|----------------|------------------|------------|-------------|--------|
-| **Go (`radixip-go`)** | ~45 ns | ~22.2M ops/sec | 0 B/op | ~2 KB/node |
-| **Rust (`radixip-rs`)** | ~12 ns | ~83.3M ops/sec | 0 heap alloc | ~16 bytes/node |
-| **Rust FFI Layer** | ~18 ns | ~55.5M ops/sec | Fixed C-boundary | Minimal |
-| **Reference (hashmap)** | ~150 ns | ~6.6M ops/sec | Significant | High |
+| Runtime | Fastest measured structure | Latency / lookup | Throughput | Allocations |
+|---|---|---:|---:|---:|
+| **Rust (`radixip-rs`)** | ART | 60.9 ns | 16.4M ops/sec | not reported by Criterion |
+| **Go (`radixip-go`)** | ART | 72.6 ns | 13.8M ops/sec | 0 B/op |
+| **Rust (`radixip-rs`)** | Binary Patricia/radix | 177.7 ns | 5.6M ops/sec | not reported by Criterion |
+| **Go (`radixip-go`)** | Binary Patricia/radix | 223.4 ns | 4.5M ops/sec | 24 B/op, 1 alloc/op |
 
-**Why Rust is faster**:
-- Zero-cost abstractions with no GC overhead
-- Vectorized bit operations
-- Better cache locality
+The fastest structure is not the same as the most general-purpose structure for every workload. The binary trie and binary Patricia/radix implementations remain useful as simple, predictable LPM baselines; ART is the current high-throughput read path.
 
-**Why Go is still great**:
-- Production-ready with excellent tooling
-- Simpler concurrency model
-- Easier integration with existing Go codebases
+**Why ART is leading in this run**:
+- compact adaptive node sizes
+- fewer traversal steps for dense key ranges
+- SIMD-backed Node16 acceleration in the Go path
+- zero-allocation Go ART lookups
 
-📥 **Audit the raw benchmark logs**: [Download from CI artifacts](https://github.com/Mwangi-Derrick/radixip/actions)
+**Audit the raw benchmark logs**: [Download from CI artifacts](https://github.com/Mwangi-Derrick/radixip/actions)
 
 ## 🚀 Getting Started
 
@@ -532,14 +563,13 @@ python scripts/generate_mock_data.py --subnets 10000 --lookups 100000
 
 Run Go benchmarks
 ``` bash
-cd radixip-go
-go test -bench=. -benchmem ./...
+cd lib/go
+go test -run=NONE -bench=. -benchmem -count=10 -v -tags simd_cgo ./...
 ```
-```bash
 Run Rust benchmarks
-bash
-cd radixip-rs
-cargo bench
+```bash
+cd lib/rust
+cargo bench --bench lookup_bench -- --output-format bencher
 ```
 ### Use the Go library
 ```go
@@ -607,9 +637,9 @@ curl -LO https://github.com/Mwangi-Derrick/radixip/releases/latest/libradixip.so
 
 Every commit to `main` triggers our continuous benchmarking pipeline:
 
-1. **Generate** a high-entropy dataset (10k subnets, 100k IPs)
-2. **Run** Go benchmarks (`go test -bench`)
-3. **Run** Rust benchmarks (`cargo bench`)  
+1. **Build** the Rust SIMD FFI shared library used by Go's SIMD CGo path
+2. **Run** Go benchmarks (`go test -run=NONE -bench=. -benchmem -count=10 -v -tags simd_cgo ./...`)
+3. **Run** Rust benchmarks (`cargo bench --bench lookup_bench -- --output-format bencher`)
 4. **Upload** raw performance logs as artifacts
 5. **Fail** if performance regresses beyond 5%
 
