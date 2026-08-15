@@ -8,15 +8,15 @@ use std::sync::Arc; // Or simply ensure you're using Rust 2018 or later
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum NodeVariant {
     // Uncompressed (bit-by-bit trie) variants
-    Normal,   // Standard struct with RwLock
-    Atomic,   // Atomic u8 bit + RwLock children
-    Padded,   // Cache-line padded
-    LockFree, // Lock-free with DashMap
+    NormalTrieNode,   // Standard struct with RwLock
+    AtomicTrieNode,   // Atomic u8 bit + RwLock children
+    PaddedTrieNode,   // Cache-line padded
+    LockFreeTrieNode, // Lock-free with DashMap
     // Compressed (Patricia) trie variants
-    CompressedNormal,   // Patricia trie with RwLock
-    CompressedAtomic,   // Patricia trie with atomic edge encoding
-    CompressedPadded,   // Cache-line padded Patricia trie
-    CompressedLockFree, // Lock-free Patricia trie with DashMap children
+    NormalRadixNode,   // Patricia trie with RwLock
+    AtomicRadixNode,   // Patricia trie with atomic edge encoding
+    PaddedRadixNode,   // Cache-line padded Patricia trie
+    LockFreeRadixNode, // Lock-free Patricia trie with DashMap children
 }
 
 impl NodeVariant {
@@ -24,10 +24,10 @@ impl NodeVariant {
     pub fn is_compressed(self) -> bool {
         matches!(
             self,
-            NodeVariant::CompressedNormal
-                | NodeVariant::CompressedAtomic
-                | NodeVariant::CompressedPadded
-                | NodeVariant::CompressedLockFree
+            NodeVariant::NormalRadixNode
+                | NodeVariant::AtomicRadixNode
+                | NodeVariant::PaddedRadixNode
+                | NodeVariant::LockFreeRadixNode
         )
     }
 }

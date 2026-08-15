@@ -220,11 +220,12 @@ impl CompressedTree {
     pub fn new(node_variant: NodeVariant) -> Self {
         // Ensure we use a compressed variant, upgrading if necessary.
         let variant = match node_variant {
-            NodeVariant::Normal | NodeVariant::CompressedNormal => NodeVariant::CompressedNormal,
-            NodeVariant::Atomic | NodeVariant::CompressedAtomic => NodeVariant::CompressedAtomic,
-            NodeVariant::Padded | NodeVariant::CompressedPadded => NodeVariant::CompressedPadded,
-            NodeVariant::LockFree | NodeVariant::CompressedLockFree => {
-                NodeVariant::CompressedLockFree
+            NodeVariant::NormalTrieNode | NodeVariant::NormalRadixNode => NodeVariant::NormalRadixNode,
+            NodeVariant::AtomicTrieNode | NodeVariant::AtomicRadixNode => NodeVariant::AtomicRadixNode,
+            NodeVariant::PaddedTrieNode | NodeVariant::PaddedRadixNode => NodeVariant::PaddedRadixNode,
+            NodeVariant::LockFreeTrieNode | NodeVariant::LockFreeRadixNode => NodeVariant::LockFreeRadixNode,
+            _ => node_variant, // Already a compressed variant
+                NodeVariant::LockFreeRadixNode
             }
         };
         let builder = NodeBuilder::new(variant);
@@ -532,7 +533,7 @@ mod tests {
 
     #[test]
     fn test_compressed_trie_v4() {
-        let tree = CompressedTree::new(NodeVariant::CompressedNormal);
+        let tree = CompressedTree::new(NodeVariant::NormalRadixNode);
 
         let prefix1 = IpNetwork::from_str("192.168.0.0/16").unwrap();
         let prefix2 = IpNetwork::from_str("192.168.1.0/24").unwrap();
@@ -546,7 +547,7 @@ mod tests {
 
     #[test]
     fn test_compressed_trie_v6() {
-        let tree = CompressedTree::new(NodeVariant::CompressedNormal);
+        let tree = CompressedTree::new(NodeVariant::NormalRadixNode);
 
         let prefix = IpNetwork::from_str("2001:db8::/32").unwrap();
         tree.insert(prefix, create_metadata("v6_network")).unwrap();
@@ -558,10 +559,10 @@ mod tests {
     #[test]
     fn test_compressed_all_variants() {
         for variant in [
-            NodeVariant::CompressedNormal,
-            NodeVariant::CompressedAtomic,
-            NodeVariant::CompressedPadded,
-            NodeVariant::CompressedLockFree,
+            NodeVariant::NormalRadixNode,
+            NodeVariant::AtomicRadixNode,
+            NodeVariant::PaddedRadixNode,
+            NodeVariant::LockFreeRadixNode,
         ] {
             let tree = CompressedTree::new(variant);
             let prefix = IpNetwork::from_str("10.0.0.0/8").unwrap();
@@ -589,7 +590,7 @@ mod tests {
 
     #[test]
     fn test_insert_single_prefix_v4() {
-        let tree = UncompressedTree::new(NodeVariant::Normal);
+        let tree = UncompressedTree::new(NodeVariant::NormalTrieNode);
         let prefix = IpNetwork::from_str("192.168.0.0/16").unwrap();
         let metadata = create_metadata("local_network");
 
@@ -606,7 +607,7 @@ mod tests {
 
     #[test]
     fn test_insert_single_prefix_v6() {
-        let tree = UncompressedTree::new(NodeVariant::Normal);
+        let tree = UncompressedTree::new(NodeVariant::NormalTrieNode);
         let prefix = IpNetwork::from_str("2001:db8::/32").unwrap();
         let metadata = create_metadata("ipv6_network");
 
@@ -624,7 +625,7 @@ mod tests {
 
     #[test]
     fn test_longest_prefix_match_v4() {
-        let tree = UncompressedTree::new(NodeVariant::Normal);
+        let tree = UncompressedTree::new(NodeVariant::NormalTrieNode);
 
         let prefix1 = IpNetwork::from_str("192.168.0.0/16").unwrap();
         let prefix2 = IpNetwork::from_str("192.168.1.0/24").unwrap();
@@ -650,7 +651,7 @@ mod tests {
 
     #[test]
     fn test_longest_prefix_match_v6() {
-        let tree = UncompressedTree::new(NodeVariant::Normal);
+        let tree = UncompressedTree::new(NodeVariant::NormalTrieNode);
 
         let prefix1 = IpNetwork::from_str("2001:db8::/32").unwrap();
         let prefix2 = IpNetwork::from_str("2001:db8:1234::/48").unwrap();
@@ -680,7 +681,7 @@ mod tests {
 
     #[test]
     fn test_remove_existing_prefix() {
-        let tree = UncompressedTree::new(NodeVariant::Normal);
+        let tree = UncompressedTree::new(NodeVariant::NormalTrieNode);
         let prefix = IpNetwork::from_str("192.168.0.0/16").unwrap();
         let metadata = create_metadata("network");
 
@@ -697,7 +698,7 @@ mod tests {
 
     #[test]
     fn test_remove_nonexistent_prefix() {
-        let tree = UncompressedTree::new(NodeVariant::Normal);
+        let tree = UncompressedTree::new(NodeVariant::NormalTrieNode);
         let prefix = IpNetwork::from_str("192.168.0.0/16").unwrap();
 
         let removed = tree.remove(&prefix);
@@ -706,7 +707,7 @@ mod tests {
 
     #[test]
     fn test_remove_with_overlapping_prefixes() {
-        let tree = UncompressedTree::new(NodeVariant::Normal);
+        let tree = UncompressedTree::new(NodeVariant::NormalTrieNode);
 
         let prefix1 = IpNetwork::from_str("192.168.0.0/16").unwrap();
         let prefix2 = IpNetwork::from_str("192.168.1.0/24").unwrap();
@@ -735,7 +736,7 @@ mod tests {
 
     #[test]
     fn test_contains() {
-        let tree = UncompressedTree::new(NodeVariant::Normal);
+        let tree = UncompressedTree::new(NodeVariant::NormalTrieNode);
         let prefix = IpNetwork::from_str("192.168.0.0/16").unwrap();
         let metadata = create_metadata("network");
 
@@ -753,7 +754,7 @@ mod tests {
 
     #[test]
     fn test_clear() {
-        let tree = UncompressedTree::new(NodeVariant::Normal);
+        let tree = UncompressedTree::new(NodeVariant::NormalTrieNode);
 
         let prefix1 = IpNetwork::from_str("192.168.0.0/16").unwrap();
         let prefix2 = IpNetwork::from_str("10.0.0.0/8").unwrap();
@@ -778,7 +779,7 @@ mod tests {
 
     #[test]
     fn test_default_route() {
-        let tree = UncompressedTree::new(NodeVariant::Normal);
+        let tree = UncompressedTree::new(NodeVariant::NormalTrieNode);
 
         let default_v4 = IpNetwork::from_str("0.0.0.0/0").unwrap();
         let meta_default = create_metadata("default");
@@ -802,7 +803,7 @@ mod tests {
 
     #[test]
     fn test_host_address_32_prefix() {
-        let tree = UncompressedTree::new(NodeVariant::Normal);
+        let tree = UncompressedTree::new(NodeVariant::NormalTrieNode);
 
         let host_prefix = IpNetwork::from_str("192.168.1.100/32").unwrap();
         let meta_host = create_metadata("host");
@@ -817,7 +818,7 @@ mod tests {
 
     #[test]
     fn test_insert_duplicate_prefix() {
-        let tree = UncompressedTree::new(NodeVariant::Normal);
+        let tree = UncompressedTree::new(NodeVariant::NormalTrieNode);
         let prefix = IpNetwork::from_str("192.168.0.0/16").unwrap();
         let meta1 = create_metadata("first");
         let meta2 = create_metadata("second");
@@ -836,7 +837,7 @@ mod tests {
 
     #[test]
     fn test_multiple_inserts_different_prefixes() {
-        let tree = UncompressedTree::new(NodeVariant::Normal);
+        let tree = UncompressedTree::new(NodeVariant::NormalTrieNode);
 
         let prefixes = vec![
             ("192.168.0.0/16", "network_a"),
@@ -872,7 +873,7 @@ mod tests {
 
     #[test]
     fn test_mixed_ipv4_ipv6() {
-        let tree = UncompressedTree::new(NodeVariant::Normal);
+        let tree = UncompressedTree::new(NodeVariant::NormalTrieNode);
 
         let v4_prefix = IpNetwork::from_str("192.168.0.0/16").unwrap();
         let v4_meta = create_metadata("v4_network");
@@ -898,7 +899,7 @@ mod tests {
 
     #[test]
     fn test_large_number_of_routes() {
-        let tree = UncompressedTree::new(NodeVariant::Normal);
+        let tree = UncompressedTree::new(NodeVariant::NormalTrieNode);
 
         for i in 0..100u32 {
             let prefix_str = format!("192.168.{}.0/24", i);
