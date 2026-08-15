@@ -1,0 +1,15 @@
+# Criterion configuration for CI and local runs
+# Reference: https://docs.rs/criterion/latest/criterion/
+
+[*]
+# Reduce sample count for CI memory constraints
+sample_size = 20
+# Warmup: keep it short
+warm_up_time = 1
+# Measurement: shorter measurement window
+measurement_time = 2
+# Skip plotting (saves memory and time)
+plotting = { backend = "disabled" }
+
+# Use fewer significance level checks
+significance_level = 0.1
