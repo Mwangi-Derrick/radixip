@@ -6,7 +6,7 @@ import (
 	"unsafe"
 )
 
-// atomicNode implements RadixNode using atomic operations for thread safety
+// atomicNode implements Node using atomic operations for thread safety
 type atomicNode struct {
 	bit      unsafe.Pointer // *uint8
 	left     unsafe.Pointer // *atomicNode
@@ -67,7 +67,7 @@ func (n *lockFreeNode) SetBit(bit uint8) {
 	n.bit = bit
 }
 
-func (n *lockFreeNode) Left() RadixNode {
+func (n *lockFreeNode) Left() Node {
 	ptr := atomic.LoadPointer(&n.left)
 	if ptr == nil {
 		return nil
@@ -75,7 +75,7 @@ func (n *lockFreeNode) Left() RadixNode {
 	return (*lockFreeNode)(ptr)
 }
 
-func (n *lockFreeNode) SetLeft(node RadixNode) {
+func (n *lockFreeNode) SetLeft(node Node) {
 	if n == nil {
 		return
 	}
@@ -86,7 +86,7 @@ func (n *lockFreeNode) SetLeft(node RadixNode) {
 	}
 }
 
-func (n *lockFreeNode) Right() RadixNode {
+func (n *lockFreeNode) Right() Node {
 	ptr := atomic.LoadPointer(&n.right)
 	if ptr == nil {
 		return nil
@@ -94,7 +94,7 @@ func (n *lockFreeNode) Right() RadixNode {
 	return (*lockFreeNode)(ptr)
 }
 
-func (n *lockFreeNode) SetRight(node RadixNode) {
+func (n *lockFreeNode) SetRight(node Node) {
 	if n == nil {
 		return
 	}
@@ -173,7 +173,7 @@ func (n *atomicNode) SetBit(bit uint8) {
 	atomic.StorePointer(&n.bit, unsafe.Pointer(&bitCacheUncompressed[bit]))
 }
 
-func (n *atomicNode) Left() RadixNode {
+func (n *atomicNode) Left() Node {
 	ptr := atomic.LoadPointer(&n.left)
 	if ptr == nil {
 		return nil
@@ -181,7 +181,7 @@ func (n *atomicNode) Left() RadixNode {
 	return (*atomicNode)(ptr)
 }
 
-func (n *atomicNode) SetLeft(node RadixNode) {
+func (n *atomicNode) SetLeft(node Node) {
 	if n == nil {
 		return
 	}
@@ -192,7 +192,7 @@ func (n *atomicNode) SetLeft(node RadixNode) {
 	}
 }
 
-func (n *atomicNode) Right() RadixNode {
+func (n *atomicNode) Right() Node {
 	ptr := atomic.LoadPointer(&n.right)
 	if ptr == nil {
 		return nil
@@ -200,7 +200,7 @@ func (n *atomicNode) Right() RadixNode {
 	return (*atomicNode)(ptr)
 }
 
-func (n *atomicNode) SetRight(node RadixNode) {
+func (n *atomicNode) SetRight(node Node) {
 	if n == nil {
 		return
 	}
@@ -272,14 +272,14 @@ func (n *normalNode) SetBit(bit uint8) {
 	n.bit = bit
 }
 
-func (n *normalNode) Left() RadixNode {
+func (n *normalNode) Left() Node {
 	if n == nil {
 		return nil
 	}
 	return n.left
 }
 
-func (n *normalNode) SetLeft(node RadixNode) {
+func (n *normalNode) SetLeft(node Node) {
 	if n == nil {
 		return
 	}
@@ -290,14 +290,14 @@ func (n *normalNode) SetLeft(node RadixNode) {
 	}
 }
 
-func (n *normalNode) Right() RadixNode {
+func (n *normalNode) Right() Node {
 	if n == nil {
 		return nil
 	}
 	return n.right
 }
 
-func (n *normalNode) SetRight(node RadixNode) {
+func (n *normalNode) SetRight(node Node) {
 	if n == nil {
 		return
 	}
@@ -368,14 +368,14 @@ func (n *paddedNode) SetBit(bit uint8) {
 	n.bit = bit
 }
 
-func (n *paddedNode) Left() RadixNode {
+func (n *paddedNode) Left() Node {
 	if n == nil {
 		return nil
 	}
 	return n.left
 }
 
-func (n *paddedNode) SetLeft(node RadixNode) {
+func (n *paddedNode) SetLeft(node Node) {
 	if n == nil {
 		return
 	}
@@ -386,14 +386,14 @@ func (n *paddedNode) SetLeft(node RadixNode) {
 	}
 }
 
-func (n *paddedNode) Right() RadixNode {
+func (n *paddedNode) Right() Node {
 	if n == nil {
 		return nil
 	}
 	return n.right
 }
 
-func (n *paddedNode) SetRight(node RadixNode) {
+func (n *paddedNode) SetRight(node Node) {
 	if n == nil {
 		return
 	}

@@ -28,14 +28,14 @@ const (
 )
 
 // RADIX NODE INTERFACE
-type RadixNode interface {
+type Node interface {
 	Bit() *uint8
-	Left() RadixNode
-	Right() RadixNode
+	Left() Node
+	Right() Node
 	Metadata() *Metadata
 	Prefix() *net.IPNet
-	SetLeft(node RadixNode)
-	SetRight(node RadixNode)
+	SetLeft(node Node)
+	SetRight(node Node)
 	SetMetadata(metadata *Metadata)
 	ClearMetadata()
 	SetBit(bit uint8)
@@ -72,10 +72,10 @@ type RouteTree interface {
 // FACTORY INTERFACE
 type EngineFactory interface {
 	CreateEngine(variant EngineVariant) RadixEngine
-	CreateNode(variant NodeVariant) RadixNode
+	CreateNode(variant NodeVariant) Node
 }
 
-// NodeBuilder is a factory for RadixNodes
+// NodeBuilder is a factory for Nodes
 type NodeBuilder struct {
 	variant NodeVariant
 }
@@ -84,7 +84,7 @@ func NewNodeBuilder(variant NodeVariant) *NodeBuilder {
 	return &NodeBuilder{variant: variant}
 }
 
-func (b *NodeBuilder) Build() RadixNode {
+func (b *NodeBuilder) Build() Node {
 	switch b.variant {
 	case NodeNormal:
 		return NewNormalNode()

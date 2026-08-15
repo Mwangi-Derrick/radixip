@@ -54,7 +54,7 @@ func (n *CompressedNormalNode) ClearMetadata() {
 	n.metadata = nil
 }
 
-func (n *CompressedNormalNode) Left() RadixNode {
+func (n *CompressedNormalNode) Left() Node {
 	if n == nil {
 		return nil
 	}
@@ -64,7 +64,7 @@ func (n *CompressedNormalNode) Left() RadixNode {
 	return n.left
 }
 
-func (n *CompressedNormalNode) SetLeft(node RadixNode) {
+func (n *CompressedNormalNode) SetLeft(node Node) {
 	if n == nil {
 		return
 	}
@@ -75,7 +75,7 @@ func (n *CompressedNormalNode) SetLeft(node RadixNode) {
 	}
 }
 
-func (n *CompressedNormalNode) Right() RadixNode {
+func (n *CompressedNormalNode) Right() Node {
 	if n == nil {
 		return nil
 	}
@@ -85,7 +85,7 @@ func (n *CompressedNormalNode) Right() RadixNode {
 	return n.right
 }
 
-func (n *CompressedNormalNode) SetRight(node RadixNode) {
+func (n *CompressedNormalNode) SetRight(node Node) {
 	if n == nil {
 		return
 	}
@@ -186,7 +186,7 @@ func (n *CompressedAtomicNode) ClearMetadata() {
 	atomic.StorePointer(&n.metadata, nil)
 }
 
-func (n *CompressedAtomicNode) Left() RadixNode {
+func (n *CompressedAtomicNode) Left() Node {
 	if n == nil {
 		return nil
 	}
@@ -197,7 +197,7 @@ func (n *CompressedAtomicNode) Left() RadixNode {
 	return (*CompressedAtomicNode)(ptr)
 }
 
-func (n *CompressedAtomicNode) SetLeft(node RadixNode) {
+func (n *CompressedAtomicNode) SetLeft(node Node) {
 	if n == nil {
 		return
 	}
@@ -208,7 +208,7 @@ func (n *CompressedAtomicNode) SetLeft(node RadixNode) {
 	}
 }
 
-func (n *CompressedAtomicNode) Right() RadixNode {
+func (n *CompressedAtomicNode) Right() Node {
 	if n == nil {
 		return nil
 	}
@@ -219,7 +219,7 @@ func (n *CompressedAtomicNode) Right() RadixNode {
 	return (*CompressedAtomicNode)(ptr)
 }
 
-func (n *CompressedAtomicNode) SetRight(node RadixNode) {
+func (n *CompressedAtomicNode) SetRight(node Node) {
 	if n == nil {
 		return
 	}
@@ -317,7 +317,7 @@ func (n *CompressedPaddedNode) ClearMetadata() {
 	atomic.StorePointer(&n.metadata, nil)
 }
 
-func (n *CompressedPaddedNode) Left() RadixNode {
+func (n *CompressedPaddedNode) Left() Node {
 	if n == nil {
 		return nil
 	}
@@ -327,7 +327,7 @@ func (n *CompressedPaddedNode) Left() RadixNode {
 	return n.left
 }
 
-func (n *CompressedPaddedNode) SetLeft(node RadixNode) {
+func (n *CompressedPaddedNode) SetLeft(node Node) {
 	if n == nil {
 		return
 	}
@@ -338,7 +338,7 @@ func (n *CompressedPaddedNode) SetLeft(node RadixNode) {
 	}
 }
 
-func (n *CompressedPaddedNode) Right() RadixNode {
+func (n *CompressedPaddedNode) Right() Node {
 	if n == nil {
 		return nil
 	}
@@ -348,7 +348,7 @@ func (n *CompressedPaddedNode) Right() RadixNode {
 	return n.right
 }
 
-func (n *CompressedPaddedNode) SetRight(node RadixNode) {
+func (n *CompressedPaddedNode) SetRight(node Node) {
 	if n == nil {
 		return
 	}
@@ -441,7 +441,7 @@ func (n *CompressedLockFreeNode) ClearMetadata() {
 	atomic.StorePointer(&n.metadata, nil)
 }
 
-func (n *CompressedLockFreeNode) Left() RadixNode {
+func (n *CompressedLockFreeNode) Left() Node {
 	if n == nil {
 		return nil
 	}
@@ -452,7 +452,7 @@ func (n *CompressedLockFreeNode) Left() RadixNode {
 	return (*CompressedLockFreeNode)(ptr)
 }
 
-func (n *CompressedLockFreeNode) SetLeft(node RadixNode) {
+func (n *CompressedLockFreeNode) SetLeft(node Node) {
 	if n == nil {
 		return
 	}
@@ -463,7 +463,7 @@ func (n *CompressedLockFreeNode) SetLeft(node RadixNode) {
 	}
 }
 
-func (n *CompressedLockFreeNode) Right() RadixNode {
+func (n *CompressedLockFreeNode) Right() Node {
 	if n == nil {
 		return nil
 	}
@@ -474,7 +474,7 @@ func (n *CompressedLockFreeNode) Right() RadixNode {
 	return (*CompressedLockFreeNode)(ptr)
 }
 
-func (n *CompressedLockFreeNode) SetRight(node RadixNode) {
+func (n *CompressedLockFreeNode) SetRight(node Node) {
 	if n == nil {
 		return
 	}

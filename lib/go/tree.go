@@ -13,7 +13,7 @@ import (
 // Best for heavy modification workloads where tree shape changes often.
 
 type UncompressedTree struct {
-	root        RadixNode
+	root        Node
 	nodeBuilder *NodeBuilder
 }
 
@@ -41,7 +41,7 @@ func (t *UncompressedTree) Insert(prefix IpNetwork, metadata Metadata) (bool, er
 	// only loop the number of bits in the mask
 	for depth := 0; depth < prefixLen; depth++ {
 		bit := t.getBit(ip, depth) // gets the bit at the current depth (0 or 1)
-		var next RadixNode
+		var next Node
 		if bit == 0 {
 			if current == nil {
 				// Handle nil current
@@ -230,7 +230,7 @@ func (t *UncompressedTree) getBit(ip net.IP, bitPos int) int {
 
 // CompressedTree is a Patricia / compressed radix trie.
 type CompressedTree struct {
-	root        RadixNode
+	root        Node
 	nodeBuilder *NodeBuilder
 }
 
@@ -254,7 +254,7 @@ func NewCompressedTree(variant NodeVariant) *CompressedTree {
 	}
 }
 
-func (t *CompressedTree) insertNode(n RadixNode, key []byte, keyLen, depth int, prefix *net.IPNet, meta *Metadata) bool {
+func (t *CompressedTree) insertNode(n Node, key []byte, keyLen, depth int, prefix *net.IPNet, meta *Metadata) bool {
 	// edgeBits are ALL the bits stored in this node
 	// (the compressed path from parent to this node)
 	edgeBits := n.EdgeBits()
@@ -338,7 +338,7 @@ func (t *CompressedTree) insertNode(n RadixNode, key []byte, keyLen, depth int, 
 
 	// Descend case
 	nextBit := getBitFromBytes(key, depth+shared)
-	var child RadixNode
+	var child Node
 	if nextBit == 0 {
 		child = n.Left()
 	} else {
@@ -366,7 +366,7 @@ func (t *CompressedTree) insertNode(n RadixNode, key []byte, keyLen, depth int, 
 	return t.insertNode(child, key, keyLen, depth+shared+1, prefix, meta)
 }
 
-func (t *CompressedTree) lookupNode(n RadixNode, key []byte, depth int) *Metadata {
+func (t *CompressedTree) lookupNode(n Node, key []byte, depth int) *Metadata {
 	if n == nil {
 		return nil
 	}
@@ -385,7 +385,7 @@ func (t *CompressedTree) lookupNode(n RadixNode, key []byte, depth int) *Metadat
 
 	best := n.Metadata()
 	newDepth := depth + shared
-	var nextChild RadixNode
+	var nextChild Node
 	if newDepth < len(key)*8 {
 		nextBit := getBitFromBytes(key, newDepth)
 		if nextBit == 0 {
@@ -403,7 +403,7 @@ func (t *CompressedTree) lookupNode(n RadixNode, key []byte, depth int) *Metadat
 	return best
 }
 
-func (t *CompressedTree) removeNode(n RadixNode, key []byte, keyLen, depth int) *Metadata {
+func (t *CompressedTree) removeNode(n Node, key []byte, keyLen, depth int) *Metadata {
 	if n == nil {
 		return nil
 	}
@@ -428,7 +428,7 @@ func (t *CompressedTree) removeNode(n RadixNode, key []byte, keyLen, depth int) 
 	}
 
 	nextBit := getBitFromBytes(key, depth+shared)
-	var child RadixNode
+	var child Node
 	if nextBit == 0 {
 		child = n.Left()
 	} else {
@@ -437,7 +437,7 @@ func (t *CompressedTree) removeNode(n RadixNode, key []byte, keyLen, depth int) 
 	return t.removeNode(child, key, keyLen, depth+shared+1)
 }
 
-func (t *CompressedTree) containsNode(n RadixNode, key []byte, keyLen, depth int) bool {
+func (t *CompressedTree) containsNode(n Node, key []byte, keyLen, depth int) bool {
 	if n == nil {
 		return false
 	}
@@ -457,7 +457,7 @@ func (t *CompressedTree) containsNode(n RadixNode, key []byte, keyLen, depth int
 		return n.Metadata() != nil
 	}
 	nextBit := getBitFromBytes(key, depth+shared)
-	var child RadixNode
+	var child Node
 	if nextBit == 0 {
 		child = n.Left()
 	} else {

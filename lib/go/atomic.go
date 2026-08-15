@@ -6,7 +6,7 @@ import (
 )
 
 type AtomicNodeRef struct {
-	ptr unsafe.Pointer // points to *RadixNode
+	ptr unsafe.Pointer // points to *Node
 	mu  sync.RWMutex
 }
 
@@ -18,18 +18,18 @@ func NewAtomicNodeRef() *AtomicNodeRef {
 }
 
 // Load returns the current node or nil if not set
-func (a *AtomicNodeRef) Load() RadixNode {
+func (a *AtomicNodeRef) Load() Node {
 	a.mu.RLock()
 	defer a.mu.RUnlock()
 
 	if a.ptr == nil {
 		return nil
 	}
-	return *(*RadixNode)(a.ptr)
+	return *(*Node)(a.ptr)
 }
 
 // Store sets the current node
-func (a *AtomicNodeRef) Store(node RadixNode) {
+func (a *AtomicNodeRef) Store(node Node) {
 	a.mu.Lock()
 	defer a.mu.Unlock()
 	a.ptr = unsafe.Pointer(&node)
@@ -38,7 +38,7 @@ func (a *AtomicNodeRef) Store(node RadixNode) {
 // CompareAndSwap performs a compare-and-swap operation
 // It returns (success, oldValue)
 // The oldValue is the current node if the swap failed
-func (a *AtomicNodeRef) CompareAndSwap(current, new RadixNode) (bool, RadixNode) {
+func (a *AtomicNodeRef) CompareAndSwap(current, new Node) (bool, Node) {
 	a.mu.Lock()
 	defer a.mu.Unlock()
 
@@ -46,7 +46,7 @@ func (a *AtomicNodeRef) CompareAndSwap(current, new RadixNode) (bool, RadixNode)
 		return false, nil
 	}
 
-	existing := *(*RadixNode)(a.ptr)
+	existing := *(*Node)(a.ptr)
 
 	// Compare by pointer equality
 	if existing == current {
