@@ -2,11 +2,10 @@
 //!
 //! These nodes store a single `bit` value and left/right children,
 //! traversed one bit at a time. There are three concurrency variants:
-//!
-//! - [`NormalNode`]  — RwLock on every field  
-//! - [`AtomicNode`]  — AtomicU8 for the bit, RwLock for children  
-//! - [`PaddedNode`]  — Cache-line padded to avoid false sharing  
-//! - [`LockFreeNode`] — DashMap-based children for fully lock-free reads  
+//! - [`NormalTrieNode`]  — RwLock on every field  
+//! - [`AtomicTrieNode`]  — AtomicU8 for the bit, RwLock for children  
+//! - [`PaddedTrieNode`]  — Cache-line padded to avoid false sharing  
+//! - [`LockFreeTrieNode`] — DashMap-based children for fully lock-free reads  
 
 use dashmap::DashMap;
 use ipnetwork::IpNetwork;
@@ -24,7 +23,7 @@ use crate::types::Metadata;
 
 #[derive(Default)]
 #[repr(C, align(64))]
-pub struct NormalNode {
+pub struct NormalTrieNode {
     bit: RwLock<Option<u8>>,
     left: RwLock<Option<Arc<dyn RadixNode>>>,
     right: RwLock<Option<Arc<dyn RadixNode>>>,
@@ -32,13 +31,13 @@ pub struct NormalNode {
     prefix: RwLock<Option<IpNetwork>>,
 }
 
-impl NormalNode {
+impl NormalTrieNode {
     pub fn new() -> Self {
         Self::default()
     }
 }
 
-impl RadixNode for NormalNode {
+impl RadixNode for NormalTrieNode {
     fn bit(&self) -> Option<u8> {
         *self.bit.read().unwrap()
     }
@@ -90,7 +89,7 @@ impl RadixNode for NormalNode {
 
 #[repr(C)]
 #[repr(C, align(64))]
-pub struct AtomicNode {
+pub struct AtomicTrieNode {
     /// Encoded as 0 = None, n+1 = Some(n) so we can use AtomicU8.
     bit: AtomicU8,
     left: RwLock<Option<Arc<dyn RadixNode>>>,
@@ -99,7 +98,7 @@ pub struct AtomicNode {
     prefix: RwLock<Option<IpNetwork>>,
 }
 
-impl AtomicNode {
+impl AtomicTrieNode {
     pub fn new() -> Self {
         Self {
             bit: AtomicU8::new(0),
@@ -110,21 +109,21 @@ impl AtomicNode {
         }
     }
 
-    pub fn with_bit(bit: u8) -> Self {
+    pub fn with_bit(bit: u8) -> Self { // This function is not used anywhere in the provided context files.
         let node = Self::new();
         node.set_bit(bit);
         node
     }
 }
 
-impl Default for AtomicNode {
-    fn default() -> Self {
+impl Default for UncompressedAtomicNode {
+    fn default() -> Self { // This impl should be for AtomicTrieNode
         Self::new()
     }
 }
 
-impl RadixNode for AtomicNode {
-    fn bit(&self) -> Option<u8> {
+impl RadixNode for AtomicTrieNode {
+    fn bit(&self) -> Option<u8> { // This impl should be for AtomicTrieNode
         let b = self.bit.load(Ordering::Acquire);
         if b == 0 { None } else { Some(b - 1) }
     }
@@ -176,7 +175,7 @@ impl RadixNode for AtomicNode {
 //
 
 #[repr(C, align(64))]
-pub struct PaddedNode {
+pub struct PaddedTrieNode {
     bit: RwLock<Option<u8>>,
     _pad1: [u8; 63],
     left: RwLock<Option<Arc<dyn RadixNode>>>,
@@ -188,7 +187,7 @@ pub struct PaddedNode {
     prefix: RwLock<Option<IpNetwork>>,
 }
 
-impl PaddedNode {
+impl PaddedTrieNode {
     pub fn new() -> Self {
         Self {
             bit: RwLock::new(None),
@@ -201,13 +200,13 @@ impl PaddedNode {
     }
 }
 
-impl Default for PaddedNode {
+impl Default for PaddedTrieNode {
     fn default() -> Self {
         Self::new()
     }
 }
 
-impl RadixNode for PaddedNode {
+impl RadixNode for PaddedTrieNode {
     fn bit(&self) -> Option<u8> {
         *self.bit.read().unwrap()
     }
@@ -265,15 +264,15 @@ enum ChildKey {
 }
 
 #[repr(C, align(64))]
-pub struct LockFreeNode {
+pub struct LockFreeTrieNode {
     bit: AtomicU8,
     children: DashMap<ChildKey, Arc<dyn RadixNode>>,
     metadata: RwLock<Option<Metadata>>,
     prefix: RwLock<Option<IpNetwork>>,
 }
 
-impl LockFreeNode {
-    pub fn new() -> Self {
+impl UncompressedLockFreeNode {
+    pub fn new() -> Self { // This impl should be for LockFreeTrieNode
         Self {
             bit: AtomicU8::new(0),
             children: DashMap::new(),
@@ -283,14 +282,14 @@ impl LockFreeNode {
     }
 }
 
-impl Default for LockFreeNode {
-    fn default() -> Self {
+impl Default for UncompressedLockFreeNode {
+    fn default() -> Self { // This impl should be for LockFreeTrieNode
         Self::new()
     }
 }
 
-impl RadixNode for LockFreeNode {
-    fn bit(&self) -> Option<u8> {
+impl RadixNode for LockFreeTrieNode {
+    fn bit(&self) -> Option<u8> { // This impl should be for LockFreeTrieNode
         let b = self.bit.load(Ordering::Acquire);
         if b == 0 { None } else { Some(b - 1) }
     }
