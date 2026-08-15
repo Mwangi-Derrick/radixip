@@ -10,6 +10,7 @@ use ipnetwork::IpNetwork;
 use radixip::{EngineVariant, Metadata, NodeVariant, RadixEngine, engine::EngineWrapper};
 use std::net::IpAddr;
 use std::str::FromStr;
+use std::time::Duration;
 
 // ---------------------------------------------------------------------------
 // Dataset generators
@@ -395,8 +396,21 @@ fn bench_concurrent_lookup_uncompressed(c: &mut Criterion) {
     group.finish();
 }
 
+// ---------------------------------------------------------------------------
+// Criterion Configuration for CI: reduced sampling for memory efficiency
+// ---------------------------------------------------------------------------
+fn config() -> Criterion {
+    Criterion::default()
+        .sample_size(20)                                           // Lower from default 100
+        .measurement_time(Duration::from_secs(3))                  // Lower from default 5s
+        .warm_up_time(Duration::from_secs(1))                      // Lower from default 3s
+        .without_plots()                                            // Skip expensive graph generation
+}
+
 criterion_group!(
-    benches,
+    name = benches;
+    config = config();
+    targets =
     bench_insert,
     bench_lookup_hit,
     bench_lookup_miss,
