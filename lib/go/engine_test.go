@@ -70,8 +70,8 @@ var (
 // Insert Benchmarks (unchanged)
 // ---------------------------------------------------------------------------
 
-func BenchmarkInsert_Uncompressed_10k_Normal(b *testing.B) {
-	cidrs := generateCIDRs(10_000)
+func BenchmarkInsert_Uncompressed_5k_Normal(b *testing.B) {
+	cidrs := generateCIDRs(5_000)
 	meta := Metadata{Value: "bench"}
 	b.ResetTimer()
 	for b.Loop() {
@@ -82,8 +82,8 @@ func BenchmarkInsert_Uncompressed_10k_Normal(b *testing.B) {
 	}
 }
 
-func BenchmarkInsert_Uncompressed_10k_Atomic(b *testing.B) {
-	cidrs := generateCIDRs(10_000)
+func BenchmarkInsert_Uncompressed_5k_Atomic(b *testing.B) {
+	cidrs := generateCIDRs(5_000)
 	meta := Metadata{Value: "bench"}
 	b.ResetTimer()
 	for b.Loop() {
@@ -94,8 +94,8 @@ func BenchmarkInsert_Uncompressed_10k_Atomic(b *testing.B) {
 	}
 }
 
-func BenchmarkInsert_Uncompressed_10k_Padded(b *testing.B) {
-	cidrs := generateCIDRs(10_000)
+func BenchmarkInsert_Uncompressed_5k_Padded(b *testing.B) {
+	cidrs := generateCIDRs(5_000)
 	meta := Metadata{Value: "bench"}
 	b.ResetTimer()
 	for b.Loop() {
@@ -106,8 +106,8 @@ func BenchmarkInsert_Uncompressed_10k_Padded(b *testing.B) {
 	}
 }
 
-func BenchmarkInsert_Uncompressed_10k_LockFree(b *testing.B) {
-	cidrs := generateCIDRs(10_000)
+func BenchmarkInsert_Uncompressed_5k_LockFree(b *testing.B) {
+	cidrs := generateCIDRs(5_000)
 	meta := Metadata{Value: "bench"}
 	b.ResetTimer()
 	for b.Loop() {
@@ -118,8 +118,8 @@ func BenchmarkInsert_Uncompressed_10k_LockFree(b *testing.B) {
 	}
 }
 
-func BenchmarkInsert_Compressed_10k_Normal(b *testing.B) {
-	cidrs := generateCIDRs(10_000)
+func BenchmarkInsert_Compressed_5k_Normal(b *testing.B) {
+	cidrs := generateCIDRs(5_000)
 	meta := Metadata{Value: "bench"}
 	b.ResetTimer()
 	for b.Loop() {
@@ -130,8 +130,8 @@ func BenchmarkInsert_Compressed_10k_Normal(b *testing.B) {
 	}
 }
 
-func BenchmarkInsert_Compressed_10k_Atomic(b *testing.B) {
-	cidrs := generateCIDRs(10_000)
+func BenchmarkInsert_Compressed_5k_Atomic(b *testing.B) {
+	cidrs := generateCIDRs(5_000)
 	meta := Metadata{Value: "bench"}
 	b.ResetTimer()
 	for b.Loop() {
@@ -142,8 +142,8 @@ func BenchmarkInsert_Compressed_10k_Atomic(b *testing.B) {
 	}
 }
 
-func BenchmarkInsert_Compressed_10k_Padded(b *testing.B) {
-	cidrs := generateCIDRs(10_000)
+func BenchmarkInsert_Compressed_5k_Padded(b *testing.B) {
+	cidrs := generateCIDRs(5_000)
 	meta := Metadata{Value: "bench"}
 	b.ResetTimer()
 	for b.Loop() {
@@ -154,8 +154,8 @@ func BenchmarkInsert_Compressed_10k_Padded(b *testing.B) {
 	}
 }
 
-func BenchmarkInsert_Compressed_10k_LockFree(b *testing.B) {
-	cidrs := generateCIDRs(10_000)
+func BenchmarkInsert_Compressed_5k_LockFree(b *testing.B) {
+	cidrs := generateCIDRs(5_000)
 	meta := Metadata{Value: "bench"}
 	b.ResetTimer()
 	for b.Loop() {
@@ -170,9 +170,9 @@ func BenchmarkInsert_Compressed_10k_LockFree(b *testing.B) {
 // Lookup Benchmarks - Hit (Uncompressed)
 // ---------------------------------------------------------------------------
 
-func BenchmarkLookup_Hit_Uncompressed_50k_Normal(b *testing.B) {
-	e := buildEngineWithVariant(50_000, false, NormalTrieNode)
-	ips := generateHitIPs(50_000)
+func BenchmarkLookup_Hit_Uncompressed_25k_Normal(b *testing.B) {
+	e := buildEngineWithVariant(25_000, false, NormalTrieNode)
+	ips := generateHitIPs(25_000)
 	b.ResetTimer()
 	b.ReportAllocs()
 	for b.Loop() {
@@ -182,9 +182,9 @@ func BenchmarkLookup_Hit_Uncompressed_50k_Normal(b *testing.B) {
 	}
 }
 
-func BenchmarkLookup_Hit_Uncompressed_50k_Atomic(b *testing.B) {
-	e := buildEngineWithVariant(50_000, false, AtomicTrieNode)
-	ips := generateHitIPs(50_000)
+func BenchmarkLookup_Hit_Uncompressed_25k_Atomic(b *testing.B) {
+	e := buildEngineWithVariant(25_000, false, AtomicTrieNode)
+	ips := generateHitIPs(25_000)
 	b.ResetTimer()
 	b.ReportAllocs()
 	for b.Loop() {
@@ -194,9 +194,9 @@ func BenchmarkLookup_Hit_Uncompressed_50k_Atomic(b *testing.B) {
 	}
 }
 
-func BenchmarkLookup_Hit_Uncompressed_50k_Padded(b *testing.B) {
-	e := buildEngineWithVariant(50_000, false, PaddedTrieNode)
-	ips := generateHitIPs(50_000)
+func BenchmarkLookup_Hit_Uncompressed_25k_Padded(b *testing.B) {
+	e := buildEngineWithVariant(25_000, false, PaddedTrieNode)
+	ips := generateHitIPs(25_000)
 	b.ResetTimer()
 	b.ReportAllocs()
 	for b.Loop() {
@@ -206,9 +206,9 @@ func BenchmarkLookup_Hit_Uncompressed_50k_Padded(b *testing.B) {
 	}
 }
 
-func BenchmarkLookup_Hit_Uncompressed_50k_LockFree(b *testing.B) {
-	e := buildEngineWithVariant(50_000, false, LockFreeTrieNode)
-	ips := generateHitIPs(50_000)
+func BenchmarkLookup_Hit_Uncompressed_25k_LockFree(b *testing.B) {
+	e := buildEngineWithVariant(25_000, false, LockFreeTrieNode)
+	ips := generateHitIPs(25_000)
 	b.ResetTimer()
 	b.ReportAllocs()
 	for b.Loop() {
@@ -222,9 +222,9 @@ func BenchmarkLookup_Hit_Uncompressed_50k_LockFree(b *testing.B) {
 // Lookup Benchmarks - Miss (Uncompressed)
 // ---------------------------------------------------------------------------
 
-func BenchmarkLookup_Miss_Uncompressed_50k_Normal(b *testing.B) {
-	e := buildEngineWithVariant(50_000, false, NormalTrieNode)
-	ips := generateMissIPs(50_000)
+func BenchmarkLookup_Miss_Uncompressed_25k_Normal(b *testing.B) {
+	e := buildEngineWithVariant(25_000, false, NormalTrieNode)
+	ips := generateMissIPs(25_000)
 	b.ResetTimer()
 	b.ReportAllocs()
 	for b.Loop() {
@@ -234,7 +234,7 @@ func BenchmarkLookup_Miss_Uncompressed_50k_Normal(b *testing.B) {
 	}
 }
 
-func BenchmarkLookup_Miss_Uncompressed_50k_Atomic(b *testing.B) {
+func BenchmarkLookup_Miss_Uncompressed_25k_Atomic(b *testing.B) {
 	e := buildEngineWithVariant(50_000, false, AtomicTrieNode)
 	ips := generateMissIPs(50_000)
 	b.ResetTimer()
@@ -246,7 +246,7 @@ func BenchmarkLookup_Miss_Uncompressed_50k_Atomic(b *testing.B) {
 	}
 }
 
-func BenchmarkLookup_Miss_Uncompressed_50k_Padded(b *testing.B) {
+func BenchmarkLookup_Miss_Uncompressed_25k_Padded(b *testing.B) {
 	e := buildEngineWithVariant(50_000, false, PaddedTrieNode)
 	ips := generateMissIPs(50_000)
 	b.ResetTimer()
@@ -258,7 +258,7 @@ func BenchmarkLookup_Miss_Uncompressed_50k_Padded(b *testing.B) {
 	}
 }
 
-func BenchmarkLookup_Miss_Uncompressed_50k_LockFree(b *testing.B) {
+func BenchmarkLookup_Miss_Uncompressed_25k_LockFree(b *testing.B) {
 	e := buildEngineWithVariant(50_000, false, LockFreeTrieNode)
 	ips := generateMissIPs(50_000)
 	b.ResetTimer()
@@ -702,4 +702,3 @@ func BenchmarkConcurrent_Lookup_ART_50k(b *testing.B) {
 		}
 	})
 }
-

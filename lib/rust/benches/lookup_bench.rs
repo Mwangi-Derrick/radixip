@@ -77,8 +77,8 @@ fn build_engine(
 
 fn bench_insert(c: &mut Criterion) {
     let mut group = c.benchmark_group("insert");
-    // Match Go's 10k only, or keep both? Keeping both for more comprehensive testing
-    for &n in &[1_000usize, 10_000] {
+    // Match Go's 5k only, or keep both? Keeping both for more comprehensive testing
+    for &n in &[500usize, 5_000] {
         let cidrs = generate_cidrs(n);
         let meta = Metadata::new("bench");
 
@@ -152,8 +152,8 @@ fn bench_insert(c: &mut Criterion) {
 
 fn bench_lookup_hit(c: &mut Criterion) {
     let mut group = c.benchmark_group("lookup/hit");
-    // Add 50k to match Go's primary benchmark size
-    for &n in &[10_000usize, 50_000, 100_000] {
+    // Reduced dataset sizes to 5k, 25k, 50k for memory efficiency
+    for &n in &[5_000usize, 25_000, 50_000] {
         let ips = generate_ips(n);
         group.throughput(Throughput::Elements(n as u64));
         // uncompressed variants
@@ -217,8 +217,8 @@ fn bench_lookup_hit(c: &mut Criterion) {
 
 fn bench_lookup_miss(c: &mut Criterion) {
     let mut group = c.benchmark_group("lookup/miss");
-    // Add 50k to match Go's primary benchmark size
-    for &n in &[10_000usize, 50_000, 100_000] {
+    // Reduced dataset sizes to 5k, 25k, 50k for memory efficiency
+    for &n in &[5_000usize, 25_000, 50_000] {
         let miss_ips = generate_miss_ips(n);
         group.throughput(Throughput::Elements(n as u64));
         // uncompressed variants
@@ -288,7 +288,7 @@ fn bench_concurrent_lookup_compressed(c: &mut Criterion) {
     use std::thread;
 
     let mut group = c.benchmark_group("concurrent_lookup/compressed");
-    let n = 50_000usize;
+    let n = 25_000usize;
     let ips = Arc::new(generate_ips(n));
 
     for &nv in &[
@@ -328,7 +328,7 @@ fn bench_concurrent_lookup_art(c: &mut Criterion) {
     use std::thread;
 
     let mut group = c.benchmark_group("concurrent_lookup/art");
-    let n = 50_000usize;
+    let n = 25_000usize;
     let ips = Arc::new(generate_ips(n));
 
     let engine = Arc::new(build_engine(EngineVariant::ART, NodeVariant::NormalRadixNode, true, n));
@@ -363,7 +363,7 @@ fn bench_concurrent_lookup_uncompressed(c: &mut Criterion) {
     use std::thread;
 
     let mut group = c.benchmark_group("concurrent_lookup/uncompressed");
-    let n = 50_000usize;
+    let n = 25_000usize;
     let ips = Arc::new(generate_ips(n));
 
     for &nv in &[
