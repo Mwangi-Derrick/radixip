@@ -5,9 +5,9 @@
 //
 // Results are written to: target/criterion/
 
-use criterion::{BenchmarkId, Criterion, Throughput, criterion_group, criterion_main};
+use criterion::{criterion_group, criterion_main, BatchSize, BenchmarkId, Criterion, Throughput};
 use ipnetwork::IpNetwork;
-use radixip::{EngineVariant, Metadata, NodeVariant, RadixEngine, engine::EngineWrapper};
+use radixip::{engine::EngineWrapper, EngineVariant, Metadata, NodeVariant, RadixEngine};
 use std::net::IpAddr;
 use std::str::FromStr;
 use std::time::Duration;
@@ -41,6 +41,7 @@ fn generate_ips(n: usize) -> Vec<IpAddr> {
 }
 
 /// Generate N IP addresses that are guaranteed NOT to match (cold misses).
+#[allow(dead_code)]
 fn generate_miss_ips(n: usize) -> Vec<IpAddr> {
     (0..n)
         .map(|i| {
@@ -71,6 +72,17 @@ fn build_engine(
     engine
 }
 
+fn compressed_variant(node_variant: NodeVariant) -> NodeVariant {
+    match node_variant {
+        NodeVariant::NormalTrieNode | NodeVariant::NormalRadixNode => NodeVariant::NormalRadixNode,
+        NodeVariant::AtomicTrieNode | NodeVariant::AtomicRadixNode => NodeVariant::AtomicRadixNode,
+        NodeVariant::PaddedTrieNode | NodeVariant::PaddedRadixNode => NodeVariant::PaddedRadixNode,
+        NodeVariant::LockFreeTrieNode | NodeVariant::LockFreeRadixNode => {
+            NodeVariant::LockFreeRadixNode
+        }
+    }
+}
+
 // ---------------------------------------------------------------------------
 // Benchmarks
 // ---------------------------------------------------------------------------
@@ -90,56 +102,57 @@ fn bench_insert(c: &mut Criterion) {
             NodeVariant::PaddedTrieNode,
             NodeVariant::LockFreeTrieNode,
         ] {
-            let engine = EngineWrapper::new(EngineVariant::Concurrent, nv, false);
             group.bench_with_input(
                 BenchmarkId::new(format!("uncompressed/{nv:?}"), n),
                 &n,
                 |b, _| {
-                    b.iter(|| {
-                        for cidr in &cidrs {
-                            let _ = criterion::black_box(
-                                engine.insert(*cidr, criterion::black_box(meta.clone())),
-                            );
-                        }
-                    });
+                    b.iter_batched(
+                        || EngineWrapper::new(EngineVariant::Concurrent, nv, false),
+                        |engine| {
+                            for cidr in &cidrs {
+                                let _ = criterion::black_box(
+                                    engine.insert(*cidr, criterion::black_box(meta.clone())),
+                                );
+                            }
+                        },
+                        BatchSize::SmallInput,
+                    );
                 },
             );
 
-            // Match compressed variants
-            let cnv = match nv {
-                NodeVariant::NormalTrieNode => NodeVariant::NormalRadixNode,
-                NodeVariant::AtomicTrieNode => NodeVariant::AtomicRadixNode,
-                NodeVariant::PaddedTrieNode => NodeVariant::PaddedRadixNode,
-                NodeVariant::LockFreeTrieNode => NodeVariant::LockFreeRadixNode,
-                _ => nv,
-            };
-            let engine = EngineWrapper::new(EngineVariant::Concurrent, cnv, true);
+            let cnv = compressed_variant(nv);
             group.bench_with_input(
                 BenchmarkId::new(format!("compressed/{cnv:?}"), n),
                 &n,
                 |b, _| {
-                    b.iter(|| {
-                        for cidr in &cidrs {
-                            let _ = criterion::black_box(
-                                engine.insert(*cidr, criterion::black_box(meta.clone())),
-                            );
-                        }
-                    });
+                    b.iter_batched(
+                        || EngineWrapper::new(EngineVariant::Concurrent, cnv, true),
+                        |engine| {
+                            for cidr in &cidrs {
+                                let _ = criterion::black_box(
+                                    engine.insert(*cidr, criterion::black_box(meta.clone())),
+                                );
+                            }
+                        },
+                        BatchSize::SmallInput,
+                    );
                 },
             );
-            let engine = EngineWrapper::new(EngineVariant::ART, cnv, true);
-            // create the ART variant for comparison
             group.bench_with_input(
                 BenchmarkId::new(format!("compressed/ART/{cnv:?}"), n),
                 &n,
                 |b, _| {
-                    b.iter(|| {
-                        for cidr in &cidrs {
-                            let _ = criterion::black_box(
-                                engine.insert(*cidr, criterion::black_box(meta.clone())),
-                            );
-                        }
-                    });
+                    b.iter_batched(
+                        || EngineWrapper::new(EngineVariant::ART, cnv, true),
+                        |engine| {
+                            for cidr in &cidrs {
+                                let _ = criterion::black_box(
+                                    engine.insert(*cidr, criterion::black_box(meta.clone())),
+                                );
+                            }
+                        },
+                        BatchSize::SmallInput,
+                    );
                 },
             );
         }
@@ -399,14 +412,22 @@ fn bench_concurrent_lookup_uncompressed(c: &mut Criterion) {
 }
 
 // ---------------------------------------------------------------------------
-// Criterion Configuration for CI: reduced sampling for memory efficiency
+// Criterion Configuration
 // ---------------------------------------------------------------------------
 fn config() -> Criterion {
-    Criterion::default()
-        .sample_size(20) // Lower from default 100
-        .measurement_time(Duration::from_secs(8)) // Lower from default 5s
-        .warm_up_time(Duration::from_secs(1)) // Lower from default 3s
-        .without_plots() // Skip expensive graph generation
+    let criterion = Criterion::default().without_plots();
+
+    if std::env::var_os("CI").is_some() {
+        criterion
+            .sample_size(10)
+            .measurement_time(Duration::from_millis(500))
+            .warm_up_time(Duration::from_millis(100))
+    } else {
+        criterion
+            .sample_size(20)
+            .measurement_time(Duration::from_secs(5))
+            .warm_up_time(Duration::from_secs(1))
+    }
 }
 
 criterion_group! {

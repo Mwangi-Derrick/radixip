@@ -12,7 +12,7 @@
 
 use crate::lpm::{get_bit, longest_prefix_match_binary};
 use crate::node::NodeBuilder;
-use crate::traits::{NodeVariant, Node, RouteTree};
+use crate::traits::{Node, NodeVariant, RouteTree};
 use crate::types::Metadata;
 use ipnetwork::IpNetwork;
 use std::net::IpAddr;
@@ -220,11 +220,18 @@ impl CompressedTree {
     pub fn new(node_variant: NodeVariant) -> Self {
         // Ensure we use a compressed variant, upgrading if necessary.
         let variant = match node_variant {
-            NodeVariant::NormalTrieNode | NodeVariant::NormalRadixNode => NodeVariant::NormalRadixNode,
-            NodeVariant::AtomicTrieNode | NodeVariant::AtomicRadixNode => NodeVariant::AtomicRadixNode,
-            NodeVariant::PaddedTrieNode | NodeVariant::PaddedRadixNode => NodeVariant::PaddedRadixNode,
-            NodeVariant::LockFreeTrieNode | NodeVariant::LockFreeRadixNode => NodeVariant::LockFreeRadixNode,
-            _ => node_variant, // Already a compressed variant or a new variant            }
+            NodeVariant::NormalTrieNode | NodeVariant::NormalRadixNode => {
+                NodeVariant::NormalRadixNode
+            }
+            NodeVariant::AtomicTrieNode | NodeVariant::AtomicRadixNode => {
+                NodeVariant::AtomicRadixNode
+            }
+            NodeVariant::PaddedTrieNode | NodeVariant::PaddedRadixNode => {
+                NodeVariant::PaddedRadixNode
+            }
+            NodeVariant::LockFreeTrieNode | NodeVariant::LockFreeRadixNode => {
+                NodeVariant::LockFreeRadixNode
+            }
         };
         let builder = NodeBuilder::new(variant);
         Self {
