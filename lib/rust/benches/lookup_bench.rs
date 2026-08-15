@@ -150,134 +150,134 @@ fn bench_insert(c: &mut Criterion) {
     group.finish();
 }
 
-fn bench_lookup_hit(c: &mut Criterion) {
-    let mut group = c.benchmark_group("lookup/hit");
-    // Reduced dataset sizes to 5k, 25k, 50k for memory efficiency
-    for &n in &[5_000usize, 25_000, 50_000] {
-        let ips = generate_ips(n);
-        group.throughput(Throughput::Elements(n as u64));
-        // uncompressed variants
-        for &nv in &[
-            NodeVariant::NormalTrieNode,
-            NodeVariant::AtomicTrieNode,
-            NodeVariant::PaddedTrieNode,
-            NodeVariant::LockFreeTrieNode,
-        ] {
-            let engine_u = build_engine(EngineVariant::Concurrent, nv, false, n);
-            group.bench_with_input(
-                BenchmarkId::new(format!("uncompressed/{nv:?}"), n),
-                &n,
-                |b, _| {
-                    b.iter(|| {
-                        for ip in &ips {
-                            let _ = criterion::black_box(engine_u.lookup(criterion::black_box(ip)));
-                        }
-                    });
-                },
-            );
+// fn bench_lookup_hit(c: &mut Criterion) {
+//     let mut group = c.benchmark_group("lookup/hit");
+//     // Reduced dataset sizes to 5k, 25k, 50k for memory efficiency
+//     for &n in &[5_000usize, 25_000, 50_000] {
+//         let ips = generate_ips(n);
+//         group.throughput(Throughput::Elements(n as u64));
+//         // uncompressed variants
+//         for &nv in &[
+//             NodeVariant::NormalTrieNode,
+//             NodeVariant::AtomicTrieNode,
+//             NodeVariant::PaddedTrieNode,
+//             NodeVariant::LockFreeTrieNode,
+//         ] {
+//             let engine_u = build_engine(EngineVariant::Concurrent, nv, false, n);
+//             group.bench_with_input(
+//                 BenchmarkId::new(format!("uncompressed/{nv:?}"), n),
+//                 &n,
+//                 |b, _| {
+//                     b.iter(|| {
+//                         for ip in &ips {
+//                             let _ = criterion::black_box(engine_u.lookup(criterion::black_box(ip)));
+//                         }
+//                     });
+//                 },
+//             );
 
-            let cnv = match nv {
-                NodeVariant::NormalTrieNode => NodeVariant::NormalRadixNode,
-                NodeVariant::AtomicTrieNode => NodeVariant::AtomicRadixNode,
-                NodeVariant::PaddedTrieNode => NodeVariant::PaddedRadixNode,
-                NodeVariant::LockFreeTrieNode => NodeVariant::LockFreeRadixNode,
-                _ => nv,
-            };
+//             let cnv = match nv {
+//                 NodeVariant::NormalTrieNode => NodeVariant::NormalRadixNode,
+//                 NodeVariant::AtomicTrieNode => NodeVariant::AtomicRadixNode,
+//                 NodeVariant::PaddedTrieNode => NodeVariant::PaddedRadixNode,
+//                 NodeVariant::LockFreeTrieNode => NodeVariant::LockFreeRadixNode,
+//                 _ => nv,
+//             };
 
-            let engine_c = build_engine(EngineVariant::Concurrent, cnv, true, n);
-            group.bench_with_input(
-                BenchmarkId::new(format!("compressed/{cnv:?}"), n),
-                &n,
-                |b, _| {
-                    b.iter(|| {
-                        for ip in &ips {
-                            let _ = criterion::black_box(engine_c.lookup(criterion::black_box(ip)));
-                        }
-                    });
-                },
-            );
+//             let engine_c = build_engine(EngineVariant::Concurrent, cnv, true, n);
+//             group.bench_with_input(
+//                 BenchmarkId::new(format!("compressed/{cnv:?}"), n),
+//                 &n,
+//                 |b, _| {
+//                     b.iter(|| {
+//                         for ip in &ips {
+//                             let _ = criterion::black_box(engine_c.lookup(criterion::black_box(ip)));
+//                         }
+//                     });
+//                 },
+//             );
 
-            // create the ART variant for comparison
-            let art_engine = build_engine(EngineVariant::ART, cnv, true, n);
-            group.bench_with_input(
-                BenchmarkId::new(format!("compressed/ART/{cnv:?}"), n),
-                &n,
-                |b, _| {
-                    b.iter(|| {
-                        for ip in &ips {
-                            let _ = criterion::black_box(art_engine.lookup(criterion::black_box(ip)));
-                        }
-                    });
-                },
-            );
-        }
-    }
-    group.finish();
-}
+//             // create the ART variant for comparison
+//             let art_engine = build_engine(EngineVariant::ART, cnv, true, n);
+//             group.bench_with_input(
+//                 BenchmarkId::new(format!("compressed/ART/{cnv:?}"), n),
+//                 &n,
+//                 |b, _| {
+//                     b.iter(|| {
+//                         for ip in &ips {
+//                             let _ = criterion::black_box(art_engine.lookup(criterion::black_box(ip)));
+//                         }
+//                     });
+//                 },
+//             );
+//         }
+//     }
+//     group.finish();
+// }
 
-fn bench_lookup_miss(c: &mut Criterion) {
-    let mut group = c.benchmark_group("lookup/miss");
-    // Reduced dataset sizes to 5k, 25k, 50k for memory efficiency
-    for &n in &[5_000usize, 25_000, 50_000] {
-        let miss_ips = generate_miss_ips(n);
-        group.throughput(Throughput::Elements(n as u64));
-        // uncompressed variants
-        for &nv in &[
-            NodeVariant::NormalTrieNode,
-            NodeVariant::AtomicTrieNode,
-            NodeVariant::PaddedTrieNode,
-            NodeVariant::LockFreeTrieNode,
-        ] {
-            let engine_u = build_engine(EngineVariant::Concurrent, nv, false, n);
-            group.bench_with_input(
-                BenchmarkId::new(format!("uncompressed/{nv:?}"), n),
-                &n,
-                |b, _| {
-                    b.iter(|| {
-                        for ip in &miss_ips {
-                            let _ = criterion::black_box(engine_u.lookup(criterion::black_box(ip)));
-                        }
-                    });
-                },
-            );
-            // compressed variants
-            let cnv = match nv {
-                NodeVariant::NormalTrieNode => NodeVariant::NormalRadixNode,
-                NodeVariant::AtomicTrieNode => NodeVariant::AtomicRadixNode,
-                NodeVariant::PaddedTrieNode => NodeVariant::PaddedRadixNode,
-                NodeVariant::LockFreeTrieNode => NodeVariant::LockFreeRadixNode,
-                _ => nv,
-            };
+// fn bench_lookup_miss(c: &mut Criterion) {
+//     let mut group = c.benchmark_group("lookup/miss");
+//     // Reduced dataset sizes to 5k, 25k, 50k for memory efficiency
+//     for &n in &[5_000usize, 25_000, 50_000] {
+//         let miss_ips = generate_miss_ips(n);
+//         group.throughput(Throughput::Elements(n as u64));
+//         // uncompressed variants
+//         for &nv in &[
+//             NodeVariant::NormalTrieNode,
+//             NodeVariant::AtomicTrieNode,
+//             NodeVariant::PaddedTrieNode,
+//             NodeVariant::LockFreeTrieNode,
+//         ] {
+//             let engine_u = build_engine(EngineVariant::Concurrent, nv, false, n);
+//             group.bench_with_input(
+//                 BenchmarkId::new(format!("uncompressed/{nv:?}"), n),
+//                 &n,
+//                 |b, _| {
+//                     b.iter(|| {
+//                         for ip in &miss_ips {
+//                             let _ = criterion::black_box(engine_u.lookup(criterion::black_box(ip)));
+//                         }
+//                     });
+//                 },
+//             );
+//             // compressed variants
+//             let cnv = match nv {
+//                 NodeVariant::NormalTrieNode => NodeVariant::NormalRadixNode,
+//                 NodeVariant::AtomicTrieNode => NodeVariant::AtomicRadixNode,
+//                 NodeVariant::PaddedTrieNode => NodeVariant::PaddedRadixNode,
+//                 NodeVariant::LockFreeTrieNode => NodeVariant::LockFreeRadixNode,
+//                 _ => nv,
+//             };
 
-            let engine_c = build_engine(EngineVariant::Concurrent, cnv, true, n);
-            group.bench_with_input(
-                BenchmarkId::new(format!("compressed/{cnv:?}"), n),
-                &n,
-                |b, _| {
-                    b.iter(|| {
-                        for ip in &miss_ips {
-                            let _ = criterion::black_box(engine_c.lookup(criterion::black_box(ip)));
-                        }
-                    });
-                },
-            );
-            // create the ART variant for comparison
-            let art_engine = build_engine(EngineVariant::ART, cnv, true, n);
-            group.bench_with_input(
-                BenchmarkId::new(format!("compressed/ART/{cnv:?}"), n),
-                &n,
-                |b, _| {
-                    b.iter(|| {
-                        for ip in &miss_ips {
-                            let _ = criterion::black_box(art_engine.lookup(criterion::black_box(ip)));
-                        }
-                    });
-                },
-            );
-        }
-    }
-    group.finish();
-}
+//             let engine_c = build_engine(EngineVariant::Concurrent, cnv, true, n);
+//             group.bench_with_input(
+//                 BenchmarkId::new(format!("compressed/{cnv:?}"), n),
+//                 &n,
+//                 |b, _| {
+//                     b.iter(|| {
+//                         for ip in &miss_ips {
+//                             let _ = criterion::black_box(engine_c.lookup(criterion::black_box(ip)));
+//                         }
+//                     });
+//                 },
+//             );
+//             // create the ART variant for comparison
+//             let art_engine = build_engine(EngineVariant::ART, cnv, true, n);
+//             group.bench_with_input(
+//                 BenchmarkId::new(format!("compressed/ART/{cnv:?}"), n),
+//                 &n,
+//                 |b, _| {
+//                     b.iter(|| {
+//                         for ip in &miss_ips {
+//                             let _ = criterion::black_box(art_engine.lookup(criterion::black_box(ip)));
+//                         }
+//                     });
+//                 },
+//             );
+//         }
+//     }
+//     group.finish();
+// }
 
 // ---------------------------------------------------------------------------
 // Concurrent Lookup Benchmarks - Compressed
@@ -412,8 +412,8 @@ criterion_group! {
     config = config();
     targets = 
         bench_insert,
-        bench_lookup_hit,
-        bench_lookup_miss,
+        // bench_lookup_hit,
+        // bench_lookup_miss,
         bench_concurrent_lookup_compressed,
         bench_concurrent_lookup_art,
         bench_concurrent_lookup_uncompressed
