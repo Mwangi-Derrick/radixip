@@ -51,21 +51,21 @@ pub enum EngineVariant {
 // Uncompressed nodes leave `edge_bits`, `edge_len`, and `set_edge`
 // as the default no-op implementations; only compressed nodes
 // provide real implementations for those.
-pub trait RadixNode: Send + Sync {
-    // ---- Shared methods (both tree types) ----
+pub trait Node: Send + Sync {
+    //  Shared methods (both tree types) 
     fn bit(&self) -> Option<u8>;
-    fn left(&self) -> Option<Arc<dyn RadixNode>>;
-    fn right(&self) -> Option<Arc<dyn RadixNode>>;
+    fn left(&self) -> Option<Arc<dyn Node>>;
+    fn right(&self) -> Option<Arc<dyn Node>>;
     fn metadata(&self) -> Option<Metadata>;
     fn prefix(&self) -> Option<IpNetwork>;
-    fn set_left(&self, node: Option<Arc<dyn RadixNode>>);
-    fn set_right(&self, node: Option<Arc<dyn RadixNode>>);
+    fn set_left(&self, node: Option<Arc<dyn Node>>);
+    fn set_right(&self, node: Option<Arc<dyn Node>>);
     fn set_metadata(&self, metadata: Metadata);
     fn clear_metadata(&self);
     fn set_bit(&self, bit: u8);
     fn set_prefix(&self, prefix: IpNetwork);
 
-    // ---- Compressed-node extensions (default = uncompressed does nothing) ----
+    //  Compressed-node extensions (default = uncompressed does nothing) 
 
     /// Returns the edge bit-string for Patricia trie nodes.
     /// Uncompressed nodes always return `None`.
@@ -114,5 +114,5 @@ pub trait RouteTree: Send + Sync {
 // Factory trait for creating engines with different variants
 pub trait EngineFactory {
     fn create_engine(variant: EngineVariant) -> Box<dyn RadixEngine>;
-    fn create_node(variant: NodeVariant) -> Box<dyn RadixNode>;
+    fn create_node(variant: NodeVariant) -> Box<dyn Node>;
 }
