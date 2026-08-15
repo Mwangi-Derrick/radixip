@@ -127,6 +127,23 @@ fn bench_insert(c: &mut Criterion) {
                     });
                 },
             );
+
+            // create the ART variant for comparison
+            group.bench_with_input(
+                BenchmarkId::new(format!("compressed/ART/{cnv:?}"), n),
+                &n,
+                |b, _| {
+                    b.iter(|| {
+                        let engine = EngineWrapper::new(EngineVariant::ART, cnv, true);
+                        for cidr in &cidrs {
+                            let _ = criterion::black_box(
+                                engine.insert(*cidr, criterion::black_box(meta.clone())),
+                            );
+        }
+                    });
+                },
+            );
+
         }
     }
     group.finish();
@@ -174,6 +191,20 @@ fn bench_lookup_hit(c: &mut Criterion) {
                     b.iter(|| {
                         for ip in &ips {
                             let _ = criterion::black_box(engine_c.lookup(criterion::black_box(ip)));
+                        }
+                    });
+                },
+            );
+
+            // create the ART variant for comparison
+            let art_engine = build_engine(EngineVariant::ART, cnv, true, n);
+            group.bench_with_input(
+                BenchmarkId::new(format!("compressed/ART/{cnv:?}"), n),
+                &n,
+                |b, _| {
+                    b.iter(|| {
+                        for ip in &ips {
+                            let _ = criterion::black_box(art_engine.lookup(criterion::black_box(ip)));
                         }
                     });
                 },
@@ -229,6 +260,19 @@ fn bench_lookup_miss(c: &mut Criterion) {
                     });
                 },
             );
+            // create the ART variant for comparison
+            let art_engine = build_engine(EngineVariant::ART, cnv, true, n);
+            group.bench_with_input(
+                BenchmarkId::new(format!("compressed/ART/{cnv:?}"), n),
+                &n,
+                |b, _| {
+                    b.iter(|| {
+                        for ip in &miss_ips {
+                            let _ = criterion::black_box(art_engine.lookup(criterion::black_box(ip)));
+                        }
+                    });
+                },
+            );
         }
     }
     group.finish();
@@ -273,6 +317,39 @@ fn bench_concurrent_lookup_compressed(c: &mut Criterion) {
             });
         });
     }
+    group.finish();
+}
+
+//  Bench Concurrent ART Lookup
+
+fn bench_concurrent_lookup_art(c: &mut Criterion) {
+    use std::sync::Arc;
+    use std::thread;
+
+    let mut group = c.benchmark_group("concurrent_lookup/art");
+    let n = 50_000usize;
+    let ips = Arc::new(generate_ips(n));
+
+    let engine = Arc::new(build_engine(EngineVariant::ART, NodeVariant::NormalRadixNode, true, n));
+    group.throughput(Throughput::Elements((n * 4) as u64)); // 4 threads
+    group.bench_function("4_threads/ART", |b| {
+        b.iter(|| {
+            let handles: Vec<_> = (0..4)
+                .map(|_| {
+                    let e = Arc::clone(&engine);
+                    let ips = Arc::clone(&ips);
+                    thread::spawn(move || {
+                        for ip in ips.iter() {
+                            let _ = criterion::black_box(e.lookup(criterion::black_box(ip)));
+                        }
+                    })
+                })
+                .collect();
+            for h in handles {
+                h.join().unwrap();
+            }
+        });
+    });
     group.finish();
 }
 
@@ -324,6 +401,7 @@ criterion_group!(
     bench_lookup_hit,
     bench_lookup_miss,
     bench_concurrent_lookup_compressed,
+    bench_concurrent_lookup_art,
     bench_concurrent_lookup_uncompressed,
 );
 criterion_main!(benches);
