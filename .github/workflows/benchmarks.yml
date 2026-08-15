@@ -89,7 +89,7 @@ jobs:
 
       - name: Build SIMD FFI shared library
         run: |
-          cd lib/rust/node16_simd_ffi && cargo build --release
+          cargo build -p node16_simd_ffi --release
           mkdir -p lib/vendor/lib
           cp -f target/release/libnode16_simd_ffi.so lib/vendor/lib/
 
