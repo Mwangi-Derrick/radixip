@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1786802992441,
+  "lastUpdate": 1786806191359,
   "repoUrl": "https://github.com/Mwangi-Derrick/radixip",
   "entries": {
     "Go Benchmark": [
@@ -172306,6 +172306,9870 @@ window.BENCHMARK_DATA = {
           {
             "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art) - ns/op",
             "value": 115905,
+            "unit": "ns/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "10000 times\n4 procs"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "mwangiderrick640@gmail.com",
+            "name": "Derrick Mwangi",
+            "username": "Mwangi-Derrick"
+          },
+          "committer": {
+            "email": "mwangiderrick640@gmail.com",
+            "name": "Derrick Mwangi",
+            "username": "Mwangi-Derrick"
+          },
+          "distinct": true,
+          "id": "bba83984837b8ed0e01fbcf72db3a8754add2321",
+          "message": "style: cargo fmt",
+          "timestamp": "2026-08-15T17:49:21+03:00",
+          "tree_id": "8cee5d5da28d6cd5674166f67698a8942cb53d06",
+          "url": "https://github.com/Mwangi-Derrick/radixip/commit/bba83984837b8ed0e01fbcf72db3a8754add2321"
+        },
+        "date": 1786806190135,
+        "tool": "go",
+        "benches": [
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 131158798,
+            "unit": "ns/op\t165124631 B/op\t 2240070 allocs/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 131158798,
+            "unit": "ns/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 165124631,
+            "unit": "B/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 2240070,
+            "unit": "allocs/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 132300338,
+            "unit": "ns/op\t165123916 B/op\t 2240069 allocs/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 132300338,
+            "unit": "ns/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 165123916,
+            "unit": "B/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 2240069,
+            "unit": "allocs/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 147328521,
+            "unit": "ns/op\t165124128 B/op\t 2240071 allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 147328521,
+            "unit": "ns/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 165124128,
+            "unit": "B/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 2240071,
+            "unit": "allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 139375339,
+            "unit": "ns/op\t165124070 B/op\t 2240070 allocs/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 139375339,
+            "unit": "ns/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 165124070,
+            "unit": "B/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 2240070,
+            "unit": "allocs/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 131071065,
+            "unit": "ns/op\t165124042 B/op\t 2240070 allocs/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 131071065,
+            "unit": "ns/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 165124042,
+            "unit": "B/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 2240070,
+            "unit": "allocs/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 131399566,
+            "unit": "ns/op\t165123944 B/op\t 2240069 allocs/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 131399566,
+            "unit": "ns/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 165123944,
+            "unit": "B/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 2240069,
+            "unit": "allocs/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 132889189,
+            "unit": "ns/op\t165123944 B/op\t 2240069 allocs/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 132889189,
+            "unit": "ns/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 165123944,
+            "unit": "B/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 2240069,
+            "unit": "allocs/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 135998579,
+            "unit": "ns/op\t165123790 B/op\t 2240068 allocs/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 135998579,
+            "unit": "ns/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 165123790,
+            "unit": "B/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 2240068,
+            "unit": "allocs/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 139606195,
+            "unit": "ns/op\t165124084 B/op\t 2240070 allocs/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 139606195,
+            "unit": "ns/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 165124084,
+            "unit": "B/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 2240070,
+            "unit": "allocs/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 133769311,
+            "unit": "ns/op\t165124098 B/op\t 2240070 allocs/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 133769311,
+            "unit": "ns/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 165124098,
+            "unit": "B/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 2240070,
+            "unit": "allocs/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 40428162,
+            "unit": "ns/op\t11649180 B/op\t  321635 allocs/op",
+            "extra": "28 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 40428162,
+            "unit": "ns/op",
+            "extra": "28 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11649180,
+            "unit": "B/op",
+            "extra": "28 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321635,
+            "unit": "allocs/op",
+            "extra": "28 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 38799883,
+            "unit": "ns/op\t11649156 B/op\t  321635 allocs/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 38799883,
+            "unit": "ns/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11649156,
+            "unit": "B/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321635,
+            "unit": "allocs/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 38692909,
+            "unit": "ns/op\t11649161 B/op\t  321635 allocs/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 38692909,
+            "unit": "ns/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11649161,
+            "unit": "B/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321635,
+            "unit": "allocs/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 38681600,
+            "unit": "ns/op\t11649149 B/op\t  321635 allocs/op",
+            "extra": "27 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 38681600,
+            "unit": "ns/op",
+            "extra": "27 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11649149,
+            "unit": "B/op",
+            "extra": "27 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321635,
+            "unit": "allocs/op",
+            "extra": "27 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 38696926,
+            "unit": "ns/op\t11649137 B/op\t  321635 allocs/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 38696926,
+            "unit": "ns/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11649137,
+            "unit": "B/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321635,
+            "unit": "allocs/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 38702317,
+            "unit": "ns/op\t11649129 B/op\t  321635 allocs/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 38702317,
+            "unit": "ns/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11649129,
+            "unit": "B/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321635,
+            "unit": "allocs/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 38765435,
+            "unit": "ns/op\t11649130 B/op\t  321635 allocs/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 38765435,
+            "unit": "ns/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11649130,
+            "unit": "B/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321635,
+            "unit": "allocs/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 40514766,
+            "unit": "ns/op\t11649160 B/op\t  321635 allocs/op",
+            "extra": "28 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 40514766,
+            "unit": "ns/op",
+            "extra": "28 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11649160,
+            "unit": "B/op",
+            "extra": "28 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321635,
+            "unit": "allocs/op",
+            "extra": "28 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 38470636,
+            "unit": "ns/op\t11649136 B/op\t  321635 allocs/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 38470636,
+            "unit": "ns/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11649136,
+            "unit": "B/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321635,
+            "unit": "allocs/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 38484033,
+            "unit": "ns/op\t11649136 B/op\t  321635 allocs/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 38484033,
+            "unit": "ns/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11649136,
+            "unit": "B/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321635,
+            "unit": "allocs/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 162273791,
+            "unit": "ns/op\t257284704 B/op\t 2240069 allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 162273791,
+            "unit": "ns/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 257284704,
+            "unit": "B/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 2240069,
+            "unit": "allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 158791380,
+            "unit": "ns/op\t257284992 B/op\t 2240072 allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 158791380,
+            "unit": "ns/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 257284992,
+            "unit": "B/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 2240072,
+            "unit": "allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 159794573,
+            "unit": "ns/op\t257285120 B/op\t 2240073 allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 159794573,
+            "unit": "ns/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 257285120,
+            "unit": "B/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 2240073,
+            "unit": "allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 160207697,
+            "unit": "ns/op\t257285232 B/op\t 2240074 allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 160207697,
+            "unit": "ns/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 257285232,
+            "unit": "B/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 2240074,
+            "unit": "allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 158685673,
+            "unit": "ns/op\t257284800 B/op\t 2240070 allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 158685673,
+            "unit": "ns/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 257284800,
+            "unit": "B/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 2240070,
+            "unit": "allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 160656061,
+            "unit": "ns/op\t257284816 B/op\t 2240070 allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 160656061,
+            "unit": "ns/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 257284816,
+            "unit": "B/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 2240070,
+            "unit": "allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 158198237,
+            "unit": "ns/op\t257284640 B/op\t 2240068 allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 158198237,
+            "unit": "ns/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 257284640,
+            "unit": "B/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 2240068,
+            "unit": "allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 156448524,
+            "unit": "ns/op\t257284864 B/op\t 2240070 allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 156448524,
+            "unit": "ns/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 257284864,
+            "unit": "B/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 2240070,
+            "unit": "allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 157496145,
+            "unit": "ns/op\t257284752 B/op\t 2240069 allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 157496145,
+            "unit": "ns/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 257284752,
+            "unit": "B/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 2240069,
+            "unit": "allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 165930031,
+            "unit": "ns/op\t257284672 B/op\t 2240069 allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 165930031,
+            "unit": "ns/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 257284672,
+            "unit": "B/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 2240069,
+            "unit": "allocs/op",
+            "extra": "7 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 38792923,
+            "unit": "ns/op\t11649144 B/op\t  321635 allocs/op",
+            "extra": "28 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 38792923,
+            "unit": "ns/op",
+            "extra": "28 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11649144,
+            "unit": "B/op",
+            "extra": "28 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321635,
+            "unit": "allocs/op",
+            "extra": "28 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 38571028,
+            "unit": "ns/op\t11649150 B/op\t  321635 allocs/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 38571028,
+            "unit": "ns/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11649150,
+            "unit": "B/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321635,
+            "unit": "allocs/op",
+            "extra": "31 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 38473501,
+            "unit": "ns/op\t11649163 B/op\t  321635 allocs/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 38473501,
+            "unit": "ns/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11649163,
+            "unit": "B/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321635,
+            "unit": "allocs/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 38641245,
+            "unit": "ns/op\t11649163 B/op\t  321635 allocs/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 38641245,
+            "unit": "ns/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11649163,
+            "unit": "B/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321635,
+            "unit": "allocs/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 40731017,
+            "unit": "ns/op\t11649196 B/op\t  321635 allocs/op",
+            "extra": "28 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 40731017,
+            "unit": "ns/op",
+            "extra": "28 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11649196,
+            "unit": "B/op",
+            "extra": "28 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321635,
+            "unit": "allocs/op",
+            "extra": "28 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 38544355,
+            "unit": "ns/op\t11649182 B/op\t  321635 allocs/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 38544355,
+            "unit": "ns/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11649182,
+            "unit": "B/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321635,
+            "unit": "allocs/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 38745147,
+            "unit": "ns/op\t11649174 B/op\t  321635 allocs/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 38745147,
+            "unit": "ns/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11649174,
+            "unit": "B/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321635,
+            "unit": "allocs/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 40298703,
+            "unit": "ns/op\t11649152 B/op\t  321635 allocs/op",
+            "extra": "28 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 40298703,
+            "unit": "ns/op",
+            "extra": "28 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11649152,
+            "unit": "B/op",
+            "extra": "28 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321635,
+            "unit": "allocs/op",
+            "extra": "28 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 38792519,
+            "unit": "ns/op\t11649160 B/op\t  321635 allocs/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 38792519,
+            "unit": "ns/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11649160,
+            "unit": "B/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321635,
+            "unit": "allocs/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 38715224,
+            "unit": "ns/op\t11649145 B/op\t  321635 allocs/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 38715224,
+            "unit": "ns/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11649145,
+            "unit": "B/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Uncompressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321635,
+            "unit": "allocs/op",
+            "extra": "30 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 30852711,
+            "unit": "ns/op\t11624400 B/op\t  321971 allocs/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 30852711,
+            "unit": "ns/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11624400,
+            "unit": "B/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 30510511,
+            "unit": "ns/op\t11624422 B/op\t  321971 allocs/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 30510511,
+            "unit": "ns/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11624422,
+            "unit": "B/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 30439348,
+            "unit": "ns/op\t11624421 B/op\t  321971 allocs/op",
+            "extra": "39 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 30439348,
+            "unit": "ns/op",
+            "extra": "39 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11624421,
+            "unit": "B/op",
+            "extra": "39 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "39 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 30728075,
+            "unit": "ns/op\t11624430 B/op\t  321971 allocs/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 30728075,
+            "unit": "ns/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11624430,
+            "unit": "B/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 30689626,
+            "unit": "ns/op\t11624435 B/op\t  321971 allocs/op",
+            "extra": "39 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 30689626,
+            "unit": "ns/op",
+            "extra": "39 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11624435,
+            "unit": "B/op",
+            "extra": "39 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "39 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 30383860,
+            "unit": "ns/op\t11624453 B/op\t  321971 allocs/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 30383860,
+            "unit": "ns/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11624453,
+            "unit": "B/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 30859439,
+            "unit": "ns/op\t11624455 B/op\t  321971 allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 30859439,
+            "unit": "ns/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11624455,
+            "unit": "B/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 30373916,
+            "unit": "ns/op\t11624461 B/op\t  321971 allocs/op",
+            "extra": "39 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 30373916,
+            "unit": "ns/op",
+            "extra": "39 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11624461,
+            "unit": "B/op",
+            "extra": "39 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "39 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 30476966,
+            "unit": "ns/op\t11624435 B/op\t  321971 allocs/op",
+            "extra": "39 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 30476966,
+            "unit": "ns/op",
+            "extra": "39 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11624435,
+            "unit": "B/op",
+            "extra": "39 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "39 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 30321395,
+            "unit": "ns/op\t11624457 B/op\t  321971 allocs/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 30321395,
+            "unit": "ns/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11624457,
+            "unit": "B/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 31932021,
+            "unit": "ns/op\t11624463 B/op\t  321971 allocs/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 31932021,
+            "unit": "ns/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11624463,
+            "unit": "B/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 31665706,
+            "unit": "ns/op\t11624450 B/op\t  321971 allocs/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 31665706,
+            "unit": "ns/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11624450,
+            "unit": "B/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 31356354,
+            "unit": "ns/op\t11624450 B/op\t  321971 allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 31356354,
+            "unit": "ns/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11624450,
+            "unit": "B/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 31511754,
+            "unit": "ns/op\t11624418 B/op\t  321971 allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 31511754,
+            "unit": "ns/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11624418,
+            "unit": "B/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 32377040,
+            "unit": "ns/op\t11624428 B/op\t  321971 allocs/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 32377040,
+            "unit": "ns/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11624428,
+            "unit": "B/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 31286963,
+            "unit": "ns/op\t11624455 B/op\t  321971 allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 31286963,
+            "unit": "ns/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11624455,
+            "unit": "B/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 31425616,
+            "unit": "ns/op\t11624427 B/op\t  321971 allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 31425616,
+            "unit": "ns/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11624427,
+            "unit": "B/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 31822345,
+            "unit": "ns/op\t11624449 B/op\t  321971 allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 31822345,
+            "unit": "ns/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11624449,
+            "unit": "B/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 31426704,
+            "unit": "ns/op\t11624428 B/op\t  321971 allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 31426704,
+            "unit": "ns/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11624428,
+            "unit": "B/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 31469021,
+            "unit": "ns/op\t11624467 B/op\t  321971 allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 31469021,
+            "unit": "ns/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11624467,
+            "unit": "B/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 31183402,
+            "unit": "ns/op\t11685209 B/op\t  321972 allocs/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 31183402,
+            "unit": "ns/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11685209,
+            "unit": "B/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321972,
+            "unit": "allocs/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 30733228,
+            "unit": "ns/op\t11685121 B/op\t  321971 allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 30733228,
+            "unit": "ns/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11685121,
+            "unit": "B/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 30781949,
+            "unit": "ns/op\t11685129 B/op\t  321971 allocs/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 30781949,
+            "unit": "ns/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11685129,
+            "unit": "B/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 30815095,
+            "unit": "ns/op\t11685124 B/op\t  321971 allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 30815095,
+            "unit": "ns/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11685124,
+            "unit": "B/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 30823460,
+            "unit": "ns/op\t11685146 B/op\t  321971 allocs/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 30823460,
+            "unit": "ns/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11685146,
+            "unit": "B/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 30818400,
+            "unit": "ns/op\t11685136 B/op\t  321971 allocs/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 30818400,
+            "unit": "ns/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11685136,
+            "unit": "B/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 31054797,
+            "unit": "ns/op\t11685088 B/op\t  321971 allocs/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 31054797,
+            "unit": "ns/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11685088,
+            "unit": "B/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 31116883,
+            "unit": "ns/op\t11685122 B/op\t  321971 allocs/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 31116883,
+            "unit": "ns/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11685122,
+            "unit": "B/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 31243600,
+            "unit": "ns/op\t11685100 B/op\t  321971 allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 31243600,
+            "unit": "ns/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11685100,
+            "unit": "B/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 31084885,
+            "unit": "ns/op\t11685113 B/op\t  321971 allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 31084885,
+            "unit": "ns/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11685113,
+            "unit": "B/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 32032889,
+            "unit": "ns/op\t11624422 B/op\t  321971 allocs/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 32032889,
+            "unit": "ns/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11624422,
+            "unit": "B/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 31741532,
+            "unit": "ns/op\t11624441 B/op\t  321971 allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 31741532,
+            "unit": "ns/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11624441,
+            "unit": "B/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 31752421,
+            "unit": "ns/op\t11624459 B/op\t  321971 allocs/op",
+            "extra": "33 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 31752421,
+            "unit": "ns/op",
+            "extra": "33 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11624459,
+            "unit": "B/op",
+            "extra": "33 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "33 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 31757338,
+            "unit": "ns/op\t11624444 B/op\t  321971 allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 31757338,
+            "unit": "ns/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11624444,
+            "unit": "B/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 31471631,
+            "unit": "ns/op\t11624446 B/op\t  321971 allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 31471631,
+            "unit": "ns/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11624446,
+            "unit": "B/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 32106440,
+            "unit": "ns/op\t11624492 B/op\t  321971 allocs/op",
+            "extra": "34 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 32106440,
+            "unit": "ns/op",
+            "extra": "34 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11624492,
+            "unit": "B/op",
+            "extra": "34 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "34 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 31231914,
+            "unit": "ns/op\t11624464 B/op\t  321971 allocs/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 31231914,
+            "unit": "ns/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11624464,
+            "unit": "B/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "38 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 31488150,
+            "unit": "ns/op\t11624464 B/op\t  321971 allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 31488150,
+            "unit": "ns/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11624464,
+            "unit": "B/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 31557328,
+            "unit": "ns/op\t11624472 B/op\t  321971 allocs/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 31557328,
+            "unit": "ns/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11624472,
+            "unit": "B/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "36 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 31294835,
+            "unit": "ns/op\t11624424 B/op\t  321971 allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 31294835,
+            "unit": "ns/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 11624424,
+            "unit": "B/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_Compressed_10k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 321971,
+            "unit": "allocs/op",
+            "extra": "37 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 4542672,
+            "unit": "ns/op\t 1200003 B/op\t   50000 allocs/op",
+            "extra": "266 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 4542672,
+            "unit": "ns/op",
+            "extra": "266 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200003,
+            "unit": "B/op",
+            "extra": "266 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "266 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 4496748,
+            "unit": "ns/op\t 1200005 B/op\t   50000 allocs/op",
+            "extra": "266 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 4496748,
+            "unit": "ns/op",
+            "extra": "266 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200005,
+            "unit": "B/op",
+            "extra": "266 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "266 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 4508967,
+            "unit": "ns/op\t 1200004 B/op\t   50000 allocs/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 4508967,
+            "unit": "ns/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200004,
+            "unit": "B/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 4508044,
+            "unit": "ns/op\t 1200003 B/op\t   50000 allocs/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 4508044,
+            "unit": "ns/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200003,
+            "unit": "B/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 4498181,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "266 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 4498181,
+            "unit": "ns/op",
+            "extra": "266 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "266 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "266 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 4488105,
+            "unit": "ns/op\t 1200003 B/op\t   50000 allocs/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 4488105,
+            "unit": "ns/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200003,
+            "unit": "B/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 4488361,
+            "unit": "ns/op\t 1200004 B/op\t   50000 allocs/op",
+            "extra": "266 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 4488361,
+            "unit": "ns/op",
+            "extra": "266 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200004,
+            "unit": "B/op",
+            "extra": "266 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "266 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 4486072,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "266 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 4486072,
+            "unit": "ns/op",
+            "extra": "266 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "266 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "266 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 4505293,
+            "unit": "ns/op\t 1200004 B/op\t   50000 allocs/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 4505293,
+            "unit": "ns/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200004,
+            "unit": "B/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 4580467,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 4580467,
+            "unit": "ns/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 20964617,
+            "unit": "ns/op\t 1200020 B/op\t   50000 allocs/op",
+            "extra": "55 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 20964617,
+            "unit": "ns/op",
+            "extra": "55 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200020,
+            "unit": "B/op",
+            "extra": "55 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "55 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 21037807,
+            "unit": "ns/op\t 1200004 B/op\t   50000 allocs/op",
+            "extra": "55 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 21037807,
+            "unit": "ns/op",
+            "extra": "55 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200004,
+            "unit": "B/op",
+            "extra": "55 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "55 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 20986099,
+            "unit": "ns/op\t 1200004 B/op\t   50000 allocs/op",
+            "extra": "56 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 20986099,
+            "unit": "ns/op",
+            "extra": "56 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200004,
+            "unit": "B/op",
+            "extra": "56 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "56 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 21068375,
+            "unit": "ns/op\t 1200006 B/op\t   50000 allocs/op",
+            "extra": "50 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 21068375,
+            "unit": "ns/op",
+            "extra": "50 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200006,
+            "unit": "B/op",
+            "extra": "50 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "50 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 21012696,
+            "unit": "ns/op\t 1200024 B/op\t   50000 allocs/op",
+            "extra": "55 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 21012696,
+            "unit": "ns/op",
+            "extra": "55 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200024,
+            "unit": "B/op",
+            "extra": "55 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "55 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 21012784,
+            "unit": "ns/op\t 1200004 B/op\t   50000 allocs/op",
+            "extra": "55 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 21012784,
+            "unit": "ns/op",
+            "extra": "55 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200004,
+            "unit": "B/op",
+            "extra": "55 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "55 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 21112652,
+            "unit": "ns/op\t 1200012 B/op\t   50000 allocs/op",
+            "extra": "55 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 21112652,
+            "unit": "ns/op",
+            "extra": "55 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200012,
+            "unit": "B/op",
+            "extra": "55 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "55 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 21046993,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "56 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 21046993,
+            "unit": "ns/op",
+            "extra": "56 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "56 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "56 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 21098765,
+            "unit": "ns/op\t 1200016 B/op\t   50000 allocs/op",
+            "extra": "54 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 21098765,
+            "unit": "ns/op",
+            "extra": "54 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200016,
+            "unit": "B/op",
+            "extra": "54 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "54 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 21103179,
+            "unit": "ns/op\t 1200011 B/op\t   50000 allocs/op",
+            "extra": "57 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 21103179,
+            "unit": "ns/op",
+            "extra": "57 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200011,
+            "unit": "B/op",
+            "extra": "57 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "57 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 4371119,
+            "unit": "ns/op\t 1200005 B/op\t   50000 allocs/op",
+            "extra": "272 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 4371119,
+            "unit": "ns/op",
+            "extra": "272 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200005,
+            "unit": "B/op",
+            "extra": "272 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "272 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 4369842,
+            "unit": "ns/op\t 1200005 B/op\t   50000 allocs/op",
+            "extra": "274 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 4369842,
+            "unit": "ns/op",
+            "extra": "274 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200005,
+            "unit": "B/op",
+            "extra": "274 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "274 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 4387139,
+            "unit": "ns/op\t 1200005 B/op\t   50000 allocs/op",
+            "extra": "272 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 4387139,
+            "unit": "ns/op",
+            "extra": "272 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200005,
+            "unit": "B/op",
+            "extra": "272 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "272 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 4376442,
+            "unit": "ns/op\t 1200003 B/op\t   50000 allocs/op",
+            "extra": "272 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 4376442,
+            "unit": "ns/op",
+            "extra": "272 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200003,
+            "unit": "B/op",
+            "extra": "272 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "272 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 4390003,
+            "unit": "ns/op\t 1200003 B/op\t   50000 allocs/op",
+            "extra": "271 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 4390003,
+            "unit": "ns/op",
+            "extra": "271 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200003,
+            "unit": "B/op",
+            "extra": "271 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "271 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 4400297,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "270 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 4400297,
+            "unit": "ns/op",
+            "extra": "270 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "270 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "270 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 4381779,
+            "unit": "ns/op\t 1200005 B/op\t   50000 allocs/op",
+            "extra": "272 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 4381779,
+            "unit": "ns/op",
+            "extra": "272 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200005,
+            "unit": "B/op",
+            "extra": "272 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "272 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 4379339,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "272 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 4379339,
+            "unit": "ns/op",
+            "extra": "272 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "272 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "272 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 4374727,
+            "unit": "ns/op\t 1200004 B/op\t   50000 allocs/op",
+            "extra": "273 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 4374727,
+            "unit": "ns/op",
+            "extra": "273 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200004,
+            "unit": "B/op",
+            "extra": "273 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "273 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 4398694,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "272 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 4398694,
+            "unit": "ns/op",
+            "extra": "272 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "272 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "272 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 21061875,
+            "unit": "ns/op\t 1200012 B/op\t   50000 allocs/op",
+            "extra": "56 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 21061875,
+            "unit": "ns/op",
+            "extra": "56 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200012,
+            "unit": "B/op",
+            "extra": "56 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "56 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 20984379,
+            "unit": "ns/op\t 1200008 B/op\t   50000 allocs/op",
+            "extra": "56 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 20984379,
+            "unit": "ns/op",
+            "extra": "56 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200008,
+            "unit": "B/op",
+            "extra": "56 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "56 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 20943434,
+            "unit": "ns/op\t 1200018 B/op\t   50000 allocs/op",
+            "extra": "55 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 20943434,
+            "unit": "ns/op",
+            "extra": "55 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200018,
+            "unit": "B/op",
+            "extra": "55 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "55 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 21151869,
+            "unit": "ns/op\t 1200018 B/op\t   50000 allocs/op",
+            "extra": "56 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 21151869,
+            "unit": "ns/op",
+            "extra": "56 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200018,
+            "unit": "B/op",
+            "extra": "56 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "56 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 20910638,
+            "unit": "ns/op\t 1200012 B/op\t   50000 allocs/op",
+            "extra": "55 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 20910638,
+            "unit": "ns/op",
+            "extra": "55 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200012,
+            "unit": "B/op",
+            "extra": "55 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "55 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 20930418,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "55 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 20930418,
+            "unit": "ns/op",
+            "extra": "55 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "55 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "55 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 20884162,
+            "unit": "ns/op\t 1200010 B/op\t   50000 allocs/op",
+            "extra": "56 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 20884162,
+            "unit": "ns/op",
+            "extra": "56 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200010,
+            "unit": "B/op",
+            "extra": "56 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "56 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 20992996,
+            "unit": "ns/op\t 1200009 B/op\t   50000 allocs/op",
+            "extra": "57 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 20992996,
+            "unit": "ns/op",
+            "extra": "57 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200009,
+            "unit": "B/op",
+            "extra": "57 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "57 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 20987187,
+            "unit": "ns/op\t 1200008 B/op\t   50000 allocs/op",
+            "extra": "56 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 20987187,
+            "unit": "ns/op",
+            "extra": "56 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200008,
+            "unit": "B/op",
+            "extra": "56 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "56 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 20946832,
+            "unit": "ns/op\t 1200008 B/op\t   50000 allocs/op",
+            "extra": "56 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 20946832,
+            "unit": "ns/op",
+            "extra": "56 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200008,
+            "unit": "B/op",
+            "extra": "56 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "56 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 4507961,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 4507961,
+            "unit": "ns/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 4528896,
+            "unit": "ns/op\t 1200003 B/op\t   50000 allocs/op",
+            "extra": "264 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 4528896,
+            "unit": "ns/op",
+            "extra": "264 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200003,
+            "unit": "B/op",
+            "extra": "264 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "264 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 4512512,
+            "unit": "ns/op\t 1200003 B/op\t   50000 allocs/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 4512512,
+            "unit": "ns/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200003,
+            "unit": "B/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 4513946,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 4513946,
+            "unit": "ns/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 4512065,
+            "unit": "ns/op\t 1200004 B/op\t   50000 allocs/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 4512065,
+            "unit": "ns/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200004,
+            "unit": "B/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 4509473,
+            "unit": "ns/op\t 1200008 B/op\t   50000 allocs/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 4509473,
+            "unit": "ns/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200008,
+            "unit": "B/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 4526585,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "262 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 4526585,
+            "unit": "ns/op",
+            "extra": "262 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "262 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "262 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 4505068,
+            "unit": "ns/op\t 1200005 B/op\t   50000 allocs/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 4505068,
+            "unit": "ns/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200005,
+            "unit": "B/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 4521591,
+            "unit": "ns/op\t 1200008 B/op\t   50000 allocs/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 4521591,
+            "unit": "ns/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200008,
+            "unit": "B/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 4526845,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 4526845,
+            "unit": "ns/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3699586,
+            "unit": "ns/op\t 1200006 B/op\t   50000 allocs/op",
+            "extra": "322 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3699586,
+            "unit": "ns/op",
+            "extra": "322 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200006,
+            "unit": "B/op",
+            "extra": "322 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "322 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3691147,
+            "unit": "ns/op\t 1200005 B/op\t   50000 allocs/op",
+            "extra": "325 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3691147,
+            "unit": "ns/op",
+            "extra": "325 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200005,
+            "unit": "B/op",
+            "extra": "325 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "325 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3708099,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "320 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3708099,
+            "unit": "ns/op",
+            "extra": "320 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "320 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "320 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3703255,
+            "unit": "ns/op\t 1200003 B/op\t   50000 allocs/op",
+            "extra": "322 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3703255,
+            "unit": "ns/op",
+            "extra": "322 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200003,
+            "unit": "B/op",
+            "extra": "322 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "322 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3699154,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "322 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3699154,
+            "unit": "ns/op",
+            "extra": "322 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "322 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "322 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3696459,
+            "unit": "ns/op\t 1200003 B/op\t   50000 allocs/op",
+            "extra": "322 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3696459,
+            "unit": "ns/op",
+            "extra": "322 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200003,
+            "unit": "B/op",
+            "extra": "322 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "322 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3719143,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "321 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3719143,
+            "unit": "ns/op",
+            "extra": "321 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "321 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "321 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3687261,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "325 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3687261,
+            "unit": "ns/op",
+            "extra": "325 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "325 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "325 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3708336,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "321 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3708336,
+            "unit": "ns/op",
+            "extra": "321 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "321 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "321 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3701218,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "322 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3701218,
+            "unit": "ns/op",
+            "extra": "322 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "322 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "322 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 4517654,
+            "unit": "ns/op\t 1200005 B/op\t   50000 allocs/op",
+            "extra": "264 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 4517654,
+            "unit": "ns/op",
+            "extra": "264 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200005,
+            "unit": "B/op",
+            "extra": "264 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "264 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 4541630,
+            "unit": "ns/op\t 1200004 B/op\t   50000 allocs/op",
+            "extra": "264 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 4541630,
+            "unit": "ns/op",
+            "extra": "264 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200004,
+            "unit": "B/op",
+            "extra": "264 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "264 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 4529472,
+            "unit": "ns/op\t 1200004 B/op\t   50000 allocs/op",
+            "extra": "264 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 4529472,
+            "unit": "ns/op",
+            "extra": "264 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200004,
+            "unit": "B/op",
+            "extra": "264 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "264 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 4509235,
+            "unit": "ns/op\t 1200003 B/op\t   50000 allocs/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 4509235,
+            "unit": "ns/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200003,
+            "unit": "B/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 4525312,
+            "unit": "ns/op\t 1200005 B/op\t   50000 allocs/op",
+            "extra": "264 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 4525312,
+            "unit": "ns/op",
+            "extra": "264 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200005,
+            "unit": "B/op",
+            "extra": "264 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "264 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 4588212,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "252 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 4588212,
+            "unit": "ns/op",
+            "extra": "252 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "252 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "252 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 4514581,
+            "unit": "ns/op\t 1200003 B/op\t   50000 allocs/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 4514581,
+            "unit": "ns/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200003,
+            "unit": "B/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 4513580,
+            "unit": "ns/op\t 1200005 B/op\t   50000 allocs/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 4513580,
+            "unit": "ns/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200005,
+            "unit": "B/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "265 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 4531868,
+            "unit": "ns/op\t 1200004 B/op\t   50000 allocs/op",
+            "extra": "264 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 4531868,
+            "unit": "ns/op",
+            "extra": "264 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200004,
+            "unit": "B/op",
+            "extra": "264 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "264 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 4514981,
+            "unit": "ns/op\t 1200005 B/op\t   50000 allocs/op",
+            "extra": "264 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 4514981,
+            "unit": "ns/op",
+            "extra": "264 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200005,
+            "unit": "B/op",
+            "extra": "264 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "264 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3742083,
+            "unit": "ns/op\t 1200003 B/op\t   50000 allocs/op",
+            "extra": "313 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3742083,
+            "unit": "ns/op",
+            "extra": "313 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200003,
+            "unit": "B/op",
+            "extra": "313 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "313 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3732207,
+            "unit": "ns/op\t 1200004 B/op\t   50000 allocs/op",
+            "extra": "315 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3732207,
+            "unit": "ns/op",
+            "extra": "315 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200004,
+            "unit": "B/op",
+            "extra": "315 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "315 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3702182,
+            "unit": "ns/op\t 1200005 B/op\t   50000 allocs/op",
+            "extra": "322 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3702182,
+            "unit": "ns/op",
+            "extra": "322 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200005,
+            "unit": "B/op",
+            "extra": "322 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "322 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3714337,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "319 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3714337,
+            "unit": "ns/op",
+            "extra": "319 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "319 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "319 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3694870,
+            "unit": "ns/op\t 1200003 B/op\t   50000 allocs/op",
+            "extra": "322 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3694870,
+            "unit": "ns/op",
+            "extra": "322 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200003,
+            "unit": "B/op",
+            "extra": "322 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "322 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3710564,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "321 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3710564,
+            "unit": "ns/op",
+            "extra": "321 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "321 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "321 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3703403,
+            "unit": "ns/op\t 1200004 B/op\t   50000 allocs/op",
+            "extra": "324 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3703403,
+            "unit": "ns/op",
+            "extra": "324 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200004,
+            "unit": "B/op",
+            "extra": "324 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "324 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3707640,
+            "unit": "ns/op\t 1200003 B/op\t   50000 allocs/op",
+            "extra": "322 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3707640,
+            "unit": "ns/op",
+            "extra": "322 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200003,
+            "unit": "B/op",
+            "extra": "322 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "322 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3699333,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "321 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3699333,
+            "unit": "ns/op",
+            "extra": "321 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "321 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "321 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3706940,
+            "unit": "ns/op\t 1200003 B/op\t   50000 allocs/op",
+            "extra": "321 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3706940,
+            "unit": "ns/op",
+            "extra": "321 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200003,
+            "unit": "B/op",
+            "extra": "321 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Uncompressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "321 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 10783774,
+            "unit": "ns/op\t 1200014 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 10783774,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200014,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 10834524,
+            "unit": "ns/op\t 1200013 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 10834524,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200013,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 10818121,
+            "unit": "ns/op\t 1200005 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 10818121,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200005,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 10791756,
+            "unit": "ns/op\t 1200010 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 10791756,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200010,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 10815275,
+            "unit": "ns/op\t 1200007 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 10815275,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200007,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 10842109,
+            "unit": "ns/op\t 1200011 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 10842109,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200011,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 10792024,
+            "unit": "ns/op\t 1200006 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 10792024,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200006,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 10808000,
+            "unit": "ns/op\t 1200010 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 10808000,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200010,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 11000938,
+            "unit": "ns/op\t 1200010 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 11000938,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200010,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 10803072,
+            "unit": "ns/op\t 1200012 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 10803072,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200012,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 10864456,
+            "unit": "ns/op\t 1200012 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 10864456,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200012,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 10842385,
+            "unit": "ns/op\t 1200007 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 10842385,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200007,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 10814169,
+            "unit": "ns/op\t 1200015 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 10814169,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200015,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 10853028,
+            "unit": "ns/op\t 1200008 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 10853028,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200008,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 10843112,
+            "unit": "ns/op\t 1200011 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 10843112,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200011,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 10815099,
+            "unit": "ns/op\t 1200017 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 10815099,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200017,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 10874136,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 10874136,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 10842899,
+            "unit": "ns/op\t 1200006 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 10842899,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200006,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 10964094,
+            "unit": "ns/op\t 1200005 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 10964094,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200005,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 10792511,
+            "unit": "ns/op\t 1200010 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 10792511,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200010,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 10801743,
+            "unit": "ns/op\t 1200007 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 10801743,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200007,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 10805595,
+            "unit": "ns/op\t 1200020 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 10805595,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200020,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 10841517,
+            "unit": "ns/op\t 1200007 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 10841517,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200007,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 10812809,
+            "unit": "ns/op\t 1200006 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 10812809,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200006,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 10809240,
+            "unit": "ns/op\t 1200005 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 10809240,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200005,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 10809425,
+            "unit": "ns/op\t 1200012 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 10809425,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200012,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 10790886,
+            "unit": "ns/op\t 1200011 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 10790886,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200011,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 10782676,
+            "unit": "ns/op\t 1200008 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 10782676,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200008,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 10792157,
+            "unit": "ns/op\t 1200011 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 10792157,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200011,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 10805173,
+            "unit": "ns/op\t 1200007 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 10805173,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200007,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 10866273,
+            "unit": "ns/op\t 1200007 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 10866273,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200007,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 10815295,
+            "unit": "ns/op\t 1200007 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 10815295,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200007,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 10803182,
+            "unit": "ns/op\t 1200013 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 10803182,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200013,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 10833034,
+            "unit": "ns/op\t 1200008 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 10833034,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200008,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 10788262,
+            "unit": "ns/op\t 1200005 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 10788262,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200005,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 10810356,
+            "unit": "ns/op\t 1200008 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 10810356,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200008,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 10828860,
+            "unit": "ns/op\t 1200008 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 10828860,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200008,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 10783926,
+            "unit": "ns/op\t 1200008 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 10783926,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200008,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 10791456,
+            "unit": "ns/op\t 1200017 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 10791456,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200017,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 10802211,
+            "unit": "ns/op\t 1200015 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 10802211,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200015,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3828016,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "313 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3828016,
+            "unit": "ns/op",
+            "extra": "313 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "313 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "313 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3833200,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "310 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3833200,
+            "unit": "ns/op",
+            "extra": "310 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "310 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "310 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3831652,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3831652,
+            "unit": "ns/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3835699,
+            "unit": "ns/op\t 1200003 B/op\t   50000 allocs/op",
+            "extra": "313 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3835699,
+            "unit": "ns/op",
+            "extra": "313 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200003,
+            "unit": "B/op",
+            "extra": "313 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "313 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3811998,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3811998,
+            "unit": "ns/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3838326,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3838326,
+            "unit": "ns/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3831672,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3831672,
+            "unit": "ns/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3830038,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3830038,
+            "unit": "ns/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3856675,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "308 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3856675,
+            "unit": "ns/op",
+            "extra": "308 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "308 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "308 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3832935,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3832935,
+            "unit": "ns/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3896285,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "310 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3896285,
+            "unit": "ns/op",
+            "extra": "310 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "310 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "310 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3849419,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "310 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3849419,
+            "unit": "ns/op",
+            "extra": "310 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "310 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "310 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3827170,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "313 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3827170,
+            "unit": "ns/op",
+            "extra": "313 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "313 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "313 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3849608,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "309 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3849608,
+            "unit": "ns/op",
+            "extra": "309 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "309 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "309 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3829588,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "313 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3829588,
+            "unit": "ns/op",
+            "extra": "313 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "313 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "313 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3837817,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "310 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3837817,
+            "unit": "ns/op",
+            "extra": "310 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "310 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "310 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3830091,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3830091,
+            "unit": "ns/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3845596,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "309 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3845596,
+            "unit": "ns/op",
+            "extra": "309 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "309 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "309 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3856548,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "309 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3856548,
+            "unit": "ns/op",
+            "extra": "309 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "309 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "309 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3837778,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "310 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3837778,
+            "unit": "ns/op",
+            "extra": "310 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "310 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "310 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3793704,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "316 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3793704,
+            "unit": "ns/op",
+            "extra": "316 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "316 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "316 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3802505,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "314 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3802505,
+            "unit": "ns/op",
+            "extra": "314 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "314 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "314 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3806815,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "314 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3806815,
+            "unit": "ns/op",
+            "extra": "314 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "314 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "314 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3808995,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "314 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3808995,
+            "unit": "ns/op",
+            "extra": "314 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "314 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "314 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3811200,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "313 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3811200,
+            "unit": "ns/op",
+            "extra": "313 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "313 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "313 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3789441,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "318 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3789441,
+            "unit": "ns/op",
+            "extra": "318 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "318 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "318 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3794226,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "316 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3794226,
+            "unit": "ns/op",
+            "extra": "316 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "316 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "316 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3797206,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "315 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3797206,
+            "unit": "ns/op",
+            "extra": "315 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "315 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "315 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3806274,
+            "unit": "ns/op\t 1200003 B/op\t   50000 allocs/op",
+            "extra": "314 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3806274,
+            "unit": "ns/op",
+            "extra": "314 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200003,
+            "unit": "B/op",
+            "extra": "314 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "314 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3810140,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "314 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3810140,
+            "unit": "ns/op",
+            "extra": "314 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "314 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "314 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3840429,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3840429,
+            "unit": "ns/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3873921,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "310 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3873921,
+            "unit": "ns/op",
+            "extra": "310 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "310 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "310 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3838446,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "310 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3838446,
+            "unit": "ns/op",
+            "extra": "310 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "310 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "310 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3859351,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "304 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3859351,
+            "unit": "ns/op",
+            "extra": "304 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "304 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "304 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3833595,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3833595,
+            "unit": "ns/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3844612,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "310 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3844612,
+            "unit": "ns/op",
+            "extra": "310 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "310 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "310 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3837748,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3837748,
+            "unit": "ns/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3837971,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "310 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3837971,
+            "unit": "ns/op",
+            "extra": "310 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "310 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "310 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3834754,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3834754,
+            "unit": "ns/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "312 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3838226,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "309 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3838226,
+            "unit": "ns/op",
+            "extra": "309 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "309 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "309 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 225.5,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5276640 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 225.5,
+            "unit": "ns/op",
+            "extra": "5276640 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5276640 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5276640 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 228.8,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5248322 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 228.8,
+            "unit": "ns/op",
+            "extra": "5248322 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5248322 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5248322 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 227.1,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5244428 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 227.1,
+            "unit": "ns/op",
+            "extra": "5244428 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5244428 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5244428 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 228,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5228328 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 228,
+            "unit": "ns/op",
+            "extra": "5228328 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5228328 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5228328 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 229,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5267098 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 229,
+            "unit": "ns/op",
+            "extra": "5267098 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5267098 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5267098 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 228,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5394375 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 228,
+            "unit": "ns/op",
+            "extra": "5394375 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5394375 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5394375 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 226.9,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5289463 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 226.9,
+            "unit": "ns/op",
+            "extra": "5289463 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5289463 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5289463 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 228.8,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5224120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 228.8,
+            "unit": "ns/op",
+            "extra": "5224120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5224120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5224120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 227.6,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5291868 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 227.6,
+            "unit": "ns/op",
+            "extra": "5291868 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5291868 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5291868 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 226.8,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5168935 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 226.8,
+            "unit": "ns/op",
+            "extra": "5168935 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5168935 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5168935 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 174.1,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6913785 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 174.1,
+            "unit": "ns/op",
+            "extra": "6913785 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6913785 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6913785 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 175.3,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6763060 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 175.3,
+            "unit": "ns/op",
+            "extra": "6763060 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6763060 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6763060 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 174,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6841431 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 174,
+            "unit": "ns/op",
+            "extra": "6841431 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6841431 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6841431 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 174.7,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6834051 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 174.7,
+            "unit": "ns/op",
+            "extra": "6834051 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6834051 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6834051 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 173.6,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6797122 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 173.6,
+            "unit": "ns/op",
+            "extra": "6797122 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6797122 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6797122 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 174.3,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6790467 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 174.3,
+            "unit": "ns/op",
+            "extra": "6790467 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6790467 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6790467 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 174.3,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6798568 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 174.3,
+            "unit": "ns/op",
+            "extra": "6798568 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6798568 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6798568 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 173.7,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6854728 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 173.7,
+            "unit": "ns/op",
+            "extra": "6854728 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6854728 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6854728 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 174.3,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6619544 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 174.3,
+            "unit": "ns/op",
+            "extra": "6619544 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6619544 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6619544 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 174.7,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6523855 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 174.7,
+            "unit": "ns/op",
+            "extra": "6523855 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6523855 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6523855 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 127.9,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "9339951 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 127.9,
+            "unit": "ns/op",
+            "extra": "9339951 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "9339951 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "9339951 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 127.9,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "9326076 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 127.9,
+            "unit": "ns/op",
+            "extra": "9326076 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "9326076 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "9326076 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 128.3,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "9255990 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 128.3,
+            "unit": "ns/op",
+            "extra": "9255990 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "9255990 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "9255990 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 128.4,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "9329050 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 128.4,
+            "unit": "ns/op",
+            "extra": "9329050 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "9329050 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "9329050 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 127.7,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "9225686 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 127.7,
+            "unit": "ns/op",
+            "extra": "9225686 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "9225686 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "9225686 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 128.4,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "9344095 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 128.4,
+            "unit": "ns/op",
+            "extra": "9344095 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "9344095 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "9344095 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 127.8,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "9250298 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 127.8,
+            "unit": "ns/op",
+            "extra": "9250298 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "9250298 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "9250298 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 127.9,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "9327225 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 127.9,
+            "unit": "ns/op",
+            "extra": "9327225 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "9327225 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "9327225 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 128,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "9493170 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 128,
+            "unit": "ns/op",
+            "extra": "9493170 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "9493170 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "9493170 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 128.4,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "9367458 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 128.4,
+            "unit": "ns/op",
+            "extra": "9367458 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "9367458 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "9367458 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 232.5,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5237949 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 232.5,
+            "unit": "ns/op",
+            "extra": "5237949 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5237949 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5237949 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 231.4,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5264509 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 231.4,
+            "unit": "ns/op",
+            "extra": "5264509 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5264509 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5264509 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 232.2,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "4651561 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 232.2,
+            "unit": "ns/op",
+            "extra": "4651561 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "4651561 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "4651561 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 227.2,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5208676 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 227.2,
+            "unit": "ns/op",
+            "extra": "5208676 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5208676 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5208676 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 229.2,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5201404 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 229.2,
+            "unit": "ns/op",
+            "extra": "5201404 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5201404 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5201404 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 230.9,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5165064 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 230.9,
+            "unit": "ns/op",
+            "extra": "5165064 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5165064 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5165064 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 228.6,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5315803 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 228.6,
+            "unit": "ns/op",
+            "extra": "5315803 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5315803 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5315803 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 230.6,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5219035 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 230.6,
+            "unit": "ns/op",
+            "extra": "5219035 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5219035 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5219035 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 230.4,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5167432 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 230.4,
+            "unit": "ns/op",
+            "extra": "5167432 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5167432 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5167432 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 231.5,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5182896 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 231.5,
+            "unit": "ns/op",
+            "extra": "5182896 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5182896 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5182896 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 128,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "9338208 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 128,
+            "unit": "ns/op",
+            "extra": "9338208 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "9338208 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "9338208 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 128.1,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "9297247 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 128.1,
+            "unit": "ns/op",
+            "extra": "9297247 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "9297247 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "9297247 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 127.9,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "9292628 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 127.9,
+            "unit": "ns/op",
+            "extra": "9292628 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "9292628 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "9292628 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 127.5,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "9270270 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 127.5,
+            "unit": "ns/op",
+            "extra": "9270270 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "9270270 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "9270270 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 127.8,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "9332356 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 127.8,
+            "unit": "ns/op",
+            "extra": "9332356 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "9332356 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "9332356 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 127.6,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "9294316 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 127.6,
+            "unit": "ns/op",
+            "extra": "9294316 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "9294316 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "9294316 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 128,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "9311854 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 128,
+            "unit": "ns/op",
+            "extra": "9311854 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "9311854 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "9311854 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 128.1,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "9258656 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 128.1,
+            "unit": "ns/op",
+            "extra": "9258656 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "9258656 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "9258656 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 127.8,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "9302350 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 127.8,
+            "unit": "ns/op",
+            "extra": "9302350 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "9302350 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "9302350 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 128.2,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "9329971 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 128.2,
+            "unit": "ns/op",
+            "extra": "9329971 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "9329971 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "9329971 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 229,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5224131 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 229,
+            "unit": "ns/op",
+            "extra": "5224131 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5224131 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5224131 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 229.4,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5239688 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 229.4,
+            "unit": "ns/op",
+            "extra": "5239688 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5239688 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5239688 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 227.5,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5170801 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 227.5,
+            "unit": "ns/op",
+            "extra": "5170801 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5170801 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5170801 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 231,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5253931 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 231,
+            "unit": "ns/op",
+            "extra": "5253931 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5253931 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5253931 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 230.3,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5254188 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 230.3,
+            "unit": "ns/op",
+            "extra": "5254188 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5254188 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5254188 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 230.9,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5182480 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 230.9,
+            "unit": "ns/op",
+            "extra": "5182480 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5182480 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5182480 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 230.3,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5257656 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 230.3,
+            "unit": "ns/op",
+            "extra": "5257656 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5257656 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5257656 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 230.5,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5225235 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 230.5,
+            "unit": "ns/op",
+            "extra": "5225235 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5225235 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5225235 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 228.3,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5257557 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 228.3,
+            "unit": "ns/op",
+            "extra": "5257557 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5257557 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5257557 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 230.6,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5213404 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 230.6,
+            "unit": "ns/op",
+            "extra": "5213404 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5213404 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5213404 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 173.5,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6910902 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 173.5,
+            "unit": "ns/op",
+            "extra": "6910902 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6910902 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6910902 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 173.4,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6925425 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 173.4,
+            "unit": "ns/op",
+            "extra": "6925425 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6925425 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6925425 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 175.4,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6920293 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 175.4,
+            "unit": "ns/op",
+            "extra": "6920293 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6920293 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6920293 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 173.6,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6825060 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 173.6,
+            "unit": "ns/op",
+            "extra": "6825060 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6825060 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6825060 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 173.6,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6915825 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 173.6,
+            "unit": "ns/op",
+            "extra": "6915825 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6915825 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6915825 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 174,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6822400 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 174,
+            "unit": "ns/op",
+            "extra": "6822400 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6822400 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6822400 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 172.9,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6937965 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 172.9,
+            "unit": "ns/op",
+            "extra": "6937965 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6937965 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6937965 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 173.8,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6874726 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 173.8,
+            "unit": "ns/op",
+            "extra": "6874726 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6874726 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6874726 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 173.5,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6901483 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 173.5,
+            "unit": "ns/op",
+            "extra": "6901483 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6901483 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6901483 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 173.1,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6884090 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 173.1,
+            "unit": "ns/op",
+            "extra": "6884090 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6884090 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6884090 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 175.3,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6717088 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 175.3,
+            "unit": "ns/op",
+            "extra": "6717088 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6717088 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6717088 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 175.1,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6762694 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 175.1,
+            "unit": "ns/op",
+            "extra": "6762694 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6762694 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6762694 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 176.6,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6759747 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 176.6,
+            "unit": "ns/op",
+            "extra": "6759747 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6759747 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6759747 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 179.7,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6850525 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 179.7,
+            "unit": "ns/op",
+            "extra": "6850525 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6850525 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6850525 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 177.9,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6765013 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 177.9,
+            "unit": "ns/op",
+            "extra": "6765013 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6765013 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6765013 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 175.5,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6777343 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 175.5,
+            "unit": "ns/op",
+            "extra": "6777343 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6777343 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6777343 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 176.7,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6795183 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 176.7,
+            "unit": "ns/op",
+            "extra": "6795183 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6795183 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6795183 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 176.4,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6786187 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 176.4,
+            "unit": "ns/op",
+            "extra": "6786187 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6786187 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6786187 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 175.5,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6836337 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 175.5,
+            "unit": "ns/op",
+            "extra": "6836337 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6836337 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6836337 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 176.7,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6734954 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 176.7,
+            "unit": "ns/op",
+            "extra": "6734954 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6734954 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6734954 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 173.8,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6984448 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 173.8,
+            "unit": "ns/op",
+            "extra": "6984448 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6984448 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6984448 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 172.7,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6974347 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 172.7,
+            "unit": "ns/op",
+            "extra": "6974347 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6974347 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6974347 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 171.9,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6886560 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 171.9,
+            "unit": "ns/op",
+            "extra": "6886560 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6886560 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6886560 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 172.9,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6915897 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 172.9,
+            "unit": "ns/op",
+            "extra": "6915897 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6915897 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6915897 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 171.7,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6934068 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 171.7,
+            "unit": "ns/op",
+            "extra": "6934068 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6934068 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6934068 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 171.5,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6936266 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 171.5,
+            "unit": "ns/op",
+            "extra": "6936266 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6936266 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6936266 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 173.3,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6945957 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 173.3,
+            "unit": "ns/op",
+            "extra": "6945957 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6945957 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6945957 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 173.5,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6902324 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 173.5,
+            "unit": "ns/op",
+            "extra": "6902324 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6902324 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6902324 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 171.1,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6991329 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 171.1,
+            "unit": "ns/op",
+            "extra": "6991329 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6991329 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6991329 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 172.4,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6893902 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 172.4,
+            "unit": "ns/op",
+            "extra": "6893902 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6893902 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6893902 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 173,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7041555 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 173,
+            "unit": "ns/op",
+            "extra": "7041555 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7041555 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7041555 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 172.9,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6886245 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 172.9,
+            "unit": "ns/op",
+            "extra": "6886245 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6886245 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6886245 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 173.6,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6910969 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 173.6,
+            "unit": "ns/op",
+            "extra": "6910969 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6910969 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6910969 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 170.8,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6928670 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 170.8,
+            "unit": "ns/op",
+            "extra": "6928670 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6928670 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6928670 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 172.1,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6874328 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 172.1,
+            "unit": "ns/op",
+            "extra": "6874328 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6874328 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6874328 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 172.8,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6897309 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 172.8,
+            "unit": "ns/op",
+            "extra": "6897309 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6897309 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6897309 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 172.5,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7021508 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 172.5,
+            "unit": "ns/op",
+            "extra": "7021508 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7021508 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7021508 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 173.4,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6825468 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 173.4,
+            "unit": "ns/op",
+            "extra": "6825468 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6825468 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6825468 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 173.6,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6855918 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 173.6,
+            "unit": "ns/op",
+            "extra": "6855918 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6855918 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6855918 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 172.5,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6997124 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 172.5,
+            "unit": "ns/op",
+            "extra": "6997124 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6997124 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6997124 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_10k (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3099930,
+            "unit": "ns/op\t 1026041 B/op\t   40019 allocs/op",
+            "extra": "385 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_10k (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3099930,
+            "unit": "ns/op",
+            "extra": "385 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_10k (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1026041,
+            "unit": "B/op",
+            "extra": "385 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_10k (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 40019,
+            "unit": "allocs/op",
+            "extra": "385 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_10k (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3090321,
+            "unit": "ns/op\t 1026041 B/op\t   40019 allocs/op",
+            "extra": "387 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_10k (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3090321,
+            "unit": "ns/op",
+            "extra": "387 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_10k (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1026041,
+            "unit": "B/op",
+            "extra": "387 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_10k (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 40019,
+            "unit": "allocs/op",
+            "extra": "387 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_10k (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3104844,
+            "unit": "ns/op\t 1026041 B/op\t   40019 allocs/op",
+            "extra": "386 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_10k (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3104844,
+            "unit": "ns/op",
+            "extra": "386 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_10k (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1026041,
+            "unit": "B/op",
+            "extra": "386 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_10k (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 40019,
+            "unit": "allocs/op",
+            "extra": "386 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_10k (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3095069,
+            "unit": "ns/op\t 1026041 B/op\t   40019 allocs/op",
+            "extra": "384 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_10k (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3095069,
+            "unit": "ns/op",
+            "extra": "384 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_10k (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1026041,
+            "unit": "B/op",
+            "extra": "384 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_10k (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 40019,
+            "unit": "allocs/op",
+            "extra": "384 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_10k (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3102033,
+            "unit": "ns/op\t 1026041 B/op\t   40019 allocs/op",
+            "extra": "386 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_10k (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3102033,
+            "unit": "ns/op",
+            "extra": "386 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_10k (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1026041,
+            "unit": "B/op",
+            "extra": "386 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_10k (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 40019,
+            "unit": "allocs/op",
+            "extra": "386 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_10k (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3099000,
+            "unit": "ns/op\t 1026041 B/op\t   40019 allocs/op",
+            "extra": "384 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_10k (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3099000,
+            "unit": "ns/op",
+            "extra": "384 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_10k (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1026041,
+            "unit": "B/op",
+            "extra": "384 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_10k (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 40019,
+            "unit": "allocs/op",
+            "extra": "384 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_10k (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3096687,
+            "unit": "ns/op\t 1026040 B/op\t   40019 allocs/op",
+            "extra": "387 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_10k (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3096687,
+            "unit": "ns/op",
+            "extra": "387 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_10k (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1026040,
+            "unit": "B/op",
+            "extra": "387 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_10k (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 40019,
+            "unit": "allocs/op",
+            "extra": "387 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_10k (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3127322,
+            "unit": "ns/op\t 1026041 B/op\t   40019 allocs/op",
+            "extra": "382 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_10k (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3127322,
+            "unit": "ns/op",
+            "extra": "382 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_10k (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1026041,
+            "unit": "B/op",
+            "extra": "382 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_10k (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 40019,
+            "unit": "allocs/op",
+            "extra": "382 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_10k (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3191163,
+            "unit": "ns/op\t 1026041 B/op\t   40019 allocs/op",
+            "extra": "386 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_10k (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3191163,
+            "unit": "ns/op",
+            "extra": "386 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_10k (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1026041,
+            "unit": "B/op",
+            "extra": "386 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_10k (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 40019,
+            "unit": "allocs/op",
+            "extra": "386 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_10k (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 3263086,
+            "unit": "ns/op\t 1026041 B/op\t   40019 allocs/op",
+            "extra": "360 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_10k (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 3263086,
+            "unit": "ns/op",
+            "extra": "360 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_10k (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 1026041,
+            "unit": "B/op",
+            "extra": "360 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_10k (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 40019,
+            "unit": "allocs/op",
+            "extra": "360 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 1408194,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "862 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 1408194,
+            "unit": "ns/op",
+            "extra": "862 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "862 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "862 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 1435351,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "856 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 1435351,
+            "unit": "ns/op",
+            "extra": "856 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "856 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "856 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 1463544,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "819 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 1463544,
+            "unit": "ns/op",
+            "extra": "819 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "819 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "819 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 1490443,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "847 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 1490443,
+            "unit": "ns/op",
+            "extra": "847 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "847 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "847 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 1551617,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "768 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 1551617,
+            "unit": "ns/op",
+            "extra": "768 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "768 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "768 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 1476147,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "848 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 1476147,
+            "unit": "ns/op",
+            "extra": "848 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "848 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "848 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 1419504,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "847 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 1419504,
+            "unit": "ns/op",
+            "extra": "847 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "847 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "847 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 1428422,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "842 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 1428422,
+            "unit": "ns/op",
+            "extra": "842 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "842 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "842 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 1410699,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "852 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 1410699,
+            "unit": "ns/op",
+            "extra": "852 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "852 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "852 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 1425189,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "843 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 1425189,
+            "unit": "ns/op",
+            "extra": "843 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "843 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "843 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 743570,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "1615 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 743570,
+            "unit": "ns/op",
+            "extra": "1615 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "1615 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "1615 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 743735,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "1615 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 743735,
+            "unit": "ns/op",
+            "extra": "1615 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "1615 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "1615 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 742645,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "1616 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 742645,
+            "unit": "ns/op",
+            "extra": "1616 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "1616 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "1616 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 742505,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "1620 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 742505,
+            "unit": "ns/op",
+            "extra": "1620 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "1620 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "1620 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 740312,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "1627 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 740312,
+            "unit": "ns/op",
+            "extra": "1627 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "1627 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "1627 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 744630,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "1614 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 744630,
+            "unit": "ns/op",
+            "extra": "1614 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "1614 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "1614 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 742417,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "1620 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 742417,
+            "unit": "ns/op",
+            "extra": "1620 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "1620 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "1620 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 743783,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "1604 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 743783,
+            "unit": "ns/op",
+            "extra": "1604 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "1604 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "1604 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 740650,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "1612 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 740650,
+            "unit": "ns/op",
+            "extra": "1612 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "1612 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "1612 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 744821,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "1608 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 744821,
+            "unit": "ns/op",
+            "extra": "1608 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "1608 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "1608 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 47.9,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "25053033 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 47.9,
+            "unit": "ns/op",
+            "extra": "25053033 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "25053033 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "25053033 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 46.3,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "25722664 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 46.3,
+            "unit": "ns/op",
+            "extra": "25722664 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "25722664 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "25722664 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 46.75,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "25966479 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 46.75,
+            "unit": "ns/op",
+            "extra": "25966479 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "25966479 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "25966479 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 46.46,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "25601996 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 46.46,
+            "unit": "ns/op",
+            "extra": "25601996 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "25601996 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "25601996 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 45.78,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "25558012 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 45.78,
+            "unit": "ns/op",
+            "extra": "25558012 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "25558012 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "25558012 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 46.62,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "25599918 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 46.62,
+            "unit": "ns/op",
+            "extra": "25599918 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "25599918 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "25599918 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 46.51,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "25633543 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 46.51,
+            "unit": "ns/op",
+            "extra": "25633543 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "25633543 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "25633543 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 46.62,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "25746212 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 46.62,
+            "unit": "ns/op",
+            "extra": "25746212 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "25746212 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "25746212 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 46.62,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "25758714 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 46.62,
+            "unit": "ns/op",
+            "extra": "25758714 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "25758714 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "25758714 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go)",
+            "value": 46.72,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "25989158 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - ns/op",
+            "value": 46.72,
+            "unit": "ns/op",
+            "extra": "25989158 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "25989158 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_ART_50k (github.com/Mwangi-Derrick/radixip/lib/go) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "25989158 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/art)",
+            "value": 98578,
+            "unit": "ns/op\t   77536 B/op\t    2030 allocs/op",
+            "extra": "12568 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/art) - ns/op",
+            "value": 98578,
+            "unit": "ns/op",
+            "extra": "12568 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/art) - B/op",
+            "value": 77536,
+            "unit": "B/op",
+            "extra": "12568 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/art) - allocs/op",
+            "value": 2030,
+            "unit": "allocs/op",
+            "extra": "12568 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/art)",
+            "value": 95188,
+            "unit": "ns/op\t   77536 B/op\t    2030 allocs/op",
+            "extra": "12590 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/art) - ns/op",
+            "value": 95188,
+            "unit": "ns/op",
+            "extra": "12590 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/art) - B/op",
+            "value": 77536,
+            "unit": "B/op",
+            "extra": "12590 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/art) - allocs/op",
+            "value": 2030,
+            "unit": "allocs/op",
+            "extra": "12590 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/art)",
+            "value": 95383,
+            "unit": "ns/op\t   77536 B/op\t    2030 allocs/op",
+            "extra": "12426 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/art) - ns/op",
+            "value": 95383,
+            "unit": "ns/op",
+            "extra": "12426 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/art) - B/op",
+            "value": 77536,
+            "unit": "B/op",
+            "extra": "12426 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/art) - allocs/op",
+            "value": 2030,
+            "unit": "allocs/op",
+            "extra": "12426 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/art)",
+            "value": 95705,
+            "unit": "ns/op\t   77536 B/op\t    2030 allocs/op",
+            "extra": "12499 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/art) - ns/op",
+            "value": 95705,
+            "unit": "ns/op",
+            "extra": "12499 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/art) - B/op",
+            "value": 77536,
+            "unit": "B/op",
+            "extra": "12499 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/art) - allocs/op",
+            "value": 2030,
+            "unit": "allocs/op",
+            "extra": "12499 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/art)",
+            "value": 95894,
+            "unit": "ns/op\t   77536 B/op\t    2030 allocs/op",
+            "extra": "12537 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/art) - ns/op",
+            "value": 95894,
+            "unit": "ns/op",
+            "extra": "12537 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/art) - B/op",
+            "value": 77536,
+            "unit": "B/op",
+            "extra": "12537 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/art) - allocs/op",
+            "value": 2030,
+            "unit": "allocs/op",
+            "extra": "12537 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/art)",
+            "value": 96399,
+            "unit": "ns/op\t   77536 B/op\t    2030 allocs/op",
+            "extra": "12591 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/art) - ns/op",
+            "value": 96399,
+            "unit": "ns/op",
+            "extra": "12591 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/art) - B/op",
+            "value": 77536,
+            "unit": "B/op",
+            "extra": "12591 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/art) - allocs/op",
+            "value": 2030,
+            "unit": "allocs/op",
+            "extra": "12591 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/art)",
+            "value": 95365,
+            "unit": "ns/op\t   77536 B/op\t    2030 allocs/op",
+            "extra": "12610 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/art) - ns/op",
+            "value": 95365,
+            "unit": "ns/op",
+            "extra": "12610 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/art) - B/op",
+            "value": 77536,
+            "unit": "B/op",
+            "extra": "12610 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/art) - allocs/op",
+            "value": 2030,
+            "unit": "allocs/op",
+            "extra": "12610 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/art)",
+            "value": 95915,
+            "unit": "ns/op\t   77536 B/op\t    2030 allocs/op",
+            "extra": "12585 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/art) - ns/op",
+            "value": 95915,
+            "unit": "ns/op",
+            "extra": "12585 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/art) - B/op",
+            "value": 77536,
+            "unit": "B/op",
+            "extra": "12585 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/art) - allocs/op",
+            "value": 2030,
+            "unit": "allocs/op",
+            "extra": "12585 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/art)",
+            "value": 94978,
+            "unit": "ns/op\t   77536 B/op\t    2030 allocs/op",
+            "extra": "12729 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/art) - ns/op",
+            "value": 94978,
+            "unit": "ns/op",
+            "extra": "12729 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/art) - B/op",
+            "value": 77536,
+            "unit": "B/op",
+            "extra": "12729 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/art) - allocs/op",
+            "value": 2030,
+            "unit": "allocs/op",
+            "extra": "12729 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/art)",
+            "value": 95157,
+            "unit": "ns/op\t   77536 B/op\t    2030 allocs/op",
+            "extra": "12499 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/art) - ns/op",
+            "value": 95157,
+            "unit": "ns/op",
+            "extra": "12499 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/art) - B/op",
+            "value": 77536,
+            "unit": "B/op",
+            "extra": "12499 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/art) - allocs/op",
+            "value": 2030,
+            "unit": "allocs/op",
+            "extra": "12499 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/art)",
+            "value": 268997,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "4514 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/art) - ns/op",
+            "value": 268997,
+            "unit": "ns/op",
+            "extra": "4514 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/art) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "4514 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/art) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "4514 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/art)",
+            "value": 273192,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "4530 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/art) - ns/op",
+            "value": 273192,
+            "unit": "ns/op",
+            "extra": "4530 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/art) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "4530 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/art) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "4530 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/art)",
+            "value": 263622,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "4568 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/art) - ns/op",
+            "value": 263622,
+            "unit": "ns/op",
+            "extra": "4568 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/art) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "4568 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/art) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "4568 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/art)",
+            "value": 280705,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "4435 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/art) - ns/op",
+            "value": 280705,
+            "unit": "ns/op",
+            "extra": "4435 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/art) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "4435 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/art) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "4435 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/art)",
+            "value": 265961,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "4520 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/art) - ns/op",
+            "value": 265961,
+            "unit": "ns/op",
+            "extra": "4520 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/art) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "4520 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/art) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "4520 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/art)",
+            "value": 262396,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "4564 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/art) - ns/op",
+            "value": 262396,
+            "unit": "ns/op",
+            "extra": "4564 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/art) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "4564 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/art) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "4564 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/art)",
+            "value": 272026,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "4575 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/art) - ns/op",
+            "value": 272026,
+            "unit": "ns/op",
+            "extra": "4575 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/art) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "4575 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/art) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "4575 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/art)",
+            "value": 271056,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "4580 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/art) - ns/op",
+            "value": 271056,
+            "unit": "ns/op",
+            "extra": "4580 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/art) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "4580 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/art) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "4580 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/art)",
+            "value": 267246,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "4570 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/art) - ns/op",
+            "value": 267246,
+            "unit": "ns/op",
+            "extra": "4570 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/art) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "4570 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/art) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "4570 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/art)",
+            "value": 273528,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "4561 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/art) - ns/op",
+            "value": 273528,
+            "unit": "ns/op",
+            "extra": "4561 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/art) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "4561 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/art) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "4561 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art)",
+            "value": 117157,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art) - ns/op",
+            "value": 117157,
+            "unit": "ns/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art)",
+            "value": 115520,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art) - ns/op",
+            "value": 115520,
+            "unit": "ns/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art)",
+            "value": 115597,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art) - ns/op",
+            "value": 115597,
+            "unit": "ns/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art)",
+            "value": 115788,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art) - ns/op",
+            "value": 115788,
+            "unit": "ns/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art)",
+            "value": 116057,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art) - ns/op",
+            "value": 116057,
+            "unit": "ns/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art)",
+            "value": 115778,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art) - ns/op",
+            "value": 115778,
+            "unit": "ns/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art)",
+            "value": 115707,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art) - ns/op",
+            "value": 115707,
+            "unit": "ns/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art)",
+            "value": 116072,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art) - ns/op",
+            "value": 116072,
+            "unit": "ns/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art)",
+            "value": 116916,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art) - ns/op",
+            "value": 116916,
+            "unit": "ns/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art)",
+            "value": 115973,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/art) - ns/op",
+            "value": 115973,
             "unit": "ns/op",
             "extra": "10000 times\n4 procs"
           },
