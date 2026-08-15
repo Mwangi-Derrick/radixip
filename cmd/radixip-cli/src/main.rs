@@ -1,5 +1,6 @@
 use clap::{Parser, Subcommand};
-use radixip_core::RadixEngine;
+use radixip_core::{NodeVariant, StandardEngine, RadixEngine};
+use radixip_core::tree::{CompressedTree};
 use std::net::IpAddr;
 
 #[derive(Parser)]
@@ -25,7 +26,7 @@ enum Commands {
 fn main() {
     tracing_subscriber::fmt::init();
     let cli = Cli::parse();
-    let engine = RadixEngine::new();
+    let engine = StandardEngine::new(CompressedTree::new(NodeVariant::NormalRadixNode));
 
     match cli.command {
         Commands::Insert { subnet, metadata } => {
