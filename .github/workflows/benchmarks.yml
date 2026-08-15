@@ -56,7 +56,13 @@ jobs:
         working-directory: ./lib/rust
         timeout-minutes: 30  # Criterion needs time for statistical analysis
         run: |
-          cargo bench --bench lookup_bench -- --output-format bencher --verbose 2>&1 | tee ../../rust_bench_results.txt
+          cargo bench --bench lookup_bench -- \
+            --output-format bencher \
+            --verbose \
+            --sample-size 10 \
+            --warm-up-time 1 \
+            --measurement-time 3 \
+            --plotting disabled 2>&1 | tee ../../rust_bench_results.txt
 
       - name: Store benchmark result
         uses: benchmark-action/github-action-benchmark@v1
