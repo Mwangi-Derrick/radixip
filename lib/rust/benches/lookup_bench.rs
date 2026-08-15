@@ -407,15 +407,16 @@ fn config() -> Criterion {
         .without_plots()                                            // Skip expensive graph generation
 }
 
-criterion_group!(
+criterion_group! {
     name = benches;
     config = config();
-    targets =
-    bench_insert,
-    bench_lookup_hit,
-    bench_lookup_miss,
-    bench_concurrent_lookup_compressed,
-    bench_concurrent_lookup_art,
-    bench_concurrent_lookup_uncompressed,
-);
+    targets = 
+        bench_insert,
+        bench_lookup_hit,
+        bench_lookup_miss,
+        bench_concurrent_lookup_compressed,
+        bench_concurrent_lookup_art,
+        bench_concurrent_lookup_uncompressed
+}
+
 criterion_main!(benches);
