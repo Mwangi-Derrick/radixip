@@ -98,7 +98,7 @@ fn bench_insert(c: &mut Criterion) {
                     b.iter(|| {
                         for cidr in &cidrs {
                             let _ = criterion::black_box(
-                                 engine.insert(*cidr, criterion::black_box(meta.clone())),
+                                engine.insert(*cidr, criterion::black_box(meta.clone())),
                             );
                         }
                     });
@@ -121,7 +121,7 @@ fn bench_insert(c: &mut Criterion) {
                     b.iter(|| {
                         for cidr in &cidrs {
                             let _ = criterion::black_box(
-                                 engine.insert(*cidr, criterion::black_box(meta.clone())),
+                                engine.insert(*cidr, criterion::black_box(meta.clone())),
                             );
                         }
                     });
@@ -136,13 +136,12 @@ fn bench_insert(c: &mut Criterion) {
                     b.iter(|| {
                         for cidr in &cidrs {
                             let _ = criterion::black_box(
-                                 engine.insert(*cidr, criterion::black_box(meta.clone())),
+                                engine.insert(*cidr, criterion::black_box(meta.clone())),
                             );
-        }
+                        }
                     });
                 },
             );
-
         }
     }
     group.finish();
@@ -329,7 +328,12 @@ fn bench_concurrent_lookup_art(c: &mut Criterion) {
     let n = 25_000usize;
     let ips = Arc::new(generate_ips(n));
 
-    let engine = Arc::new(build_engine(EngineVariant::ART, NodeVariant::NormalRadixNode, true, n));
+    let engine = Arc::new(build_engine(
+        EngineVariant::ART,
+        NodeVariant::NormalRadixNode,
+        true,
+        n,
+    ));
     group.throughput(Throughput::Elements((n * 4) as u64)); // 4 threads
     group.bench_function("4_threads/ART", |b| {
         b.iter(|| {
@@ -399,16 +403,16 @@ fn bench_concurrent_lookup_uncompressed(c: &mut Criterion) {
 // ---------------------------------------------------------------------------
 fn config() -> Criterion {
     Criterion::default()
-        .sample_size(20)                                           // Lower from default 100
-        .measurement_time(Duration::from_secs(8))                  // Lower from default 5s
-        .warm_up_time(Duration::from_secs(1))                      // Lower from default 3s
-        .without_plots()                                            // Skip expensive graph generation
+        .sample_size(20) // Lower from default 100
+        .measurement_time(Duration::from_secs(8)) // Lower from default 5s
+        .warm_up_time(Duration::from_secs(1)) // Lower from default 3s
+        .without_plots() // Skip expensive graph generation
 }
 
 criterion_group! {
     name = benches;
     config = config();
-    targets = 
+    targets =
         bench_insert,
         // bench_lookup_hit,
         // bench_lookup_miss,
