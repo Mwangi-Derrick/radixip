@@ -54,9 +54,9 @@ jobs:
 
       - name: Run benchmarks
         working-directory: ./lib/rust
-        timeout-minutes: 30
+        timeout-minutes: 20
         run: |
-          cargo bench --bench lookup_bench -- --output-format bencher --verbose 2>&1 | tee ../../rust_bench_results.txt
+          cargo bench --bench lookup_bench -- --output-format bencher 2>&1 | tee ../../rust_bench_results.txt
 
       - name: Store benchmark result
         uses: benchmark-action/github-action-benchmark@v1
