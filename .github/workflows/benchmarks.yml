@@ -54,6 +54,7 @@ jobs:
 
       - name: Run benchmarks
         working-directory: ./lib/rust
+        timeout-minutes: 10  # Increase timeout for this step
         run: |
           cargo bench --bench lookup_bench -- --output-format bencher 2>&1 | tee ../../rust_bench_results.txt
 
@@ -85,6 +86,7 @@ jobs:
 
       - name: Run benchmarks
         working-directory: ./lib/go
+        timeout-minutes: 10  # Increase timeout for this step
         run: |
           go test -run=NONE -bench=. -benchmem -count=10 -v ./... 2>&1 | tee go_bench_results.txt
 
