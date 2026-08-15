@@ -224,9 +224,7 @@ impl CompressedTree {
             NodeVariant::AtomicTrieNode | NodeVariant::AtomicRadixNode => NodeVariant::AtomicRadixNode,
             NodeVariant::PaddedTrieNode | NodeVariant::PaddedRadixNode => NodeVariant::PaddedRadixNode,
             NodeVariant::LockFreeTrieNode | NodeVariant::LockFreeRadixNode => NodeVariant::LockFreeRadixNode,
-            _ => node_variant, // Already a compressed variant
-                NodeVariant::LockFreeRadixNode
-            }
+            _ => node_variant, // Already a compressed variant or a new variant            }
         };
         let builder = NodeBuilder::new(variant);
         Self {
