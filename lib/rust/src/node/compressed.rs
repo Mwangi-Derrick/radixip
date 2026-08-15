@@ -1,17 +1,17 @@
-//! Compressed (Patricia) radix trie node implementations.
+//!  (Patricia) radix trie node implementations.
 //!
-//! Unlike uncompressed nodes which store a single `bit`, Patricia nodes
+//! Unlike un nodes which store a single `bit`, Patricia nodes
 //! store an `edge_bits: [u8;16]` and `edge_len: usize` representing a
 //! multi-bit path segment. This collapses non-branching chains of bits
 //! into a single node, giving O(k) lookups where k is the number of
 //! branching points rather than the full prefix length.
 //!
-//! Four concurrency variants are provided (mirroring uncompressed):
+//! Four concurrency variants are provided (mirroring un):
 //!
-//! - [`CompressedNormalNode`]   — RwLock on all fields  
-//! - [`CompressedAtomicNode`]   — AtomicU8 bit + RwLock for edge/children  
-//! - [`CompressedPaddedNode`]   — Cache-line padded Patricia node  
-//! - [`CompressedLockFreeNode`] — DashMap children for lock-free read throughput
+//! - [`NormalRadixNode`]   — RwLock on all fields  
+//! - [`AtomicRadixNode`]   — AtomicU8 bit + RwLock for edge/children  
+//! - [`PaddedRadixNode`]   — Cache-line padded Patricia node  
+//! - [`LockFreeRadixNode`] — DashMap children for lock-free read throughput
 
 use dashmap::DashMap;
 use ipnetwork::IpNetwork;
@@ -24,12 +24,12 @@ use crate::traits::Node;
 use crate::types::Metadata;
 
 //
-// COMPRESSED NORMAL NODE  (RwLock on every field)
+//  NORMAL NODE  (RwLock on every field)
 //
 
 #[derive(Default)]
 #[repr(C, align(64))]
-pub struct CompressedNormalNode {
+pub struct NormalRadixNode {
     /// Bit-string for the edge leading *into* this node (MSB-first, packed).
     edge_bits: RwLock<[u8; 16]>,
     /// Number of valid bits in `edge_bits` (may be < edge_bits.len()*8).
@@ -44,13 +44,13 @@ pub struct CompressedNormalNode {
     right: RwLock<Option<Arc<dyn Node>>>,
 }
 
-impl CompressedNormalNode {
+impl NormalRadixNode {
     pub fn new() -> Self {
         Self::default()
     }
 }
 
-impl Node for CompressedNormalNode {
+impl Node for NormalRadixNode {
     // Shared methods
 
     /// Not meaningful for Patricia nodes; always returns `None`.
@@ -97,7 +97,7 @@ impl Node for CompressedNormalNode {
         *self.prefix.write().unwrap() = Some(prefix);
     }
 
-    // Compressed-node extensions
+    // -node extensions
 
     fn edge_bits(&self) -> Option<[u8; 16]> {
         Some(self.edge_bits.read().unwrap().clone())
@@ -114,12 +114,12 @@ impl Node for CompressedNormalNode {
 }
 
 //
-// COMPRESSED ATOMIC NODE
+//  ATOMIC RADIX NODE
 // (AtomicU8 encodes edge_len up to 254; RwLock for the bit-vector and children)
 //
 
 #[repr(C, align(64))]
-pub struct CompressedAtomicNode {
+pub struct AtomicRadixNode {
     /// Encodes edge_len: 0 = "empty/root", 1..=254 = actual length, 255 = overflow sentinel.
     /// For edge lengths ≥ 255 we fall back to the RwLock below.
     atomic_edge_len: AtomicU8,
@@ -131,7 +131,7 @@ pub struct CompressedAtomicNode {
     right: RwLock<Option<Arc<dyn Node>>>,
 }
 
-impl CompressedAtomicNode {
+impl AtomicRadixNode {
     pub fn new() -> Self {
         Self {
             atomic_edge_len: AtomicU8::new(0),
@@ -145,13 +145,13 @@ impl CompressedAtomicNode {
     }
 }
 
-impl Default for CompressedAtomicNode {
+impl Default for AtomicRadixNode {
     fn default() -> Self {
         Self::new()
     }
 }
 
-impl Node for CompressedAtomicNode {
+impl Node for AtomicRadixNode {
     fn bit(&self) -> Option<u8> {
         None
     }
@@ -221,11 +221,11 @@ impl Node for CompressedAtomicNode {
 }
 
 //
-// COMPRESSED PADDED NODE  (Cache-line padded Patricia node)
+//  PADDED RADIX NODE  (Cache-line padded Patricia node)
 //
 
 #[repr(C, align(64))]
-pub struct CompressedPaddedNode {
+pub struct PaddedRadixNode {
     edge_bits: RwLock<[u8; 16]>,
     _pad1: [u8; 63],
     edge_len: RwLock<usize>,
@@ -235,7 +235,7 @@ pub struct CompressedPaddedNode {
     right: RwLock<Option<Arc<dyn Node>>>,
 }
 
-impl CompressedPaddedNode {
+impl PaddedRadixNode {
     pub fn new() -> Self {
         Self {
             edge_bits: RwLock::new([0u8; 16]),
@@ -249,13 +249,13 @@ impl CompressedPaddedNode {
     }
 }
 
-impl Default for CompressedPaddedNode {
+impl Default for PaddedRadixNode {
     fn default() -> Self {
         Self::new()
     }
 }
 
-impl Node for CompressedPaddedNode {
+impl Node for PaddedRadixNode {
     fn bit(&self) -> Option<u8> {
         None
     }
@@ -313,7 +313,7 @@ impl Node for CompressedPaddedNode {
 }
 
 //
-// COMPRESSED LOCK-FREE NODE  (DashMap children + RwLock for edge data)
+//  LOCK-FREE RADIX NODE  (DashMap children + RwLock for edge data)
 //
 
 /// Key enum for the DashMap children store.
@@ -322,9 +322,9 @@ enum ChildKey {
     Left,
     Right,
 }
-
+ 
 #[repr(C, align(64))]
-pub struct CompressedLockFreeNode {
+pub struct LockFreeRadixNode {
     edge_bits: RwLock<[u8; 16]>,
     edge_len: RwLock<usize>,
     metadata: RwLock<Option<Metadata>>,
@@ -333,7 +333,7 @@ pub struct CompressedLockFreeNode {
     children: DashMap<ChildKey, Arc<dyn Node>>,
 }
 
-impl CompressedLockFreeNode {
+impl LockFreeRadixNode {
     pub fn new() -> Self {
         Self {
             edge_bits: RwLock::new([0u8; 16]),
@@ -345,13 +345,13 @@ impl CompressedLockFreeNode {
     }
 }
 
-impl Default for CompressedLockFreeNode {
+impl Default for LockFreeRadixNode {
     fn default() -> Self {
         Self::new()
     }
 }
 
-impl Node for CompressedLockFreeNode {
+impl Node for LockFreeRadixNode {
     fn bit(&self) -> Option<u8> {
         None
     }
