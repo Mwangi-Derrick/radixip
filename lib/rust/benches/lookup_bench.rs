@@ -870,6 +870,7 @@ criterion_group! {
     config = config();
     targets =
         bench_insert,
+        bench_lookup,
         // bench_lookup_hit,
         // bench_lookup_miss,
         bench_concurrent_lookup_compressed,
