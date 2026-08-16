@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"io"
+	"os"
 	"regexp"
 	"strconv"
 	"strings"
@@ -144,4 +145,52 @@ func classifyRustName(name string) (GroupKey, float64, bool) {
 	k.Size = ""
 
 	return k, divisor, true
+}
+
+// MemoryStats holds the extracted metrics from a DHAT text dump
+type MemoryStats struct {
+	TotalBytes       int64
+	TotalAllocations int64
+}
+
+// ParseDhatText reads the stderr text file generated from a DHAT-profiled execution
+func ParseDhatText(filePath string) (MemoryStats, error) {
+	file, err := os.Open(filePath)
+	if err != nil {
+		return MemoryStats{}, err
+	}
+	defer file.Close()
+
+	var stats MemoryStats
+	scanner := bufio.NewScanner(file)
+	// Regexp to match: "dhat: Total: 1,256 bytes in 6 blocks"
+	re := regexp.MustCompile(`dhat: Total:\s+([\d,]+)\s+bytes\s+in\s+([\d,]+)\s+blocks`)
+
+	for scanner.Scan() {
+		line := scanner.Text()
+		if matches := re.FindStringSubmatch(line); matches != nil {
+			bytesStr := strings.ReplaceAll(matches[1], ",", "")
+			blocksStr := strings.ReplaceAll(matches[2], ",", "")
+			stats.TotalBytes, _ = strconv.ParseInt(bytesStr, 10, 64)
+			stats.TotalAllocations, _ = strconv.ParseInt(blocksStr, 10, 64)
+			break
+		}
+	}
+	return stats, scanner.Err()
+}
+
+// InjectDHATStats merges the parsed DHAT stats back into the raw samples.
+// This requires the user to specify a GroupKey ID string mapping for the stats.
+func InjectDHATStats(all []classifiedSample, dhatFile string, targetKeyID string) {
+	dhatStats, err := ParseDhatText(dhatFile)
+	if err != nil {
+		return // Gracefully skip if file doesn't exist
+	}
+	for i := range all {
+		if all[i].Key.ID() == targetKeyID {
+			all[i].Sample.HasMem = true
+			all[i].Sample.BytesOp = dhatStats.TotalBytes
+			all[i].Sample.AllocsOp = dhatStats.TotalAllocations
+		}
+	}
 }
