@@ -3,60 +3,73 @@ package main
 import "fmt"
 
 const css = `
-:root{
-  --bg:#0f172a; --bg-alt:#0b1220; --card:#1e293b; --card-alt:#182231;
-  --border:#334155; --text:#e2e8f0; --muted:#94a3b8;
-  --go:#38bdf8; --rust:#f97362; --accent:#34d399; --warn:#fbbf24;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;800&display=swap');
+:root {
+  --bg: #f8fafc; --bg-alt: #f1f5f9; --card: #ffffff; --card-alt: #f8fafc;
+  --border: #e2e8f0; --text: #0f172a; --muted: #64748b;
+  --go: #0284c7; --rust: #e11d48; --accent: #059669; --warn: #d97706;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
 }
-*{box-sizing:border-box}
-body{
-  font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,Roboto,sans-serif;
-  background:var(--bg); color:var(--text); margin:0; padding:0;
+[data-theme="dark"] {
+  --bg: #0f172a; --bg-alt: #0b1220; --card: #1e293b; --card-alt: #182231;
+  --border: #334155; --text: #e2e8f0; --muted: #94a3b8;
+  --go: #38bdf8; --rust: #f97362; --accent: #34d399; --warn: #fbbf24;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
 }
-.wrap{max-width:1100px; margin:0 auto; padding:0 1.5rem 3rem;}
-a{color:var(--go); text-decoration:none}
-a:hover{text-decoration:underline}
-.topnav{
-  background:var(--bg-alt); border-bottom:1px solid var(--border);
-  padding:0.9rem 1.5rem; display:flex; align-items:center; gap:1.5rem;
-  flex-wrap:wrap;
+* { box-sizing: border-box; transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease; }
+body {
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg); color: var(--text); margin: 0; padding: 0;
 }
-.topnav .brand{font-weight:800; color:#fff; letter-spacing:.02em}
-.topnav a{color:var(--muted); font-weight:600; font-size:.92rem}
-.topnav a.active{color:var(--text)}
-.topnav .spacer{flex:1}
-.breadcrumb{color:var(--muted); font-size:.85rem; margin:1.5rem 0 0.5rem;}
-.breadcrumb a{color:var(--muted)}
-h1{color:#fff; margin:0.2rem 0 0.4rem; font-size:1.9rem}
-h2{color:#f1f5f9; font-size:1.25rem; margin-top:2.2rem}
-.subtitle{color:var(--muted); margin-bottom:1.5rem}
-.grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:1rem; margin:1.2rem 0;}
-.card{background:var(--card); border:1px solid var(--border); border-radius:10px; padding:1.1rem 1.2rem;}
-.card .label{color:var(--muted); font-size:.82rem; text-transform:uppercase; letter-spacing:.04em}
-.card .value{font-size:1.55rem; font-weight:800; color:var(--accent); margin-top:.3rem}
-.card .sub{color:var(--muted); font-size:.8rem; margin-top:.25rem}
-.card.go .value{color:var(--go)}
-.card.rust .value{color:var(--rust)}
-table{width:100%; border-collapse:collapse; background:var(--card); border-radius:10px; overflow:hidden; margin-bottom:1.2rem;}
-th,td{text-align:left; padding:.6rem .9rem; border-bottom:1px solid var(--border); font-size:.88rem;}
-th{background:var(--card-alt); color:var(--muted); font-weight:700; text-transform:uppercase; font-size:.72rem; letter-spacing:.04em;}
-tr:last-child td{border-bottom:none}
-tr.best td{color:var(--accent); font-weight:700}
-.badge{display:inline-block; padding:.15rem .5rem; border-radius:99px; font-size:.72rem; font-weight:700;}
-.badge.go{background:rgba(56,189,248,.15); color:var(--go)}
-.badge.rust{background:rgba(249,115,98,.15); color:var(--rust)}
-.badge.zero{background:rgba(52,211,153,.15); color:var(--accent)}
-.family-links{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:1rem; margin:1.2rem 0 2rem;}
-.family-links a.tile{
-  display:block; background:var(--card); border:1px solid var(--border); border-radius:10px;
-  padding:1.1rem 1.2rem; color:var(--text);
+.wrap { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem 3rem; }
+a { color: var(--go); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.topnav {
+  background: var(--bg-alt); border-bottom: 1px solid var(--border);
+  padding: 0.9rem 1.5rem; display: flex; align-items: center; gap: 1.5rem;
+  flex-wrap: wrap; box-shadow: var(--shadow);
 }
-.family-links a.tile:hover{border-color:var(--go); text-decoration:none}
-.family-links .tile .name{font-weight:700; color:#fff}
-.family-links .tile .desc{color:var(--muted); font-size:.85rem; margin-top:.3rem}
-.note{color:var(--muted); font-size:.85rem; margin:1rem 0;}
-footer{color:var(--muted); font-size:.8rem; text-align:center; padding:2rem 0 1rem;}
-code{background:var(--card-alt); padding:.1rem .35rem; border-radius:4px; font-size:.85em;}
+.topnav .brand { font-weight: 800; color: var(--text); letter-spacing: .02em; }
+.topnav a { color: var(--muted); font-weight: 600; font-size: .92rem; }
+.topnav a.active { color: var(--text); }
+.topnav .spacer { flex: 1; }
+.theme-toggle {
+  background: var(--card); border: 1px solid var(--border); color: var(--text);
+  border-radius: 99px; padding: 0.4rem 1rem; cursor: pointer; font-size: 0.8rem; font-weight: 700;
+}
+.theme-toggle:hover { border-color: var(--go); }
+.breadcrumb { color: var(--muted); font-size: .85rem; margin: 1.5rem 0 0.5rem; }
+.breadcrumb a { color: var(--muted); }
+h1 { color: var(--text); margin: 0.2rem 0 0.4rem; font-size: 1.9rem; }
+h2 { color: var(--text); font-size: 1.25rem; margin-top: 2.2rem; }
+.subtitle { color: var(--muted); margin-bottom: 1.5rem; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; margin: 1.2rem 0; }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem 1.2rem; box-shadow: var(--shadow); }
+.card:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+.card .label { color: var(--muted); font-size: .82rem; text-transform: uppercase; letter-spacing: .04em; }
+.card .value { font-size: 1.55rem; font-weight: 800; color: var(--accent); margin-top: .3rem; }
+.card .sub { color: var(--muted); font-size: .8rem; margin-top: .25rem; }
+.card.go .value { color: var(--go); }
+.card.rust .value { color: var(--rust); }
+table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 10px; overflow: hidden; margin-bottom: 1.2rem; box-shadow: var(--shadow); }
+th, td { text-align: left; padding: .6rem .9rem; border-bottom: 1px solid var(--border); font-size: .88rem; }
+th { background: var(--card-alt); color: var(--muted); font-weight: 700; text-transform: uppercase; font-size: .72rem; letter-spacing: .04em; }
+tr:hover td { background: var(--card-alt); }
+tr:last-child td { border-bottom: none; }
+tr.best td { color: var(--accent); font-weight: 700; }
+.badge { display: inline-block; padding: .15rem .5rem; border-radius: 99px; font-size: .72rem; font-weight: 700; margin-top: 0.2rem; }
+.badge.go { background: rgba(56,189,248,.15); color: var(--go); }
+.badge.rust { background: rgba(249,115,98,.15); color: var(--rust); }
+.badge.zero { background: rgba(52,211,153,.15); color: var(--accent); }
+.badge.mem { background: rgba(100,116,139,.15); color: var(--text); border: 1px solid var(--border); }
+.family-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin: 1.2rem 0 2rem; }
+.family-links a.tile { display: block; background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem 1.2rem; color: var(--text); box-shadow: var(--shadow); }
+.family-links a.tile:hover { border-color: var(--go); transform: translateY(-2px); text-decoration: none; }
+.family-links .tile .name { font-weight: 700; color: var(--text); }
+.family-links .tile .desc { color: var(--muted); font-size: .85rem; margin-top: .3rem; }
+.note { color: var(--muted); font-size: .85rem; margin: 1rem 0; }
+footer { color: var(--muted); font-size: .8rem; text-align: center; padding: 2rem 0 1rem; }
+code { background: var(--card-alt); padding: .1rem .35rem; border-radius: 4px; font-size: .85em; }
 `
 
 func navHTML(active, root string) string {
@@ -74,6 +87,7 @@ func navHTML(active, root string) string {
 		link(root+"rust/index.html", "Rust", "rust") +
 		link(root+"compare/index.html", "Go vs Rust", "compare") +
 		`<span class="spacer"></span>` +
+		`<button class="theme-toggle" onclick="toggleTheme()">🌓 Theme</button>` +
 		fmt.Sprintf(`<a href="%sdev/bench/index.html">Interactive History →</a>`, root) +
 		`</div>`
 }
@@ -100,6 +114,12 @@ func pageShell(title, active, root, body string) string {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>%s · RadixIP Benchmarks</title>
 <style>%s</style>
+<script>
+	function getTheme() { return localStorage.getItem('theme') || 'light'; }
+	function setTheme(t) { document.documentElement.setAttribute('data-theme', t); localStorage.setItem('theme', t); }
+	setTheme(getTheme());
+	function toggleTheme() { setTheme(getTheme() === 'dark' ? 'light' : 'dark'); }
+</script>
 </head>
 <body>
 %s
