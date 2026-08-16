@@ -71,6 +71,8 @@ func classifyRustName(name string) (GroupKey, float64, bool) {
 	switch tokens[0] {
 	case "insert":
 		k.Op = "insert"
+	case "lookup":
+		k.Op = "lookup"
 	case "concurrent_lookup":
 		k.Op = "lookup"
 		k.Concurrent = true
@@ -128,7 +130,7 @@ func classifyRustName(name string) (GroupKey, float64, bool) {
 
 	divisor := 1.0
 	switch {
-	case k.Op == "insert":
+	case k.Op == "insert" || (k.Op == "lookup" && !k.Concurrent):
 		if n, ok := sizeToCount(k.Size); ok {
 			divisor = float64(n)
 		}
