@@ -113,11 +113,12 @@ jobs:
           name: Go Benchmark
           tool: 'go'
           output-file-path: lib/go/go_bench_results.txt
+          comment-on-alert: false  # This stops the oversized PR comment
+          comment-always: false
+          auto-push: true          # This still saves results to gh-pages branch
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          auto-push: true
           alert-threshold: '105%'
           fail-on-alert: false
-          comment-always: true
           gh-pages-branch: gh-pages
           benchmark-data-dir-path: dev/bench
 
