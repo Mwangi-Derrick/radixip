@@ -58,6 +58,13 @@ jobs:
         run: |
           cargo bench --bench lookup_bench -- --output-format bencher 2>&1 | tee ../../rust_bench_results.txt
 
+      - name: Upload raw Rust benchmark log
+        uses: actions/upload-artifact@v4
+        with:
+          name: rust-bench-log
+          path: rust_bench_results.txt
+          retention-days: 14
+
       - name: Store benchmark result
         uses: benchmark-action/github-action-benchmark@v1
         with:
@@ -107,6 +114,13 @@ jobs:
         run: |
           go test -run=NONE -bench=. -benchmem -count=10 -v -tags simd_cgo ./... 2>&1 | tee go_bench_results.txt
 
+      - name: Upload raw Go benchmark log
+        uses: actions/upload-artifact@v4
+        with:
+          name: go-bench-log
+          path: lib/go/go_bench_results.txt
+          retention-days: 14
+
       - name: Store benchmark result
         uses: benchmark-action/github-action-benchmark@v1
         with:
@@ -139,16 +153,57 @@ jobs:
           ref: gh-pages
           path: gh-pages-branch
 
+      - name: Download raw benchmark logs
+        uses: actions/download-artifact@v4
+        with:
+          path: raw-logs
+          pattern: '*-bench-log'
+          merge-multiple: true
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.26.1'
+          cache: false
+
+      - name: Build bench-parser
+        working-directory: main-branch/cmd/bench-parser
+        run: go build -o ../../../bin/bench-parser .
+
+      - name: Generate benchmark dashboard site
+        run: |
+          if [ ! -f raw-logs/go_bench_results.txt ] && [ ! -f raw-logs/rust_bench_results.txt ]; then
+            echo "⚠️  No benchmark logs available from this run, skipping dashboard regeneration"
+            exit 0
+          fi
+          ./bin/bench-parser \
+            -go-log raw-logs/go_bench_results.txt \
+            -rust-log raw-logs/rust_bench_results.txt \
+            -out main-branch/docs/benchmarks
+
       - name: Deploy dashboard
         run: |
-          if [ -f main-branch/docs/benchmarks/index.html ]; then
-            cp main-branch/docs/benchmarks/index.html gh-pages-branch/index.html
+          if [ -d main-branch/docs/benchmarks ]; then
+            # Copy the generated multi-page site into the gh-pages branch root,
+            # without touching dev/bench (owned by github-action-benchmark).
+            cp -r main-branch/docs/benchmarks/. gh-pages-branch/
             cd gh-pages-branch
             git config user.name "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
-            git add index.html
-            git commit -m "update dashboard [skip ci]" || echo "No changes"
+            git add index.html go rust compare data 2>/dev/null || true
+            git commit -m "update benchmark dashboard [skip ci]" || echo "No changes"
             git push origin gh-pages || echo "Nothing to push"
           else
-            echo "⚠️  Dashboard not found, skipping"
+            echo "⚠️  Dashboard not generated, skipping"
+          fi
+
+      - name: Commit regenerated dashboard back to main
+        run: |
+          if [ -d main-branch/docs/benchmarks ]; then
+            cd main-branch
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add docs/benchmarks
+            git commit -m "chore: refresh benchmark dashboard [skip ci]" || echo "No changes"
+            git push origin main || echo "Nothing to push"
           fi
