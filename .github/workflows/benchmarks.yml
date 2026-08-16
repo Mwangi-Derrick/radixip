@@ -101,7 +101,7 @@ jobs:
 
       - name: Run benchmarks with SIMD CGO
         working-directory: ./lib/go
-        timeout-minutes: 20  # Extra time for SIMD FFI overhead
+        timeout-minutes: 35  # Extra time for SIMD FFI overhead
         env:
           CGO_ENABLED: '1'
         run: |
