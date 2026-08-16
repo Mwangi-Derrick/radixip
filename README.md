@@ -11,7 +11,8 @@
 > RadixIP gives you IP filtering at memory speed: **72.6 ns/lookup in Go ART** and **60.9 ns/lookup in Rust ART** on the current CI benchmark runner.
 > Block attacks, secure databases, and save **$3.6M/year** on geolocation APIs.
 
-> **Go ART:** 72.6 ns/lookup - **Rust ART:** 60.9 ns/lookup - **Patricia/RadixNode tree:** 177.7-223.4 ns/lookup - **FFI:** native SIMD support from Go
+> **Go ART:** 72.6 ns/lookup - **Rust ART:** 60.9 ns/lookup - **Patricia/RadixNode tree:** 177.7-223.4 ns/lookup - **FFI:** native SIMD support in rust and Go through CGo
+
 
 ## 🎯 What is RadixIP?
 
