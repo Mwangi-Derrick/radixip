@@ -5,66 +5,85 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rust · Binary Trie (Uncompressed) · RadixIP Benchmarks</title>
 <style>
-:root{
-  --bg:#0f172a; --bg-alt:#0b1220; --card:#1e293b; --card-alt:#182231;
-  --border:#334155; --text:#e2e8f0; --muted:#94a3b8;
-  --go:#38bdf8; --rust:#f97362; --accent:#34d399; --warn:#fbbf24;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;800&display=swap');
+:root {
+  --bg: #f8fafc; --bg-alt: #f1f5f9; --card: #ffffff; --card-alt: #f8fafc;
+  --border: #e2e8f0; --text: #0f172a; --muted: #64748b;
+  --go: #0284c7; --rust: #e11d48; --accent: #059669; --warn: #d97706;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
 }
-*{box-sizing:border-box}
-body{
-  font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,Roboto,sans-serif;
-  background:var(--bg); color:var(--text); margin:0; padding:0;
+[data-theme="dark"] {
+  --bg: #0f172a; --bg-alt: #0b1220; --card: #1e293b; --card-alt: #182231;
+  --border: #334155; --text: #e2e8f0; --muted: #94a3b8;
+  --go: #38bdf8; --rust: #f97362; --accent: #34d399; --warn: #fbbf24;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
 }
-.wrap{max-width:1100px; margin:0 auto; padding:0 1.5rem 3rem;}
-a{color:var(--go); text-decoration:none}
-a:hover{text-decoration:underline}
-.topnav{
-  background:var(--bg-alt); border-bottom:1px solid var(--border);
-  padding:0.9rem 1.5rem; display:flex; align-items:center; gap:1.5rem;
-  flex-wrap:wrap;
+* { box-sizing: border-box; transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease; }
+body {
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg); color: var(--text); margin: 0; padding: 0;
 }
-.topnav .brand{font-weight:800; color:#fff; letter-spacing:.02em}
-.topnav a{color:var(--muted); font-weight:600; font-size:.92rem}
-.topnav a.active{color:var(--text)}
-.topnav .spacer{flex:1}
-.breadcrumb{color:var(--muted); font-size:.85rem; margin:1.5rem 0 0.5rem;}
-.breadcrumb a{color:var(--muted)}
-h1{color:#fff; margin:0.2rem 0 0.4rem; font-size:1.9rem}
-h2{color:#f1f5f9; font-size:1.25rem; margin-top:2.2rem}
-.subtitle{color:var(--muted); margin-bottom:1.5rem}
-.grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:1rem; margin:1.2rem 0;}
-.card{background:var(--card); border:1px solid var(--border); border-radius:10px; padding:1.1rem 1.2rem;}
-.card .label{color:var(--muted); font-size:.82rem; text-transform:uppercase; letter-spacing:.04em}
-.card .value{font-size:1.55rem; font-weight:800; color:var(--accent); margin-top:.3rem}
-.card .sub{color:var(--muted); font-size:.8rem; margin-top:.25rem}
-.card.go .value{color:var(--go)}
-.card.rust .value{color:var(--rust)}
-table{width:100%; border-collapse:collapse; background:var(--card); border-radius:10px; overflow:hidden; margin-bottom:1.2rem;}
-th,td{text-align:left; padding:.6rem .9rem; border-bottom:1px solid var(--border); font-size:.88rem;}
-th{background:var(--card-alt); color:var(--muted); font-weight:700; text-transform:uppercase; font-size:.72rem; letter-spacing:.04em;}
-tr:last-child td{border-bottom:none}
-tr.best td{color:var(--accent); font-weight:700}
-.badge{display:inline-block; padding:.15rem .5rem; border-radius:99px; font-size:.72rem; font-weight:700;}
-.badge.go{background:rgba(56,189,248,.15); color:var(--go)}
-.badge.rust{background:rgba(249,115,98,.15); color:var(--rust)}
-.badge.zero{background:rgba(52,211,153,.15); color:var(--accent)}
-.family-links{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:1rem; margin:1.2rem 0 2rem;}
-.family-links a.tile{
-  display:block; background:var(--card); border:1px solid var(--border); border-radius:10px;
-  padding:1.1rem 1.2rem; color:var(--text);
+.wrap { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem 3rem; }
+a { color: var(--go); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.topnav {
+  background: var(--bg-alt); border-bottom: 1px solid var(--border);
+  padding: 0.9rem 1.5rem; display: flex; align-items: center; gap: 1.5rem;
+  flex-wrap: wrap; box-shadow: var(--shadow);
 }
-.family-links a.tile:hover{border-color:var(--go); text-decoration:none}
-.family-links .tile .name{font-weight:700; color:#fff}
-.family-links .tile .desc{color:var(--muted); font-size:.85rem; margin-top:.3rem}
-.note{color:var(--muted); font-size:.85rem; margin:1rem 0;}
-footer{color:var(--muted); font-size:.8rem; text-align:center; padding:2rem 0 1rem;}
-code{background:var(--card-alt); padding:.1rem .35rem; border-radius:4px; font-size:.85em;}
+.topnav .brand { font-weight: 800; color: var(--text); letter-spacing: .02em; }
+.topnav a { color: var(--muted); font-weight: 600; font-size: .92rem; }
+.topnav a.active { color: var(--text); }
+.topnav .spacer { flex: 1; }
+.theme-toggle {
+  background: var(--card); border: 1px solid var(--border); color: var(--text);
+  border-radius: 99px; padding: 0.4rem 1rem; cursor: pointer; font-size: 0.8rem; font-weight: 700;
+}
+.theme-toggle:hover { border-color: var(--go); }
+.breadcrumb { color: var(--muted); font-size: .85rem; margin: 1.5rem 0 0.5rem; }
+.breadcrumb a { color: var(--muted); }
+h1 { color: var(--text); margin: 0.2rem 0 0.4rem; font-size: 1.9rem; }
+h2 { color: var(--text); font-size: 1.25rem; margin-top: 2.2rem; }
+.subtitle { color: var(--muted); margin-bottom: 1.5rem; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; margin: 1.2rem 0; }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem 1.2rem; box-shadow: var(--shadow); }
+.card:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+.card .label { color: var(--muted); font-size: .82rem; text-transform: uppercase; letter-spacing: .04em; }
+.card .value { font-size: 1.55rem; font-weight: 800; color: var(--accent); margin-top: .3rem; }
+.card .sub { color: var(--muted); font-size: .8rem; margin-top: .25rem; }
+.card.go .value { color: var(--go); }
+.card.rust .value { color: var(--rust); }
+table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 10px; overflow: hidden; margin-bottom: 1.2rem; box-shadow: var(--shadow); }
+th, td { text-align: left; padding: .6rem .9rem; border-bottom: 1px solid var(--border); font-size: .88rem; }
+th { background: var(--card-alt); color: var(--muted); font-weight: 700; text-transform: uppercase; font-size: .72rem; letter-spacing: .04em; }
+tr:hover td { background: var(--card-alt); }
+tr:last-child td { border-bottom: none; }
+tr.best td { color: var(--accent); font-weight: 700; }
+.badge { display: inline-block; padding: .15rem .5rem; border-radius: 99px; font-size: .72rem; font-weight: 700; margin-top: 0.2rem; }
+.badge.go { background: rgba(56,189,248,.15); color: var(--go); }
+.badge.rust { background: rgba(249,115,98,.15); color: var(--rust); }
+.badge.zero { background: rgba(52,211,153,.15); color: var(--accent); }
+.badge.mem { background: rgba(100,116,139,.15); color: var(--text); border: 1px solid var(--border); }
+.family-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin: 1.2rem 0 2rem; }
+.family-links a.tile { display: block; background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem 1.2rem; color: var(--text); box-shadow: var(--shadow); }
+.family-links a.tile:hover { border-color: var(--go); transform: translateY(-2px); text-decoration: none; }
+.family-links .tile .name { font-weight: 700; color: var(--text); }
+.family-links .tile .desc { color: var(--muted); font-size: .85rem; margin-top: .3rem; }
+.note { color: var(--muted); font-size: .85rem; margin: 1rem 0; }
+footer { color: var(--muted); font-size: .8rem; text-align: center; padding: 2rem 0 1rem; }
+code { background: var(--card-alt); padding: .1rem .35rem; border-radius: 4px; font-size: .85em; }
 </style>
+<script>
+	function getTheme() { return localStorage.getItem('theme') || 'light'; }
+	function setTheme(t) { document.documentElement.setAttribute('data-theme', t); localStorage.setItem('theme', t); }
+	setTheme(getTheme());
+	function toggleTheme() { setTheme(getTheme() === 'dark' ? 'light' : 'dark'); }
+</script>
 </head>
 <body>
-<div class="topnav"><span class="brand">🌲 RadixIP Benchmarks</span><a href="../../index.html">Overview</a><a href="../../go/index.html">Go</a><a href="../../rust/index.html" class="active">Rust</a><a href="../../compare/index.html">Go vs Rust</a><span class="spacer"></span><a href="../../dev/bench/index.html">Interactive History →</a></div>
+<div class="topnav"><span class="brand">🌲 RadixIP Benchmarks</span><a href="../../index.html">Overview</a><a href="../../go/index.html">Go</a><a href="../../rust/index.html" class="active">Rust</a><a href="../../compare/index.html">Go vs Rust</a><span class="spacer"></span><button class="theme-toggle" onclick="toggleTheme()">🌓 Theme</button><a href="../../dev/bench/index.html">Interactive History →</a></div>
 <div class="wrap">
-<div class="breadcrumb"><a href="../../index.html">Overview</a> / <a href="../../rust/index.html">Rust</a> / Binary Tries</div><h1>Rust · Binary Trie (Uncompressed)</h1><p class="subtitle">Uncompressed bit-by-bit trie traversal. Simple, predictable, control-plane baseline.</p><h2>Insert — IPv4</h2><table><thead><tr><th>Variant</th><th>Mean</th><th>Min / Max</th><th>Throughput</th><th>Samples</th></tr></thead><tbody><tr class="best"><td>Padded 🏆</td><td>11832 ns</td><td>11730 ns / 11934 ns</td><td>84.5K ops/s</td><td>2</td></tr><tr><td>Normal</td><td>11871 ns</td><td>11781 ns / 11962 ns</td><td>84.2K ops/s</td><td>2</td></tr><tr><td>Atomic</td><td>11898 ns</td><td>11713 ns / 12083 ns</td><td>84.0K ops/s</td><td>2</td></tr><tr><td>LockFree</td><td>17958 ns</td><td>17855 ns / 18060 ns</td><td>55.7K ops/s</td><td>2</td></tr></tbody></table><h2>Insert — IPv6</h2><table><thead><tr><th>Variant</th><th>Mean</th><th>Min / Max</th><th>Throughput</th><th>Samples</th></tr></thead><tbody><tr class="best"><td>Atomic 🏆</td><td>33309 ns</td><td>32673 ns / 33945 ns</td><td>30.0K ops/s</td><td>2</td></tr><tr><td>Normal</td><td>33578 ns</td><td>32693 ns / 34463 ns</td><td>29.8K ops/s</td><td>2</td></tr><tr><td>Padded</td><td>34673 ns</td><td>33918 ns / 35428 ns</td><td>28.8K ops/s</td><td>2</td></tr><tr><td>LockFree</td><td>65206 ns</td><td>62934 ns / 67478 ns</td><td>15.3K ops/s</td><td>2</td></tr></tbody></table><h2>Concurrent Lookup — IPv4</h2><table><thead><tr><th>Variant</th><th>Mean</th><th>Min / Max</th><th>Throughput</th><th>Samples</th></tr></thead><tbody><tr class="best"><td>Normal 🏆</td><td>893.37 ns</td><td>893.37 ns / 893.37 ns</td><td>1.12M ops/s</td><td>1</td></tr><tr><td>Padded</td><td>956.69 ns</td><td>956.69 ns / 956.69 ns</td><td>1.05M ops/s</td><td>1</td></tr><tr><td>Atomic</td><td>957.62 ns</td><td>957.62 ns / 957.62 ns</td><td>1.04M ops/s</td><td>1</td></tr><tr><td>LockFree</td><td>1718 ns</td><td>1718 ns / 1718 ns</td><td>582.0K ops/s</td><td>1</td></tr></tbody></table><h2>Concurrent Lookup — IPv6</h2><table><thead><tr><th>Variant</th><th>Mean</th><th>Min / Max</th><th>Throughput</th><th>Samples</th></tr></thead><tbody><tr class="best"><td>Atomic 🏆</td><td>1600 ns</td><td>1600 ns / 1600 ns</td><td>625.0K ops/s</td><td>1</td></tr><tr><td>Padded</td><td>1624 ns</td><td>1624 ns / 1624 ns</td><td>615.9K ops/s</td><td>1</td></tr><tr><td>Normal</td><td>1652 ns</td><td>1652 ns / 1652 ns</td><td>605.4K ops/s</td><td>1</td></tr><tr><td>LockFree</td><td>4475 ns</td><td>4475 ns / 4475 ns</td><td>223.5K ops/s</td><td>1</td></tr></tbody></table>
+<div class="breadcrumb"><a href="../../index.html">Overview</a> / <a href="../../rust/index.html">Rust</a> / Binary Tries</div><h1>Rust · Binary Trie (Uncompressed)</h1><p class="subtitle">Uncompressed bit-by-bit trie traversal. Simple, predictable, control-plane baseline.</p><h2>Insert — IPv4</h2><table><thead><tr><th>Variant</th><th>Mean</th><th>Min / Max</th><th>Throughput</th><th>Samples</th></tr></thead><tbody><tr class="best"><td>Padded 🏆</td><td>4999 ns</td><td>4993 ns / 5005 ns</td><td>200.0K ops/s</td><td>2</td></tr><tr><td>Normal</td><td>5007 ns</td><td>5000 ns / 5013 ns</td><td>199.7K ops/s</td><td>2</td></tr><tr><td>Atomic</td><td>5055 ns</td><td>4993 ns / 5118 ns</td><td>197.8K ops/s</td><td>2</td></tr><tr><td>LockFree</td><td>20244 ns</td><td>20244 ns / 20244 ns</td><td>49.4K ops/s</td><td>2</td></tr></tbody></table><h2>Insert — IPv6</h2><table><thead><tr><th>Variant</th><th>Mean</th><th>Min / Max</th><th>Throughput</th><th>Samples</th></tr></thead><tbody><tr class="best"><td>Atomic 🏆</td><td>15379 ns</td><td>15130 ns / 15629 ns</td><td>65.0K ops/s</td><td>2</td></tr><tr><td>Normal</td><td>15607 ns</td><td>15144 ns / 16071 ns</td><td>64.1K ops/s</td><td>2</td></tr><tr><td>Padded</td><td>15946 ns</td><td>15147 ns / 16746 ns</td><td>62.7K ops/s</td><td>2</td></tr><tr><td>LockFree</td><td>73863 ns</td><td>71040 ns / 76687 ns</td><td>13.5K ops/s</td><td>2</td></tr></tbody></table><h2>Concurrent Lookup — IPv4</h2><table><thead><tr><th>Variant</th><th>Mean</th><th>Min / Max</th><th>Throughput</th><th>Samples</th></tr></thead><tbody><tr class="best"><td>Normal 🏆</td><td>716.08 ns</td><td>716.08 ns / 716.08 ns</td><td>1.40M ops/s</td><td>1</td></tr><tr><td>Atomic</td><td>747.59 ns</td><td>747.59 ns / 747.59 ns</td><td>1.34M ops/s</td><td>1</td></tr><tr><td>Padded</td><td>753.34 ns</td><td>753.34 ns / 753.34 ns</td><td>1.33M ops/s</td><td>1</td></tr><tr><td>LockFree</td><td>1296 ns</td><td>1296 ns / 1296 ns</td><td>771.6K ops/s</td><td>1</td></tr></tbody></table><h2>Concurrent Lookup — IPv6</h2><table><thead><tr><th>Variant</th><th>Mean</th><th>Min / Max</th><th>Throughput</th><th>Samples</th></tr></thead><tbody><tr class="best"><td>Atomic 🏆</td><td>1238 ns</td><td>1238 ns / 1238 ns</td><td>808.0K ops/s</td><td>1</td></tr><tr><td>Normal</td><td>1249 ns</td><td>1249 ns / 1249 ns</td><td>800.6K ops/s</td><td>1</td></tr><tr><td>Padded</td><td>1262 ns</td><td>1262 ns / 1262 ns</td><td>792.1K ops/s</td><td>1</td></tr><tr><td>LockFree</td><td>3239 ns</td><td>3239 ns / 3239 ns</td><td>308.7K ops/s</td><td>1</td></tr></tbody></table>
 <footer>Generated automatically by <code>cmd/bench-parser</code> from CI benchmark logs. Not hand-edited — re-run the workflow to refresh.</footer>
 </div>
 </body>

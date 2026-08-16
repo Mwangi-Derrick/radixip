@@ -5,66 +5,85 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Go · Patricia / Radix Tree (Compressed) · RadixIP Benchmarks</title>
 <style>
-:root{
-  --bg:#0f172a; --bg-alt:#0b1220; --card:#1e293b; --card-alt:#182231;
-  --border:#334155; --text:#e2e8f0; --muted:#94a3b8;
-  --go:#38bdf8; --rust:#f97362; --accent:#34d399; --warn:#fbbf24;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;800&display=swap');
+:root {
+  --bg: #f8fafc; --bg-alt: #f1f5f9; --card: #ffffff; --card-alt: #f8fafc;
+  --border: #e2e8f0; --text: #0f172a; --muted: #64748b;
+  --go: #0284c7; --rust: #e11d48; --accent: #059669; --warn: #d97706;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
 }
-*{box-sizing:border-box}
-body{
-  font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,Roboto,sans-serif;
-  background:var(--bg); color:var(--text); margin:0; padding:0;
+[data-theme="dark"] {
+  --bg: #0f172a; --bg-alt: #0b1220; --card: #1e293b; --card-alt: #182231;
+  --border: #334155; --text: #e2e8f0; --muted: #94a3b8;
+  --go: #38bdf8; --rust: #f97362; --accent: #34d399; --warn: #fbbf24;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
 }
-.wrap{max-width:1100px; margin:0 auto; padding:0 1.5rem 3rem;}
-a{color:var(--go); text-decoration:none}
-a:hover{text-decoration:underline}
-.topnav{
-  background:var(--bg-alt); border-bottom:1px solid var(--border);
-  padding:0.9rem 1.5rem; display:flex; align-items:center; gap:1.5rem;
-  flex-wrap:wrap;
+* { box-sizing: border-box; transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease; }
+body {
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg); color: var(--text); margin: 0; padding: 0;
 }
-.topnav .brand{font-weight:800; color:#fff; letter-spacing:.02em}
-.topnav a{color:var(--muted); font-weight:600; font-size:.92rem}
-.topnav a.active{color:var(--text)}
-.topnav .spacer{flex:1}
-.breadcrumb{color:var(--muted); font-size:.85rem; margin:1.5rem 0 0.5rem;}
-.breadcrumb a{color:var(--muted)}
-h1{color:#fff; margin:0.2rem 0 0.4rem; font-size:1.9rem}
-h2{color:#f1f5f9; font-size:1.25rem; margin-top:2.2rem}
-.subtitle{color:var(--muted); margin-bottom:1.5rem}
-.grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:1rem; margin:1.2rem 0;}
-.card{background:var(--card); border:1px solid var(--border); border-radius:10px; padding:1.1rem 1.2rem;}
-.card .label{color:var(--muted); font-size:.82rem; text-transform:uppercase; letter-spacing:.04em}
-.card .value{font-size:1.55rem; font-weight:800; color:var(--accent); margin-top:.3rem}
-.card .sub{color:var(--muted); font-size:.8rem; margin-top:.25rem}
-.card.go .value{color:var(--go)}
-.card.rust .value{color:var(--rust)}
-table{width:100%; border-collapse:collapse; background:var(--card); border-radius:10px; overflow:hidden; margin-bottom:1.2rem;}
-th,td{text-align:left; padding:.6rem .9rem; border-bottom:1px solid var(--border); font-size:.88rem;}
-th{background:var(--card-alt); color:var(--muted); font-weight:700; text-transform:uppercase; font-size:.72rem; letter-spacing:.04em;}
-tr:last-child td{border-bottom:none}
-tr.best td{color:var(--accent); font-weight:700}
-.badge{display:inline-block; padding:.15rem .5rem; border-radius:99px; font-size:.72rem; font-weight:700;}
-.badge.go{background:rgba(56,189,248,.15); color:var(--go)}
-.badge.rust{background:rgba(249,115,98,.15); color:var(--rust)}
-.badge.zero{background:rgba(52,211,153,.15); color:var(--accent)}
-.family-links{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:1rem; margin:1.2rem 0 2rem;}
-.family-links a.tile{
-  display:block; background:var(--card); border:1px solid var(--border); border-radius:10px;
-  padding:1.1rem 1.2rem; color:var(--text);
+.wrap { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem 3rem; }
+a { color: var(--go); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.topnav {
+  background: var(--bg-alt); border-bottom: 1px solid var(--border);
+  padding: 0.9rem 1.5rem; display: flex; align-items: center; gap: 1.5rem;
+  flex-wrap: wrap; box-shadow: var(--shadow);
 }
-.family-links a.tile:hover{border-color:var(--go); text-decoration:none}
-.family-links .tile .name{font-weight:700; color:#fff}
-.family-links .tile .desc{color:var(--muted); font-size:.85rem; margin-top:.3rem}
-.note{color:var(--muted); font-size:.85rem; margin:1rem 0;}
-footer{color:var(--muted); font-size:.8rem; text-align:center; padding:2rem 0 1rem;}
-code{background:var(--card-alt); padding:.1rem .35rem; border-radius:4px; font-size:.85em;}
+.topnav .brand { font-weight: 800; color: var(--text); letter-spacing: .02em; }
+.topnav a { color: var(--muted); font-weight: 600; font-size: .92rem; }
+.topnav a.active { color: var(--text); }
+.topnav .spacer { flex: 1; }
+.theme-toggle {
+  background: var(--card); border: 1px solid var(--border); color: var(--text);
+  border-radius: 99px; padding: 0.4rem 1rem; cursor: pointer; font-size: 0.8rem; font-weight: 700;
+}
+.theme-toggle:hover { border-color: var(--go); }
+.breadcrumb { color: var(--muted); font-size: .85rem; margin: 1.5rem 0 0.5rem; }
+.breadcrumb a { color: var(--muted); }
+h1 { color: var(--text); margin: 0.2rem 0 0.4rem; font-size: 1.9rem; }
+h2 { color: var(--text); font-size: 1.25rem; margin-top: 2.2rem; }
+.subtitle { color: var(--muted); margin-bottom: 1.5rem; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; margin: 1.2rem 0; }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem 1.2rem; box-shadow: var(--shadow); }
+.card:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+.card .label { color: var(--muted); font-size: .82rem; text-transform: uppercase; letter-spacing: .04em; }
+.card .value { font-size: 1.55rem; font-weight: 800; color: var(--accent); margin-top: .3rem; }
+.card .sub { color: var(--muted); font-size: .8rem; margin-top: .25rem; }
+.card.go .value { color: var(--go); }
+.card.rust .value { color: var(--rust); }
+table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 10px; overflow: hidden; margin-bottom: 1.2rem; box-shadow: var(--shadow); }
+th, td { text-align: left; padding: .6rem .9rem; border-bottom: 1px solid var(--border); font-size: .88rem; }
+th { background: var(--card-alt); color: var(--muted); font-weight: 700; text-transform: uppercase; font-size: .72rem; letter-spacing: .04em; }
+tr:hover td { background: var(--card-alt); }
+tr:last-child td { border-bottom: none; }
+tr.best td { color: var(--accent); font-weight: 700; }
+.badge { display: inline-block; padding: .15rem .5rem; border-radius: 99px; font-size: .72rem; font-weight: 700; margin-top: 0.2rem; }
+.badge.go { background: rgba(56,189,248,.15); color: var(--go); }
+.badge.rust { background: rgba(249,115,98,.15); color: var(--rust); }
+.badge.zero { background: rgba(52,211,153,.15); color: var(--accent); }
+.badge.mem { background: rgba(100,116,139,.15); color: var(--text); border: 1px solid var(--border); }
+.family-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin: 1.2rem 0 2rem; }
+.family-links a.tile { display: block; background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem 1.2rem; color: var(--text); box-shadow: var(--shadow); }
+.family-links a.tile:hover { border-color: var(--go); transform: translateY(-2px); text-decoration: none; }
+.family-links .tile .name { font-weight: 700; color: var(--text); }
+.family-links .tile .desc { color: var(--muted); font-size: .85rem; margin-top: .3rem; }
+.note { color: var(--muted); font-size: .85rem; margin: 1rem 0; }
+footer { color: var(--muted); font-size: .8rem; text-align: center; padding: 2rem 0 1rem; }
+code { background: var(--card-alt); padding: .1rem .35rem; border-radius: 4px; font-size: .85em; }
 </style>
+<script>
+	function getTheme() { return localStorage.getItem('theme') || 'light'; }
+	function setTheme(t) { document.documentElement.setAttribute('data-theme', t); localStorage.setItem('theme', t); }
+	setTheme(getTheme());
+	function toggleTheme() { setTheme(getTheme() === 'dark' ? 'light' : 'dark'); }
+</script>
 </head>
 <body>
-<div class="topnav"><span class="brand">🌲 RadixIP Benchmarks</span><a href="../../index.html">Overview</a><a href="../../go/index.html" class="active">Go</a><a href="../../rust/index.html">Rust</a><a href="../../compare/index.html">Go vs Rust</a><span class="spacer"></span><a href="../../dev/bench/index.html">Interactive History →</a></div>
+<div class="topnav"><span class="brand">🌲 RadixIP Benchmarks</span><a href="../../index.html">Overview</a><a href="../../go/index.html" class="active">Go</a><a href="../../rust/index.html">Rust</a><a href="../../compare/index.html">Go vs Rust</a><span class="spacer"></span><button class="theme-toggle" onclick="toggleTheme()">🌓 Theme</button><a href="../../dev/bench/index.html">Interactive History →</a></div>
 <div class="wrap">
-<div class="breadcrumb"><a href="../../index.html">Overview</a> / <a href="../../go/index.html">Go</a> / Patricia Trees</div><h1>Go · Patricia / Radix Tree (Compressed)</h1><p class="subtitle">Branch-compressed Patricia/radix traversal. The data-plane / FIB workhorse.</p><h2>Insert — IPv4</h2><table><thead><tr><th>Variant</th><th>Mean</th><th>Min / Max</th><th>Throughput</th><th>Memory / op</th><th>Allocs / op</th><th>Samples</th></tr></thead><tbody><tr class="best"><td>Normal 🏆</td><td>3072 ns</td><td>3057 ns / 3100 ns</td><td>325.5K ops/s</td><td>1.1 KB</td><td>32</td><td>10</td></tr><tr><td>Padded</td><td>3127 ns</td><td>3101 ns / 3165 ns</td><td>319.8K ops/s</td><td>1.1 KB</td><td>32</td><td>10</td></tr><tr><td>LockFree</td><td>3218 ns</td><td>3192 ns / 3255 ns</td><td>310.7K ops/s</td><td>1.1 KB</td><td>32</td><td>10</td></tr><tr><td>Atomic</td><td>3221 ns</td><td>3194 ns / 3247 ns</td><td>310.4K ops/s</td><td>1.1 KB</td><td>32</td><td>10</td></tr></tbody></table><h2>Insert — IPv6</h2><table><thead><tr><th>Variant</th><th>Mean</th><th>Min / Max</th><th>Throughput</th><th>Memory / op</th><th>Allocs / op</th><th>Samples</th></tr></thead><tbody><tr class="best"><td>Normal 🏆</td><td>9799 ns</td><td>9683 ns / 9924 ns</td><td>102.1K ops/s</td><td>3.7 KB</td><td>96</td><td>10</td></tr><tr><td>Padded</td><td>10445 ns</td><td>10293 ns / 10616 ns</td><td>95.7K ops/s</td><td>5.2 KB</td><td>96</td><td>10</td></tr><tr><td>LockFree</td><td>10524 ns</td><td>10471 ns / 10598 ns</td><td>95.0K ops/s</td><td>3.7 KB</td><td>96</td><td>10</td></tr><tr><td>Atomic</td><td>10556 ns</td><td>10449 ns / 10614 ns</td><td>94.7K ops/s</td><td>3.7 KB</td><td>96</td><td>10</td></tr></tbody></table><h2>Lookup — Hit — IPv4</h2><table><thead><tr><th>Variant</th><th>Mean</th><th>Min / Max</th><th>Throughput</th><th>Memory / op</th><th>Allocs / op</th><th>Samples</th></tr></thead><tbody><tr class="best"><td>Atomic 🏆</td><td>212.43 ns</td><td>210.90 ns / 213.26 ns</td><td>4.71M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr><tr><td>LockFree</td><td>212.88 ns</td><td>211.89 ns / 216.13 ns</td><td>4.70M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr><tr><td>Padded</td><td>213.04 ns</td><td>212.12 ns / 213.95 ns</td><td>4.69M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr><tr><td>Normal</td><td>213.80 ns</td><td>212.59 ns / 214.46 ns</td><td>4.68M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr></tbody></table><h2>Lookup — Hit — IPv6</h2><table><thead><tr><th>Variant</th><th>Mean</th><th>Min / Max</th><th>Throughput</th><th>Memory / op</th><th>Allocs / op</th><th>Samples</th></tr></thead><tbody><tr class="best"><td>LockFree 🏆</td><td>571.34 ns</td><td>562.39 ns / 578.94 ns</td><td>1.75M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr><tr><td>Atomic</td><td>573.62 ns</td><td>571.32 ns / 576.11 ns</td><td>1.74M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr><tr><td>Normal</td><td>573.72 ns</td><td>570.16 ns / 576.13 ns</td><td>1.74M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr><tr><td>Padded</td><td>607.97 ns</td><td>603.85 ns / 614.75 ns</td><td>1.64M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr></tbody></table><h2>Lookup — Miss — IPv4</h2><table><thead><tr><th>Variant</th><th>Mean</th><th>Min / Max</th><th>Throughput</th><th>Memory / op</th><th>Allocs / op</th><th>Samples</th></tr></thead><tbody><tr class="best"><td>Padded 🏆</td><td>77.53 ns</td><td>77.36 ns / 77.72 ns</td><td>12.90M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr><tr><td>LockFree</td><td>78.16 ns</td><td>77.46 ns / 79.36 ns</td><td>12.79M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr><tr><td>Atomic</td><td>78.22 ns</td><td>77.77 ns / 78.61 ns</td><td>12.78M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr><tr><td>Normal</td><td>79.15 ns</td><td>78.82 ns / 79.50 ns</td><td>12.63M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr></tbody></table><h2>Lookup — Miss — IPv6</h2><table><thead><tr><th>Variant</th><th>Mean</th><th>Min / Max</th><th>Throughput</th><th>Memory / op</th><th>Allocs / op</th><th>Samples</th></tr></thead><tbody><tr class="best"><td>Padded 🏆</td><td>64.65 ns</td><td>63.87 ns / 65.65 ns</td><td>15.47M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr><tr><td>LockFree</td><td>67.23 ns</td><td>64.19 ns / 69.12 ns</td><td>14.87M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr><tr><td>Atomic</td><td>68.09 ns</td><td>67.17 ns / 69.62 ns</td><td>14.69M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr><tr><td>Normal</td><td>68.27 ns</td><td>67.36 ns / 69.44 ns</td><td>14.65M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr></tbody></table><h2>Concurrent Lookup — IPv4</h2><table><thead><tr><th>Variant</th><th>Mean</th><th>Min / Max</th><th>Throughput</th><th>Memory / op</th><th>Allocs / op</th><th>Samples</th></tr></thead><tbody><tr class="best"><td>Atomic 🏆</td><td>246.54 ns</td><td>245.00 ns / 247.50 ns</td><td>4.06M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr><tr><td>Normal</td><td>247.09 ns</td><td>246.20 ns / 248.30 ns</td><td>4.05M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr><tr><td>LockFree</td><td>247.12 ns</td><td>246.60 ns / 248.20 ns</td><td>4.05M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr><tr><td>Padded</td><td>247.48 ns</td><td>245.90 ns / 248.70 ns</td><td>4.04M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr></tbody></table><h2>Concurrent Lookup — IPv6</h2><table><thead><tr><th>Variant</th><th>Mean</th><th>Min / Max</th><th>Throughput</th><th>Memory / op</th><th>Allocs / op</th><th>Samples</th></tr></thead><tbody><tr class="best"><td>LockFree 🏆</td><td>260.14 ns</td><td>258.50 ns / 262.90 ns</td><td>3.84M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr><tr><td>Normal</td><td>260.53 ns</td><td>256.50 ns / 266.50 ns</td><td>3.84M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr><tr><td>Atomic</td><td>261.09 ns</td><td>258.40 ns / 265.40 ns</td><td>3.83M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr><tr><td>Padded</td><td>265.33 ns</td><td>261.80 ns / 269.50 ns</td><td>3.77M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr></tbody></table>
+<div class="breadcrumb"><a href="../../index.html">Overview</a> / <a href="../../go/index.html">Go</a> / Patricia Trees</div><h1>Go · Patricia / Radix Tree (Compressed)</h1><p class="subtitle">Branch-compressed Patricia/radix traversal. The data-plane / FIB workhorse.</p><h2>Insert — IPv4</h2><table><thead><tr><th>Variant</th><th>Mean</th><th>Min / Max</th><th>Throughput</th><th>Memory / op</th><th>Allocs / op</th><th>Samples</th></tr></thead><tbody><tr class="best"><td>Normal 🏆</td><td>2219 ns</td><td>2213 ns / 2224 ns</td><td>450.7K ops/s</td><td>1.1 KB</td><td>32</td><td>10</td></tr><tr><td>Padded</td><td>2242 ns</td><td>2236 ns / 2250 ns</td><td>446.0K ops/s</td><td>1.1 KB</td><td>32</td><td>10</td></tr><tr><td>LockFree</td><td>2270 ns</td><td>2267 ns / 2274 ns</td><td>440.5K ops/s</td><td>1.1 KB</td><td>32</td><td>10</td></tr><tr><td>Atomic</td><td>2271 ns</td><td>2262 ns / 2277 ns</td><td>440.4K ops/s</td><td>1.1 KB</td><td>32</td><td>10</td></tr></tbody></table><h2>Insert — IPv6</h2><table><thead><tr><th>Variant</th><th>Mean</th><th>Min / Max</th><th>Throughput</th><th>Memory / op</th><th>Allocs / op</th><th>Samples</th></tr></thead><tbody><tr class="best"><td>Normal 🏆</td><td>6932 ns</td><td>6831 ns / 7006 ns</td><td>144.3K ops/s</td><td>3.7 KB</td><td>96</td><td>10</td></tr><tr><td>Atomic</td><td>7296 ns</td><td>7225 ns / 7352 ns</td><td>137.1K ops/s</td><td>3.7 KB</td><td>96</td><td>10</td></tr><tr><td>Padded</td><td>7312 ns</td><td>7206 ns / 7414 ns</td><td>136.8K ops/s</td><td>5.2 KB</td><td>96</td><td>10</td></tr><tr><td>LockFree</td><td>7334 ns</td><td>7268 ns / 7401 ns</td><td>136.4K ops/s</td><td>3.7 KB</td><td>96</td><td>10</td></tr></tbody></table><h2>Lookup — Hit — IPv4</h2><table><thead><tr><th>Variant</th><th>Mean</th><th>Min / Max</th><th>Throughput</th><th>Memory / op</th><th>Allocs / op</th><th>Samples</th></tr></thead><tbody><tr class="best"><td>Padded 🏆</td><td>163.95 ns</td><td>163.66 ns / 164.78 ns</td><td>6.10M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr><tr><td>LockFree</td><td>164.17 ns</td><td>163.97 ns / 164.41 ns</td><td>6.09M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr><tr><td>Normal</td><td>164.18 ns</td><td>163.88 ns / 164.67 ns</td><td>6.09M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr><tr><td>Atomic</td><td>164.35 ns</td><td>164.04 ns / 164.89 ns</td><td>6.08M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr></tbody></table><h2>Lookup — Hit — IPv6</h2><table><thead><tr><th>Variant</th><th>Mean</th><th>Min / Max</th><th>Throughput</th><th>Memory / op</th><th>Allocs / op</th><th>Samples</th></tr></thead><tbody><tr class="best"><td>Padded 🏆</td><td>372.10 ns</td><td>366.00 ns / 383.01 ns</td><td>2.69M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr><tr><td>Atomic</td><td>397.21 ns</td><td>390.34 ns / 412.60 ns</td><td>2.52M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr><tr><td>LockFree</td><td>398.37 ns</td><td>383.33 ns / 425.97 ns</td><td>2.51M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr><tr><td>Normal</td><td>398.56 ns</td><td>394.43 ns / 406.22 ns</td><td>2.51M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr></tbody></table><h2>Lookup — Miss — IPv4</h2><table><thead><tr><th>Variant</th><th>Mean</th><th>Min / Max</th><th>Throughput</th><th>Memory / op</th><th>Allocs / op</th><th>Samples</th></tr></thead><tbody><tr class="best"><td>Padded 🏆</td><td>57.37 ns</td><td>57.13 ns / 57.59 ns</td><td>17.43M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr><tr><td>Atomic</td><td>57.41 ns</td><td>56.97 ns / 57.64 ns</td><td>17.42M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr><tr><td>LockFree</td><td>57.54 ns</td><td>56.88 ns / 58.31 ns</td><td>17.38M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr><tr><td>Normal</td><td>57.60 ns</td><td>57.26 ns / 57.89 ns</td><td>17.36M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr></tbody></table><h2>Lookup — Miss — IPv6</h2><table><thead><tr><th>Variant</th><th>Mean</th><th>Min / Max</th><th>Throughput</th><th>Memory / op</th><th>Allocs / op</th><th>Samples</th></tr></thead><tbody><tr class="best"><td>Padded 🏆</td><td>42.77 ns</td><td>42.32 ns / 43.11 ns</td><td>23.38M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr><tr><td>Atomic</td><td>44.13 ns</td><td>43.87 ns / 44.35 ns</td><td>22.66M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr><tr><td>LockFree</td><td>44.14 ns</td><td>43.64 ns / 44.94 ns</td><td>22.66M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr><tr><td>Normal</td><td>44.27 ns</td><td>44.01 ns / 44.60 ns</td><td>22.59M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr></tbody></table><h2>Concurrent Lookup — IPv4</h2><table><thead><tr><th>Variant</th><th>Mean</th><th>Min / Max</th><th>Throughput</th><th>Memory / op</th><th>Allocs / op</th><th>Samples</th></tr></thead><tbody><tr class="best"><td>Atomic 🏆</td><td>126.16 ns</td><td>124.90 ns / 127.00 ns</td><td>7.93M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr><tr><td>LockFree</td><td>126.26 ns</td><td>125.30 ns / 126.80 ns</td><td>7.92M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr><tr><td>Padded</td><td>126.56 ns</td><td>125.70 ns / 128.90 ns</td><td>7.90M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr><tr><td>Normal</td><td>126.93 ns</td><td>125.60 ns / 128.50 ns</td><td>7.88M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr></tbody></table><h2>Concurrent Lookup — IPv6</h2><table><thead><tr><th>Variant</th><th>Mean</th><th>Min / Max</th><th>Throughput</th><th>Memory / op</th><th>Allocs / op</th><th>Samples</th></tr></thead><tbody><tr class="best"><td>Padded 🏆</td><td>162.96 ns</td><td>161.60 ns / 164.50 ns</td><td>6.14M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr><tr><td>Normal</td><td>164.68 ns</td><td>162.90 ns / 165.90 ns</td><td>6.07M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr><tr><td>Atomic</td><td>164.90 ns</td><td>163.50 ns / 166.20 ns</td><td>6.06M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr><tr><td>LockFree</td><td>165.51 ns</td><td>163.10 ns / 167.90 ns</td><td>6.04M ops/s</td><td>24 B</td><td>1</td><td>10</td></tr></tbody></table>
 <footer>Generated automatically by <code>cmd/bench-parser</code> from CI benchmark logs. Not hand-edited — re-run the workflow to refresh.</footer>
 </div>
 </body>
