@@ -5,9 +5,9 @@
 //
 // Results are written to: target/criterion/
 
-use criterion::{criterion_group, criterion_main, BatchSize, BenchmarkId, Criterion, Throughput};
+use criterion::{BatchSize, BenchmarkId, Criterion, Throughput, criterion_group, criterion_main};
 use ipnetwork::IpNetwork;
-use radixip::{engine::EngineWrapper, EngineVariant, Metadata, NodeVariant, RadixEngine};
+use radixip::{EngineVariant, Metadata, NodeVariant, RadixEngine, engine::EngineWrapper};
 use std::net::IpAddr;
 use std::str::FromStr;
 use std::time::Duration;
@@ -34,9 +34,14 @@ fn generate_cidrs_ipv6(n: usize) -> Vec<IpNetwork> {
         .map(|i| {
             let low = (i % 65536) as u16;
             let high = (i / 65536) as u16;
-            format!("fd{:02x}:{:04x}:{:04x}::/64", (i / (65536 * 65536)) % 256, high, low)
-                .parse()
-                .unwrap()
+            format!(
+                "fd{:02x}:{:04x}:{:04x}::/64",
+                (i / (65536 * 65536)) % 256,
+                high,
+                low
+            )
+            .parse()
+            .unwrap()
         })
         .collect()
 }
@@ -59,13 +64,15 @@ fn generate_ips_ipv6(n: usize) -> Vec<IpAddr> {
         .map(|i| {
             let low = (i % 65536) as u16;
             let high = (i / 65536) as u16;
-            format!("fd{:02x}:{:04x}:{:04x}:{:04x}:dead:beef:cafe:feed", 
-                (i / (65536 * 65536)) % 256, 
-                high, 
+            format!(
+                "fd{:02x}:{:04x}:{:04x}:{:04x}:dead:beef:cafe:feed",
+                (i / (65536 * 65536)) % 256,
+                high,
                 low,
-                (i % 256) as u16)
-                .parse()
-                .unwrap()
+                (i % 256) as u16
+            )
+            .parse()
+            .unwrap()
         })
         .collect()
 }
@@ -90,9 +97,7 @@ fn generate_miss_ips_ipv6(n: usize) -> Vec<IpAddr> {
         .map(|i| {
             let low = (i % 65536) as u16;
             let high = (i / 65536) as u16;
-            format!("2001:db8:{:04x}:{:04x}:dead:beef:cafe:feed", 
-                high, 
-                low)
+            format!("2001:db8:{:04x}:{:04x}:dead:beef:cafe:feed", high, low)
                 .parse()
                 .unwrap()
         })
@@ -112,13 +117,13 @@ fn build_engine(
 ) -> EngineWrapper {
     let engine = EngineWrapper::new(variant, node_variant, compressed);
     let meta = Metadata::new("bench");
-    
+
     let cidrs = if ipv6 {
         generate_cidrs_ipv6(routes)
     } else {
         generate_cidrs_ipv4(routes)
     };
-    
+
     for cidr in cidrs {
         let _ = engine.insert(cidr, meta.clone());
     }
@@ -142,7 +147,7 @@ fn compressed_variant(node_variant: NodeVariant) -> NodeVariant {
 
 fn bench_insert(c: &mut Criterion) {
     let mut group = c.benchmark_group("insert");
-    
+
     for &n in &[500usize, 5_000] {
         let cidrs_ipv4 = generate_cidrs_ipv4(n);
         let cidrs_ipv6 = generate_cidrs_ipv6(n);
@@ -589,9 +594,9 @@ fn bench_concurrent_lookup_uncompressed(c: &mut Criterion) {
                         })
                     })
                     .collect();
-            for h in handles {
-                h.join().unwrap();
-            }
+                for h in handles {
+                    h.join().unwrap();
+                }
             });
         });
     }
