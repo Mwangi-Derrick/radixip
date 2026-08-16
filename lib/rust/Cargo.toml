@@ -48,6 +48,7 @@ napi = { workspace = true, optional = true }
 napi-derive = { workspace = true, optional = true }
 dashmap = { workspace = true }
 crossbeam = { workspace = true }
+rand = "0.10.2"
 
 
 # Optional: Benchmarks
