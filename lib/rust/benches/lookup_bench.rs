@@ -11,6 +11,7 @@ use radixip::{EngineVariant, Metadata, NodeVariant, RadixEngine, engine::EngineW
 use std::net::IpAddr;
 use std::str::FromStr;
 use std::time::Duration;
+use rand::*;
 
 // ---------------------------------------------------------------------------
 // Dataset generators
