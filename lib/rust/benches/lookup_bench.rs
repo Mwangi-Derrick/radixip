@@ -8,10 +8,10 @@
 use criterion::{BatchSize, BenchmarkId, Criterion, Throughput, criterion_group, criterion_main};
 use ipnetwork::IpNetwork;
 use radixip::{EngineVariant, Metadata, NodeVariant, RadixEngine, engine::EngineWrapper};
+use rand::*;
 use std::net::IpAddr;
 use std::str::FromStr;
 use std::time::Duration;
-use rand::*;
 
 // ---------------------------------------------------------------------------
 // Dataset generators
@@ -281,8 +281,8 @@ fn bench_lookup(c: &mut Criterion) {
     for &n in &[500usize, 5_000] {
         let cidrs_ipv4 = generate_cidrs_ipv4(n);
         let cidrs_ipv6 = generate_cidrs_ipv6(n);
-        let ips_ipv4 = generate_ips_ipv4(n);  // Generate IPs for lookup
-        let ips_ipv6 = generate_ips_ipv6(n);  // Generate IPs for lookup
+        let ips_ipv4 = generate_ips_ipv4(n); // Generate IPs for lookup
+        let ips_ipv6 = generate_ips_ipv6(n); // Generate IPs for lookup
         let meta = Metadata::new("bench");
 
         group.throughput(Throughput::Elements(n as u64));
@@ -321,9 +321,8 @@ fn bench_lookup(c: &mut Criterion) {
                         },
                         |engine| {
                             for ip in &ips_ipv4 {
-                                let _ = criterion::black_box(
-                                    engine.lookup(criterion::black_box(ip)),
-                                );
+                                let _ =
+                                    criterion::black_box(engine.lookup(criterion::black_box(ip)));
                             }
                         },
                         BatchSize::SmallInput,
@@ -358,9 +357,8 @@ fn bench_lookup(c: &mut Criterion) {
                         },
                         |engine| {
                             for ip in &ips_ipv4 {
-                                let _ = criterion::black_box(
-                                    engine.lookup(criterion::black_box(ip)),
-                                );
+                                let _ =
+                                    criterion::black_box(engine.lookup(criterion::black_box(ip)));
                             }
                         },
                         BatchSize::SmallInput,
@@ -394,9 +392,8 @@ fn bench_lookup(c: &mut Criterion) {
                         },
                         |engine| {
                             for ip in &ips_ipv4 {
-                                let _ = criterion::black_box(
-                                    engine.lookup(criterion::black_box(ip)),
-                                );
+                                let _ =
+                                    criterion::black_box(engine.lookup(criterion::black_box(ip)));
                             }
                         },
                         BatchSize::SmallInput,
@@ -431,9 +428,8 @@ fn bench_lookup(c: &mut Criterion) {
                         },
                         |engine| {
                             for ip in &ips_ipv6 {
-                                let _ = criterion::black_box(
-                                    engine.lookup(criterion::black_box(ip)),
-                                );
+                                let _ =
+                                    criterion::black_box(engine.lookup(criterion::black_box(ip)));
                             }
                         },
                         BatchSize::SmallInput,
@@ -467,9 +463,8 @@ fn bench_lookup(c: &mut Criterion) {
                         },
                         |engine| {
                             for ip in &ips_ipv6 {
-                                let _ = criterion::black_box(
-                                    engine.lookup(criterion::black_box(ip)),
-                                );
+                                let _ =
+                                    criterion::black_box(engine.lookup(criterion::black_box(ip)));
                             }
                         },
                         BatchSize::SmallInput,
@@ -503,9 +498,8 @@ fn bench_lookup(c: &mut Criterion) {
                         },
                         |engine| {
                             for ip in &ips_ipv6 {
-                                let _ = criterion::black_box(
-                                    engine.lookup(criterion::black_box(ip)),
-                                );
+                                let _ =
+                                    criterion::black_box(engine.lookup(criterion::black_box(ip)));
                             }
                         },
                         BatchSize::SmallInput,
