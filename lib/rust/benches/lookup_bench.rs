@@ -16,8 +16,8 @@ use std::time::Duration;
 // Dataset generators
 // ---------------------------------------------------------------------------
 
-/// Generate N realistic-looking /24 CIDR blocks spread across the 10.x.x.0/24 space.
-fn generate_cidrs(n: usize) -> Vec<IpNetwork> {
+/// Generate N realistic-looking /24 CIDR blocks spread across the 10.x.x.0/24 space (IPv4).
+fn generate_cidrs_ipv4(n: usize) -> Vec<IpNetwork> {
     (0..n)
         .map(|i| {
             let a = (i / (256 * 256)) % 256;
@@ -28,8 +28,21 @@ fn generate_cidrs(n: usize) -> Vec<IpNetwork> {
         .collect()
 }
 
-/// Generate N IP addresses that are guaranteed to hit the inserted /24 blocks.
-fn generate_ips(n: usize) -> Vec<IpAddr> {
+/// Generate N realistic-looking /64 CIDR blocks spread across the fd00::/8 ULA space (IPv6).
+fn generate_cidrs_ipv6(n: usize) -> Vec<IpNetwork> {
+    (0..n)
+        .map(|i| {
+            let low = (i % 65536) as u16;
+            let high = (i / 65536) as u16;
+            format!("fd{:02x}:{:04x}:{:04x}::/64", (i / (65536 * 65536)) % 256, high, low)
+                .parse()
+                .unwrap()
+        })
+        .collect()
+}
+
+/// Generate N IPv4 addresses that are guaranteed to hit the inserted /24 blocks.
+fn generate_ips_ipv4(n: usize) -> Vec<IpAddr> {
     (0..n)
         .map(|i| {
             let a = (i / (256 * 256)) % 256;
@@ -40,15 +53,48 @@ fn generate_ips(n: usize) -> Vec<IpAddr> {
         .collect()
 }
 
-/// Generate N IP addresses that are guaranteed NOT to match (cold misses).
+/// Generate N IPv6 addresses that are guaranteed to hit the inserted /64 blocks.
+fn generate_ips_ipv6(n: usize) -> Vec<IpAddr> {
+    (0..n)
+        .map(|i| {
+            let low = (i % 65536) as u16;
+            let high = (i / 65536) as u16;
+            format!("fd{:02x}:{:04x}:{:04x}:{:04x}:dead:beef:cafe:feed", 
+                (i / (65536 * 65536)) % 256, 
+                high, 
+                low,
+                (i % 256) as u16)
+                .parse()
+                .unwrap()
+        })
+        .collect()
+}
+
+/// Generate N IPv4 addresses that are guaranteed NOT to match (cold misses).
 #[allow(dead_code)]
-fn generate_miss_ips(n: usize) -> Vec<IpAddr> {
+fn generate_miss_ips_ipv4(n: usize) -> Vec<IpAddr> {
     (0..n)
         .map(|i| {
             let a = (i / (256 * 256)) % 256;
             let b = (i / 256) % 256;
             let c = i % 256;
             IpAddr::from_str(&format!("172.{a}.{b}.{c}")).unwrap()
+        })
+        .collect()
+}
+
+/// Generate N IPv6 addresses that are guaranteed NOT to match (cold misses).
+#[allow(dead_code)]
+fn generate_miss_ips_ipv6(n: usize) -> Vec<IpAddr> {
+    (0..n)
+        .map(|i| {
+            let low = (i % 65536) as u16;
+            let high = (i / 65536) as u16;
+            format!("2001:db8:{:04x}:{:04x}:dead:beef:cafe:feed", 
+                high, 
+                low)
+                .parse()
+                .unwrap()
         })
         .collect()
 }
@@ -62,11 +108,18 @@ fn build_engine(
     node_variant: NodeVariant,
     compressed: bool,
     routes: usize,
+    ipv6: bool,
 ) -> EngineWrapper {
     let engine = EngineWrapper::new(variant, node_variant, compressed);
-    // Simplified metadata to match Go implementation
     let meta = Metadata::new("bench");
-    for cidr in generate_cidrs(routes) {
+    
+    let cidrs = if ipv6 {
+        generate_cidrs_ipv6(routes)
+    } else {
+        generate_cidrs_ipv4(routes)
+    };
+    
+    for cidr in cidrs {
         let _ = engine.insert(cidr, meta.clone());
     }
     engine
@@ -89,9 +142,10 @@ fn compressed_variant(node_variant: NodeVariant) -> NodeVariant {
 
 fn bench_insert(c: &mut Criterion) {
     let mut group = c.benchmark_group("insert");
-    // Match Go's 5k only, or keep both? Keeping both for more comprehensive testing
+    
     for &n in &[500usize, 5_000] {
-        let cidrs = generate_cidrs(n);
+        let cidrs_ipv4 = generate_cidrs_ipv4(n);
+        let cidrs_ipv6 = generate_cidrs_ipv6(n);
         let meta = Metadata::new("bench");
 
         group.throughput(Throughput::Elements(n as u64));
@@ -102,14 +156,15 @@ fn bench_insert(c: &mut Criterion) {
             NodeVariant::PaddedTrieNode,
             NodeVariant::LockFreeTrieNode,
         ] {
+            // IPv4 Benchmarks
             group.bench_with_input(
-                BenchmarkId::new(format!("uncompressed/{nv:?}"), n),
+                BenchmarkId::new(format!("ipv4/uncompressed/{nv:?}"), n),
                 &n,
                 |b, _| {
                     b.iter_batched(
                         || EngineWrapper::new(EngineVariant::Concurrent, nv, false),
                         |engine| {
-                            for cidr in &cidrs {
+                            for cidr in &cidrs_ipv4 {
                                 let _ = criterion::black_box(
                                     engine.insert(*cidr, criterion::black_box(meta.clone())),
                                 );
@@ -122,13 +177,13 @@ fn bench_insert(c: &mut Criterion) {
 
             let cnv = compressed_variant(nv);
             group.bench_with_input(
-                BenchmarkId::new(format!("compressed/{cnv:?}"), n),
+                BenchmarkId::new(format!("ipv4/compressed/{cnv:?}"), n),
                 &n,
                 |b, _| {
                     b.iter_batched(
                         || EngineWrapper::new(EngineVariant::Concurrent, cnv, true),
                         |engine| {
-                            for cidr in &cidrs {
+                            for cidr in &cidrs_ipv4 {
                                 let _ = criterion::black_box(
                                     engine.insert(*cidr, criterion::black_box(meta.clone())),
                                 );
@@ -139,13 +194,67 @@ fn bench_insert(c: &mut Criterion) {
                 },
             );
             group.bench_with_input(
-                BenchmarkId::new(format!("compressed/ART/{cnv:?}"), n),
+                BenchmarkId::new(format!("ipv4/compressed/ART/{cnv:?}"), n),
                 &n,
                 |b, _| {
                     b.iter_batched(
                         || EngineWrapper::new(EngineVariant::ART, cnv, true),
                         |engine| {
-                            for cidr in &cidrs {
+                            for cidr in &cidrs_ipv4 {
+                                let _ = criterion::black_box(
+                                    engine.insert(*cidr, criterion::black_box(meta.clone())),
+                                );
+                            }
+                        },
+                        BatchSize::SmallInput,
+                    );
+                },
+            );
+
+            // IPv6 Benchmarks
+            group.bench_with_input(
+                BenchmarkId::new(format!("ipv6/uncompressed/{nv:?}"), n),
+                &n,
+                |b, _| {
+                    b.iter_batched(
+                        || EngineWrapper::new(EngineVariant::Concurrent, nv, false),
+                        |engine| {
+                            for cidr in &cidrs_ipv6 {
+                                let _ = criterion::black_box(
+                                    engine.insert(*cidr, criterion::black_box(meta.clone())),
+                                );
+                            }
+                        },
+                        BatchSize::SmallInput,
+                    );
+                },
+            );
+
+            group.bench_with_input(
+                BenchmarkId::new(format!("ipv6/compressed/{cnv:?}"), n),
+                &n,
+                |b, _| {
+                    b.iter_batched(
+                        || EngineWrapper::new(EngineVariant::Concurrent, cnv, true),
+                        |engine| {
+                            for cidr in &cidrs_ipv6 {
+                                let _ = criterion::black_box(
+                                    engine.insert(*cidr, criterion::black_box(meta.clone())),
+                                );
+                            }
+                        },
+                        BatchSize::SmallInput,
+                    );
+                },
+            );
+            group.bench_with_input(
+                BenchmarkId::new(format!("ipv6/compressed/ART/{cnv:?}"), n),
+                &n,
+                |b, _| {
+                    b.iter_batched(
+                        || EngineWrapper::new(EngineVariant::ART, cnv, true),
+                        |engine| {
+                            for cidr in &cidrs_ipv6 {
                                 let _ = criterion::black_box(
                                     engine.insert(*cidr, criterion::black_box(meta.clone())),
                                 );
@@ -299,7 +408,8 @@ fn bench_concurrent_lookup_compressed(c: &mut Criterion) {
 
     let mut group = c.benchmark_group("concurrent_lookup/compressed");
     let n = 25_000usize;
-    let ips = Arc::new(generate_ips(n));
+    let ips_ipv4 = Arc::new(generate_ips_ipv4(n));
+    let ips_ipv6 = Arc::new(generate_ips_ipv6(n));
 
     for &nv in &[
         NodeVariant::NormalRadixNode,
@@ -307,14 +417,36 @@ fn bench_concurrent_lookup_compressed(c: &mut Criterion) {
         NodeVariant::PaddedRadixNode,
         NodeVariant::LockFreeRadixNode,
     ] {
-        let engine = Arc::new(build_engine(EngineVariant::Concurrent, nv, true, n));
-        group.throughput(Throughput::Elements((n * 4) as u64)); // 4 threads
-        group.bench_function(format!("4_threads/{nv:?}"), |b| {
+        // IPv4
+        let engine = Arc::new(build_engine(EngineVariant::Concurrent, nv, true, n, false));
+        group.throughput(Throughput::Elements((n * 4) as u64));
+        group.bench_function(format!("ipv4/4_threads/{nv:?}"), |b| {
             b.iter(|| {
                 let handles: Vec<_> = (0..4)
                     .map(|_| {
                         let e = Arc::clone(&engine);
-                        let ips = Arc::clone(&ips);
+                        let ips = Arc::clone(&ips_ipv4);
+                        thread::spawn(move || {
+                            for ip in ips.iter() {
+                                let _ = criterion::black_box(e.lookup(criterion::black_box(ip)));
+                            }
+                        })
+                    })
+                    .collect();
+                for h in handles {
+                    h.join().unwrap();
+                }
+            });
+        });
+
+        // IPv6
+        let engine = Arc::new(build_engine(EngineVariant::Concurrent, nv, true, n, true));
+        group.bench_function(format!("ipv6/4_threads/{nv:?}"), |b| {
+            b.iter(|| {
+                let handles: Vec<_> = (0..4)
+                    .map(|_| {
+                        let e = Arc::clone(&engine);
+                        let ips = Arc::clone(&ips_ipv6);
                         thread::spawn(move || {
                             for ip in ips.iter() {
                                 let _ = criterion::black_box(e.lookup(criterion::black_box(ip)));
@@ -331,7 +463,9 @@ fn bench_concurrent_lookup_compressed(c: &mut Criterion) {
     group.finish();
 }
 
-//  Bench Concurrent ART Lookup
+// ---------------------------------------------------------------------------
+// Concurrent ART Lookup
+// ---------------------------------------------------------------------------
 
 fn bench_concurrent_lookup_art(c: &mut Criterion) {
     use std::sync::Arc;
@@ -339,21 +473,51 @@ fn bench_concurrent_lookup_art(c: &mut Criterion) {
 
     let mut group = c.benchmark_group("concurrent_lookup/art");
     let n = 25_000usize;
-    let ips = Arc::new(generate_ips(n));
+    let ips_ipv4 = Arc::new(generate_ips_ipv4(n));
+    let ips_ipv6 = Arc::new(generate_ips_ipv6(n));
 
+    // IPv4
     let engine = Arc::new(build_engine(
         EngineVariant::ART,
         NodeVariant::NormalRadixNode,
         true,
         n,
+        false,
     ));
-    group.throughput(Throughput::Elements((n * 4) as u64)); // 4 threads
-    group.bench_function("4_threads/ART", |b| {
+    group.throughput(Throughput::Elements((n * 4) as u64));
+    group.bench_function("ipv4/4_threads/ART", |b| {
         b.iter(|| {
             let handles: Vec<_> = (0..4)
                 .map(|_| {
                     let e = Arc::clone(&engine);
-                    let ips = Arc::clone(&ips);
+                    let ips = Arc::clone(&ips_ipv4);
+                    thread::spawn(move || {
+                        for ip in ips.iter() {
+                            let _ = criterion::black_box(e.lookup(criterion::black_box(ip)));
+                        }
+                    })
+                })
+                .collect();
+            for h in handles {
+                h.join().unwrap();
+            }
+        });
+    });
+
+    // IPv6
+    let engine = Arc::new(build_engine(
+        EngineVariant::ART,
+        NodeVariant::NormalRadixNode,
+        true,
+        n,
+        true,
+    ));
+    group.bench_function("ipv6/4_threads/ART", |b| {
+        b.iter(|| {
+            let handles: Vec<_> = (0..4)
+                .map(|_| {
+                    let e = Arc::clone(&engine);
+                    let ips = Arc::clone(&ips_ipv6);
                     thread::spawn(move || {
                         for ip in ips.iter() {
                             let _ = criterion::black_box(e.lookup(criterion::black_box(ip)));
@@ -370,7 +534,7 @@ fn bench_concurrent_lookup_art(c: &mut Criterion) {
 }
 
 // ---------------------------------------------------------------------------
-// Concurrent Lookup Benchmarks - Uncompressed (NEW to match Go)
+// Concurrent Lookup Benchmarks - Uncompressed
 // ---------------------------------------------------------------------------
 
 fn bench_concurrent_lookup_uncompressed(c: &mut Criterion) {
@@ -379,7 +543,8 @@ fn bench_concurrent_lookup_uncompressed(c: &mut Criterion) {
 
     let mut group = c.benchmark_group("concurrent_lookup/uncompressed");
     let n = 25_000usize;
-    let ips = Arc::new(generate_ips(n));
+    let ips_ipv4 = Arc::new(generate_ips_ipv4(n));
+    let ips_ipv6 = Arc::new(generate_ips_ipv6(n));
 
     for &nv in &[
         NodeVariant::NormalTrieNode,
@@ -387,14 +552,15 @@ fn bench_concurrent_lookup_uncompressed(c: &mut Criterion) {
         NodeVariant::PaddedTrieNode,
         NodeVariant::LockFreeTrieNode,
     ] {
-        let engine = Arc::new(build_engine(EngineVariant::Concurrent, nv, false, n));
-        group.throughput(Throughput::Elements((n * 4) as u64)); // 4 threads
-        group.bench_function(format!("4_threads/{nv:?}"), |b| {
+        // IPv4
+        let engine = Arc::new(build_engine(EngineVariant::Concurrent, nv, false, n, false));
+        group.throughput(Throughput::Elements((n * 4) as u64));
+        group.bench_function(format!("ipv4/4_threads/{nv:?}"), |b| {
             b.iter(|| {
                 let handles: Vec<_> = (0..4)
                     .map(|_| {
                         let e = Arc::clone(&engine);
-                        let ips = Arc::clone(&ips);
+                        let ips = Arc::clone(&ips_ipv4);
                         thread::spawn(move || {
                             for ip in ips.iter() {
                                 let _ = criterion::black_box(e.lookup(criterion::black_box(ip)));
@@ -405,6 +571,27 @@ fn bench_concurrent_lookup_uncompressed(c: &mut Criterion) {
                 for h in handles {
                     h.join().unwrap();
                 }
+            });
+        });
+
+        // IPv6
+        let engine = Arc::new(build_engine(EngineVariant::Concurrent, nv, false, n, true));
+        group.bench_function(format!("ipv6/4_threads/{nv:?}"), |b| {
+            b.iter(|| {
+                let handles: Vec<_> = (0..4)
+                    .map(|_| {
+                        let e = Arc::clone(&engine);
+                        let ips = Arc::clone(&ips_ipv6);
+                        thread::spawn(move || {
+                            for ip in ips.iter() {
+                                let _ = criterion::black_box(e.lookup(criterion::black_box(ip)));
+                            }
+                        })
+                    })
+                    .collect();
+            for h in handles {
+                h.join().unwrap();
+            }
             });
         });
     }
