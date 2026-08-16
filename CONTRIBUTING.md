@@ -38,14 +38,14 @@ Before writing code, ensure the baseline passes across all modules.
 **Go Module (radixip-go):**
 
 ```bash
-cd radixip-go
+cd lib/go
 go test -v ./...
 ```
 
 **Rust Crate (radixip-rs):**
 
 ```bash
-cd radixip-rs
+cd lib/rust
 cargo test
 ```
 
@@ -60,7 +60,7 @@ We enforce a strict continuous benchmarking pipeline. If you submit a feature or
 **For Go changes:**
 
 ```bash
-cd radixip-go
+cd lib/go
 go test -bench=. -benchmem ./... > go_new_bench.txt
 ```
 
@@ -69,7 +69,7 @@ Verify that `allocs/op` stays strictly at `0` for lookups.
 **For Rust changes:**
 
 ```bash
-cd radixip-rs
+cd lib/rust
 cargo bench -- --output-format bencher > rust_new_bench.txt
 ```
 
