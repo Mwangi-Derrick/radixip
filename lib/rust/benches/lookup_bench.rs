@@ -274,6 +274,203 @@ fn bench_insert(c: &mut Criterion) {
     group.finish();
 }
 
+fn bench_lookup(c: &mut Criterion) {
+    let mut group = c.benchmark_group("lookup");
+
+    for &n in &[500usize, 5_000] {
+        let cidrs_ipv4 = generate_cidrs_ipv4(n);
+        let cidrs_ipv6 = generate_cidrs_ipv6(n);
+        let meta = Metadata::new("bench");
+
+        group.throughput(Throughput::Elements(n as u64));
+
+        for &nv in &[
+            NodeVariant::NormalTrieNode,
+            NodeVariant::AtomicTrieNode,
+            NodeVariant::PaddedTrieNode,
+            NodeVariant::LockFreeTrieNode,
+        ] {
+            // Pre-populate engines for IPv4
+            let engines_ipv4: Vec<_> = (0..4)
+                .map(|_| {
+                    let engine = EngineWrapper::new(EngineVariant::Concurrent, nv, false);
+                    for cidr in &cidrs_ipv4 {
+                        let _ = engine.insert(*cidr, meta.clone());
+                    }
+                    engine
+                })
+                .collect();
+
+            // IPv4 Benchmarks - Uncompressed
+            group.bench_with_input(
+                BenchmarkId::new(format!("ipv4/uncompressed/{:?}", nv), n),
+                &n,
+                |b, _| {
+                    b.iter_batched(
+                        || engines_ipv4[rand::random::<usize>() % 4].clone(),
+                        |engine| {
+                            for cidr in &cidrs_ipv4 {
+                                let _ = criterion::black_box(
+                                    engine.lookup(criterion::black_box(*cidr)),
+                                );
+                            }
+                        },
+                        BatchSize::SmallInput,
+                    );
+                },
+            );
+
+            // IPv4 Benchmarks - Compressed
+            let cnv = compressed_variant(nv);
+            let engines_ipv4_compressed: Vec<_> = (0..4)
+                .map(|_| {
+                    let engine = EngineWrapper::new(EngineVariant::Concurrent, cnv, true);
+                    for cidr in &cidrs_ipv4 {
+                        let _ = engine.insert(*cidr, meta.clone());
+                    }
+                    engine
+                })
+                .collect();
+
+            group.bench_with_input(
+                BenchmarkId::new(format!("ipv4/compressed/{:?}", cnv), n),
+                &n,
+                |b, _| {
+                    b.iter_batched(
+                        || engines_ipv4_compressed[rand::random::<usize>() % 4].clone(),
+                        |engine| {
+                            for cidr in &cidrs_ipv4 {
+                                let _ = criterion::black_box(
+                                    engine.lookup(criterion::black_box(*cidr)),
+                                );
+                            }
+                        },
+                        BatchSize::SmallInput,
+                    );
+                },
+            );
+
+            // IPv4 Benchmarks - Compressed ART
+            let engines_ipv4_art: Vec<_> = (0..4)
+                .map(|_| {
+                    let engine = EngineWrapper::new(EngineVariant::ART, cnv, true);
+                    for cidr in &cidrs_ipv4 {
+                        let _ = engine.insert(*cidr, meta.clone());
+                    }
+                    engine
+                })
+                .collect();
+
+            group.bench_with_input(
+                BenchmarkId::new(format!("ipv4/compressed/ART/{:?}", cnv), n),
+                &n,
+                |b, _| {
+                    b.iter_batched(
+                        || engines_ipv4_art[rand::random::<usize>() % 4].clone(),
+                        |engine| {
+                            for cidr in &cidrs_ipv4 {
+                                let _ = criterion::black_box(
+                                    engine.lookup(criterion::black_box(*cidr)),
+                                );
+                            }
+                        },
+                        BatchSize::SmallInput,
+                    );
+                },
+            );
+
+            // Pre-populate engines for IPv6
+            let engines_ipv6: Vec<_> = (0..4)
+                .map(|_| {
+                    let engine = EngineWrapper::new(EngineVariant::Concurrent, nv, false);
+                    for cidr in &cidrs_ipv6 {
+                        let _ = engine.insert(*cidr, meta.clone());
+                    }
+                    engine
+                })
+                .collect();
+
+            // IPv6 Benchmarks - Uncompressed
+            group.bench_with_input(
+                BenchmarkId::new(format!("ipv6/uncompressed/{:?}", nv), n),
+                &n,
+                |b, _| {
+                    b.iter_batched(
+                        || engines_ipv6[rand::random::<usize>() % 4].clone(),
+                        |engine| {
+                            for cidr in &cidrs_ipv6 {
+                                let _ = criterion::black_box(
+                                    engine.lookup(criterion::black_box(*cidr)),
+                                );
+                            }
+                        },
+                        BatchSize::SmallInput,
+                    );
+                },
+            );
+
+            // IPv6 Benchmarks - Compressed
+            let engines_ipv6_compressed: Vec<_> = (0..4)
+                .map(|_| {
+                    let engine = EngineWrapper::new(EngineVariant::Concurrent, cnv, true);
+                    for cidr in &cidrs_ipv6 {
+                        let _ = engine.insert(*cidr, meta.clone());
+                    }
+                    engine
+                })
+                .collect();
+
+            group.bench_with_input(
+                BenchmarkId::new(format!("ipv6/compressed/{:?}", cnv), n),
+                &n,
+                |b, _| {
+                    b.iter_batched(
+                        || engines_ipv6_compressed[rand::random::<usize>() % 4].clone(),
+                        |engine| {
+                            for cidr in &cidrs_ipv6 {
+                                let _ = criterion::black_box(
+                                    engine.lookup(criterion::black_box(*cidr)),
+                                );
+                            }
+                        },
+                        BatchSize::SmallInput,
+                    );
+                },
+            );
+
+            // IPv6 Benchmarks - Compressed ART
+            let engines_ipv6_art: Vec<_> = (0..4)
+                .map(|_| {
+                    let engine = EngineWrapper::new(EngineVariant::ART, cnv, true);
+                    for cidr in &cidrs_ipv6 {
+                        let _ = engine.insert(*cidr, meta.clone());
+                    }
+                    engine
+                })
+                .collect();
+
+            group.bench_with_input(
+                BenchmarkId::new(format!("ipv6/compressed/ART/{:?}", cnv), n),
+                &n,
+                |b, _| {
+                    b.iter_batched(
+                        || engines_ipv6_art[rand::random::<usize>() % 4].clone(),
+                        |engine| {
+                            for cidr in &cidrs_ipv6 {
+                                let _ = criterion::black_box(
+                                    engine.lookup(criterion::black_box(*cidr)),
+                                );
+                            }
+                        },
+                        BatchSize::SmallInput,
+                    );
+                },
+            );
+        }
+    }
+    group.finish();
+}
+
 // fn bench_lookup_hit(c: &mut Criterion) {
 //     let mut group = c.benchmark_group("lookup/hit");
 //     // Reduced dataset sizes to 5k, 25k, 50k for memory efficiency
