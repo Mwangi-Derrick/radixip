@@ -281,6 +281,8 @@ fn bench_lookup(c: &mut Criterion) {
     for &n in &[500usize, 5_000] {
         let cidrs_ipv4 = generate_cidrs_ipv4(n);
         let cidrs_ipv6 = generate_cidrs_ipv6(n);
+        let ips_ipv4 = generate_ips_ipv4(n);  // Generate IPs for lookup
+        let ips_ipv6 = generate_ips_ipv6(n);  // Generate IPs for lookup
         let meta = Metadata::new("bench");
 
         group.throughput(Throughput::Elements(n as u64));
@@ -308,11 +310,19 @@ fn bench_lookup(c: &mut Criterion) {
                 &n,
                 |b, _| {
                     b.iter_batched(
-                        || engines_ipv4[rand::random::<usize>() % 4].clone(),
+                        || {
+                            // Simple round-robin instead of random
+                            static mut COUNTER: usize = 0;
+                            unsafe {
+                                let idx = COUNTER % 4;
+                                COUNTER += 1;
+                                engines_ipv4[idx].clone()
+                            }
+                        },
                         |engine| {
-                            for cidr in &cidrs_ipv4 {
+                            for ip in &ips_ipv4 {
                                 let _ = criterion::black_box(
-                                    engine.lookup(criterion::black_box(*cidr)),
+                                    engine.lookup(criterion::black_box(ip)),
                                 );
                             }
                         },
@@ -338,11 +348,18 @@ fn bench_lookup(c: &mut Criterion) {
                 &n,
                 |b, _| {
                     b.iter_batched(
-                        || engines_ipv4_compressed[rand::random::<usize>() % 4].clone(),
+                        || {
+                            static mut COUNTER: usize = 0;
+                            unsafe {
+                                let idx = COUNTER % 4;
+                                COUNTER += 1;
+                                engines_ipv4_compressed[idx].clone()
+                            }
+                        },
                         |engine| {
-                            for cidr in &cidrs_ipv4 {
+                            for ip in &ips_ipv4 {
                                 let _ = criterion::black_box(
-                                    engine.lookup(criterion::black_box(*cidr)),
+                                    engine.lookup(criterion::black_box(ip)),
                                 );
                             }
                         },
@@ -367,11 +384,18 @@ fn bench_lookup(c: &mut Criterion) {
                 &n,
                 |b, _| {
                     b.iter_batched(
-                        || engines_ipv4_art[rand::random::<usize>() % 4].clone(),
+                        || {
+                            static mut COUNTER: usize = 0;
+                            unsafe {
+                                let idx = COUNTER % 4;
+                                COUNTER += 1;
+                                engines_ipv4_art[idx].clone()
+                            }
+                        },
                         |engine| {
-                            for cidr in &cidrs_ipv4 {
+                            for ip in &ips_ipv4 {
                                 let _ = criterion::black_box(
-                                    engine.lookup(criterion::black_box(*cidr)),
+                                    engine.lookup(criterion::black_box(ip)),
                                 );
                             }
                         },
@@ -397,11 +421,18 @@ fn bench_lookup(c: &mut Criterion) {
                 &n,
                 |b, _| {
                     b.iter_batched(
-                        || engines_ipv6[rand::random::<usize>() % 4].clone(),
+                        || {
+                            static mut COUNTER: usize = 0;
+                            unsafe {
+                                let idx = COUNTER % 4;
+                                COUNTER += 1;
+                                engines_ipv6[idx].clone()
+                            }
+                        },
                         |engine| {
-                            for cidr in &cidrs_ipv6 {
+                            for ip in &ips_ipv6 {
                                 let _ = criterion::black_box(
-                                    engine.lookup(criterion::black_box(*cidr)),
+                                    engine.lookup(criterion::black_box(ip)),
                                 );
                             }
                         },
@@ -426,11 +457,18 @@ fn bench_lookup(c: &mut Criterion) {
                 &n,
                 |b, _| {
                     b.iter_batched(
-                        || engines_ipv6_compressed[rand::random::<usize>() % 4].clone(),
+                        || {
+                            static mut COUNTER: usize = 0;
+                            unsafe {
+                                let idx = COUNTER % 4;
+                                COUNTER += 1;
+                                engines_ipv6_compressed[idx].clone()
+                            }
+                        },
                         |engine| {
-                            for cidr in &cidrs_ipv6 {
+                            for ip in &ips_ipv6 {
                                 let _ = criterion::black_box(
-                                    engine.lookup(criterion::black_box(*cidr)),
+                                    engine.lookup(criterion::black_box(ip)),
                                 );
                             }
                         },
@@ -455,11 +493,18 @@ fn bench_lookup(c: &mut Criterion) {
                 &n,
                 |b, _| {
                     b.iter_batched(
-                        || engines_ipv6_art[rand::random::<usize>() % 4].clone(),
+                        || {
+                            static mut COUNTER: usize = 0;
+                            unsafe {
+                                let idx = COUNTER % 4;
+                                COUNTER += 1;
+                                engines_ipv6_art[idx].clone()
+                            }
+                        },
                         |engine| {
-                            for cidr in &cidrs_ipv6 {
+                            for ip in &ips_ipv6 {
                                 let _ = criterion::black_box(
-                                    engine.lookup(criterion::black_box(*cidr)),
+                                    engine.lookup(criterion::black_box(ip)),
                                 );
                             }
                         },
