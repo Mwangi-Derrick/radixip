@@ -54,6 +54,14 @@ jobs:
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
         run: cargo publish -p radixip_rs --no-verify
+    # Add to your publish-rust job
+      - name: Build documentation
+        run: cargo doc --no-deps -p radixip_rs
+
+      - name: Upload docs to GitHub Pages (optional)
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: target/doc
 
   # ===========================================================================
   # 3. Build & publish C/C++ shared libraries for Linux, macOS, Windows
