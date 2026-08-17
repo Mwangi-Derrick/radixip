@@ -1,4 +1,4 @@
-//! Uncompressed (bit-by-bit) radix trie node implementations.
+//! Uncompressed (bit-by-bit) trie node implementations.
 //!
 //! These nodes store a single `bit` value and left/right children,
 //! traversed one bit at a time. There are three concurrency variants:
