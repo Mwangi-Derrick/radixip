@@ -1,10 +1,10 @@
-// tree.rs — ART Tree with non-byte-aligned CIDR prefix support
-//
-// Non-byte-aligned prefix support (/25, /17, etc.)
-// ART routes by full bytes.  For a /25 prefix we only consume ⌈25/8⌉ = 4
-// bytes but at depth 3 (the boundary byte) we mask out the host bits before
-// using the byte as a child index.  The leaf stores `prefix_len` and
-// `masked_key` so lookup can validate the significant bits.
+//! tree.rs — ART Tree with non-byte-aligned CIDR prefix support
+//!
+//! Non-byte-aligned prefix support (/25, /17, etc.)
+//! ART routes by full bytes.  For a /25 prefix we only consume ⌈25/8⌉ = 4
+//! bytes but at depth 3 (the boundary byte) we mask out the host bits before
+//! using the byte as a child index.  The leaf stores `prefix_len` and
+//! `masked_key` so lookup can validate the significant bits.
 
 use super::{LeafNode, Node4, NodeBox};
 use std::ptr;

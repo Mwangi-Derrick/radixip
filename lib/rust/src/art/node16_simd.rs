@@ -1,13 +1,13 @@
-// node16_simd.rs — SIMD-accelerated key search for ART Node16
-//
-// Priority order (fastest first):
-//   1. AVX2   — x86_64 with 256-bit registers  (ymm)
-//   2. SSE4.1 — x86_64 with 128-bit registers  (xmm)  ← most common baseline
-//   3. NEON   — aarch64 (Apple Silicon, AWS Graviton, RPi4+)
-//   4. Scalar — safe fallback for everything else
-//
-// All paths are branchless once the feature is detected at runtime (x86) or
-// compile-time (NEON is always present on aarch64).
+//! node16_simd.rs — SIMD-accelerated key search for ART Node16
+//!
+//! Priority order (fastest first):
+//!   1. AVX2   — x86_64 with 256-bit registers  (ymm)
+//!   2. SSE4.1 — x86_64 with 128-bit registers  (xmm)  ← most common baseline
+//!   3. NEON   — aarch64 (Apple Silicon, AWS Graviton, RPi4+)
+//!   4. Scalar — safe fallback for everything else
+//!
+//! All paths are branchless once the feature is detected at runtime (x86) or
+//! compile-time (NEON is always present on aarch64).
 
 /// Find the index of `target` in the first `count` entries of `keys`.
 /// Returns `Some(index)` on hit, `None` on miss.

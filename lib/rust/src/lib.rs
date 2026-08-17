@@ -1,6 +1,6 @@
 //! RadixIP - High-performance IP subnet caching engine
 //!
-//! This library provides a lock-free binary radix tree for
+//! This library provides three trees, a binary trie, a radix tree and Adaptive Radix Tree (ART),for
 //! longest-prefix matching of IP addresses against CIDR blocks.
 
 pub mod art;
