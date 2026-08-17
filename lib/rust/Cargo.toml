@@ -2,11 +2,11 @@
 name = "radixip_rs"
 version = "1.0.0"
 edition = "2024"
+documentation = "https://docs.rs/radixip_rs"
 authors.workspace = true
 license.workspace = true
 repository.workspace = true
 homepage.workspace = true
-documentation.workspace = true
 readme.workspace = true
 keywords.workspace = true
 categories.workspace = true
