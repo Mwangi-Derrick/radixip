@@ -5,6 +5,7 @@
 **/*.log
 **/go.sum
 **.txt
+scripts/trigger.sh
 
 **data
 
