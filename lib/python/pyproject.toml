@@ -34,7 +34,7 @@ Repository  = "https://github.com/Mwangi-Derrick/radixip"
 # The Rust package that builds the PyO3 extension
 manifest-path   = "Cargo.toml"
 module-name     = "radixip"
-python-source   = "radixip"
+python-source = "."  # Current directory contains the radixip/ folder
 features        = ["pyo3/extension-module"]
 # Build in release mode
 release         = true
