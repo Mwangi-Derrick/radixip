@@ -734,7 +734,7 @@ See [ARCHITECTURE.md](./ARCHITECTURE.md) for the full design rationale, hybrid R
 - [] Publish the PyO3 bindings to PYPI
 
 ### Protection Layer 🔨
-- [] Web framework middleware (Express, Gin, Axum, Actix,FastAPI, Django, Fiber, etc.)
+- [] Web framework middleware (Express, Gin, Axum, Actix, FastAPI, Django, Fiber, etc.)
 - [] Distributed rate limiting (Token Bucket, Sliding Window, Fixed Window)
 - [] Configurable IP flagging and auto-banning
 - [] Unified configuration format
