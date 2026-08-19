@@ -692,7 +692,7 @@ Every commit to `main` triggers our continuous benchmarking pipeline:
    - [x] SIMD acceleration (x86 SSE / ARM NEON)
    - [x] Zero-alloc lookups
    - [x] Lock-free concurrency support
-- [] Publish v1 of the rust crate to cargo.rs
+- [x] Publish v1.0.0 release of the rust crate to cargo.rs
 - [] Publish the NAPI-RS node bindings to npm
 - [] Publish the PyO3 bindings to PYPI
 
