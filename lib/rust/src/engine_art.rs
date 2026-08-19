@@ -31,6 +31,7 @@ impl Default for ARTEngineAdapter {
 }
 
 impl RadixEngine for ARTEngineAdapter {
+    // Remove 'pub' - trait methods inherit visibility from the trait
     fn insert(&self, prefix: IpNetwork, metadata: Metadata) -> Result<(), String> {
         let ip_bytes = match prefix.ip() {
             IpAddr::V4(ipv4) => ipv4.octets().to_vec(),
@@ -118,7 +119,7 @@ impl RadixEngine for ARTEngineAdapter {
 }
 
 pub struct ShardedARTEngineAdapter {
-    pub engines: Vec<ARTEngineAdapter>,
+    pub shards: Vec<ARTEngineAdapter>,
     pub num_shards: usize,
     pub shard_size: usize,
     pub mask_bits: u8,
@@ -126,14 +127,14 @@ pub struct ShardedARTEngineAdapter {
 
 impl ShardedARTEngineAdapter {
     pub fn new(num_shards: usize, shard_size: usize, mask_bits: u8) -> Self {
-        let engines = (0..num_shards)
+        let shards = (0..num_shards)
             .map(|_| ARTEngineAdapter::new())
             .collect();
         Self {
             shards,
             num_shards,
             shard_size,
-            mask_bits,
+            mask_bits: 32,
         }
     }
 
@@ -184,19 +185,19 @@ impl ShardedARTEngineAdapter {
         hash % self.num_shards
     }
 
-    fn insert(&self, prefix: IpNetwork, metadata: Metadata) -> Result<(), String> {
+    pub fn insert(&self, prefix: IpNetwork, metadata: Metadata) -> Result<(), String> {
         for shard in &self.shards {
             shard.insert(prefix, metadata.clone())?;
         }
         Ok(())
     }
 
-    fn lookup(&self, ip: &IpAddr) -> Option<Metadata> {
+    pub fn lookup(&self, ip: &IpAddr) -> Option<Metadata> {
         let shard_idx = self.get_shard(ip);
         self.shards[shard_idx].lookup(ip)
     }
 
-    fn remove(&self, prefix: &IpNetwork) -> Option<Metadata> {
+    pub fn remove(&self, prefix: &IpNetwork) -> Option<Metadata> {
         let mut removed = None;
         for shard in &self.shards {
             let shard_removed = shard.remove(prefix);
@@ -207,21 +208,35 @@ impl ShardedARTEngineAdapter {
         removed
     }
 
-    fn contains(&self, prefix: &IpNetwork) -> bool {
+    // Make this public - it's called from engine.rs
+    pub fn contains(&self, prefix: &IpNetwork) -> bool {
         self.shards
             .first()
             .map(|s| s.contains(prefix))
             .unwrap_or(false)
     }
 
-    fn clear(&self) {
+    pub fn clear(&self) {
         for shard in &self.shards {
             shard.clear();
         }
     }
 
-    fn size(&self) -> usize {
+    pub fn size(&self) -> usize {
         self.shards.first().map(|s| s.size()).unwrap_or(0)
     }
 
+    pub fn stats(&self) -> EngineStats {
+        let mut total = EngineStats::default();
+        for shard in &self.shards {
+            let stats = shard.stats();
+            total.lookups += stats.lookups;
+            total.hits += stats.hits;
+            total.misses += stats.misses;
+            total.inserts += stats.inserts;
+            total.removals += stats.removals;
+            total.size += stats.size;
+        }
+        total
+    }
 }
