@@ -116,3 +116,26 @@ impl RadixEngine for ARTEngineAdapter {
         }
     }
 }
+
+pub struct ShardedARTEngineAdapter {
+    pub engines: Vec<ARTEngineAdapter>,
+    pub num_engines: usize,
+    pub shard_size: usize,
+    pub mask_bits: u8,
+}
+
+impl ShardedARTEngineAdapter {
+    pub fn new(num_engines: usize, shard_size: usize, mask_bits: u8) -> Self {
+        let engines = (0..num_engines)
+            .map(|_| ARTEngineAdapter::new())
+            .collect();
+        Self {
+            engines,
+            num_engines,
+            shard_size,
+            mask_bits,
+        }
+    }
+
+    
+}
