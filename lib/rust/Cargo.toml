@@ -50,6 +50,7 @@ napi-derive = { workspace = true, optional = true }
 dashmap = { workspace = true }
 crossbeam = { workspace = true }
 rand = "0.10.2"
+sysinfo = "0.39.6"
 
 
 # Optional: Benchmarks
