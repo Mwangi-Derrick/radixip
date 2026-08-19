@@ -6,19 +6,25 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Go Report Card](https://goreportcard.com/badge/github.com/Mwangi-Derrick/radixip)](https://goreportcard.com/report/github.com/Mwangi-Derrick/radixip)
 
-> **The missing link between network security, DDoS mitigation, and geolocation caching.**
+> **One engine. Zero allocations. Nanosecond decisions.**
 >
-> RadixIP gives you IP filtering at memory speed: **72.6 ns/lookup in Go ART** and **60.9 ns/lookup in Rust ART** on the current CI benchmark runner.
-> Block attacks, secure databases, and save **$3.6M/year** on geolocation APIs.
+> RadixIP is the foundation for infrastructure protection—IP routing, rate limiting, and access control at memory speed. Drop it in front of any web framework, any Kubernetes cluster, any API gateway.
+>
 
-> **Go ART:** 72.6 ns/lookup - **Rust ART:** 60.9 ns/lookup - **Patricia/RadixNode tree:** 177.7-223.4 ns/lookup - **FFI:** native SIMD support in rust and Go through CGo
+> **Go ART:** 72.6 ns/lookup - **Rust ART:** 60.9 ns/lookup - **Patricia/RadixNode tree:** 177.7-223.4 ns/lookup - **FFI:** native SIMD support in rust and Go through CGo· **SIMD-accelerated**
+>
+> Block attacks. Secure databases. Save $3.6M/year on geolocation APIs. Stop abuse before it hits your app.
 
 
 ## 🎯 What is RadixIP?
 
-RadixIP is a production-grade IP subnet caching engine that solves a critical infrastructure problem:
+RadixIP is a production-grade IP subnet caching and **infrastructure protection engine**. It delivers:
 
-**The Problem**: Standard hash maps can't efficiently match IPs against dynamic CIDR blocks (`/8`, `/16`, `/24`, `/32`) at scale. Database ACLs, API gateways, and edge proxies need sub-microsecond lookups with zero GC pressure.
+- **72.6 ns** concurrent LPM lookups in Go ART — zero allocations
+- **60.9 ns** concurrent LPM lookups in Rust ART — SIMD-accelerated
+- **177.7-223.4 ns** Patricia/RadixNode tree lookups for simpler workloads
+
+**The Problem**: Standard hash maps can't efficiently match IPs against dynamic IPv4 and IPv6 CIDR blocks (`/8`, `/16`, `/24`, `/32` , `/48`, `/64`, `/96`, `/128`) at scale. Database ACLs, API gateways, and edge proxies need sub-microsecond lookups with zero GC pressure.
 
 **The Solution**: A lock-free binary radix tree with L1 (in-memory) + L2 (Redis look-aside) architecture, enabling:
 - **72.6 ns** concurrent LPM lookups in Go ART
@@ -28,7 +34,15 @@ RadixIP is a production-grade IP subnet caching engine that solves a critical in
 - **Instant global sync** via Redis Pub/Sub
 - **Multi-language support** through C-FFI bindings
 
-**The Impact**: Drop malicious traffic, enforce dynamic whitelisting, and route connections at memory speeds.
+But RadixIP is more than an IP router. It's the foundation for:
+
+- ✅ Web framework middleware (Express, Gin, Axum, FastAPI, Django, Fiber)
+- ✅ Distributed rate limiting (Token Bucket, Sliding Window, Fixed Window)
+- ✅ Configurable IP flagging and auto-banning
+- ✅ Kubernetes-native deployment (Operator, Helm, Redis HA)
+- ✅ Unified configuration — one file controls everything
+
+**Use it for:** API gateways · database ACLs · DDoS mitigation · geolocation caching · fraud detection · rate limiting · access control
 
 ## 🎯 Quick Start Example
 
@@ -533,6 +547,15 @@ By caching both individual IPs and entire structural subnet masks locally, Radix
 - **Local memory-speed lookups** → no external API call on cache hit
 - **Automatic TTL** → fresh data when needed
 
+
+### 6. Rate Limiting & Abuse Prevention ⚡
+Protect APIs from brute force attacks, scraping, and abuse. Define per-IP, per-API-key, or per-route limits with sliding window, token bucket, or fixed window algorithms. Auto-flag and ban IPs that exceed thresholds.
+
+**The Result**: Stop bad actors before they reach your application.
+
+---
+
+
 ## 📊 Performance Benchmarks
 
 The current headline benchmark is the CI-measured concurrent lookup path:
@@ -651,9 +674,8 @@ radixip-rs = "0.1.0"
 curl -LO https://github.com/Mwangi-Derrick/radixip/releases/latest/libradixip.so
 ```
 
-## **CI Pipeline**
 
-### 🔄 CI/CD Pipeline
+## 🔄 CI/CD Pipeline
 
 Every commit to `main` triggers our continuous benchmarking pipeline:
 
