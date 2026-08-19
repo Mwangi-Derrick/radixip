@@ -752,21 +752,21 @@ See [ARCHITECTURE.md](./ARCHITECTURE.md) for the full design rationale, hybrid R
 ### Multi-language bindings 🔨
 
 - [x] Publish v1.0.0 release of the rust crate to crates.io
-- [] Publish the NAPI-RS node bindings to npm
-- [] Publish the PyO3 bindings to PYPI
+- [ ] Publish the NAPI-RS node bindings to npm
+- [ ] Publish the PyO3 bindings to PYPI
 
 ### Protection Layer 🔨
-- [] Web framework middleware (Express, Gin, Axum, Actix, FastAPI, Django, Fiber, etc.)
-- [] Distributed rate limiting (Token Bucket, Sliding Window, Fixed Window)
-- [] Configurable IP flagging and auto-banning
-- [] Unified configuration format
+- [ ] Web framework middleware (Express, Gin, Axum, Actix, FastAPI, Django, Fiber, etc.)
+- [ ] Distributed rate limiting (Token Bucket, Sliding Window, Fixed Window)
+- [ ] Configurable IP flagging and auto-banning
+- [ ] Unified configuration format
 
 ### Kubernetes & Operations 🔨
-- [] Kubernetes Operator for automated deployment
-- [] Redis HA failover support
-- [] Prometheus metrics integration
-- [] gRPC service layer
-- [] Helm charts for one-command install
+- [ ] Kubernetes Operator for automated deployment
+- [ ] Redis HA failover support
+- [ ] Prometheus metrics integration
+- [ ] gRPC service layer
+- [ ] Helm charts for one-command install
 
 
 ## 🤝 Contributing
