@@ -1,6 +1,6 @@
 [package]
 name = "radixip_rs"
-version = "1.1.0"
+version = "1.1.1"
 edition = "2024"
 documentation = "https://docs.rs/radixip_rs"
 description = "High-performance IP subnet caching engine with Go & Rust implementations. Zero-allocation LPM lookups, Redis sync, and C-FFI bindings for database security, API gateways, and DDoS mitigation."
