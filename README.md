@@ -667,36 +667,6 @@ Every commit to `main` triggers our continuous benchmarking pipeline:
 
 **Download artifacts**: Raw benchmark logs available for auditing.
 
-## 🗺️ Roadmap
-
-- [x] Go implementation with lock-free reads
-- [x] Rust port with zero-cost abstractions  
-- [x] C-FFI bindings for multi-language support
-- [x] CI benchmarking pipeline
-- [x] **Uncompressed binary trie** — control-plane optimized, O(prefix_len) writes
-- [x] **Compressed Patricia trie** — data-plane optimized, O(k) reads, 4× memory savings
-- [x] Generic engines — any engine can use any tree via `StandardEngine<T: RouteTree>`
-- [x] Redis state bus — boot-load, cache hydration, Pub/Sub sync
-- [x] IPv6 full support (Patricia trie path)
-- [x] Python bindings via PyO3
-- [x] Node.js bindings via N-API
-- [x] gRPC service layer
-- [x] Prometheus metrics integration
-- [x] Lock-free CompressedTree (CAS-based node splitting)
-- [x]  (Adaptive Radix Tree) ART implementation in Go & Rust
-   - [x] Node4 (1-4 children, ~36 bytes)
-   - [x] Node16 (5-16 children, SIMD support)
-   - [x] Node48 (17-48 children, index array)
-   - [x] Node256 (49-256 children, direct array)
-   - [x] Auto-upgrade/downgrade logic
-   - [x] SIMD acceleration (x86 SSE / ARM NEON)
-   - [x] Zero-alloc lookups
-   - [x] Lock-free concurrency support
-- [x] Publish v1.0.0 release of the rust crate to crates.io
-- [] Publish the NAPI-RS node bindings to npm
-- [] Publish the PyO3 bindings to PYPI
-
-
 ## 🌲 Tree Type Selection
 
 RadixIP provides three routing tree implementations. Choose based on your workload:
@@ -727,6 +697,54 @@ dataPlane    := NewEngineWrapperWithTree(EngineConcurrent, AtomicRadixNode, true
 ```
 
 See [ARCHITECTURE.md](./ARCHITECTURE.md) for the full design rationale, hybrid Redis architecture, and performance reference.
+
+
+## 🗺️ Roadmap
+
+### Core Engine
+
+- [x] Go implementation with lock-free reads
+- [x] Rust port with zero-cost abstractions  
+- [x] C-FFI bindings for multi-language support
+- [x] CI benchmarking pipeline
+- [x] **Uncompressed binary trie** — control-plane optimized, O(prefix_len) writes
+- [x] **Compressed Patricia trie** — data-plane optimized, O(k) reads, 4× memory savings
+- [x] Generic engines — any engine can use any tree via `StandardEngine<T: RouteTree>`
+- [x] Redis state bus — boot-load, cache hydration, Pub/Sub sync
+- [x] IPv6 full support (Patricia trie path)
+- [x] Python bindings via PyO3
+- [x] Node.js bindings via N-API
+- [x] gRPC service layer
+- [x] Prometheus metrics integration
+- [x] Lock-free CompressedTree (CAS-based node splitting)
+- [x]  (Adaptive Radix Tree) ART implementation in Go & Rust
+   - [x] Node4 (1-4 children, ~36 bytes)
+   - [x] Node16 (5-16 children, SIMD support)
+   - [x] Node48 (17-48 children, index array)
+   - [x] Node256 (49-256 children, direct array)
+   - [x] Auto-upgrade/downgrade logic
+   - [x] SIMD acceleration (x86 SSE / ARM NEON)
+   - [x] Zero-alloc lookups
+   - [x] Lock-free concurrency support
+
+### Multi-language bindings 🔨
+
+- [x] Publish v1.0.0 release of the rust crate to crates.io
+- [] Publish the NAPI-RS node bindings to npm
+- [] Publish the PyO3 bindings to PYPI
+
+### Protection Layer 🔨
+- [] Web framework middleware (Express, Gin, Axum, Actix,FastAPI, Django, Fiber, etc.)
+- [] Distributed rate limiting (Token Bucket, Sliding Window, Fixed Window)
+- [] Configurable IP flagging and auto-banning
+- [] Unified configuration format
+
+### Kubernetes & Operations 🔨
+- [] Kubernetes Operator for automated deployment
+- [] Redis HA failover support
+- [] Prometheus metrics integration
+- [] gRPC service layer
+- [] Helm charts for one-command install
 
 
 ## 🤝 Contributing
