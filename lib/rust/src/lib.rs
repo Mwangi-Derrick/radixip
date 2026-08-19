@@ -63,6 +63,7 @@ pub async fn new(config: RadixConfig) -> Box<dyn RadixEngine> {
         config.engine_variant,
         config.node_variant,
         config.read_compressed,
+        config.num_shards,
     );
 
     if config.cache_enabled {

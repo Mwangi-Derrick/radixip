@@ -24,12 +24,14 @@ impl HybridEngine {
             config.engine_variant.clone(),
             config.node_variant.clone(),
             config.write_compressed,
+            config.num_shards,
         );
 
         let data_plane = EngineWrapper::new(
             config.engine_variant.clone(),
             config.node_variant.clone(),
             config.read_compressed,
+            config.num_shards,
         );
 
         #[cfg(feature = "redis")]
