@@ -275,7 +275,7 @@ impl EngineWrapper {
         if variant == EngineVariant::ART {
             return if shard_count > 1 {
                 EngineWrapper::ConcurrentART(Arc::new(
-                    crate::engine_art::ShardedARTEngineAdapter::new(shard_count),
+                    crate::engine_art::ShardedARTEngineAdapter::new(shard_count, 32, 32),
                 ))
             } else {
                 EngineWrapper::StandardART(Arc::new(crate::engine_art::ARTEngineAdapter::new()))
