@@ -256,11 +256,12 @@ pub enum EngineWrapper {
     ConcurrentUncompressed(Arc<ShardedEngine<UncompressedTree>>),
     StandardCompressed(Arc<StandardEngine<CompressedTree>>),
     ConcurrentCompressed(Arc<ShardedEngine<CompressedTree>>),
-    ART(Arc<crate::engine_art::ARTEngineAdapter>),
+    StandardART(Arc<crate::engine_art::ARTEngineAdapter>),
+    ConcurrentART(Arc<crate::engine_art::ShardedARTEngineAdapter>),
 }
 
 impl EngineWrapper {
-    pub fn new(variant: EngineVariant, node_variant: NodeVariant, compressed: bool) -> Self {
+    pub fn new(variant: EngineVariant, node_variant: NodeVariant, compressed: bool, num_shards: usize) -> Self {
         if compressed {
             let base_tree = CompressedTree::new(node_variant.clone());
             match variant {
@@ -290,7 +291,7 @@ impl EngineWrapper {
                     }
                 }
                 EngineVariant::ART => {
-                    EngineWrapper::ART(Arc::new(crate::engine_art::ARTEngineAdapter::new()))
+                    EngineWrapper::(Arc::new(crate::engine_art::ARTEngineAdapter::new()))
                 }
             }
         } else {
