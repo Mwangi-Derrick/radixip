@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+'   # e.g. v1.0.0
+      - 'v[0-9]+.[0-9]+.[0-9]+'
     paths-ignore:
       - '**.md'
       - 'docs/**'
@@ -22,7 +22,7 @@ permissions:
 
 jobs:
   # ===========================================================================
-  # 1. Create the GitHub Release
+  # 1. Create GitHub Release
   # ===========================================================================
   create-release:
     name: Create GitHub Release
@@ -61,7 +61,7 @@ jobs:
           path: target/doc
 
   # ===========================================================================
-  # 3. Build C/C++ shared libraries (workspace-aware)
+  # 3. Build C/C++ shared libraries
   # ===========================================================================
   build-c-libs:
     name: Build C shared lib (${{ matrix.target }})
@@ -74,24 +74,19 @@ jobs:
           - target: x86_64-unknown-linux-gnu
             runner: ubuntu-latest
             artifact: libradixip.so
-            lib_name: libradixip_rs.so
           - target: aarch64-unknown-linux-gnu
             runner: ubuntu-latest
             artifact: libradixip-aarch64.so
-            lib_name: libradixip_rs.so
             cross: true
           - target: x86_64-apple-darwin
             runner: macos-13
             artifact: libradixip.dylib
-            lib_name: libradixip_rs.dylib
           - target: aarch64-apple-darwin
             runner: macos-14
             artifact: libradixip-arm64.dylib
-            lib_name: libradixip_rs.dylib
           - target: x86_64-pc-windows-msvc
             runner: windows-latest
             artifact: radixip.dll
-            lib_name: radixip_rs.dll
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
@@ -100,41 +95,24 @@ jobs:
       - name: Install cross (for aarch64 Linux)
         if: matrix.cross
         run: cargo install cross --git https://github.com/cross-rs/cross
-      - name: Build shared library (native)
+      - name: Build (native)
         if: "!matrix.cross"
         run: cargo build -p radixip_rs --release --target ${{ matrix.target }}
-      - name: Build shared library (cross)
+      - name: Build (cross)
         if: matrix.cross
         run: cross build -p radixip_rs --release --target ${{ matrix.target }}
-      - name: Find and copy library
+      - name: Copy library
         shell: bash
         run: |
-          # Workspace target is at root
           TARGET_DIR="target/${{ matrix.target }}/release"
-          
-          echo "=== Looking for library in: $TARGET_DIR ==="
-          ls -la "$TARGET_DIR" | grep -E "\.(so|dylib|dll)$" || echo "No library files found"
-          
-          # Try multiple patterns
-          src=""
-          for pattern in "${{ matrix.lib_name }}" "libradixip_rs*" "libradixip*" "radixip_rs*" "radixip*"; do
-            found=$(find "$TARGET_DIR" -maxdepth 1 -name "$pattern" -type f 2>/dev/null | head -n1)
-            if [ -n "$found" ]; then
-              src="$found"
-              break
-            fi
-          done
-          
+          src=$(find "$TARGET_DIR" -maxdepth 1 -type f \( -name "*.so" -o -name "*.dylib" -o -name "*.dll" \) | head -n1)
           if [ -z "$src" ]; then
-            echo "ERROR: No library found!"
-            echo "All files in $TARGET_DIR:"
-            find "$TARGET_DIR" -maxdepth 1 -type f
+            echo "ERROR: No library found in $TARGET_DIR"
+            ls -la "$TARGET_DIR"
             exit 1
           fi
-          
-          echo "Found library: $src"
           cp -v "$src" "${{ matrix.artifact }}"
-      - name: Upload C shared lib to Release
+      - name: Upload to Release
         uses: softprops/action-gh-release@v2
         with:
           files: ${{ matrix.artifact }}
@@ -147,7 +125,7 @@ jobs:
             lib/cpp/include/RadixEngine.hpp
 
   # ===========================================================================
-  # 4. Build Node native addons (napi-rs handles workspace correctly)
+  # 4. Build Node native addons - DEFINITIVE VERSION
   # ===========================================================================
   build-node:
     name: Build Node addon (${{ matrix.target }})
@@ -170,20 +148,39 @@ jobs:
             runner: windows-latest
     steps:
       - uses: actions/checkout@v4
+      
       - uses: dtolnay/rust-toolchain@stable
         with:
           targets: ${{ matrix.target }}
+      
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org'
-      - name: Install napi-rs cli
+      
+      - name: Install cross (Linux only)
+        if: matrix.cross
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-aarch64-linux-gnu
+          cargo install cross --git https://github.com/cross-rs/cross
+      
+      - name: Install napi-rs
         run: npm install -g @napi-rs/cli
-      - name: Build
+      
+      - name: Build Node addon
         working-directory: lib/node
         run: |
           npm install
-          napi build --platform --release --target ${{ matrix.target }}
+          if [ "${{ matrix.cross }}" = "true" ]; then
+            cross build --release --target ${{ matrix.target }}
+            napi build --platform --release --target ${{ matrix.target }}
+          else
+            napi build --platform --release --target ${{ matrix.target }}
+          fi
+        env:
+          CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER: aarch64-linux-gnu-gcc
+      
       - name: Upload .node file
         uses: actions/upload-artifact@v4
         with:
@@ -203,18 +200,18 @@ jobs:
         with:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org'
-      - name: Download all .node artifacts
+      - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
           pattern: node-addon-*
           merge-multiple: true
           path: lib/node/prebuilt
-      - name: Publish
+      - name: Publish to npm
         working-directory: lib/node
         run: npm publish --access public
 
   # ===========================================================================
-  # 5. Build Python wheels (maturin handles workspace correctly)
+  # 5. Build Python wheels - DEFINITIVE VERSION
   # ===========================================================================
   build-python-wheels:
     name: Build Python wheel (${{ matrix.target }})
@@ -249,10 +246,8 @@ jobs:
         run: pip install maturin
       - name: Build wheels
         working-directory: lib/python
-        run: |
-          # maturin will use workspace target automatically
-          maturin build --release --out dist
-      - name: Upload wheel artifact
+        run: maturin build --release --out dist
+      - name: Upload wheel
         uses: actions/upload-artifact@v4
         with:
           name: python-wheel-${{ matrix.platform }}-${{ matrix.target }}
@@ -271,7 +266,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Download all wheels
+      - name: Download wheels
         uses: actions/download-artifact@v4
         with:
           pattern: python-wheel-*
@@ -291,7 +286,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
-          go-version: '1.26.1'
+          go-version: '1.26'
       - name: Build
         working-directory: lib/go
         run: go build ./...
