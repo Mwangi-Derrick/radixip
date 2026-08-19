@@ -6,6 +6,9 @@ on:
     paths-ignore:
       - '**.md'
       - 'docs/**' # Ignores an entire docs folder
+      - '.github/worflows/bench.yml'
+      - '.github/worflows/release.yml'
+      - '.github/worflows/ffi-benchmarks.yml'
       - 'proto'
       - 'docker'
       - '.gitignore'
