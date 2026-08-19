@@ -119,23 +119,109 @@ impl RadixEngine for ARTEngineAdapter {
 
 pub struct ShardedARTEngineAdapter {
     pub engines: Vec<ARTEngineAdapter>,
-    pub num_engines: usize,
+    pub num_shards: usize,
     pub shard_size: usize,
     pub mask_bits: u8,
 }
 
 impl ShardedARTEngineAdapter {
-    pub fn new(num_engines: usize, shard_size: usize, mask_bits: u8) -> Self {
-        let engines = (0..num_engines)
+    pub fn new(num_shards: usize, shard_size: usize, mask_bits: u8) -> Self {
+        let engines = (0..num_shards)
             .map(|_| ARTEngineAdapter::new())
             .collect();
         Self {
-            engines,
-            num_engines,
+            shards,
+            num_shards,
             shard_size,
             mask_bits,
         }
     }
 
-    
+    fn get_shard(&self, ip: &IpAddr) -> usize {
+        let hash = match ip {
+            IpAddr::V4(ip) => {
+                let ip_u32 = u32::from_be_bytes(ip.octets());
+                // Mask the IP to keep only prefix bits
+                let mask = if self.mask_bits >= 32 {
+                    u32::MAX
+                } else {
+                    u32::MAX << (32 - self.mask_bits)
+                };
+                // this way we isolate the ip-adress from the network prefix
+                let masked_ip = ip_u32 & mask;
+
+                // Hash the masked IP
+                let mut hash = 0u32;
+                for byte in masked_ip.to_be_bytes() {
+                    hash = hash.wrapping_mul(31).wrapping_add(byte as u32);
+                }
+                hash as usize
+            }
+            IpAddr::V6(ip) => {
+                let bytes = ip.octets();
+                let mut hash = 0u64;
+                if self.mask_bits <= 64 {
+                    // Hash only the masked prefix part
+                    let bytes_to_keep = ((self.mask_bits + 7) / 8) as usize;
+                    for byte in bytes.iter().take(bytes_to_keep) {
+                        hash = hash.wrapping_mul(31).wrapping_add(*byte as u64);
+                    }
+                    // Handle partial byte masking if needed
+                    if self.mask_bits % 8 != 0 && bytes_to_keep < bytes.len() {
+                        let mask = 0xFFu8 << (8 - (self.mask_bits % 8) as u8);
+                        let partial_byte = bytes[bytes_to_keep] & mask;
+                        hash = hash.wrapping_mul(31).wrapping_add(partial_byte as u64);
+                    }
+                } else {
+                    // Hash first 16 bytes for large prefix lengths
+                    for byte in bytes.iter().take(16) {
+                        hash = hash.wrapping_mul(31).wrapping_add(*byte as u64);
+                    }
+                };
+                hash as usize
+            }
+        };
+        hash % self.num_shards
+    }
+
+    fn insert(&self, prefix: IpNetwork, metadata: Metadata) -> Result<(), String> {
+        for shard in &self.shards {
+            shard.insert(prefix, metadata.clone())?;
+        }
+        Ok(())
+    }
+
+    fn lookup(&self, ip: &IpAddr) -> Option<Metadata> {
+        let shard_idx = self.get_shard(ip);
+        self.shards[shard_idx].lookup(ip)
+    }
+
+    fn remove(&self, prefix: &IpNetwork) -> Option<Metadata> {
+        let mut removed = None;
+        for shard in &self.shards {
+            let shard_removed = shard.remove(prefix);
+            if removed.is_none() {
+                removed = shard_removed;
+            }
+        }
+        removed
+    }
+
+    fn contains(&self, prefix: &IpNetwork) -> bool {
+        self.shards
+            .first()
+            .map(|s| s.contains(prefix))
+            .unwrap_or(false)
+    }
+
+    fn clear(&self) {
+        for shard in &self.shards {
+            shard.clear();
+        }
+    }
+
+    fn size(&self) -> usize {
+        self.shards.first().map(|s| s.size()).unwrap_or(0)
+    }
+
 }
