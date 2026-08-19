@@ -5,6 +5,7 @@ use std::sync::{
     Arc, RwLock,
     atomic::{AtomicUsize, Ordering},
 };
+use sysinfo::System;
 
 use crate::traits::*;
 use crate::types::{EngineStats, Metadata};
@@ -327,6 +328,14 @@ impl EngineWrapper {
                 }
             }
         }
+    }
+
+     fn detect_available_memory() -> u64 {
+        let mut system = System::new();
+
+        system.refresh_memory();
+
+        system.available_memory()
     }
 }
 
