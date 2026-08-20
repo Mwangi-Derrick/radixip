@@ -116,7 +116,7 @@ fn build_engine(
     routes: usize,
     ipv6: bool,
 ) -> EngineWrapper {
-    let engine = EngineWrapper::new(variant, node_variant, compressed);
+    let engine = EngineWrapper::new(variant, node_variant, compressed, None);
     let meta = Metadata::new("bench");
 
     let cidrs = if ipv6 {
@@ -168,7 +168,7 @@ fn bench_insert(c: &mut Criterion) {
                 &n,
                 |b, _| {
                     b.iter_batched(
-                        || EngineWrapper::new(EngineVariant::Concurrent, nv, false),
+                        || EngineWrapper::new(EngineVariant::Concurrent, nv, false, None),
                         |engine| {
                             for cidr in &cidrs_ipv4 {
                                 let _ = criterion::black_box(
@@ -187,7 +187,7 @@ fn bench_insert(c: &mut Criterion) {
                 &n,
                 |b, _| {
                     b.iter_batched(
-                        || EngineWrapper::new(EngineVariant::Concurrent, cnv, true),
+                        || EngineWrapper::new(EngineVariant::Concurrent, cnv, true, None),
                         |engine| {
                             for cidr in &cidrs_ipv4 {
                                 let _ = criterion::black_box(
@@ -204,7 +204,7 @@ fn bench_insert(c: &mut Criterion) {
                 &n,
                 |b, _| {
                     b.iter_batched(
-                        || EngineWrapper::new(EngineVariant::ART, cnv, true),
+                        || EngineWrapper::new(EngineVariant::ART, cnv, true, None),
                         |engine| {
                             for cidr in &cidrs_ipv4 {
                                 let _ = criterion::black_box(
@@ -223,7 +223,7 @@ fn bench_insert(c: &mut Criterion) {
                 &n,
                 |b, _| {
                     b.iter_batched(
-                        || EngineWrapper::new(EngineVariant::Concurrent, nv, false),
+                        || EngineWrapper::new(EngineVariant::Concurrent, nv, false, None),
                         |engine| {
                             for cidr in &cidrs_ipv6 {
                                 let _ = criterion::black_box(
@@ -241,7 +241,7 @@ fn bench_insert(c: &mut Criterion) {
                 &n,
                 |b, _| {
                     b.iter_batched(
-                        || EngineWrapper::new(EngineVariant::Concurrent, cnv, true),
+                        || EngineWrapper::new(EngineVariant::Concurrent, cnv, true, None),
                         |engine| {
                             for cidr in &cidrs_ipv6 {
                                 let _ = criterion::black_box(
@@ -258,7 +258,7 @@ fn bench_insert(c: &mut Criterion) {
                 &n,
                 |b, _| {
                     b.iter_batched(
-                        || EngineWrapper::new(EngineVariant::ART, cnv, true),
+                        || EngineWrapper::new(EngineVariant::ART, cnv, true, None),
                         |engine| {
                             for cidr in &cidrs_ipv6 {
                                 let _ = criterion::black_box(
@@ -296,7 +296,7 @@ fn bench_lookup(c: &mut Criterion) {
             // Pre-populate engines for IPv4
             let engines_ipv4: Vec<_> = (0..4)
                 .map(|_| {
-                    let engine = EngineWrapper::new(EngineVariant::Concurrent, nv, false);
+                    let engine = EngineWrapper::new(EngineVariant::Concurrent, nv, false, None);
                     for cidr in &cidrs_ipv4 {
                         let _ = engine.insert(*cidr, meta.clone());
                     }
@@ -334,7 +334,7 @@ fn bench_lookup(c: &mut Criterion) {
             let cnv = compressed_variant(nv);
             let engines_ipv4_compressed: Vec<_> = (0..4)
                 .map(|_| {
-                    let engine = EngineWrapper::new(EngineVariant::Concurrent, cnv, true);
+                    let engine = EngineWrapper::new(EngineVariant::Concurrent, cnv, true, None);
                     for cidr in &cidrs_ipv4 {
                         let _ = engine.insert(*cidr, meta.clone());
                     }
@@ -369,7 +369,7 @@ fn bench_lookup(c: &mut Criterion) {
             // IPv4 Benchmarks - Compressed ART
             let engines_ipv4_art: Vec<_> = (0..4)
                 .map(|_| {
-                    let engine = EngineWrapper::new(EngineVariant::ART, cnv, true);
+                    let engine = EngineWrapper::new(EngineVariant::ART, cnv, true, None);
                     for cidr in &cidrs_ipv4 {
                         let _ = engine.insert(*cidr, meta.clone());
                     }
@@ -404,7 +404,7 @@ fn bench_lookup(c: &mut Criterion) {
             // Pre-populate engines for IPv6
             let engines_ipv6: Vec<_> = (0..4)
                 .map(|_| {
-                    let engine = EngineWrapper::new(EngineVariant::Concurrent, nv, false);
+                    let engine = EngineWrapper::new(EngineVariant::Concurrent, nv, false, None);
                     for cidr in &cidrs_ipv6 {
                         let _ = engine.insert(*cidr, meta.clone());
                     }
@@ -440,7 +440,7 @@ fn bench_lookup(c: &mut Criterion) {
             // IPv6 Benchmarks - Compressed
             let engines_ipv6_compressed: Vec<_> = (0..4)
                 .map(|_| {
-                    let engine = EngineWrapper::new(EngineVariant::Concurrent, cnv, true);
+                    let engine = EngineWrapper::new(EngineVariant::Concurrent, cnv, true, None);
                     for cidr in &cidrs_ipv6 {
                         let _ = engine.insert(*cidr, meta.clone());
                     }
@@ -475,7 +475,7 @@ fn bench_lookup(c: &mut Criterion) {
             // IPv6 Benchmarks - Compressed ART
             let engines_ipv6_art: Vec<_> = (0..4)
                 .map(|_| {
-                    let engine = EngineWrapper::new(EngineVariant::ART, cnv, true);
+                    let engine = EngineWrapper::new(EngineVariant::ART, cnv, true, None);
                     for cidr in &cidrs_ipv6 {
                         let _ = engine.insert(*cidr, meta.clone());
                     }
