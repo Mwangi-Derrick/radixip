@@ -8,7 +8,6 @@
 use criterion::{BatchSize, BenchmarkId, Criterion, Throughput, criterion_group, criterion_main};
 use ipnetwork::IpNetwork;
 use radixip::{EngineVariant, Metadata, NodeVariant, RadixEngine, engine::EngineWrapper};
-use rand::*;
 use std::net::IpAddr;
 use std::str::FromStr;
 use std::time::Duration;
