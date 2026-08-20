@@ -755,6 +755,12 @@ See [ARCHITECTURE.md](./ARCHITECTURE.md) for the full design rationale, hybrid R
 - [ ] Publish the NAPI-RS node bindings to npm
 - [ ] Publish the PyO3 bindings to PYPI
 
+### Configuration Engine 🔨
+[ ] YAML/TOML config parser
+[ ] Hot-reload without restart
+[ ] Per-route overrides
+[ ] Validation + schema
+
 ### Protection Layer 🔨
 - [ ] Web framework middleware (Express, Gin, Axum, Actix, FastAPI, Django, Fiber, etc.)
 - [ ] Distributed rate limiting (Token Bucket, Sliding Window, Fixed Window)
