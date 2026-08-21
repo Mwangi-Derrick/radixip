@@ -135,13 +135,14 @@ func (a *ARTEngineAdapter) Stats() *EngineStats { return &EngineStats{} }
 
 
 type ShardedARTEngineAdapter struct {
-	tree  *art.Tree
+	tree  *ARTEngineAdapter
 	metas *metadataStore	
 }
 
 func NewShardedARTEngineAdapter() *ShardedARTEngineAdapter {
 	return &ShardedARTEngineAdapter{
-		tree:  art.NewTree(),
+	    tree:  NewARTEngineAdapter(),
 		metas: newMetadataStore(),
 	}
 }
+
