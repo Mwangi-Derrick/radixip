@@ -132,3 +132,16 @@ func (a *ARTEngineAdapter) Clear() {
 func (a *ARTEngineAdapter) Size() int { return a.metas.size() }
 
 func (a *ARTEngineAdapter) Stats() *EngineStats { return &EngineStats{} }
+
+
+type ShardedARTEngineAdapter struct {
+	tree  *art.Tree
+	metas *metadataStore	
+}
+
+func NewShardedARTEngineAdapter() *ShardedARTEngineAdapter {
+	return &ShardedARTEngineAdapter{
+		tree:  art.NewTree(),
+		metas: newMetadataStore(),
+	}
+}
