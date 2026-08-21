@@ -146,7 +146,7 @@ func (e *ShardedEngine) getShard(ip *net.IP) int {
 			Result:       11000000 10101000 00000001 00000000  (192.168.1.0)
 			                                         ^^^^^^^^
 			                                    Flushed to zeros
-			Use code with caution.Because the mask ends in all zeros, it forces the last 8 bits of the IP address to become 0, leaving you with the pure network prefix.
+		   Because the mask ends in all zeros, it forces the last 8 bits of the IP address to become 0, leaving you with the pure network prefix.
 		*/
 		maskedHash := hash & uint64(mask)
 
