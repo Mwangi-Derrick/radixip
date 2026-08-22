@@ -215,12 +215,14 @@ func (a *ShardedARTEngineAdapter) Contains(prefix *net.IPNet) bool {
 	return false
 }
 
-func (a *ShardedARTEngineAdapter) Size() {
-	// interate over each shard/tree
+func (a *ShardedARTEngineAdapter) Size() int {
+	// iterate over each shard/tree
 	size := 0
 	for _, shard := range a.trees {
 		size += shard.Size()
+		return size
 	}
+	return size
 }
 
 func (a *ShardedARTEngineAdapter) Stats() *EngineStats {
