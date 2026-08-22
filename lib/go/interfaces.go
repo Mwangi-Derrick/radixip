@@ -11,6 +11,7 @@ const (
 	EngineLockFree   EngineVariant = "lockfree"
 	EngineAdaptive   EngineVariant = "adaptive"
 	EngineART        EngineVariant = "art"
+	EngineConcurrentART EngineVariant = "concurrentart"
 )
 
 // NodeVariant represents the type of node implementation
