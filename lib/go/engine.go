@@ -260,6 +260,55 @@ func ShardsFromCpu(breakpoints []Breakpoint, def int) int {
 }
 
 
+// CalculateOptimalShards determines shard count based on the engine variant and hardware limits.
+func CalculateOptimalShards(variant EngineVariant) int {
+	switch variant {
+	case EngineStandard, EngineLockFree:
+		return 1
+
+	case EngineART:
+		breakpoints := []Breakpoint{
+			{MaxCpus: 2, Shards: 2},
+			{MaxCpus: 4, Shards: 4},
+			{MaxCpus: 8, Shards: 8},
+		}
+		return ShardsFromCpu(breakpoints, 16)
+
+	case EngineConcurrent:
+		breakpoints := []Breakpoint{
+			{MaxCpus: 2, Shards: 2},
+			{MaxCpus: 4, Shards: 8},
+			{MaxCpus: 8, Shards: 16},
+			{MaxCpus: 16, Shards: 32},
+		}
+		return ShardsFromCpu(breakpoints, 64)
+
+	case EngineAdaptive:
+		breakpoints := []Breakpoint{
+			{MaxCpus: 2, Shards: 2},
+			{MaxCpus: 4, Shards: 8},
+			{MaxCpus: 8, Shards: 16},
+			{MaxCpus: 16, Shards: 32},
+		}
+		cpuBased := ShardsFromCpu(breakpoints, 64)
+		//memBased := shardsFromMemory() // Assumes this function is implemented elsewhere in your engine
+
+		// Take the more conservative bound to prevent over-allocation on memory-constrained systems
+		//return minInt(cpuBased, memBased)
+    return cpuBased
+	default:
+		return 1
+	}
+}
+
+// func minInt(a, b int) int {
+// 	if a < b {
+// 		return a
+// 	}
+// 	return b
+// }
+
+
 // NewEngineWrapperWithTree allows choosing compressed vs uncompressed tree at construction.
 // compressed=true uses CompressedTree (Patricia); compressed=false uses UncompressedTree (bitwise trie).
 func NewEngineWrapperWithTree(variant EngineVariant, nodeVariant NodeVariant, compressed bool) *EngineWrapper {
