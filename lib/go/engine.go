@@ -239,6 +239,27 @@ func NewEngineWrapper(variant EngineVariant, nodeVariant NodeVariant) *EngineWra
 	return NewEngineWrapperWithTree(variant, nodeVariant, false)
 }
 
+type Breakpoint struct {
+	MaxCpus int
+	Shards  int
+}
+
+func ShardsFromCpu(breakpoints []Breakpoint, def int) int {
+	cpus := runtime.NumCPU()
+	if cpus <= 0 {
+		cpus = 1
+	}
+
+	for _, bp := range breakpoints {
+		if cpus <= bp.MaxCpus {
+			return bp.Shards
+		}
+	}
+
+	return def
+}
+
+
 // NewEngineWrapperWithTree allows choosing compressed vs uncompressed tree at construction.
 // compressed=true uses CompressedTree (Patricia); compressed=false uses UncompressedTree (bitwise trie).
 func NewEngineWrapperWithTree(variant EngineVariant, nodeVariant NodeVariant, compressed bool) *EngineWrapper {
@@ -267,6 +288,8 @@ func NewEngineWrapperWithTree(variant EngineVariant, nodeVariant NodeVariant, co
 		}
 	case EngineART:
 		engine = NewARTEngineAdapter()
+	case EngineConcurrentART:
+		engine = NewShardedARTEngineAdapter()
 	default:
 		engine = NewStandardEngine(treeFn())
 	}
