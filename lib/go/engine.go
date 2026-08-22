@@ -338,7 +338,8 @@ func NewEngineWrapperWithTree(variant EngineVariant, nodeVariant NodeVariant, co
 	case EngineART:
 		engine = NewARTEngineAdapter()
 	case EngineConcurrentART:
-		engine = NewShardedARTEngineAdapter()
+		shards := CalculateOptimalShards(EngineConcurrent)
+		engine = NewShardedARTEngineAdapter(shards, 32)
 	default:
 		engine = NewStandardEngine(treeFn())
 	}
