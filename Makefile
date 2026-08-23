@@ -92,7 +92,7 @@ test-go-simd: build-simd-ffi
 # ────────────────────────────────────────────────────────────────────────────
 build: build-simd-ffi
 	@echo "Building Rust core..."
-	cd lib/rust && cargo build --release
+	cd lib/rust/engine && cargo build --release
 	@echo "Building Python bindings..."
 	cd lib/python && maturin build
 	@echo "Building Node.js bindings..."
@@ -112,7 +112,7 @@ build-grpc-release:
 
 test:
 	@echo "Testing Rust..."
-	cd lib/rust && cargo test
+	cd lib/rust/engine && cargo test
 	@echo "Testing Python..."
 	cd lib/python && pytest
 	@echo "Testing Node..."
@@ -120,13 +120,13 @@ test:
 
 bench:
 	@echo "Benchmarking Rust..."
-	cd lib/rust && cargo bench
+	cd lib/rust/engine && cargo bench
 	@echo "Benchmarking Go..."
 	cd lib/go && go test -bench=. -benchmem ./...
 
 clean:
 	@echo "Cleaning..."
-	cd lib/rust && cargo clean
+	cd lib/rust/engine && cargo clean
 	cd $(SIMD_FFI_CRATE) && cargo clean
 	cd lib/python && maturin clean
 	cd lib/node && rm -rf node_modules

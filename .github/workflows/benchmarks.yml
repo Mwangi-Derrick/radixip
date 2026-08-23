@@ -56,7 +56,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y protobuf-compiler
 
       - name: Run benchmarks
-        working-directory: ./lib/rust
+        working-directory: ./lib/rust/engine
         timeout-minutes: 20
         run: |
           cargo bench --bench lookup_bench -- --output-format bencher 2>&1 | tee ../../rust_bench_results.txt
