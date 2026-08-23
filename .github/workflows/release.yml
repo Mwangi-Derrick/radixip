@@ -288,8 +288,8 @@ jobs:
         with:
           go-version: '1.26'
       - name: Build
-        working-directory: lib/go
+        working-directory: lib/go/engine
         run: go build ./...
       - name: Test
-        working-directory: lib/go
+        working-directory: lib/go/engine
         run: go test ./...

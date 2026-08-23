@@ -78,14 +78,14 @@ build-simd-ffi: check-cbindgen
 # ────────────────────────────────────────────────────────────────────────────
 build-go-simd: build-simd-ffi
 	@echo "Building Go ART with CGo SIMD bridge (-tags simd_cgo)..."
-	cd lib/go && CGO_ENABLED=1 go build -tags simd_cgo ./...
+	cd lib/go/engine/engine && CGO_ENABLED=1 go build -tags simd_cgo ./...
 
 # ────────────────────────────────────────────────────────────────────────────
 # test-go-simd: run Go ART tests with the CGo SIMD bridge
 # ────────────────────────────────────────────────────────────────────────────
 test-go-simd: build-simd-ffi
 	@echo "Testing Go ART with CGo SIMD bridge (-tags simd_cgo)..."
-	cd lib/go && CGO_ENABLED=1 go test -tags simd_cgo -v ./art/...
+	cd lib/go/engine && CGO_ENABLED=1 go test -tags simd_cgo -v ./art/...
 
 # ────────────────────────────────────────────────────────────────────────────
 # Standard targets (unchanged behaviour, extended with SIMD step)
@@ -122,7 +122,7 @@ bench:
 	@echo "Benchmarking Rust..."
 	cd lib/rust/engine && cargo bench
 	@echo "Benchmarking Go..."
-	cd lib/go && go test -bench=. -benchmem ./...
+	cd lib/go/engine && go test -bench=. -benchmem ./...
 
 clean:
 	@echo "Cleaning..."
