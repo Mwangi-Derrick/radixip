@@ -13,7 +13,7 @@ keywords.workspace = true
 categories.workspace = true
 
 [lib]
-crate-type = ["rlib"]  # rlib for Rust consumers; cdylib is in lib/node and lib/python
+crate-type = ["rlib", "cdylib"]  # cdylib needed for C-FFI in release.yml
 name = "radixip"
 
 [features]
