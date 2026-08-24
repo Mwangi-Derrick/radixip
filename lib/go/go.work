@@ -1,0 +1,10 @@
+go 1.26.1
+
+use (
+	./adapters/echo
+	./adapters/fiber
+	./adapters/gin
+	./config
+	./engine
+	./policy
+)
