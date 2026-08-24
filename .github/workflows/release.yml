@@ -170,6 +170,7 @@ jobs:
       
       - name: Build Node addon
         working-directory: lib/node
+        shell: bash
         run: |
           npm install
           if [ "${{ matrix.cross }}" = "true" ]; then
