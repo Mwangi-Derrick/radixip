@@ -1,0 +1,10 @@
+[package]
+name = "radixip-actix"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+radixip-policy = { path = "../../policy" }
+radixip-config = { path = "../../config" }
+radixip_rs = { workspace = true }
+tracing = { workspace = true }

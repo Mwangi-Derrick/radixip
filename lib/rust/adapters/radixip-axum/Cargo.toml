@@ -1,0 +1,10 @@
+[package]
+name = "radixip-axum"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+radixip-tower = { path = "../radixip-tower" }
+radixip-policy = { path = "../../policy" }
+radixip_rs = { workspace = true }
+tracing = { workspace = true }
