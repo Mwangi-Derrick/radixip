@@ -18,15 +18,18 @@ fn main() {
         std::fs::create_dir_all(parent).expect("failed to create vendor/include dir");
     }
 
-    // parse_deps = false: cbindgen only inspects *this* crate's own lib.rs
-    // for #[no_mangle] exports.  We don't want it to follow the #[path]
-    // include into lib/rust/engine/src/art/ — that would require a fully
-    // resolved Rust parse of the engine crate, which is unnecessary and was
-    // the source of the "ParseCannotOpenFile" error after the engine was
-    // moved from lib/rust/ to lib/rust/engine/.
+    // If the header is already present (committed to the repo), skip
+    // regeneration.  cbindgen struggles to resolve the cross-crate #[path]
+    // include after the engine was moved to lib/rust/engine/, and the header
+    // content is stable — it only needs updating when the extern "C" signature
+    // changes, at which point the developer should delete the file and rebuild.
+    if out_header.exists() {
+        println!("cargo:warning=node16_simd.h already exists, skipping cbindgen regeneration.");
+        return;
+    }
+
     cbindgen::Builder::new()
         .with_crate(&crate_dir)
-        .with_parse_deps(false)
         .with_language(cbindgen::Language::C)
         .with_include_guard("NODE16_SIMD_FFI_H")
         .with_documentation(true)
@@ -34,3 +37,4 @@ fn main() {
         .expect("cbindgen failed — is it installed? (`cargo install cbindgen`)")
         .write_to_file(out_header);
 }
+

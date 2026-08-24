@@ -61,5 +61,5 @@ tokio = { workspace = true }
 
 [[bench]]
 name = "lookup_bench"
-path = "benches/lookup_bench.rs"
+path = "../benches/lookup_bench.rs"
 harness = false
