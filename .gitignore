@@ -4,6 +4,7 @@
 **/coverage.out
 **/*.log
 **/go.sum
+**/go.work.sum
 **.txt
 scripts/trigger.sh
 
