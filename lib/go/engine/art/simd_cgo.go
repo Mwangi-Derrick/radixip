@@ -20,8 +20,8 @@
 package art
 
 /*
-#cgo CFLAGS:  -I${SRCDIR}/../../../lib/vendor/include
-#cgo LDFLAGS: -L${SRCDIR}/../../../lib/vendor/lib -lnode16_simd_ffi -Wl,-rpath,${SRCDIR}/../../../lib/vendor/lib
+#cgo CFLAGS:  -I${SRCDIR}/../../../../lib/vendor/include
+#cgo LDFLAGS: -L${SRCDIR}/../../../../lib/vendor/lib -lnode16_simd_ffi -Wl,-rpath,${SRCDIR}/../../../../lib/vendor/lib
 #include "node16_simd.h"
 */
 import "C"
