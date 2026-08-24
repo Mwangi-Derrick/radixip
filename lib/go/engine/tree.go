@@ -84,10 +84,13 @@ func (t *UncompressedTree) Insert(prefix IpNetwork, metadata Metadata) (bool, er
 	isNew := current.Metadata() == nil
 
 	// sets the prefix of the current node since we have reached the end of our prefix
-	netPrefix := net.IPNet{IP: prefix.IP, Mask: prefix.Mask}
-	current.SetPrefix(&netPrefix)
+	netPrefix := new(net.IPNet)
+	*netPrefix = net.IPNet{IP: prefix.IP, Mask: prefix.Mask}
+	current.SetPrefix(netPrefix)
 	// sets the metadata of the current node
-	current.SetMetadata(&metadata)
+	newMeta := new(Metadata)
+	*newMeta = metadata
+	current.SetMetadata(newMeta)
 
 	return isNew, nil
 }
@@ -469,8 +472,11 @@ func (t *CompressedTree) containsNode(n Node, key []byte, keyLen, depth int) boo
 func (t *CompressedTree) Insert(prefix IpNetwork, metadata Metadata) (bool, error) {
 	key := ipToBytes(prefix.IP)
 	ones, _ := prefix.Mask.Size()
-	netPrefix := net.IPNet{IP: prefix.IP, Mask: prefix.Mask}
-	return t.insertNode(t.root, key, ones, 0, &netPrefix, &metadata), nil
+	netPrefix := new(net.IPNet)
+	*netPrefix = net.IPNet{IP: prefix.IP, Mask: prefix.Mask}
+	newMeta := new(Metadata)
+	*newMeta = metadata
+	return t.insertNode(t.root, key, ones, 0, netPrefix, newMeta), nil
 }
 
 func (t *CompressedTree) Lookup(ip *net.IP) *Metadata {
