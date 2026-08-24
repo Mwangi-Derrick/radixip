@@ -1,7 +1,12 @@
 [workspace]
 resolver = "2"
 members = [
-    "lib/rust",                # Core Rust implementation
+    "lib/rust/engine",         # Core Rust implementation
+    "lib/rust/config",
+    "lib/rust/policy",
+    "lib/rust/adapters/radixip-axum",
+    "lib/rust/adapters/radixip-tower",
+    "lib/rust/adapters/radixip-actix",
     "lib/python",              # PyO3 bindings
     "lib/node",                # N-API bindings
     "cmd/radixip-cli",         # CLI tool
@@ -22,7 +27,7 @@ categories = ["network-programming", "caching", "data-structures"]
 
 [workspace.dependencies]
 # Core
-radixip_rs = { path = "lib/rust" }
+radixip_rs = { path = "lib/rust/engine" }
 
 # For Python bindings
 pyo3 = "0.22"
