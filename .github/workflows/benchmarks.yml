@@ -60,6 +60,8 @@ jobs:
         timeout-minutes: 20
         run: |
           cargo bench --bench lookup_bench -- --output-format bencher 2>&1 | tee ../../../rust_bench_results.txt
+          # Fail fast if the bench produced no usable output
+          grep -q '^test ' ../../../rust_bench_results.txt || { echo "ERROR: bench output is empty or not in bencher format"; exit 1; }
 
       - name: Upload raw Rust benchmark log
         uses: actions/upload-artifact@v4
@@ -110,12 +112,12 @@ jobs:
           cache: true
 
       - name: Run benchmarks with SIMD CGO
-        working-directory: ./lib/go
+        working-directory: ./lib/go/engine
         timeout-minutes: 35  # Extra time for SIMD FFI overhead
         env:
           CGO_ENABLED: '1'
         run: |
-          go test -run=NONE -bench=. -benchmem -count=10 -v -tags simd_cgo ./... 2>&1 | tee go_bench_results.txt
+          go test -run=NONE -bench=. -benchmem -count=10 -v -tags simd_cgo ./... 2>&1 | tee ../go_bench_results.txt
 
       - name: Upload raw Go benchmark log
         uses: actions/upload-artifact@v4
