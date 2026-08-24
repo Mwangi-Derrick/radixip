@@ -1,0 +1,17 @@
+[package]
+name = "radixip-policy"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+radixip_rs = { workspace = true }
+radixip-config = { path = "../config" }
+serde = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+tokio = { workspace = true }
+redis = { workspace = true, optional = true }
+
+[features]
+default = ["redis"]
+redis = ["dep:redis"]
