@@ -18,8 +18,15 @@ fn main() {
         std::fs::create_dir_all(parent).expect("failed to create vendor/include dir");
     }
 
+    // parse_deps = false: cbindgen only inspects *this* crate's own lib.rs
+    // for #[no_mangle] exports.  We don't want it to follow the #[path]
+    // include into lib/rust/engine/src/art/ — that would require a fully
+    // resolved Rust parse of the engine crate, which is unnecessary and was
+    // the source of the "ParseCannotOpenFile" error after the engine was
+    // moved from lib/rust/ to lib/rust/engine/.
     cbindgen::Builder::new()
         .with_crate(&crate_dir)
+        .with_parse_deps(false)
         .with_language(cbindgen::Language::C)
         .with_include_guard("NODE16_SIMD_FFI_H")
         .with_documentation(true)

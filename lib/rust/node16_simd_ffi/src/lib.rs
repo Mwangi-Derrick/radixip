@@ -14,7 +14,7 @@
 // Re-use the exact SIMD implementation from the main crate source.
 // We include the file as a private module so cbindgen only sees the extern "C"
 // function defined in *this* file, keeping the generated header minimal.
-#[path = "../../src/art/node16_simd.rs"]
+#[path = "../../engine/src/art/node16_simd.rs"]
 mod node16_simd;
 
 use node16_simd::simd_find_child;
