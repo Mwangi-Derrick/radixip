@@ -30,8 +30,8 @@ categories = ["network-programming", "caching", "data-structures"]
 radixip_rs = { path = "lib/rust/engine" }
 
 # For Python bindings
-pyo3 = "0.22"
-maturin = "0.18"
+pyo3 = "0.29.2"
+maturin = "1.15.0"
 
 # For Node.js bindings
 napi = { version = "2.12", features = ["serde-json"] }
