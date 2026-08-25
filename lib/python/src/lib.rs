@@ -1,7 +1,8 @@
 use pyo3::exceptions::{PyTypeError, PyValueError};
+use pyo3::ffi::PyObject;
 use pyo3::prelude::*;
 use pyo3::types::PyDict;
-use radixip::{new_balanced, Metadata, RadixConfig, RadixEngine};
+use radixip::{Metadata, RadixConfig, RadixEngine};
 use std::collections::HashMap;
 use std::net::IpAddr;
 use std::sync::Arc;
@@ -20,9 +21,11 @@ fn meta_from_dict(dict: &Bound<'_, PyDict>) -> PyResult<Metadata> {
 
     let mut attributes: HashMap<String, String> = HashMap::new();
     if let Some(attrs) = dict.get_item("attributes")? {
-        let attrs_dict: &Bound<'_, PyDict> = attrs
-            .downcast()
+        // Use .cast::<PyDict>() instead of .downcast
+        let attrs_dict = attrs
+            .cast::<PyDict>()
             .map_err(|_| PyTypeError::new_err("'attributes' must be a dict"))?;
+
         for (k, v) in attrs_dict.iter() {
             attributes.insert(k.extract()?, v.extract()?);
         }
@@ -31,15 +34,15 @@ fn meta_from_dict(dict: &Bound<'_, PyDict>) -> PyResult<Metadata> {
     Ok(Metadata { value, attributes })
 }
 
-fn meta_to_dict(py: Python<'_>, meta: Metadata) -> PyResult<PyObject> {
-    let dict = PyDict::new_bound(py);
+fn meta_to_dict<'py>(py: Python<'py>, meta: Metadata) -> PyResult<Bound<'py, PyDict>> {
+    let dict = PyDict::new(py);
     dict.set_item("value", meta.value)?;
-    let attrs = PyDict::new_bound(py);
+    let attrs = PyDict::new(py);
     for (k, v) in meta.attributes {
         attrs.set_item(k, v)?;
     }
     dict.set_item("attributes", attrs)?;
-    Ok(dict.into())
+    Ok(dict)
 }
 
 // ---------------------------------------------------------------------------
@@ -127,7 +130,7 @@ impl PyRadixEngine {
     /// Longest-prefix match.
     ///
     /// Returns a metadata dict on match, or ``None``.
-    fn lookup(&self, py: Python<'_>, ip: String) -> PyResult<Option<PyObject>> {
+    fn lookup<'py>(&self, py: Python<'py>, ip: String) -> PyResult<Option<Bound<'py, PyDict>>> {
         let addr = ip
             .parse::<IpAddr>()
             .map_err(|_| PyValueError::new_err(format!("Invalid IP address: {ip}")))?;
@@ -164,21 +167,22 @@ impl PyRadixEngine {
     }
 
     /// Engine performance statistics.
-    fn stats(&self, py: Python<'_>) -> PyResult<PyObject> {
+    fn stats<'py>(&self, py: Python<'py>) -> PyResult<Bound<'py, PyDict>> {
         let s = self.inner.stats();
-        let dict = PyDict::new_bound(py);
+        let dict = PyDict::new(py);
         dict.set_item("size", s.size)?;
         dict.set_item("inserts", s.inserts)?;
         dict.set_item("lookups", s.lookups)?;
         dict.set_item("hits", s.hits)?;
         dict.set_item("misses", s.misses)?;
         dict.set_item("removals", s.removals)?;
-        Ok(dict.into())
+        Ok(dict)
     }
 
     fn __repr__(&self, py: Python<'_>) -> PyResult<PyObject> {
         let s = format!("RadixEngine(size={})", self.inner.size());
-        Ok(s.to_object(py))
+        // Use the modern Bound-prefixed variant
+        Ok(s.into_bound_py_any(py)?)
     }
 }
 
