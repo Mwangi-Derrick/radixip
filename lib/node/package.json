@@ -13,7 +13,7 @@
   "scripts": {
     "build": "napi build --platform --release",
     "build:debug": "napi build --platform",
-    "prepublishOnly": "napi build --platform --release",
+    "prepublishOnly": "napi prepublish -t npm",
     "test": "node tests/test.js",
     "bench": "node benchmarks/bench.js"
   },
