@@ -49,12 +49,29 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
+      
+      - name: Check if package is already published
+        id: check_published
+        run: |
+          PACKAGE_NAME="radixip_rs"
+          VERSION=$(cargo metadata --format-version=1 --no-deps | jq -r '.packages[] | select(.name=="'"$PACKAGE_NAME"'") | .version')
+          if cargo search "$PACKAGE_NAME" --limit 1 | grep -q "$PACKAGE_NAME = \"$VERSION\""; then
+            echo "published=true" >> $GITHUB_OUTPUT
+            echo "Package $PACKAGE_NAME v$VERSION is already published on crates.io"
+          else
+            echo "published=false" >> $GITHUB_OUTPUT
+            echo "Package $PACKAGE_NAME v$VERSION is not yet published"
+          fi
+      
       - name: Publish radixip_rs
+        if: steps.check_published.outputs.published == 'false'
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
         run: cargo publish -p radixip_rs --no-verify
+      
       - name: Build documentation
         run: cargo doc --no-deps -p radixip_rs
+      
       - name: Upload docs to GitHub Pages
         uses: actions/upload-pages-artifact@v3
         with:
