@@ -37,7 +37,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Mwangi-Derrick/radixip"
+    "url": "git+https://github.com/Mwangi-Derrick/radixip.git"
   },
   "devDependencies": {
     "@napi-rs/cli": "^3.8.6"
