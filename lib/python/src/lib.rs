@@ -1,5 +1,4 @@
 use pyo3::exceptions::{PyTypeError, PyValueError};
-use pyo3::ffi::PyObject;
 use pyo3::prelude::*;
 use pyo3::types::PyDict;
 use radixip::{Metadata, RadixConfig, RadixEngine};
@@ -179,10 +178,8 @@ impl PyRadixEngine {
         Ok(dict)
     }
 
-    fn __repr__(&self, py: Python<'_>) -> PyResult<PyObject> {
-        let s = format!("RadixEngine(size={})", self.inner.size());
-        // Use the modern Bound-prefixed variant
-        Ok(s.into_bound_py_any(py)?)
+    fn __repr__(&self) -> String {
+        format!("RadixEngine(size={})", self.inner.size())
     }
 }
 
