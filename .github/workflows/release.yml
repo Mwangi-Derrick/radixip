@@ -223,7 +223,6 @@ jobs:
           - target: aarch64-unknown-linux-gnu
             runner: ubuntu-latest
             platform: linux
-            cross: true
           - target: x86_64-apple-darwin
             runner: macos-latest
             platform: macos
@@ -235,17 +234,14 @@ jobs:
             platform: windows
     steps:
       - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
+      - name: Build wheels via Maturin Action
+        uses: PyO3/maturin-action@v1
         with:
-          targets: ${{ matrix.target }}
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: Install maturin
-        run: pip install maturin
-      - name: Build wheels
-        working-directory: lib/python
-        run: maturin build --release --out dist --target ${{ matrix.target }}
+          target: ${{ matrix.target }}
+          manylinux: auto
+          args: --release --out dist
+          working-directory: lib/python
+
       - name: Upload wheel
         uses: actions/upload-artifact@v4
         with:
