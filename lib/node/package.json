@@ -1,5 +1,5 @@
 {
-  "name": "@mwangi-derrick/radixip",
+  "name": "radixip",
   "version": "0.1.0",
   "description": "High-performance IP subnet longest-prefix match engine (Rust-backed native addon)",
   "main": "index.js",
