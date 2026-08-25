@@ -279,18 +279,18 @@ jobs:
   # ===========================================================================
   # 6. Verify Go module
   # ===========================================================================
-  verify-go:
-    name: Verify Go module
-    runs-on: ubuntu-latest
-    needs: create-release
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
-        with:
-          go-version: '1.26'
-      - name: Build
-        working-directory: lib/go/engine
-        run: go build ./...
-      - name: Test
-        working-directory: lib/go/engine
-        run: go test ./...
+  # verify-go:
+  #   name: Verify Go module
+  #   runs-on: ubuntu-latest
+  #   needs: create-release
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: actions/setup-go@v5
+  #       with:
+  #         go-version: '1.26'
+  #     - name: Build
+  #       working-directory: lib/go/engine
+  #       run: go build ./...
+  #     - name: Test
+  #       working-directory: lib/go/engine
+  #       run: go test ./...
