@@ -204,7 +204,7 @@ jobs:
           path: lib/node/prebuilt
       - name: Publish to npm
         working-directory: lib/node
-        run: npm publish --access public
+        run: npm publish --access public --ignore-scripts
 
   # ===========================================================================
   # 5. Build Python wheels - DEFINITIVE VERSION
