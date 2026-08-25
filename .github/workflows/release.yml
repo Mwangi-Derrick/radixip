@@ -258,7 +258,7 @@ jobs:
         with:
           target: ${{ matrix.target }}
           manylinux: auto
-          args: --release --out dist -i python3
+          args: --release --out dist -i python3.12
           working-directory: lib/python
 
       - name: Upload wheel
