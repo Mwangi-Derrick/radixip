@@ -97,7 +97,7 @@ unsafe fn find_neon(keys: &[u8; 16], target: u8, count: u8) -> Option<usize> {
     // Broadcast target byte to all 16 lanes of a uint8x16_t register.
     let target_vec = vdupq_n_u8(target);
     // Load 16 key bytes into a NEON vector.
-    let keys_vec = vld1q_u8(keys.as_ptr());
+    let keys_vec = unsafe{ vld1q_u8(keys.as_ptr())};
     // Compare: result lane is 0xFF on match.
     let cmp = vceqq_u8(keys_vec, target_vec);
 
