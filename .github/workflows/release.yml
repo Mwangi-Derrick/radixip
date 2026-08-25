@@ -222,6 +222,8 @@ jobs:
       - name: Publish to npm
         working-directory: lib/node
         run: npm publish --access public --ignore-scripts
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   # ===========================================================================
   # 5. Build Python wheels - DEFINITIVE VERSION
