@@ -1,10 +1,7 @@
-[profile.release]
-lto = true
-codegen-units = 1
-panic = "abort"
-strip = true
-
-[profile.bench]
-lto = true
-codegen-units = 1
-debug = false
+# IMPORTANT: This file is NOT read by Cargo.
+#
+# Cargo only reads .cargo/config.toml for build configuration.
+# Profile overrides ([profile.release], [profile.bench]) must be in the
+# workspace root Cargo.toml — they have been moved there.
+#
+# This file can be safely deleted.

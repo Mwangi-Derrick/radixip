@@ -1,0 +1,9 @@
+# This file is intentionally empty.
+#
+# The [profile.release] and [profile.bench] settings that previously lived here
+# have been moved to the workspace root Cargo.toml — that is the only place
+# Cargo reads profile overrides from.
+#
+# If you need Cargo build configuration (e.g. custom target, build flags,
+# registry settings), add a [build] or [target.*] section to .cargo/config.toml
+# instead.  See: https://doc.rust-lang.org/cargo/reference/config.html

@@ -68,3 +68,14 @@ anyhow = "1.0"
 arc-swap = "1.6"
 dashmap = "5.5"
 crossbeam = "0.8"
+
+[profile.release]
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
+
+[profile.bench]
+lto = true
+codegen-units = 1
+debug = false
