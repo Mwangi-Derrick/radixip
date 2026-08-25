@@ -79,10 +79,10 @@ jobs:
             artifact: libradixip-aarch64.so
             cross: true
           - target: x86_64-apple-darwin
-            runner: macos-13
+            runner: macos-latest
             artifact: libradixip.dylib
           - target: aarch64-apple-darwin
-            runner: macos-14
+            runner: macos-latest
             artifact: libradixip-arm64.dylib
           - target: x86_64-pc-windows-msvc
             runner: windows-latest
@@ -141,9 +141,9 @@ jobs:
             runner: ubuntu-latest
             cross: true
           - target: x86_64-apple-darwin
-            runner: macos-13
+            runner: macos-latest
           - target: aarch64-apple-darwin
-            runner: macos-14
+            runner: macos-latest
           - target: x86_64-pc-windows-msvc
             runner: windows-latest
     steps:
@@ -173,12 +173,7 @@ jobs:
         shell: bash
         run: |
           npm install
-          if [ "${{ matrix.cross }}" = "true" ]; then
-            cross build --release --target ${{ matrix.target }}
-            napi build --platform --release --target ${{ matrix.target }}
-          else
-            napi build --platform --release --target ${{ matrix.target }}
-          fi
+          napi build --platform --release --target ${{ matrix.target }}
         env:
           CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER: aarch64-linux-gnu-gcc
       
@@ -215,31 +210,34 @@ jobs:
   # 5. Build Python wheels - DEFINITIVE VERSION
   # ===========================================================================
   build-python-wheels:
-    name: Build Python wheel (${{ matrix.target }})
+    name: Build Python wheel (${{ matrix.platform }}-${{ matrix.target }})
     runs-on: ${{ matrix.runner }}
     needs: create-release
     strategy:
       fail-fast: false
       matrix:
         include:
-          - target: x86_64
+          - target: x86_64-unknown-linux-gnu
             runner: ubuntu-latest
             platform: linux
-          - target: aarch64
+          - target: aarch64-unknown-linux-gnu
             runner: ubuntu-latest
             platform: linux
-          - target: x86_64
-            runner: macos-13
+            cross: true
+          - target: x86_64-apple-darwin
+            runner: macos-latest
             platform: macos
-          - target: aarch64
-            runner: macos-14
+          - target: aarch64-apple-darwin
+            runner: macos-latest
             platform: macos
-          - target: x86_64
+          - target: x86_64-pc-windows-msvc
             runner: windows-latest
             platform: windows
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -247,7 +245,7 @@ jobs:
         run: pip install maturin
       - name: Build wheels
         working-directory: lib/python
-        run: maturin build --release --out dist
+        run: maturin build --release --out dist --target ${{ matrix.target }}
       - name: Upload wheel
         uses: actions/upload-artifact@v4
         with:
