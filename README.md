@@ -749,11 +749,11 @@ See [ARCHITECTURE.md](./ARCHITECTURE.md) for the full design rationale, hybrid R
    - [x] Zero-alloc lookups
    - [x] Lock-free concurrency support
 
-### Multi-language bindings 🔨
+### Multi-language bindings
 
 - [x] Publish v1.0.0 release of the rust crate to crates.io
-- [ ] Publish the NAPI-RS node bindings to npm
-- [ ] Publish the PyO3 bindings to PYPI
+- [x] Publish the NAPI-RS node bindings to npm
+- [x] Publish the PyO3 bindings to PYPI
 
 ### Configuration Engine 🔨
 - [ ] YAML/TOML config parser
