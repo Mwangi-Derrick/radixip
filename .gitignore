@@ -38,3 +38,6 @@ lib/go/go.work.sum
 lib/vendor/lib/*.so
 lib/vendor/lib/*.dylib
 lib/vendor/lib/*.dll
+*.so
+*.dylib
+*.dll
