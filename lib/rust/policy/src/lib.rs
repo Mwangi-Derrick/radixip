@@ -32,8 +32,8 @@ pub use limiter::TokenBucketLimiter;
 pub use token_bucket::TokenBucket;
 
 use ipnetwork::IpNetwork;
+use radixip::RadixEngine;
 use radixip_config::{IpSource, MiddlewareConfig, RateLimitConfig};
-use radixip_rs::RadixEngine;
 use std::net::{IpAddr, SocketAddr};
 use std::sync::Arc;
 

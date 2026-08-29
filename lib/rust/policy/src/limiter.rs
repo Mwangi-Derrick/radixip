@@ -10,8 +10,8 @@
 use crate::token_bucket::TokenBucket;
 use ipnetwork::IpNetwork;
 use moka::sync::Cache;
+use radixip::RadixEngine;
 use radixip_config::{BucketKeyMode, RateLimitConfig};
-use radixip_rs::RadixEngine;
 use std::net::IpAddr;
 use std::sync::Arc;
 
@@ -51,13 +51,21 @@ fn truncate_to_prefix(ip: IpAddr, depth_v4: u8, depth_v6: u8) -> IpNetwork {
     match ip {
         IpAddr::V4(v4) => {
             let bits = u32::from(v4);
-            let mask = if depth_v4 == 0 { 0 } else { !0u32 << (32 - depth_v4) };
+            let mask = if depth_v4 == 0 {
+                0
+            } else {
+                !0u32 << (32 - depth_v4)
+            };
             let net_addr = std::net::Ipv4Addr::from(bits & mask);
             IpNetwork::V4(ipnetwork::Ipv4Network::new(net_addr, depth_v4).unwrap())
         }
         IpAddr::V6(v6) => {
             let bits = u128::from(v6);
-            let mask = if depth_v6 == 0 { 0 } else { !0u128 << (128 - depth_v6) };
+            let mask = if depth_v6 == 0 {
+                0
+            } else {
+                !0u128 << (128 - depth_v6)
+            };
             let net_addr = std::net::Ipv6Addr::from(bits & mask);
             IpNetwork::V6(ipnetwork::Ipv6Network::new(net_addr, depth_v6).unwrap())
         }
@@ -96,7 +104,10 @@ impl TokenBucketLimiter {
             BucketKeyMode::Both { depth_v4, depth_v6 } => {
                 let subnet_key = ip_to_key(
                     ip,
-                    &BucketKeyMode::Subnet { depth_v4: *depth_v4, depth_v6: *depth_v6 },
+                    &BucketKeyMode::Subnet {
+                        depth_v4: *depth_v4,
+                        depth_v6: *depth_v6,
+                    },
                     engine,
                 );
                 let exact_key = BucketKey::Exact(ip);
