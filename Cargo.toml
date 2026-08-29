@@ -69,6 +69,12 @@ arc-swap = "1.6"
 dashmap = "5.5"
 crossbeam = "0.8"
 
+# For rate limiting
+moka = { version = "0.12", features = ["sync"] }
+
+# For YAML config
+serde_yaml = "0.9"
+
 [profile.release]
 lto = true
 codegen-units = 1
