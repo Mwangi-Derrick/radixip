@@ -9,3 +9,5 @@ radixip-config = { path = "../../config" }
 radixip_rs = { workspace = true }
 tracing = { workspace = true }
 tower = "0.5.3"
+http = "1.0"
+futures-util = { workspace = true }
