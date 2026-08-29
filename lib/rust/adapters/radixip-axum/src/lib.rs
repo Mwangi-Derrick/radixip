@@ -1,30 +1,23 @@
-// RadixIP Axum adapter
-use axum::{
-    extract::Request,
-    middleware::Next,
-    response::{Response, IntoResponse},
-    http::{StatusCode, HeaderMap},
-    Json,
-};
-use std::net::IpAddr;
-use std::sync::Arc;
-use radixip_rs::Engine;
-use serde::{Deserialize, Serialize};
+//! Axum integration for RadixIP Middleware.
+//!
+//! This crate provides a convenience re-export of `radixip_tower::RadixIpLayer`
+//! specifically tailored for `axum`.
+//!
+//! # Usage
+//!
+//! ```no_run
+//! use axum::{routing::get, Router};
+//! use radixip_axum::RadixIpLayer;
+//! use radixip_policy::PolicyEngine;
+//! use radixip_config::{MiddlewareConfig, RateLimitConfig};
+//! use std::sync::Arc;
+//!
+//! // Assume engine is configured and instantiated
+//! // let engine = PolicyEngine::new(radix_engine, middleware_config, rate_limit_config, true);
+//! //
+//! // let app = Router::new()
+//! //     .route("/", get(|| async { "Hello, World!" }))
+//! //     .layer(RadixIpLayer::new(Arc::new(engine), middleware_config.responses));
+//! ```
 
-
-#[derive(Clone)]
-pub struct RadixIPMiddleware {
-    engine: Arc<Engine>,
-    classifier: Arc<Classifier>,
-    config: Arc<Config>,
-}
-
-impl RadixIPMiddleware {
-    pub fn new(engine: Engine, config: Config) -> Self {
-        Self {
-            engine: Arc::new(engine),
-            classifier: Arc::new(Classifier::new(config.clone())),
-            config: Arc::new(config),
-        }
-    }
-}
+pub use radixip_tower::{RadixIpLayer, RadixIpMiddleware};
