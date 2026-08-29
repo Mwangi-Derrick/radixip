@@ -671,7 +671,7 @@ radixip-rs = "0.1.0"
 
 ## Download pre-built shared library
 ```curl
-curl -LO https://github.com/Mwangi-Derrick/radixip/releases/latest/libradixip.so
+curl -LO https://github.com/Mwangi-Derrick/radixip/releases/latest/download/libradixip.so
 ```
 
 
