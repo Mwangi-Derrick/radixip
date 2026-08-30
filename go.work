@@ -1,6 +1,7 @@
 go 1.26.1
 
 use (
+    ./cmd/bench-parser
 	./lib/go/adapters/gin
 	./lib/go/engine
 	./lib/go/policy
