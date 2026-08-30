@@ -1,7 +1,16 @@
 #!/bin/bash
+# Usage: ./vegeta_test.sh [rate] [duration] [blocklist_count]
+# Example: ./vegeta_test.sh 500 20s 100000
+
 set -e  # Exit on error
 
+# Configuration with defaults
+RATE=${1:-100}
+DURATION=${2:-15s}
+BLOCKLIST_COUNT=${3:-100000}
+
 echo "🚀 Starting local load test..."
+echo "📊 Configuration: ${RATE} req/s for ${DURATION} with ${BLOCKLIST_COUNT} CIDRs"
 
 # Colors for output
 RED='\033[0;31m'
@@ -56,43 +65,73 @@ fi
 
 echo -e "${GREEN}✅ Services running${NC}"
 
-# Seed blocklist
-echo -e "${YELLOW}🌱 Seeding blocklist with 100k CIDRs...${NC}"
-./bin/seed_blocklist -count 100000 -addr localhost:8082
+# Seed blocklist with configurable count
+echo -e "${YELLOW}🌱 Seeding blocklist with ${BLOCKLIST_COUNT} CIDRs...${NC}"
+./bin/seed_blocklist -count ${BLOCKLIST_COUNT} -addr localhost:8082
 echo -e "${GREEN}✅ Blocklist seeded${NC}"
 
-# Run load test
-echo -e "${YELLOW}📊 Running load test (50k req/s for 30s)...${NC}"
+# Run load test with configurable rate and duration
+echo -e "${YELLOW}📊 Running load test (${RATE} req/s for ${DURATION})...${NC}"
+RESULT_FILE="load_test_results_${RATE}_${DURATION}.txt"
 echo "GET http://localhost:8080/ping" | \
-    vegeta attack -rate=50000 -duration=30s -timeout=5s | \
-    vegeta report -type=text | tee load_test_results.txt
+    vegeta attack -rate=${RATE} -duration=${DURATION} -timeout=5s | \
+    vegeta report -type=text | tee ${RESULT_FILE}
 
 # Parse results
 echo ""
 echo -e "${GREEN}=== Load Test Results ===${NC}"
-cat load_test_results.txt
+cat ${RESULT_FILE}
 
-# Check p99
-P99=$(grep "99th" load_test_results.txt | grep -oP '[\d.]+(ms|s)' | head -1)
-echo ""
-echo -e "📊 p99 latency: ${YELLOW}$P99${NC}"
+# Extract metrics
+SUCCESS=$(grep "Success" ${RESULT_FILE} | grep -oP '\d+\.\d+%' | head -1)
+P99=$(grep "99th" ${RESULT_FILE} | grep -oP '[\d.]+(ms|s)' | head -1)
+MEAN=$(grep "mean" ${RESULT_FILE} | grep -oP '[\d.]+(ms|s)' | head -1)
+REQUESTS=$(grep "Requests" ${RESULT_FILE} | grep -oP '\[\d+\]' | grep -oP '\d+')
 
-# Convert to milliseconds for comparison
-if [[ $P99 == *"s"* ]]; then
+echo -e "\n📊 Summary:"
+echo "   Requests total: ${REQUESTS}"
+echo "   Success rate: ${SUCCESS}"
+echo "   Mean latency: ${MEAN}"
+echo "   p99 latency: ${P99}"
+
+# Check p99 threshold (100ms)
+THRESHOLD_FAIL=0
+if [[ $P99 == *"ms"* ]]; then
+    VALUE=$(echo $P99 | sed 's/ms//' | tr -d '[:space:]')
+    if (( $(echo "$VALUE > 100" | bc -l 2>/dev/null || echo "0") )); then
+        echo -e "${RED}❌ p99 latency ($VALUE ms) exceeds 100ms threshold${NC}"
+        THRESHOLD_FAIL=1
+    else
+        echo -e "${GREEN}✅ p99 latency ($VALUE ms) within acceptable range${NC}"
+    fi
+elif [[ $P99 == *"s"* ]]; then
     VALUE=$(echo $P99 | sed 's/s//' | awk '{print $1 * 1000}')
-elif [[ $P99 == *"ms"* ]]; then
-    VALUE=$(echo $P99 | sed 's/ms//')
+    if (( $(echo "$VALUE > 100" | bc -l 2>/dev/null || echo "0") )); then
+        echo -e "${RED}❌ p99 latency ($VALUE ms) exceeds 100ms threshold${NC}"
+        THRESHOLD_FAIL=1
+    else
+        echo -e "${GREEN}✅ p99 latency ($VALUE ms) within acceptable range${NC}"
+    fi
 else
-    echo -e "${RED}⚠️  Could not parse p99 value: $P99${NC}"
+    echo -e "${YELLOW}⚠️  Could not parse p99 value: $P99${NC}"
 fi
 
-# Check threshold (100ms)
-if (( $(echo "$VALUE > 100" | bc -l 2>/dev/null || echo "0") )); then
-    echo -e "${RED}❌ p99 latency ($VALUE ms) exceeds 100ms threshold${NC}"
-    THRESHOLD_FAIL=1
-else
-    echo -e "${GREEN}✅ p99 latency ($VALUE ms) within acceptable range${NC}"
-fi
+# Save results to a summary file
+SUMMARY_FILE="test_summary_${RATE}_${DURATION}.txt"
+cat > ${SUMMARY_FILE} << EOF
+=== Load Test Summary ===
+Date: $(date)
+Rate: ${RATE} req/s
+Duration: ${DURATION}
+Blocklist: ${BLOCKLIST_COUNT} CIDRs
+Requests total: ${REQUESTS}
+Success rate: ${SUCCESS}
+Mean latency: ${MEAN}
+p99 latency: ${P99}
+Threshold: ${THRESHOLD_FAIL}
+EOF
+
+echo -e "\n📝 Results saved to: ${RESULT_FILE} and ${SUMMARY_FILE}"
 
 # Cleanup
 echo -e "${YELLOW}🧹 Cleaning up...${NC}"
@@ -100,6 +139,7 @@ kill $TESTAPP_PID 2>/dev/null
 kill $SPOOF_PID 2>/dev/null
 
 if [ "$THRESHOLD_FAIL" = "1" ]; then
+    echo -e "${RED}❌ Load test failed due to performance threshold${NC}"
     exit 1
 fi
 
