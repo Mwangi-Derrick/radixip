@@ -58,7 +58,7 @@ func main() {
 	log.Printf("   Rate Limit: %v", *rateLimit)
 	log.Printf("   Blocklist: %v", *blocklist)
 	log.Printf("   Burst: %d", *burst)
-	log.Printf("   Refill Rate: %.2f tokens/sec", *refillRate)
+	log.Printf("   Refill Rate: %d tokens/sec", *refillRate) // Fixed: %d instead of %.2f
 	log.Printf("   TTL: %d seconds", *ttl)
 	log.Printf("   Max Buckets: %d", *maxBuckets)
 
