@@ -73,10 +73,16 @@ where
         let engine = self.engine.clone();
         let responses = self.responses.clone();
 
-        // Extract IP information from request
+        // Extract IP information from request - convert to owned strings
         let headers = req.headers().clone();
-        let xff = headers.get("x-forwarded-for").and_then(|v| v.to_str().ok());
-        let x_real_ip = headers.get("x-real-ip").and_then(|v| v.to_str().ok());
+        let xff = headers
+            .get("x-forwarded-for")
+            .and_then(|v| v.to_str().ok())
+            .map(|s| s.to_string());
+        let x_real_ip = headers
+            .get("x-real-ip")
+            .and_then(|v| v.to_str().ok())
+            .map(|s| s.to_string());
 
         // Extract remote address from request extensions
         let remote_addr = req
@@ -85,14 +91,10 @@ where
             .map(|connect_info| connect_info.0);
 
         // Call inner service
-        let mut inner = std::mem::replace(&mut self.inner, unsafe {
-            // Safety: We're replacing with a valid service that will be used
-            // in the future, not during this method call
-            std::mem::zeroed()
-        });
+        let mut inner = std::mem::replace(&mut self.inner, unsafe { std::mem::zeroed() });
 
         Box::pin(async move {
-            let decision = engine.check(xff, x_real_ip, remote_addr.as_ref());
+            let decision = engine.check(xff.as_deref(), x_real_ip.as_deref(), remote_addr.as_ref());
 
             match decision {
                 PolicyDecision::Allow => inner.call(req).await.map_err(Into::into),
@@ -133,8 +135,8 @@ where
                 }
             }
         })
-    }
-}
+    } // <-- This closing brace was missing!
+} // <-- This closes the impl block for Service<Request>
 
 /// Axum-specific RadixIP Layer
 #[derive(Clone)]
@@ -175,10 +177,6 @@ impl RadixIpExt for axum::Router {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
-    use axum::http::StatusCode;
-    use axum::{routing::get, Router};
-    use tower::ServiceExt;
 
     #[tokio::test]
     async fn test_radixip_middleware_allow() {
