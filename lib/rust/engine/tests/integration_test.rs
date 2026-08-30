@@ -25,7 +25,7 @@ fn test_all_rust_engine_and_node_combinations() {
     for ev in &engine_variants {
         for nv in &node_variants {
             for compressed in &[false, true] {
-                let engine = EngineWrapper::new(*ev, *nv, *compressed, 32);
+                let engine = EngineWrapper::new(*ev, *nv, *compressed, Some(32));
 
                 assert_eq!(engine.size(), 0);
 
@@ -76,7 +76,7 @@ fn test_ipv6_longest_prefix_match() {
             EngineVariant::Standard,
             NodeVariant::AtomicRadixNode,
             *compressed,
-            64 as usize,
+            Some(64),
         );
 
         let broad_v6 = "2001:db8::/32".parse::<IpNetwork>().unwrap();
@@ -102,7 +102,12 @@ fn test_ipv6_longest_prefix_match() {
 
 #[test]
 fn cached_engine_invalidates_ips_under_changed_prefix() {
-    let engine = EngineWrapper::new(EngineVariant::Standard, NodeVariant::Padded, false);
+    let engine = EngineWrapper::new(
+        EngineVariant::Standard,
+        NodeVariant::PaddedRadixNode,
+        false,
+        Some(32),
+    );
 
     engine
         .insert(
