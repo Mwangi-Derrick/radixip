@@ -6,6 +6,7 @@ edition = "2021"
 [dependencies]
 radixip-tower = { path = "../radixip-tower" }
 radixip-policy = { path = "../../policy" }
+radixip-config = { path = "../../config" }
 radixip_rs = { workspace = true }
 tracing = { workspace = true }
 axum = "0.8.9"
