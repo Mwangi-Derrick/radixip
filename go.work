@@ -1,0 +1,10 @@
+go 1.26.1
+
+use (
+	./lib/go/adapters/gin
+	./lib/go/engine
+	./lib/go/policy
+	./scripts/seed_blocklist
+	./scripts/spoof_proxy
+	./scripts/testapp
+)
