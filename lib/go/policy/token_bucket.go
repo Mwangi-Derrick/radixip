@@ -101,7 +101,6 @@ func (l *TokenBucketLimiter) getOrCreate(key string) *atomic.Uint64 {
 
 	if ok {
 		// Lazy TTL reset: if the bucket is older than ttlSecs, reset it.
-		_, ts := unpack(b.Load()) // note: ts is in upper bits
 		packed := b.Load()
 		ts32, _ := unpack(packed)
 		if now-ts32 > l.ttlSecs {
