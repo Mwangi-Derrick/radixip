@@ -213,7 +213,7 @@ jobs:
       #       git push origin main || echo "Nothing to push"
       #     fi
 
- load-test:
+load-test:
   name: Load Test (Vegeta + Spoof Proxy)
   runs-on: ubuntu-latest
   steps:
@@ -226,52 +226,103 @@ jobs:
     - name: Install Vegeta
       run: go install github.com/tsenart/vegeta@latest
 
-    - name: Sync Go workspace
+    - name: Tidy all modules
       run: |
-        # If go.work exists, sync it
-        if [ -f go.work ]; then
-          go work sync
-        else
-          echo "⚠️  go.work not found, using individual modules"
-          # Fallback: initialize each submodule
-          cd lib/go/engine && go mod init github.com/Mwangi-Derrick/radixip/lib/go/engine || true && go mod tidy && cd ../../..
-          cd lib/go/policy && go mod init github.com/Mwangi-Derrick/radixip/lib/go/policy || true && go mod tidy && cd ../../..
-          cd lib/go/adapters/gin && go mod init github.com/Mwangi-Derrick/radixip/lib/go/adapters/gin || true && go mod tidy && cd ../../../..
+        # Tidy each module to download dependencies
+        cd scripts/testapp && go mod tidy && cd ../..
+        cd scripts/spoof_proxy && go mod tidy && cd ../..
+        cd scripts/seed_blocklist && go mod tidy && cd ../..
+        
+        # Also tidy lib/go submodules if they exist
+        if [ -d lib/go/engine ]; then
+          cd lib/go/engine && go mod tidy && cd ../../..
+        fi
+        if [ -d lib/go/policy ]; then
+          cd lib/go/policy && go mod tidy && cd ../../..
+        fi
+        if [ -d lib/go/adapters/gin ]; then
+          cd lib/go/adapters/gin && go mod tidy && cd ../../../..
         fi
 
-    - name: Build test app + spoof proxy
+    - name: Build all components
       run: |
-        # Build using the workspace
-        go build -o bin/testapp ./scripts/testapp
-        go build -o bin/spoof_proxy ./scripts/spoof_proxy
-        go build -o bin/seed_blocklist ./scripts/seed_blocklist
+        # Build each component from its directory
+        cd scripts/testapp && go build -o ../../bin/testapp && cd ../..
+        cd scripts/spoof_proxy && go build -o ../../bin/spoof_proxy && cd ../..
+        cd scripts/seed_blocklist && go build -o ../../bin/seed_blocklist && cd ../..
 
-    - name: Start app + proxy
+    - name: Debug - Check binaries
       run: |
+        echo "=== Built binaries ==="
+        ls -la bin/
+
+    - name: Start services
+      run: |
+        echo "Starting testapp..."
         ./bin/testapp &
-        sleep 2
+        sleep 3
+        
+        echo "Starting spoof_proxy..."
         ./bin/spoof_proxy &
-        sleep 2
+        sleep 3
+        
+        # Verify services are running
+        echo "Checking services..."
+        curl -s http://localhost:8080/ping || echo "⚠️  testapp not responding"
+        curl -s http://localhost:8082/health || echo "⚠️  proxy not responding"
 
     - name: Seed blocklist (100k CIDRs)
-      run: ./bin/seed_blocklist -count 100000 -addr localhost:8082
+      run: |
+        echo "Seeding blocklist with 100k CIDRs..."
+        ./bin/seed_blocklist -count 100000 -addr localhost:8082
+        echo "✅ Blocklist seeded"
 
     - name: Run load test
       run: |
+        echo "Running load test (50k req/s for 30s)..."
         echo "GET http://localhost:8080/ping" | \
-          vegeta attack -rate=50000 -duration=30s | \
+          vegeta attack -rate=50000 -duration=30s -timeout=5s | \
           vegeta report -type=text | tee load_test_results.txt
+        
+        echo ""
+        echo "=== Load Test Results ==="
+        cat load_test_results.txt
 
     - name: Check p99 latency threshold
       run: |
-        P99=$(grep "99th" load_test_results.txt | grep -oP '[\d.]+ms' | head -1)
-        echo "p99 latency: $P99"
-        # Simple check to fail if P99 contains "ms" and is over a threshold. 
-        # Actually, if it's over 1000ms it will be "1s". For simplicity, we just log it.
-        # We can let it always pass, but upload the results.
+        P99=$(grep "99th" load_test_results.txt | grep -oP '[\d.]+(ms|s)' | head -1)
+        echo "📊 p99 latency: $P99"
+        
+        # Convert to milliseconds for comparison
+        if [[ $P99 == *"s"* ]]; then
+          VALUE=$(echo $P99 | sed 's/s//' | awk '{print $1 * 1000}')
+        elif [[ $P99 == *"ms"* ]]; then
+          VALUE=$(echo $P99 | sed 's/ms//')
+        else
+          echo "⚠️  Could not parse p99 value: $P99"
+          exit 0
+        fi
+        
+        # Fail if p99 > 100ms (adjust threshold as needed)
+        if (( $(echo "$VALUE > 100" | bc -l 2>/dev/null || echo "0") )); then
+          echo "❌ p99 latency ($VALUE ms) exceeds 100ms threshold"
+          exit 1
+        else
+          echo "✅ p99 latency ($VALUE ms) within acceptable range"
+        fi
 
     - name: Upload results
       uses: actions/upload-artifact@v4
       with:
         name: load-test-results
         path: load_test_results.txt
+
+    - name: Upload logs on failure
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: debug-logs
+        path: |
+          *.log
+          nohup.out
+          bin/
