@@ -135,8 +135,8 @@ where
                 }
             }
         })
-    } // <-- This closing brace was missing!
-} // <-- This closes the impl block for Service<Request>
+    } //
+} //
 
 /// Axum-specific RadixIP Layer
 #[derive(Clone)]
@@ -171,10 +171,20 @@ pub trait RadixIpExt {
 
 impl RadixIpExt for axum::Router {
     fn layer_radixip(self, engine: Arc<PolicyEngine>, responses: ResponseConfig) -> Self {
-        self.layer(AxumRadixIpLayer::new(engine, responses))
+        use tower::ServiceBuilder;
+
+        // Create the layer
+        let layer = AxumRadixIpLayer::new(engine, responses);
+
+        // Apply using ServiceBuilder - map_err must be applied to the service,
+        // not the layer
+        self.layer(
+            ServiceBuilder::new()
+                .map_err(|e: axum::BoxError| -> std::convert::Infallible { unreachable!() })
+                .layer(layer),
+        )
     }
 }
-
 #[cfg(test)]
 mod tests {
 
