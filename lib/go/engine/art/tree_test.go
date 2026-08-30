@@ -206,7 +206,7 @@ func BenchmarkTree_Insert(b *testing.B) {
 	}
 
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		tree := art.NewTree()
 		for _, ip := range ips {
 			tree.Insert(ip, strPtr("v"))
