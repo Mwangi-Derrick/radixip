@@ -606,7 +606,7 @@ cargo bench --bench lookup_bench -- --output-format bencher
 import (
     "net"
 
-    radixip "github.com/Mwangi-Derrick/radixip/lib/go"
+    radixip "github.com/Mwangi-Derrick/radixip/lib/go/engine"
 )
 
 func main() {
@@ -658,7 +658,7 @@ radix_engine_free(engine);
 
 ### Go
 ```bash
-go get github.com/Mwangi-Derrick/radixip/lib/go
+go get github.com/Mwangi-Derrick/radixip/lib/go/engine
 ```
 ### Rust
 ```rust
