@@ -120,11 +120,11 @@ impl TokenBucketLimiter {
     fn consume(&self, key: BucketKey) -> bool {
         let bucket = self
             .cache
-            .entry(key)
-            .or_insert_with(|| Arc::new(TokenBucket::new(self.config.capacity)));
+            .get_with(key, || Arc::new(TokenBucket::new(self.config.capacity)));
+
+        // Just call allow() directly - no mutable access needed
         bucket.allow(self.config.capacity, self.config.refill_rate)
     }
-
     /// Return the number of tracked IPs/subnets currently in the store.
     pub fn tracked_count(&self) -> u64 {
         self.cache.entry_count()
