@@ -3,9 +3,9 @@ module testapp
 go 1.26.1
 
 require (
-	github.com/Mwangi-Derrick/radixip/lib/go/adapters/gin v0.0.0-20260830085941-08577dbffeb0
-	github.com/Mwangi-Derrick/radixip/lib/go/engine v0.0.0-20260830085941-08577dbffeb0
-	github.com/Mwangi-Derrick/radixip/lib/go/policy v0.0.0-20260830085941-08577dbffeb0
+	github.com/Mwangi-Derrick/radixip/lib/go/adapters/gin v0.0.0-00010101000000-000000000000
+	github.com/Mwangi-Derrick/radixip/lib/go/engine v0.0.0-00010101000000-000000000000
+	github.com/Mwangi-Derrick/radixip/lib/go/policy v0.0.0-20260829024908-ab53302c83c8
 	github.com/gin-gonic/gin v1.12.0
 )
 
@@ -42,4 +42,10 @@ require (
 	golang.org/x/sys v0.41.0 // indirect
 	golang.org/x/text v0.34.0 // indirect
 	google.golang.org/protobuf v1.36.10 // indirect
+)
+
+replace (
+	github.com/Mwangi-Derrick/radixip/lib/go/adapters/gin => ../../lib/go/adapters/gin
+	github.com/Mwangi-Derrick/radixip/lib/go/engine => ../../lib/go/engine
+	github.com/Mwangi-Derrick/radixip/lib/go/policy => ../../lib/go/policy
 )
