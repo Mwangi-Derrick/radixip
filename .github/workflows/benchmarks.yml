@@ -213,51 +213,65 @@ jobs:
       #       git push origin main || echo "Nothing to push"
       #     fi
 
-  load-test:
-    name: Load Test (Vegeta + Spoof Proxy)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      
-      - uses: actions/setup-go@v5
-        with:
-          go-version: '1.26.1'
+ load-test:
+  name: Load Test (Vegeta + Spoof Proxy)
+  runs-on: ubuntu-latest
+  steps:
+    - uses: actions/checkout@v4
+    
+    - uses: actions/setup-go@v5
+      with:
+        go-version: '1.26.1'
 
-      - name: Install Vegeta
-        run: go install github.com/tsenart/vegeta@latest
+    - name: Install Vegeta
+      run: go install github.com/tsenart/vegeta@latest
 
-      - name: Build test app + spoof proxy
-        run: |
-          cd scripts/testapp && go build -o ../../bin/testapp
-          cd scripts/spoof_proxy && go build -o ../../bin/spoof_proxy
-          cd scripts/seed_blocklist && go build -o ../../bin/seed_blocklist
+    - name: Sync Go workspace
+      run: |
+        # If go.work exists, sync it
+        if [ -f go.work ]; then
+          go work sync
+        else
+          echo "⚠️  go.work not found, using individual modules"
+          # Fallback: initialize each submodule
+          cd lib/go/engine && go mod init github.com/Mwangi-Derrick/radixip/lib/go/engine || true && go mod tidy && cd ../../..
+          cd lib/go/policy && go mod init github.com/Mwangi-Derrick/radixip/lib/go/policy || true && go mod tidy && cd ../../..
+          cd lib/go/adapters/gin && go mod init github.com/Mwangi-Derrick/radixip/lib/go/adapters/gin || true && go mod tidy && cd ../../../..
+        fi
 
-      - name: Start app + proxy
-        run: |
-          ./bin/testapp &
-          sleep 2
-          ./bin/spoof_proxy &
-          sleep 2
+    - name: Build test app + spoof proxy
+      run: |
+        # Build using the workspace
+        go build -o bin/testapp ./scripts/testapp
+        go build -o bin/spoof_proxy ./scripts/spoof_proxy
+        go build -o bin/seed_blocklist ./scripts/seed_blocklist
 
-      - name: Seed blocklist (100k CIDRs)
-        run: ./bin/seed_blocklist -count 100000 -addr localhost:8082
+    - name: Start app + proxy
+      run: |
+        ./bin/testapp &
+        sleep 2
+        ./bin/spoof_proxy &
+        sleep 2
 
-      - name: Run load test
-        run: |
-          echo "GET http://localhost:8080/ping" | \
-            vegeta attack -rate=50000 -duration=30s | \
-            vegeta report -type=text | tee load_test_results.txt
+    - name: Seed blocklist (100k CIDRs)
+      run: ./bin/seed_blocklist -count 100000 -addr localhost:8082
 
-      - name: Check p99 latency threshold
-        run: |
-          P99=$(grep "99th" load_test_results.txt | grep -oP '[\d.]+ms' | head -1)
-          echo "p99 latency: $P99"
-          # Simple check to fail if P99 contains "ms" and is over a threshold. 
-          # Actually, if it's over 1000ms it will be "1s". For simplicity, we just log it.
-          # We can let it always pass, but upload the results.
+    - name: Run load test
+      run: |
+        echo "GET http://localhost:8080/ping" | \
+          vegeta attack -rate=50000 -duration=30s | \
+          vegeta report -type=text | tee load_test_results.txt
 
-      - name: Upload results
-        uses: actions/upload-artifact@v4
-        with:
-          name: load-test-results
-          path: load_test_results.txt
+    - name: Check p99 latency threshold
+      run: |
+        P99=$(grep "99th" load_test_results.txt | grep -oP '[\d.]+ms' | head -1)
+        echo "p99 latency: $P99"
+        # Simple check to fail if P99 contains "ms" and is over a threshold. 
+        # Actually, if it's over 1000ms it will be "1s". For simplicity, we just log it.
+        # We can let it always pass, but upload the results.
+
+    - name: Upload results
+      uses: actions/upload-artifact@v4
+      with:
+        name: load-test-results
+        path: load_test_results.txt

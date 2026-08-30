@@ -12,20 +12,20 @@ fn test_all_rust_engine_and_node_combinations() {
     ];
 
     let node_variants = vec![
-        NodeVariant::Normal,
-        NodeVariant::Atomic,
-        NodeVariant::Padded,
-        NodeVariant::LockFree,
-        NodeVariant::CompressedNormal,
-        NodeVariant::CompressedAtomic,
-        NodeVariant::CompressedPadded,
-        NodeVariant::CompressedLockFree,
+        NodeVariant::NormalTrieNode,
+        NodeVariant::AtomicTrieNode,
+        NodeVariant::PaddedTrieNode,
+        NodeVariant::LockFreeTrieNode,
+        NodeVariant::NormalRadixNode,
+        NodeVariant::AtomicRadixNode,
+        NodeVariant::PaddedRadixNode,
+        NodeVariant::LockFreeRadixNode,
     ];
 
     for ev in &engine_variants {
         for nv in &node_variants {
             for compressed in &[false, true] {
-                let engine = EngineWrapper::new(*ev, *nv, *compressed);
+                let engine = EngineWrapper::new(*ev, *nv, *compressed, 32);
 
                 assert_eq!(engine.size(), 0);
 
@@ -74,8 +74,9 @@ fn test_ipv6_longest_prefix_match() {
     for compressed in &[false, true] {
         let engine = EngineWrapper::new(
             EngineVariant::Standard,
-            NodeVariant::CompressedAtomic,
+            NodeVariant::AtomicRadixNode,
             *compressed,
+            64 as usize,
         );
 
         let broad_v6 = "2001:db8::/32".parse::<IpNetwork>().unwrap();
