@@ -5,7 +5,7 @@
 
 use actix_web::{
     body::EitherBody,
-    dev::{forward_ready, ServiceRequest, ServiceResponse, Sfervice, Transform},
+    dev::{forward_ready, Service, ServiceRequest, ServiceResponse, Transform},
     http::header,
     Error, HttpResponse,
 };
