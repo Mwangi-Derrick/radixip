@@ -1,0 +1,75 @@
+name: Vegeta Load Tests
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - '.github/workflows/bench.yml'
+      - '.github/workflows/release.yml'
+      - '.github/workflows/ffi-benchmarks.yml'
+      - 'proto'
+      - 'docker'
+      - '.gitignore'
+      - '.gitattributes'
+      - 'config'
+      - 'metrics'
+      - '.editorconfig'
+      - 'Makefile'
+  pull_request:
+    branches: [main]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - 'proto'
+      - 'docker'
+      - '.gitignore'
+      - '.gitattributes'
+      - 'config'
+      - 'metrics'
+      - '.editorconfig'
+      - 'Makefile'
+  workflow_dispatch:
+
+concurrency:
+  group: load-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  deployments: write
+
+jobs:
+  load-test:
+    name: Load Test
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+      
+      - name: Make test script executable
+        run: chmod +x scripts/vegeta_test.sh
+      
+      - name: Run load test (100 req/s)
+        run: ./scripts/vegeta_test.sh 100 30s 100000
+      
+      - name: Run load test (500 req/s)
+        run: ./scripts/vegeta_test.sh 500 30s 100000
+      
+      - name: Run load test (1000 req/s)
+        run: ./scripts/vegeta_test.sh 1000 30s 100000
+      
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: load-test-results
+          path: |
+            load_test_results_*.txt
+            test_summary_*.txt
+            results_*.txt
