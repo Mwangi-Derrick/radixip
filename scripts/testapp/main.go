@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/Mwangi-Derrick/radixip/lib/go/adapters/gin"
+	radixipgin "github.com/Mwangi-Derrick/radixip/lib/go/adapters/gin"
 	radixip_engine "github.com/Mwangi-Derrick/radixip/lib/go/engine"
 	"github.com/Mwangi-Derrick/radixip/lib/go/policy"
 	gogin "github.com/gin-gonic/gin"
