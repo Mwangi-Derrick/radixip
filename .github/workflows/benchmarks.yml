@@ -228,9 +228,9 @@ jobs:
 
       - name: Build test app + spoof proxy
         run: |
-          cd ./scripts/testapp && go build -o ../../bin/testapp
-          cd ./scripts/spoof_proxy && go build -o ../../bin/spoof_proxy
-          cd ./scripts/seed_blocklist && go build -o ../../bin/seed_blocklist
+          cd scripts/testapp && go build -o ../../bin/testapp
+          cd scripts/spoof_proxy && go build -o ../../bin/spoof_proxy
+          cd scripts/seed_blocklist && go build -o ../../bin/seed_blocklist
 
       - name: Start app + proxy
         run: |
