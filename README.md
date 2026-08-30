@@ -2,7 +2,7 @@
 
 [![Go Reference](https://img.shields.io/badge/Go-1.26.1-00ADD8?logo=go)](https://github.com/Mwangi-Derrick/radixip)
 [![Rust](https://img.shields.io/badge/Rust-1.97.1-orange?logo=rust)](https://github.com/Mwangi-Derrick/radixip)
-[![CI](https://github.com/Mwangi-Derrick/radixip/actions/workflows/bench.yml/badge.svg)](https://github.com/Mwangi-Derrick/radixip/actions)
+[![CI](https://github.com/Mwangi-Derrick/radixip/actions/workflows/bench.yml/badge.svg)](https://github.com/Mwangi-Derrick/radixip/actions/workflows/release.yml/badge.svg)
 ![Load Tests](https://github.com/Mwangi-Derrick/radixip/actions/workflows/load-test.yml/badge.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Go Report Card](https://goreportcard.com/badge/github.com/Mwangi-Derrick/radixip)](https://goreportcard.com/report/github.com/Mwangi-Derrick/radixip)
