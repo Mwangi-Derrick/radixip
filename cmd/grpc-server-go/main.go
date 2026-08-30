@@ -69,7 +69,7 @@ type server struct {
 }
 
 func newServer() *server {
-	engine := radixip.NewEngineWrapperWithTree(radixip.EngineStandard, radixip.NodeCompressedAtomic, true)
+	engine := radixip.NewEngineWrapperWithTree(radixip.EngineStandard, radixip.AtomicRadixNode, true)
 	return &server{engine: engine}
 }
 
