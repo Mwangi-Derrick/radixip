@@ -93,12 +93,10 @@ impl TokenBucket {
 
             let new = pack(now, tokens_fp - 1000);
 
-            match self.state.compare_exchange(
-                old,
-                new,
-                Ordering::AcqRel,
-                Ordering::Relaxed,
-            ) {
+            match self
+                .state
+                .compare_exchange(old, new, Ordering::AcqRel, Ordering::Relaxed)
+            {
                 Ok(_) => return true,
                 Err(_) => {
                     // Another thread updated the bucket concurrently.
