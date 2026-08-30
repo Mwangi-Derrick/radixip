@@ -3,11 +3,11 @@
 // The bucket state is stored in a 256-shard map. Each entry is a single uint64
 // bit-packed as:
 //
-//	 63          32 31            0
-//	 ┌─────────────┬──────────────┐
-//	 │  unix secs  │ tokens×1000  │
-//	 │  (32 bits)  │  (32 bits)   │
-//	 └─────────────┴──────────────┘
+//	63          32 31            0
+//	┌─────────────┬──────────────┐
+//	│  unix secs  │ tokens×1000  │
+//	│  (32 bits)  │  (32 bits)   │
+//	└─────────────┴──────────────┘
 //
 // This layout mirrors the Rust implementation and was validated by benchmarking
 // to be ~2.7x faster than a Mutex-per-bucket approach.
@@ -128,18 +128,23 @@ func (l *TokenBucketLimiter) getOrCreate(key string) *atomic.Uint64 {
 
 func (l *TokenBucketLimiter) consume(bucket *atomic.Uint64) bool {
 	now := nowSecs()
+	// capFP is capacity in fixed point
 	capFP := uint32(l.capacity * 1000)
 
 	for {
 		old := bucket.Load()
+		// rawFP is raw tokens in fixed point from storage in memory(unpacked)
 		ts, rawFP := unpack(old)
 
 		// Refill.
-		elapsed := now - ts
+		elapsed := now - ts // in a flood this is 0
 		if now < ts {
 			elapsed = 0 // clock skew guard
 		}
-		refillFP := uint32(uint64(elapsed) * l.refillRate * 1000)
+		// Refill amount in fixed-point
+		refillFP := uint32(uint64(elapsed) * l.refillRate * 1000) // this becomes 0 in a flood
+		// Current tokens in fixed-point (after refill)
+		// with enough time passing the tokens becomes less than 1000
 		tokensFP := rawFP + refillFP
 		if tokensFP > capFP {
 			tokensFP = capFP
@@ -148,7 +153,7 @@ func (l *TokenBucketLimiter) consume(bucket *atomic.Uint64) bool {
 		if tokensFP < 1000 {
 			return false // < 1.0 token
 		}
-
+		// we consume before packing so token is consumed in 1 CPU cycle
 		newVal := pack(now, tokensFP-1000)
 		if bucket.CompareAndSwap(old, newVal) {
 			return true
