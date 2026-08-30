@@ -3,7 +3,7 @@ module radixip-server
 go 1.26.1
 
 require (
-	github.com/Mwangi-Derrick/radixip/lib/go v0.0.0-00010101000000-000000000000
+	github.com/Mwangi-Derrick/radixip/lib/go/engine v0.0.0-00010101000000-000000000000
 	github.com/Mwangi-Derrick/radixip/proto/radixip v0.0.0-00010101000000-000000000000
 	github.com/prometheus/client_golang v1.24.0
 	google.golang.org/grpc v1.82.1
@@ -26,6 +26,6 @@ require (
 )
 
 // Point to local paths
-replace github.com/Mwangi-Derrick/radixip/lib/go => ../../lib/go
+replace github.com/Mwangi-Derrick/radixip/lib/go/engine => ../../lib/go/engine
 
 replace github.com/Mwangi-Derrick/radixip/proto/radixip => ../../proto/radixip/v1

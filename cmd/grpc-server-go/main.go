@@ -12,7 +12,7 @@ import (
 	"syscall"
 	"time"
 
-	radixip "github.com/Mwangi-Derrick/radixip/lib/go"
+	radixip "github.com/Mwangi-Derrick/radixip/lib/go/engine"
 	pb "github.com/Mwangi-Derrick/radixip/proto/radixip"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
