@@ -5,7 +5,7 @@ import (
 	"testing"
 	"unsafe"
 
-	"github.com/Mwangi-Derrick/radixip/lib/go/art"
+	"github.com/Mwangi-Derrick/radixip/lib/go/engine/art"
 )
 
 // helper: store a string value as unsafe.Pointer

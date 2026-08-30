@@ -1,4 +1,4 @@
-module github.com/Mwangi-Derrick/radixip/lib/go
+module github.com/Mwangi-Derrick/radixip/lib/go/engine
 
 go 1.26.1
 

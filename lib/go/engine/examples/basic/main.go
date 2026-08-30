@@ -5,7 +5,7 @@ import (
 	"log"
 	"net"
 
-	radixIp "github.com/Mwangi-Derrick/radixip/lib/go"
+	radixIp "github.com/Mwangi-Derrick/radixip/lib/go/engine"
 )
 
 func main() {

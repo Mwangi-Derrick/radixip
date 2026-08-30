@@ -7,7 +7,7 @@ import (
 	"sync"
 	"time"
 
-	radixip "github.com/Mwangi-Derrick/radixip/lib/go"
+	radixip "github.com/Mwangi-Derrick/radixip/lib/go/engine"
 )
 
 // Global threshold config for the DDoS protection engine

@@ -7,7 +7,7 @@ import (
 	"net"
 	"time"
 
-	radixip "github.com/Mwangi-Derrick/radixip/lib/go"
+	radixip "github.com/Mwangi-Derrick/radixip/lib/go/engine"
 )
 
 func main() {

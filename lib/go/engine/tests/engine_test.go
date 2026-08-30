@@ -5,7 +5,7 @@ import (
 	"net"
 	"testing"
 
-	radixip "github.com/Mwangi-Derrick/radixip/lib/go"
+	radixip "github.com/Mwangi-Derrick/radixip/lib/go/engine"
 )
 
 func TestAllEngineAndNodeCombinations(t *testing.T) {

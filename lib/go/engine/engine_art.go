@@ -7,7 +7,7 @@ import (
 	"sync"
 	"unsafe"
 
-	"github.com/Mwangi-Derrick/radixip/lib/go/art"
+	"github.com/Mwangi-Derrick/radixip/lib/go/engine/art"
 )
 
 // metadataStore keeps *Metadata values alive so the GC never collects
