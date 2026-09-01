@@ -3,6 +3,7 @@ module github.com/Mwangi-Derrick/radixip/lib/go/adapters/gin
 go 1.26.1
 
 require (
+	github.com/Mwangi-Derrick/radixip/lib/go/config v0.0.0-00010101000000-000000000000
 	github.com/Mwangi-Derrick/radixip/lib/go/policy v0.0.0-20260829024908-ab53302c83c8
 	github.com/gin-gonic/gin v1.12.0
 )
@@ -38,3 +39,5 @@ require (
 	golang.org/x/text v0.34.0 // indirect
 	google.golang.org/protobuf v1.36.10 // indirect
 )
+
+replace github.com/Mwangi-Derrick/radixip/lib/go/config => ../../config

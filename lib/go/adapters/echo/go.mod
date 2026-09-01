@@ -3,6 +3,7 @@ module github.com/Mwangi-Derrick/radixip/lib/go/adapters/echo
 go 1.26.1
 
 require (
+	github.com/Mwangi-Derrick/radixip/lib/go/config v0.0.0-00010101000000-000000000000
 	github.com/Mwangi-Derrick/radixip/lib/go/policy v0.0.0-20260829024908-ab53302c83c8
 	github.com/labstack/echo/v4 v4.15.4
 )
@@ -18,3 +19,5 @@ require (
 	golang.org/x/sys v0.46.0 // indirect
 	golang.org/x/text v0.38.0 // indirect
 )
+
+replace github.com/Mwangi-Derrick/radixip/lib/go/config => ../../config
