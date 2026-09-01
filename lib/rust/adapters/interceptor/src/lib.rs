@@ -3,30 +3,55 @@
 //! Extracts the IP from gRPC metadata, evaluates the RadixIP `PolicyEngine`,
 //! and either allows the request through or returns a gRPC error with appropriate
 //! status codes (PermissionDenied for blocklist, ResourceExhausted for rate limiting).
+//!
+//! # Usage (static config)
+//!
+//! ```rust,ignore
+//! use radixip_grpc_interceptor::{RadixIpInterceptor, RadixIpLayer};
+//! use radixip_policy::PolicyEngine;
+//! use radixip_config::ResponseConfig;
+//! use std::sync::Arc;
+//!
+//! let engine = Arc::new(PolicyEngine::new(/* ... */));
+//! let responses = ResponseConfig::default();
+//!
+//! let interceptor = RadixIpInterceptor::new(engine.clone(), responses.clone());
+//!
+//! let svc = tonic::transport::Server::builder()
+//!     .layer(RadixIpLayer::new(engine, responses))
+//!     .add_service(my_service)
+//!     .serve(addr)
+//!     .await?;
+//! ```
 
 pub mod from_yaml;
-pub use from_yaml::{GrpcWatchedRadixIpInterceptor, GrpcWatchedRadixIpService};
+pub use from_yaml::{GrpcWatchedRadixIpInterceptor, GrpcWatchedRadixIpLayer, GrpcWatchedRadixIpService};
 
 use std::pin::Pin;
 use std::sync::Arc;
 use std::task::{Context, Poll};
 
+use futures_util::future::BoxFuture;
+use http::{Request, Response};
 use tonic::{
-    body::BoxBody,
-    metadata::{Ascii, MetadataValue},
-    service::{Interceptor, InterceptorFn},
-    transport::server::DecodeContext,
-    Code, Request, Response, Status,
+    metadata::MetadataValue,
+    service::Interceptor,
+    Status,
 };
+use tower::{Layer, Service};
 
 use radixip_config::ResponseConfig;
 use radixip_policy::{PolicyDecision, PolicyEngine};
 
 // ---------------------------------------------------------------------------
-// Interceptor
+// Tonic Interceptor (used with `tonic::service::interceptor()`)
 // ---------------------------------------------------------------------------
 
-/// Tonic interceptor for RadixIP.
+/// A tonic `Interceptor` that evaluates the RadixIP policy on every RPC.
+///
+/// The `Interceptor` trait in tonic operates on `Request<()>` (metadata-only)
+/// **before** the body is read, which makes it the ideal place for blocklist
+/// and rate-limit checks.
 #[derive(Clone)]
 pub struct RadixIpInterceptor {
     engine: Arc<PolicyEngine>,
@@ -41,62 +66,52 @@ impl RadixIpInterceptor {
             responses: Arc::new(responses),
         }
     }
+}
 
-    /// Convert to a tonic interceptor function.
-    pub fn into_interceptor(self) -> InterceptorFn {
-        let interceptor = self;
-        InterceptorFn::new(move |mut req: Request<()>| {
-            let decision = interceptor.check_request(&req);
-
-            match decision {
-                PolicyDecision::Allow => Ok(req),
-                PolicyDecision::Block => {
-                    Err(Status::permission_denied("blocked: IP is in blocklist"))
-                }
-                PolicyDecision::Limit => {
-                    let mut status =
-                        Status::resource_exhausted("rate limited: exceeded rate limit");
-                    // Add retry-after metadata
-                    let retry_after = MetadataValue::from_str("1")
-                        .unwrap_or_else(|_| MetadataValue::from_static("1"));
-                    status.metadata_mut().insert("retry-after", retry_after);
-                    Err(status)
-                }
-                PolicyDecision::BadRequest(msg) => Err(Status::invalid_argument(format!(
-                    "failed to extract IP: {}",
-                    msg
-                ))),
-            }
-        })
-    }
-
-    /// Check the request and return a policy decision.
-    fn check_request(&self, req: &Request<()>) -> PolicyDecision {
+impl Interceptor for RadixIpInterceptor {
+    fn call(&mut self, mut req: tonic::Request<()>) -> Result<tonic::Request<()>, Status> {
         let metadata = req.metadata();
 
-        // Extract X-Forwarded-For
+        // Extract X-Forwarded-For (gRPC clients send this as a metadata key).
         let xff = metadata
             .get("x-forwarded-for")
             .and_then(|v| v.to_str().ok());
 
-        // Extract X-Real-IP
+        // Extract X-Real-IP.
         let x_real_ip = metadata.get("x-real-ip").and_then(|v| v.to_str().ok());
 
-        // Extract peer address from extensions
-        let remote_addr = req.extensions().get::<std::net::SocketAddr>().copied();
+        // Extract the peer socket address injected by tonic's `TcpIncoming`.
+        let remote_addr = req.remote_addr();
 
-        self.engine.check(xff, x_real_ip, remote_addr.as_ref())
+        let decision = self.engine.check(xff, x_real_ip, remote_addr.as_ref());
+
+        match decision {
+            PolicyDecision::Allow => Ok(req),
+            PolicyDecision::Block => {
+                Err(Status::permission_denied("blocked: IP is in blocklist"))
+            }
+            PolicyDecision::Limit => {
+                let mut status = Status::resource_exhausted("rate limited: exceeded rate limit");
+                let retry_after = MetadataValue::from_str("1")
+                    .unwrap_or_else(|_| MetadataValue::from_static("1"));
+                status.metadata_mut().insert("retry-after", retry_after);
+                Err(status)
+            }
+            PolicyDecision::BadRequest(msg) => {
+                Err(Status::invalid_argument(format!("failed to extract IP: {}", msg)))
+            }
+        }
     }
 }
 
 // ---------------------------------------------------------------------------
-// Service Interceptor (Alternative approach using Tower Service)
+// Tower Layer / Service (used when you need full body access or streaming)
 // ---------------------------------------------------------------------------
 
-use tower::Layer;
-use tower::Service as TowerService;
-
-/// Layer that wraps a tonic service with RadixIP interceptor logic.
+/// Tower Layer that wraps a tonic service with RadixIP checks.
+///
+/// Unlike `RadixIpInterceptor`, this operates at the `http::Request<B>` level
+/// so it composes naturally with the rest of the Tower middleware stack.
 #[derive(Clone)]
 pub struct RadixIpLayer {
     engine: Arc<PolicyEngine>,
@@ -125,7 +140,7 @@ impl<S> Layer<S> for RadixIpLayer {
     }
 }
 
-/// Tower service that wraps a tonic service with RadixIP logic.
+/// Tower service that wraps a tonic service with RadixIP policy checks.
 #[derive(Clone)]
 pub struct RadixIpService<S> {
     inner: S,
@@ -133,55 +148,81 @@ pub struct RadixIpService<S> {
     responses: Arc<ResponseConfig>,
 }
 
-impl<S, Req> TowerService<Req> for RadixIpService<S>
+impl<S, ReqBody, ResBody> Service<Request<ReqBody>> for RadixIpService<S>
 where
-    S: TowerService<Req, Response = Response<BoxBody>, Error = Status> + Clone + Send + 'static,
-    S::Future: Send,
-    Req: tonic::service::GrpcRequestExt + Send + 'static,
+    S: Service<Request<ReqBody>, Response = Response<ResBody>> + Clone + Send + 'static,
+    S::Future: Send + 'static,
+    S::Error: Send + 'static,
+    ReqBody: Send + 'static,
+    ResBody: From<String> + Send + 'static,
 {
     type Response = S::Response;
     type Error = S::Error;
-    type Future =
-        Pin<Box<dyn std::future::Future<Output = Result<Self::Response, Self::Error>> + Send>>;
+    type Future = BoxFuture<'static, Result<Self::Response, Self::Error>>;
 
     fn poll_ready(&mut self, cx: &mut Context<'_>) -> Poll<Result<(), Self::Error>> {
         self.inner.poll_ready(cx)
     }
 
-    fn call(&mut self, req: Req) -> Self::Future {
-        let mut service = self.inner.clone();
+    fn call(&mut self, req: Request<ReqBody>) -> Self::Future {
+        let mut inner = self.inner.clone();
         let engine = self.engine.clone();
         let responses = self.responses.clone();
 
         Box::pin(async move {
-            // Extract metadata and peer info from the request
-            let metadata = req.metadata();
-            let xff = metadata
+            // Extract metadata from the HTTP/2 headers (tonic sends metadata as headers).
+            let headers = req.headers();
+            let xff = headers
                 .get("x-forwarded-for")
                 .and_then(|v| v.to_str().ok());
-            let x_real_ip = metadata.get("x-real-ip").and_then(|v| v.to_str().ok());
+            let x_real_ip = headers.get("x-real-ip").and_then(|v| v.to_str().ok());
 
-            let remote_addr = req.extensions().get::<std::net::SocketAddr>().copied();
+            // Peer address is injected as an extension by tonic's transport layer.
+            let remote_addr = req
+                .extensions()
+                .get::<std::net::SocketAddr>()
+                .copied();
 
             let decision = engine.check(xff, x_real_ip, remote_addr.as_ref());
 
             match decision {
-                PolicyDecision::Allow => service.call(req).await,
+                PolicyDecision::Allow => inner.call(req).await,
                 PolicyDecision::Block => {
-                    Err(Status::permission_denied("blocked: IP is in blocklist"))
+                    let body = ResBody::from(r#"{"error":"blocked"}"#.to_string());
+                    let mut res = Response::new(body);
+                    *res.status_mut() = http::StatusCode::from_u16(responses.blocked)
+                        .unwrap_or(http::StatusCode::FORBIDDEN);
+                    res.headers_mut().insert(
+                        http::header::CONTENT_TYPE,
+                        http::header::HeaderValue::from_static("application/json"),
+                    );
+                    Ok(res)
                 }
                 PolicyDecision::Limit => {
-                    let mut status =
-                        Status::resource_exhausted("rate limited: exceeded rate limit");
-                    let retry_after = MetadataValue::from_str("1")
-                        .unwrap_or_else(|_| MetadataValue::from_static("1"));
-                    status.metadata_mut().insert("retry-after", retry_after);
-                    Err(status)
+                    let body = ResBody::from(r#"{"error":"rate limited"}"#.to_string());
+                    let mut res = Response::new(body);
+                    *res.status_mut() = http::StatusCode::from_u16(responses.rate_limited)
+                        .unwrap_or(http::StatusCode::TOO_MANY_REQUESTS);
+                    res.headers_mut().insert(
+                        http::header::CONTENT_TYPE,
+                        http::header::HeaderValue::from_static("application/json"),
+                    );
+                    res.headers_mut().insert(
+                        http::header::RETRY_AFTER,
+                        http::header::HeaderValue::from_static("1"),
+                    );
+                    Ok(res)
                 }
-                PolicyDecision::BadRequest(msg) => Err(Status::invalid_argument(format!(
-                    "failed to extract IP: {}",
-                    msg
-                ))),
+                PolicyDecision::BadRequest(msg) => {
+                    let body = ResBody::from(format!(r#"{{"error":"bad request: {}"}}"#, msg));
+                    let mut res = Response::new(body);
+                    *res.status_mut() = http::StatusCode::BAD_REQUEST;
+                    res.headers_mut().insert(
+                        http::header::CONTENT_TYPE,
+                        http::header::HeaderValue::from_static("application/json"),
+                    );
+                    Ok(res)
+                }
             }
         })
     }
