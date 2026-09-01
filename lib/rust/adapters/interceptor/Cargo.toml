@@ -12,4 +12,7 @@ keywords.workspace = true
 categories.workspace = true
 
 [dependencies]
+radixip-policy = { path = "../../policy" }
+radixip-config = { path = "../../config" }
+radixip_rs = { workspace = true }
 tonic = "0.14.6"
