@@ -8,11 +8,13 @@ RadixIP provides drop-in middleware for popular Go and Rust web frameworks. It i
 - **Gin**: `github.com/Mwangi-Derrick/radixip/lib/go/adapters/gin`
 - **Fiber**: `github.com/Mwangi-Derrick/radixip/lib/go/adapters/fiber`
 - **Echo**: `github.com/Mwangi-Derrick/radixip/lib/go/adapters/echo`
+- **gRPC**: `github.com/Mwangi-Derrick/radixip/lib/go/adapters/grpc-interceptor`
 
 ### Rust
 - **Axum**: `radixip-axum`
 - **Actix-Web**: `radixip-actix`
 - **Tower** (Generic): `radixip-tower`
+- **gRPC (Tonic)**: `radixip-grpc-interceptor`
 
 ## Hot-Reloading Configuration (Zero Downtime)
 
@@ -143,3 +145,77 @@ The middleware automatically attempts to extract the client IP from the followin
 3. The raw network connection `Remote-Addr`
 
 If a request contains a spoofed `X-Forwarded-For` like `8.8.8.8, 192.168.1.100` and `192.168.1.0/24` is in `trusted_proxies`, RadixIP will correctly identify `8.8.8.8` as the true client IP.
+
+## gRPC Interceptors
+
+### Go gRPC Interceptor
+
+```go
+package main
+
+import (
+	"log"
+	"google.golang.org/grpc"
+	radixipgrpc "github.com/Mwangi-Derrick/radixip/lib/go/adapters/grpc-interceptor"
+)
+
+func main() {
+	unary, stream, stop, err := radixipgrpc.NewFromYAML("radixip.yaml", engineAdapter)
+	if err != nil {
+		log.Fatalf("Failed to initialize RadixIP gRPC interceptor: %v", err)
+	}
+	defer stop()
+
+	srv := grpc.NewServer(
+		grpc.UnaryInterceptor(unary),
+		grpc.StreamInterceptor(stream),
+	)
+	// Register services and serve...
+}
+```
+
+### Rust gRPC (Tonic) Interceptor
+
+```rust
+use radixip_grpc_interceptor::from_yaml::{GrpcWatchedRadixIpInterceptor, GrpcWatchedRadixIpLayer};
+use radixip_policy::ConfigWatcher;
+use std::sync::Arc;
+
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let watcher = Arc::new(ConfigWatcher::new("radixip.yaml")?);
+    let engine = Arc::new(my_radix_engine);
+
+    // Option A: Tonic Interceptor (metadata-only)
+    let interceptor = GrpcWatchedRadixIpInterceptor::new(watcher.clone(), engine.clone());
+    let svc = tonic::service::interceptor(my_grpc_service, interceptor);
+
+    // Option B: Tower Layer
+    let layer = GrpcWatchedRadixIpLayer::new(watcher, engine);
+    tonic::transport::Server::builder()
+        .layer(layer)
+        .add_service(my_grpc_service)
+        .serve(addr)
+        .await?;
+
+    Ok(())
+}
+```
+
+## 🐳 Docker Sidecar Deployment
+
+RadixIP can be deployed as an independent, high-performance sidecar service (like Kong or Prometheus).
+
+### Quick Start with Docker
+
+```bash
+docker run -d \
+  --name radixip-sidecar \
+  -p 50051:50051 \
+  -p 9090:9090 \
+  -v $(pwd)/radixip.yaml:/etc/radixip/radixip.yaml:ro \
+  ghcr.io/mwangi-derrick/radixip/sidecar:latest
+```
+
+When deployed in Kubernetes or Docker Compose, any modification to the mounted `radixip.yaml` volume is **automatically detected and hot-reloaded** by the background watcher without restarting the container.
+
