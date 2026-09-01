@@ -73,7 +73,7 @@ func main() {
 	cfg := radixipgin.Config{
 		Limiter:        limiter,
 		Engine:         adapter,
-		TrustedProxies: []string{}, // No trusted proxies for this test
+		TrustedProxies: []string{"127.0.0.1/32", "::1/128"}, // Trust spoof proxy IP
 		Blocklist:      *blocklist,
 		RateLimit:      *rateLimit,
 		BucketMode:     "ip", // Exact IP rate limiting
