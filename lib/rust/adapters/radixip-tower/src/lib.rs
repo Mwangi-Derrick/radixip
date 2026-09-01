@@ -3,6 +3,10 @@
 //! Extracts the IP, evaluates the RadixIP `PolicyEngine`, and either
 //! allows the request through or short-circuits with a 403/429 response.
 
+pub mod from_yaml;
+pub use from_yaml::{TowerWatchedRadixIpLayer, TowerWatchedRadixIpService};
+
+
 use futures_util::future::BoxFuture;
 use http::{Request, Response, StatusCode};
 use radixip_config::ResponseConfig;
