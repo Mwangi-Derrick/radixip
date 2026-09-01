@@ -45,6 +45,8 @@ But RadixIP is more than an IP router. It's the foundation for:
 
 **Use it for:** API gateways · database ACLs · DDoS mitigation · geolocation caching · fraud detection · rate limiting · access control
 
+> 📖 **[Read the Middleware Guide for Drop-in Integration](./docs/middleware.md)** (Gin, Axum, Actix, Fiber, Echo)
+
 ## 🎯 Quick Start Example
 
 ### Block a DDoS attack in 3 lines of code
@@ -756,17 +758,17 @@ See [ARCHITECTURE.md](./ARCHITECTURE.md) for the full design rationale, hybrid R
 - [x] Publish the NAPI-RS node bindings to npm
 - [x] Publish the PyO3 bindings to PYPI
 
-### Configuration Engine 🔨
-- [ ] YAML/TOML config parser
-- [ ] Hot-reload without restart
+### Configuration Engine
+- [x] YAML/TOML config parser
+- [x] Hot-reload without restart
 - [ ] Per-route overrides
-- [ ] Validation + schema
+- [x] Validation + schema
 
-### Protection Layer 🔨
-- [ ] Web framework middleware (Express, Gin, Axum, Actix, FastAPI, Django, Fiber, etc.)
-- [ ] Distributed rate limiting (Token Bucket, Sliding Window, Fixed Window)
+### Protection Layer
+- [x] Web framework middleware (Express, Gin, Axum, Actix, FastAPI, Django, Fiber, etc.)
+- [x] Distributed rate limiting (Token Bucket, Sliding Window, Fixed Window)
 - [ ] Configurable IP flagging and auto-banning
-- [ ] Unified configuration format
+- [x] Unified configuration format
 
 ### Kubernetes & Operations 🔨
 - [ ] Kubernetes Operator for automated deployment
