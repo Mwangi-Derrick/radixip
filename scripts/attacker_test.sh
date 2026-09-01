@@ -85,7 +85,7 @@ SUCCESS_PERCENT=$(grep "Success" ${RESULT_FILE} | grep -oP '\d+\.\d+' | head -1)
 # Burst 100 + (10 * 10 refill) = ~200 allowed.
 # 200 / 5000 = 4% success rate.
 # So if success rate is < 10%, rate limiting worked.
-if (( $(echo "$SUCCESS_PERCENT < 10.0" | bc -l) )); then
+if awk -v success="$SUCCESS_PERCENT" 'BEGIN { if (success < 10.0) exit 0; else exit 1 }'; then
     echo -e "\n${GREEN}✅ Rate Limiter PROOF: Success rate is ${SUCCESS_PERCENT}%, attacker was blocked!${NC}"
 else
     echo -e "\n${RED}❌ Rate Limiter FAILED: Success rate is ${SUCCESS_PERCENT}%, attacker slipped through!${NC}"

@@ -83,7 +83,7 @@ cat ${RESULT_FILE}
 # Check success rate (should be 0%)
 SUCCESS_PERCENT=$(grep "Success" ${RESULT_FILE} | grep -oP '\d+\.\d+' | head -1)
 
-if (( $(echo "$SUCCESS_PERCENT == 0.0" | bc -l) )); then
+if awk -v success="$SUCCESS_PERCENT" 'BEGIN { if (success == 0.0) exit 0; else exit 1 }'; then
     echo -e "\n${GREEN}✅ Blocklist PROOF: Success rate is ${SUCCESS_PERCENT}%, attacker was fully blocked!${NC}"
 else
     echo -e "\n${RED}❌ Blocklist FAILED: Success rate is ${SUCCESS_PERCENT}%, attacker slipped through!${NC}"
