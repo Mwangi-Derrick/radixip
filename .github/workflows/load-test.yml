@@ -87,6 +87,16 @@ jobs:
       
       - name: Run load test (30000 req/s)
         run: ./scripts/vegeta_test.sh 30000 30s 100000
+
+      - name: Run attacker simulation test
+        run: |
+          chmod +x scripts/attacker_test.sh
+          ./scripts/attacker_test.sh
+
+      - name: Run blocklist simulation test
+        run: |
+          chmod +x scripts/blocklist_test.sh
+          ./scripts/blocklist_test.sh
       
       - name: Upload results
         if: always()
