@@ -12,12 +12,25 @@ import (
 	"syscall"
 	"time"
 
+	radixipgrpc "github.com/Mwangi-Derrick/radixip/lib/go/adapters/grpc-interceptor"
 	radixip "github.com/Mwangi-Derrick/radixip/lib/go/engine"
 	pb "github.com/Mwangi-Derrick/radixip/proto/radixip"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"google.golang.org/grpc"
 )
+
+type EngineAdapter struct {
+	inner *radixip.EngineWrapper
+}
+
+func (a *EngineAdapter) Lookup(ipStr string) bool {
+	ip := net.ParseIP(ipStr)
+	if ip == nil {
+		return false
+	}
+	return a.inner.Lookup(ip) != nil
+}
 
 var (
 	lookupsTotal = prometheus.NewCounterVec(
@@ -224,8 +237,31 @@ func main() {
 		log.Fatalf("Failed to listen on port %s: %v", grpcPort, err)
 	}
 
-	grpcServer := grpc.NewServer()
+	configPath := os.Getenv("RADIXIP_CONFIG")
+	if configPath == "" {
+		configPath = os.Getenv("CONFIG_PATH")
+	}
+	if configPath == "" {
+		configPath = "radixip.yaml"
+	}
+
 	srv := newServer()
+
+	var serverOpts []grpc.ServerOption
+	if _, err := os.Stat(configPath); err == nil {
+		u, s, stopWatcher, err := radixipgrpc.NewFromYAML(configPath, &EngineAdapter{inner: srv.engine})
+		if err != nil {
+			log.Printf("⚠️ Failed to initialize RadixIP YAML watcher from %s: %v", configPath, err)
+		} else {
+			defer stopWatcher()
+			log.Printf("🔥 RadixIP policy hot-reloader active watching %s", configPath)
+			serverOpts = append(serverOpts, grpc.UnaryInterceptor(u), grpc.StreamInterceptor(s))
+		}
+	} else {
+		log.Printf("ℹ️ Config file %s not found. Running without policy interceptors.", configPath)
+	}
+
+	grpcServer := grpc.NewServer(serverOpts...)
 	pb.RegisterRadixServiceServer(grpcServer, srv)
 
 	log.Printf("[Go gRPC Server] RadixIP gRPC service listening on :%s\n", grpcPort)
