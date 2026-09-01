@@ -63,6 +63,7 @@ func main() {
 	subnetsFlag := flag.String("subnets",
 		"198.51.100.0/24,203.0.113.0/24,192.0.2.0/24,10.20.30.0/24",
 		"comma-separated CIDRs")
+	fixedIP := flag.String("fixed-ip", "", "always use this IP (overrides subnets)")
 	flag.Parse()
 
 	target, _ := url.Parse(*upstream)
@@ -89,8 +90,13 @@ func main() {
 		r.URL.Scheme = target.Scheme
 		r.Host = target.Host
 
-		cidr := subnets[rand.Intn(len(subnets))]
-		fakeIP := randomIPFromCIDR(cidr)
+		var fakeIP string
+		if *fixedIP != "" {
+			fakeIP = *fixedIP
+		} else {
+			cidr := subnets[rand.Intn(len(subnets))]
+			fakeIP = randomIPFromCIDR(cidr)
+		}
 		r.Header.Set("X-Forwarded-For", fakeIP)
 		r.Header.Set("X-Real-IP", fakeIP)
 	}
