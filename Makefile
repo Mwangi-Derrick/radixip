@@ -133,6 +133,13 @@ clean:
 	cd cmd/radixip-cli && cargo clean
 	rm -f $(VENDOR_LIB)/$(SOPREFIX)node16_simd_ffi.$(SOEXT)
 
+simulate-attack:
+	@./scripts/attacker_test.sh
+	@./scripts/blocklist_test.sh
+
+load-test:
+	@./scripts/vegeta_test.sh
+
 help:
 	@echo "Commands:"
 	@echo "  make all              - Build and test everything"
@@ -150,3 +157,5 @@ help:
 	@echo "  make clean            - Clean all artifacts"
 	@echo "  make build-grpc       - Build Go grpc server"
 	@echo "  make build-grpc-release - Build Go grpc and Rust server release"
+	@echo "  make simulate-attack  - Simulate attacks on the current configuration"
+	@echo "  make load-test        - Run load test on the current configuration"
