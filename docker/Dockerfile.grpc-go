@@ -3,23 +3,28 @@ FROM golang:1.26.1-alpine AS builder
 
 WORKDIR /app
 
-# Copy lib/go and proto
+# Copy lib/go, proto, and cmd/grpc-server-go
 COPY lib/go ./lib/go
 COPY proto ./proto
 COPY cmd/grpc-server-go ./cmd/grpc-server-go
 
 WORKDIR /app/cmd/grpc-server-go
 
-RUN go mod init github.com/Mwangi-Derrick/radixip/cmd/grpc-server-go 2>/dev/null || true
-RUN go mod edit -replace github.com/Mwangi-Derrick/radixip/lib/go=../../lib/go
-RUN go mod tidy
-RUN CGO_ENABLED=0 GOOS=linux go build -o /app/grpc-server-go .
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o /app/grpc-server-go .
 
 # Final minimal runtime image
 FROM alpine:3.19
 
+# Install ca-certificates for TLS / outbound HTTP if needed
+RUN apk --no-cache add ca-certificates
+
 WORKDIR /app
 COPY --from=builder /app/grpc-server-go /app/grpc-server-go
+
+# Environment variables for configuration
+ENV GRPC_PORT=50051 \
+    METRICS_PORT=9090 \
+    RADIXIP_CONFIG=/etc/radixip/radixip.yaml
 
 EXPOSE 50051 9090
 
