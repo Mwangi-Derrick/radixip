@@ -26,15 +26,18 @@
 pub mod ip_extractor;
 pub mod limiter;
 pub mod token_bucket;
+pub mod watcher;
 
 pub use ip_extractor::{extract_ip, ExtractError};
 pub use limiter::TokenBucketLimiter;
 pub use token_bucket::TokenBucket;
+pub use watcher::{ConfigWatcher, PolicyState};
 
 use ipnetwork::IpNetwork;
 use radixip::RadixEngine;
 use radixip_config::{IpSource, MiddlewareConfig, RateLimitConfig};
 use std::net::{IpAddr, SocketAddr};
+use std::path::Path;
 use std::sync::Arc;
 
 // ---------------------------------------------------------------------------
