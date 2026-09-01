@@ -15,4 +15,5 @@ categories.workspace = true
 radixip-policy = { path = "../../policy" }
 radixip-config = { path = "../../config" }
 radixip_rs = { workspace = true }
+tower = "0.5.3"
 tonic = "0.14.6"
