@@ -25,7 +25,9 @@
 //! ```
 
 pub mod from_yaml;
-pub use from_yaml::{GrpcWatchedRadixIpInterceptor, GrpcWatchedRadixIpLayer, GrpcWatchedRadixIpService};
+pub use from_yaml::{
+    GrpcWatchedRadixIpInterceptor, GrpcWatchedRadixIpLayer, GrpcWatchedRadixIpService,
+};
 
 use std::pin::Pin;
 use std::sync::Arc;
@@ -33,11 +35,8 @@ use std::task::{Context, Poll};
 
 use futures_util::future::BoxFuture;
 use http::{Request, Response};
-use tonic::{
-    metadata::MetadataValue,
-    service::Interceptor,
-    Status,
-};
+use std::str::FromStr;
+use tonic::{metadata::MetadataValue, service::Interceptor, Status};
 use tower::{Layer, Service};
 
 use radixip_config::ResponseConfig;
@@ -87,9 +86,7 @@ impl Interceptor for RadixIpInterceptor {
 
         match decision {
             PolicyDecision::Allow => Ok(req),
-            PolicyDecision::Block => {
-                Err(Status::permission_denied("blocked: IP is in blocklist"))
-            }
+            PolicyDecision::Block => Err(Status::permission_denied("blocked: IP is in blocklist")),
             PolicyDecision::Limit => {
                 let mut status = Status::resource_exhausted("rate limited: exceeded rate limit");
                 let retry_after = MetadataValue::from_str("1")
@@ -97,9 +94,10 @@ impl Interceptor for RadixIpInterceptor {
                 status.metadata_mut().insert("retry-after", retry_after);
                 Err(status)
             }
-            PolicyDecision::BadRequest(msg) => {
-                Err(Status::invalid_argument(format!("failed to extract IP: {}", msg)))
-            }
+            PolicyDecision::BadRequest(msg) => Err(Status::invalid_argument(format!(
+                "failed to extract IP: {}",
+                msg
+            ))),
         }
     }
 }
@@ -172,16 +170,11 @@ where
         Box::pin(async move {
             // Extract metadata from the HTTP/2 headers (tonic sends metadata as headers).
             let headers = req.headers();
-            let xff = headers
-                .get("x-forwarded-for")
-                .and_then(|v| v.to_str().ok());
+            let xff = headers.get("x-forwarded-for").and_then(|v| v.to_str().ok());
             let x_real_ip = headers.get("x-real-ip").and_then(|v| v.to_str().ok());
 
             // Peer address is injected as an extension by tonic's transport layer.
-            let remote_addr = req
-                .extensions()
-                .get::<std::net::SocketAddr>()
-                .copied();
+            let remote_addr = req.extensions().get::<std::net::SocketAddr>().copied();
 
             let decision = engine.check(xff, x_real_ip, remote_addr.as_ref());
 

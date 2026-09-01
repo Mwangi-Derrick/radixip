@@ -32,6 +32,7 @@ use std::task::{Context, Poll};
 
 use futures_util::future::BoxFuture;
 use http::{Request, Response};
+use std::str::FromStr;
 use tonic::{metadata::MetadataValue, service::Interceptor, Status};
 use tower::{Layer, Service};
 
@@ -100,8 +101,8 @@ impl Interceptor for GrpcWatchedRadixIpInterceptor {
         // 3. Rate limit check.
         if rl_cfg.enabled && !state.limiter.allow(ip, Some(self.engine.as_ref().as_ref())) {
             let mut status = Status::resource_exhausted("rate limited: exceeded rate limit");
-            let retry_after = MetadataValue::from_str("1")
-                .unwrap_or_else(|_| MetadataValue::from_static("1"));
+            let retry_after =
+                MetadataValue::from_str("1").unwrap_or_else(|_| MetadataValue::from_static("1"));
             status.metadata_mut().insert("retry-after", retry_after);
             return Err(status);
         }
@@ -184,10 +185,7 @@ where
             .get("x-real-ip")
             .and_then(|v| v.to_str().ok())
             .map(|s| s.to_string());
-        let remote_addr = req
-            .extensions()
-            .get::<std::net::SocketAddr>()
-            .copied();
+        let remote_addr = req.extensions().get::<std::net::SocketAddr>().copied();
 
         Box::pin(async move {
             let state = watcher.state(); // Wait-free atomic pointer load
