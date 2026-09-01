@@ -76,7 +76,7 @@ moka = { version = "0.12", features = ["sync"] }
 serde_yaml = "0.9"
 
 # For hot-reload file watching
-notify = { version = "8", features = ["debouncer-mini"] }
+notify = { version = "8" }
 
 [profile.release]
 lto = true
