@@ -126,7 +126,7 @@ pub struct ShardedARTEngineAdapter {
 }
 
 impl ShardedARTEngineAdapter {
-    pub fn new(num_shards: usize, shard_size: usize, mask_bits: u8) -> Self {
+    pub fn new(num_shards: usize, shard_size: usize, _mask_bits: u8) -> Self {
         let shards = (0..num_shards)
             .map(|_| ARTEngineAdapter::new())
             .collect();
