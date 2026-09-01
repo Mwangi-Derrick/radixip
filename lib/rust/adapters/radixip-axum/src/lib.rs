@@ -36,6 +36,9 @@ use tower_service::Service as TowerService;
 // Re-export for convenience
 pub use radixip_tower::{RadixIpLayer, RadixIpMiddleware};
 
+pub mod from_yaml;
+pub use from_yaml::{AxumWatchedRadixIpLayer, AxumWatchedRadixIpService};
+
 /// Axum-specific RadixIP middleware service
 #[derive(Clone)]
 pub struct AxumRadixIpService<S> {

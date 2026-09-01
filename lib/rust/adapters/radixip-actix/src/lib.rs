@@ -3,6 +3,9 @@
 //! Extracts the IP, evaluates the RadixIP `PolicyEngine`, and either
 //! allows the request through or short-circuits with a 403/429 response.
 
+pub mod from_yaml;
+pub use from_yaml::{ActixWatchedRadixIpMiddleware, ActixWatchedRadixIpService};
+
 use actix_web::{
     body::EitherBody,
     dev::{forward_ready, Service, ServiceRequest, ServiceResponse, Transform},
