@@ -1,0 +1,56 @@
+name: Release Rust Middleware
+
+on:
+  push:
+    tags:
+      - 'rust/v[0-9]+.[0-9]+.[0-9]+'
+
+permissions:
+  contents: write
+
+jobs:
+  release-rust:
+    name: Create GitHub Release for Rust Middleware
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "RadixIP Rust Middleware ${{ github.ref_name }}"
+          generate_release_notes: true
+
+  publish-rust-middleware:
+    name: Publish Rust Middleware → crates.io
+    runs-on: ubuntu-latest
+    needs: release-rust
+    environment: publishing
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      
+      - name: Publish radixip-config
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        run: cargo publish -p radixip-config --no-verify || true
+
+      - name: Publish radixip-policy
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        run: cargo publish -p radixip-policy --no-verify || true
+
+      - name: Publish radixip-tower
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        run: cargo publish -p radixip-tower --no-verify || true
+
+      - name: Publish radixip-axum
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        run: cargo publish -p radixip-axum --no-verify || true
+
+      - name: Publish radixip-actix
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        run: cargo publish -p radixip-actix --no-verify || true
