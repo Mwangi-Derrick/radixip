@@ -1,7 +1,7 @@
 # Build stage for Rust gRPC server
 FROM rust:1.97.1-alpine AS builder
 
-RUN apk add --no-pkg-config protobuf-dev musl-dev gcc
+RUN apk add --no-cache protobuf-dev musl-dev gcc
 
 WORKDIR /app
 
@@ -10,15 +10,20 @@ COPY lib/rust ./lib/rust
 COPY proto ./proto
 COPY cmd/grpc-server-rust ./cmd/grpc-server-rust
 
-# Register member in Cargo workspace if needed or build directly
-WORKDIR /app/cmd/grpc-server-rust
-RUN cargo build --release
+RUN cargo build --release -p radixip-grpc-server
 
 # Final runtime image
 FROM alpine:3.19
 
+RUN apk --no-cache add ca-certificates libgcc
+
 WORKDIR /app
 COPY --from=builder /app/target/release/radixip-grpc-server /app/radixip-grpc-server
+
+# Environment variables for configuration
+ENV GRPC_PORT=50052 \
+    METRICS_PORT=9091 \
+    RADIXIP_CONFIG=/etc/radixip/radixip.yaml
 
 EXPOSE 50052 9091
 
