@@ -73,11 +73,13 @@ func (c *RadixIpConfig) validate() error {
 
 // RootConfig is the `radixip:` block in the YAML.
 type RootConfig struct {
-	Engine     EngineConfig     `yaml:"engine"`
-	Middleware MiddlewareConfig `yaml:"middleware"`
-	Blocklist  BlocklistConfig  `yaml:"blocklist"`
-	RateLimit  RateLimitConfig  `yaml:"rate_limit"`
-	Metrics    MetricsConfig    `yaml:"metrics"`
+	Engine          EngineConfig     `yaml:"engine"`
+	Middleware      MiddlewareConfig `yaml:"middleware"`
+	Blocklist       BlocklistConfig  `yaml:"blocklist"`
+	RateLimit       RateLimitConfig  `yaml:"rate_limit"`
+	Metrics         MetricsConfig    `yaml:"metrics"`
+	AutoBan         AutoBanConfig    `yaml:"auto_ban"`
+	RateLimitRoutes RouteConfig      `yaml:"rate_limit_routes"`
 }
 
 func (r *RootConfig) applyDefaults() {
@@ -85,6 +87,8 @@ func (r *RootConfig) applyDefaults() {
 	r.Middleware.applyDefaults()
 	r.RateLimit.applyDefaults()
 	r.Metrics.applyDefaults()
+	r.AutoBan.applyDefaults()
+	r.RateLimitRoutes.applyDefaults()
 }
 
 // ---------------------------------------------------------------------------
@@ -265,8 +269,26 @@ type AutoBanConfig struct {
 	BanDurationSeconds  uint32 `yaml:"ban_duration_seconds"`
 }
 
+func (a *AutoBanConfig) applyDefaults() {
+	if a.Enabled && a.ThresholdViolations == 0 {
+		a.ThresholdViolations = 5
+	}
+	if a.Enabled && a.WindowSeconds == 0 {
+		a.WindowSeconds = 60
+	}
+	if a.Enabled && a.BanDurationSeconds == 0 {
+		a.BanDurationSeconds = 3600
+	}
+}
+
 type RouteConfig struct {
 	Path      string   `yaml:"path"`
 	Methods   []string `yaml:"methods"`
 	RateLimit uint64   `yaml:"rate_limit"`
+}
+
+func (r *RouteConfig) applyDefaults() {
+	if r.RateLimit == 0 {
+		r.RateLimit = 100
+	}
 }
