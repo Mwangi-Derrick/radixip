@@ -89,7 +89,7 @@ impl RadixService for RadixServiceImpl {
             }
         };
 
-        let meta = Metadata::new(
+        let mut meta = Metadata::new(
             req.metadata
                 .as_ref()
                 .map(|m| m.value.clone())
@@ -97,7 +97,7 @@ impl RadixService for RadixServiceImpl {
         );
         if let Some(ref metadata) = req.metadata {
             for (k, v) in &metadata.attributes {
-                meta.clone().with_attribute(k, v);
+                meta = meta.with_attribute(k, v);
             }
         }
 
@@ -245,7 +245,7 @@ impl RadixService for RadixServiceImpl {
 
         while let Some(req) = stream.message().await? {
             if let Ok(prefix) = req.prefix.parse::<IpNetwork>() {
-                let meta = Metadata::new(
+                let mut meta = Metadata::new(
                     req.metadata
                         .as_ref()
                         .map(|m| m.value.clone())
@@ -253,7 +253,7 @@ impl RadixService for RadixServiceImpl {
                 );
                 if let Some(ref metadata) = req.metadata {
                     for (k, v) in &metadata.attributes {
-                        meta.clone().with_attribute(k, v);
+                        meta = meta.with_attribute(k, v);
                     }
                 }
                 if self.engine.insert(prefix, meta).is_ok() {
