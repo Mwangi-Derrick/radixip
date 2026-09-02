@@ -5,11 +5,8 @@ RUN apk add --no-cache protobuf-dev musl-dev gcc
 
 WORKDIR /app
 
-# Copy workspace manifest (and lockfile if it exists)
-COPY Cargo.toml Cargo.lock* ./
-COPY lib/rust ./lib/rust
-COPY proto ./proto
-COPY cmd/grpc-server-rust ./cmd/grpc-server-rust
+# Copy full workspace
+COPY . .
 
 RUN cargo build --release -p radixip-grpc-server
 
