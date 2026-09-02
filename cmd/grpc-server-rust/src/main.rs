@@ -304,12 +304,34 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let grpc_addr: SocketAddr = SocketAddr::from_str(&format!("0.0.0.0:{}", grpc_port))?;
     let service = RadixServiceImpl::new();
 
+    let config_path = std::env::var("RADIXIP_CONFIG")
+        .or_else(|_| std::env::var("CONFIG_PATH"))
+        .unwrap_or_else(|_| "radixip.yaml".to_string());
+
     println!("[Rust gRPC Server] RadixIP gRPC service listening on gRPC://{}", grpc_addr);
 
-    TonicServer::builder()
-        .add_service(RadixServiceServer::new(service))
-        .serve(grpc_addr)
-        .await?;
+    if std::path::Path::new(&config_path).exists() {
+        println!("[Rust gRPC Server] 🔥 RadixIP policy hot-reloader active watching {}", config_path);
+        let watcher = Arc::new(radixip_policy::ConfigWatcher::new(&config_path)?);
+        let engine_dyn: Arc<Box<dyn radixip::RadixEngine>> = Arc::new(Box::new(radixip::engine::EngineWrapper::new_with_tree(
+            EngineVariant::Standard,
+            NodeVariant::CompressedAtomic,
+            true,
+        )));
+        let interceptor = radixip_grpc_interceptor::from_yaml::GrpcWatchedRadixIpInterceptor::new(watcher, engine_dyn);
+
+        TonicServer::builder()
+            .layer(tonic::service::interceptor(interceptor))
+            .add_service(RadixServiceServer::new(service))
+            .serve(grpc_addr)
+            .await?;
+    } else {
+        println!("[Rust gRPC Server] ℹ️ Config file {} not found. Running without policy interceptors.", config_path);
+        TonicServer::builder()
+            .add_service(RadixServiceServer::new(service))
+            .serve(grpc_addr)
+            .await?;
+    }
 
     Ok(())
 }
