@@ -116,9 +116,9 @@ func (e *EngineConfig) applyDefaults() {
 
 // CacheConfig controls the lookup result cache layered on top of the ART.
 type CacheConfig struct {
-	Enabled    bool  `yaml:"enabled"`
-	MaxEntries int   `yaml:"max_entries"`
-	TTLSeconds *int  `yaml:"ttl_seconds"`
+	Enabled    bool `yaml:"enabled"`
+	MaxEntries int  `yaml:"max_entries"`
+	TTLSeconds *int `yaml:"ttl_seconds"`
 }
 
 func (c *CacheConfig) applyDefaults() {
@@ -192,13 +192,13 @@ type BlocklistSource struct {
 
 // RateLimitConfig controls the token bucket rate limiter.
 type RateLimitConfig struct {
-	Enabled    bool            `yaml:"enabled"`
-	Algorithm  string          `yaml:"algorithm"` // "token_bucket" (only current option)
-	BucketMode BucketKeyMode   `yaml:"bucket_mode"`
-	Capacity   uint64          `yaml:"capacity"`
-	RefillRate uint64          `yaml:"refill_rate"`
-	MaxBuckets uint64          `yaml:"max_buckets"`
-	TTLSeconds uint32          `yaml:"ttl_seconds"`
+	Enabled    bool          `yaml:"enabled"`
+	Algorithm  string        `yaml:"algorithm"` // "token_bucket" (only current option)
+	BucketMode BucketKeyMode `yaml:"bucket_mode"`
+	Capacity   uint64        `yaml:"capacity"`
+	RefillRate uint64        `yaml:"refill_rate"`
+	MaxBuckets uint64        `yaml:"max_buckets"`
+	TTLSeconds uint32        `yaml:"ttl_seconds"`
 }
 
 func (r *RateLimitConfig) applyDefaults() {
@@ -259,14 +259,14 @@ func (m *MetricsConfig) applyDefaults() {
 }
 
 type AutoBanConfig struct {
-	Enabled bool `yaml:"enabled"`
-	ThresholdViolations int `yaml:"threshold_violations"`
-	WindowSeconds int `yaml:"window_seconds"`
-	BanDurationSeconds int `yaml:"ban_duration_seconds"`
+	Enabled             bool   `yaml:"enabled"`
+	ThresholdViolations uint64 `yaml:"threshold_violations"`
+	WindowSeconds       uint32 `yaml:"window_seconds"`
+	BanDurationSeconds  uint32 `yaml:"ban_duration_seconds"`
 }
 
 type RouteConfig struct {
-	Path string `yaml:"path"`
-	Methods string `yaml:"methods"`
-	RateLimit int `yaml:"rate_limit"`
+	Path      string   `yaml:"path"`
+	Methods   []string `yaml:"methods"`
+	RateLimit uint64   `yaml:"rate_limit"`
 }
