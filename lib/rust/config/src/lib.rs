@@ -96,6 +96,10 @@ pub struct RootConfig {
     pub rate_limit: RateLimitConfig,
     #[serde(default)]
     pub metrics: MetricsConfig,
+    #[serde(default)]
+    pub auto_ban: AutoBanConfig,
+    #[serde(default)]
+    pub routes: Vec<RouteConfig>,
 }
 
 // ---------------------------------------------------------------------------
@@ -340,6 +344,59 @@ impl Default for MetricsConfig {
         Self {
             enabled: false,
             prometheus_path: "/metrics".into(),
+        }
+    }
+}
+
+// ---------------------------------------------------------------------------
+// AutoBanConfig
+// ---------------------------------------------------------------------------
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+#[serde(default)]
+pub struct AutoBanConfig {
+    pub enabled: bool,
+    /// Number of violations before auto-banning.
+    pub threshold_violations: u64,
+    /// Sliding window duration (seconds) to count violations.
+    pub window_seconds: u64,
+    /// Duration (seconds) to keep the IP banned.
+    pub ban_duration_seconds: u64,
+}
+
+impl Default for AutoBanConfig {
+    fn default() -> Self {
+        Self {
+            enabled: false,
+            threshold_violations: 100,
+            window_seconds: 60,
+            ban_duration_seconds: 3600,
+        }
+    }
+}
+
+// ---------------------------------------------------------------------------
+// RouteConfig
+// ---------------------------------------------------------------------------
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+#[serde(default)]
+pub struct RouteConfig {
+    /// Route path (e.g., "/api/v1/users").
+    pub path: String,
+    /// HTTP methods to apply rate limiting to.
+    /// If empty, applies to all methods.
+    pub methods: Vec<String>,
+    /// Rate limiting configuration for this route.
+    pub rate_limit: RateLimitConfig,
+}
+
+impl Default for RouteConfig {
+    fn default() -> Self {
+        Self {
+            path: "".into(),
+            methods: vec![],
+            rate_limit: RateLimitConfig::default(),
         }
     }
 }
