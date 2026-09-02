@@ -6,11 +6,12 @@ WORKDIR /app
 # Copy lib/go, proto, and cmd/grpc-server-go
 COPY lib/go ./lib/go
 COPY proto ./proto
+COPY cmd/grpc-server-go/go.mod ./
+COPY cmd/grpc-server-go/go.sum ./
 COPY cmd/grpc-server-go ./cmd/grpc-server-go
 
 WORKDIR /app/cmd/grpc-server-go
 
-COPY go.mod go.sum ./
 RUN go mod download
 
 
