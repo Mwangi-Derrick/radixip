@@ -1,0 +1,68 @@
+# config/radixip.toml
+# Complete Reference Configuration for RadixIP Protection Engine & Middleware
+
+[radixip.engine]
+variant = "concurrent"
+node_variant = "atomic"
+num_shards = 16
+
+[radixip.engine.cache]
+enabled = true
+max_entries = 10000
+ttl_seconds = 3600
+
+[radixip.middleware]
+ip_source = "x-forwarded-for"
+trusted_proxies = [
+    "10.0.0.0/8",
+    "172.16.0.0/12",
+    "192.168.0.0/16",
+    "127.0.0.1/32",
+    "::1/128"
+]
+
+[radixip.middleware.responses]
+blocked = 403
+rate_limited = 429
+
+[radixip.blocklist]
+enabled = true
+
+[[radixip.blocklist.sources]]
+type = "file"
+path = "/etc/radixip/blocklist.txt"
+
+[radixip.rate_limit]
+enabled = true
+algorithm = "token_bucket"
+capacity = 100
+refill_rate = 10
+max_buckets = 1000000
+ttl_seconds = 60
+
+[radixip.rate_limit.bucket_mode]
+mode = "ip"
+depth_v4 = 24
+depth_v6 = 48
+
+[radixip.auto_ban]
+enabled = true
+threshold_violations = 5
+window_seconds = 10
+ban_duration_seconds = 3600
+
+[[radixip.routes]]
+path = "/api/v1/auth/*"
+methods = ["POST", "PUT"]
+
+[radixip.routes.rate_limit]
+capacity = 5
+refill_rate = 1
+
+[[radixip.routes]]
+path = "/api/v1/public/*"
+methods = ["GET"]
+
+[radixip.routes.rate_limit]
+capacity = 1000
+refill_rate = 100

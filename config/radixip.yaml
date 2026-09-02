@@ -1,0 +1,66 @@
+# config/radixip.yaml
+# Complete Reference Configuration for RadixIP Protection Engine & Middleware
+
+radixip:
+  # Engine parameters
+  engine:
+    variant: "concurrent"     # "standard", "concurrent", "lockfree", "adaptive", "art"
+    node_variant: "atomic"    # "normal", "atomic", "lockfree"
+    num_shards: 16            # Shard count for concurrent engine
+    cache:
+      enabled: true
+      max_entries: 10000
+      ttl_seconds: 3600
+
+  # Global Middleware settings
+  middleware:
+    ip_source: "x-forwarded-for" # "x-forwarded-for", "x-real-ip", "remote-addr"
+    trusted_proxies:
+      - "10.0.0.0/8"
+      - "172.16.0.0/12"
+      - "192.168.0.0/16"
+      - "127.0.0.1/32"
+      - "::1/128"
+    responses:
+      blocked: 403            # Status for blocklist / auto-ban hits
+      rate_limited: 429       # Status for token-bucket rate limit hits
+
+  # LPM Blocklist configuration
+  blocklist:
+    enabled: true
+    sources:
+      - type: "file"
+        path: "/etc/radixip/blocklist.txt"
+
+  # Global Token Bucket Rate Limiter settings
+  rate_limit:
+    enabled: true
+    algorithm: "token_bucket"
+    capacity: 100              # Max token burst size
+    refill_rate: 10            # Refill tokens per second
+    max_buckets: 1000000       # Max active client IP buckets in RAM
+    ttl_seconds: 60            # Idle bucket eviction timeout
+    bucket_mode:
+      mode: "ip"               # "ip", "subnet", or "both"
+      depth_v4: 24
+      depth_v6: 48
+
+  # Per-IP Flagging & Auto-Banning
+  auto_ban:
+    enabled: true
+    threshold_violations: 5    # 5 rate-limit 429 violations within window
+    window_seconds: 10         # Sliding window size in seconds
+    ban_duration_seconds: 3600 # 1 hour temporary ban injected into Radix tree
+
+  # Per-API Route Policies (Longest Prefix Route Matching)
+  routes:
+    - path: "/api/v1/auth/*"
+      methods: ["POST", "PUT"]
+      rate_limit:
+        capacity: 5
+        refill_rate: 1
+    - path: "/api/v1/public/*"
+      methods: ["GET"]
+      rate_limit:
+        capacity: 1000
+        refill_rate: 100
