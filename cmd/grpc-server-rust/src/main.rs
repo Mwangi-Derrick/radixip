@@ -2,7 +2,7 @@ use std::net::SocketAddr;
 use std::str::FromStr;
 use std::sync::Arc;
 use std::time::Instant;
-
+use radixip::RadixEngine;
 use hyper::service::{make_service_fn, service_fn};
 use hyper::{Body, Request, Response, Server};
 use ipnetwork::IpNetwork;
@@ -58,10 +58,11 @@ pub struct RadixServiceImpl {
 
 impl RadixServiceImpl {
     pub fn new() -> Self {
-        let engine = EngineWrapper::new_with_tree(
+        let engine = EngineWrapper::new(
             EngineVariant::Standard,
-            NodeVariant::CompressedAtomic,
+            NodeVariant::AtomicRadixNode,
             true,
+            None
         );
         Self {
             engine: Arc::new(engine),
@@ -88,7 +89,7 @@ impl RadixService for RadixServiceImpl {
             }
         };
 
-        let mut meta = Metadata::new(
+        let meta = Metadata::new(
             req.metadata
                 .as_ref()
                 .map(|m| m.value.clone())
@@ -96,7 +97,7 @@ impl RadixService for RadixServiceImpl {
         );
         if let Some(ref metadata) = req.metadata {
             for (k, v) in &metadata.attributes {
-                meta.with_attribute(k, v);
+                meta.clone().with_attribute(k, v);
             }
         }
 
@@ -244,7 +245,7 @@ impl RadixService for RadixServiceImpl {
 
         while let Some(req) = stream.message().await? {
             if let Ok(prefix) = req.prefix.parse::<IpNetwork>() {
-                let mut meta = Metadata::new(
+                let meta = Metadata::new(
                     req.metadata
                         .as_ref()
                         .map(|m| m.value.clone())
@@ -252,7 +253,7 @@ impl RadixService for RadixServiceImpl {
                 );
                 if let Some(ref metadata) = req.metadata {
                     for (k, v) in &metadata.attributes {
-                        meta.with_attribute(k, v);
+                        meta.clone().with_attribute(k, v);
                     }
                 }
                 if self.engine.insert(prefix, meta).is_ok() {
@@ -313,10 +314,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     if std::path::Path::new(&config_path).exists() {
         println!("[Rust gRPC Server] 🔥 RadixIP policy hot-reloader active watching {}", config_path);
         let watcher = Arc::new(radixip_policy::ConfigWatcher::new(&config_path)?);
-        let engine_dyn: Arc<Box<dyn radixip::RadixEngine>> = Arc::new(Box::new(radixip::engine::EngineWrapper::new_with_tree(
+        let engine_dyn: Arc<Box<dyn radixip::RadixEngine>> = Arc::new(Box::new(radixip::engine::EngineWrapper::new(
             EngineVariant::Standard,
-            NodeVariant::CompressedAtomic,
+            NodeVariant::AtomicRadixNode,
             true,
+            None,
         )));
         let interceptor = radixip_grpc_interceptor::from_yaml::GrpcWatchedRadixIpInterceptor::new(watcher, engine_dyn);
 
