@@ -6,70 +6,35 @@ version: '3.8'
 services:
   # Redis for L2 cache
   redis:
-    image: redis:7-alpine
+    image: redis:7.2-alpine
     container_name: radixip-redis
     ports:
       - "6379:6379"
-    volumes:
-      - redis-data:/data
-      - ../config/redis.conf:/usr/local/etc/redis/redis.conf
-    command: redis-server --appendonly yes
 
-  # Go benchmark runner
-  go-bench:
+  # Go gRPC Sidecar
+  radixip-grpc-go:
     build:
       context: ..
-      dockerfile: docker/Dockerfile.golang
-    container_name: radixip-go-bench
-    depends_on:
-      - redis
+      dockerfile: docker/Dockerfile.grpc-go
+    container_name: radixip-grpc-go
+    ports:
+      - "50051:50051"
+      - "9090:9090"
     environment:
-      - REDIS_URL=redis://redis:6379
-    volumes:
-      - ../benchmarks/data:/data/benchmarks
-    command: go test -bench=. -benchmem ./...
+      - GRPC_PORT=50051
+      - METRICS_PORT=9090
+      - RADIXIP_CONFIG=/etc/radixip/radixip.yaml
 
-  # Rust benchmark runner
-  rust-bench:
+  # Rust gRPC Sidecar
+  radixip-grpc-rust:
     build:
       context: ..
-      dockerfile: docker/Dockerfile.rust
-    container_name: radixip-rust-bench
-    depends_on:
-      - redis
+      dockerfile: docker/Dockerfile.grpc-rust
+    container_name: radixip-grpc-rust
+    ports:
+      - "50052:50052"
+      - "9091:9091"
     environment:
-      - REDIS_URL=redis://redis:6379
-    volumes:
-      - ../benchmarks/data:/data/benchmarks
-    command: cargo bench
-
-  # Python example
-  python-demo:
-    build:
-      context: ..
-      dockerfile: docker/Dockerfile.python
-    container_name: radixip-python-demo
-    depends_on:
-      - redis
-    environment:
-      - REDIS_URL=redis://redis:6379
-    volumes:
-      - ../radixip-python/examples:/app/examples
-    command: python examples/basic.py
-
-  # Node.js example
-  node-demo:
-    build:
-      context: ..
-      dockerfile: docker/Dockerfile.node
-    container_name: radixip-node-demo
-    depends_on:
-      - redis
-    environment:
-      - REDIS_URL=redis://redis:6379
-    volumes:
-      - ../radixip-node/examples:/app/examples
-    command: node examples/basic.js
-
-volumes:
-  redis-data:
+      - GRPC_PORT=50052
+      - METRICS_PORT=9091
+      - RADIXIP_CONFIG=/etc/radixip/radixip.yaml
