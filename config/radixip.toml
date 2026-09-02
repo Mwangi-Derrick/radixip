@@ -45,6 +45,13 @@ mode = "ip"
 depth_v4 = 24
 depth_v6 = 48
 
+[radixip.metrics]
+metrics.enabled = true
+metrics.endpoint = "/metrics"       # Prometheus metrics endpoint
+    pprof =                   # Go pprof endpoints for debugging
+      enabled: true
+      routes: ["cpu", "heap", "goroutine", "threadcreate", "block", "mutex"]
+
 [radixip.auto_ban]
 enabled = true
 threshold_violations = 5

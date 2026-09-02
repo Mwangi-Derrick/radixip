@@ -1,6 +1,13 @@
 # config/radixip.yaml
 # Complete Reference Configuration for RadixIP Protection Engine & Middleware
 
+	# Engine          EngineConfig     `yaml:"engine"`
+	# Middleware      MiddlewareConfig `yaml:"middleware"`
+	# Blocklist       BlocklistConfig  `yaml:"blocklist"`
+	# RateLimit       RateLimitConfig  `yaml:"rate_limit"`
+	# Metrics         MetricsConfig    `yaml:"metrics"`
+	# AutoBan         AutoBanConfig    `yaml:"auto_ban"`
+	# RateLimitRoutes RouteConfig      `yaml:"rate_limit_routes"`
 radixip:
   # Engine parameters
   engine:
@@ -44,6 +51,14 @@ radixip:
       mode: "ip"               # "ip", "subnet", or "both"
       depth_v4: 24
       depth_v6: 48
+
+  # Metrics endpoints configuration
+  metrics:
+    enabled: true
+    endpoint: "/metrics"       # Prometheus metrics endpoint
+    pprof:                   # Go pprof endpoints for debugging
+      enabled: true
+      routes: ["cpu", "heap", "goroutine", "threadcreate", "block", "mutex"]
 
   # Per-IP Flagging & Auto-Banning
   auto_ban:
