@@ -257,3 +257,16 @@ func (m *MetricsConfig) applyDefaults() {
 		m.PrometheusPath = "/metrics"
 	}
 }
+
+type AutoBanConfig struct {
+	Enabled bool `yaml:"enabled"`
+	ThresholdViolations int `yaml:"threshold_violations"`
+	WindowSeconds int `yaml:"window_seconds"`
+	BanDurationSeconds int `yaml:"ban_duration_seconds"`
+}
+
+type RouteConfig struct {
+	Path string `yaml:"path"`
+	Methods string `yaml:"methods"`
+	RateLimit int `yaml:"rate_limit"`
+}
