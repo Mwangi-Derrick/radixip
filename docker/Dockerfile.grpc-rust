@@ -5,7 +5,8 @@ RUN apk add --no-cache protobuf-dev musl-dev gcc
 
 WORKDIR /app
 
-COPY Cargo.toml Cargo.lock ./
+# Copy workspace manifest (and lockfile if it exists)
+COPY Cargo.toml Cargo.lock* ./
 COPY lib/rust ./lib/rust
 COPY proto ./proto
 COPY cmd/grpc-server-rust ./cmd/grpc-server-rust

@@ -3,13 +3,16 @@ FROM golang:1.26.1-alpine AS builder
 
 WORKDIR /app
 
-# Copy lib/go, proto, and cmd/grpc-server-go
+# Copy go.work and source directories
+COPY go.work* ./
 COPY lib/go ./lib/go
 COPY proto ./proto
 COPY cmd/grpc-server-go ./cmd/grpc-server-go
 
 WORKDIR /app/cmd/grpc-server-go
 
+# Download dependencies and tidy module sum entries
+RUN go mod tidy
 RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o /app/grpc-server-go .
 
 # Final minimal runtime image

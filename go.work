@@ -1,8 +1,13 @@
 go 1.26.1
 
 use (
-    ./cmd/bench-parser
+	./cmd/bench-parser
+	./cmd/grpc-server-go
+	./lib/go/adapters/echo
+	./lib/go/adapters/fiber
 	./lib/go/adapters/gin
+	./lib/go/adapters/interceptor
+	./lib/go/config
 	./lib/go/engine
 	./lib/go/policy
 	./scripts/seed_blocklist
