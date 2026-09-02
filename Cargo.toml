@@ -10,7 +10,6 @@ members = [
     "lib/rust/adapters/interceptor",# gRPC interceptor
     "lib/python",              # PyO3 bindings
     "lib/node",                # N-API bindings
-    "cmd/radixip-cli",         # CLI tool
     "cmd/grpc-server-rust",    # Rust gRPC server
     "lib/rust/node16_simd_ffi",# SIMD FFI bridge for Go CGo
 ]
