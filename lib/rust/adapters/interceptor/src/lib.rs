@@ -183,7 +183,8 @@ where
             match decision {
                 PolicyDecision::Allow => inner.call(req).await,
                 PolicyDecision::Block | PolicyDecision::AutoBanned => {
-                    let body = ResBody::from(r#"{"error":"blocked"}"#.to_string());
+                    let body =
+                        ResBody::from(r#"{"error":"blocked","reason":"ip_blocked"}"#.to_string());
                     let mut res = Response::new(body);
                     *res.status_mut() = http::StatusCode::from_u16(responses.blocked)
                         .unwrap_or(http::StatusCode::FORBIDDEN);

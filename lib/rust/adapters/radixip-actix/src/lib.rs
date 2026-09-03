@@ -112,7 +112,7 @@ where
                             .unwrap_or(actix_web::http::StatusCode::FORBIDDEN),
                     );
                     builder.insert_header((header::CONTENT_TYPE, "application/json"));
-                    let res = builder.body(r#"{"error":"blocked"}"#);
+                    let res = builder.body(r#"{"error":"blocked","reason":"ip_blocked"}"#);
                     Ok(req.into_response(res.map_into_right_body()))
                 }
                 PolicyDecision::Limit => {

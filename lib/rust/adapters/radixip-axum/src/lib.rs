@@ -107,7 +107,7 @@ where
                     let response = (
                         status,
                         [(axum::http::header::CONTENT_TYPE, "application/json")],
-                        r#"{"error":"blocked"}"#,
+                        r#"{"error":"blocked","reason":"ip_blocked"}"#,
                     )
                         .into_response();
                     Ok(response)
