@@ -13,7 +13,7 @@ import (
 	radixipfiber "github.com/Mwangi-Derrick/radixip/lib/go/adapters/fiber"
 	radixipgin "github.com/Mwangi-Derrick/radixip/lib/go/adapters/gin"
 	radixipgrpc "github.com/Mwangi-Derrick/radixip/lib/go/adapters/grpc-interceptor"
-	"github.com/Mwangi-Derrick/radixip/lib/go/engine"
+	engine "github.com/Mwangi-Derrick/radixip/lib/go/engine"
 
 	gogin "github.com/gin-gonic/gin"
 	gofiber "github.com/gofiber/fiber/v2"
