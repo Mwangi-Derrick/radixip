@@ -29,9 +29,10 @@ import (
 type yamlState struct {
 	cfg     *config.RadixIpConfig
 	limiter *policy.TokenBucketLimiter
+	autoBan *policy.AutoBanTracker
 }
 
-func newYAMLState(cfg *config.RadixIpConfig) *yamlState {
+func newYAMLState(cfg *config.RadixIpConfig, eng Engine) *yamlState {
 	rl := cfg.RadixIP.RateLimit
 	lim := policy.NewTokenBucketLimiter(
 		rl.Capacity,
@@ -39,8 +40,15 @@ func newYAMLState(cfg *config.RadixIpConfig) *yamlState {
 		rl.TTLSeconds,
 		rl.MaxBuckets,
 	)
-	log.Printf("radixipgrpc: (re)built limiter capacity=%d refill=%d/s", rl.Capacity, rl.RefillRate)
-	return &yamlState{cfg: cfg, limiter: lim}
+	var ban *policy.AutoBanTracker
+	if cfg.RadixIP.AutoBan.Enabled {
+		if be, ok := eng.(policy.BanEngine); ok {
+			ban = policy.NewAutoBanTracker(cfg.RadixIP.AutoBan, be)
+		}
+	}
+	log.Printf("radixipgrpc: (re)built limiter capacity=%d refill=%d/s auto_ban=%v",
+		rl.Capacity, rl.RefillRate, cfg.RadixIP.AutoBan.Enabled)
+	return &yamlState{cfg: cfg, limiter: lim, autoBan: ban}
 }
 
 // grpcWatcher holds the atomic hot-swap state.
@@ -56,9 +64,9 @@ func (g *grpcWatcher) UnaryInterceptor() grpc.UnaryServerInterceptor {
 		latest := g.watcher.Current()
 		s := g.state.Load()
 
-		// Config pointer changed → rebuild limiter.
+	// Config pointer changed → rebuild limiter.
 		if s.cfg != latest {
-			next := newYAMLState(latest)
+			next := newYAMLState(latest, g.engine)
 			g.state.Store(next)
 			s = next
 		}
@@ -87,6 +95,13 @@ func (g *grpcWatcher) UnaryInterceptor() grpc.UnaryServerInterceptor {
 		if latest.RadixIP.RateLimit.Enabled && s.limiter != nil {
 			key := bucketKey(ip, latest.RadixIP.RateLimit.BucketMode.Mode)
 			if !s.limiter.Allow(key) {
+				if s.autoBan != nil && s.autoBan.RecordViolation(ipStr) {
+					return nil, status.Errorf(
+						statusCodeToGRPC(mwCfg.Responses.Blocked),
+						"auto-banned: IP %s exceeded violation threshold",
+						ipStr,
+					)
+				}
 				// Add retry-after to response metadata
 				if err := grpc.SetHeader(ctx, metadata.Pairs("retry-after", "1")); err != nil {
 					// Log but continue
@@ -112,7 +127,7 @@ func (g *grpcWatcher) StreamInterceptor() grpc.StreamServerInterceptor {
 
 		// Config pointer changed → rebuild limiter.
 		if s.cfg != latest {
-			next := newYAMLState(latest)
+			next := newYAMLState(latest, g.engine)
 			g.state.Store(next)
 			s = next
 		}
@@ -141,6 +156,13 @@ func (g *grpcWatcher) StreamInterceptor() grpc.StreamServerInterceptor {
 		if latest.RadixIP.RateLimit.Enabled && s.limiter != nil {
 			key := bucketKey(ip, latest.RadixIP.RateLimit.BucketMode.Mode)
 			if !s.limiter.Allow(key) {
+				if s.autoBan != nil && s.autoBan.RecordViolation(ipStr) {
+					return status.Errorf(
+						statusCodeToGRPC(mwCfg.Responses.Blocked),
+						"auto-banned: IP %s exceeded violation threshold",
+						ipStr,
+					)
+				}
 				// Add retry-after to response metadata
 				if err := grpc.SetHeader(ctx, metadata.Pairs("retry-after", "1")); err != nil {
 					// Log but continue
@@ -173,7 +195,7 @@ func NewFromYAML(path string, engine Engine) (grpc.UnaryServerInterceptor, grpc.
 	}
 
 	gw := &grpcWatcher{watcher: w, engine: engine}
-	gw.state.Store(newYAMLState(w.Current()))
+	gw.state.Store(newYAMLState(w.Current(), engine))
 
 	return gw.UnaryInterceptor(), gw.StreamInterceptor(), w.Stop, nil
 }
@@ -195,7 +217,7 @@ func NewCombinedFromYAML(path string, engine Engine) (CombinedInterceptor, func(
 	}
 
 	gw := &grpcWatcher{watcher: w, engine: engine}
-	gw.state.Store(newYAMLState(w.Current()))
+	gw.state.Store(newYAMLState(w.Current(), engine))
 
 	return gw, w.Stop, nil
 }

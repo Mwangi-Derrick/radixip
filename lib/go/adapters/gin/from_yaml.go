@@ -22,9 +22,10 @@ import (
 type yamlState struct {
 	cfg     *config.RadixIpConfig
 	limiter *policy.TokenBucketLimiter
+	autoBan *policy.AutoBanTracker
 }
 
-func newYAMLState(cfg *config.RadixIpConfig) *yamlState {
+func newYAMLState(cfg *config.RadixIpConfig, eng Engine) *yamlState {
 	rl := cfg.RadixIP.RateLimit
 	lim := policy.NewTokenBucketLimiter(
 		rl.Capacity,
@@ -32,8 +33,15 @@ func newYAMLState(cfg *config.RadixIpConfig) *yamlState {
 		rl.TTLSeconds,
 		rl.MaxBuckets,
 	)
-	log.Printf("radixipgin: (re)built limiter capacity=%d refill=%d/s", rl.Capacity, rl.RefillRate)
-	return &yamlState{cfg: cfg, limiter: lim}
+	var ban *policy.AutoBanTracker
+	if cfg.RadixIP.AutoBan.Enabled {
+		if be, ok := eng.(policy.BanEngine); ok {
+			ban = policy.NewAutoBanTracker(cfg.RadixIP.AutoBan, be)
+		}
+	}
+	log.Printf("radixipgin: (re)built limiter capacity=%d refill=%d/s auto_ban=%v",
+		rl.Capacity, rl.RefillRate, cfg.RadixIP.AutoBan.Enabled)
+	return &yamlState{cfg: cfg, limiter: lim, autoBan: ban}
 }
 
 // ginWatcher holds the atomic hot-swap state.
@@ -49,7 +57,7 @@ func (g *ginWatcher) ServeHTTP(c *gin.Context) {
 
 	// Config pointer changed → rebuild limiter.
 	if s.cfg != latest {
-		next := newYAMLState(latest)
+		next := newYAMLState(latest, g.engine)
 		g.state.Store(next)
 		s = next
 	}
@@ -79,6 +87,14 @@ func (g *ginWatcher) ServeHTTP(c *gin.Context) {
 	if latest.RadixIP.RateLimit.Enabled && s.limiter != nil {
 		key := bucketKey(ip, latest.RadixIP.RateLimit.BucketMode.Mode)
 		if !s.limiter.Allow(key) {
+			// Auto-ban: record violation; if threshold hit, engine already has the ban.
+			if s.autoBan != nil && s.autoBan.RecordViolation(ipStr) {
+				c.AbortWithStatusJSON(mwCfg.Responses.Blocked, gin.H{
+					"error": "auto-banned",
+					"ip":    ipStr,
+				})
+				return
+			}
 			c.Header("Retry-After", "1")
 			c.AbortWithStatusJSON(mwCfg.Responses.RateLimited, gin.H{
 				"error": "rate limited",
@@ -98,6 +114,7 @@ func (g *ginWatcher) ServeHTTP(c *gin.Context) {
 // middleware options are hot-swapped when the file changes.
 //
 // stop() must be called on server shutdown to release fsnotify resources.
+// NewFromYAML creates a hot-reloading Gin middleware from a YAML config file.
 func NewFromYAML(path string, engine Engine) (gin.HandlerFunc, func(), error) {
 	w, err := config.NewWatcher(path)
 	if err != nil {
@@ -105,7 +122,7 @@ func NewFromYAML(path string, engine Engine) (gin.HandlerFunc, func(), error) {
 	}
 
 	gw := &ginWatcher{watcher: w, engine: engine}
-	gw.state.Store(newYAMLState(w.Current()))
+	gw.state.Store(newYAMLState(w.Current(), engine))
 
 	return gw.ServeHTTP, w.Stop, nil
 }
