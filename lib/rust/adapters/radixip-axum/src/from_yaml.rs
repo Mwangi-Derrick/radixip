@@ -36,11 +36,11 @@ where
     S::Error: Into<axum::BoxError>,
 {
     type Response = Response;
-    type Error = axum::BoxError;
+    type Error = S::Error;
     type Future = BoxFuture<'static, Result<Self::Response, Self::Error>>;
 
     fn poll_ready(&mut self, cx: &mut Context<'_>) -> Poll<Result<(), Self::Error>> {
-        self.inner.poll_ready(cx).map_err(Into::into)
+        self.inner.poll_ready(cx)
     }
 
     fn call(&mut self, req: Request) -> Self::Future {
@@ -123,7 +123,7 @@ where
             }
 
             // Allow
-            inner.call(req).await.map_err(Into::into)
+            inner.call(req).await
         })
     }
 }

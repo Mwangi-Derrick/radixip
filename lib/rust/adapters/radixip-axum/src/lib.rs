@@ -65,11 +65,11 @@ where
     S::Error: Into<axum::BoxError>,
 {
     type Response = Response;
-    type Error = axum::BoxError;
+    type Error = S::Error;
     type Future = BoxFuture<'static, Result<Self::Response, Self::Error>>;
 
     fn poll_ready(&mut self, cx: &mut Context<'_>) -> Poll<Result<(), Self::Error>> {
-        self.inner.poll_ready(cx).map_err(Into::into)
+        self.inner.poll_ready(cx)
     }
 
     fn call(&mut self, req: Request) -> Self::Future {
@@ -100,7 +100,7 @@ where
             let decision = engine.check(xff.as_deref(), x_real_ip.as_deref(), remote_addr.as_ref());
 
             match decision {
-                PolicyDecision::Allow => inner.call(req).await.map_err(Into::into),
+                PolicyDecision::Allow => inner.call(req).await,
                 PolicyDecision::Block | PolicyDecision::AutoBanned => {
                     let status = axum::http::StatusCode::from_u16(responses.blocked)
                         .unwrap_or(axum::http::StatusCode::FORBIDDEN);
@@ -138,8 +138,8 @@ where
                 }
             }
         })
-    } //
-} //
+    }
+}
 
 /// Axum-specific RadixIP Layer
 #[derive(Clone)]
@@ -179,18 +179,14 @@ impl RadixIpExt for axum::Router {
         // Create the layer
         let layer = AxumRadixIpLayer::new(engine, responses);
 
-        // Apply using ServiceBuilder - map_err must be applied to the service,
-        // not the layer
-        self.layer(
-            ServiceBuilder::new()
-                .map_err(|e: axum::BoxError| -> std::convert::Infallible { unreachable!() })
-                .layer(layer),
-        )
+        // Apply using ServiceBuilder - properly handle the error type
+        // Use the layer directly since the error type is already handled
+        self.layer(layer)
     }
 }
+
 #[cfg(test)]
 mod tests {
-
     #[tokio::test]
     async fn test_radixip_middleware_allow() {
         // This is a placeholder test
