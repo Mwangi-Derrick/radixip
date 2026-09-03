@@ -21,9 +21,10 @@ import (
 type echoYAMLState struct {
 	cfg     *config.RadixIpConfig
 	limiter *policy.TokenBucketLimiter
+	autoBan *policy.AutoBanTracker
 }
 
-func newEchoYAMLState(cfg *config.RadixIpConfig) *echoYAMLState {
+func newEchoYAMLState(cfg *config.RadixIpConfig, eng Engine) *echoYAMLState {
 	rl := cfg.RadixIP.RateLimit
 	lim := policy.NewTokenBucketLimiter(
 		rl.Capacity,
@@ -31,8 +32,14 @@ func newEchoYAMLState(cfg *config.RadixIpConfig) *echoYAMLState {
 		rl.TTLSeconds,
 		rl.MaxBuckets,
 	)
+	var ban *policy.AutoBanTracker
+	if cfg.RadixIP.AutoBan.Enabled {
+		if be, ok := eng.(policy.BanEngine); ok {
+			ban = policy.NewAutoBanTracker(cfg.RadixIP.AutoBan, be)
+		}
+	}
 	log.Printf("radixipecho: (re)built limiter capacity=%d refill=%d/s", rl.Capacity, rl.RefillRate)
-	return &echoYAMLState{cfg: cfg, limiter: lim}
+	return &echoYAMLState{cfg: cfg, limiter: lim, autoBan: ban}
 }
 
 type echoWatcher struct {
@@ -47,7 +54,7 @@ func (g *echoWatcher) handle(next echo.HandlerFunc) echo.HandlerFunc {
 		s := g.state.Load()
 
 		if s.cfg != latest {
-			ns := newEchoYAMLState(latest)
+			ns := newEchoYAMLState(latest, g.engine)
 			g.state.Store(ns)
 			s = ns
 		}
@@ -93,7 +100,7 @@ func NewFromYAML(path string, engine Engine) (echo.MiddlewareFunc, func(), error
 	}
 
 	gw := &echoWatcher{watcher: w, engine: engine}
-	gw.state.Store(newEchoYAMLState(w.Current()))
+	gw.state.Store(newEchoYAMLState(w.Current(), engine))
 
 	return gw.handle, w.Stop, nil
 }

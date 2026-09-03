@@ -21,9 +21,10 @@ import (
 type fiberYAMLState struct {
 	cfg     *config.RadixIpConfig
 	limiter *policy.TokenBucketLimiter
+	autoBan *policy.AutoBanTracker
 }
 
-func newFiberYAMLState(cfg *config.RadixIpConfig) *fiberYAMLState {
+func newFiberYAMLState(cfg *config.RadixIpConfig, eng Engine) *fiberYAMLState {
 	rl := cfg.RadixIP.RateLimit
 	lim := policy.NewTokenBucketLimiter(
 		rl.Capacity,
@@ -31,8 +32,14 @@ func newFiberYAMLState(cfg *config.RadixIpConfig) *fiberYAMLState {
 		rl.TTLSeconds,
 		rl.MaxBuckets,
 	)
+	var ban *policy.AutoBanTracker
+	if cfg.RadixIP.AutoBan.Enabled {
+		if be, ok := eng.(policy.BanEngine); ok {
+			ban = policy.NewAutoBanTracker(cfg.RadixIP.AutoBan, be)
+		}
+	}
 	log.Printf("radixipfiber: (re)built limiter capacity=%d refill=%d/s", rl.Capacity, rl.RefillRate)
-	return &fiberYAMLState{cfg: cfg, limiter: lim}
+	return &fiberYAMLState{cfg: cfg, limiter: lim, autoBan: ban}
 }
 
 type fiberWatcher struct {
@@ -46,7 +53,7 @@ func (fw *fiberWatcher) handle(c *fiber.Ctx) error {
 	s := fw.state.Load()
 
 	if s.cfg != latest {
-		ns := newFiberYAMLState(latest)
+		ns := newFiberYAMLState(latest, fw.engine)
 		fw.state.Store(ns)
 		s = ns
 	}
@@ -80,6 +87,14 @@ func (fw *fiberWatcher) handle(c *fiber.Ctx) error {
 		}
 	}
 
+	// Auto-ban check (after rate-limit / blocklist)
+	if s.autoBan != nil && s.autoBan.RecordViolation(ipStr) {
+		return c.Status(mwCfg.Responses.Blocked).JSON(fiber.Map{
+			"error": "auto-banned",
+			"ip":    ipStr,
+		})
+	}
+
 	return c.Next()
 }
 
@@ -91,7 +106,7 @@ func NewFromYAML(path string, engine Engine) (fiber.Handler, func(), error) {
 	}
 
 	fw := &fiberWatcher{watcher: w, engine: engine}
-	fw.state.Store(newFiberYAMLState(w.Current()))
+	fw.state.Store(newFiberYAMLState(w.Current(), engine))
 
 	return fw.handle, w.Stop, nil
 }
