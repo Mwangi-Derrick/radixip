@@ -106,7 +106,7 @@ where
                     let res = service.call(req).await?;
                     Ok(res.map_into_left_body())
                 }
-                PolicyDecision::Block => {
+                PolicyDecision::Block | PolicyDecision::AutoBanned => {
                     let mut builder = HttpResponse::build(
                         actix_web::http::StatusCode::from_u16(responses.blocked)
                             .unwrap_or(actix_web::http::StatusCode::FORBIDDEN),

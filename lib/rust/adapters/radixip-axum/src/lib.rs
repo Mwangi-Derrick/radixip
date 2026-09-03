@@ -101,7 +101,7 @@ where
 
             match decision {
                 PolicyDecision::Allow => inner.call(req).await.map_err(Into::into),
-                PolicyDecision::Block => {
+                PolicyDecision::Block | PolicyDecision::AutoBanned => {
                     let status = axum::http::StatusCode::from_u16(responses.blocked)
                         .unwrap_or(axum::http::StatusCode::FORBIDDEN);
                     let response = (

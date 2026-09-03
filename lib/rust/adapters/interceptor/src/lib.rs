@@ -86,7 +86,9 @@ impl Interceptor for RadixIpInterceptor {
 
         match decision {
             PolicyDecision::Allow => Ok(req),
-            PolicyDecision::Block => Err(Status::permission_denied("blocked: IP is in blocklist")),
+            PolicyDecision::Block | PolicyDecision::AutoBanned => {
+                Err(Status::permission_denied("blocked: IP is in blocklist"))
+            }
             PolicyDecision::Limit => {
                 let mut status = Status::resource_exhausted("rate limited: exceeded rate limit");
                 let retry_after = MetadataValue::from_str("1")
@@ -180,7 +182,7 @@ where
 
             match decision {
                 PolicyDecision::Allow => inner.call(req).await,
-                PolicyDecision::Block => {
+                PolicyDecision::Block | PolicyDecision::AutoBanned => {
                     let body = ResBody::from(r#"{"error":"blocked"}"#.to_string());
                     let mut res = Response::new(body);
                     *res.status_mut() = http::StatusCode::from_u16(responses.blocked)

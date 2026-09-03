@@ -6,7 +6,6 @@
 pub mod from_yaml;
 pub use from_yaml::{TowerWatchedRadixIpLayer, TowerWatchedRadixIpService};
 
-
 use futures_util::future::BoxFuture;
 use http::{Request, Response, StatusCode};
 use radixip_config::ResponseConfig;
@@ -85,12 +84,8 @@ where
         Box::pin(async move {
             // Extract headers.
             let headers = req.headers();
-            let xff = headers
-                .get("x-forwarded-for")
-                .and_then(|v| v.to_str().ok());
-            let x_real_ip = headers
-                .get("x-real-ip")
-                .and_then(|v| v.to_str().ok());
+            let xff = headers.get("x-forwarded-for").and_then(|v| v.to_str().ok());
+            let x_real_ip = headers.get("x-real-ip").and_then(|v| v.to_str().ok());
 
             // Extract remote addr if the extension was provided (e.g., by axum's ConnectInfo).
             let remote_addr = req.extensions().get::<SocketAddr>();
@@ -102,10 +97,12 @@ where
                     // Pass to next service
                     inner.call(req).await
                 }
-                PolicyDecision::Block => {
-                    let mut res = Response::new(ResBody::from(r#"{"error":"blocked"}"#.to_string()));
-                    *res.status_mut() = StatusCode::from_u16(responses.blocked)
-                        .unwrap_or(StatusCode::FORBIDDEN);
+                PolicyDecision::Block | PolicyDecision::AutoBanned => {
+                    let mut res = Response::new(ResBody::from(
+                        r#"{"error":"blocked","reason":"ip_blocked"}"#.to_string(),
+                    ));
+                    *res.status_mut() =
+                        StatusCode::from_u16(responses.blocked).unwrap_or(StatusCode::FORBIDDEN);
                     res.headers_mut().insert(
                         http::header::CONTENT_TYPE,
                         http::header::HeaderValue::from_static("application/json"),
@@ -113,7 +110,8 @@ where
                     Ok(res)
                 }
                 PolicyDecision::Limit => {
-                    let mut res = Response::new(ResBody::from(r#"{"error":"rate limited"}"#.to_string()));
+                    let mut res =
+                        Response::new(ResBody::from(r#"{"error":"rate limited"}"#.to_string()));
                     *res.status_mut() = StatusCode::from_u16(responses.rate_limited)
                         .unwrap_or(StatusCode::TOO_MANY_REQUESTS);
                     res.headers_mut().insert(
