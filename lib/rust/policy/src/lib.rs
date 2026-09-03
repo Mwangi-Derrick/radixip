@@ -23,13 +23,17 @@
 //! }
 //! ```
 
+pub mod auto_ban;
 pub mod ip_extractor;
 pub mod limiter;
+pub mod route_trie;
 pub mod token_bucket;
 pub mod watcher;
 
+pub use auto_ban::AutoBanTracker;
 pub use ip_extractor::{extract_ip, ExtractError};
 pub use limiter::TokenBucketLimiter;
+pub use route_trie::RouteTrie;
 pub use token_bucket::TokenBucket;
 pub use watcher::{ConfigWatcher, PolicyState};
 
@@ -46,10 +50,12 @@ use std::sync::Arc;
 pub enum PolicyDecision {
     /// Request is allowed — pass to next handler.
     Allow,
-    /// IP is in the blocklist — respond 403.
+    /// IP is in the blocklist or was auto-banned — respond 403.
     Block,
     /// IP exceeded its token bucket — respond 429.
     Limit,
+    /// IP was auto-banned due to repeated violations — respond 403.
+    AutoBanned,
     /// Could not determine client IP — respond 400.
     BadRequest(String),
 }
@@ -66,6 +72,7 @@ pub struct PolicyEngine {
     middleware_cfg: MiddlewareConfig,
     rate_limit_enabled: bool,
     blocklist_enabled: bool,
+    auto_ban: Option<AutoBanTracker>,
 }
 
 impl PolicyEngine {
@@ -82,7 +89,15 @@ impl PolicyEngine {
             middleware_cfg,
             rate_limit_enabled,
             blocklist_enabled,
+            auto_ban: None,
         }
+    }
+
+    /// Attach an `AutoBanTracker` to this engine. When a rate-limit violation
+    /// occurs, the tracker is notified and may inject a temporary ban.
+    pub fn with_auto_ban(mut self, tracker: AutoBanTracker) -> Self {
+        self.auto_ban = Some(tracker);
+        self
     }
 
     /// Evaluate a request — returns the [`PolicyDecision`] the middleware
@@ -111,6 +126,12 @@ impl PolicyEngine {
 
         // 3. Rate limit check (<200ns).
         if self.rate_limit_enabled && !self.limiter.allow(ip, Some(self.engine.as_ref().as_ref())) {
+            // 3a. Notify auto-ban tracker on every violation.
+            if let Some(ref tracker) = self.auto_ban {
+                if tracker.record_violation(ip) {
+                    return PolicyDecision::AutoBanned;
+                }
+            }
             return PolicyDecision::Limit;
         }
 
