@@ -72,7 +72,7 @@ impl RouteTrie {
         let mut last_wildcard: Option<&RouteTrieNode> = None;
 
         for seg in segments {
-            if let Some(child) = node.children.get(seg.as_str()) {
+            if let Some(child) = node.children.get(seg) {
                 // Exact match — prefer this, but also note the wildcard
                 // sibling as a fallback so deeper paths don't lose it.
                 if let Some(wc) = node.children.get("*") {
