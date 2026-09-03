@@ -45,7 +45,7 @@ impl RouteTrie {
         let segments = split_path(path);
         let mut node = &mut self.root;
         for seg in segments {
-            node = node.children.entry(seg).or_default();
+            node = node.children.entry(seg.to_string()).or_default();
         }
         let limiter = TokenBucketLimiter::new(cfg);
         if methods.is_empty() {
