@@ -88,6 +88,11 @@ jobs:
         run: |
           chmod +x scripts/blocklist_test.sh
           ./scripts/blocklist_test.sh
+
+      - name: Run sequential test
+        run: |
+          chmod +x scripts/sequential_test.sh
+          ./scripts/sequential_test.sh
       
       - name: Upload results
         if: always()
