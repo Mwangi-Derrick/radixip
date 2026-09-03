@@ -22,6 +22,7 @@ use std::collections::HashMap;
 use radixip_config::RateLimitConfig;
 
 use crate::limiter::TokenBucketLimiter;
+use std::sync::Arc;
 
 // ---------------------------------------------------------------------------
 // RouteTrie
@@ -47,14 +48,14 @@ impl RouteTrie {
         for seg in segments {
             node = node.children.entry(seg.to_string()).or_default();
         }
-        let limiter = TokenBucketLimiter::new(cfg);
+        let limiter = Arc::new(TokenBucketLimiter::new(cfg));
         if methods.is_empty() {
             // Empty methods slice means "all methods" — store under the
             // catch-all key "".
-            node.limiters.insert(String::new(), limiter);
+            node.limiters.insert(String::new(), Arc::clone(&limiter));
         } else {
             for m in methods {
-                node.limiters.insert(m.to_uppercase(), limiter.clone());
+                node.limiters.insert(m.to_uppercase(), Arc::clone(&limiter));
             }
         }
     }
@@ -110,7 +111,7 @@ struct RouteTrieNode {
     children: HashMap<String, RouteTrieNode>,
     /// Method → limiter at this terminal node.
     /// The empty-string key acts as "match all methods".
-    limiters: HashMap<String, TokenBucketLimiter>,
+    limiters: HashMap<String, Arc<TokenBucketLimiter>>,
 }
 
 impl RouteTrieNode {
