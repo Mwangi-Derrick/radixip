@@ -9,15 +9,15 @@ import (
 	"sync"
 	"syscall"
 
+	radixipecho "github.com/Mwangi-Derrick/radixip/lib/go/adapters/echo"
+	radixipfiber "github.com/Mwangi-Derrick/radixip/lib/go/adapters/fiber"
+	radixipgin "github.com/Mwangi-Derrick/radixip/lib/go/adapters/gin"
+	radixipgrpc "github.com/Mwangi-Derrick/radixip/lib/go/adapters/grpc-interceptor"
 	"github.com/Mwangi-Derrick/radixip/lib/go/engine"
-	"github.com/Mwangi-Derrick/radixip/lib/go/adapters/gin"
-	"github.com/Mwangi-Derrick/radixip/lib/go/adapters/echo"
-	"github.com/Mwangi-Derrick/radixip/lib/go/adapters/fiber"
-	"github.com/Mwangi-Derrick/radixip/lib/go/adapters/interceptor"
 
 	gogin "github.com/gin-gonic/gin"
-	goecho "github.com/labstack/echo/v4"
 	gofiber "github.com/gofiber/fiber/v2"
+	goecho "github.com/labstack/echo/v4"
 	"google.golang.org/grpc"
 )
 
@@ -61,17 +61,17 @@ func main() {
 		gogin.SetMode(gogin.ReleaseMode)
 		r := gogin.New()
 		r.Use(gogin.Recovery())
-		
+
 		mw, stop, err := radixipgin.NewFromYAML(configPath, adapter)
 		if err != nil {
 			log.Fatalf("Gin middleware error: %v", err)
 		}
 		defer stop()
 		r.Use(mw)
-		
+
 		r.GET("/api/v1/public", func(c *gogin.Context) { c.String(200, "gin public ok") })
 		r.GET("/api/v1/auth", func(c *gogin.Context) { c.String(200, "gin auth ok") })
-		
+
 		go func() {
 			<-ctx.Done()
 			log.Println("Shutting down Gin...")
@@ -89,17 +89,17 @@ func main() {
 		e := goecho.New()
 		e.HideBanner = true
 		e.HidePort = true
-		
+
 		mw, stop, err := radixipecho.NewFromYAML(configPath, adapter)
 		if err != nil {
 			log.Fatalf("Echo middleware error: %v", err)
 		}
 		defer stop()
 		e.Use(mw)
-		
+
 		e.GET("/api/v1/public", func(c goecho.Context) error { return c.String(200, "echo public ok") })
 		e.GET("/api/v1/auth", func(c goecho.Context) error { return c.String(200, "echo auth ok") })
-		
+
 		go func() {
 			<-ctx.Done()
 			e.Shutdown(context.Background())
@@ -116,17 +116,17 @@ func main() {
 	go func() {
 		defer wg.Done()
 		app := gofiber.New(gofiber.Config{DisableStartupMessage: true})
-		
+
 		mw, stop, err := radixipfiber.NewFromYAML(configPath, adapter)
 		if err != nil {
 			log.Fatalf("Fiber middleware error: %v", err)
 		}
 		defer stop()
 		app.Use(mw)
-		
+
 		app.Get("/api/v1/public", func(c *gofiber.Ctx) error { return c.SendString("fiber public ok") })
 		app.Get("/api/v1/auth", func(c *gofiber.Ctx) error { return c.SendString("fiber auth ok") })
-		
+
 		go func() {
 			<-ctx.Done()
 			app.Shutdown()
@@ -147,17 +147,17 @@ func main() {
 			log.Fatalf("gRPC interceptor error: %v", err)
 		}
 		defer stop()
-		
+
 		s := grpc.NewServer(
 			grpc.UnaryInterceptor(unary),
 			grpc.StreamInterceptor(stream),
 		)
-		
+
 		lis, err := net.Listen("tcp", ":50051")
 		if err != nil {
 			log.Fatalf("gRPC failed to listen: %v", err)
 		}
-		
+
 		go func() {
 			<-ctx.Done()
 			s.GracefulStop()
