@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-radixip = { workspace = true }
+radixip_rs = { path = "../../lib/rust/engine" }
 radixip-config = { path = "../../lib/rust/config" }
 radixip-policy = { path = "../../lib/rust/policy" }
 radixip-axum = { path = "../../lib/rust/adapters/radixip-axum" }
