@@ -66,34 +66,48 @@ func (t *RouteTrieNode) AddRoute(path string, method string, rateLimitConfig con
 }
 
 func (t *RouteTrieNode) Match(path string, method string) *TokenBucketLimiter {
-	// Remove leading slash for consistent parsing
+	// Remove leading slash for consistent parsing.
 	if len(path) > 0 && path[0] == '/' {
 		path = path[1:]
 	}
 
-	// Normalize method to uppercase
+	// Normalize method to uppercase.
 	method = strings.ToUpper(method)
 
-	// Parse path segments
+	// Parse path segments.
 	segments := strings.Split(path, "/")
 	currentNode := t
+	var lastWildcardNode *RouteTrieNode // best wildcard match seen so far
 
-	// Traverse the trie
 	for _, segment := range segments {
 		if segment == "" {
-			continue // Skip empty segments
+			continue
 		}
 
-		if node, exists := currentNode.children[segment]; exists {
-			currentNode = node
+		// Check for an exact-segment child first (more specific wins).
+		if child, exists := currentNode.children[segment]; exists {
+			currentNode = child
+		} else if wildcard, exists := currentNode.children["*"]; exists {
+			// Wildcard matches any remaining path — record as fallback but keep traversing.
+			lastWildcardNode = wildcard
+			currentNode = wildcard
 		} else {
-			// No matching route found
+			// Dead end: fall back to the most-recent wildcard match.
+			if lastWildcardNode != nil {
+				return lastWildcardNode.methodLimiters[method]
+			}
 			return nil
 		}
 	}
 
-	// Return the token bucket for this specific method
-	return currentNode.methodLimiters[method]
+	// Prefer the exact terminal node's limiter; fall back to wildcard.
+	if lim := currentNode.methodLimiters[method]; lim != nil {
+		return lim
+	}
+	if lastWildcardNode != nil {
+		return lastWildcardNode.methodLimiters[method]
+	}
+	return nil
 }
 
 func (t *RouteTrieNode) HasRoute(path string, method string) bool {
