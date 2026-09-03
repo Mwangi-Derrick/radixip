@@ -94,7 +94,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let grpc_task = tokio::spawn(async move {
         // We need a dummy service to attach the layer to. For now, we just bind and wait.
         // In a real app we'd add .add_service(MyGreeterServer::new(greeter))
-        let addr = "0.0.0.0:50052".parse().unwrap();
+        let addr: &str = "0.0.0.0:50052";
         println!("📞 Tonic gRPC listening on :50052");
 
         let mut rx = tx_grpc.subscribe();
