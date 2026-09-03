@@ -80,6 +80,12 @@ func (g *echoWatcher) handle(next echo.HandlerFunc) echo.HandlerFunc {
 		if latest.RadixIP.RateLimit.Enabled && s.limiter != nil {
 			key := bucketKey(ip, latest.RadixIP.RateLimit.BucketMode.Mode)
 			if !s.limiter.Allow(key) {
+				if s.autoBan != nil && s.autoBan.RecordViolation(ipStr) {
+					return c.JSON(mwCfg.Responses.Blocked, map[string]string{
+						"error": "auto-banned",
+						"ip":    ipStr,
+					})
+				}
 				c.Response().Header().Set("Retry-After", "1")
 				return c.JSON(mwCfg.Responses.RateLimited, map[string]string{
 					"error": "rate limited",

@@ -79,20 +79,18 @@ func (fw *fiberWatcher) handle(c *fiber.Ctx) error {
 	if latest.RadixIP.RateLimit.Enabled && s.limiter != nil {
 		key := bucketKey(ip, latest.RadixIP.RateLimit.BucketMode.Mode)
 		if !s.limiter.Allow(key) {
+			if s.autoBan != nil && s.autoBan.RecordViolation(ipStr) {
+				return c.Status(mwCfg.Responses.Blocked).JSON(fiber.Map{
+					"error": "auto-banned",
+					"ip":    ipStr,
+				})
+			}
 			c.Set("Retry-After", "1")
 			return c.Status(mwCfg.Responses.RateLimited).JSON(fiber.Map{
 				"error": "rate limited",
 				"ip":    ipStr,
 			})
 		}
-	}
-
-	// Auto-ban check (after rate-limit / blocklist)
-	if s.autoBan != nil && s.autoBan.RecordViolation(ipStr) {
-		return c.Status(mwCfg.Responses.Blocked).JSON(fiber.Map{
-			"error": "auto-banned",
-			"ip":    ipStr,
-		})
 	}
 
 	return c.Next()
