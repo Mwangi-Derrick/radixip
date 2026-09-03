@@ -3,6 +3,7 @@ go 1.26.1
 use (
 	./cmd/bench-parser
 	./cmd/grpc-server-go
+	./cmd/kitchen-sink-go
 	./lib/go/adapters/echo
 	./lib/go/adapters/fiber
 	./lib/go/adapters/gin
