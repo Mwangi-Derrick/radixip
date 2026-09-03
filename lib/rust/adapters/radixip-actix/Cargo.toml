@@ -8,5 +8,5 @@ radixip-policy = { path = "../../policy" }
 radixip-config = { path = "../../config" }
 radixip_rs = { workspace = true }
 tracing = { workspace = true }
-actix-web = "4.0"
+actix-web = { workspace = true }
 futures-util = { workspace = true }
