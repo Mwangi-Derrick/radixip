@@ -9,8 +9,8 @@ radixip-policy = { path = "../../policy" }
 radixip-config = { path = "../../config" }
 radixip_rs = { workspace = true }
 tracing = { workspace = true }
-axum = "0.8.9"
-futures-util.workspace = true
-tower = "0.5.3"
+axum = { workspace = true }
+futures-util = { workspace = true }
+tower = { workspace = true }
 tower-service = "0.3.3"
 tokio.workspace = true
