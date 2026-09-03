@@ -119,8 +119,11 @@ impl RouteTrieNode {
         // Exact method match first.
         self.limiters
             .get(method)
+            // .map(|v| &**v)
             // Then try "all methods" catch-all.
             .or_else(|| self.limiters.get(""))
+            // deref Arc to get the TokenBucketLimiter
+            .map(|v| &**v)
     }
 }
 
