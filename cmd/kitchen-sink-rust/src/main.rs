@@ -38,7 +38,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let axum_task = tokio::spawn(async move {
         let app = Router::new()
             .route("/api/v1/public", get(|| async { "axum public ok" }))
-            .route("/api/v1/auth", get(|| async { "axum auth ok" }))
+            .route("/api/v1/auth", get(|| async { "axum auth get ok" }))
+            .route("/api/v1/auth", axum::routing::post(|| async { "axum auth post ok" }))
             .layer(AxumWatchedRadixIpLayer::new(axum_watcher, axum_engine));
 
         let listener = tokio::net::TcpListener::bind("0.0.0.0:9081").await.unwrap();
@@ -68,7 +69,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 "/api/v1/public",
                 web::get().to(|| async { "actix public ok" }),
             )
-            .route("/api/v1/auth", web::get().to(|| async { "actix auth ok" }))
+            .route(
+                "/api/v1/auth", 
+                web::get().to(|| async { "actix auth get ok" })
+            )
+            .route(
+                "/api/v1/auth", 
+                web::post().to(|| async { "actix auth post ok" })
+            )
     })
     .bind("0.0.0.0:9082")?
     .run();
