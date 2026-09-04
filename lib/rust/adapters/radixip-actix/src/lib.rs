@@ -15,7 +15,6 @@ use actix_web::{
 use futures_util::future::LocalBoxFuture;
 use radixip_config::ResponseConfig;
 use radixip_policy::{PolicyDecision, PolicyEngine};
-use std::net::SocketAddr;
 use std::rc::Rc;
 use std::sync::Arc;
 

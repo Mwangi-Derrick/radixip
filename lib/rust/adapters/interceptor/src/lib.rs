@@ -29,7 +29,6 @@ pub use from_yaml::{
     GrpcWatchedRadixIpInterceptor, GrpcWatchedRadixIpLayer, GrpcWatchedRadixIpService,
 };
 
-use std::pin::Pin;
 use std::sync::Arc;
 use std::task::{Context, Poll};
 
