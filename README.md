@@ -786,8 +786,6 @@ See [ARCHITECTURE.md](./ARCHITECTURE.md) for the full design rationale, hybrid R
 
 
 
-## 🤝 Contributing
-
 ## 🧪 Validation & Load Testing
 
 RadixIP includes a comprehensive validation suite to ensure the middleware, gRPC interceptors, and core engine perform flawlessly under extreme load. 
