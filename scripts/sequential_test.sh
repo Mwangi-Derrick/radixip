@@ -196,8 +196,8 @@ for target in "${TARGETS[@]}"; do
     IFS=":" read -r name port <<< "$target"
     echo -e "\n${YELLOW}Testing $name on port $port...${NC}"
     
-    IP_AUTH="10.1.0.$IP_COUNTER"
-    IP_PUB="10.2.0.$IP_COUNTER"
+    IP_AUTH="203.0.113.$IP_COUNTER"
+    IP_PUB="203.0.114.$IP_COUNTER"
     
     cat > target_auth.txt << EOF
 POST http://localhost:$port/api/v1/auth
