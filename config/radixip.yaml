@@ -1,13 +1,14 @@
 # config/radixip.yaml
 # Complete Reference Configuration for RadixIP Protection Engine & Middleware
+#
+# Engine          EngineConfig     `yaml:"engine"`
+# Middleware      MiddlewareConfig `yaml:"middleware"`
+# Blocklist       BlocklistConfig  `yaml:"blocklist"`
+# RateLimit       RateLimitConfig  `yaml:"rate_limit"`
+# Metrics         MetricsConfig    `yaml:"metrics"`
+# AutoBan         AutoBanConfig    `yaml:"auto_ban"`
+# RateLimitRoutes RouteConfig      `yaml:"rate_limit_routes"`
 
-	# Engine          EngineConfig     `yaml:"engine"`
-	# Middleware      MiddlewareConfig `yaml:"middleware"`
-	# Blocklist       BlocklistConfig  `yaml:"blocklist"`
-	# RateLimit       RateLimitConfig  `yaml:"rate_limit"`
-	# Metrics         MetricsConfig    `yaml:"metrics"`
-	# AutoBan         AutoBanConfig    `yaml:"auto_ban"`
-	# RateLimitRoutes RouteConfig      `yaml:"rate_limit_routes"`
 radixip:
   # Engine parameters
   engine:
