@@ -63,8 +63,8 @@ where
             .get::<axum::extract::ConnectInfo<std::net::SocketAddr>>()
             .map(|connect_info| connect_info.0);
 
-        // Call inner service
-        let mut inner = std::mem::replace(&mut self.inner, unsafe { std::mem::zeroed() });
+        // Clone the inner service for the async block
+        let mut inner = self.inner.clone();
 
         Box::pin(async move {
             let state = watcher.state(); // Wait-free pointer load
