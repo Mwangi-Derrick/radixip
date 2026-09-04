@@ -109,16 +109,31 @@ where
                 return Ok(req.into_response(res.map_into_right_body()));
             }
 
-            // 3. Rate limit check
-            if rl_cfg.enabled && !state.limiter.allow(ip, Some(engine.as_ref().as_ref())) {
-                let mut builder = HttpResponse::build(
-                    actix_web::http::StatusCode::from_u16(responses.rate_limited)
-                        .unwrap_or(actix_web::http::StatusCode::TOO_MANY_REQUESTS),
-                );
-                builder.insert_header((header::CONTENT_TYPE, "application/json"));
-                builder.insert_header((header::RETRY_AFTER, "1"));
-                let res = builder.body(r#"{"error":"rate limited"}"#);
-                return Ok(req.into_response(res.map_into_right_body()));
+            // 3. Rate limit check — route-specific trie first, then global limiter.
+            if rl_cfg.enabled {
+                let req_path = req.path().to_string();
+                let req_method = req.method().as_str().to_string();
+
+                let limiter_to_use = state
+                    .route_trie
+                    .as_ref()
+                    .and_then(|trie| trie.match_route(&req_method, &req_path));
+
+                let denied = match limiter_to_use {
+                    Some(route_lim) => !route_lim.allow(ip, Some(engine.as_ref().as_ref())),
+                    None => !state.limiter.allow(ip, Some(engine.as_ref().as_ref())),
+                };
+
+                if denied {
+                    let mut builder = HttpResponse::build(
+                        actix_web::http::StatusCode::from_u16(responses.rate_limited)
+                            .unwrap_or(actix_web::http::StatusCode::TOO_MANY_REQUESTS),
+                    );
+                    builder.insert_header((header::CONTENT_TYPE, "application/json"));
+                    builder.insert_header((header::RETRY_AFTER, "1"));
+                    let res = builder.body(r#"{"error":"rate limited"}"#);
+                    return Ok(req.into_response(res.map_into_right_body()));
+                }
             }
 
             // Allow

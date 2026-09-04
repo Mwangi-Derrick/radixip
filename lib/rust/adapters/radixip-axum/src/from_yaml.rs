@@ -1,5 +1,4 @@
 use axum::{
-    body::Body,
     extract::Request,
     response::{IntoResponse, Response},
 };
@@ -63,6 +62,10 @@ where
             .get::<axum::extract::ConnectInfo<std::net::SocketAddr>>()
             .map(|connect_info| connect_info.0);
 
+        // Extract route info before moving req into the async block.
+        let req_path = req.uri().path().to_string();
+        let req_method = req.method().as_str().to_string();
+
         // Clone the inner service for the async block
         let mut inner = self.inner.clone();
 
@@ -106,20 +109,32 @@ where
                 return Ok(response);
             }
 
-            // 3. Rate limit check
-            if rl_cfg.enabled && !state.limiter.allow(ip, Some(engine.as_ref().as_ref())) {
-                let status = axum::http::StatusCode::from_u16(responses.rate_limited)
-                    .unwrap_or(axum::http::StatusCode::TOO_MANY_REQUESTS);
-                let response = (
-                    status,
-                    [
-                        (axum::http::header::CONTENT_TYPE, "application/json"),
-                        (axum::http::header::RETRY_AFTER, "1"),
-                    ],
-                    r#"{"error":"rate limited"}"#,
-                )
-                    .into_response();
-                return Ok(response);
+            // 3. Rate limit check — route-specific trie first, then global limiter.
+            if rl_cfg.enabled {
+                let limiter_to_use = state
+                    .route_trie
+                    .as_ref()
+                    .and_then(|trie| trie.match_route(&req_method, &req_path));
+
+                let denied = match limiter_to_use {
+                    Some(route_lim) => !route_lim.allow(ip, Some(engine.as_ref().as_ref())),
+                    None => !state.limiter.allow(ip, Some(engine.as_ref().as_ref())),
+                };
+
+                if denied {
+                    let status = axum::http::StatusCode::from_u16(responses.rate_limited)
+                        .unwrap_or(axum::http::StatusCode::TOO_MANY_REQUESTS);
+                    let response = (
+                        status,
+                        [
+                            (axum::http::header::CONTENT_TYPE, "application/json"),
+                            (axum::http::header::RETRY_AFTER, "1"),
+                        ],
+                        r#"{"error":"rate limited"}"#,
+                    )
+                        .into_response();
+                    return Ok(response);
+                }
             }
 
             // Allow
