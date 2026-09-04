@@ -3,9 +3,7 @@
         build-simd-ffi build-go-simd test-go-simd \
         install-cbindgen check-cbindgen
 
-# ────────────────────────────────────────────────────────────────────────────
-# Helpers: detect OS for shared-object extension and copy target
-# ────────────────────────────────────────────────────────────────────────────
+# Detect OS for shared-object extension and copy target
 UNAME_S := $(shell uname -s 2>/dev/null || echo Windows)
 ifeq ($(UNAME_S),Darwin)
   SOEXT     := dylib
@@ -44,9 +42,6 @@ generate_protobuf_go:
 	    --go-grpc_out=proto/radixip/v1 --go-grpc_opt=paths=source_relative \
 	    -I=proto/radixip/v1 proto/radixip/v1/radixip.proto
 
-# ────────────────────────────────────────────────────────────────────────────
-# cbindgen: check presence, offer to install if missing
-# ────────────────────────────────────────────────────────────────────────────
 check-cbindgen:
 	@if ! command -v cbindgen > /dev/null 2>&1; then \
 	    if ! cargo install --list 2>/dev/null | grep -q "^cbindgen "; then \
@@ -61,9 +56,7 @@ check-cbindgen:
 	    fi; \
 	fi
 
-# ────────────────────────────────────────────────────────────────────────────
 # build-simd-ffi: compile the Rust cdylib and copy artifacts to vendor/
-# ────────────────────────────────────────────────────────────────────────────
 build-simd-ffi: check-cbindgen
 	@echo "Building SIMD FFI shared library (Rust)..."
 	cd $(SIMD_FFI_CRATE) && cargo build --release
@@ -73,23 +66,17 @@ build-simd-ffi: check-cbindgen
 	@echo "Shared library ready: $(VENDOR_LIB)/$(SOPREFIX)node16_simd_ffi.$(SOEXT)"
 	@echo "Header written to   : $(VENDOR_INC)/node16_simd.h"
 
-# ────────────────────────────────────────────────────────────────────────────
 # build-go-simd: build the Go ART package with the CGo SIMD bridge active
-# ────────────────────────────────────────────────────────────────────────────
 build-go-simd: build-simd-ffi
 	@echo "Building Go ART with CGo SIMD bridge (-tags simd_cgo)..."
 	cd lib/go/engine/engine && CGO_ENABLED=1 go build -tags simd_cgo ./...
 
-# ────────────────────────────────────────────────────────────────────────────
 # test-go-simd: run Go ART tests with the CGo SIMD bridge
-# ────────────────────────────────────────────────────────────────────────────
 test-go-simd: build-simd-ffi
 	@echo "Testing Go ART with CGo SIMD bridge (-tags simd_cgo)..."
 	cd lib/go/engine && CGO_ENABLED=1 go test -tags simd_cgo -v ./art/...
 
-# ────────────────────────────────────────────────────────────────────────────
 # Standard targets (unchanged behaviour, extended with SIMD step)
-# ────────────────────────────────────────────────────────────────────────────
 build: build-simd-ffi
 	@echo "Building Rust core..."
 	cd lib/rust/engine && cargo build --release
@@ -142,20 +129,27 @@ load-test:
 
 help:
 	@echo "Commands:"
+	@echo ""
+	@echo "## General"
 	@echo "  make all              - Build and test everything"
 	@echo "  make generate         - Generate mock data"
 	@echo "  make build            - Build all implementations (includes SIMD FFI)"
 	@echo "  make test             - Test all implementations"
 	@echo "  make bench            - Run all benchmarks"
-	@echo "  ─────────────── SIMD ────────────────────────────────────────────"
+	@echo ""
+	@echo "  ## SIMD"
 	@echo "  make build-simd-ffi   - Compile Rust SIMD shared library + copy to vendor/"
 	@echo "  make build-go-simd    - Build Go ART with CGo SIMD bridge"
 	@echo "  make test-go-simd     - Run Go ART tests with CGo SIMD bridge"
 	@echo "  make check-cbindgen   - Verify cbindgen is installed (install if not)"
-	@echo "  ─────────────────────────────────────────────────────────────────"
+	@echo ""
+	@echo "  ## Protobuf"
 	@echo "  make generate_protobuf_go - Generate protobuf files for go"
-	@echo "  make clean            - Clean all artifacts"
+	@echo ""
+	@echo "  ## gRPC"
 	@echo "  make build-grpc       - Build Go grpc server"
 	@echo "  make build-grpc-release - Build Go grpc and Rust server release"
+	@echo ""
+	@echo "  ## Attacks"
 	@echo "  make simulate-attack  - Simulate attacks on the current configuration"
 	@echo "  make load-test        - Run load test on the current configuration"
