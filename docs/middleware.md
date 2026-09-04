@@ -135,6 +135,37 @@ radixip:
       mode: "ip"         # "ip", "subnet", or "both"
       depth_v4: 24
       depth_v6: 48
+    # Metrics endpoints configuration
+  metrics:
+      enabled: true
+      endpoint: "/metrics"       # Prometheus metrics endpoint
+    pprof:                   # Go pprof endpoints for debugging
+      enabled: true
+      routes: ["cpu", "heap", "goroutine", "threadcreate", "block", "mutex"]
+
+    # Per-IP Flagging & Auto-Banning
+  auto_ban:
+    enabled: true
+    threshold_violations: 5    # 5 rate-limit 429 violations within window
+    window_seconds: 10         # Sliding window size in seconds
+    ban_duration_seconds: 30   # 30 second temporary ban (sweeper test uses 35s wait)
+
+  # Per-API Route Policies (Longest Prefix Route Matching)
+  rate_limit_routes:
+    enabled: true
+    routes:
+      - path: "/api/v1/auth"
+        methods: ["POST", "PUT"]
+        rate_limit:
+          capacity: 5
+          refill_rate: 1
+          enabled: true
+        - path: "/api/v1/public"
+          methods: ["GET"]
+          rate_limit:
+            capacity: 1000
+            refill_rate: 100
+            enabled: true
 ```
 
 ## IP Extraction & Security
