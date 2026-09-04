@@ -21,7 +21,6 @@
 //! ```
 
 use axum::{
-    body::Body,
     extract::Request,
     response::{IntoResponse, Response},
 };
@@ -174,8 +173,6 @@ pub trait RadixIpExt {
 
 impl RadixIpExt for axum::Router {
     fn layer_radixip(self, engine: Arc<PolicyEngine>, responses: ResponseConfig) -> Self {
-        use tower::ServiceBuilder;
-
         // Create the layer
         let layer = AxumRadixIpLayer::new(engine, responses);
 
