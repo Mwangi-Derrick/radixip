@@ -94,7 +94,7 @@ where
             let xff = headers.get("x-forwarded-for").and_then(|v| v.to_str().ok());
             let x_real_ip = headers.get("x-real-ip").and_then(|v| v.to_str().ok());
 
-            let remote_addr = req.peer_addr().map(|mut a| {
+            let remote_addr = req.peer_addr().map(|a| {
                 // Actix gives us SocketAddr, just pass it through
                 a
             });
