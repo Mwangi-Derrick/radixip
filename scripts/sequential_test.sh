@@ -189,17 +189,24 @@ TARGETS=(
 echo -e "\n${GREEN}==========================================${NC}"
 echo -e "${GREEN} Phase 1: Route-Trie Specific Rate Limits ${NC}"
 echo -e "${GREEN}==========================================${NC}"
+# Use unique IPs per framework to avoid auto-ban triggering and cross-framework limit sharing
+IP_COUNTER=1
 
 for target in "${TARGETS[@]}"; do
     IFS=":" read -r name port <<< "$target"
     echo -e "\n${YELLOW}Testing $name on port $port...${NC}"
     
+    IP_AUTH="10.1.0.$IP_COUNTER"
+    IP_PUB="10.2.0.$IP_COUNTER"
+    
     cat > target_auth.txt << EOF
-GET http://localhost:$port/api/v1/auth
+POST http://localhost:$port/api/v1/auth
+X-Forwarded-For: $IP_AUTH
 EOF
     
     cat > target_public.txt << EOF
 GET http://localhost:$port/api/v1/public
+X-Forwarded-For: $IP_PUB
 EOF
     
     echo -e "Attacking /api/v1/auth at 1000 RPS for 2s (Expect high 429 rate)"
@@ -211,11 +218,12 @@ EOF
     if [ -f result_auth.json ] && [ -f result_public.json ]; then
         auth_success=$(jq '.success' result_auth.json 2>/dev/null || echo "N/A")
         public_success=$(jq '.success' result_public.json 2>/dev/null || echo "N/A")
-        echo -e "Auth Success Rate: $auth_success"
-        echo -e "Public Success Rate: $public_success"
+        echo -e "Auth Success Rate (POST, Capacity 5): $auth_success"
+        echo -e "Public Success Rate (GET, Capacity 1000): $public_success"
     else
         echo -e "${RED}❌ Failed to get results for $name${NC}"
     fi
+    IP_COUNTER=$((IP_COUNTER+1))
 done
 
 echo -e "\n${GREEN}==========================================${NC}"
