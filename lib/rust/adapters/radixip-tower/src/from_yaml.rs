@@ -93,6 +93,10 @@ where
             .map(|s| s.to_owned());
         let remote_addr = req.extensions().get::<std::net::SocketAddr>().copied();
 
+        // Extract route info before moving req into the async block.
+        let req_path = req.uri().path().to_string();
+        let req_method = req.method().as_str().to_string();
+
         Box::pin(async move {
             let state = watcher.state(); // Wait-free atomic pointer load
             let mw_cfg = &state.config.radixip.middleware;
@@ -135,22 +139,35 @@ where
             }
 
             // 3. Rate limit check.
-            if rl_cfg.enabled && !state.limiter.allow(ip, Some(engine.as_ref().as_ref())) {
-                let status = http::StatusCode::from_u16(responses.rate_limited)
-                    .unwrap_or(http::StatusCode::TOO_MANY_REQUESTS);
-                let body = ResBody::from(r#"{"error":"rate limited"}"#.to_string());
-                let mut res = Response::new(body);
-                *res.status_mut() = status;
-                res.headers_mut().insert(
-                    http::header::CONTENT_TYPE,
-                    http::header::HeaderValue::from_static("application/json"),
-                );
-                res.headers_mut().insert(
-                    http::header::RETRY_AFTER,
-                    http::header::HeaderValue::from_static("1"),
-                );
-                return Ok(res);
+            if rl_cfg.enabled {
+                let limiter_to_use = state
+                    .route_trie
+                    .as_ref()
+                    .and_then(|trie| trie.match_route(&req_method, &req_path));
+
+                let denied = match limiter_to_use {
+                    Some(route_lim) => !route_lim.allow(ip, Some(engine.as_ref().as_ref())),
+                    None => !state.limiter.allow(ip, Some(engine.as_ref().as_ref())),
+                };
+
+                if denied {
+                    let status = http::StatusCode::from_u16(responses.rate_limited)
+                        .unwrap_or(http::StatusCode::TOO_MANY_REQUESTS);
+                    let body = ResBody::from(r#"{"error":"rate limited"}"#.to_string());
+                    let mut res = Response::new(body);
+                    *res.status_mut() = status;
+                    res.headers_mut().insert(
+                        http::header::CONTENT_TYPE,
+                        http::header::HeaderValue::from_static("application/json"),
+                    );
+                    res.headers_mut().insert(
+                        http::header::RETRY_AFTER,
+                        http::header::HeaderValue::from_static("1"),
+                    );
+                    return Ok(res);
+                }
             }
+
 
             inner.call(req).await
         })
