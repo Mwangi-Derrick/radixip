@@ -778,7 +778,7 @@ See [ARCHITECTURE.md](./ARCHITECTURE.md) for the full design rationale, hybrid R
 - [ ] gRPC service layer
 - [ ] Helm charts for one-command install
 
-### Hardware Acceleration (NEW)
+### Hardware Acceleration (NEW) 🔨
 - [ ] **FPGA acceleration for LPM lookups** — Offload critical path to hardware (projected 2-5 ns lookups, parallel processing)
 - [ ] **Kernel bypass for gRPC sidecars** — AF_XDP/DPDK for zero-copy packet I/O (5x throughput improvement)
 - [ ] **Runtime dispatch in Rust** — Transparent fallback between software and FPGA backends
