@@ -20,9 +20,10 @@ import (
 
 // yamlState bundles a config snapshot with the limiter derived from it.
 type yamlState struct {
-	cfg     *config.RadixIpConfig
-	limiter *policy.TokenBucketLimiter
-	autoBan *policy.AutoBanTracker
+	cfg       *config.RadixIpConfig
+	limiter   *policy.TokenBucketLimiter
+	routeTrie *policy.RouteTrieNode
+	autoBan   *policy.AutoBanTracker
 }
 
 func newYAMLState(cfg *config.RadixIpConfig, eng Engine) *yamlState {
@@ -33,15 +34,25 @@ func newYAMLState(cfg *config.RadixIpConfig, eng Engine) *yamlState {
 		rl.TTLSeconds,
 		rl.MaxBuckets,
 	)
+	var rt *policy.RouteTrieNode
+	if cfg.RadixIP.RateLimitRoutes.Enabled {
+		rt = policy.NewRouteTrie()
+		for _, route := range cfg.RadixIP.RateLimitRoutes.Routes {
+			for _, method := range route.Methods {
+				rt.AddRoute(route.Path, method, route.RateLimit)
+			}
+		}
+	}
+
 	var ban *policy.AutoBanTracker
 	if cfg.RadixIP.AutoBan.Enabled {
 		if be, ok := eng.(policy.BanEngine); ok {
 			ban = policy.NewAutoBanTracker(cfg.RadixIP.AutoBan, be)
 		}
 	}
-	log.Printf("radixipgin: (re)built limiter capacity=%d refill=%d/s auto_ban=%v",
-		rl.Capacity, rl.RefillRate, cfg.RadixIP.AutoBan.Enabled)
-	return &yamlState{cfg: cfg, limiter: lim, autoBan: ban}
+	log.Printf("radixipgin: (re)built limiter capacity=%d refill=%d/s auto_ban=%v route_trie=%v",
+		rl.Capacity, rl.RefillRate, cfg.RadixIP.AutoBan.Enabled, rt != nil)
+	return &yamlState{cfg: cfg, limiter: lim, routeTrie: rt, autoBan: ban}
 }
 
 // ginWatcher holds the atomic hot-swap state.
@@ -86,7 +97,19 @@ func (g *ginWatcher) ServeHTTP(c *gin.Context) {
 	// Rate limit check.
 	if latest.RadixIP.RateLimit.Enabled && s.limiter != nil {
 		key := bucketKey(ip, latest.RadixIP.RateLimit.BucketMode.Mode)
-		if !s.limiter.Allow(key) {
+		
+		var allowed bool
+		if s.routeTrie != nil {
+			if routeLimiter := s.routeTrie.Match(c.Request.URL.Path, c.Request.Method); routeLimiter != nil {
+				allowed = routeLimiter.Allow(key)
+			} else {
+				allowed = s.limiter.Allow(key)
+			}
+		} else {
+			allowed = s.limiter.Allow(key)
+		}
+
+		if !allowed {
 			// Auto-ban: record violation; if threshold hit, engine already has the ban.
 			if s.autoBan != nil && s.autoBan.RecordViolation(ipStr) {
 				c.AbortWithStatusJSON(mwCfg.Responses.Blocked, gin.H{

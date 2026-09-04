@@ -19,9 +19,10 @@ import (
 )
 
 type echoYAMLState struct {
-	cfg     *config.RadixIpConfig
-	limiter *policy.TokenBucketLimiter
-	autoBan *policy.AutoBanTracker
+	cfg       *config.RadixIpConfig
+	limiter   *policy.TokenBucketLimiter
+	routeTrie *policy.RouteTrieNode
+	autoBan   *policy.AutoBanTracker
 }
 
 func newEchoYAMLState(cfg *config.RadixIpConfig, eng Engine) *echoYAMLState {
@@ -32,14 +33,24 @@ func newEchoYAMLState(cfg *config.RadixIpConfig, eng Engine) *echoYAMLState {
 		rl.TTLSeconds,
 		rl.MaxBuckets,
 	)
+	var rt *policy.RouteTrieNode
+	if cfg.RadixIP.RateLimitRoutes.Enabled {
+		rt = policy.NewRouteTrie()
+		for _, route := range cfg.RadixIP.RateLimitRoutes.Routes {
+			for _, method := range route.Methods {
+				rt.AddRoute(route.Path, method, route.RateLimit)
+			}
+		}
+	}
+
 	var ban *policy.AutoBanTracker
 	if cfg.RadixIP.AutoBan.Enabled {
 		if be, ok := eng.(policy.BanEngine); ok {
 			ban = policy.NewAutoBanTracker(cfg.RadixIP.AutoBan, be)
 		}
 	}
-	log.Printf("radixipecho: (re)built limiter capacity=%d refill=%d/s", rl.Capacity, rl.RefillRate)
-	return &echoYAMLState{cfg: cfg, limiter: lim, autoBan: ban}
+	log.Printf("radixipecho: (re)built limiter capacity=%d refill=%d/s route_trie=%v", rl.Capacity, rl.RefillRate, rt != nil)
+	return &echoYAMLState{cfg: cfg, limiter: lim, routeTrie: rt, autoBan: ban}
 }
 
 type echoWatcher struct {
@@ -79,7 +90,19 @@ func (g *echoWatcher) handle(next echo.HandlerFunc) echo.HandlerFunc {
 
 		if latest.RadixIP.RateLimit.Enabled && s.limiter != nil {
 			key := bucketKey(ip, latest.RadixIP.RateLimit.BucketMode.Mode)
-			if !s.limiter.Allow(key) {
+			
+			var allowed bool
+			if s.routeTrie != nil {
+				if routeLimiter := s.routeTrie.Match(c.Request().URL.Path, c.Request().Method); routeLimiter != nil {
+					allowed = routeLimiter.Allow(key)
+				} else {
+					allowed = s.limiter.Allow(key)
+				}
+			} else {
+				allowed = s.limiter.Allow(key)
+			}
+
+			if !allowed {
 				if s.autoBan != nil && s.autoBan.RecordViolation(ipStr) {
 					return c.JSON(mwCfg.Responses.Blocked, map[string]string{
 						"error": "auto-banned",
