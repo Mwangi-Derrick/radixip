@@ -37,6 +37,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let tx_axum = tx.clone();
     let axum_task = tokio::spawn(async move {
         let app = Router::new()
+            .route("/health", get(|| async { "ok" }))
             .route("/api/v1/public", get(|| async { "axum public ok" }))
             .route("/api/v1/auth", get(|| async { "axum auth get ok" }))
             .route("/api/v1/auth", axum::routing::post(|| async { "axum auth post ok" }))
@@ -65,6 +66,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 actix_watcher.clone(),
                 actix_engine.clone(),
             ))
+            .route("/health", web::get().to(|| async { "ok" }))
             .route(
                 "/api/v1/public",
                 web::get().to(|| async { "actix public ok" }),

@@ -69,6 +69,7 @@ func main() {
 		defer stop()
 		r.Use(mw)
 
+		r.GET("/health", func(c *gogin.Context) { c.String(200, "ok") })
 		r.GET("/api/v1/public", func(c *gogin.Context) { c.String(200, "gin public ok") })
 		r.GET("/api/v1/auth", func(c *gogin.Context) { c.String(200, "gin auth get ok") })
 		r.POST("/api/v1/auth", func(c *gogin.Context) { c.String(200, "gin auth post ok") })
@@ -98,6 +99,7 @@ func main() {
 		defer stop()
 		e.Use(mw)
 
+		e.GET("/health", func(c goecho.Context) error { return c.String(200, "ok") })
 		e.GET("/api/v1/public", func(c goecho.Context) error { return c.String(200, "echo public ok") })
 		e.GET("/api/v1/auth", func(c goecho.Context) error { return c.String(200, "echo auth get ok") })
 		e.POST("/api/v1/auth", func(c goecho.Context) error { return c.String(200, "echo auth post ok") })
@@ -126,6 +128,7 @@ func main() {
 		defer stop()
 		app.Use(mw)
 
+		app.Get("/health", func(c *gofiber.Ctx) error { return c.SendString("ok") })
 		app.Get("/api/v1/public", func(c *gofiber.Ctx) error { return c.SendString("fiber public ok") })
 		app.Get("/api/v1/auth", func(c *gofiber.Ctx) error { return c.SendString("fiber auth get ok") })
 		app.Post("/api/v1/auth", func(c *gofiber.Ctx) error { return c.SendString("fiber auth post ok") })
