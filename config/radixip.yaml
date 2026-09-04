@@ -63,7 +63,7 @@ radixip:
     enabled: true
     threshold_violations: 5    # 5 rate-limit 429 violations within window
     window_seconds: 10         # Sliding window size in seconds
-    ban_duration_seconds: 30   # 30 second temporary ban (sweeper test uses 35s wait)
+    ban_duration_seconds: 5    # 5 second temporary ban (sweeper test uses 35s wait, sweeper runs every 30s)
 
   # Per-API Route Policies (Longest Prefix Route Matching)
   rate_limit_routes:
