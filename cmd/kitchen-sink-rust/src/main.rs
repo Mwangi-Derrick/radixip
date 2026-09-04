@@ -19,7 +19,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("🚀 Starting Rust Kitchen Sink Test App");
 
     let config_path = "config/radixip.yaml";
-    let initial_config = RadixIpConfig::from_file(config_path)?;
+    let _initial_config = RadixIpConfig::from_file(config_path)?;
 
     // 1. Initialize Shared RadixIP Engine
     let radix_engine = new_high_performance().await;
@@ -29,7 +29,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let watcher = Arc::new(ConfigWatcher::new(config_path)?);
 
     // Prepare servers
-    let (tx, mut rx) = tokio::sync::broadcast::channel(1);
+    let (tx, _rx) = tokio::sync::broadcast::channel(1);
 
     // Axum Server (9081)
     let axum_watcher = watcher.clone();
@@ -57,7 +57,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Actix-Web Server (9082)
     let actix_watcher = watcher.clone();
     let actix_engine = radix_engine.clone();
-    let tx_actix = tx.clone();
+    let _tx_actix = tx.clone();
     let actix_server = HttpServer::new(move || {
         App::new()
             .wrap(ActixWatchedRadixIpMiddleware::new(
@@ -94,13 +94,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let grpc_task = tokio::spawn(async move {
         // We need a dummy service to attach the layer to. For now, we just bind and wait.
         // In a real app we'd add .add_service(MyGreeterServer::new(greeter))
-        let addr: &str = "0.0.0.0:50052";
+        let _addr: &str = "0.0.0.0:50052";
         println!("📞 Tonic gRPC listening on :50052");
 
-        let mut rx = tx_grpc.subscribe();
+        let _rx = tx_grpc.subscribe();
 
         // Setup a dummy router to apply the layer
-        let router =
+        let _router =
             Server::builder().layer(GrpcWatchedRadixIpLayer::new(grpc_watcher, grpc_engine));
 
         // We can't use serve_with_shutdown directly on router unless we add a service
