@@ -31,7 +31,7 @@ impl<S> AxumWatchedRadixIpService<S> {
 
 impl<S> Service<Request> for AxumWatchedRadixIpService<S>
 where
-    S: TowerService<Request, Response = Response> + Send + 'static,
+    S: TowerService<Request, Response = Response> + Clone + Send + 'static,
     S::Future: Send + 'static,
     S::Error: Into<axum::BoxError>,
 {
