@@ -771,11 +771,19 @@ See [ARCHITECTURE.md](./ARCHITECTURE.md) for the full design rationale, hybrid R
 - [x] Unified configuration format
 
 ### Kubernetes & Operations 🔨
+- [x] Redis Pub/Sub for distributed sync
 - [ ] Kubernetes Operator for automated deployment
 - [ ] Redis HA failover support
 - [ ] Prometheus metrics integration
 - [ ] gRPC service layer
 - [ ] Helm charts for one-command install
+
+### Hardware Acceleration (NEW)
+- [ ] **FPGA acceleration for LPM lookups** — Offload critical path to hardware (projected 2-5 ns lookups, parallel processing)
+- [ ] **Kernel bypass for gRPC sidecars** — AF_XDP/DPDK for zero-copy packet I/O (5x throughput improvement)
+- [ ] **Runtime dispatch in Rust** — Transparent fallback between software and FPGA backends
+- [ ] **Custom RadixIP FPGA appliance** — Pre-built bitstreams for popular FPGA boards (Tang Nano, Artix, Kintex)
+
 
 
 ## 🤝 Contributing
