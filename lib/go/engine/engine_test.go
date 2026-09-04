@@ -6,9 +6,7 @@ import (
 	"testing"
 )
 
-// ---------------------------------------------------------------------------
 // Dataset helpers - IPv4
-// ---------------------------------------------------------------------------
 
 func generateCIDRsIPv4(n int) []*net.IPNet {
 	cidrs := make([]*net.IPNet, 0, n)
@@ -44,9 +42,7 @@ func generateMissIPsIPv4(n int) []net.IP {
 	return ips
 }
 
-// ---------------------------------------------------------------------------
 // Dataset helpers - IPv6
-// ---------------------------------------------------------------------------
 
 func generateCIDRsIPv6(n int) []*net.IPNet {
 	cidrs := make([]*net.IPNet, 0, n)
@@ -83,9 +79,7 @@ func generateMissIPsIPv6(n int) []net.IP {
 	return ips
 }
 
-// ---------------------------------------------------------------------------
 // Helpers
-// ---------------------------------------------------------------------------
 
 func buildEngine(n int, compressed bool, ipv6 bool) RadixEngine {
 	e := NewEngineWrapperWithTree(EngineConcurrent, AtomicTrieNode, compressed)
@@ -142,9 +136,7 @@ var (
 	GlobalResult *Metadata
 )
 
-// ---------------------------------------------------------------------------
 // Insert Benchmarks
-// ---------------------------------------------------------------------------
 
 // IPv4 Insert Benchmarks
 func BenchmarkInsert_IPv4_Uncompressed_5k_Normal(b *testing.B) {
@@ -340,9 +332,7 @@ func BenchmarkInsert_IPv6_Compressed_5k_LockFree(b *testing.B) {
 	}
 }
 
-// ---------------------------------------------------------------------------
 // Lookup Benchmarks - Hit (Uncompressed) - IPv4
-// ---------------------------------------------------------------------------
 
 func BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal(b *testing.B) {
 	e := buildEngineWithVariant(25_000, false, NormalTrieNode, false)
@@ -392,9 +382,7 @@ func BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree(b *testing.B) {
 	}
 }
 
-// ---------------------------------------------------------------------------
 // Lookup Benchmarks - Hit (Uncompressed) - IPv6
-// ---------------------------------------------------------------------------
 
 func BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal(b *testing.B) {
 	e := buildEngineWithVariant(25_000, false, NormalTrieNode, true)
@@ -444,9 +432,7 @@ func BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree(b *testing.B) {
 	}
 }
 
-// ---------------------------------------------------------------------------
 // Lookup Benchmarks - Hit (Compressed) - IPv4
-// ---------------------------------------------------------------------------
 
 func BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal(b *testing.B) {
 	e := buildEngineWithVariant(50_000, true, NormalRadixNode, false)
@@ -496,9 +482,7 @@ func BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree(b *testing.B) {
 	}
 }
 
-// ---------------------------------------------------------------------------
 // Lookup Benchmarks - Hit (Compressed) - IPv6
-// ---------------------------------------------------------------------------
 
 func BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal(b *testing.B) {
 	e := buildEngineWithVariant(50_000, true, NormalRadixNode, true)
@@ -548,9 +532,7 @@ func BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree(b *testing.B) {
 	}
 }
 
-// ---------------------------------------------------------------------------
 // Lookup Benchmarks - Miss - IPv4
-// ---------------------------------------------------------------------------
 
 func BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal(b *testing.B) {
 	e := buildEngineWithVariant(50_000, true, NormalRadixNode, false)
@@ -600,9 +582,7 @@ func BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree(b *testing.B) {
 	}
 }
 
-// ---------------------------------------------------------------------------
 // Lookup Benchmarks - Miss - IPv6
-// ---------------------------------------------------------------------------
 
 func BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal(b *testing.B) {
 	e := buildEngineWithVariant(50_000, true, NormalRadixNode, true)
@@ -652,9 +632,7 @@ func BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree(b *testing.B) {
 	}
 }
 
-// ---------------------------------------------------------------------------
 // ART Engine Benchmarks - IPv4
-// ---------------------------------------------------------------------------
 
 func BenchmarkInsert_ART_IPv4_10k(b *testing.B) {
 	cidrs := generateCIDRsIPv4(10_000)
@@ -703,9 +681,7 @@ func BenchmarkLookup_Miss_ART_IPv4_50k(b *testing.B) {
 	}
 }
 
-// ---------------------------------------------------------------------------
 // ART Engine Benchmarks - IPv6
-// ---------------------------------------------------------------------------
 
 func BenchmarkInsert_ART_IPv6_10k(b *testing.B) {
 	cidrs := generateCIDRsIPv6(10_000)
@@ -754,9 +730,7 @@ func BenchmarkLookup_Miss_ART_IPv6_50k(b *testing.B) {
 	}
 }
 
-// ---------------------------------------------------------------------------
 // Concurrent Lookup Benchmarks - IPv4 (to match Rust)
-// ---------------------------------------------------------------------------
 
 func BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal(b *testing.B) {
 	const n = 25_000
@@ -893,9 +867,7 @@ func BenchmarkConcurrent_Lookup_IPv4_ART_25k(b *testing.B) {
 	})
 }
 
-// ---------------------------------------------------------------------------
 // Concurrent Lookup Benchmarks - IPv6 (to match Rust)
-// ---------------------------------------------------------------------------
 
 func BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal(b *testing.B) {
 	const n = 25_000

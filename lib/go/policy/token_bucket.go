@@ -19,9 +19,7 @@ import (
 	"time"
 )
 
-// ---------------------------------------------------------------------------
 // Bit-pack helpers
-// ---------------------------------------------------------------------------
 
 func pack(ts uint32, tokensFP uint32) uint64 {
 	return (uint64(ts) << 32) | uint64(tokensFP)
@@ -35,9 +33,7 @@ func nowSecs() uint32 {
 	return uint32(time.Now().Unix())
 }
 
-// ---------------------------------------------------------------------------
 // Shard (256 shards → O(1) contention under high concurrency)
-// ---------------------------------------------------------------------------
 
 const numShards = 256
 
@@ -46,9 +42,7 @@ type shard struct {
 	buckets map[string]*atomic.Uint64 // key: IP string or CIDR string
 }
 
-// ---------------------------------------------------------------------------
 // TokenBucketLimiter
-// ---------------------------------------------------------------------------
 
 // TokenBucketLimiter is the per-IP rate limiter. It is safe for concurrent use.
 type TokenBucketLimiter struct {
@@ -173,9 +167,7 @@ func (l *TokenBucketLimiter) TrackedCount() int {
 	return total
 }
 
-// ---------------------------------------------------------------------------
 // Simple FNV-1a hash for shard selection
-// ---------------------------------------------------------------------------
 
 func fnv32(s string) uint32 {
 	var h uint32 = 2166136261

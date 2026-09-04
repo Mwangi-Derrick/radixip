@@ -23,9 +23,7 @@ use std::path::Path;
 use std::time::Duration;
 use thiserror::Error;
 
-// ---------------------------------------------------------------------------
 // Error
-// ---------------------------------------------------------------------------
 
 #[derive(Debug, Error)]
 pub enum ConfigError {
@@ -37,9 +35,7 @@ pub enum ConfigError {
     Validation(String),
 }
 
-// ---------------------------------------------------------------------------
 // Top-level
-// ---------------------------------------------------------------------------
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct RadixIpConfig {
@@ -80,9 +76,7 @@ impl RadixIpConfig {
     }
 }
 
-// ---------------------------------------------------------------------------
 // Root
-// ---------------------------------------------------------------------------
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct RootConfig {
@@ -102,9 +96,7 @@ pub struct RootConfig {
     pub rate_limit_routes: RateLimitRoutesConfig,
 }
 
-// ---------------------------------------------------------------------------
 // Engine
-// ---------------------------------------------------------------------------
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(default)]
@@ -144,9 +136,7 @@ impl Default for CacheConfig {
     }
 }
 
-// ---------------------------------------------------------------------------
 // Middleware
-// ---------------------------------------------------------------------------
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(default)]
@@ -192,9 +182,7 @@ impl Default for ResponseConfig {
     }
 }
 
-// ---------------------------------------------------------------------------
 // Blocklist
-// ---------------------------------------------------------------------------
 
 #[derive(Debug, Clone, Deserialize, Serialize, Default)]
 #[serde(default)]
@@ -210,9 +198,7 @@ pub enum BlocklistSource {
     File { path: String },
 }
 
-// ---------------------------------------------------------------------------
 // Rate Limiting
-// ---------------------------------------------------------------------------
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(default)]
@@ -280,9 +266,7 @@ pub enum BucketKeyMode {
     Both { depth_v4: u8, depth_v6: u8 },
 }
 
-// ---------------------------------------------------------------------------
 // Builder for RateLimitConfig
-// ---------------------------------------------------------------------------
 
 #[derive(Debug, Default)]
 pub struct RateLimitConfigBuilder {
@@ -328,9 +312,7 @@ impl RateLimitConfigBuilder {
     }
 }
 
-// ---------------------------------------------------------------------------
 // Metrics
-// ---------------------------------------------------------------------------
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(default)]
@@ -348,9 +330,7 @@ impl Default for MetricsConfig {
     }
 }
 
-// ---------------------------------------------------------------------------
 // AutoBanConfig
-// ---------------------------------------------------------------------------
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(default)]
@@ -375,9 +355,7 @@ impl Default for AutoBanConfig {
     }
 }
 
-// ---------------------------------------------------------------------------
 // RateLimitRoutesConfig
-// ---------------------------------------------------------------------------
 
 #[derive(Debug, Clone, Deserialize, Serialize, Default)]
 #[serde(default)]

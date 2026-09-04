@@ -42,9 +42,7 @@ use radixip_config::{MiddlewareConfig, RateLimitConfig};
 use std::net::SocketAddr;
 use std::sync::Arc;
 
-// ---------------------------------------------------------------------------
 // Policy decision
-// ---------------------------------------------------------------------------
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum PolicyDecision {
@@ -60,9 +58,7 @@ pub enum PolicyDecision {
     BadRequest(String),
 }
 
-// ---------------------------------------------------------------------------
 // PolicyEngine
-// ---------------------------------------------------------------------------
 
 /// Combines the RadixIP blocklist engine and the token-bucket rate limiter
 /// into a single `check()` call suitable for any HTTP middleware.

@@ -9,9 +9,7 @@
 #include <vector>
 #include "RadixEngine.hpp"
 
-// ---------------------------------------------------------------------------
 // Dataset generators
-// ---------------------------------------------------------------------------
 
 std::vector<std::string> generate_cidrs(int n) {
     std::vector<std::string> cidrs;
@@ -59,9 +57,7 @@ radixip::Engine build_engine(int n) {
     return engine;
 }
 
-// ---------------------------------------------------------------------------
 // Benchmarks
-// ---------------------------------------------------------------------------
 
 static void BM_Insert(benchmark::State& state) {
     int n = state.range(0);

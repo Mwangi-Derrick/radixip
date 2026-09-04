@@ -38,9 +38,7 @@ use tower::{Layer, Service};
 use radixip::RadixEngine;
 use radixip_policy::{extract_ip, ConfigWatcher};
 
-// ---------------------------------------------------------------------------
 // Interceptor with Hot-Reload (tonic::service::Interceptor)
-// ---------------------------------------------------------------------------
 
 /// Tonic `Interceptor` that hot-reloads its config from a YAML watcher.
 ///
@@ -110,9 +108,7 @@ impl Interceptor for GrpcWatchedRadixIpInterceptor {
     }
 }
 
-// ---------------------------------------------------------------------------
 // Tower Layer with Hot-Reload (http::Request<B> level)
-// ---------------------------------------------------------------------------
 
 /// Tower `Layer` that applies hot-reloading RadixIP checks to every HTTP/2 request.
 ///

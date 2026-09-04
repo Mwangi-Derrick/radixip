@@ -30,9 +30,7 @@ use std::{
 };
 use tracing::{error, info, warn};
 
-// ---------------------------------------------------------------------------
 // PolicyState — the thing we hot-swap
-// ---------------------------------------------------------------------------
 
 /// The complete live state managed by the hot-reload watcher.
 pub struct PolicyState {
@@ -65,9 +63,7 @@ impl PolicyState {
     }
 }
 
-// ---------------------------------------------------------------------------
 // ConfigWatcher
-// ---------------------------------------------------------------------------
 
 /// Watches a config file and keeps an [`ArcSwap<PolicyState>`] up-to-date.
 ///

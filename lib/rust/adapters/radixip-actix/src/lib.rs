@@ -18,9 +18,7 @@ use radixip_policy::{PolicyDecision, PolicyEngine};
 use std::rc::Rc;
 use std::sync::Arc;
 
-// ---------------------------------------------------------------------------
 // Transform
-// ---------------------------------------------------------------------------
 
 /// Actix-Web Transform for RadixIP.
 #[derive(Clone)]
@@ -60,9 +58,7 @@ where
     }
 }
 
-// ---------------------------------------------------------------------------
 // Service
-// ---------------------------------------------------------------------------
 
 /// Actix-Web Service for RadixIP.
 pub struct RadixIpService<S> {

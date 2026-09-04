@@ -41,10 +41,8 @@ pub fn simd_find_child(keys: &[u8; 16], target: u8, count: u8) -> Option<usize> 
     find_scalar(keys, target, count)
 }
 
-// ---------------------------------------------------------------------------
 // x86_64 — AVX2 (256-bit, but we only have 16 keys so use 128-bit lane
 // AVX2 is 256 bit but it is a "vertical silo", shares 128 bit with SSE, that is why we use 128 bit lane and not 256 bit lane
-// ---------------------------------------------------------------------------
 #[cfg(target_arch = "x86_64")]
 #[target_feature(enable = "avx2")]
 unsafe fn find_avx2(keys: &[u8; 16], target: u8, count: u8) -> Option<usize> {
@@ -66,9 +64,7 @@ unsafe fn find_avx2(keys: &[u8; 16], target: u8, count: u8) -> Option<usize> {
     }
 }
 
-// ---------------------------------------------------------------------------
 // x86_64 — SSE4.1
-// ---------------------------------------------------------------------------
 #[cfg(target_arch = "x86_64")]
 #[target_feature(enable = "sse4.1")]
 unsafe fn find_sse4_1(keys: &[u8; 16], target: u8, count: u8) -> Option<usize> {
@@ -86,9 +82,7 @@ unsafe fn find_sse4_1(keys: &[u8; 16], target: u8, count: u8) -> Option<usize> {
     }
 }
 
-// ---------------------------------------------------------------------------
 // aarch64 — ARM NEON
-// ---------------------------------------------------------------------------
 #[cfg(target_arch = "aarch64")]
 #[target_feature(enable = "neon")]
 unsafe fn find_neon(keys: &[u8; 16], target: u8, count: u8) -> Option<usize> {
@@ -117,9 +111,7 @@ unsafe fn find_neon(keys: &[u8; 16], target: u8, count: u8) -> Option<usize> {
     }
 }
 
-// ---------------------------------------------------------------------------
 // Scalar fallback
-// ---------------------------------------------------------------------------
 #[inline(always)]
 fn find_scalar(keys: &[u8; 16], target: u8, count: u8) -> Option<usize> {
     for i in 0..count as usize {
@@ -130,9 +122,7 @@ fn find_scalar(keys: &[u8; 16], target: u8, count: u8) -> Option<usize> {
     None
 }
 
-// ---------------------------------------------------------------------------
 // Tests
-// ---------------------------------------------------------------------------
 #[cfg(test)]
 mod tests {
     use super::*;

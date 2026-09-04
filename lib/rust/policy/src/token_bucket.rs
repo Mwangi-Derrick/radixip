@@ -19,9 +19,7 @@
 use std::sync::atomic::{AtomicU64, Ordering};
 use std::time::{SystemTime, UNIX_EPOCH};
 
-// ---------------------------------------------------------------------------
 // Bit layout helpers
-// ---------------------------------------------------------------------------
 
 /// Pack (timestamp_secs, tokens_fixed_point) into a single u64.
 #[inline(always)]
@@ -44,9 +42,7 @@ pub fn now_secs() -> u32 {
         .as_secs() as u32
 }
 
-// ---------------------------------------------------------------------------
 // TokenBucket
-// ---------------------------------------------------------------------------
 
 /// A single IP's token bucket state stored in one `AtomicU64`.
 ///

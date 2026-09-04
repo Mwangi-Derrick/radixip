@@ -29,9 +29,7 @@ func mustAddr(s string) netip.Addr {
 	return a
 }
 
-// ---------------------------------------------------------------------------
 // Basic correctness
-// ---------------------------------------------------------------------------
 
 func TestTree_InsertAndMatch(t *testing.T) {
 	tree := art.NewTree()
@@ -112,9 +110,7 @@ func TestTree_DeleteMiss(t *testing.T) {
 	}
 }
 
-// ---------------------------------------------------------------------------
 // Node grow/shrink transitions
-// ---------------------------------------------------------------------------
 
 // Force Node4 → Node16 → Node48 → Node256 by inserting 200+ distinct IPs
 func TestTree_GrowTransitions(t *testing.T) {
@@ -170,9 +166,7 @@ func TestTree_ShrinkTransitions(t *testing.T) {
 	}
 }
 
-// ---------------------------------------------------------------------------
 // Concurrent access safety
-// ---------------------------------------------------------------------------
 
 func TestTree_ConcurrentInsertLookup(t *testing.T) {
 	tree := art.NewTree()
@@ -195,9 +189,7 @@ func TestTree_ConcurrentInsertLookup(t *testing.T) {
 	}
 }
 
-// ---------------------------------------------------------------------------
 // Benchmarks
-// ---------------------------------------------------------------------------
 
 func BenchmarkTree_Insert(b *testing.B) {
 	ips := make([]netip.Addr, 1000)

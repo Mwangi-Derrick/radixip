@@ -51,9 +51,7 @@ func (s *metadataStore) size() int {
 	return n
 }
 
-// ---------------------------------------------------------------------------
 // ARTEngineAdapter — implements RadixEngine
-// ---------------------------------------------------------------------------
 
 // ARTEngineAdapter wraps art.Tree and satisfies the RadixEngine interface.
 // It stores *Metadata values in a side map so the Go GC never collects them

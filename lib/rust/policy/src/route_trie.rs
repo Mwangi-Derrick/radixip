@@ -24,9 +24,7 @@ use radixip_config::RateLimitConfig;
 use crate::limiter::TokenBucketLimiter;
 use std::sync::Arc;
 
-// ---------------------------------------------------------------------------
 // RouteTrie
-// ---------------------------------------------------------------------------
 
 /// Segment-based trie that maps (method, path) → `TokenBucketLimiter`.
 pub struct RouteTrie {
@@ -101,9 +99,7 @@ impl Default for RouteTrie {
     }
 }
 
-// ---------------------------------------------------------------------------
 // RouteTrieNode
-// ---------------------------------------------------------------------------
 
 #[derive(Default)]
 struct RouteTrieNode {
@@ -127,18 +123,14 @@ impl RouteTrieNode {
     }
 }
 
-// ---------------------------------------------------------------------------
 // Helpers
-// ---------------------------------------------------------------------------
 
 /// Split a path string into non-empty segment strings.
 fn split_path(path: &str) -> impl Iterator<Item = &str> {
     path.split('/').filter(|s| !s.is_empty())
 }
 
-// ---------------------------------------------------------------------------
 // Tests
-// ---------------------------------------------------------------------------
 
 #[cfg(test)]
 mod tests {

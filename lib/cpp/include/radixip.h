@@ -12,14 +12,10 @@
 extern "C" {
 #endif
 
-// ---------------------------------------------------------------------------
 // Opaque engine handle
-// ---------------------------------------------------------------------------
 typedef struct RadixEngineHandle RadixEngineHandle;
 
-// ---------------------------------------------------------------------------
 // Lifecycle
-// ---------------------------------------------------------------------------
 
 /// Create a balanced radix engine. Returns NULL on failure.
 RadixEngineHandle* radix_engine_new(void);
@@ -27,9 +23,7 @@ RadixEngineHandle* radix_engine_new(void);
 /// Destroy the engine and free all memory.
 void radix_engine_free(RadixEngineHandle* handle);
 
-// ---------------------------------------------------------------------------
 // Mutations
-// ---------------------------------------------------------------------------
 
 /// Insert a CIDR subnet with JSON metadata.
 /// @param subnet   e.g. "192.168.1.0/24"
@@ -46,9 +40,7 @@ int radix_engine_remove(RadixEngineHandle* handle, const char* subnet);
 /// Remove all entries.
 void radix_engine_clear(RadixEngineHandle* handle);
 
-// ---------------------------------------------------------------------------
 // Queries
-// ---------------------------------------------------------------------------
 
 /// Longest-prefix match an IP address.
 /// @param ip  e.g. "203.0.113.5"
@@ -62,16 +54,12 @@ bool radix_engine_contains(const RadixEngineHandle* handle, const char* ip);
 /// Return the number of stored prefixes.
 size_t radix_engine_size(const RadixEngineHandle* handle);
 
-// ---------------------------------------------------------------------------
 // Strings returned by the library
-// ---------------------------------------------------------------------------
 
 /// Free a C-string that was returned by the library (e.g. from radix_engine_match).
 void radix_engine_free_string(char* ptr);
 
-// ---------------------------------------------------------------------------
 // Metadata
-// ---------------------------------------------------------------------------
 
 /// Null-terminated semantic version string (e.g. "0.1.0").
 const char* radix_engine_version(void);

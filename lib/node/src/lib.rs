@@ -5,9 +5,7 @@ use radixip::{Metadata, RadixEngine}; // Note: no UncompressedTree import needed
 use std::collections::HashMap;
 use std::net::IpAddr;
 
-// ---------------------------------------------------------------------------
 // Config object passed from JS/TS
-// ---------------------------------------------------------------------------
 
 #[napi(object)]
 pub struct EngineConfig {
@@ -17,9 +15,7 @@ pub struct EngineConfig {
     pub enable_split_plane: Option<bool>,
 }
 
-// ---------------------------------------------------------------------------
 // Metadata returned to JS/TS — flat object for ergonomics
-// ---------------------------------------------------------------------------
 
 #[napi(object)]
 pub struct JsMetadata {
@@ -27,9 +23,7 @@ pub struct JsMetadata {
     pub attributes: HashMap<String, String>,
 }
 
-// ---------------------------------------------------------------------------
 // EngineStats
-// ---------------------------------------------------------------------------
 
 #[napi(object)]
 pub struct JsEngineStats {
@@ -41,9 +35,7 @@ pub struct JsEngineStats {
     pub removals: u32,
 }
 
-// ---------------------------------------------------------------------------
 // Wrapper for RadixEngine trait object
-// ---------------------------------------------------------------------------
 
 struct RadixEngineWrapper {
     engine: Box<dyn RadixEngine>,
@@ -85,9 +77,7 @@ impl RadixEngineWrapper {
     }
 }
 
-// ---------------------------------------------------------------------------
 // RadixIP class
-// ---------------------------------------------------------------------------
 
 #[napi]
 pub struct RadixIP {

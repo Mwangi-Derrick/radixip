@@ -19,9 +19,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-// ---------------------------------------------------------------------------
 // Top-level
-// ---------------------------------------------------------------------------
 
 // RadixIpConfig is the root configuration document.
 type RadixIpConfig struct {
@@ -67,9 +65,7 @@ func (c *RadixIpConfig) validate() error {
 	return nil
 }
 
-// ---------------------------------------------------------------------------
 // Root
-// ---------------------------------------------------------------------------
 
 // RootConfig is the `radixip:` block in the YAML.
 type RootConfig struct {
@@ -91,9 +87,7 @@ func (r *RootConfig) applyDefaults() {
 	r.RateLimitRoutes.applyDefaults()
 }
 
-// ---------------------------------------------------------------------------
 // Engine
-// ---------------------------------------------------------------------------
 
 // EngineConfig controls which RadixIP ART variant is instantiated.
 type EngineConfig struct {
@@ -138,9 +132,7 @@ func (c *CacheConfig) applyDefaults() {
 	}
 }
 
-// ---------------------------------------------------------------------------
 // Middleware
-// ---------------------------------------------------------------------------
 
 // MiddlewareConfig controls IP extraction and response codes.
 type MiddlewareConfig struct {
@@ -172,9 +164,7 @@ func (r *ResponseConfig) applyDefaults() {
 	}
 }
 
-// ---------------------------------------------------------------------------
 // Blocklist
-// ---------------------------------------------------------------------------
 
 // BlocklistConfig controls static blocklist loading.
 type BlocklistConfig struct {
@@ -190,9 +180,7 @@ type BlocklistSource struct {
 	Path    string   `yaml:"path"`    // for type: file
 }
 
-// ---------------------------------------------------------------------------
 // Rate Limiting
-// ---------------------------------------------------------------------------
 
 // RateLimitConfig controls the token bucket rate limiter.
 type RateLimitConfig struct {
@@ -246,9 +234,7 @@ func (b *BucketKeyMode) applyDefaults() {
 	}
 }
 
-// ---------------------------------------------------------------------------
 // Metrics
-// ---------------------------------------------------------------------------
 
 // MetricsConfig controls Prometheus metrics exposure.
 type MetricsConfig struct {

@@ -41,9 +41,7 @@ use tower::{Layer, Service};
 use radixip_config::ResponseConfig;
 use radixip_policy::{PolicyDecision, PolicyEngine};
 
-// ---------------------------------------------------------------------------
 // Tonic Interceptor (used with `tonic::service::interceptor()`)
-// ---------------------------------------------------------------------------
 
 /// A tonic `Interceptor` that evaluates the RadixIP policy on every RPC.
 ///
@@ -103,9 +101,7 @@ impl Interceptor for RadixIpInterceptor {
     }
 }
 
-// ---------------------------------------------------------------------------
 // Tower Layer / Service (used when you need full body access or streaming)
-// ---------------------------------------------------------------------------
 
 /// Tower Layer that wraps a tonic service with RadixIP checks.
 ///

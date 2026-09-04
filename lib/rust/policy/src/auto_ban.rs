@@ -15,9 +15,7 @@ use ipnetwork::IpNetwork;
 use radixip::RadixEngine;
 use radixip_config::AutoBanConfig;
 
-// ---------------------------------------------------------------------------
 // AutoBanTracker
-// ---------------------------------------------------------------------------
 
 /// Shared inner state — wrapped in `Arc<Mutex<>>` so it is cheaply cloneable
 /// across the background sweeper task.
@@ -119,9 +117,7 @@ impl AutoBanTracker {
     }
 }
 
-// ---------------------------------------------------------------------------
 // Background sweeper
-// ---------------------------------------------------------------------------
 
 async fn sweeper(inner: Arc<Mutex<Inner>>, engine: Arc<Box<dyn RadixEngine>>) {
     let mut interval = tokio::time::interval(Duration::from_secs(30));
@@ -150,9 +146,7 @@ async fn sweeper(inner: Arc<Mutex<Inner>>, engine: Arc<Box<dyn RadixEngine>>) {
     }
 }
 
-// ---------------------------------------------------------------------------
 // Helpers
-// ---------------------------------------------------------------------------
 
 /// Build a /32 (IPv4) or /128 (IPv6) host network for engine insertion.
 fn host_prefix(ip: IpAddr) -> IpNetwork {

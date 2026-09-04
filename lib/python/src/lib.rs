@@ -7,9 +7,7 @@ use std::net::IpAddr;
 use std::sync::Arc;
 use tokio;
 
-// ---------------------------------------------------------------------------
 // Internal helper: Metadata <-> Python dict
-// ---------------------------------------------------------------------------
 
 fn meta_from_dict(dict: &Bound<'_, PyDict>) -> PyResult<Metadata> {
     let value: String = dict
@@ -44,9 +42,7 @@ fn meta_to_dict<'py>(py: Python<'py>, meta: Metadata) -> PyResult<Bound<'py, PyD
     Ok(dict)
 }
 
-// ---------------------------------------------------------------------------
 // PyRadixEngine
-// ---------------------------------------------------------------------------
 
 /// High-performance IP radix-tree engine.
 ///
@@ -183,9 +179,7 @@ impl PyRadixEngine {
     }
 }
 
-// ---------------------------------------------------------------------------
 // Module
-// ---------------------------------------------------------------------------
 
 /// RadixIP — high-performance IP subnet longest-prefix matching engine.
 #[pymodule]

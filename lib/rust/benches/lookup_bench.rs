@@ -12,9 +12,7 @@ use std::net::IpAddr;
 use std::str::FromStr;
 use std::time::Duration;
 
-// ---------------------------------------------------------------------------
 // Dataset generators
-// ---------------------------------------------------------------------------
 
 /// Generate N realistic-looking /24 CIDR blocks spread across the 10.x.x.0/24 space (IPv4).
 fn generate_cidrs_ipv4(n: usize) -> Vec<IpNetwork> {
@@ -104,9 +102,7 @@ fn generate_miss_ips_ipv6(n: usize) -> Vec<IpAddr> {
         .collect()
 }
 
-// ---------------------------------------------------------------------------
 // Helpers
-// ---------------------------------------------------------------------------
 
 fn build_engine(
     variant: EngineVariant,
@@ -141,9 +137,7 @@ fn compressed_variant(node_variant: NodeVariant) -> NodeVariant {
     }
 }
 
-// ---------------------------------------------------------------------------
 // Benchmarks
-// ---------------------------------------------------------------------------
 
 fn bench_insert(c: &mut Criterion) {
     let mut group = c.benchmark_group("insert");
@@ -639,9 +633,7 @@ fn bench_lookup(c: &mut Criterion) {
 //     group.finish();
 // }
 
-// ---------------------------------------------------------------------------
 // Concurrent Lookup Benchmarks - Compressed
-// ---------------------------------------------------------------------------
 
 fn bench_concurrent_lookup_compressed(c: &mut Criterion) {
     use std::sync::Arc;
@@ -704,9 +696,7 @@ fn bench_concurrent_lookup_compressed(c: &mut Criterion) {
     group.finish();
 }
 
-// ---------------------------------------------------------------------------
 // Concurrent ART Lookup
-// ---------------------------------------------------------------------------
 
 fn bench_concurrent_lookup_art(c: &mut Criterion) {
     use std::sync::Arc;
@@ -774,9 +764,7 @@ fn bench_concurrent_lookup_art(c: &mut Criterion) {
     group.finish();
 }
 
-// ---------------------------------------------------------------------------
 // Concurrent Lookup Benchmarks - Uncompressed
-// ---------------------------------------------------------------------------
 
 fn bench_concurrent_lookup_uncompressed(c: &mut Criterion) {
     use std::sync::Arc;
@@ -839,9 +827,7 @@ fn bench_concurrent_lookup_uncompressed(c: &mut Criterion) {
     group.finish();
 }
 
-// ---------------------------------------------------------------------------
 // Criterion Configuration
-// ---------------------------------------------------------------------------
 fn config() -> Criterion {
     let criterion = Criterion::default().without_plots();
 

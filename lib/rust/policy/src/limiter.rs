@@ -15,9 +15,7 @@ use radixip_config::{BucketKeyMode, RateLimitConfig};
 use std::net::IpAddr;
 use std::sync::Arc;
 
-// ---------------------------------------------------------------------------
 // Bucket key
-// ---------------------------------------------------------------------------
 
 /// The key used to look up or create a rate-limit bucket.
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -72,9 +70,7 @@ fn truncate_to_prefix(ip: IpAddr, depth_v4: u8, depth_v6: u8) -> IpNetwork {
     }
 }
 
-// ---------------------------------------------------------------------------
 // Limiter
-// ---------------------------------------------------------------------------
 
 /// Rate limiter backed by a bounded moka cache (TTL + LRU eviction).
 pub struct TokenBucketLimiter {
@@ -131,9 +127,7 @@ impl TokenBucketLimiter {
     }
 }
 
-// ---------------------------------------------------------------------------
 // Tests
-// ---------------------------------------------------------------------------
 
 #[cfg(test)]
 mod tests {
