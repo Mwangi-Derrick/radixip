@@ -77,9 +77,9 @@ type RootConfig struct {
 	Middleware      MiddlewareConfig `yaml:"middleware"`
 	Blocklist       BlocklistConfig  `yaml:"blocklist"`
 	RateLimit       RateLimitConfig  `yaml:"rate_limit"`
-	Metrics         MetricsConfig    `yaml:"metrics"`
-	AutoBan         AutoBanConfig    `yaml:"auto_ban"`
-	RateLimitRoutes RouteConfig      `yaml:"rate_limit_routes"`
+	Metrics         MetricsConfig         `yaml:"metrics"`
+	AutoBan         AutoBanConfig         `yaml:"auto_ban"`
+	RateLimitRoutes RateLimitRoutesConfig `yaml:"rate_limit_routes"`
 }
 
 func (r *RootConfig) applyDefaults() {
@@ -281,14 +281,23 @@ func (a *AutoBanConfig) applyDefaults() {
 	}
 }
 
+type RateLimitRoutesConfig struct {
+	Enabled bool          `yaml:"enabled"`
+	Routes  []RouteConfig `yaml:"routes"`
+}
+
+func (r *RateLimitRoutesConfig) applyDefaults() {
+	for i := range r.Routes {
+		r.Routes[i].applyDefaults()
+	}
+}
+
 type RouteConfig struct {
-	Path      string   `yaml:"path"`
-	Methods   []string `yaml:"methods"`
-	RateLimit uint64   `yaml:"rate_limit"`
+	Path      string          `yaml:"path"`
+	Methods   []string        `yaml:"methods"`
+	RateLimit RateLimitConfig `yaml:"rate_limit"`
 }
 
 func (r *RouteConfig) applyDefaults() {
-	if r.RateLimit == 0 {
-		r.RateLimit = 100
-	}
+	r.RateLimit.applyDefaults()
 }

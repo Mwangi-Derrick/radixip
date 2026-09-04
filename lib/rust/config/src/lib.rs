@@ -99,7 +99,7 @@ pub struct RootConfig {
     #[serde(default)]
     pub auto_ban: AutoBanConfig,
     #[serde(default)]
-    pub routes: Vec<RouteConfig>,
+    pub rate_limit_routes: RateLimitRoutesConfig,
 }
 
 // ---------------------------------------------------------------------------
@@ -376,8 +376,15 @@ impl Default for AutoBanConfig {
 }
 
 // ---------------------------------------------------------------------------
-// RouteConfig
+// RateLimitRoutesConfig
 // ---------------------------------------------------------------------------
+
+#[derive(Debug, Clone, Deserialize, Serialize, Default)]
+#[serde(default)]
+pub struct RateLimitRoutesConfig {
+    pub enabled: bool,
+    pub routes: Vec<RouteConfig>,
+}
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(default)]
