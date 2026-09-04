@@ -60,7 +60,7 @@ impl<S> AxumRadixIpService<S> {
 
 impl<S> Service<Request> for AxumRadixIpService<S>
 where
-    S: TowerService<Request, Response = Response> + Send + 'static,
+    S: TowerService<Request, Response = Response> + Clone + Send + 'static,
     S::Future: Send + 'static,
     S::Error: Into<axum::BoxError>,
 {
@@ -93,8 +93,8 @@ where
             .get::<axum::extract::ConnectInfo<std::net::SocketAddr>>()
             .map(|connect_info| connect_info.0);
 
-        // Call inner service
-        let mut inner = std::mem::replace(&mut self.inner, unsafe { std::mem::zeroed() });
+        // Clone the inner service for the async block
+        let mut inner = self.inner.clone();
 
         Box::pin(async move {
             let decision = engine.check(xff.as_deref(), x_real_ip.as_deref(), remote_addr.as_ref());
