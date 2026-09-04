@@ -848,7 +848,7 @@ fn config() -> Criterion {
     if std::env::var_os("CI").is_some() {
         criterion
             .sample_size(10)
-            .measurement_time(Duration::from_millis(1500))
+            .measurement_time(Duration::from_millis(3000))
             .warm_up_time(Duration::from_millis(100))
     } else {
         criterion
