@@ -16,6 +16,7 @@
 //! ```
 
 use crate::limiter::TokenBucketLimiter;
+use crate::route_trie::RouteTrie;
 use arc_swap::ArcSwap;
 use notify::{
     event::{ModifyKind, RenameMode},
@@ -36,14 +37,29 @@ use tracing::{error, info, warn};
 /// The complete live state managed by the hot-reload watcher.
 pub struct PolicyState {
     pub limiter: TokenBucketLimiter,
+    pub route_trie: Option<RouteTrie>,
     pub config: Arc<RadixIpConfig>,
 }
 
 impl PolicyState {
     pub fn from_config(cfg: Arc<RadixIpConfig>) -> Self {
         let rl: RateLimitConfig = cfg.radixip.rate_limit.clone();
+
+        // Build route trie from config if enabled.
+        let route_trie = if cfg.radixip.rate_limit_routes.enabled {
+            let mut trie = RouteTrie::new();
+            for route in &cfg.radixip.rate_limit_routes.routes {
+                let methods: Vec<&str> = route.methods.iter().map(|s| s.as_str()).collect();
+                trie.insert(&route.path, &methods, route.rate_limit.clone());
+            }
+            Some(trie)
+        } else {
+            None
+        };
+
         Self {
             limiter: TokenBucketLimiter::new(rl),
+            route_trie,
             config: cfg,
         }
     }
