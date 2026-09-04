@@ -24,9 +24,6 @@ radixip:
   middleware:
     ip_source: "x-forwarded-for" # "x-forwarded-for", "x-real-ip", "remote-addr"
     trusted_proxies:
-      - "10.0.0.0/8"
-      - "172.16.0.0/12"
-      - "192.168.0.0/16"
       - "127.0.0.1/32"
       - "::1/128"
     responses:
@@ -69,14 +66,18 @@ radixip:
     ban_duration_seconds: 3600 # 1 hour temporary ban injected into Radix tree
 
   # Per-API Route Policies (Longest Prefix Route Matching)
-  routes:
-    - path: "/api/v1/auth/*"
-      methods: ["POST", "PUT"]
-      rate_limit:
-        capacity: 5
-        refill_rate: 1
-    - path: "/api/v1/public/*"
-      methods: ["GET"]
-      rate_limit:
-        capacity: 1000
-        refill_rate: 100
+  rate_limit_routes:
+    enabled: true
+    routes:
+      - path: "/api/v1/auth"
+        methods: ["POST", "PUT"]
+        rate_limit:
+          capacity: 5
+          refill_rate: 1
+          enabled: true
+      - path: "/api/v1/public"
+        methods: ["GET"]
+        rate_limit:
+          capacity: 1000
+          refill_rate: 100
+          enabled: true
