@@ -1,6 +1,7 @@
 package policy
 
-// auto_ban.go — Per-IP violation tracking and automatic temporary ban injection.
+// auto_ban.go
+// Per-IP violation tracking and automatic temporary ban injection.
 //
 // When an IP accumulates `threshold` violations within a sliding `window`, it is
 // dynamically inserted into the RadixIP Engine blocklist with an "auto-banned"
@@ -136,7 +137,9 @@ func (a *AutoBanTracker) sweep() {
 	a.mu.Lock()
 	expired := make([]string, 0)
 	for ipStr, expiry := range a.banned {
-		if now.After(expiry) {
+		// Treat bans whose expiry time is equal to or before now as expired.
+		// Use !now.Before(expiry) instead of now.After(expiry) to include equality
+		if !now.Before(expiry) {
 			expired = append(expired, ipStr)
 		}
 	}
