@@ -18,7 +18,7 @@ use radixip_grpc_interceptor::GrpcWatchedRadixIpLayer;
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("🚀 Starting Rust Kitchen Sink Test App");
 
-    let config_path = "../../config/radixip.yaml";
+    let config_path = "config/radixip.yaml";
     let initial_config = RadixIpConfig::from_file(config_path)?;
 
     // 1. Initialize Shared RadixIP Engine

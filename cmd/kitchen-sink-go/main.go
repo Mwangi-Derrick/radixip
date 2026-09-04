@@ -44,7 +44,7 @@ func (a *EngineAdapter) Remove(prefix *net.IPNet) *engine.Metadata {
 
 func main() {
 	log.Println("🚀 Starting Go Kitchen Sink Test App")
-	configPath := "../../config/radixip.yaml"
+	configPath := "config/radixip.yaml"
 
 	// 1. Initialize Shared RadixIP Engine
 	radixEngine := engine.NewEngineWrapper(engine.EngineConcurrent, engine.AtomicRadixNode)
