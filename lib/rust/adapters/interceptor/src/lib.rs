@@ -65,7 +65,7 @@ impl RadixIpInterceptor {
 }
 
 impl Interceptor for RadixIpInterceptor {
-    fn call(&mut self, mut req: tonic::Request<()>) -> Result<tonic::Request<()>, Status> {
+    fn call(&mut self, req: tonic::Request<()>) -> Result<tonic::Request<()>, Status> {
         let metadata = req.metadata();
 
         // Extract X-Forwarded-For (gRPC clients send this as a metadata key).
