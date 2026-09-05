@@ -36,7 +36,8 @@ use tonic::{metadata::MetadataValue, service::Interceptor, Status};
 use tower::{Layer, Service};
 
 use radixip::RadixEngine;
-use radixip_policy::{extract_ip, ConfigWatcher};
+use radixip_config::AutoBanConfig;
+use radixip_policy::{extract_ip, AutoBanTracker, ConfigWatcher};
 
 // Interceptor with Hot-Reload (tonic::service::Interceptor)
 
@@ -49,12 +50,20 @@ use radixip_policy::{extract_ip, ConfigWatcher};
 pub struct GrpcWatchedRadixIpInterceptor {
     watcher: Arc<ConfigWatcher>,
     engine: Arc<Box<dyn RadixEngine>>,
+    /// Optional auto-ban tracker — built once and shared across clone()s.
+    auto_ban: Option<AutoBanTracker>,
 }
 
 impl GrpcWatchedRadixIpInterceptor {
     /// Create a new hot-reloading RadixIP interceptor.
     pub fn new(watcher: Arc<ConfigWatcher>, engine: Arc<Box<dyn RadixEngine>>) -> Self {
-        Self { watcher, engine }
+        let state = watcher.state();
+        let auto_ban = if state.config.radixip.auto_ban.enabled {
+            Some(AutoBanTracker::new(&state.config.radixip.auto_ban, engine.clone()))
+        } else {
+            None
+        };
+        Self { watcher, engine, auto_ban }
     }
 }
 
@@ -95,13 +104,24 @@ impl Interceptor for GrpcWatchedRadixIpInterceptor {
             return Err(Status::permission_denied("blocked: IP is in blocklist"));
         }
 
-        // 3. Rate limit check.
-        if rl_cfg.enabled && !state.limiter.allow(ip, Some(self.engine.as_ref().as_ref())) {
-            let mut status = Status::resource_exhausted("rate limited: exceeded rate limit");
-            let retry_after =
-                MetadataValue::from_str("1").unwrap_or_else(|_| MetadataValue::from_static("1"));
-            status.metadata_mut().insert("retry-after", retry_after);
-            return Err(status);
+        // 3. Rate limit check — global limiter (tonic Interceptor has no URI access).
+        if rl_cfg.enabled {
+            let denied = !state.limiter.allow(ip, Some(self.engine.as_ref().as_ref()));
+            if denied {
+                // Notify auto-ban tracker.
+                if let Some(ref tracker) = self.auto_ban {
+                    if tracker.record_violation(ip) {
+                        return Err(Status::permission_denied(
+                            "auto-banned: exceeded violation threshold",
+                        ));
+                    }
+                }
+                let mut status = Status::resource_exhausted("rate limited: exceeded rate limit");
+                let retry_after = MetadataValue::from_str("1")
+                    .unwrap_or_else(|_| MetadataValue::from_static("1"));
+                status.metadata_mut().insert("retry-after", retry_after);
+                return Err(status);
+            }
         }
 
         Ok(req)
@@ -132,10 +152,17 @@ impl<S> Layer<S> for GrpcWatchedRadixIpLayer {
     type Service = GrpcWatchedRadixIpService<S>;
 
     fn layer(&self, service: S) -> Self::Service {
+        let state = self.watcher.state();
+        let auto_ban = if state.config.radixip.auto_ban.enabled {
+            Some(AutoBanTracker::new(&state.config.radixip.auto_ban, self.engine.clone()))
+        } else {
+            None
+        };
         GrpcWatchedRadixIpService {
             inner: service,
             watcher: self.watcher.clone(),
             engine: self.engine.clone(),
+            auto_ban,
         }
     }
 }
@@ -146,6 +173,8 @@ pub struct GrpcWatchedRadixIpService<S> {
     inner: S,
     watcher: Arc<ConfigWatcher>,
     engine: Arc<Box<dyn RadixEngine>>,
+    /// Optional auto-ban tracker shared across clone()s.
+    auto_ban: Option<AutoBanTracker>,
 }
 
 impl<S, ReqBody, ResBody> Service<Request<ReqBody>> for GrpcWatchedRadixIpService<S>
@@ -223,22 +252,49 @@ where
                 return Ok(res);
             }
 
-            // 3. Rate limit check.
-            if rl_cfg.enabled && !state.limiter.allow(ip, Some(engine.as_ref().as_ref())) {
-                let status = http::StatusCode::from_u16(responses.rate_limited)
-                    .unwrap_or(http::StatusCode::TOO_MANY_REQUESTS);
-                let body = ResBody::from(r#"{"error":"rate limited"}"#.to_string());
-                let mut res = Response::new(body);
-                *res.status_mut() = status;
-                res.headers_mut().insert(
-                    http::header::CONTENT_TYPE,
-                    http::header::HeaderValue::from_static("application/json"),
-                );
-                res.headers_mut().insert(
-                    http::header::RETRY_AFTER,
-                    http::header::HeaderValue::from_static("1"),
-                );
-                return Ok(res);
+            // 3. Rate limit check — route-specific trie first (gRPC path = /pkg.Svc/Method), then global.
+            if rl_cfg.enabled {
+                let rpc_path = req.uri().path().to_string();
+                let limiter_to_use = state
+                    .route_trie
+                    .as_ref()
+                    .and_then(|trie| trie.match_route("POST", &rpc_path));
+
+                let denied = match limiter_to_use {
+                    Some(route_lim) => !route_lim.allow(ip, Some(engine.as_ref().as_ref())),
+                    None => !state.limiter.allow(ip, Some(engine.as_ref().as_ref())),
+                };
+
+                if denied {
+                    // Notify auto-ban tracker.
+                    if let Some(ref tracker) = state.auto_ban {
+                        if tracker.record_violation(ip) {
+                            let body = ResBody::from(r#"{"error":"auto-banned"}"#.to_string());
+                            let mut res = Response::new(body);
+                            *res.status_mut() = http::StatusCode::from_u16(responses.blocked)
+                                .unwrap_or(http::StatusCode::FORBIDDEN);
+                            res.headers_mut().insert(
+                                http::header::CONTENT_TYPE,
+                                http::header::HeaderValue::from_static("application/json"),
+                            );
+                            return Ok(res);
+                        }
+                    }
+                    let status = http::StatusCode::from_u16(responses.rate_limited)
+                        .unwrap_or(http::StatusCode::TOO_MANY_REQUESTS);
+                    let body = ResBody::from(r#"{"error":"rate limited"}"#.to_string());
+                    let mut res = Response::new(body);
+                    *res.status_mut() = status;
+                    res.headers_mut().insert(
+                        http::header::CONTENT_TYPE,
+                        http::header::HeaderValue::from_static("application/json"),
+                    );
+                    res.headers_mut().insert(
+                        http::header::RETRY_AFTER,
+                        http::header::HeaderValue::from_static("1"),
+                    );
+                    return Ok(res);
+                }
             }
 
             inner.call(req).await
