@@ -15,6 +15,7 @@
 //! request hot path:  watcher.state().load() → &PolicyState  (wait-free)
 //! ```
 
+use crate::auto_ban::AutoBanTracker;
 use crate::limiter::TokenBucketLimiter;
 use crate::route_trie::RouteTrie;
 use arc_swap::ArcSwap;
@@ -22,6 +23,7 @@ use notify::{
     event::{ModifyKind, RenameMode},
     Event, EventKind, RecommendedWatcher, RecursiveMode, Watcher,
 };
+use radixip::RadixEngine;
 use radixip_config::{RadixIpConfig, RateLimitConfig};
 use std::{
     path::{Path, PathBuf},
@@ -36,10 +38,42 @@ use tracing::{error, info, warn};
 pub struct PolicyState {
     pub limiter: TokenBucketLimiter,
     pub route_trie: Option<RouteTrie>,
+    pub auto_ban: Option<AutoBanTracker>,
     pub config: Arc<RadixIpConfig>,
 }
 
 impl PolicyState {
+    pub fn from_config_with_engine(cfg: Arc<RadixIpConfig>, engine: Arc<Box<dyn RadixEngine>>) -> Self {
+        let rl: RateLimitConfig = cfg.radixip.rate_limit.clone();
+
+        // Build route trie from config if enabled.
+        let route_trie = if cfg.radixip.rate_limit_routes.enabled {
+            let mut trie = RouteTrie::new();
+            for route in &cfg.radixip.rate_limit_routes.routes {
+                let methods: Vec<&str> = route.methods.iter().map(|s| s.as_str()).collect();
+                trie.insert(&route.path, &methods, route.rate_limit.clone());
+            }
+            Some(trie)
+        } else {
+            None
+        };
+
+        // Build auto-ban tracker if enabled.
+        let auto_ban = if cfg.radixip.auto_ban.enabled {
+            Some(AutoBanTracker::new(&cfg.radixip.auto_ban, engine))
+        } else {
+            None
+        };
+
+        Self {
+            limiter: TokenBucketLimiter::new(rl),
+            route_trie,
+            auto_ban,
+            config: cfg,
+        }
+    }
+
+    /// Convenience constructor for contexts without an engine (auto_ban will be None).
     pub fn from_config(cfg: Arc<RadixIpConfig>) -> Self {
         let rl: RateLimitConfig = cfg.radixip.rate_limit.clone();
 
@@ -58,6 +92,7 @@ impl PolicyState {
         Self {
             limiter: TokenBucketLimiter::new(rl),
             route_trie,
+            auto_ban: None,
             config: cfg,
         }
     }
