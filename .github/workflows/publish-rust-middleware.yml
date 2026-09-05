@@ -55,3 +55,10 @@ jobs:
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
         run: cargo publish -p radixip-actix --no-verify || true
+
+      - name: Publish radxip-grpc-interceptor
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        run: cargo publish -p radixip-grpc-interceptor --no-verify || true
+
+      
