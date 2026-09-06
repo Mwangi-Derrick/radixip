@@ -106,3 +106,40 @@ pub async fn from_config(config: RadixIpConfig) -> PolicyHandle {
     let engine = Arc::new(new_balanced().await);
     PolicyHandle::new(engine, &config)
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::net::IpAddr;
+
+    #[test]
+    fn packed_ipv4_round_trips() {
+        let original: IpAddr = "192.0.2.42".parse().unwrap();
+        let packed = PackedIp::from(original);
+
+        assert_eq!(packed.family, 4);
+        assert_eq!(packed.into_ip_addr(), Some(original));
+    }
+
+    #[test]
+    fn packed_ipv6_round_trips() {
+        let original: IpAddr = "2001:db8::42".parse().unwrap();
+        let packed = PackedIp::from(original);
+
+        assert_eq!(packed.family, 6);
+        assert_eq!(packed.into_ip_addr(), Some(original));
+    }
+
+    #[test]
+    fn invalid_family_is_rejected() {
+        assert_eq!(PackedIp { family: 5, bytes: [0; 16] }.into_ip_addr(), None);
+    }
+
+    #[test]
+    fn result_codes_are_stable() {
+        assert_eq!(PolicyDecisionCode::Allow as u8, 0);
+        assert_eq!(PolicyDecisionCode::Block as u8, 1);
+        assert_eq!(PolicyDecisionCode::Limit as u8, 2);
+        assert_eq!(PolicyDecisionCode::BadRequest as u8, 3);
+    }
+}
