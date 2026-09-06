@@ -29,6 +29,7 @@ pub mod limiter;
 pub mod route_trie;
 pub mod token_bucket;
 pub mod watcher;
+pub mod handle;
 
 pub use auto_ban::AutoBanTracker;
 pub use ip_extractor::{extract_ip, ExtractError};
@@ -36,6 +37,7 @@ pub use limiter::TokenBucketLimiter;
 pub use route_trie::RouteTrie;
 pub use token_bucket::TokenBucket;
 pub use watcher::{ConfigWatcher, PolicyState};
+pub use handle::{PackedIp, PolicyHandle, PolicyResult};
 
 use radixip::RadixEngine;
 use radixip_config::{MiddlewareConfig, RateLimitConfig};
@@ -123,6 +125,29 @@ impl PolicyEngine {
         // 3. Rate limit check (<200ns).
         if self.rate_limit_enabled && !self.limiter.allow(ip, Some(self.engine.as_ref().as_ref())) {
             // 3a. Notify auto-ban tracker on every violation.
+            if let Some(ref tracker) = self.auto_ban {
+                if tracker.record_violation(ip) {
+                    return PolicyDecision::AutoBanned;
+                }
+            }
+            return PolicyDecision::Limit;
+        }
+
+        PolicyDecision::Allow
+    }
+
+    /// Evaluate an already-extracted client IP.
+    ///
+    /// This is the allocation-free policy entry point for native FFI callers
+    /// and adapters that have already completed transport-specific IP parsing.
+    pub fn check_ip(&self, ip: std::net::IpAddr) -> PolicyDecision {
+        if self.blocklist_enabled && self.engine.lookup(&ip).is_some() {
+            return PolicyDecision::Block;
+        }
+
+        if self.rate_limit_enabled
+            && !self.limiter.allow(ip, Some(self.engine.as_ref().as_ref()))
+        {
             if let Some(ref tracker) = self.auto_ban {
                 if tracker.record_violation(ip) {
                     return PolicyDecision::AutoBanned;
