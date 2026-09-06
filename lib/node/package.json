@@ -8,7 +8,8 @@
     "index.js",
     "index.d.ts",
     "radixip.node",
-    "prebuilt/**"
+    "prebuilt/**",
+    "middleware/**"
   ],
   "scripts": {
     "build": "napi build --platform --release",
