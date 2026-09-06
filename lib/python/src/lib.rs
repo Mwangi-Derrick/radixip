@@ -2,6 +2,8 @@ use pyo3::exceptions::{PyTypeError, PyValueError};
 use pyo3::prelude::*;
 use pyo3::types::PyDict;
 use radixip::{Metadata, RadixConfig, RadixEngine};
+use radixip_config::RadixIpConfig;
+use radixip_policy::{PackedIp, PolicyDecisionCode, PolicyHandle};
 use std::collections::HashMap;
 use std::net::IpAddr;
 use std::sync::Arc;
@@ -59,6 +61,49 @@ fn meta_to_dict<'py>(py: Python<'py>, meta: Metadata) -> PyResult<Bound<'py, PyD
 #[pyclass(name = "RadixEngine")]
 pub struct PyRadixEngine {
     inner: Arc<Box<dyn RadixEngine>>,
+}
+
+#[pyclass(name = "RadixPolicy")]
+pub struct PyRadixPolicy {
+    inner: PolicyHandle,
+}
+
+#[pymethods]
+impl PyRadixPolicy {
+    #[staticmethod]
+    fn from_yaml(path: String) -> PyResult<Self> {
+        let config = RadixIpConfig::from_file(&path)
+            .map_err(|e| PyValueError::new_err(e.to_string()))?;
+        let runtime = tokio::runtime::Builder::new_current_thread()
+            .enable_all()
+            .build()
+            .map_err(|e| PyValueError::new_err(e.to_string()))?;
+        let engine = std::sync::Arc::new(runtime.block_on(radixip::new_balanced()));
+        Ok(Self {
+            inner: PolicyHandle::new(engine, &config),
+        })
+    }
+
+    fn check_ip<'py>(&self, py: Python<'py>, ip: String) -> PyResult<Bound<'py, PyDict>> {
+        let addr = ip
+            .parse::<IpAddr>()
+            .map_err(|_| PyValueError::new_err(format!("Invalid IP address: {ip}")))?;
+        let packed = PackedIp::from(addr);
+        let result = self
+            .inner
+            .check(packed)
+            .ok_or_else(|| PyValueError::new_err("invalid IP address family"))?;
+        let decision = match result.decision {
+            PolicyDecisionCode::Allow => "allow",
+            PolicyDecisionCode::Block => "block",
+            PolicyDecisionCode::Limit => "limit",
+            PolicyDecisionCode::BadRequest => "bad_request",
+        };
+        let output = PyDict::new(py);
+        output.set_item("decision", decision)?;
+        output.set_item("retry_after_seconds", result.retry_after_seconds)?;
+        Ok(output)
+    }
 }
 
 #[pymethods]
@@ -186,6 +231,7 @@ impl PyRadixEngine {
 #[pyo3(name = "radixip")]
 fn radixip_module(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<PyRadixEngine>()?;
+    m.add_class::<PyRadixPolicy>()?;
     m.add_function(wrap_pyfunction!(py_version, m)?)?;
     Ok(())
 }
