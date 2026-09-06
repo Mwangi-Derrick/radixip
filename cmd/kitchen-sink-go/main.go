@@ -14,6 +14,7 @@ import (
 	radixipgin "github.com/Mwangi-Derrick/radixip/lib/go/adapters/gin"
 	radixipgrpc "github.com/Mwangi-Derrick/radixip/lib/go/adapters/grpc-interceptor"
 	engine "github.com/Mwangi-Derrick/radixip/lib/go/engine"
+	radixipv1 "github.com/Mwangi-Derrick/radixip/proto/radixip/v1"
 
 	gogin "github.com/gin-gonic/gin"
 	gofiber "github.com/gofiber/fiber/v2"
@@ -24,6 +25,14 @@ import (
 // EngineAdapter adapts radixip_engine to the middleware Engine interface.
 type EngineAdapter struct {
 	inner *engine.EngineWrapper
+}
+
+type grpcServer struct {
+	radixipv1.UnimplementedRadixServiceServer
+}
+
+func (grpcServer) Lookup(context.Context, *radixipv1.LookupRequest) (*radixipv1.LookupResponse, error) {
+	return &radixipv1.LookupResponse{Found: false}, nil
 }
 
 func (a *EngineAdapter) Lookup(ipStr string) bool {
@@ -158,6 +167,7 @@ func main() {
 			grpc.UnaryInterceptor(unary),
 			grpc.StreamInterceptor(stream),
 		)
+		radixipv1.RegisterRadixServiceServer(s, grpcServer{})
 
 		lis, err := net.Listen("tcp", ":50051")
 		if err != nil {
