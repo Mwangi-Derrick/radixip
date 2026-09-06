@@ -103,3 +103,7 @@ jobs:
             load_test_results_*.txt
             test_summary_*.txt
             results_*.txt
+            target_*.txt
+            result_*.json
+            grpc_*.txt
+            ghz_*.json
