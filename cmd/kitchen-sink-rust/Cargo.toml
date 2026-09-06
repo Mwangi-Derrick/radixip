@@ -17,3 +17,6 @@ actix-web = { workspace = true }
 tonic = { workspace = true }
 tower = { workspace = true }
 http = { workspace = true }
+
+[build-dependencies]
+tonic-build = "0.11"
