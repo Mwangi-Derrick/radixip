@@ -36,7 +36,6 @@ use tonic::{metadata::MetadataValue, service::Interceptor, Status};
 use tower::{Layer, Service};
 
 use radixip::RadixEngine;
-use radixip_config::AutoBanConfig;
 use radixip_policy::{extract_ip, AutoBanTracker, ConfigWatcher};
 
 // Interceptor with Hot-Reload (tonic::service::Interceptor)
@@ -152,17 +151,10 @@ impl<S> Layer<S> for GrpcWatchedRadixIpLayer {
     type Service = GrpcWatchedRadixIpService<S>;
 
     fn layer(&self, service: S) -> Self::Service {
-        let state = self.watcher.state();
-        let auto_ban = if state.config.radixip.auto_ban.enabled {
-            Some(AutoBanTracker::new(&state.config.radixip.auto_ban, self.engine.clone()))
-        } else {
-            None
-        };
         GrpcWatchedRadixIpService {
             inner: service,
             watcher: self.watcher.clone(),
             engine: self.engine.clone(),
-            auto_ban,
         }
     }
 }
@@ -173,8 +165,6 @@ pub struct GrpcWatchedRadixIpService<S> {
     inner: S,
     watcher: Arc<ConfigWatcher>,
     engine: Arc<Box<dyn RadixEngine>>,
-    /// Optional auto-ban tracker shared across clone()s.
-    auto_ban: Option<AutoBanTracker>,
 }
 
 impl<S, ReqBody, ResBody> Service<Request<ReqBody>> for GrpcWatchedRadixIpService<S>
@@ -226,7 +216,7 @@ where
                 &mw_cfg.trusted_proxies,
             ) {
                 Ok(ip) => ip,
-                Err(e) => {
+                Err(_e) => {
                     let mut res = Response::new(ResBody::default());
                     *res.status_mut() = http::StatusCode::BAD_REQUEST;
                     res.headers_mut().insert(
