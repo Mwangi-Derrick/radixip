@@ -761,21 +761,21 @@ See [ARCHITECTURE.md](./ARCHITECTURE.md) for the full design rationale, hybrid R
 ### Configuration Engine
 - [x] YAML/TOML config parser
 - [x] Hot-reload without restart
-- [ ] Per-route overrides
+- [x] Per-route overrides
 - [x] Validation + schema
 
 ### Protection Layer
 - [x] Web framework middleware (Express, Gin, Axum, Actix, FastAPI, Django, Fiber, etc.)
 - [x] Distributed rate limiting (Token Bucket, Sliding Window, Fixed Window)
-- [ ] Configurable IP flagging and auto-banning
+- [x] Configurable IP flagging and auto-banning
 - [x] Unified configuration format
 
 ### Kubernetes & Operations 🔨
 - [x] Redis Pub/Sub for distributed sync
 - [ ] Kubernetes Operator for automated deployment
 - [ ] Redis HA failover support
-- [ ] Prometheus metrics integration
-- [ ] gRPC service layer
+- [x] Prometheus metrics integration
+- [x] gRPC service layer
 - [ ] Helm charts for one-command install
 
 ### Hardware Acceleration (NEW) 🔨
@@ -788,7 +788,7 @@ See [ARCHITECTURE.md](./ARCHITECTURE.md) for the full design rationale, hybrid R
 
 ## 🧪 Validation & Load Testing
 
-RadixIP includes a comprehensive validation suite to ensure the middleware, gRPC interceptors, and core engine perform flawlessly under extreme load. 
+RadixIP includes a comprehensive validation suite to ensure the middleware, gRPC interceptors, and core engine behave correctly under sustained load.
 
 ### Kitchen Sink Applications
 
@@ -799,7 +799,7 @@ We maintain two unified test applications that spin up all supported frameworks 
 
 ### Vegeta Test Suite
 
-The `scripts/` directory contains automated load tests driven by [Vegeta](https://github.com/tsenart/vegeta). 
+The `scripts/` directory contains automated load tests driven by [Vegeta](https://github.com/tsenart/vegeta) and [ghz](https://ghz.sh/).
 
 **Running the Sequential Test Pipeline**:
 ```bash
@@ -807,7 +807,7 @@ chmod +x scripts/sequential_test.sh
 ./scripts/sequential_test.sh
 ```
 
-This master script performs a 2-phase validation:
+This master script performs a three-phase validation:
 
 #### Phase 1: Route-Trie Specific Rate Limits
 Tests the configuration engine's segment-based Radix Trie. For example, if `radixip.yaml` defines:
@@ -831,6 +831,29 @@ Tests the `AutoBanTracker`. It attacks a single framework at 5,000 RPS using a s
 3. Once the IP hits the `violation_threshold` (e.g., 5 violations), the engine injects it into the blocklist.
 4. All subsequent requests return `403 Forbidden` instantly.
 5. The test sleeps for the configured ban duration (e.g., 35s), then verifies that the background sweeper correctly evicted the IP, restoring `200 OK` access.
+
+#### Phase 3: gRPC Auto-Ban & Sweeper Verification
+
+The same script builds the Go gRPC probe, installs `ghz` with `go install` when it is not already available, and tests both gRPC servers:
+
+- Go gRPC on `localhost:50051`
+- Rust/Tonic gRPC on `localhost:50052`
+
+The test calls `radixip.v1.RadixService/Lookup` with `x-forwarded-for` metadata. `ghz` produces a JSON load report, while the checked-in probe makes deterministic status assertions. The CI validation completed with:
+
+- `PermissionDenied` responses from both Go and Rust after auto-ban activation
+- The Go and Rust bans lifted successfully after the 35-second sweeper wait
+- A final HTTP request returning `200 OK` after the ban expired
+
+For a local run:
+
+```bash
+go install github.com/bojand/ghz/cmd/ghz@latest
+chmod +x scripts/sequential_test.sh
+./scripts/sequential_test.sh
+```
+
+The script installs `ghz` through Go on Linux, macOS, and Windows Git Bash/MSYS. Set `GHZ_REQUESTS` and `GHZ_CONCURRENCY` to adjust the gRPC load.
 
 ### Spoof Proxy & Attack Simulation
 For advanced A/B testing and distributed IP spoofing, you can run `scripts/spoof_proxy` alongside `scripts/vegeta_test.sh` to simulate thousands of distinct, malicious IPs hitting the edge simultaneously.
