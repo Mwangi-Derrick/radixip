@@ -365,6 +365,6 @@ fi
 kill_port_processes 8081 8082 8083 50051 50052 9081 9082
 
 # Clean up temporary files
-rm -f target_auth.txt target_public.txt result_auth.json result_public.json result_autoban.json grpc_50051.txt grpc_50052.txt ghz_50051.json ghz_50052.json
+# rm -f target_auth.txt target_public.txt result_auth.json result_public.json result_autoban.json grpc_50051.txt grpc_50052.txt ghz_50051.json ghz_50052.json
 
 echo -e "${GREEN}✅ All Tests Completed!${NC}"
