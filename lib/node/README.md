@@ -42,6 +42,24 @@ if (match) {
 }
 ```
 
+## Policy checks
+
+The native policy binding loads the same YAML configuration used by the Rust
+and Go middleware. Token buckets, blocklist checks, and auto-ban state remain
+in Rust; JavaScript receives only the compact decision result.
+
+```typescript
+import { RadixPolicy } from 'radixip';
+
+const policy = RadixPolicy.fromYaml('config/radixip.yaml');
+const result = policy.checkIp('203.0.113.10');
+console.log(result.decision);          // allow, block, or limit
+console.log(result.retryAfterSeconds);
+```
+
+Use this result in Express, Fastify, or another Node.js framework middleware.
+Keep one policy instance per process rather than constructing one per request.
+
 ## Benchmarks
 
 You can verify the performance on your own machine:

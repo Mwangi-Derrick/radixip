@@ -42,6 +42,25 @@ else:
 print(engine.stats())
 ```
 
+## Policy checks
+
+The native policy binding loads the same YAML configuration used by the Rust
+and Go middleware. Token buckets, blocklist checks, and auto-ban state remain
+in Rust; Python receives only the compact decision result.
+
+```python
+from radixip import RadixPolicy
+
+policy = RadixPolicy.from_yaml("config/radixip.yaml")
+result = policy.check_ip("203.0.113.10")
+print(result["decision"])             # allow, block, or limit
+print(result["retry_after_seconds"])
+```
+
+Use this result in Flask, Django, FastAPI, or another Python framework
+middleware. Keep one policy instance per process rather than constructing one
+per request.
+
 ## Benchmarks
 
 You can verify the performance on your own machine using `pytest-benchmark`:
