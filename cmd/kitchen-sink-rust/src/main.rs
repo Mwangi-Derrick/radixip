@@ -14,6 +14,68 @@ use radixip_actix::ActixWatchedRadixIpMiddleware;
 use radixip_axum::AxumWatchedRadixIpLayer;
 use radixip_grpc_interceptor::GrpcWatchedRadixIpLayer;
 
+pub mod pb {
+    tonic::include_proto!("radixip.v1");
+}
+
+#[derive(Default)]
+struct KitchenGrpcService;
+
+#[tonic::async_trait]
+impl pb::radix_service_server::RadixService for KitchenGrpcService {
+    async fn insert(
+        &self,
+        _request: tonic::Request<pb::InsertRequest>,
+    ) -> Result<tonic::Response<pb::InsertResponse>, tonic::Status> {
+        Err(tonic::Status::unimplemented("kitchen-sink Insert is not implemented"))
+    }
+
+    async fn lookup(
+        &self,
+        _request: tonic::Request<pb::LookupRequest>,
+    ) -> Result<tonic::Response<pb::LookupResponse>, tonic::Status> {
+        Ok(tonic::Response::new(pb::LookupResponse {
+            found: false,
+            metadata: None,
+        }))
+    }
+
+    async fn remove(
+        &self,
+        _request: tonic::Request<pb::RemoveRequest>,
+    ) -> Result<tonic::Response<pb::RemoveResponse>, tonic::Status> {
+        Err(tonic::Status::unimplemented("kitchen-sink Remove is not implemented"))
+    }
+
+    async fn contains(
+        &self,
+        _request: tonic::Request<pb::ContainsRequest>,
+    ) -> Result<tonic::Response<pb::ContainsResponse>, tonic::Status> {
+        Err(tonic::Status::unimplemented("kitchen-sink Contains is not implemented"))
+    }
+
+    async fn clear(
+        &self,
+        _request: tonic::Request<pb::ClearRequest>,
+    ) -> Result<tonic::Response<pb::ClearResponse>, tonic::Status> {
+        Err(tonic::Status::unimplemented("kitchen-sink Clear is not implemented"))
+    }
+
+    async fn get_stats(
+        &self,
+        _request: tonic::Request<pb::StatsRequest>,
+    ) -> Result<tonic::Response<pb::StatsResponse>, tonic::Status> {
+        Err(tonic::Status::unimplemented("kitchen-sink GetStats is not implemented"))
+    }
+
+    async fn stream_insert(
+        &self,
+        _request: tonic::Request<tonic::Streaming<pb::InsertRequest>>,
+    ) -> Result<tonic::Response<pb::StreamInsertResponse>, tonic::Status> {
+        Err(tonic::Status::unimplemented("kitchen-sink StreamInsert is not implemented"))
+    }
+}
+
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("🚀 Starting Rust Kitchen Sink Test App");
@@ -26,7 +88,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let radix_engine: Arc<Box<dyn RadixEngine>> = Arc::new(radix_engine);
 
     // 3. Config Watcher (hot reloading)
-    let watcher = Arc::new(ConfigWatcher::new(config_path)?);
+    let watcher = Arc::new(ConfigWatcher::new_with_engine(
+        config_path,
+        Some(radix_engine.clone()),
+    )?);
 
     // Prepare servers
     let (tx, _rx) = tokio::sync::broadcast::channel(1);
@@ -102,21 +167,21 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let grpc_engine = radix_engine.clone();
     let tx_grpc = tx.clone();
     let grpc_task = tokio::spawn(async move {
-        // We need a dummy service to attach the layer to. For now, we just bind and wait.
-        // In a real app we'd add .add_service(MyGreeterServer::new(greeter))
-        let _addr: &str = "0.0.0.0:50052";
+        let addr = "0.0.0.0:50052".parse().unwrap();
         println!("📞 Tonic gRPC listening on :50052");
 
-        let _rx = tx_grpc.subscribe();
-
-        // Setup a dummy router to apply the layer
-        let _router =
-            Server::builder().layer(GrpcWatchedRadixIpLayer::new(grpc_watcher, grpc_engine));
-
-        // We can't use serve_with_shutdown directly on router unless we add a service
-        // Since we are just testing the server spins up, we'll create a dummy health service
-        // or just accept we don't need a real service for the load test script since we only load test HTTP routes
-        println!("Note: gRPC server running without services for initialization testing");
+        let mut rx = tx_grpc.subscribe();
+        Server::builder()
+            .layer(GrpcWatchedRadixIpLayer::new(grpc_watcher, grpc_engine))
+            .add_service(pb::radix_service_server::RadixServiceServer::new(
+                KitchenGrpcService,
+            ))
+            .serve_with_shutdown(addr, async move {
+                let _ = rx.recv().await;
+                println!("Shutting down gRPC...");
+            })
+            .await
+            .unwrap();
     });
 
     // Wait for shutdown signal
