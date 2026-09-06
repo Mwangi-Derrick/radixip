@@ -60,6 +60,23 @@ console.log(result.retryAfterSeconds);
 Use this result in Express, Fastify, or another Node.js framework middleware.
 Keep one policy instance per process rather than constructing one per request.
 
+## Framework middleware
+
+The package includes thin adapters for the frameworks that share the Web
+Request/Response model:
+
+```js
+const { radixipExpress } = require('radixip/middleware');
+const app = express();
+app.set('trust proxy', true); // configure this narrowly in production
+app.use(radixipExpress({ configPath: 'config/radixip.yaml' }));
+```
+
+For Next.js and TanStack Start, use `radixipNext` or `radixipTanStackStart`
+from `radixip/middleware`. Supply `resolveIp` when the deployment has a
+trusted proxy chain; the default does not trust forwarded headers. The adapters keep one `RadixPolicy` instance and return
+`403` for blocked/auto-banned clients and `429` with `Retry-After` for limits.
+
 ## Benchmarks
 
 You can verify the performance on your own machine:

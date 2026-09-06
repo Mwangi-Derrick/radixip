@@ -61,6 +61,22 @@ Use this result in Flask, Django, FastAPI, or another Python framework
 middleware. Keep one policy instance per process rather than constructing one
 per request.
 
+## FastAPI middleware
+
+```python
+from fastapi import FastAPI
+from radixip import RadixPolicy
+from radixip.middleware import RadixIPMiddleware
+
+app = FastAPI()
+policy = RadixPolicy.from_yaml("config/radixip.yaml")
+app.add_middleware(RadixIPMiddleware, policy=policy)
+```
+
+The default uses the direct peer address and does not trust forwarded headers.
+Pass `resolve_ip` to `RadixIPMiddleware` when the application sits behind a
+known, trusted proxy chain.
+
 ## Benchmarks
 
 You can verify the performance on your own machine using `pytest-benchmark`:
