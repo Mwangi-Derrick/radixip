@@ -2,6 +2,12 @@
 name = "radixip-tower"
 version = "0.1.0"
 edition = "2021"
+description = "Tower middleware for RadixIP IP blocklists, rate limiting, and auto-banning"
+license.workspace = true
+repository.workspace = true
+readme = "README.md"
+keywords = ["tower", "middleware", "rate-limiting", "ip", "security"]
+categories = ["web-programming", "network-programming"]
 
 [dependencies]
 radixip-policy = { path = "../../policy" }

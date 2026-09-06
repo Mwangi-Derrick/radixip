@@ -2,6 +2,7 @@
 name = "radixip-grpc-interceptor"
 version.workspace = true
 edition.workspace = true
+description = "Tonic gRPC interceptor and Tower layer for RadixIP IP protection"
 authors.workspace = true
 license.workspace = true
 repository.workspace = true
