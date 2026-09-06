@@ -14,7 +14,7 @@ import (
 	radixipgin "github.com/Mwangi-Derrick/radixip/lib/go/adapters/gin"
 	radixipgrpc "github.com/Mwangi-Derrick/radixip/lib/go/adapters/grpc-interceptor"
 	engine "github.com/Mwangi-Derrick/radixip/lib/go/engine"
-	radixipv1 "github.com/Mwangi-Derrick/radixip/proto/radixip/v1"
+	radixipv1 "github.com/Mwangi-Derrick/radixip/proto/radixip"
 
 	gogin "github.com/gin-gonic/gin"
 	gofiber "github.com/gofiber/fiber/v2"
