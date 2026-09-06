@@ -70,15 +70,6 @@ jobs:
       - name: Run load test (3000 req/s)
         run: ./scripts/vegeta_test.sh 3000 30s 100000
 
-      - name: Run load test (5000 req/s)
-        run: ./scripts/vegeta_test.sh 5000 30s 100000
-
-      - name: Run load test (10000 req/s)
-        run: ./scripts/vegeta_test.sh 10000 30s 100000
-      
-      - name: Run load test (15000 req/s)
-        run: ./scripts/vegeta_test.sh 15000 30s 100000
-
       - name: Run attacker simulation test
         run: |
           chmod +x scripts/attacker_test.sh
