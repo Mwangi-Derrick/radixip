@@ -4,6 +4,7 @@ members = [
     "lib/rust/engine",         # Core Rust implementation
     "lib/rust/config",
     "lib/rust/policy",
+    "lib/rust/policy-ffi",
     "lib/rust/adapters/radixip-axum",
     "lib/rust/adapters/radixip-tower",
     "lib/rust/adapters/radixip-actix",
