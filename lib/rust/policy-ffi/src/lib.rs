@@ -67,17 +67,15 @@ pub extern "C" fn radix_policy_new_from_yaml(
         }
     };
 
-    let engine: Arc<Box<dyn RadixEngine>> = Arc::new(
-        match tokio::runtime::Runtime::new() {
-            Ok(runtime) => runtime.block_on(new_balanced()),
-            Err(_) => {
-                if !error_code.is_null() {
-                    unsafe { *error_code = 4 };
-                }
-                return ptr::null_mut();
+    let engine: Arc<Box<dyn RadixEngine>> = Arc::new(match tokio::runtime::Runtime::new() {
+        Ok(runtime) => runtime.block_on(new_balanced()),
+        Err(_) => {
+            if !error_code.is_null() {
+                unsafe { *error_code = 4 };
             }
-        },
-    );
+            return ptr::null_mut();
+        }
+    });
 
     if !error_code.is_null() {
         unsafe { *error_code = 0 };
@@ -123,6 +121,8 @@ pub unsafe extern "C" fn radix_policy_check(
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn radix_policy_free(handle: *mut RadixPolicyHandle) {
     if !handle.is_null() {
-        unsafe { drop(Box::from_raw(handle)); }
+        unsafe {
+            drop(Box::from_raw(handle));
+        }
     }
 }

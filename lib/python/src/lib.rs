@@ -72,8 +72,8 @@ pub struct PyRadixPolicy {
 impl PyRadixPolicy {
     #[staticmethod]
     fn from_yaml(path: String) -> PyResult<Self> {
-        let config = RadixIpConfig::from_file(&path)
-            .map_err(|e| PyValueError::new_err(e.to_string()))?;
+        let config =
+            RadixIpConfig::from_file(&path).map_err(|e| PyValueError::new_err(e.to_string()))?;
         let runtime = tokio::runtime::Builder::new_current_thread()
             .enable_all()
             .build()
