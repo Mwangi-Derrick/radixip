@@ -9,7 +9,7 @@
 
 > **One engine. Zero allocations. Nanosecond decisions.**
 >
-> RadixIP is the foundation for infrastructure protection—IP routing, rate limiting, and access control at memory speed. Drop it in front of any web framework, any Kubernetes cluster, any API gateway.
+> RadixIP is the foundation for infrastructure protection-IP routing, rate limiting, and access control at memory speed. Drop it in front of any web framework, any Kubernetes cluster, any API gateway.
 >
 
 > **Go ART:** 72.6 ns/lookup - **Rust ART:** 60.9 ns/lookup - **Patricia/RadixNode tree:** 177.7-223.4 ns/lookup - **FFI:** native SIMD support in rust and Go through CGo· **SIMD-accelerated**
@@ -21,8 +21,8 @@
 
 RadixIP is a production-grade IP subnet caching and **infrastructure protection engine**. It delivers:
 
-- **72.6 ns** concurrent LPM lookups in Go ART — zero allocations
-- **60.9 ns** concurrent LPM lookups in Rust ART — SIMD-accelerated
+- **72.6 ns** concurrent LPM lookups in Go ART - zero allocations
+- **60.9 ns** concurrent LPM lookups in Rust ART - SIMD-accelerated
 - **177.7-223.4 ns** Patricia/RadixNode tree lookups for simpler workloads
 
 **The Problem**: Standard hash maps can't efficiently match IPs against dynamic IPv4 and IPv6 CIDR blocks (`/8`, `/16`, `/24`, `/32` , `/48`, `/64`, `/96`, `/128`) at scale. Database ACLs, API gateways, and edge proxies need sub-microsecond lookups with zero GC pressure.
@@ -41,7 +41,7 @@ But RadixIP is more than an IP router. It's the foundation for:
 - ✅ Distributed rate limiting (Token Bucket, Sliding Window, Fixed Window)
 - ✅ Configurable IP flagging and auto-banning
 - ✅ Kubernetes-native deployment (Operator, Helm, Redis HA)
-- ✅ Unified configuration — one file controls everything
+- ✅ Unified configuration - one file controls everything
 
 **Use it for:** API gateways · database ACLs · DDoS mitigation · geolocation caching · fraud detection · rate limiting · access control
 
@@ -65,7 +65,7 @@ redis.Publish("security:blocklist", "192.168.1.0/24")
 
 # RadixIP Documentation
 
-This is where RadixIP's design decisions are explained in depth — not just *what*
+This is where RadixIP's design decisions are explained in depth - not just *what*
 the library does, but *why* it's built this way. The main repo README stays
 short on purpose; this folder is where the engineering reasoning lives.
 
@@ -87,13 +87,13 @@ short on purpose; this folder is where the engineering reasoning lives.
 
 If you're new to networking data structures, read in this order:
 
-1. [How Routers Work](./docs/guides/how-routers-work.md) — the motivating context
-2. [Longest Prefix Match](./docs/guides/longest-prefix-match.md) — the algorithm
-3. [Radix Tree Design](./docs/guides/radix-tree-design.md) — the data structure that makes it fast
-4. [IPv4 vs IPv6](./docs/guides/ipv4-vs-ipv6.md) — how it changes across protocols
-5. [Cache Locality](./docs/guides/cache-locality.md) — why the implementation is shaped the way it is
-6. [Architecture](./docs/guides/architecture.md) — how it's wired into a real system
-7. [Benchmark Methodology](./docs/guides/benchmark-methodology.md) — how to verify all of the above
+1. [How Routers Work](./docs/guides/how-routers-work.md) - the motivating context
+2. [Longest Prefix Match](./docs/guides/longest-prefix-match.md) - the algorithm
+3. [Radix Tree Design](./docs/guides/radix-tree-design.md) - the data structure that makes it fast
+4. [IPv4 vs IPv6](./docs/guides/ipv4-vs-ipv6.md) - how it changes across protocols
+5. [Cache Locality](./docs/guides/cache-locality.md) - why the implementation is shaped the way it is
+6. [Architecture](./docs/guides/architecture.md) - how it's wired into a real system
+7. [Benchmark Methodology](./docs/guides/benchmark-methodology.md) - how to verify all of the above
 
 
 ## ⚡ SIMD Acceleration (Node16)
@@ -357,7 +357,7 @@ Algorithmic complexity is only part of the performance story.
 
 On modern processors, memory access patterns frequently dominate execution time.
 
-A well-designed data structure not only performs fewer operations—it performs them in a way that works *with* the processor's cache hierarchy rather than against it.
+A well-designed data structure not only performs fewer operations-it performs them in a way that works *with* the processor's cache hierarchy rather than against it.
 
 For networking, routing, and access-control workloads, that difference is often more important than asymptotic complexity alone.
 
@@ -469,7 +469,7 @@ Redis is completely removed from the critical lookup path. Every validation runs
 ## 🛠️ Production Use Cases
 
 ### 1. Database Security & Dynamic ACLs 🛡️
-Protect databases (PostgreSQL, MySQL, MongoDB) by validating client IPs against dynamic whitelists at the proxy layer—before expensive authentication handshakes.
+Protect databases (PostgreSQL, MySQL, MongoDB) by validating client IPs against dynamic whitelists at the proxy layer-before expensive authentication handshakes.
 
 **Why RadixIP?** Standard firewall rule updates take seconds; RadixIP propagates new ACLs in milliseconds via Redis Pub/Sub.
 
@@ -704,13 +704,13 @@ RadixIP provides three routing tree implementations. Choose based on your worklo
 | **Best for** | BGP control plane | Packet forwarding / FIB | Extremely high-performance routing |
 
 ```rust
-// Rust — choose at construction time, zero runtime overhead
+// Rust - choose at construction time, zero runtime overhead
 let control = StandardEngine::new(UncompressedTree::new(NodeVariant::NormalTrieNode));
 let fib     = StandardEngine::new(CompressedTree::new(NodeVariant::NormalRadixNode));
 ```
 
 ```go
-// Go — same API, different tree
+// Go - same API, different tree
 control := NewStandardEngine(NewUncompressedTree(NodeNormal))
 fib     := NewStandardEngine(NewCompressedTree(NodeNormal))
 ```
@@ -732,10 +732,10 @@ See [ARCHITECTURE.md](./ARCHITECTURE.md) for the full design rationale, hybrid R
 - [x] Rust port with zero-cost abstractions  
 - [x] C-FFI bindings for multi-language support
 - [x] CI benchmarking pipeline
-- [x] **Uncompressed binary trie** — control-plane optimized, O(prefix_len) writes
-- [x] **Compressed Patricia trie** — data-plane optimized, O(k) reads, 4× memory savings
-- [x] Generic engines — any engine can use any tree via `StandardEngine<T: RouteTree>`
-- [x] Redis state bus — boot-load, cache hydration, Pub/Sub sync
+- [x] **Uncompressed binary trie** - control-plane optimized, O(prefix_len) writes
+- [x] **Compressed Patricia trie** - data-plane optimized, O(k) reads, 4× memory savings
+- [x] Generic engines - any engine can use any tree via `StandardEngine<T: RouteTree>`
+- [x] Redis state bus - boot-load, cache hydration, Pub/Sub sync
 - [x] IPv6 full support (Patricia trie path)
 - [x] Python bindings via PyO3
 - [x] Node.js bindings via N-API
@@ -779,10 +779,10 @@ See [ARCHITECTURE.md](./ARCHITECTURE.md) for the full design rationale, hybrid R
 - [ ] Helm charts for one-command install
 
 ### Hardware Acceleration (NEW) 🔨
-- [ ] **FPGA acceleration for LPM lookups** — Offload critical path to hardware (projected 2-5 ns lookups, parallel processing)
-- [ ] **Kernel bypass for gRPC sidecars** — eBPF for Linux networking stack to handle L4-L7 routing decisions and AF_XDP for zero-copy packet I/O (5x throughput improvement) across platforms
-- [ ] **Runtime dispatch in Rust** — Transparent fallback between software and FPGA backends
-- [ ] **Custom RadixIP FPGA appliance** — Pre-built bitstreams for popular FPGA boards (Tang Nano, Artix, Kintex)
+- [ ] **FPGA acceleration for LPM lookups** - Offload critical path to hardware (projected 2-5 ns lookups, parallel processing)
+- [ ] **Kernel bypass for gRPC sidecars** - eBPF for Linux networking stack to handle L4-L7 routing decisions and AF_XDP for zero-copy packet I/O (5x throughput improvement) across platforms
+- [ ] **Runtime dispatch in Rust** - Transparent fallback between software and FPGA backends
+- [ ] **Custom RadixIP FPGA appliance** - Pre-built bitstreams for popular FPGA boards (Tang Nano, Artix, Kintex)
 
 
 
