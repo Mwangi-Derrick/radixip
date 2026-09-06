@@ -12,6 +12,8 @@ name = "radixip"
 
 [dependencies]
 radixip_rs = { workspace = true }
+radixip-config = { path = "../rust/config", version = "0.1.0" }
+radixip-policy = { path = "../rust/policy", version = "0.1.0" }
 pyo3 = { workspace = true, features = ["extension-module"] }
 serde = { workspace = true }
 serde_json = { workspace = true }
