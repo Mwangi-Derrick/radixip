@@ -5,7 +5,7 @@ edition = "2021"
 
 [dependencies]
 radixip_rs    = { workspace = true }
-radixip-config = { path = "../config" }
+radixip-config = { path = "../config", version = "0.1.0" }
 serde         = { workspace = true }
 thiserror     = { workspace = true }
 tracing       = { workspace = true }

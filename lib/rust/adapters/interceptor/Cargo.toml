@@ -8,14 +8,14 @@ license.workspace = true
 repository.workspace = true
 homepage.workspace = true
 documentation.workspace = true
-readme.workspace = true
+readme = "README.md"
 keywords.workspace = true
 categories.workspace = true
 
 [dependencies]
 radixip_rs = { workspace = true }
-radixip-policy = { path = "../../policy" }
-radixip-config = { path = "../../config" }
+radixip-policy = { path = "../../policy", version = "0.1.0" }
+radixip-config = { path = "../../config", version = "0.1.0" }
 
 # gRPC — match the grpc-server-rust version
 tonic = "0.11"

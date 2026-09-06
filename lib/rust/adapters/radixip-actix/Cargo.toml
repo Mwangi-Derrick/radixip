@@ -10,8 +10,8 @@ keywords = ["actix-web", "middleware", "rate-limiting", "ip", "security"]
 categories = ["web-programming", "network-programming"]
 
 [dependencies]
-radixip-policy = { path = "../../policy" }
-radixip-config = { path = "../../config" }
+radixip-policy = { path = "../../policy", version = "0.1.0" }
+radixip-config = { path = "../../config", version = "0.1.0" }
 radixip_rs = { workspace = true }
 tracing = { workspace = true }
 actix-web = { workspace = true }

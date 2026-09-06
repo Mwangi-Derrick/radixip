@@ -10,9 +10,9 @@ keywords = ["axum", "middleware", "rate-limiting", "ip", "security"]
 categories = ["web-programming", "network-programming"]
 
 [dependencies]
-radixip-tower = { path = "../radixip-tower" }
-radixip-policy = { path = "../../policy" }
-radixip-config = { path = "../../config" }
+radixip-tower = { path = "../radixip-tower", version = "0.1.0" }
+radixip-policy = { path = "../../policy", version = "0.1.0" }
+radixip-config = { path = "../../config", version = "0.1.0" }
 radixip_rs = { workspace = true }
 tracing = { workspace = true }
 axum = { workspace = true }
