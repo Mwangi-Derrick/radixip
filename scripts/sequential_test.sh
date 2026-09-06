@@ -257,10 +257,39 @@ echo -e "\n${GREEN}==========================================${NC}"
 echo -e "${GREEN} Phase 3: gRPC Auto-Ban & Sweeper Test ${NC}"
 echo -e "${GREEN}==========================================${NC}"
 
+# ghz is useful for realistic gRPC load, but the Go probe below remains the
+# deterministic assertion path for environments where ghz is unavailable.
+run_ghz_load() {
+    local name=$1
+    local port=$2
+    local ip=$3
+    local output="ghz_$port.json"
+
+    if ! command -v ghz &> /dev/null; then
+        echo -e "${YELLOW}⚠️  ghz not found; skipping $name ghz load (install with: go install github.com/bojand/ghz/cmd/ghz@latest)${NC}"
+        return 0
+    fi
+
+    echo -e "${YELLOW}Running ghz against $name gRPC Lookup...${NC}"
+    ghz \
+        --insecure \
+        --proto proto/radixip/v1/radixip.proto \
+        --call radixip.v1.RadixService/Lookup \
+        -n "${GHZ_REQUESTS:-2000}" \
+        -c "${GHZ_CONCURRENCY:-64}" \
+        -H "x-forwarded-for: $ip" \
+        --format json \
+        --output "$output" \
+        "localhost:$port"
+    echo -e "${GREEN}✅ $name ghz load report written to $output${NC}"
+}
+
 for target in "Go:50051" "Rust:50052"; do
     IFS=":" read -r name port <<< "$target"
+    grpc_ip="203.0.113.$((250 + port % 10))"
     echo -e "${YELLOW}Exercising $name gRPC Lookup on port $port...${NC}"
-    ./bin/grpc-probe-go -target "localhost:$port" -requests 2000 -concurrency 64 -ip "203.0.113.$((250 + port % 10))" > "grpc_$port.txt"
+    run_ghz_load "$name" "$port" "$grpc_ip"
+    ./bin/grpc-probe-go -target "localhost:$port" -requests 2000 -concurrency 64 -ip "$grpc_ip" > "grpc_$port.txt"
     cat "grpc_$port.txt"
     if grep -q 'PermissionDenied' "grpc_$port.txt"; then
         echo -e "${GREEN}✅ $name gRPC auto-ban triggered${NC}"
@@ -279,9 +308,6 @@ for target in "Go:50051" "Rust:50052"; do
         echo -e "${RED}❌ $name gRPC ban still active after sweeper interval${NC}"
     fi
 done
-
-echo -e "\n${YELLOW}Waiting 35 seconds for Sweeper to remove the ban...${NC}"
-sleep 35
 
 echo -e "Sending single request to Gin (Port 8081) to verify ban lifted..."
 STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8081/api/v1/public 2>/dev/null || echo "000")
@@ -307,6 +333,6 @@ fi
 kill_port_processes 8081 8082 8083 50051 50052 9081 9082
 
 # Clean up temporary files
-rm -f target_auth.txt target_public.txt result_auth.json result_public.json result_autoban.json grpc_50051.txt grpc_50052.txt
+rm -f target_auth.txt target_public.txt result_auth.json result_public.json result_autoban.json grpc_50051.txt grpc_50052.txt ghz_50051.json ghz_50052.json
 
 echo -e "${GREEN}✅ All Tests Completed!${NC}"
