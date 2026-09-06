@@ -15,6 +15,7 @@ tokio = { workspace = true }
 axum = { workspace = true }
 actix-web = { workspace = true }
 tonic = { workspace = true }
+prost = "0.12"
 tower = { workspace = true }
 http = { workspace = true }
 
