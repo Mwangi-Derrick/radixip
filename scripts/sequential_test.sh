@@ -301,16 +301,18 @@ run_ghz_load() {
     local output="ghz_$port.json"
 
     echo -e "${YELLOW}Running ghz against $name gRPC Lookup...${NC}"
+
     ghz \
         --insecure \
         --proto proto/radixip/v1/radixip.proto \
         --call radixip.v1.RadixService/Lookup \
         -n "${GHZ_REQUESTS:-2000}" \
         -c "${GHZ_CONCURRENCY:-64}" \
-        -H "x-forwarded-for: $ip" \
+        -m "{\"x-forwarded-for\":\"$ip\"}" \
         --format json \
         --output "$output" \
         "localhost:$port"
+
     echo -e "${GREEN}✅ $name ghz load report written to $output${NC}"
 }
 
