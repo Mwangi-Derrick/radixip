@@ -183,7 +183,7 @@ where
     S::Future: Send + 'static,
     S::Error: Send + 'static,
     ReqBody: Send + 'static,
-    ResBody: From<String> + Send + 'static,
+    ResBody: Default + Send + 'static,
 {
     type Response = S::Response;
     type Error = S::Error;
@@ -227,8 +227,7 @@ where
             ) {
                 Ok(ip) => ip,
                 Err(e) => {
-                    let body = ResBody::from(format!(r#"{{"error":"bad request: {}"}}"#, e));
-                    let mut res = Response::new(body);
+                    let mut res = Response::new(ResBody::default());
                     *res.status_mut() = http::StatusCode::BAD_REQUEST;
                     res.headers_mut().insert(
                         http::header::CONTENT_TYPE,
@@ -242,8 +241,7 @@ where
             if bl_cfg.enabled && engine.lookup(&ip).is_some() {
                 let status = http::StatusCode::from_u16(responses.blocked)
                     .unwrap_or(http::StatusCode::FORBIDDEN);
-                let body = ResBody::from(r#"{"error":"blocked"}"#.to_string());
-                let mut res = Response::new(body);
+                let mut res = Response::new(ResBody::default());
                 *res.status_mut() = status;
                 res.headers_mut().insert(
                     http::header::CONTENT_TYPE,
@@ -269,8 +267,7 @@ where
                     // Notify auto-ban tracker.
                     if let Some(ref tracker) = state.auto_ban {
                         if tracker.record_violation(ip) {
-                            let body = ResBody::from(r#"{"error":"auto-banned"}"#.to_string());
-                            let mut res = Response::new(body);
+                            let mut res = Response::new(ResBody::default());
                             *res.status_mut() = http::StatusCode::from_u16(responses.blocked)
                                 .unwrap_or(http::StatusCode::FORBIDDEN);
                             res.headers_mut().insert(
@@ -282,8 +279,7 @@ where
                     }
                     let status = http::StatusCode::from_u16(responses.rate_limited)
                         .unwrap_or(http::StatusCode::TOO_MANY_REQUESTS);
-                    let body = ResBody::from(r#"{"error":"rate limited"}"#.to_string());
-                    let mut res = Response::new(body);
+                    let mut res = Response::new(ResBody::default());
                     *res.status_mut() = status;
                     res.headers_mut().insert(
                         http::header::CONTENT_TYPE,
