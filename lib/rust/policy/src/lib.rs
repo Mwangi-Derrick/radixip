@@ -37,7 +37,7 @@ pub use limiter::TokenBucketLimiter;
 pub use route_trie::RouteTrie;
 pub use token_bucket::TokenBucket;
 pub use watcher::{ConfigWatcher, PolicyState};
-pub use handle::{PackedIp, PolicyHandle, PolicyResult};
+pub use handle::{PackedIp, PolicyDecisionCode, PolicyHandle, PolicyResult};
 
 use radixip::RadixEngine;
 use radixip_config::{MiddlewareConfig, RateLimitConfig};
