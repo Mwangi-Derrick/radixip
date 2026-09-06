@@ -105,6 +105,7 @@ impl PolicyState {
 /// Drop the `ConfigWatcher` to stop the background watcher thread.
 pub struct ConfigWatcher {
     state: Arc<ArcSwap<PolicyState>>,
+    engine: Option<Arc<Box<dyn RadixEngine>>>,
     /// Kept alive so the watcher thread doesn't stop.
     _watcher: RecommendedWatcher,
 }
@@ -113,17 +114,30 @@ impl ConfigWatcher {
     /// Create a new watcher for `path`.  The file is parsed immediately; an
     /// error here means the initial config is invalid.
     pub fn new(path: impl AsRef<Path>) -> Result<Self, Box<dyn std::error::Error>> {
+        Self::new_with_engine(path, None)
+    }
+
+    /// Create a watcher that preserves engine-backed policy state on reload.
+    pub fn new_with_engine(
+        path: impl AsRef<Path>,
+        engine: Option<Arc<Box<dyn RadixEngine>>>,
+    ) -> Result<Self, Box<dyn std::error::Error>> {
         let path = path.as_ref().to_path_buf();
 
         // Initial parse.
         let cfg = Arc::new(RadixIpConfig::from_file(&path)?);
-        let state = Arc::new(ArcSwap::from_pointee(PolicyState::from_config(cfg)));
+        let initial_state = match engine.as_ref() {
+            Some(engine) => PolicyState::from_config_with_engine(cfg, engine.clone()),
+            None => PolicyState::from_config(cfg),
+        };
+        let state = Arc::new(ArcSwap::from_pointee(initial_state));
 
         let state_clone = Arc::clone(&state);
         let path_clone = path.clone();
+        let engine_clone = engine.clone();
 
         let mut watcher = notify::recommended_watcher(move |res: notify::Result<Event>| {
-            Self::handle_event(&path_clone, &state_clone, res);
+            Self::handle_event(&path_clone, &state_clone, engine_clone.as_ref(), res);
         })?;
 
         // Watch the parent directory so we catch editor-rename patterns.
@@ -134,6 +148,7 @@ impl ConfigWatcher {
 
         Ok(Self {
             state,
+            engine,
             _watcher: watcher,
         })
     }
@@ -144,7 +159,12 @@ impl ConfigWatcher {
         self.state.load()
     }
 
-    fn handle_event(path: &PathBuf, state: &Arc<ArcSwap<PolicyState>>, res: notify::Result<Event>) {
+    fn handle_event(
+        path: &PathBuf,
+        state: &Arc<ArcSwap<PolicyState>>,
+        engine: Option<&Arc<Box<dyn RadixEngine>>>,
+        res: notify::Result<Event>,
+    ) {
         let event = match res {
             Ok(e) => e,
             Err(e) => {
@@ -175,7 +195,11 @@ impl ConfigWatcher {
 
         match RadixIpConfig::from_file(path) {
             Ok(new_cfg) => {
-                let new_state = PolicyState::from_config(Arc::new(new_cfg));
+                let new_cfg = Arc::new(new_cfg);
+                let new_state = match engine {
+                    Some(engine) => PolicyState::from_config_with_engine(new_cfg, engine.clone()),
+                    None => PolicyState::from_config(new_cfg),
+                };
                 state.store(Arc::new(new_state));
                 info!("radixip config watcher: hot-reloaded {:?} ✓", path);
             }
