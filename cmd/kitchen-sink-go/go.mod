@@ -16,7 +16,10 @@ replace github.com/Mwangi-Derrick/radixip/lib/go/engine => ../../lib/go/engine
 
 replace github.com/Mwangi-Derrick/radixip/lib/go/config => ../../lib/go/config
 
+replace github.com/Mwangi-Derrick/radixip/proto/radixip => ../../proto/radixip/v1
+
 require (
+	github.com/Mwangi-Derrick/radixip/proto/radixip v0.0.0-00010101000000-000000000000
 	github.com/Mwangi-Derrick/radixip/lib/go/adapters/echo v0.0.0-00010101000000-000000000000
 	github.com/Mwangi-Derrick/radixip/lib/go/adapters/fiber v0.0.0-00010101000000-000000000000
 	github.com/Mwangi-Derrick/radixip/lib/go/adapters/gin v0.0.0-00010101000000-000000000000
