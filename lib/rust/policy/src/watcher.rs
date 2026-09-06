@@ -105,7 +105,6 @@ impl PolicyState {
 /// Drop the `ConfigWatcher` to stop the background watcher thread.
 pub struct ConfigWatcher {
     state: Arc<ArcSwap<PolicyState>>,
-    engine: Option<Arc<Box<dyn RadixEngine>>>,
     /// Kept alive so the watcher thread doesn't stop.
     _watcher: RecommendedWatcher,
 }
@@ -148,7 +147,6 @@ impl ConfigWatcher {
 
         Ok(Self {
             state,
-            engine,
             _watcher: watcher,
         })
     }
