@@ -2,6 +2,8 @@ use ipnetwork;
 use napi::bindgen_prelude::*;
 use napi_derive::napi;
 use radixip::{Metadata, RadixEngine}; // Note: no UncompressedTree import needed for wrapper approach
+use radixip_config::RadixIpConfig;
+use radixip_policy::{PackedIp, PolicyDecisionCode, PolicyHandle};
 use std::collections::HashMap;
 use std::net::IpAddr;
 
@@ -33,6 +35,12 @@ pub struct JsEngineStats {
     pub hits: u32,
     pub misses: u32,
     pub removals: u32,
+}
+
+#[napi(object)]
+pub struct JsPolicyResult {
+    pub decision: String,
+    pub retry_after_seconds: u32,
 }
 
 // Wrapper for RadixEngine trait object
@@ -82,6 +90,49 @@ impl RadixEngineWrapper {
 #[napi]
 pub struct RadixIP {
     inner: RadixEngineWrapper,
+}
+
+#[napi]
+pub struct RadixPolicy {
+    inner: PolicyHandle,
+}
+
+#[napi]
+impl RadixPolicy {
+    #[napi(factory)]
+    pub fn from_yaml(path: String) -> napi::Result<Self> {
+        let config = RadixIpConfig::from_file(&path)
+            .map_err(|e| Error::new(Status::InvalidArg, e.to_string()))?;
+        let runtime = tokio::runtime::Builder::new_current_thread()
+            .enable_all()
+            .build()
+            .map_err(|e| Error::new(Status::GenericFailure, e.to_string()))?;
+        let engine = std::sync::Arc::new(runtime.block_on(radixip::new_balanced()));
+        Ok(Self {
+            inner: PolicyHandle::new(engine, &config),
+        })
+    }
+
+    #[napi]
+    pub fn check_ip(&self, ip: String) -> napi::Result<JsPolicyResult> {
+        let addr = ip
+            .parse::<IpAddr>()
+            .map_err(|_| Error::new(Status::InvalidArg, format!("Invalid IP: {ip}")))?;
+        let result = self
+            .inner
+            .check(PackedIp::from(addr))
+            .ok_or_else(|| Error::new(Status::InvalidArg, "Invalid IP address family"))?;
+        let decision = match result.decision {
+            PolicyDecisionCode::Allow => "allow",
+            PolicyDecisionCode::Block => "block",
+            PolicyDecisionCode::Limit => "limit",
+            PolicyDecisionCode::BadRequest => "bad_request",
+        };
+        Ok(JsPolicyResult {
+            decision: decision.to_owned(),
+            retry_after_seconds: result.retry_after_seconds,
+        })
+    }
 }
 
 #[napi]

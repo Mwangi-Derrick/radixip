@@ -14,6 +14,8 @@ default = []
 
 [dependencies]
 radixip_rs = { workspace = true }
+radixip-config = { path = "../rust/config", version = "0.1.0" }
+radixip-policy = { path = "../rust/policy", version = "0.1.0" }
 napi = { workspace = true }
 napi-derive = { workspace = true }
 serde = { workspace = true }
