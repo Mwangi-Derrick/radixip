@@ -28,6 +28,11 @@ export interface EngineStats {
   removals: number;
 }
 
+export interface PolicyResult {
+  decision: "allow" | "block" | "limit" | "bad_request";
+  retryAfterSeconds: number;
+}
+
 /**
  * High-performance IP radix-tree engine.
  *
@@ -66,6 +71,14 @@ export declare class RadixIP {
 
   /** Performance statistics. */
   stats(): EngineStats;
+}
+
+export declare class RadixPolicy {
+  /** Load the shared RadixIP YAML policy configuration. */
+  static fromYaml(path: string): RadixPolicy;
+
+  /** Evaluate one already-extracted client IP. */
+  checkIp(ip: string): PolicyResult;
 }
 
 /** Library semantic version. */
