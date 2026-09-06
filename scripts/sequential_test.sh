@@ -99,6 +99,41 @@ if ! command -v vegeta &> /dev/null; then
     exit 1
 fi
 
+# Install ghz through Go so the setup works on Linux, macOS, and Windows
+# Git Bash/MSYS without requiring a platform-specific download.
+install_ghz() {
+    echo -e "${YELLOW}📦 Installing ghz gRPC load tester...${NC}"
+
+    if ! command -v go &> /dev/null; then
+        echo -e "${RED}❌ Go is required to install ghz.${NC}"
+        return 1
+    fi
+
+    go install github.com/bojand/ghz/cmd/ghz@latest
+
+    local go_bin
+    go_bin=$(go env GOBIN)
+    if [ -z "$go_bin" ]; then
+        go_bin="$(go env GOPATH)/bin"
+    fi
+    if [ "$OS" = "windows" ] && command -v cygpath &> /dev/null; then
+        go_bin=$(cygpath -u "$go_bin")
+    fi
+    export PATH="$go_bin:$PATH"
+
+    if command -v ghz &> /dev/null; then
+        echo -e "${GREEN}✅ ghz installed successfully${NC}"
+        return 0
+    fi
+
+    echo -e "${RED}❌ ghz was installed but is not available on PATH: $go_bin${NC}"
+    return 1
+}
+
+if ! command -v ghz &> /dev/null; then
+    install_ghz || exit 1
+fi
+
 echo -e "${YELLOW}🔨 Building Kitchen Sink Apps...${NC}"
 go build -o bin/kitchen-sink-go cmd/kitchen-sink-go/main.go
 go build -o bin/grpc-probe-go ./cmd/grpc-probe-go
@@ -257,18 +292,13 @@ echo -e "\n${GREEN}==========================================${NC}"
 echo -e "${GREEN} Phase 3: gRPC Auto-Ban & Sweeper Test ${NC}"
 echo -e "${GREEN}==========================================${NC}"
 
-# ghz is useful for realistic gRPC load, but the Go probe below remains the
-# deterministic assertion path for environments where ghz is unavailable.
+# ghz provides realistic gRPC load; the Go probe below provides deterministic
+# status-count assertions for auto-ban and sweeper behavior.
 run_ghz_load() {
     local name=$1
     local port=$2
     local ip=$3
     local output="ghz_$port.json"
-
-    if ! command -v ghz &> /dev/null; then
-        echo -e "${YELLOW}⚠️  ghz not found; skipping $name ghz load (install with: go install github.com/bojand/ghz/cmd/ghz@latest)${NC}"
-        return 0
-    fi
 
     echo -e "${YELLOW}Running ghz against $name gRPC Lookup...${NC}"
     ghz \
