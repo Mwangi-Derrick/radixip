@@ -81,6 +81,7 @@ short on purpose; this folder is where the engineering reasoning lives.
 | [Cache Locality](./docs/guides/cache-locality.md) | Why memory access patterns usually matter more than algorithmic complexity |
 | [How Routers Work](./docs/guides/how-routers-work.md) | The real-world context RadixIP borrows from |
 | [Benchmark Methodology](./docs/guides/benchmark-methodology.md) | Exactly how the numbers in the README were produced, so you can reproduce or challenge them |
+| [FFI Policy Engine](./docs/guides/ffi-policy-engine.md) | Proposed config and policy FFI boundary, ownership model, and cross-language overhead benchmarks |
 | [Go SIMD via Rust FFI](./docs/guides/go-simd-rust-ffi.md) | Why the Go ART Node16 uses a Rust-backed SIMD shared library instead of Go's experimental native SIMD |
 
 ## Reading order
