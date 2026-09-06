@@ -101,6 +101,7 @@ fi
 
 echo -e "${YELLOW}🔨 Building Kitchen Sink Apps...${NC}"
 go build -o bin/kitchen-sink-go cmd/kitchen-sink-go/main.go
+go build -o bin/grpc-probe-go ./cmd/grpc-probe-go
 cargo build --bin kitchen-sink-rust --release
 echo -e "${GREEN}✅ Build complete${NC}"
 
@@ -138,7 +139,7 @@ pkill -f "kitchen-sink-go" 2>/dev/null || true
 pkill -f "kitchen-sink-rust" 2>/dev/null || true
 
 # Then kill by port to be thorough
-kill_port_processes 8081 8082 8083 9081 9082
+kill_port_processes 8081 8082 8083 50051 50052 9081 9082
 
 sleep 3
 
@@ -177,6 +178,8 @@ for port in 8081 8082 8083 9081 9082; do
         echo -e "${RED}❌ Service on port $port failed to start${NC}"
     fi
 done
+
+echo -e "${GREEN}✅ gRPC servers will be exercised on ports 50051 and 50052${NC}"
 
 TARGETS=(
     "Gin (Go):8081"
@@ -232,7 +235,7 @@ echo -e "${GREEN}==========================================${NC}"
 
 # Attack Gin continuously to trigger auto-ban across the shared Engine
 echo -e "${YELLOW}Attacking Gin (Port 8081) at 5000 RPS for 5s to trigger Auto-Ban...${NC}"
-echo "GET http://localhost:8081/api/v1/public" | vegeta attack -rate=5000 -duration=5s | vegeta report -type=json > result_autoban.json
+printf 'GET http://localhost:8081/api/v1/public\nX-Forwarded-For: 203.0.113.200\n' | vegeta attack -rate=5000 -duration=5s | vegeta report -type=json > result_autoban.json
 
 if [ -f result_autoban.json ]; then
     status_429=$(jq '.status_codes["429"] // 0' result_autoban.json 2>/dev/null || echo "0")
@@ -249,6 +252,33 @@ if [ -f result_autoban.json ]; then
 else
     echo -e "${RED}❌ Failed to get auto-ban results${NC}"
 fi
+
+echo -e "\n${GREEN}==========================================${NC}"
+echo -e "${GREEN} Phase 3: gRPC Auto-Ban & Sweeper Test ${NC}"
+echo -e "${GREEN}==========================================${NC}"
+
+for target in "Go:50051" "Rust:50052"; do
+    IFS=":" read -r name port <<< "$target"
+    echo -e "${YELLOW}Exercising $name gRPC Lookup on port $port...${NC}"
+    ./bin/grpc-probe-go -target "localhost:$port" -requests 2000 -concurrency 64 -ip "203.0.113.$((250 + port % 10))" > "grpc_$port.txt"
+    cat "grpc_$port.txt"
+    if grep -q 'PermissionDenied' "grpc_$port.txt"; then
+        echo -e "${GREEN}✅ $name gRPC auto-ban triggered${NC}"
+    else
+        echo -e "${RED}❌ $name gRPC auto-ban did not trigger${NC}"
+    fi
+done
+
+echo -e "${YELLOW}Waiting 35 seconds for gRPC bans to expire...${NC}"
+sleep 35
+for target in "Go:50051" "Rust:50052"; do
+    IFS=":" read -r name port <<< "$target"
+    if ./bin/grpc-probe-go -target "localhost:$port" -requests 1 -concurrency 1 -ip "203.0.113.$((250 + port % 10))" | grep -q '^OK, 1$'; then
+        echo -e "${GREEN}✅ $name gRPC sweeper lifted the ban${NC}"
+    else
+        echo -e "${RED}❌ $name gRPC ban still active after sweeper interval${NC}"
+    fi
+done
 
 echo -e "\n${YELLOW}Waiting 35 seconds for Sweeper to remove the ban...${NC}"
 sleep 35
@@ -274,9 +304,9 @@ if [ ! -z "$RUST_PID" ]; then
 fi
 
 # Kill any remaining processes by port
-kill_port_processes 8081 8082 8083 9081 9082
+kill_port_processes 8081 8082 8083 50051 50052 9081 9082
 
 # Clean up temporary files
-rm -f target_auth.txt target_public.txt result_auth.json result_public.json result_autoban.json
+rm -f target_auth.txt target_public.txt result_auth.json result_public.json result_autoban.json grpc_50051.txt grpc_50052.txt
 
 echo -e "${GREEN}✅ All Tests Completed!${NC}"
