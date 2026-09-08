@@ -1,0 +1,21 @@
+[package]
+name = "radixip-cache"
+version = "0.1.0"
+edition = "2021"
+description = "Shared cache and Redis sync primitives for RadixIP"
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+
+[features]
+default = []
+redis = ["dep:redis"]
+
+[dependencies]
+serde = { workspace = true }
+serde_json = { workspace = true }
+redis = { workspace = true, optional = true }
+tokio = { workspace = true, features = ["full"] }
+futures-util = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
