@@ -161,15 +161,15 @@ async fn redis_sync_smoke_test() {
         }),
     };
 
-    client
-        .publish_json(&channel, &update)
-        .await
-        .expect("publish_json should succeed");
-
     let (mut rx, _handle) = client
         .subscribe_to_channel(&channel)
         .await
         .expect("subscribe_to_channel should succeed");
+
+    client
+        .publish_json(&channel, &update)
+        .await
+        .expect("publish_json should succeed");
 
     let payload = tokio::time::timeout(std::time::Duration::from_secs(5), async {
         while let Some(msg) = rx.recv().await {
