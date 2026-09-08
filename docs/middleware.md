@@ -1,8 +1,10 @@
 # RadixIP Middleware
 
-RadixIP provides drop-in middleware for popular Go, Rust, Node.js, and Python web frameworks. It integrates the **high-performance Radix Tree Blocklist**, the **lock-free Token Bucket Rate Limiter**, route-specific policies, and configurable auto-ban directly into your request lifecycle.
+RadixIP provides drop-in middleware for popular Go, Rust, Node.js, and Python web frameworks. Each adapter integrates the **high-performance Radix Tree Blocklist**, the **lock-free Token Bucket Rate Limiter**, route-specific policies, and configurable auto-ban directly into the request lifecycle — in **~200 ns per request** from the policy check itself.
 
-The framework adapter is intentionally thin. Your framework remains responsible for routing and handler execution; RadixIP runs as an early request gate, evaluates one shared native policy, and either allows the request to continue or returns the configured denial response.
+The framework adapter is intentionally thin. Your framework handles routing and handler execution; RadixIP runs as an early request gate, evaluates one shared native policy, and either allows the request to continue or returns the configured denial response.
+
+---
 
 ## How Integration Works
 
@@ -10,138 +12,81 @@ RadixIP does not scan your project or automatically attach itself to a framework
 
 ```text
 incoming request
-  |
-  v
+  │
+  ▼
 framework middleware pipeline
-  |
-  +--> RadixIP adapter
-  |       |
-  |       +--> extract client IP
-  |       +--> blocklist lookup
-  |       +--> route/global token bucket
-  |       +--> auto-ban tracker
-  |       +--> allow, limit, or block
-  |
-  v
-framework router and application handler
+  │
+  ├──► RadixIP adapter
+  │       │
+  │       ├──► 1. extract client IP (XFF → X-Real-IP → peer address)
+  │       ├──► 2. blocklist lookup  (radix LPM, ~60 ns)
+  │       ├──► 3. route-trie match  (per-path token bucket override)
+  │       ├──► 4. token bucket      (global or per-route limiter)
+  │       ├──► 5. auto-ban tracker  (sliding window violation counter)
+  │       └──► allow → next handler
+  │            limit → 429 + Retry-After
+  │            block → 403
+  │
+  ▼
+framework router + application handler
 ```
 
-Node.js uses one `radixip` package with subpath adapters such as
-`radixip/middleware`. Python uses one `radixip` package with framework modules
-such as `radixip.middleware`. Express, Next.js, TanStack Start, and FastAPI
-remain dependencies of the application. RadixIP does not install or replace
-those frameworks.
+---
+
+## Decision and Status Mapping
+
+All built-in adapters use the same policy result:
+
+| Policy decision | HTTP status | gRPC status |
+|---|---|---|
+| `allow` | Pass to next handler | Invoke the RPC handler |
+| `block` | `403 Forbidden` | `PermissionDenied` |
+| `auto_ban` | `403 Forbidden` | `PermissionDenied` |
+| `limit` | `429 Too Many Requests` + `Retry-After` | `ResourceExhausted` + retry metadata |
+| `bad_request` | `400 Bad Request` | `InvalidArgument` |
+
+`block` and `auto_ban` both return `403` because the temporary ban is enforced by the same engine path. Do not add a second local limiter in the adapter — doing so can consume tokens twice and make behaviour diverge between languages.
+
+---
 
 ## Supported Frameworks
 
 ### Go
-- **Gin**: `github.com/Mwangi-Derrick/radixip/lib/go/adapters/gin`
-- **Fiber**: `github.com/Mwangi-Derrick/radixip/lib/go/adapters/fiber`
-- **Echo**: `github.com/Mwangi-Derrick/radixip/lib/go/adapters/echo`
-- **gRPC**: `github.com/Mwangi-Derrick/radixip/lib/go/adapters/grpc-interceptor`
+| Framework | Import path |
+|---|---|
+| Gin | `github.com/Mwangi-Derrick/radixip/lib/go/adapters/gin` |
+| Echo | `github.com/Mwangi-Derrick/radixip/lib/go/adapters/echo` |
+| Fiber | `github.com/Mwangi-Derrick/radixip/lib/go/adapters/fiber` |
+| gRPC | `github.com/Mwangi-Derrick/radixip/lib/go/adapters/grpc-interceptor` |
 
 ### Rust
-- **Axum**: `radixip-axum`
-- **Actix-Web**: `radixip-actix`
-- **Tower** (Generic): `radixip-tower`
-- **gRPC (Tonic)**: `radixip-grpc-interceptor`
+| Crate | Description |
+|---|---|
+| `radixip-axum` | Axum `Layer` + hot-reload `ConfigWatcher` |
+| `radixip-actix` | Actix-Web `Transform` + hot-reload |
+| `radixip-tower` | Generic Tower `Layer` (works with any Tower-compatible server) |
+| `radixip-grpc-interceptor` | Tonic gRPC — both `Interceptor` trait and Tower `Layer` variants |
 
 ### Node.js
-- **Express**: `radixip/middleware` -> `radixipExpress`
-- **Next.js**: `radixip/middleware` -> `radixipNext`
-- **TanStack Start**: `radixip/middleware` -> `radixipTanStackStart`
-- **Fastify**: use `RadixPolicy` from the native addon in a Fastify hook
+| Framework | Export |
+|---|---|
+| Express | `radixip/middleware` → `radixipExpress` |
+| Next.js (Node runtime) | `radixip/middleware` → `radixipNext` |
+| TanStack Start | `radixip/middleware` → `radixipTanStackStart` |
+| Fastify | `radixip/middleware` → `radixipFastify` / `radixipFastifyPlugin` |
 
 ### Python
-- **FastAPI**: `radixip.middleware` -> `RadixIPMiddleware`
-- **Starlette**: use the same ASGI middleware class directly
-- **Flask/Django**: use `RadixPolicy.check_ip()` in the framework's request hook
+| Framework | Import |
+|---|---|
+| FastAPI / Starlette | `from radixip.middleware import RadixIPMiddleware` |
+| Flask | `from radixip.middleware import make_flask_hook` |
+| Django | `from radixip.middleware import RadixIPDjangoMiddleware` |
 
-The built-in adapters focus on the stack maintained by this project. Other
-frameworks can use the same policy object without reimplementing rate limiting.
-
-## Hot-Reloading Configuration (Zero Downtime)
-
-The recommended server-side integration is the hot-reloading configuration path. Go and Rust `FromYAML` helpers read a `radixip.yaml` file on startup and spawn a background filesystem watcher. The Node and Python native policy bindings load the same schema into one process-level policy object; framework adapters reuse that object for every request.
-
-Configuration-derived limiter and route state is replaced atomically when hot reload is enabled. The blocklist engine remains a shared object, and each process should create one policy instance rather than constructing a limiter per request.
-
-### Example: Gin (Go)
-
-```go
-package main
-
-import (
-	"log"
-
-	"github.com/gin-gonic/gin"
-	radixipgin "github.com/Mwangi-Derrick/radixip/lib/go/adapters/gin"
-	radixip_engine "github.com/Mwangi-Derrick/radixip/lib/go/engine"
-)
-
-type EngineAdapter struct {
-	inner *radixip_engine.EngineWrapper
-}
-
-func (a *EngineAdapter) Lookup(ipStr string) bool {
-    // Implement string -> net.IP -> engine.Lookup
-    return false // your impl here
-}
-
-func main() {
-	r := gin.Default()
-
-    // 1. Setup your blocklist engine (state is separate from config)
-    engine := &EngineAdapter{/* ... */}
-
-    // 2. Attach hot-reloading middleware
-	mw, stop, err := radixipgin.NewFromYAML("radixip.yaml", engine)
-	if err != nil {
-		log.Fatalf("Failed to load RadixIP config: %v", err)
-	}
-	defer stop() // Clean up fsnotify on shutdown
-
-	r.Use(mw)
-
-	r.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{"status": "ok"})
-	})
-
-	r.Run(":8080")
-}
-```
-
-### Example: Axum (Rust)
-
-```rust
-use axum::{routing::get, Router};
-use radixip_axum::AxumWatchedRadixIpLayer;
-use radixip_policy::ConfigWatcher;
-use std::sync::Arc;
-
-#[tokio::main]
-async fn main() {
-    // 1. Setup blocklist engine
-    let engine = Arc::new(radix_engine); // Box<dyn RadixEngine>
-
-    // 2. Setup ConfigWatcher
-    let watcher = Arc::new(ConfigWatcher::new("radixip.yaml").unwrap());
-
-    // 3. Attach middleware
-    let app = Router::new()
-        .route("/", get(|| async { "Hello, World!" }))
-        .layer(AxumWatchedRadixIpLayer::new(watcher, engine));
-
-    axum::Server::bind(&"0.0.0.0:8080".parse().unwrap())
-        .serve(app.into_make_service())
-        .await
-        .unwrap();
-}
-```
+---
 
 ## `radixip.yaml` Schema
 
-Both Go and Rust share the exact same YAML configuration schema.
+Go and Rust share the exact same YAML configuration schema. Node and Python load the same file through their native policy binding.
 
 ```yaml
 radixip:
@@ -181,18 +126,14 @@ radixip:
       mode: "ip"         # "ip", "subnet", or "both"
       depth_v4: 24
       depth_v6: 48
-  metrics:
-    enabled: true
-    prometheus_path: "/metrics"
 
-  # Per-IP Flagging & Auto-Banning
   auto_ban:
     enabled: true
-    threshold_violations: 5    # 5 rate-limit 429 violations within window
-    window_seconds: 10         # Sliding window size in seconds
-    ban_duration_seconds: 30   # Temporary ban duration
+    threshold_violations: 5    # violations within the window before ban
+    window_seconds: 10         # sliding window
+    ban_duration_seconds: 3600 # temporary ban duration (1 hour)
 
-  # Per-API Route Policies (Longest Prefix Route Matching)
+  # Per-API route policies (longest-prefix path match)
   rate_limit_routes:
     enabled: true
     routes:
@@ -208,166 +149,432 @@ radixip:
           capacity: 1000
           refill_rate: 100
           enabled: true
+
+  metrics:
+    enabled: true
+    prometheus_path: "/metrics"
 ```
 
 ### Configuration ownership
 
-The same conceptual policy is available in every language:
-
-| Area | Responsibility |
+| Section | Controls |
 |---|---|
-| `middleware` | Client-IP source, trusted proxies, and response status codes |
-| `blocklist` | Whether blocklist checks are active and where prefixes come from |
-| `rate_limit` | Global token-bucket capacity, refill, bucket key, and eviction |
-| `rate_limit_routes` | Longest-prefix route and method-specific limit overrides |
+| `middleware` | IP extraction source, trusted proxies, response status codes |
+| `blocklist` | Static blocklist toggle and data sources |
+| `rate_limit` | Global token-bucket capacity, refill rate, bucket key, eviction TTL |
+| `rate_limit_routes` | Per-path per-method token-bucket overrides (route trie) |
 | `auto_ban` | Violation threshold, sliding window, and temporary ban duration |
-| `metrics` | Metrics enablement and endpoint naming |
+| `metrics` | Prometheus metrics endpoint |
 
-Go and Rust adapters can watch the YAML file directly. Python and Node should
-keep one `RadixPolicy` instance alive for the process lifetime. A watcher-backed
-policy object can be added later when applications need runtime configuration
-reloads in those ecosystems.
+---
 
 ## IP Extraction & Security
 
-The middleware automatically attempts to extract the client IP from the following sources, in order:
-1. `X-Forwarded-For` (parsed right-to-left, skipping IPs in `trusted_proxies`)
-2. `X-Real-IP`
-3. The raw network connection `Remote-Addr`
+The middleware extracts the client IP in this order:
 
-If a request contains a spoofed `X-Forwarded-For` like `8.8.8.8, 192.168.1.100` and `192.168.1.0/24` is in `trusted_proxies`, RadixIP will correctly identify `8.8.8.8` as the true client IP.
+1. `X-Forwarded-For` — parsed **right-to-left**, skipping any IP in `trusted_proxies`
+2. `X-Real-IP`
+3. The raw network connection (`Remote-Addr` / peer address)
+
+**Security warning:** Never trust an arbitrary client-provided `X-Forwarded-For` without configuring `trusted_proxies`. A misconfigured proxy trust allows a client to spoof any IP and bypass both rate limits and blocklists.
 
 ### Proxy trust by ecosystem
 
-Forwarded headers are only trustworthy when the request came through a proxy
-that your application controls. Configure proxy trust at the framework edge:
-
 ```js
-// Express: use the narrowest setting that describes your deployment.
-app.set("trust proxy", ["loopback", "10.0.0.0/8"]);
+// Express — use the narrowest setting that matches your deployment.
+app.set('trust proxy', ['loopback', '10.0.0.0/8']);
 ```
 
-For Next.js and TanStack Start, pass an explicit `resolveIp(request)` function
-to the adapter when a trusted proxy chain is present. The default does not
-trust forwarded headers. FastAPI likewise defaults to the direct peer address;
-pass `resolve_ip(request)` when an ingress proxy has been authenticated.
+For Next.js, TanStack Start, FastAPI, Flask, and Django, pass a `resolveIp` /
+`resolve_ip` function that applies your deployment's trusted-hop rules.
 
-Never treat an arbitrary client-provided `X-Forwarded-For` value as the real
-address. A bad proxy configuration can let an attacker evade both rate limits
-and blocklists by changing the apparent client IP.
+---
+
+## Go Middleware
+
+### Gin
+
+```go
+package main
+
+import (
+    "log"
+
+    "github.com/gin-gonic/gin"
+    radixipgin "github.com/Mwangi-Derrick/radixip/lib/go/adapters/gin"
+    radixip_engine "github.com/Mwangi-Derrick/radixip/lib/go/engine"
+    "net"
+)
+
+// EngineAdapter satisfies the middleware Engine interface.
+type EngineAdapter struct{ inner *radixip_engine.EngineWrapper }
+
+func (a *EngineAdapter) Lookup(ipStr string) bool {
+    ip := net.ParseIP(ipStr)
+    return ip != nil && a.inner.Lookup(ip) != nil
+}
+func (a *EngineAdapter) Insert(prefix *net.IPNet, meta radixip_engine.Metadata) error {
+    return a.inner.Insert(prefix, meta)
+}
+func (a *EngineAdapter) Remove(prefix *net.IPNet) *radixip_engine.Metadata {
+    return a.inner.Remove(prefix)
+}
+
+func main() {
+    r := gin.Default()
+
+    engine := &EngineAdapter{inner: radixip_engine.NewEngineWrapper(
+        radixip_engine.EngineConcurrent,
+        radixip_engine.AtomicRadixNode,
+    )}
+
+    // Hot-reload middleware: rate limits and route policy reload from file
+    // on change; the blocklist engine state lives outside the config lifecycle.
+    mw, stop, err := radixipgin.NewFromYAML("config/radixip.yaml", engine)
+    if err != nil {
+        log.Fatalf("radixip: %v", err)
+    }
+    defer stop()
+
+    r.Use(mw)
+
+    r.GET("/health", func(c *gin.Context) { c.JSON(200, gin.H{"ok": true}) })
+    r.POST("/api/v1/auth", func(c *gin.Context) { c.JSON(200, gin.H{"token": "..."}) })
+    r.GET("/api/v1/public", func(c *gin.Context) { c.JSON(200, gin.H{"data": "..."}) })
+
+    r.Run(":8080")
+}
+```
+
+### Echo
+
+```go
+import (
+    radixipecho "github.com/Mwangi-Derrick/radixip/lib/go/adapters/echo"
+    "github.com/labstack/echo/v4"
+)
+
+e := echo.New()
+
+mw, stop, err := radixipecho.NewFromYAML("config/radixip.yaml", engine)
+if err != nil { log.Fatal(err) }
+defer stop()
+
+e.Use(mw)
+
+e.GET("/health", func(c echo.Context) error { return c.String(200, "ok") })
+e.POST("/api/v1/auth", func(c echo.Context) error { return c.JSON(200, map[string]any{"token": "..."}) })
+e.GET("/api/v1/public", func(c echo.Context) error { return c.JSON(200, map[string]any{"data": "..."}) })
+
+e.Start(":8080")
+```
+
+### Fiber
+
+```go
+import (
+    radixipfiber "github.com/Mwangi-Derrick/radixip/lib/go/adapters/fiber"
+    "github.com/gofiber/fiber/v2"
+)
+
+app := fiber.New()
+
+mw, stop, err := radixipfiber.NewFromYAML("config/radixip.yaml", engine)
+if err != nil { log.Fatal(err) }
+defer stop()
+
+app.Use(mw)
+
+app.Get("/health", func(c *fiber.Ctx) error { return c.SendString("ok") })
+app.Post("/api/v1/auth", func(c *fiber.Ctx) error { return c.JSON(fiber.Map{"token": "..."}) })
+app.Get("/api/v1/public", func(c *fiber.Ctx) error { return c.JSON(fiber.Map{"data": "..."}) })
+
+app.Listen(":8080")
+```
+
+### Go gRPC
+
+```go
+import (
+    "net"
+    "log"
+    "google.golang.org/grpc"
+    radixipgrpc "github.com/Mwangi-Derrick/radixip/lib/go/adapters/grpc-interceptor"
+)
+
+func main() {
+    unary, stream, stop, err := radixipgrpc.NewFromYAML("config/radixip.yaml", engine)
+    if err != nil {
+        log.Fatalf("radixip gRPC: %v", err)
+    }
+    defer stop()
+
+    s := grpc.NewServer(
+        grpc.UnaryInterceptor(unary),
+        grpc.StreamInterceptor(stream),
+    )
+
+    // Register your services
+    // pb.RegisterMyServiceServer(s, &myServer{})
+
+    lis, _ := net.Listen("tcp", ":50051")
+    log.Println("gRPC listening on :50051")
+    s.Serve(lis)
+}
+```
+
+The Go gRPC hot-reload interceptor uses the **same** `routeTrie` + `autoBan` + `limiter` state as the HTTP adapters. gRPC full-method paths (`/package.Service/Method`) are matched against the route trie; if no route entry matches, the global limiter applies.
+
+---
+
+## Rust Middleware
+
+### Axum
+
+```rust
+use axum::{routing::get, Router};
+use radixip_axum::AxumWatchedRadixIpLayer;
+use radixip_policy::watcher::ConfigWatcher;
+use std::{net::SocketAddr, sync::Arc};
+use tokio::net::TcpListener;
+
+#[tokio::main]
+async fn main() {
+    let engine = Arc::new(radixip::new_high_performance().await);
+    let watcher = Arc::new(ConfigWatcher::new("config/radixip.yaml").unwrap());
+
+    let app = Router::new()
+        .route("/health", get(|| async { "ok" }))
+        .route("/api/v1/public", get(|| async { "public ok" }))
+        .route("/api/v1/auth", axum::routing::post(|| async { "auth ok" }))
+        // Layer is applied to all routes above.
+        .layer(AxumWatchedRadixIpLayer::new(watcher, engine));
+
+    let listener = TcpListener::bind("0.0.0.0:8080").await.unwrap();
+    println!("Axum listening on :8080");
+    axum::serve(listener, app).await.unwrap();
+}
+```
+
+The `AxumWatchedRadixIpLayer` reads the current `PolicyState` on every request via a wait-free `ArcSwap` pointer load. The state carries the token-bucket limiter, route trie, and auto-ban tracker. Hot-reloads happen in a background thread triggered by `notify`.
+
+### Actix-Web
+
+```rust
+use actix_web::{web, App, HttpServer};
+use radixip_actix::ActixWatchedRadixIpMiddleware;
+use radixip_policy::watcher::ConfigWatcher;
+use std::sync::Arc;
+
+#[actix_web::main]
+async fn main() -> std::io::Result<()> {
+    let engine = Arc::new(radixip::new_high_performance().await);
+    let watcher = Arc::new(ConfigWatcher::new("config/radixip.yaml").unwrap());
+
+    HttpServer::new(move || {
+        App::new()
+            .wrap(ActixWatchedRadixIpMiddleware::new(
+                watcher.clone(),
+                engine.clone(),
+            ))
+            .route("/health", web::get().to(|| async { "ok" }))
+            .route("/api/v1/public", web::get().to(|| async { "public ok" }))
+            .route("/api/v1/auth", web::post().to(|| async { "auth ok" }))
+    })
+    .bind("0.0.0.0:8080")?
+    .run()
+    .await
+}
+```
+
+### Tower (generic)
+
+Use `radixip-tower` for any service that uses the Tower `Service` trait — including `hyper`, custom proxies, and non-HTTP services:
+
+```rust
+use radixip_tower::from_yaml::TowerWatchedRadixIpLayer;
+use radixip_policy::watcher::ConfigWatcher;
+use tower::ServiceBuilder;
+
+let watcher = Arc::new(ConfigWatcher::new("config/radixip.yaml").unwrap());
+let engine = Arc::new(my_engine);
+
+let service = ServiceBuilder::new()
+    .layer(TowerWatchedRadixIpLayer::new(watcher, engine))
+    .service(my_inner_service);
+```
+
+### Tonic gRPC
+
+```rust
+use radixip_grpc_interceptor::from_yaml::{GrpcWatchedRadixIpInterceptor, GrpcWatchedRadixIpLayer};
+use radixip_policy::watcher::ConfigWatcher;
+use std::sync::Arc;
+
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let engine = Arc::new(radixip::new_high_performance().await);
+    let watcher = Arc::new(ConfigWatcher::new("config/radixip.yaml")?);
+
+    let addr = "0.0.0.0:50051".parse()?;
+
+    // Option A — tonic Interceptor trait (metadata-only, cheapest path)
+    // Use when you do not need route-trie per-RPC limits.
+    let interceptor = GrpcWatchedRadixIpInterceptor::new(watcher.clone(), engine.clone());
+    let svc = tonic::service::interceptor(my_grpc_service, interceptor);
+
+    // Option B — Tower Layer (full HTTP/2 request, supports route-trie)
+    // Use when you want per-RPC-method rate-limit overrides via rate_limit_routes.
+    tonic::transport::Server::builder()
+        .layer(GrpcWatchedRadixIpLayer::new(watcher, engine))
+        .add_service(my_grpc_service)
+        .serve(addr)
+        .await?;
+
+    Ok(())
+}
+```
+
+**Option A vs Option B:** The `Interceptor` trait receives only gRPC metadata (headers), so it cannot inspect the URI path — route-trie matching is skipped and the global rate limiter is always used. Option B (Tower Layer) has access to the full `http::Request`, so gRPC full-method paths like `/radixip.v1.RadixService/Lookup` are matched against `rate_limit_routes` entries. Both options support auto-ban via the `auto_ban` field on `PolicyState`.
+
+---
+
+## Hot-Reloading (Zero Downtime)
+
+Go and Rust adapters watch the YAML file directly with `fsnotify` / `notify`. When the file changes:
+
+1. The new config is parsed in the background thread.
+2. A new `PolicyState` (limiter, route trie, auto-ban tracker) is built atomically.
+3. The next request reads the new state via a wait-free pointer load — **zero lock contention**, **zero downtime**.
+
+The blocklist engine's tree state is managed separately. Prefix insertions and removals via the engine API persist across hot-reloads.
+
+Node.js and Python load the config once at startup into one process-level `RadixPolicy` object. Runtime config reloads in those ecosystems require restarting the policy object or implementing a custom reload trigger.
+
+---
 
 ## Node.js Middleware
 
-Install RadixIP in the application that owns the framework:
-
 ```bash
-npm install radixip express
+npm install radixip
+# Framework packages remain your application's dependency:
+npm install express        # or fastify, next, etc.
 ```
-
-The framework is not bundled into RadixIP. The adapter is selected by an
-explicit import, and the framework invokes the returned function during its
-normal request pipeline.
 
 ### Express
 
 ```js
-const express = require("express");
-const { radixipExpress } = require("radixip/middleware");
+const express = require('express');
+const { radixipExpress } = require('radixip/middleware');
 
 const app = express();
-app.set("trust proxy", ["loopback", "10.0.0.0/8"]);
+
+// Tell Express which proxy addresses to trust so req.ip is resolved correctly.
+app.set('trust proxy', ['loopback', '10.0.0.0/8']);
 
 app.use(radixipExpress({
-  configPath: "config/radixip.yaml",
+  configPath: 'config/radixip.yaml',
 }));
 
-app.get("/", (_req, res) => res.json({ ok: true }));
+app.get('/', (_req, res) => res.json({ ok: true }));
 app.listen(3000);
 ```
 
-Pass `policy` instead of `configPath` when the application already created a
-native policy object:
+Pass a pre-created `policy` when you want to share the same instance with other parts of the application:
 
 ```js
-const { RadixPolicy } = require("radixip");
-const policy = RadixPolicy.fromYaml("config/radixip.yaml");
+const { RadixPolicy } = require('radixip');
+const { radixipExpress } = require('radixip/middleware');
+
+const policy = RadixPolicy.fromYaml('config/radixip.yaml');
 app.use(radixipExpress({ policy }));
 ```
-
-The adapter calls `next()` for `allow`, returns `403` for `block` or auto-ban,
-and returns `429` with `Retry-After` for `limit`.
 
 ### Next.js
 
 ```ts
-// middleware.ts
-import { radixipNext } from "radixip/middleware";
+// middleware.ts  (project root — applies before every page and API route)
+import { radixipNext } from 'radixip/middleware';
 
 export default radixipNext({
-  configPath: "config/radixip.yaml",
+  configPath: 'config/radixip.yaml',
+  // Provide resolveIp when behind a trusted proxy:
+  // resolveIp: (req) => req.headers.get('x-real-ip'),
 });
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
 };
 ```
 
-For deployments behind a proxy, provide a resolver that implements the
-deployment's trusted-hop rules. The adapter returns standard Web `Response`
-objects, so it can be used in the Node runtime. The native addon is not
-available in the Next.js Edge Runtime; use a Node runtime route or a Node
-middleware deployment.
+> **Edge Runtime:** The `radixip` native addon is a compiled Node.js module. It cannot run in the Next.js Edge Runtime. Set `export const runtime = 'nodejs'` on the middleware file or use a Node-hosted deployment target.
 
 ### TanStack Start
 
-TanStack Start uses the Web request/response model, so the adapter follows the
-same shape as Next.js:
+TanStack Start uses the same Web `Request`/`Response` model as Next.js:
 
 ```ts
-import { radixipTanStackStart } from "radixip/middleware";
+// app/middleware.ts
+import { radixipTanStackStart } from 'radixip/middleware';
 
-const radixipMiddleware = radixipTanStackStart({
-  configPath: "config/radixip.yaml",
+export const radixipGate = radixipTanStackStart({
+  configPath: 'config/radixip.yaml',
+  resolveIp: (request) => request.headers.get('x-real-ip'),
 });
 ```
 
-Register `radixipMiddleware` through the TanStack Start request middleware
-hook used by the version of Start in your application. Supply `resolveIp` for
-trusted ingress proxies. Keep the policy instance at module or application
-scope, not inside the request function.
+Register `radixipGate` through the TanStack Start request middleware hook for your Start version. Keep the policy at module scope — never construct `RadixPolicy.fromYaml(...)` inside the request handler.
 
-### Fastify and other Node frameworks
+### Fastify
 
-There is no need to create another native limiter for Fastify. Use one
-`RadixPolicy` and call it from an `onRequest` or `preHandler` hook:
+Two usage styles are available:
+
+**Hook style** — direct `preHandler` registration:
 
 ```js
-const { RadixPolicy } = require("radixip");
-const policy = RadixPolicy.fromYaml("config/radixip.yaml");
+const fastify = require('fastify')();
+const { radixipFastify } = require('radixip/middleware');
 
-fastify.addHook("onRequest", async (request, reply) => {
-  const result = policy.checkIp(request.ip);
-  if (result.decision === "block") {
-    return reply.code(403).send({ error: "blocked" });
-  }
-  if (result.decision === "limit") {
-    return reply
-      .header("Retry-After", result.retryAfterSeconds || 1)
-      .code(429)
-      .send({ error: "rate limited" });
-  }
-});
+fastify.addHook('preHandler', radixipFastify({
+  configPath: 'config/radixip.yaml',
+}));
+
+fastify.get('/', async () => ({ ok: true }));
+fastify.listen({ port: 3000 });
 ```
+
+**Plugin style** — registers the hook globally and decorates the instance with `fastify.radixip.check(ip)` for manual use on specific routes:
+
+```js
+const { radixipFastifyPlugin } = require('radixip/middleware');
+
+fastify.register(radixipFastifyPlugin, {
+  configPath: 'config/radixip.yaml',
+  global: true,  // default; set false to only use fastify.radixip.check manually
+});
+
+// Manual check on a specific route:
+fastify.get('/admin', {
+  preHandler: async (request, reply) => {
+    const result = fastify.radixip.check(request.ip);
+    if (result.decision !== 'allow') {
+      return reply.status(403).send({ error: 'blocked' });
+    }
+  },
+}, async () => ({ admin: true }));
+```
+
+---
 
 ## Python Middleware
 
-Install the optional framework dependency in the application environment:
-
 ```bash
-pip install "radixip[fastapi]"
+pip install radixip
+# Framework packages remain your application's dependency:
+pip install fastapi uvicorn   # or flask, django, etc.
 ```
 
-### FastAPI
+### FastAPI / Starlette
 
 ```python
 from fastapi import FastAPI
@@ -375,6 +582,8 @@ from radixip import RadixPolicy
 from radixip.middleware import RadixIPMiddleware
 
 app = FastAPI()
+
+# Create once at startup — the policy object is expensive to build.
 policy = RadixPolicy.from_yaml("config/radixip.yaml")
 
 app.add_middleware(RadixIPMiddleware, policy=policy)
@@ -384,130 +593,111 @@ async def root():
     return {"ok": True}
 ```
 
-The default middleware uses `request.client.host` and does not trust forwarded
-headers. Provide a resolver for a trusted ingress:
+The default IP extractor reads `request.client.host` (the direct peer address). For deployments behind a trusted ingress proxy, supply a `resolve_ip` function:
 
 ```python
 def resolve_ip(request):
-    # Only do this after authenticating the proxy chain.
-    return request.headers.get("x-forwarded-for", "").split(",")[0].strip()
+    # Only after the ingress proxy has been authenticated and re-written the header.
+    xff = request.headers.get("x-forwarded-for", "")
+    return xff.split(",")[0].strip() or None
 
-app.add_middleware(
-    RadixIPMiddleware,
-    policy=policy,
-    resolve_ip=resolve_ip,
-)
+app.add_middleware(RadixIPMiddleware, policy=policy, resolve_ip=resolve_ip)
 ```
 
-### Flask, Django, and other Python frameworks
+`RadixIPMiddleware` also works with plain Starlette — add it with `Starlette(middleware=[...])` using the same `RadixIPMiddleware` class.
 
-Use the same process-level policy object in the framework's request hook:
+### Flask
 
 ```python
-result = policy.check_ip(client_ip)
-if result["decision"] == "block":
-    return {"error": "blocked"}, 403
-if result["decision"] == "limit":
-    return {"error": "rate limited"}, 429, {
-        "Retry-After": str(result["retry_after_seconds"] or 1)
-    }
+from flask import Flask
+from radixip import RadixPolicy
+from radixip.middleware import make_flask_hook
+
+app = Flask(__name__)
+policy = RadixPolicy.from_yaml("config/radixip.yaml")
+
+# Runs before every request. Returning a Response short-circuits the handler.
+app.before_request(make_flask_hook(policy))
+
+@app.get("/")
+def index():
+    return {"ok": True}
 ```
 
-This keeps enforcement behavior identical across FastAPI, Flask, Django, and
-custom ASGI/WSGI adapters.
+Custom IP resolver for Flask (e.g. behind nginx):
 
-## Decision and Status Mapping
+```python
+def resolve_ip(request):
+    return request.headers.get("X-Real-IP") or request.remote_addr
 
-All built-in adapters use the same policy result:
+app.before_request(make_flask_hook(policy, resolve_ip=resolve_ip))
+```
 
-| Policy result | HTTP behavior | gRPC behavior |
-|---|---|---|
-| `allow` | Continue to the next handler | Invoke the RPC handler |
-| `block` | `403 Forbidden` | `PermissionDenied` |
-| `limit` | `429 Too Many Requests` plus `Retry-After` | `ResourceExhausted` plus retry metadata |
-| `bad_request` | `400 Bad Request` | `InvalidArgument` |
+### Django
 
-Auto-banned clients use the block response because the temporary ban is
-enforced by the same policy path. Do not add a second local limiter in the
-framework adapter: doing so can consume tokens twice and make behavior diverge
-between languages.
+Add `RadixIPDjangoMiddleware` early in `settings.MIDDLEWARE` and point it at a pre-built policy:
+
+```python
+# settings.py
+from radixip import RadixPolicy
+
+RADIXIP_POLICY = RadixPolicy.from_yaml("config/radixip.yaml")
+# Optional: RADIXIP_RESOLVE_IP = lambda request: request.META.get("HTTP_X_REAL_IP")
+
+MIDDLEWARE = [
+    "radixip.middleware.RadixIPDjangoMiddleware",   # must come first
+    "django.middleware.security.SecurityMiddleware",
+    # ...
+]
+```
+
+Alternatively, pass the config path and let the middleware load it once:
+
+```python
+RADIXIP_CONFIG_PATH = "config/radixip.yaml"
+```
+
+### Low-level: direct policy call
+
+Every built-in adapter calls the same two methods. For any framework not covered above:
+
+```python
+result = policy.check_ip(client_ip)   # returns dict
+
+decision = result["decision"]          # "allow" | "block" | "auto_ban" | "limit" | "bad_request"
+retry_after = result["retry_after_seconds"]  # int, relevant when decision == "limit"
+
+if decision == "allow":
+    pass  # continue
+elif decision == "limit":
+    return {"error": "rate limited"}, 429, {"Retry-After": str(retry_after or 1)}
+elif decision in ("block", "auto_ban"):
+    return {"error": "blocked"}, 403
+else:
+    return {"error": "invalid client IP"}, 400
+```
+
+---
 
 ## Native Policy and FFI Boundary
 
-The Rust policy engine owns the expensive shared state:
+The Rust policy engine owns all shared state:
 
-- radix-tree blocklist lookups
-- token-bucket maps and atomic updates
-- route-trie matching
-- violation windows and auto-ban state
-- configuration validation
+- Radix-tree blocklist lookups (~60 ns)
+- Token-bucket maps and atomic updates (~200 ns)
+- Route-trie path matching
+- Violation sliding windows and auto-ban injection
+- Configuration validation and hot-swap
 
-Python and Node call the native policy binding with one IP and receive a small
-decision object. C and C++ can use the packed-IP policy ABI in
-`lib/rust/ffi/radixip_policy.h`. The request path should not cross the
-boundary with YAML, JSON, or a newly allocated policy object on every request.
+Python and Node call the native binding with one IP string and receive a small decision object. The request path must not cross the FFI boundary with a YAML parse, a JSON decode, or a newly allocated policy object — create the `RadixPolicy` once at startup and reuse it for every request.
 
-## gRPC Interceptors
+C and C++ can use the packed-IP policy ABI directly from `lib/rust/ffi/radixip_policy.h`.
 
-### Go gRPC Interceptor
-
-```go
-package main
-
-import (
-	"log"
-	"google.golang.org/grpc"
-	radixipgrpc "github.com/Mwangi-Derrick/radixip/lib/go/adapters/grpc-interceptor"
-)
-
-func main() {
-	unary, stream, stop, err := radixipgrpc.NewFromYAML("radixip.yaml", engineAdapter)
-	if err != nil {
-		log.Fatalf("Failed to initialize RadixIP gRPC interceptor: %v", err)
-	}
-	defer stop()
-
-	srv := grpc.NewServer(
-		grpc.UnaryInterceptor(unary),
-		grpc.StreamInterceptor(stream),
-	)
-	// Register services and serve...
-}
-```
-
-### Rust gRPC (Tonic) Interceptor
-
-```rust
-use radixip_grpc_interceptor::from_yaml::{GrpcWatchedRadixIpInterceptor, GrpcWatchedRadixIpLayer};
-use radixip_policy::ConfigWatcher;
-use std::sync::Arc;
-
-#[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let watcher = Arc::new(ConfigWatcher::new("radixip.yaml")?);
-    let engine = Arc::new(my_radix_engine);
-
-    // Option A: Tonic Interceptor (metadata-only)
-    let interceptor = GrpcWatchedRadixIpInterceptor::new(watcher.clone(), engine.clone());
-    let svc = tonic::service::interceptor(my_grpc_service, interceptor);
-
-    // Option B: Tower Layer
-    let layer = GrpcWatchedRadixIpLayer::new(watcher, engine);
-    tonic::transport::Server::builder()
-        .layer(layer)
-        .add_service(my_grpc_service)
-        .serve(addr)
-        .await?;
-
-    Ok(())
-}
-```
+---
 
 ## 🐳 Docker Sidecar Deployment
 
-RadixIP can be deployed as an independent, high-performance sidecar service (like Kong or Prometheus).
-
-### Quick Start with Docker
+RadixIP can be deployed as an independent, high-performance sidecar service.
 
 ```bash
 docker run -d \
@@ -518,5 +708,4 @@ docker run -d \
   ghcr.io/mwangi-derrick/radixip/sidecar:latest
 ```
 
-When deployed in Kubernetes or Docker Compose, any modification to the mounted `radixip.yaml` volume is **automatically detected and hot-reloaded** by the background watcher without restarting the container.
-
+Any modification to the mounted `radixip.yaml` is **automatically hot-reloaded** by the background watcher without restarting the container.
