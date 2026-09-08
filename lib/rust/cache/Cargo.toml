@@ -19,3 +19,4 @@ tokio = { workspace = true, features = ["full"] }
 futures-util = { workspace = true }
 thiserror = { workspace = true }
 tracing = { workspace = true }
+ipnetwork = { workspace = true }
