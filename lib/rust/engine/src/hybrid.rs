@@ -5,7 +5,7 @@ use std::sync::Arc;
 use crate::config::RadixConfig;
 use crate::engine::EngineWrapper;
 #[cfg(feature = "redis")]
-use crate::redis::RedisClient;
+use radixip_cache::RedisClient;
 use crate::traits::RadixEngine;
 use crate::types::{EngineStats, Metadata};
 use ipnetwork::IpNetwork;

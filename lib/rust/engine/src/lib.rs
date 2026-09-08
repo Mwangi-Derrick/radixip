@@ -18,7 +18,7 @@ pub mod tree;
 pub mod types;
 
 #[cfg(feature = "redis")]
-pub mod redis;
+pub use radixip_cache as redis;
 
 #[cfg(feature = "ffi")]
 pub mod ffi;
