@@ -35,24 +35,23 @@ where
     }
 
     pub fn get(&self, ip: &IpAddr) -> Option<T> {
-        let mut remove = false;
-        let value = {
+        let should_remove = {
             let guard = self.cache.read().unwrap();
             let entry = guard.get(ip)?;
             if let Some(expires_at) = entry.expires_at {
-                if expires_at <= std::time::Instant::now() {
-                    remove = true;
-                    return None;
-                }
+                expires_at <= std::time::Instant::now()
+            } else {
+                false
             }
-            Some(entry.value.clone())
         };
 
-        if remove {
+        if should_remove {
             self.cache.write().unwrap().remove(ip);
+            return None;
         }
 
-        value
+        let guard = self.cache.read().unwrap();
+        guard.get(ip).map(|entry| entry.value.clone())
     }
 
     pub fn insert(&self, ip: IpAddr, value: T) {
