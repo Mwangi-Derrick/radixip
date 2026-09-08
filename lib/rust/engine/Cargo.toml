@@ -19,12 +19,15 @@ name = "radixip"
 [features]
 default = ["std", "redis"]
 std = []
-redis = ["dep:redis"]
+redis = ["dep:redis", "radixip_cache/redis"]
 ffi = []
 pyo3 = ["dep:pyo3"]
 node = ["dep:napi", "dep:napi-derive"]
 
 [dependencies]
+# Shared cache layer
+radixip_cache = { workspace = true }
+
 # Core dependencies
 ipnetwork = { workspace = true }
 serde = { workspace = true }
