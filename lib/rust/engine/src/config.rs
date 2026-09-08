@@ -1,7 +1,7 @@
 //! optional Runtime configuration for RadixIP
 
 #[cfg(feature = "redis")]
-use crate::redis::RedisConfig;
+use radixip_cache::RedisConfig;
 use crate::traits::{EngineVariant, NodeVariant};
 
 #[derive(Debug, Clone)]
