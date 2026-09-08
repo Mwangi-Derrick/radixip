@@ -5,11 +5,16 @@ use std::ffi::{CStr, CString};
 use std::net::IpAddr;
 use std::os::raw::{c_char, c_int};
 use std::ptr;
+use std::time::Duration;
 
 use ipnetwork::IpNetwork;
 
+use crate::config::RadixConfig;
 use crate::types::EngineStats;
-use crate::{Metadata, RadixEngine, new_balanced};
+use crate::{Metadata, RadixEngine, new};
+
+#[cfg(feature = "redis")]
+use radixip_cache::RedisConfig;
 
 /// Opaque handle to a RadixEngine
 #[repr(C)]
@@ -28,10 +33,35 @@ fn read_c_str(ptr: *const c_char) -> Option<String> {
 /// Create a new RadixEngine (blocks until complete)
 #[unsafe(no_mangle)]
 pub extern "C" fn radix_engine_new() -> *mut RadixEngineHandle {
-    // Create a runtime and block on the async operation
     let inner = tokio::runtime::Runtime::new()
         .unwrap()
-        .block_on(new_balanced());
+        .block_on(new(RadixConfig::new()));
+
+    Box::into_raw(Box::new(RadixEngineHandle { inner }))
+}
+
+#[cfg(feature = "redis")]
+#[unsafe(no_mangle)]
+pub extern "C" fn radix_engine_new_with_redis(
+    redis_url: *const c_char,
+    channel: *const c_char,
+) -> *mut RadixEngineHandle {
+    let redis_url = read_c_str(redis_url).unwrap_or_else(|| "redis://127.0.0.1:6379".to_string());
+    let channel = read_c_str(channel).unwrap_or_else(|| "radixip:updates".to_string());
+
+    let mut config = RadixConfig::new();
+    config.cache_enabled = true;
+    config.redis = Some(RedisConfig {
+        url: redis_url,
+        pool_size: 10,
+        connect_timeout: Duration::from_secs(5),
+        max_retries: 3,
+    });
+    config.redis_channel = channel;
+
+    let inner = tokio::runtime::Runtime::new()
+        .unwrap()
+        .block_on(new(config));
 
     Box::into_raw(Box::new(RadixEngineHandle { inner }))
 }
