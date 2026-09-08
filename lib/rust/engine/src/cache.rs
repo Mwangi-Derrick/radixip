@@ -2,17 +2,19 @@ use super::traits::*;
 use crate::lpm::network_contains_ip;
 use crate::types::{EngineStats, Metadata};
 use ipnetwork::IpNetwork;
-use radixip_cache::CacheConfig;
+use radixip_cache::{CacheConfig, RedisClient};
 use std::collections::HashMap;
 use std::net::IpAddr;
 use std::sync::{Arc, RwLock};
+
+pub use radixip_cache::CacheConfig;
 
 pub struct RadixCache {
     cache: RwLock<HashMap<IpAddr, Option<Metadata>>>,
     config: CacheConfig,
     engine: Arc<dyn RadixEngine>,
     #[cfg(feature = "redis")]
-    redis: Option<crate::redis::RedisClient>,
+    redis: Option<RedisClient>,
 }
 
 impl RadixCache {
@@ -29,7 +31,7 @@ impl RadixCache {
     pub fn new(
         config: CacheConfig,
         engine: Arc<dyn RadixEngine>,
-        redis: Option<crate::redis::RedisClient>,
+        redis: Option<RedisClient>,
     ) -> Self {
         let cache = Self {
             cache: RwLock::new(HashMap::new()),
@@ -128,7 +130,7 @@ impl CachedEngine {
     pub fn new(
         inner: Arc<dyn RadixEngine>,
         config: CacheConfig,
-        redis: Option<crate::redis::RedisClient>,
+        redis: Option<RedisClient>,
     ) -> Self {
         let cache = RadixCache::new(config, inner.clone(), redis);
         Self { inner, cache }
