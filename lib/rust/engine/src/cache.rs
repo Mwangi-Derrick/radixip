@@ -14,7 +14,7 @@ pub struct RadixCache {
     config: CacheConfig,
     engine: Arc<dyn RadixEngine>,
     #[cfg(feature = "redis")]
-    redis: Option<RedisClient>,
+    pub redis: Option<RedisClient>,
 }
 
 impl RadixCache {
