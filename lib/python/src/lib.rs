@@ -122,7 +122,7 @@ impl PyRadixEngine {
         max_entries: usize,
         ttl_seconds: Option<u64>,
         redis_url: Option<String>,
-        redis_channel: String,
+        redis_channel: &str,
     ) -> PyResult<Self> {
         let mut config = match variant.as_deref() {
             Some("standard") => {
@@ -154,7 +154,7 @@ impl PyRadixEngine {
                 connect_timeout: std::time::Duration::from_secs(5),
                 max_retries: 3,
             });
-            config.redis_channel = redis_channel;
+            config.redis_channel = redis_channel.to_string();
         }
 
         let inner = tokio::runtime::Builder::new_current_thread()
