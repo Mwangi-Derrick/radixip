@@ -2,6 +2,7 @@ use futures_util::StreamExt;
 use ipnetwork::IpNetwork;
 use redis::{AsyncCommands, Client, RedisError, aio::ConnectionManager};
 use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 use std::sync::Arc;
 use std::time::Duration;
 use tokio::sync::{Mutex, broadcast, mpsc};
@@ -91,6 +92,36 @@ impl RedisClient {
 
     pub fn get_sync_connection(&self) -> Result<redis::Connection> {
         self.inner.client.get_connection().map_err(RedisPubSubError::Redis)
+    }
+
+    pub fn get_sync(&self, key: &str) -> Result<Option<String>> {
+        let mut conn = self.get_sync_connection()?;
+        let value: Option<String> = redis::cmd("GET").arg(key).query(&mut conn)?;
+        Ok(value)
+    }
+
+    pub fn set_sync(&self, key: &str, value: &str) -> Result<()> {
+        let mut conn = self.get_sync_connection()?;
+        let _: () = redis::cmd("SET").arg(key).arg(value).query(&mut conn)?;
+        Ok(())
+    }
+
+    pub fn hgetall_sync(&self, key: &str) -> Result<HashMap<String, String>> {
+        let mut conn = self.get_sync_connection()?;
+        let entries: HashMap<String, String> = conn.hgetall(key)?;
+        Ok(entries)
+    }
+
+    pub fn hset_sync(&self, key: &str, field: &str, value: &str) -> Result<()> {
+        let mut conn = self.get_sync_connection()?;
+        let _: i32 = conn.hset(key, field, value)?;
+        Ok(())
+    }
+
+    pub fn hdel_sync(&self, key: &str, field: &str) -> Result<()> {
+        let mut conn = self.get_sync_connection()?;
+        let _: i32 = conn.hdel(key, field)?;
+        Ok(())
     }
 
     pub async fn publish(&self, channel: &str, message: &str) -> Result<()> {
