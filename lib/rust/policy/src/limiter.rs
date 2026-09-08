@@ -132,6 +132,7 @@ impl TokenBucketLimiter {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[allow(unused_imports)]
     use radixip_config::RateLimitConfigBuilder;
 
     fn limiter(capacity: u64, refill_rate: u64) -> TokenBucketLimiter {
