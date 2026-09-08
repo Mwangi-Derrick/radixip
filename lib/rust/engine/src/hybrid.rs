@@ -5,7 +5,7 @@ use std::sync::Arc;
 use crate::config::RadixConfig;
 use crate::engine::EngineWrapper;
 #[cfg(feature = "redis")]
-use radixip_cache::RedisClient;
+use radixip_cache::{RedisCacheUpdate, RedisClient};
 use crate::traits::RadixEngine;
 use crate::types::{EngineStats, Metadata};
 use ipnetwork::IpNetwork;
@@ -55,7 +55,6 @@ impl HybridEngine {
 
         #[cfg(feature = "redis")]
         if let Some(r) = &engine.redis {
-            // Boot-load the data plane from Redis
             if let Ok(entries) = r.hgetall_sync("radixip:entries") {
                 for (cidr, meta_json) in entries {
                     if let Ok(ipnet) = cidr.parse::<IpNetwork>() {
@@ -79,11 +78,32 @@ impl HybridEngine {
             let data_plane = Arc::new(self.data_plane.clone());
 
             tokio::spawn(async move {
-                if let Err(e) = redis_clone
-                    .subscribe_engine_updates(&channel, data_plane)
-                    .await
-                {
-                    eprintln!("HybridEngine Redis sync stopped: {}", e);
+                let (mut rx, _handle) = match redis_clone.subscribe_to_channel(&channel).await {
+                    Ok(v) => v,
+                    Err(err) => {
+                        eprintln!("HybridEngine Redis sync stopped: {}", err);
+                        return;
+                    }
+                };
+
+                while let Some(msg) = rx.recv().await {
+                    let Ok(update) = serde_json::from_str::<RedisCacheUpdate>(&msg.payload) else {
+                        continue;
+                    };
+
+                    match update {
+                        RedisCacheUpdate::Insert { prefix, metadata } => {
+                            if let Ok(meta) = serde_json::from_value::<Metadata>(metadata) {
+                                let _ = data_plane.insert(prefix, meta);
+                            }
+                        }
+                        RedisCacheUpdate::Remove { prefix } => {
+                            let _ = data_plane.remove(&prefix);
+                        }
+                        RedisCacheUpdate::Clear => {
+                            data_plane.clear();
+                        }
+                    }
                 }
             });
         }
@@ -101,7 +121,11 @@ impl RadixEngine for HybridEngine {
             if let Ok(json_data) = serde_json::to_string(&metadata) {
                 let _ = redis.hset_sync("radixip:entries", &prefix.to_string(), &json_data);
             }
-            let _ = redis.publish_insert(&self.channel, prefix, metadata);
+            let update = RedisCacheUpdate::Insert {
+                prefix: prefix.clone(),
+                metadata: serde_json::to_value(&metadata).unwrap_or_default(),
+            };
+            let _ = redis.publish_json(&self.channel, &update);
         } else {
             let _ = self.data_plane.insert(prefix, metadata);
         }
@@ -119,7 +143,8 @@ impl RadixEngine for HybridEngine {
         #[cfg(feature = "redis")]
         if let Some(redis) = &self.redis {
             let _ = redis.hdel_sync("radixip:entries", &prefix.to_string());
-            let _ = redis.publish_remove(&self.channel, prefix.clone());
+            let update = RedisCacheUpdate::Remove { prefix: prefix.clone() };
+            let _ = redis.publish_json(&self.channel, &update);
         } else {
             let _ = self.data_plane.remove(prefix);
         }
@@ -135,7 +160,8 @@ impl RadixEngine for HybridEngine {
         self.control_plane.clear();
         #[cfg(feature = "redis")]
         if let Some(redis) = &self.redis {
-            let _ = redis.publish_clear(&self.channel);
+            let update = RedisCacheUpdate::Clear;
+            let _ = redis.publish_json(&self.channel, &update);
         } else {
             self.data_plane.clear();
         }
