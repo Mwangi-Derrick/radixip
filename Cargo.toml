@@ -1,6 +1,7 @@
 [workspace]
 resolver = "2"
 members = [
+    "lib/rust/cache",
     "lib/rust/engine",         # Core Rust implementation
     "lib/rust/config",
     "lib/rust/policy",
@@ -31,6 +32,7 @@ categories = ["network-programming", "caching", "data-structures"]
 [workspace.dependencies]
 # Core
 radixip_rs = { path = "lib/rust/engine", version = "1.1.1" }
+radixip_cache = { path = "lib/rust/cache", version = "0.1.0" }
 
 actix-web = "4.0"
 axum = "0.7"
