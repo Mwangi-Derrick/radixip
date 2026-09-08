@@ -1,6 +1,6 @@
 use futures_util::StreamExt;
 use ipnetwork::IpNetwork;
-use redis::{AsyncCommands, Client, RedisError, aio::ConnectionManager};
+use redis::{AsyncCommands, Client, Commands, RedisError, aio::ConnectionManager};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::sync::Arc;
