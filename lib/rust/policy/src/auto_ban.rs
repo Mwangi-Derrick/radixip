@@ -7,7 +7,7 @@
 //! removes them from the engine.
 
 use std::collections::HashMap;
-use std::net::{IpAddr, Ipv4Addr};
+use std::net::IpAddr;
 use std::sync::{Arc, Mutex};
 use std::time::{Duration, Instant};
 
@@ -31,7 +31,9 @@ struct Inner {
 
 impl Inner {
     fn prune_violations(&mut self, ip: IpAddr) {
-        let cutoff = Instant::now().checked_sub(self.window).unwrap_or(Instant::now());
+        let cutoff = Instant::now()
+            .checked_sub(self.window)
+            .unwrap_or(Instant::now());
         if let Some(v) = self.violations.get_mut(&ip) {
             v.retain(|&t| t >= cutoff);
         }
@@ -151,11 +153,11 @@ async fn sweeper(inner: Arc<Mutex<Inner>>, engine: Arc<Box<dyn RadixEngine>>) {
 /// Build a /32 (IPv4) or /128 (IPv6) host network for engine insertion.
 fn host_prefix(ip: IpAddr) -> IpNetwork {
     match ip {
-        IpAddr::V4(v4) => IpNetwork::V4(
-            ipnetwork::Ipv4Network::new(v4, 32).expect("32-bit mask always valid"),
-        ),
-        IpAddr::V6(v6) => IpNetwork::V6(
-            ipnetwork::Ipv6Network::new(v6, 128).expect("128-bit mask always valid"),
-        ),
+        IpAddr::V4(v4) => {
+            IpNetwork::V4(ipnetwork::Ipv4Network::new(v4, 32).expect("32-bit mask always valid"))
+        }
+        IpAddr::V6(v6) => {
+            IpNetwork::V6(ipnetwork::Ipv6Network::new(v6, 128).expect("128-bit mask always valid"))
+        }
     }
 }
