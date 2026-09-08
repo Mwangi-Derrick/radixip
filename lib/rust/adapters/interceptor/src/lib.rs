@@ -51,6 +51,7 @@ use radixip_policy::{PolicyDecision, PolicyEngine};
 #[derive(Clone)]
 pub struct RadixIpInterceptor {
     engine: Arc<PolicyEngine>,
+    #[allow(dead_code)]
     responses: Arc<ResponseConfig>,
 }
 
