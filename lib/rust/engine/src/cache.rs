@@ -2,15 +2,10 @@ use super::traits::*;
 use crate::lpm::network_contains_ip;
 use crate::types::{EngineStats, Metadata};
 use ipnetwork::IpNetwork;
+use radixip_cache::CacheConfig;
 use std::collections::HashMap;
 use std::net::IpAddr;
 use std::sync::{Arc, RwLock};
-
-// Cache configuration between redis and engine
-pub struct CacheConfig {
-    pub max_entries: usize,
-    pub ttl_seconds: Option<u64>,
-}
 
 pub struct RadixCache {
     cache: RwLock<HashMap<IpAddr, Option<Metadata>>>,
