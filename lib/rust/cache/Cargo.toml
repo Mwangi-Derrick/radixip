@@ -1,5 +1,5 @@
 [package]
-name = "radixip-cache"
+name = "radixip_cache"
 version = "0.1.0"
 edition = "2021"
 description = "Shared cache and Redis sync primitives for RadixIP"
