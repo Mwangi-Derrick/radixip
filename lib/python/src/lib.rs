@@ -115,9 +115,16 @@ impl PyRadixEngine {
     /// variant : str, optional
     ///     One of "standard", "concurrent", "lockfree", "adaptive".
     #[new]
-    #[pyo3(signature = (variant=None))]
-    fn new(variant: Option<String>) -> PyResult<Self> {
-        let config = match variant.as_deref() {
+    #[pyo3(signature = (variant=None, cache=true, max_entries=10000, ttl_seconds=None, redis_url=None, redis_channel="radixip:updates"))]
+    fn new(
+        variant: Option<String>,
+        cache: bool,
+        max_entries: usize,
+        ttl_seconds: Option<u64>,
+        redis_url: Option<String>,
+        redis_channel: String,
+    ) -> PyResult<Self> {
+        let mut config = match variant.as_deref() {
             Some("standard") => {
                 let mut c = RadixConfig::new();
                 c.engine_variant = radixip::EngineVariant::Standard;
@@ -136,7 +143,20 @@ impl PyRadixEngine {
             _ => RadixConfig::memory_efficient(),
         };
 
-        // Block on the async constructor
+        config.cache_enabled = cache;
+        config.cache_max_entries = max_entries;
+        config.cache_ttl_seconds = ttl_seconds;
+
+        if let Some(url) = redis_url {
+            config.redis = Some(radixip::redis::RedisConfig {
+                url,
+                pool_size: 10,
+                connect_timeout: std::time::Duration::from_secs(5),
+                max_retries: 3,
+            });
+            config.redis_channel = redis_channel;
+        }
+
         let inner = tokio::runtime::Builder::new_current_thread()
             .enable_all()
             .build()
