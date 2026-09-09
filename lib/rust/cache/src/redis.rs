@@ -151,19 +151,14 @@ impl RedisClient {
         let channel_name = channel.to_string();
         let shutdown_rx = self.inner.shutdown_tx.subscribe();
 
+        let mut pubsub = client.get_async_pubsub().await.map_err(RedisPubSubError::Redis)?;
+        pubsub
+            .subscribe(&channel_name)
+            .await
+            .map_err(RedisPubSubError::Redis)?;
+
         let handle = tokio::spawn(async move {
             let mut shutdown = shutdown_rx;
-            let mut pubsub = match client.get_async_pubsub().await {
-                Ok(pubsub) => pubsub,
-                Err(error) => {
-                    error!("Failed to create Redis Pub/Sub connection: {}", error);
-                    return;
-                }
-            };
-            if let Err(error) = pubsub.subscribe(&channel_name).await {
-                error!("Failed to subscribe to {}: {}", channel_name, error);
-                return;
-            }
             let mut stream = pubsub.on_message();
 
             loop {
@@ -204,19 +199,14 @@ impl RedisClient {
         let channel_name = channel.to_string();
         let shutdown_rx = self.inner.shutdown_tx.subscribe();
 
+        let mut pubsub = client.get_async_pubsub().await.map_err(RedisPubSubError::Redis)?;
+        pubsub
+            .subscribe(&channel_name)
+            .await
+            .map_err(RedisPubSubError::Redis)?;
+
         let handle = tokio::spawn(async move {
             let mut shutdown = shutdown_rx;
-            let mut pubsub = match client.get_async_pubsub().await {
-                Ok(pubsub) => pubsub,
-                Err(error) => {
-                    error!("Failed to create Redis Pub/Sub connection: {}", error);
-                    return;
-                }
-            };
-            if let Err(error) = pubsub.subscribe(&channel_name).await {
-                error!("Failed to subscribe to {}: {}", channel_name, error);
-                return;
-            }
             let mut stream = pubsub.on_message();
 
             loop {
