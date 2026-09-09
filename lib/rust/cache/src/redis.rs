@@ -46,9 +46,12 @@ pub struct RedisClient {
 }
 
 struct RedisClientInner {
+    #[allow(unused)]
     client: Client,
     connection_manager: Mutex<ConnectionManager>,
+    #[allow(unused)]
     config: RedisConfig,
+    #[allow(unused)]
     pubsub_sender: broadcast::Sender<PubSubMessage>,
     shutdown_tx: broadcast::Sender<()>,
 }
