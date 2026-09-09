@@ -63,129 +63,15 @@ _, found := radixEngine.Match(netip.MustParseAddr("192.168.1.100"))
 redis.Publish("security:blocklist", "192.168.1.0/24")
 ```
 
-## 🔄 Redis-backed cache and sync examples
+## 🔄 Redis-backed cache sync
 
-Start Redis locally:
+The project supports a local-first L1 cache plus Redis-backed L2 sync for multi-instance invalidation and update propagation.
 
 ```bash
 docker compose up -d redis
 ```
 
-### Rust: shared Redis cache + sync
-
-```rust
-use ipnetwork::IpNetwork;
-use radixip::{Metadata, RadixConfig, RadixEngine};
-
-#[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let mut config = RadixConfig::new();
-    config.cache_enabled = true;
-    config.cache_max_entries = 50_000;
-    config.cache_ttl_seconds = Some(3600);
-    config.redis = Some(radixip::redis::RedisConfig {
-        url: "redis://127.0.0.1:6379".to_string(),
-        pool_size: 10,
-        connect_timeout: std::time::Duration::from_secs(5),
-        max_retries: 3,
-    });
-    config.redis_channel = "radixip:updates".to_string();
-
-    let engine = radixip::new(config).await;
-    let prefix: IpNetwork = "10.0.0.0/8".parse()?;
-    engine.insert(prefix, Metadata::new("allow"))?;
-
-    let ip = "10.0.0.42".parse()?;
-    let result = engine.lookup(&ip);
-    println!("match: {:?}", result);
-    Ok(())
-}
-```
-
-The shared cache layer also supports direct Redis operations when you need to sync state across processes:
-
-```rust
-use radixip::redis::{RedisCacheUpdate, RedisClient, RedisConfig};
-
-#[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let client = RedisClient::new(RedisConfig::default()).await?;
-
-    let prefix: ipnetwork::IpNetwork = "172.16.0.0/16".parse()?;
-    let update = RedisCacheUpdate::Insert {
-        prefix,
-        metadata: serde_json::json!({
-            "value": "allow",
-            "attributes": { "region": "eu-west" }
-        }),
-    };
-
-    client.publish_json("radixip:updates", &update).await?;
-    let value = client.get_sync("radixip:lookup:172.16.0.10")?;
-    println!("value: {:?}", value);
-    Ok(())
-}
-```
-
-### Python: enable local Redis-backed cache
-
-```python
-from radixip import RadixEngine
-
-engine = RadixEngine(
-    variant="standard",
-    cache=True,
-    max_entries=50000,
-    ttl_seconds=3600,
-    redis_url="redis://127.0.0.1:6379",
-    redis_channel="radixip:updates",
-)
-
-engine.insert("10.0.0.0/8", {"value": "allow", "attributes": {"region": "us-east"}})
-match = engine.lookup("10.0.0.42")
-print(match)
-```
-
-### Node.js: configure cache and Redis sync
-
-```javascript
-const { RadixIP } = require('radixip');
-
-const engine = new RadixIP({
-  variant: 'concurrent',
-  cache_enabled: true,
-  cache_max_entries: 50000,
-  cache_ttl_seconds: 3600,
-  redis_url: 'redis://127.0.0.1:6379',
-  redis_channel: 'radixip:updates',
-});
-
-engine.insert('10.0.0.0/8', { value: 'allow', attributes: { region: 'us-east' } });
-console.log(engine.lookup('10.0.0.42'));
-```
-
-### C/C++ FFI: create a Redis-aware engine
-
-```c
-#include "radixip.h"
-
-int main(void) {
-    RadixEngine *engine = radix_engine_new_with_redis(
-        "redis://127.0.0.1:6379",
-        "radixip:updates"
-    );
-
-    radix_engine_insert(engine, "10.0.0.0/8", "{\"value\":\"allow\"}");
-    char *result = radix_engine_match(engine, "10.0.0.42");
-    printf("%s\n", result ? result : "null");
-
-    radix_engine_free_string(result);
-    radix_engine_free(engine);
-    return 0;
-}
-```
-
-This path keeps lookups in local memory while Redis is used for cross-node cache invalidation and update propagation.
+For a minimal end-to-end example, see [docs/guides/redis-cache-sync.md](./docs/guides/redis-cache-sync.md).
 
 # RadixIP Documentation
 
