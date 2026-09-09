@@ -86,15 +86,15 @@ only describe the local `Match()` call, not the time to propagate an update.
 
 ## Cross-language Redis sync
 
-The Redis layer is intentionally shared across bindings rather than reimplemented in each language runtime. The Rust core defines the canonical cache and Pub/Sub update payloads, while the Python, Node, and C/FFI surfaces expose the same `redis_url` and `redis_channel` configuration so they can participate in the same distributed update stream.
+The Redis layer is intentionally shared across language bindings rather than reimplemented separately in each runtime. The Rust core defines the canonical cache and Pub/Sub update payloads, while the Python, Node, and C/FFI surfaces expose the same Redis configuration so they can participate in the same distributed update stream.
 
-In practice the flow is the same everywhere:
+The flow is consistent everywhere:
 
 1. an instance writes a subnet or metadata record to Redis
-2. it publishes a structured update payload on the configured channel
-3. all other running instances receive the event and apply the same local tree mutation
+2. it publishes a structured update on the configured channel
+3. other running instances receive the event and apply the same local tree change
 
-That keeps the L1 read path local and fast, while the L2 layer stays consistent across processes without requiring per-language custom sync logic.
+This preserves the key design property: the L1 read path stays local and fast, while the L2 layer provides shared invalidation and propagation without forcing every lookup through Redis.
 
 ## Concurrency model
 

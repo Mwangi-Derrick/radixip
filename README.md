@@ -65,13 +65,13 @@ redis.Publish("security:blocklist", "192.168.1.0/24")
 
 ## 🔄 Redis-backed cache sync
 
-The project supports a local-first L1 cache plus Redis-backed L2 sync for multi-instance invalidation and update propagation.
+RadixIP keeps the hot read path local and fast, while Redis provides cross-instance cache invalidation and update propagation.
 
 ```bash
 docker compose up -d redis
 ```
 
-For a minimal end-to-end example, see [docs/guides/redis-cache-sync.md](./docs/guides/redis-cache-sync.md).
+This lets each process keep serving from its own in-memory tree while still sharing subnet updates across nodes. For a minimal end-to-end example, see [docs/guides/redis-cache-sync.md](./docs/guides/redis-cache-sync.md).
 
 # RadixIP Documentation
 
