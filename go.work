@@ -5,6 +5,7 @@ use (
 	./cmd/grpc-probe-go
 	./cmd/grpc-server-go
 	./cmd/kitchen-sink-go
+	./cmd/e2e-orchestrator
 	./lib/go/adapters/echo
 	./lib/go/adapters/fiber
 	./lib/go/adapters/gin
