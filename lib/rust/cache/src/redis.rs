@@ -229,6 +229,10 @@ impl RedisClient {
             .await
     }
 
+    pub async fn publish_clear(&self, channel: &str) -> Result<()> {
+        self.publish_json(channel, &RedisCacheUpdate::Clear).await
+    }
+
     pub async fn publish_remove(&self, channel: &str, prefix: IpNetwork) -> Result<()> {
         self.publish_json(channel, &RedisCacheUpdate::Remove { prefix })
             .await
