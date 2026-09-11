@@ -162,6 +162,13 @@ func main() {
 			Ports:   []int{8091, 8092},
 		},
 		{
+			Name:    "Node Sinks (Next.js)",
+			Dir:     filepath.Join(cwd, "cmd", "kitchen-sink-node"),
+			Command: "npm",
+			Args:    []string{"run", "start:next"}, // next start -p 8094
+			Ports:   []int{8094},
+		},
+		{
 			Name:    "Python (FastAPI)",
 			Dir:     filepath.Join(cwd, "cmd", "kitchen-sink-python"),
 			Command: "python", // Assume python is available and radixip is accessible in pythonpath
@@ -174,7 +181,7 @@ func main() {
 			Dir:     filepath.Join(cwd, "cmd", "kitchen-sink-python"),
 			Command: "python",
 			Args:    []string{"flask_app.py"},
-			Ports:   []int{8094},
+			Ports:   []int{8096}, // Changed to 8096 to avoid Next.js port conflict
 			Env:     []string{fmt.Sprintf("RADIXIP_CONFIG=%s", filepath.Join(cwd, "config", "radixip.yaml"))},
 		},
 		{
