@@ -1,7 +1,6 @@
 use futures_util::StreamExt;
 use ipnetwork::IpNetwork;
-use redis::{aio::ConnectionManager, AsyncCommands, Client, RedisError};
-use redis::{AsyncCommands, Client, Commands, RedisError, aio::ConnectionManager};
+use redis::{aio::ConnectionManager, AsyncCommands, Client, Commands, RedisError};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::sync::Arc;
@@ -167,7 +166,10 @@ impl RedisClient {
         let channel_name = channel.to_string();
         let shutdown_rx = self.inner.shutdown_tx.subscribe();
 
-        let mut pubsub = client.get_async_pubsub().await.map_err(RedisPubSubError::Redis)?;
+        let mut pubsub = client
+            .get_async_pubsub()
+            .await
+            .map_err(RedisPubSubError::Redis)?;
         pubsub
             .subscribe(&channel_name)
             .await
@@ -202,47 +204,6 @@ impl RedisClient {
         });
 
         Ok(handle)
-    }
-
-    /// Synchronous Set
-    pub fn set_sync(&self, key: &str, value: &str) -> Result<()> {
-        let mut conn = self.get_sync_connection()?;
-        let _: () = redis::cmd("SET").arg(key).arg(value).query(&mut conn)?;
-        Ok(())
-    }
-
-    /// Synchronous Get
-    pub fn get_sync(&self, key: &str) -> Result<Option<String>> {
-        let mut conn = self.get_sync_connection()?;
-        let result: Option<String> = redis::cmd("GET").arg(key).query(&mut conn)?;
-        Ok(result)
-    }
-
-    /// Synchronous HGetAll for boot-loading prefixes
-    /// Use this ONLY for initial boot-loading, NOT for incremental updates
-    pub fn hgetall_sync(&self, key: &str) -> Result<std::collections::HashMap<String, String>> {
-        let mut conn = self.get_sync_connection()?;
-        let result: std::collections::HashMap<String, String> =
-            redis::cmd("HGETALL").arg(key).query(&mut conn)?;
-        Ok(result)
-    }
-
-    /// Use this ONLY for initial boot-loading, NOT for incremental updates
-    pub fn hset_sync(&self, key: &str, field: &str, value: &str) -> Result<()> {
-        let mut conn = self.get_sync_connection()?;
-        let _: () = redis::cmd("HSET")
-            .arg(key)
-            .arg(field)
-            .arg(value)
-            .query(&mut conn)?;
-        Ok(())
-    }
-
-    /// Synchronous HDel
-    pub fn hdel_sync(&self, key: &str, field: &str) -> Result<()> {
-        let mut conn = self.get_sync_connection()?;
-        let _: () = redis::cmd("HDEL").arg(key).arg(field).query(&mut conn)?;
-        Ok(())
     }
 
     /// Publish an insert update for a prefix with JSON-serialized metadata.
@@ -304,7 +265,10 @@ impl RedisClient {
         let channel_name = channel.to_string();
         let shutdown_rx = self.inner.shutdown_tx.subscribe();
 
-        let mut pubsub = client.get_async_pubsub().await.map_err(RedisPubSubError::Redis)?;
+        let mut pubsub = client
+            .get_async_pubsub()
+            .await
+            .map_err(RedisPubSubError::Redis)?;
         pubsub
             .subscribe(&channel_name)
             .await
