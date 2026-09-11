@@ -4,11 +4,11 @@ use std::sync::Arc;
 
 use crate::config::RadixConfig;
 use crate::engine::EngineWrapper;
-#[cfg(feature = "redis")]
-use radixip_cache::RedisClient;
 use crate::traits::RadixEngine;
 use crate::types::{EngineStats, Metadata};
 use ipnetwork::IpNetwork;
+#[cfg(feature = "redis")]
+use radixip_cache::RedisClient;
 
 pub struct HybridEngine {
     control_plane: EngineWrapper,
@@ -79,7 +79,7 @@ impl HybridEngine {
             let data_plane = Arc::new(self.data_plane.clone());
 
             tokio::spawn(async move {
-                let handler = |update: radixip_cache::redis::RedisCacheUpdate| {
+                let handler = move |update: radixip_cache::redis::RedisCacheUpdate| {
                     let dp = data_plane.clone();
                     async move {
                         match update {
@@ -99,7 +99,10 @@ impl HybridEngine {
                         }
                     }
                 };
-                if let Err(e) = redis_clone.subscribe_engine_updates(&channel, handler).await {
+                if let Err(e) = redis_clone
+                    .subscribe_engine_updates(&channel, handler)
+                    .await
+                {
                     eprintln!("HybridEngine Redis sync stopped: {}", e);
                 }
             });
