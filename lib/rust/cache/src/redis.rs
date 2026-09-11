@@ -219,7 +219,6 @@ impl RedisClient {
     ///
     /// The `metadata` must be a `serde_json::Value` so this crate does not
     /// depend on the engine crate (which would create a cyclic dependency).
-    /// Callers should serialize `radixip::Metadata` with `serde_json::to_value`.
     pub async fn publish_insert(
         &self,
         channel: &str,
@@ -238,8 +237,7 @@ impl RedisClient {
     /// Subscribe and dispatch decoded `RedisCacheUpdate` events through a callback.
     ///
     /// Using a callback avoids importing engine traits here, preventing a
-    /// cyclic dependency. Callers in the engine crate close over their own
-    /// `Arc<dyn RadixEngine>` handle.
+    /// cyclic dependency.
     pub async fn subscribe_engine_updates<F, Fut>(
         &self,
         channel: &str,
@@ -254,8 +252,7 @@ impl RedisClient {
                 Ok(update) => on_update(update),
                 Err(e) => {
                     error!("Failed to decode Redis cache update: {}", e);
-                    // Return a no-op future for the error case.
-                    on_update(RedisCacheUpdate::Clear) // won't matter, but satisfies type
+                    on_update(RedisCacheUpdate::Clear)
                 }
             }
         })
