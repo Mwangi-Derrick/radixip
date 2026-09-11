@@ -53,4 +53,4 @@ def auth_post():
     return jsonify({"framework": "flask", "route": "auth-post"})
 
 if __name__ == "__main__":
-    app.run(port=8094)
+    app.run(port=8096)
