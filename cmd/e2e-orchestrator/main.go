@@ -1,7 +1,23 @@
+// E2E Orchestrator: Cross-platform test runner for RadixIP kitchen sinks.
+//
+// Replaces scripts/sequential_test.sh with a fully portable Go binary that:
+//   1. Downloads vegeta and ghz (self-contained, no system deps)
+//   2. Builds all kitchen sink binaries (Go, Rust, Node, Python)
+//   3. Spawns all framework servers as managed subprocesses
+//   4. Runs Phase 1 (route-trie rate limits), Phase 2 (auto-ban), Phase 3 (gRPC)
+//   5. Saves all results to files
+//
+// Usage:
+//   go run ./cmd/e2e-orchestrator [flags]
+//   go run ./cmd/e2e-orchestrator --skip-build --results-dir ./results
+
 package main
 
 import (
+	"bytes"
 	"context"
+	"encoding/json"
+	"flag"
 	"fmt"
 	"io"
 	"log"
@@ -10,212 +26,767 @@ import (
 	"os/exec"
 	"os/signal"
 	"path/filepath"
+	"runtime"
+	"strconv"
+	"strings"
 	"sync"
 	"syscall"
 	"time"
 )
 
-// Sink defines a background server process to be managed
-type Sink struct {
-	Name    string
-	Dir     string
-	Command string
-	Args    []string
-	Ports   []int
-	Env     []string
+// ---------------------------------------------------------------------------
+// Flags
+// ---------------------------------------------------------------------------
+
+var (
+	flagSkipBuild  = flag.Bool("skip-build", false, "Skip building binaries (assume they already exist)")
+	flagResultsDir = flag.String("results-dir", ".", "Directory to write result files into")
+	flagConfig     = flag.String("config", "config/radixip.yaml", "Path to radixip.yaml config file")
+	flagSinkOnly   = flag.Bool("sink-only", false, "Only start sinks, do not run tests (useful for manual testing)")
+	flagNodeOnly   = flag.Bool("with-node", false, "Also spawn Node.js sinks (requires npm)")
+	flagPythonOnly = flag.Bool("with-python", false, "Also spawn Python sinks (requires uvicorn/flask/django)")
+)
+
+// ---------------------------------------------------------------------------
+// Tool installation (vegeta + ghz)
+// ---------------------------------------------------------------------------
+
+type tool struct {
+	name    string
+	binPath string // path after installation
+	install func(ctx context.Context, binDir string) error
 }
 
-func (s *Sink) Start(ctx context.Context, wg *sync.WaitGroup) error {
-	cmd := exec.CommandContext(ctx, s.Command, s.Args...)
-	if s.Dir != "" {
-		cmd.Dir = s.Dir
+func vegetaInstallURL() (string, string) {
+	const version = "12.11.1"
+	var goos, goarch string
+	switch runtime.GOOS {
+	case "linux":
+		goos = "linux"
+	case "darwin":
+		goos = "darwin"
+	case "windows":
+		goos = "windows"
+	default:
+		goos = runtime.GOOS
 	}
-	cmd.Env = append(os.Environ(), s.Env...)
+	switch runtime.GOARCH {
+	case "amd64":
+		goarch = "amd64"
+	case "arm64":
+		goarch = "arm64"
+	default:
+		goarch = runtime.GOARCH
+	}
+	filename := fmt.Sprintf("vegeta_%s_%s_%s.tar.gz", version, goos, goarch)
+	url := fmt.Sprintf("https://github.com/tsenart/vegeta/releases/download/v%s/%s", version, filename)
+	return url, filename
+}
 
-	// Pipe output to stdout with prefix
-	stdout, err := cmd.StdoutPipe()
+func downloadAndExtract(ctx context.Context, url, destDir, binName string) error {
+	log.Printf("📥 Downloading %s from %s...", binName, url)
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	if err != nil {
 		return err
 	}
-	stderr, err := cmd.StderrPipe()
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return fmt.Errorf("download failed: %w", err)
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != 200 {
+		return fmt.Errorf("download failed with status %d", resp.StatusCode)
+	}
+
+	// Write to a temp file first
+	tmpFile := filepath.Join(destDir, binName+".tar.gz")
+	f, err := os.Create(tmpFile)
 	if err != nil {
 		return err
 	}
-
-	if err := cmd.Start(); err != nil {
-		return fmt.Errorf("failed to start %s: %w", s.Name, err)
+	if _, err = io.Copy(f, resp.Body); err != nil {
+		f.Close()
+		return err
 	}
+	f.Close()
 
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
-		go io.Copy(os.Stdout, stdout)
-		go io.Copy(os.Stderr, stderr)
-		cmd.Wait()
-		log.Printf("🛑 %s exited", s.Name)
-	}()
-
+	// Extract using `tar` (available on all platforms in modern versions)
+	cmd := exec.CommandContext(ctx, "tar", "-xzf", tmpFile, "-C", destDir, binName)
+	if out, err := cmd.CombinedOutput(); err != nil {
+		return fmt.Errorf("extract failed: %w\n%s", err, out)
+	}
+	os.Remove(tmpFile)
+	log.Printf("✅ %s installed to %s", binName, destDir)
 	return nil
 }
 
-func checkHealth(port int) bool {
-	client := http.Client{Timeout: 1 * time.Second}
-	resp, err := client.Get(fmt.Sprintf("http://localhost:%d/health", port))
+func installVegeta(ctx context.Context, binDir string) error {
+	url, _ := vegetaInstallURL()
+	binName := "vegeta"
+	if runtime.GOOS == "windows" {
+		binName = "vegeta.exe"
+	}
+	return downloadAndExtract(ctx, url, binDir, binName)
+}
+
+func installGhz(ctx context.Context, binDir string) error {
+	log.Println("📥 Installing ghz via `go install`...")
+	cmd := exec.CommandContext(ctx, "go", "install", "github.com/bojand/ghz/cmd/ghz@latest")
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	if err := cmd.Run(); err != nil {
+		return fmt.Errorf("go install ghz failed: %w", err)
+	}
+	// ghz is installed to $(go env GOPATH)/bin — find and copy to binDir
+	gopath, err := exec.CommandContext(ctx, "go", "env", "GOPATH").Output()
 	if err != nil {
-		return false
+		return fmt.Errorf("go env GOPATH failed: %w", err)
 	}
-	defer resp.Body.Close()
-	return resp.StatusCode == 200
+	ghzBin := "ghz"
+	if runtime.GOOS == "windows" {
+		ghzBin = "ghz.exe"
+	}
+	src := filepath.Join(strings.TrimSpace(string(gopath)), "bin", ghzBin)
+	dst := filepath.Join(binDir, ghzBin)
+	if src != dst {
+		data, err := os.ReadFile(src)
+		if err != nil {
+			return fmt.Errorf("ghz not found at %s: %w", src, err)
+		}
+		if err := os.WriteFile(dst, data, 0755); err != nil {
+			return err
+		}
+	}
+	log.Printf("✅ ghz installed to %s", binDir)
+	return nil
 }
 
-func waitForSinks(sinks []Sink, timeout time.Duration) error {
-	start := time.Now()
-	for {
-		if time.Since(start) > timeout {
-			return fmt.Errorf("timeout waiting for sinks to become healthy")
-		}
-
-		allHealthy := true
-		for _, s := range sinks {
-			for _, port := range s.Ports {
-				if !checkHealth(port) {
-					allHealthy = false
-					break
-				}
-			}
-			if !allHealthy {
-				break
-			}
-		}
-
-		if allHealthy {
-			return nil
-		}
-		time.Sleep(1 * time.Second)
+func ensureTools(ctx context.Context, binDir string) (vegetaBin, ghzBin string, err error) {
+	if err := os.MkdirAll(binDir, 0755); err != nil {
+		return "", "", err
 	}
+	vegetaBin = filepath.Join(binDir, "vegeta")
+	ghzBin = filepath.Join(binDir, "ghz")
+	if runtime.GOOS == "windows" {
+		vegetaBin += ".exe"
+		ghzBin += ".exe"
+	}
+
+	if _, err := os.Stat(vegetaBin); os.IsNotExist(err) {
+		if err := installVegeta(ctx, binDir); err != nil {
+			return "", "", fmt.Errorf("vegeta install: %w", err)
+		}
+	} else {
+		log.Printf("✅ vegeta already cached at %s", vegetaBin)
+	}
+
+	if _, err := os.Stat(ghzBin); os.IsNotExist(err) {
+		if err := installGhz(ctx, binDir); err != nil {
+			return "", "", fmt.Errorf("ghz install: %w", err)
+		}
+	} else {
+		log.Printf("✅ ghz already cached at %s", ghzBin)
+	}
+
+	return vegetaBin, ghzBin, nil
 }
 
-func buildArtifacts(ctx context.Context) error {
-	log.Println("🔨 Building Kitchen Sink Apps and Bindings...")
+// ---------------------------------------------------------------------------
+// Building
+// ---------------------------------------------------------------------------
 
-	cmds := []struct {
+func buildArtifacts(ctx context.Context, cwd string) error {
+	log.Println("🔨 Building Kitchen Sink Apps...")
+	steps := []struct {
 		name string
 		dir  string
 		cmd  string
 		args []string
 	}{
-		{"Go Sink", ".", "go", []string{"build", "-o", "bin/kitchen-sink-go", "cmd/kitchen-sink-go/main.go"}},
-		{"Rust Sink", ".", "cargo", []string{"build", "--bin", "kitchen-sink-rust", "--release"}},
-		// Optionally build PyO3 / N-API here if needed via maturin / npm run build
+		{"Go Sink", cwd, "go", []string{"build", "-o", filepath.Join(cwd, "bin", "kitchen-sink-go"), "./cmd/kitchen-sink-go/..."}},
+		{"Go gRPC Probe", cwd, "go", []string{"build", "-o", filepath.Join(cwd, "bin", "grpc-probe-go"), "./cmd/grpc-probe-go/..."}},
+		{"Rust Sink", cwd, "cargo", []string{"build", "--bin", "kitchen-sink-rust", "--release"}},
 	}
-
-	for _, c := range cmds {
-		log.Printf("Building %s...", c.name)
-		cmd := exec.CommandContext(ctx, c.cmd, c.args...)
-		cmd.Dir = c.dir
+	for _, s := range steps {
+		log.Printf("  Building %s...", s.name)
+		cmd := exec.CommandContext(ctx, s.cmd, s.args...)
+		cmd.Dir = s.dir
 		cmd.Stdout = os.Stdout
 		cmd.Stderr = os.Stderr
 		if err := cmd.Run(); err != nil {
-			return fmt.Errorf("failed to build %s: %w", c.name, err)
+			return fmt.Errorf("build %s: %w", s.name, err)
 		}
+		log.Printf("  ✅ %s done", s.name)
 	}
+	log.Println("✅ All builds complete")
 	return nil
 }
 
+// ---------------------------------------------------------------------------
+// Sink process management
+// ---------------------------------------------------------------------------
+
+type Sink struct {
+	Name    string
+	Cmd     string
+	Args    []string
+	Dir     string
+	Env     []string
+	Ports   []int
+	proc    *exec.Cmd
+}
+
+func (s *Sink) Start(ctx context.Context, wg *sync.WaitGroup) error {
+	s.proc = exec.CommandContext(ctx, s.Cmd, s.Args...)
+	s.proc.Dir = s.Dir
+	s.proc.Env = append(os.Environ(), s.Env...)
+	s.proc.Stdout = os.Stdout
+	s.proc.Stderr = os.Stderr
+	if err := s.proc.Start(); err != nil {
+		return fmt.Errorf("start %s: %w", s.Name, err)
+	}
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		s.proc.Wait()
+		log.Printf("🛑 %s exited", s.Name)
+	}()
+	return nil
+}
+
+func healthCheck(port int) bool {
+	c := &http.Client{Timeout: 1 * time.Second}
+	resp, err := c.Get(fmt.Sprintf("http://localhost:%d/health", port))
+	if err != nil {
+		return false
+	}
+	resp.Body.Close()
+	return resp.StatusCode == 200
+}
+
+func waitHealthy(sinks []Sink, timeout time.Duration) error {
+	deadline := time.Now().Add(timeout)
+	for time.Now().Before(deadline) {
+		all := true
+		for _, s := range sinks {
+			for _, p := range s.Ports {
+				if !healthCheck(p) {
+					all = false
+				}
+			}
+		}
+		if all {
+			return nil
+		}
+		time.Sleep(1 * time.Second)
+	}
+	// Report which ports are still unhealthy
+	var bad []string
+	for _, s := range sinks {
+		for _, p := range s.Ports {
+			if !healthCheck(p) {
+				bad = append(bad, fmt.Sprintf("%s:%d", s.Name, p))
+			}
+		}
+	}
+	return fmt.Errorf("timed out waiting for sinks: %s", strings.Join(bad, ", "))
+}
+
+// ---------------------------------------------------------------------------
+// Load testing (vegeta + ghz)
+// ---------------------------------------------------------------------------
+
+type VegetaReport struct {
+	Success     float64        `json:"success"`
+	StatusCodes map[string]int `json:"status_codes"`
+	Latencies   struct {
+		P50  int64 `json:"50th"`
+		P95  int64 `json:"95th"`
+		P99  int64 `json:"99th"`
+		Max  int64 `json:"max"`
+		Mean int64 `json:"mean"`
+	} `json:"latencies"`
+	Throughput float64 `json:"throughput"`
+	Requests   int64   `json:"requests"`
+}
+
+func runVegeta(ctx context.Context, vegetaBin, target, label, resultsDir string, rate int, duration time.Duration) (*VegetaReport, error) {
+	// Write targets file
+	targetsFile := filepath.Join(resultsDir, label+"_target.txt")
+	if err := os.WriteFile(targetsFile, []byte(target), 0644); err != nil {
+		return nil, err
+	}
+
+	attackArgs := []string{
+		"attack",
+		"-rate=" + strconv.Itoa(rate),
+		"-duration=" + duration.String(),
+		"-targets=" + targetsFile,
+	}
+
+	attack := exec.CommandContext(ctx, vegetaBin, attackArgs...)
+	report := exec.CommandContext(ctx, vegetaBin, "report", "-type=json")
+
+	pipe, err := attack.StdoutPipe()
+	if err != nil {
+		return nil, err
+	}
+	report.Stdin = pipe
+
+	var reportOut bytes.Buffer
+	report.Stdout = &reportOut
+	report.Stderr = os.Stderr
+
+	if err := report.Start(); err != nil {
+		return nil, err
+	}
+	if err := attack.Start(); err != nil {
+		return nil, err
+	}
+	if err := attack.Wait(); err != nil {
+		return nil, fmt.Errorf("vegeta attack: %w", err)
+	}
+	pipe.Close()
+	if err := report.Wait(); err != nil {
+		return nil, fmt.Errorf("vegeta report: %w", err)
+	}
+
+	// Save raw JSON
+	outFile := filepath.Join(resultsDir, label+"_result.json")
+	os.WriteFile(outFile, reportOut.Bytes(), 0644)
+
+	var result VegetaReport
+	if err := json.Unmarshal(reportOut.Bytes(), &result); err != nil {
+		return nil, fmt.Errorf("parse vegeta json: %w", err)
+	}
+	return &result, nil
+}
+
+type GhzReport struct {
+	Count         int            `json:"count"`
+	Total         float64        `json:"total"`
+	Average       float64        `json:"average"`
+	Fastest       float64        `json:"fastest"`
+	Slowest       float64        `json:"slowest"`
+	Rps           float64        `json:"rps"`
+	ErrorDistrib  map[string]int `json:"errorDistribution"`
+	StatusCodeDist map[string]int `json:"statusCodeDistribution"`
+}
+
+func runGhz(ctx context.Context, ghzBin, protoDir, port, ip, label, resultsDir string) (*GhzReport, error) {
+	outFile := filepath.Join(resultsDir, label+"_ghz.json")
+	args := []string{
+		"--insecure",
+		"--proto", filepath.Join(protoDir, "proto", "radixip", "v1", "radixip.proto"),
+		"--call", "radixip.v1.RadixService/Lookup",
+		"-n", "2000",
+		"-c", "64",
+		"-m", fmt.Sprintf(`{"x-forwarded-for":"%s"}`, ip),
+		"--format", "json",
+		"--output", outFile,
+		"localhost:" + port,
+	}
+	cmd := exec.CommandContext(ctx, ghzBin, args...)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	if err := cmd.Run(); err != nil {
+		// ghz exits non-zero when there are errors — that's expected for auto-ban tests
+		log.Printf("⚠️  ghz exited non-zero for %s (expected during auto-ban tests)", label)
+	}
+
+	data, err := os.ReadFile(outFile)
+	if err != nil {
+		return nil, fmt.Errorf("read ghz output: %w", err)
+	}
+	var report GhzReport
+	if err := json.Unmarshal(data, &report); err != nil {
+		return nil, fmt.Errorf("parse ghz json: %w", err)
+	}
+	return &report, nil
+}
+
+// ---------------------------------------------------------------------------
+// Test phases
+// ---------------------------------------------------------------------------
+
+type TestSummary struct {
+	Phase   string
+	Name    string
+	Port    int
+	Passed  bool
+	Details string
+}
+
+func phase1RouteTrie(ctx context.Context, vegetaBin, resultsDir string, summaries *[]TestSummary) {
+	log.Println("\n==========================================")
+	log.Println(" Phase 1: Route-Trie Specific Rate Limits")
+	log.Println("==========================================")
+
+	targets := []struct {
+		name string
+		port int
+		ip   string
+	}{
+		{"Gin (Go)", 8081, "203.0.113.1"},
+		{"Echo (Go)", 8082, "203.0.113.2"},
+		{"Fiber (Go)", 8083, "203.0.113.3"},
+		{"Axum (Rust)", 9081, "203.0.113.4"},
+		{"Actix (Rust)", 9082, "203.0.113.5"},
+		{"Express (Node)", 8091, "203.0.113.6"},
+		{"Fastify (Node)", 8092, "203.0.113.7"},
+		{"FastAPI (Python)", 8093, "203.0.113.8"},
+	}
+
+	for _, t := range targets {
+		log.Printf("\nTesting %s on port %d...", t.name, t.port)
+		label := fmt.Sprintf("p1_%s_auth", strings.ToLower(strings.ReplaceAll(t.name, " ", "_")))
+		target := fmt.Sprintf("POST http://localhost:%d/api/v1/auth\nX-Forwarded-For: %s\n", t.port, t.ip)
+		authReport, err := runVegeta(ctx, vegetaBin, target, label, resultsDir, 1000, 2*time.Second)
+		if err != nil {
+			log.Printf("⚠️  vegeta error for %s auth: %v", t.name, err)
+			*summaries = append(*summaries, TestSummary{Phase: "1", Name: t.name + " auth", Port: t.port, Passed: false, Details: err.Error()})
+			continue
+		}
+		status429 := authReport.StatusCodes["429"]
+		passed := status429 > 0 && authReport.Success < 0.1 // low success = mostly rate limited
+		details := fmt.Sprintf("success=%.3f 429=%d 200=%d", authReport.Success, status429, authReport.StatusCodes["200"])
+		log.Printf("  Auth (capacity=5): %s", details)
+		*summaries = append(*summaries, TestSummary{Phase: "1", Name: t.name + " auth", Port: t.port, Passed: passed, Details: details})
+
+		// Public route — higher capacity
+		label = fmt.Sprintf("p1_%s_public", strings.ToLower(strings.ReplaceAll(t.name, " ", "_")))
+		target = fmt.Sprintf("GET http://localhost:%d/api/v1/public\nX-Forwarded-For: %s\n", t.port, t.ip)
+		pubReport, err := runVegeta(ctx, vegetaBin, target, label, resultsDir, 1000, 2*time.Second)
+		if err != nil {
+			log.Printf("⚠️  vegeta error for %s public: %v", t.name, err)
+			continue
+		}
+		details = fmt.Sprintf("success=%.3f 429=%d 200=%d", pubReport.Success, pubReport.StatusCodes["429"], pubReport.StatusCodes["200"])
+		log.Printf("  Public (capacity=1000): %s", details)
+		*summaries = append(*summaries, TestSummary{Phase: "1", Name: t.name + " public", Port: t.port, Passed: pubReport.Success > 0.5, Details: details})
+	}
+}
+
+func phase2AutoBan(ctx context.Context, vegetaBin, resultsDir string, summaries *[]TestSummary) {
+	log.Println("\n==========================================")
+	log.Println(" Phase 2: Auto-Ban Trigger & Sweeper Test")
+	log.Println("==========================================")
+
+	banIP := "203.0.113.200"
+
+	for _, t := range []struct {
+		name string
+		port int
+	}{
+		{"Gin (Go)", 8081},
+		{"Axum (Rust)", 9081},
+		{"Express (Node)", 8091},
+		{"FastAPI (Python)", 8093},
+	} {
+		log.Printf("\nAuto-ban test: %s on port %d...", t.name, t.port)
+		label := fmt.Sprintf("p2_%s", strings.ToLower(strings.ReplaceAll(t.name, " ", "_")))
+		target := fmt.Sprintf("GET http://localhost:%d/api/v1/public\nX-Forwarded-For: %s\n", t.port, banIP)
+		report, err := runVegeta(ctx, vegetaBin, target, label, resultsDir, 5000, 5*time.Second)
+		if err != nil {
+			log.Printf("⚠️  vegeta error: %v", err)
+			*summaries = append(*summaries, TestSummary{Phase: "2", Name: t.name, Port: t.port, Passed: false, Details: err.Error()})
+			continue
+		}
+		status403 := report.StatusCodes["403"]
+		status429 := report.StatusCodes["429"]
+		passed := status403 > 0
+		details := fmt.Sprintf("429=%d 403(auto-ban)=%d", status429, status403)
+		if passed {
+			log.Printf("  ✅ Auto-Ban triggered! %s", details)
+		} else {
+			log.Printf("  ❌ Auto-Ban did NOT trigger. %s", details)
+		}
+		*summaries = append(*summaries, TestSummary{Phase: "2", Name: t.name, Port: t.port, Passed: passed, Details: details})
+	}
+
+	// Wait for sweeper to lift bans
+	log.Println("\n⏳ Waiting 35s for bans to expire...")
+	time.Sleep(35 * time.Second)
+
+	// Verify ban was lifted
+	c := &http.Client{Timeout: 3 * time.Second}
+	req, _ := http.NewRequestWithContext(ctx, http.MethodGet, fmt.Sprintf("http://localhost:8081/api/v1/public"), nil)
+	req.Header.Set("X-Forwarded-For", banIP)
+	resp, err := c.Do(req)
+	if err == nil {
+		resp.Body.Close()
+		if resp.StatusCode == 200 {
+			log.Println("✅ Sweeper successfully lifted the ban")
+			*summaries = append(*summaries, TestSummary{Phase: "2", Name: "Sweeper (Gin)", Port: 8081, Passed: true, Details: "ban lifted after 35s"})
+		} else {
+			log.Printf("❌ IP still blocked after 35s (status=%d)", resp.StatusCode)
+			*summaries = append(*summaries, TestSummary{Phase: "2", Name: "Sweeper (Gin)", Port: 8081, Passed: false, Details: fmt.Sprintf("status=%d", resp.StatusCode)})
+		}
+	}
+}
+
+func phase3GRPC(ctx context.Context, ghzBin, grpcProbe, protoDir, resultsDir string, summaries *[]TestSummary) {
+	log.Println("\n==========================================")
+	log.Println(" Phase 3: gRPC Auto-Ban & Sweeper Test  ")
+	log.Println("==========================================")
+
+	for _, t := range []struct {
+		name string
+		port string
+		ip   string
+	}{
+		{"Go gRPC", "50051", "203.0.113.251"},
+		{"Rust gRPC", "50052", "203.0.113.252"},
+	} {
+		log.Printf("\nExercising %s on port %s...", t.name, t.port)
+		label := fmt.Sprintf("p3_%s", strings.ToLower(strings.ReplaceAll(t.name, " ", "_")))
+		report, err := runGhz(ctx, ghzBin, protoDir, t.port, t.ip, label, resultsDir)
+		if err != nil {
+			log.Printf("⚠️  ghz error: %v", err)
+		} else {
+			log.Printf("  ghz: rps=%.1f total=%d", report.Rps, report.Count)
+		}
+
+		// Run grpc-probe to check for PermissionDenied (auto-ban)
+		probeOut, err := exec.CommandContext(ctx, grpcProbe,
+			"-target", "localhost:"+t.port,
+			"-requests", "2000",
+			"-concurrency", "64",
+			"-ip", t.ip,
+		).CombinedOutput()
+
+		probeFile := filepath.Join(resultsDir, label+"_probe.txt")
+		os.WriteFile(probeFile, probeOut, 0644)
+
+		passed := strings.Contains(string(probeOut), "PermissionDenied")
+		details := "no PermissionDenied"
+		if passed {
+			details = "PermissionDenied (auto-ban confirmed)"
+		}
+		if err != nil && !passed {
+			details = fmt.Sprintf("probe error: %v", err)
+		}
+		if passed {
+			log.Printf("  ✅ %s gRPC auto-ban triggered", t.name)
+		} else {
+			log.Printf("  ❌ %s gRPC auto-ban did NOT trigger", t.name)
+		}
+		*summaries = append(*summaries, TestSummary{Phase: "3", Name: t.name, Port: 0, Passed: passed, Details: details})
+	}
+
+	// Sweeper check for gRPC
+	log.Println("⏳ Waiting 35s for gRPC bans to expire...")
+	time.Sleep(35 * time.Second)
+	for _, t := range []struct {
+		name string
+		port string
+		ip   string
+	}{
+		{"Go gRPC", "50051", "203.0.113.251"},
+		{"Rust gRPC", "50052", "203.0.113.252"},
+	} {
+		out, _ := exec.CommandContext(ctx, grpcProbe,
+			"-target", "localhost:"+t.port,
+			"-requests", "1",
+			"-concurrency", "1",
+			"-ip", t.ip,
+		).CombinedOutput()
+		lifted := strings.Contains(string(out), "OK, 1")
+		if lifted {
+			log.Printf("✅ %s gRPC sweeper lifted the ban", t.name)
+		} else {
+			log.Printf("❌ %s gRPC ban still active", t.name)
+		}
+		*summaries = append(*summaries, TestSummary{Phase: "3", Name: t.name + " sweeper", Passed: lifted})
+	}
+}
+
+// ---------------------------------------------------------------------------
+// Save summary
+// ---------------------------------------------------------------------------
+
+func saveSummary(summaries []TestSummary, resultsDir string) {
+	outFile := filepath.Join(resultsDir, "test_summary.txt")
+	var sb strings.Builder
+	sb.WriteString("╔══════════════════════════════════════════════════════════════╗\n")
+	sb.WriteString("║          RadixIP E2E Test Summary                            ║\n")
+	sb.WriteString("╚══════════════════════════════════════════════════════════════╝\n\n")
+
+	pass, fail := 0, 0
+	for _, s := range summaries {
+		icon := "✅"
+		if !s.Passed {
+			icon = "❌"
+			fail++
+		} else {
+			pass++
+		}
+		sb.WriteString(fmt.Sprintf("[Phase %s] %s %s — %s\n", s.Phase, icon, s.Name, s.Details))
+	}
+	sb.WriteString(fmt.Sprintf("\nTotal: %d passed, %d failed\n", pass, fail))
+
+	content := sb.String()
+	fmt.Println("\n" + content)
+	os.WriteFile(outFile, []byte(content), 0644)
+	log.Printf("📄 Summary written to %s", outFile)
+}
+
+// ---------------------------------------------------------------------------
+// Main
+// ---------------------------------------------------------------------------
+
 func main() {
-	log.Println("🚀 Starting Cross-Platform E2E Orchestrator")
+	flag.Parse()
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	// Handle graceful shutdown
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
-	go func() {
-		<-quit
-		log.Println("Interrupt received, shutting down...")
-		cancel()
-	}()
+	go func() { <-quit; log.Println("Interrupt, shutting down..."); cancel() }()
 
-	if err := buildArtifacts(ctx); err != nil {
-		log.Fatalf("Build failed: %v", err)
+	cwd, err := os.Getwd()
+	if err != nil {
+		log.Fatalf("getwd: %v", err)
 	}
 
-	cwd, _ := os.Getwd()
+	resultsDir := *flagResultsDir
+	os.MkdirAll(resultsDir, 0755)
 
-	sinks := []Sink{
+	binDir := filepath.Join(cwd, "bin")
+	os.MkdirAll(binDir, 0755)
+
+	// 1. Ensure test tools
+	log.Println("🔧 Ensuring test tools (vegeta, ghz)...")
+	vegetaBin, ghzBin, err := ensureTools(ctx, binDir)
+	if err != nil {
+		log.Fatalf("❌ Tool setup failed: %v", err)
+	}
+
+	// 2. Build
+	if !*flagSkipBuild {
+		if err := buildArtifacts(ctx, cwd); err != nil {
+			log.Fatalf("❌ Build failed: %v", err)
+		}
+	} else {
+		log.Println("⏭️  Skipping build (--skip-build)")
+	}
+
+	configAbs := *flagConfig
+	if !filepath.IsAbs(configAbs) {
+		configAbs = filepath.Join(cwd, configAbs)
+	}
+
+	// 3. Spawn sinks
+	coreSinks := []Sink{
 		{
-			Name:    "Go Sinks",
-			Command: filepath.Join(cwd, "bin", "kitchen-sink-go"),
-			Ports:   []int{8081, 8082, 8083},
+			Name:  "Go Sinks (Gin/Echo/Fiber/gRPC)",
+			Cmd:   filepath.Join(binDir, "kitchen-sink-go"),
+			Ports: []int{8081, 8082, 8083},
 		},
 		{
-			Name:    "Rust Sinks",
-			Command: filepath.Join(cwd, "target", "release", "kitchen-sink-rust"),
-			Ports:   []int{9081, 9082},
+			Name:  "Rust Sinks (Axum/Actix/gRPC)",
+			Cmd:   filepath.Join(cwd, "target", "release", "kitchen-sink-rust"),
+			Ports: []int{9081, 9082},
 		},
-		{
-			Name:    "Node Sinks (Express, Fastify)",
-			Dir:     filepath.Join(cwd, "cmd", "kitchen-sink-node"),
-			Command: "node",
-			Args:    []string{"server.js", "--config", filepath.Join(cwd, "config", "radixip.yaml")},
-			Ports:   []int{8091, 8092},
-		},
-		{
-			Name:    "Node Sinks (Next.js)",
-			Dir:     filepath.Join(cwd, "cmd", "kitchen-sink-node"),
-			Command: "npm",
-			Args:    []string{"run", "start:next"}, // next start -p 8094
-			Ports:   []int{8094},
-		},
-		{
-			Name:    "Python (FastAPI)",
-			Dir:     filepath.Join(cwd, "cmd", "kitchen-sink-python"),
-			Command: "python", // Assume python is available and radixip is accessible in pythonpath
-			Args:    []string{"-m", "uvicorn", "fastapi_app:app", "--port", "8093", "--host", "0.0.0.0"},
-			Ports:   []int{8093},
-			Env:     []string{fmt.Sprintf("RADIXIP_CONFIG=%s", filepath.Join(cwd, "config", "radixip.yaml"))},
-		},
-		{
-			Name:    "Python (Flask)",
-			Dir:     filepath.Join(cwd, "cmd", "kitchen-sink-python"),
-			Command: "python",
-			Args:    []string{"flask_app.py"},
-			Ports:   []int{8096}, // Changed to 8096 to avoid Next.js port conflict
-			Env:     []string{fmt.Sprintf("RADIXIP_CONFIG=%s", filepath.Join(cwd, "config", "radixip.yaml"))},
-		},
-		{
-			Name:    "Python (Django)",
-			Dir:     filepath.Join(cwd, "cmd", "kitchen-sink-python"),
-			Command: "python",
-			Args:    []string{"django_app.py", "runserver", "0.0.0.0:8095"},
-			Ports:   []int{8095},
-			Env:     []string{fmt.Sprintf("RADIXIP_CONFIG=%s", filepath.Join(cwd, "config", "radixip.yaml"))},
-		},
+	}
+
+	if runtime.GOOS == "windows" {
+		coreSinks[0].Cmd += ".exe"
+	}
+
+	var allSinks []Sink
+	allSinks = append(allSinks, coreSinks...)
+
+	if *flagNodeOnly {
+		allSinks = append(allSinks, Sink{
+			Name:  "Node Sinks (Express/Fastify)",
+			Dir:   filepath.Join(cwd, "cmd", "kitchen-sink-node"),
+			Cmd:   "node",
+			Args:  []string{"server.js", "--config", configAbs},
+			Ports: []int{8091, 8092},
+		})
+	}
+
+	if *flagPythonOnly {
+		allSinks = append(allSinks,
+			Sink{
+				Name:  "Python FastAPI",
+				Dir:   filepath.Join(cwd, "cmd", "kitchen-sink-python"),
+				Cmd:   "python",
+				Args:  []string{"-m", "uvicorn", "fastapi_app:app", "--port", "8093", "--host", "0.0.0.0"},
+				Ports: []int{8093},
+				Env:   []string{"RADIXIP_CONFIG=" + configAbs},
+			},
+			Sink{
+				Name:  "Python Flask",
+				Dir:   filepath.Join(cwd, "cmd", "kitchen-sink-python"),
+				Cmd:   "python",
+				Args:  []string{"flask_app.py"},
+				Ports: []int{8096},
+				Env:   []string{"RADIXIP_CONFIG=" + configAbs},
+			},
+			Sink{
+				Name:  "Python Django",
+				Dir:   filepath.Join(cwd, "cmd", "kitchen-sink-python"),
+				Cmd:   "python",
+				Args:  []string{"django_app.py", "runserver", "0.0.0.0:8095"},
+				Ports: []int{8095},
+				Env:   []string{"RADIXIP_CONFIG=" + configAbs},
+			},
+		)
 	}
 
 	var wg sync.WaitGroup
-	log.Println("🚀 Spawning kitchen sinks...")
-	for i := range sinks {
-		if err := sinks[i].Start(ctx, &wg); err != nil {
-			log.Printf("⚠️ Failed to start sink %s: %v", sinks[i].Name, err)
+	log.Println("🚀 Spawning sinks...")
+	for i := range allSinks {
+		if err := allSinks[i].Start(ctx, &wg); err != nil {
+			log.Printf("⚠️  Failed to start %s: %v", allSinks[i].Name, err)
 		}
 	}
 
-	log.Println("⏳ Waiting for all sinks to report healthy...")
-	if err := waitForSinks(sinks, 30*time.Second); err != nil {
-		log.Fatalf("❌ Sinks did not become healthy: %v", err)
+	log.Println("⏳ Waiting for sinks to become healthy...")
+	if err := waitHealthy(allSinks, 45*time.Second); err != nil {
+		log.Printf("⚠️  Health check: %v", err)
+	} else {
+		log.Println("✅ All sinks healthy!")
 	}
 
-	log.Println("✅ All sinks are healthy!")
-	
-	// TODO: Replace bash vegeta calls with Go HTTP clients for cross-platform robustness.
-	log.Println("🏃 Running Phase 1 (Route Limits) and Phase 2 (Auto-ban) tests...")
+	if *flagSinkOnly {
+		log.Println("--sink-only: sinks running. Ctrl-C to stop.")
+		<-ctx.Done()
+		wg.Wait()
+		return
+	}
 
-	// For now, keep them running until interrupted to verify they work.
-	// Production script would run tests here and then cancel()
-	
-	<-ctx.Done()
+	// 4. Run test phases
+	var summaries []TestSummary
+
+	grpcProbeBin := filepath.Join(binDir, "grpc-probe-go")
+	if runtime.GOOS == "windows" {
+		grpcProbeBin += ".exe"
+	}
+
+	phase1RouteTrie(ctx, vegetaBin, resultsDir, &summaries)
+	phase2AutoBan(ctx, vegetaBin, resultsDir, &summaries)
+	phase3GRPC(ctx, ghzBin, grpcProbeBin, cwd, resultsDir, &summaries)
+
+	// 5. Save results
+	saveSummary(summaries, resultsDir)
+
+	// Count failures for exit code
+	failures := 0
+	for _, s := range summaries {
+		if !s.Passed {
+			failures++
+		}
+	}
+
+	cancel() // stop sinks
 	wg.Wait()
-	log.Println("✅ Orchestrator shutdown complete.")
+	log.Println("✅ Orchestrator done.")
+
+	if failures > 0 {
+		os.Exit(1)
+	}
 }
