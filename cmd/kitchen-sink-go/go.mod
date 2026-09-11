@@ -12,6 +12,10 @@ replace github.com/Mwangi-Derrick/radixip/lib/go/adapters/fiber => ../../lib/go/
 
 replace github.com/Mwangi-Derrick/radixip/lib/go/adapters/grpc-interceptor => ../../lib/go/adapters/interceptor
 
+replace github.com/Mwangi-Derrick/radixip/lib/go/adapters/chi => ../../lib/go/adapters/chi
+
+replace github.com/Mwangi-Derrick/radixip/lib/go/adapters/net_http => ../../lib/go/adapters/net_http
+
 replace github.com/Mwangi-Derrick/radixip/lib/go/engine => ../../lib/go/engine
 
 replace github.com/Mwangi-Derrick/radixip/lib/go/config => ../../lib/go/config
