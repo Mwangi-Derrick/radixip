@@ -9,6 +9,8 @@ use crate::types::{EngineStats, Metadata};
 use ipnetwork::IpNetwork;
 #[cfg(feature = "redis")]
 use radixip_cache::RedisClient;
+#[cfg(feature = "redis")]
+use radixip_cache::{RedisCacheUpdate, RedisClient};
 
 pub struct HybridEngine {
     control_plane: EngineWrapper,
@@ -55,7 +57,6 @@ impl HybridEngine {
 
         #[cfg(feature = "redis")]
         if let Some(r) = &engine.redis {
-            // Boot-load the data plane from Redis
             if let Ok(entries) = r.hgetall_sync("radixip:entries") {
                 for (cidr, meta_json) in entries {
                     if let Ok(ipnet) = cidr.parse::<IpNetwork>() {
@@ -129,6 +130,11 @@ impl RadixEngine for HybridEngine {
                     let _ = redis.publish_insert(&channel, prefix, meta_value).await;
                 });
             }
+            let update = RedisCacheUpdate::Insert {
+                prefix: prefix.clone(),
+                metadata: serde_json::to_value(&metadata).unwrap_or_default(),
+            };
+            let _ = redis.publish_json(&self.channel, &update);
         } else {
             let _ = self.data_plane.insert(prefix, metadata);
         }
@@ -146,7 +152,10 @@ impl RadixEngine for HybridEngine {
         #[cfg(feature = "redis")]
         if let Some(redis) = &self.redis {
             let _ = redis.hdel_sync("radixip:entries", &prefix.to_string());
-            let _ = redis.publish_remove(&self.channel, prefix.clone());
+            let update = RedisCacheUpdate::Remove {
+                prefix: prefix.clone(),
+            };
+            let _ = redis.publish_json(&self.channel, &update);
         } else {
             let _ = self.data_plane.remove(prefix);
         }
@@ -162,7 +171,8 @@ impl RadixEngine for HybridEngine {
         self.control_plane.clear();
         #[cfg(feature = "redis")]
         if let Some(redis) = &self.redis {
-            let _ = redis.publish_clear(&self.channel);
+            let update = RedisCacheUpdate::Clear;
+            let _ = redis.publish_json(&self.channel, &update);
         } else {
             self.data_plane.clear();
         }

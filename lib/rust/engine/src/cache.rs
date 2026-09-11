@@ -2,6 +2,7 @@ use super::traits::*;
 use crate::lpm::network_contains_ip;
 use crate::types::{EngineStats, Metadata};
 use ipnetwork::IpNetwork;
+use radixip_cache::RedisClient;
 pub use radixip_cache::{CacheConfig, RedisClient};
 use std::collections::HashMap;
 use std::net::IpAddr;
@@ -12,7 +13,7 @@ pub struct RadixCache {
     config: CacheConfig,
     engine: Arc<dyn RadixEngine>,
     #[cfg(feature = "redis")]
-    redis: Option<RedisClient>,
+    pub redis: Option<RedisClient>,
 }
 
 impl RadixCache {

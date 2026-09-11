@@ -128,3 +128,82 @@ fn cached_engine_invalidates_ips_under_changed_prefix() {
 
     assert_eq!(engine.lookup(&ip), Some(Metadata::new("deny")));
 }
+
+#[tokio::test]
+async fn redis_sync_smoke_test() {
+    let client = radixip::redis::RedisClient::new(radixip::redis::RedisConfig {
+        url: "redis://127.0.0.1:6379".to_string(),
+        pool_size: 4,
+        connect_timeout: std::time::Duration::from_secs(5),
+        max_retries: 2,
+    })
+    .await
+    .expect("redis must be running via docker compose up -d redis");
+
+    let key = format!("radixip:test:lookup:{}", std::process::id());
+    let hash_key = format!("radixip:test:entries:{}", std::process::id());
+    let channel = format!("radixip:test:updates:{}", std::process::id());
+
+    client
+        .set_sync(&key, "{\"value\":\"allow\"}")
+        .expect("set_sync should succeed");
+    assert_eq!(
+        client.get_sync(&key).expect("get_sync should succeed").as_deref(),
+        Some("{\"value\":\"allow\"}")
+    );
+
+    let prefix: IpNetwork = "10.0.0.0/8".parse().unwrap();
+    let update = radixip::redis::RedisCacheUpdate::Insert {
+        prefix,
+        metadata: serde_json::json!({
+            "value": "allow",
+            "attributes": { "region": "test" }
+        }),
+    };
+
+    let (mut rx, _handle) = client
+        .subscribe_to_channel(&channel)
+        .await
+        .expect("subscribe_to_channel should succeed");
+
+    client
+        .publish_json(&channel, &update)
+        .await
+        .expect("publish_json should succeed");
+
+    let payload = tokio::time::timeout(std::time::Duration::from_secs(5), async {
+        while let Some(msg) = rx.recv().await {
+            if msg.channel == channel {
+                return msg.payload;
+            }
+        }
+        panic!("channel unexpectedly closed")
+    })
+    .await
+    .expect("timed out waiting for Redis pub/sub message");
+
+    let decoded: radixip::redis::RedisCacheUpdate = serde_json::from_str(&payload).unwrap();
+    match decoded {
+        radixip::redis::RedisCacheUpdate::Insert { prefix: sent_prefix, .. } => {
+            assert_eq!(sent_prefix, prefix);
+        }
+        other => panic!("expected insert update, got {other:?}"),
+    }
+
+    client
+        .hset_sync(&hash_key, "10.0.0.0/8", "{\"value\":\"allow\"}")
+        .expect("hset_sync should succeed");
+
+    let entries = client
+        .hgetall_sync(&hash_key)
+        .expect("hgetall_sync should succeed");
+    assert!(entries.contains_key("10.0.0.0/8"));
+
+    client
+        .hdel_sync(&hash_key, "10.0.0.0/8")
+        .expect("hdel_sync should succeed");
+    assert!(!client
+        .hgetall_sync(&hash_key)
+        .expect("hgetall_sync should succeed")
+        .contains_key("10.0.0.0/8"));
+}

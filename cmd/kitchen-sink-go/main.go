@@ -4,19 +4,23 @@ import (
 	"context"
 	"log"
 	"net"
+	"net/http"
 	"os"
 	"os/signal"
 	"sync"
 	"syscall"
 
+	radixipchi "github.com/Mwangi-Derrick/radixip/lib/go/adapters/chi"
 	radixipecho "github.com/Mwangi-Derrick/radixip/lib/go/adapters/echo"
 	radixipfiber "github.com/Mwangi-Derrick/radixip/lib/go/adapters/fiber"
 	radixipgin "github.com/Mwangi-Derrick/radixip/lib/go/adapters/gin"
 	radixipgrpc "github.com/Mwangi-Derrick/radixip/lib/go/adapters/grpc-interceptor"
+	radixipnethttp "github.com/Mwangi-Derrick/radixip/lib/go/adapters/net_http"
 	engine "github.com/Mwangi-Derrick/radixip/lib/go/engine"
 	radixipv1 "github.com/Mwangi-Derrick/radixip/proto/radixip"
 
 	gogin "github.com/gin-gonic/gin"
+	gochi "github.com/go-chi/chi/v5"
 	gofiber "github.com/gofiber/fiber/v2"
 	goecho "github.com/labstack/echo/v4"
 	"google.golang.org/grpc"
@@ -153,7 +157,92 @@ func main() {
 		}
 	}()
 
-	// 5. gRPC Server (Port 50051)
+	// 5. Chi Server (Port 8084)
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		app := gochi.NewRouter()
+		mw, stop, err := radixipchi.MiddlewareFromYAML(configPath, adapter)
+		if err != nil {
+			log.Fatalf("Chi middleware error: %v", err)
+		}
+		defer stop()
+		app.Use(mw)
+		app.Get("/health", func(w http.ResponseWriter, r *http.Request) {
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte("ok"))
+		})
+		app.Get("/api/v1/public", func(w http.ResponseWriter, r *http.Request) {
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte("chi public ok"))
+		})
+		app.Get("/api/v1/auth", func(w http.ResponseWriter, r *http.Request) {
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte("chi auth ok"))
+		})
+		app.Post("/api/v1/auth", func(w http.ResponseWriter, r *http.Request) {
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte("chi auth post ok"))
+		})
+
+		srv := &http.Server{Addr: ":8084", Handler: app}
+		go func() {
+			<-ctx.Done()
+			srv.Shutdown(context.Background())
+			log.Println("Shutting down Chi...")
+		}()
+		log.Println("🏹 Chi listening on :8084")
+		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			log.Printf("Chi exited: %v", err)
+		}
+	}()
+
+	// 6. net/http Server (Port 8085)
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		mw, stop, err := radixipnethttp.MiddlewareFromYAML(configPath, adapter)
+		if err != nil {
+			log.Fatalf("net/http middleware error: %v", err)
+		}
+		defer stop()
+
+		mux := http.NewServeMux()
+		mux.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte("ok"))
+		})
+		mux.HandleFunc("/api/v1/public", func(w http.ResponseWriter, r *http.Request) {
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte("net/http public ok"))
+		})
+		mux.HandleFunc("/api/v1/auth", func(w http.ResponseWriter, r *http.Request) {
+			if r.Method == http.MethodGet {
+				w.WriteHeader(http.StatusOK)
+				_, _ = w.Write([]byte("net/http auth ok"))
+				return
+			}
+			if r.Method == http.MethodPost {
+				w.WriteHeader(http.StatusOK)
+				_, _ = w.Write([]byte("net/http auth post ok"))
+				return
+			}
+			w.WriteHeader(http.StatusMethodNotAllowed)
+		})
+
+		srv := &http.Server{Addr: ":8085", Handler: mw(mux)}
+		go func() {
+			<-ctx.Done()
+			srv.Shutdown(context.Background())
+			log.Println("Shutting down net/http...")
+		}()
+		log.Println("🌐 net/http listening on :8085")
+		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			log.Printf("net/http exited: %v", err)
+		}
+	}()
+
+	// 7. gRPC Server (Port 50051)
 	wg.Add(1)
 	go func() {
 		defer wg.Done()

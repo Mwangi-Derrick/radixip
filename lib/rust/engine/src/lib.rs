@@ -73,11 +73,17 @@ pub async fn new(config: RadixConfig) -> Box<dyn RadixEngine> {
         };
         #[cfg(feature = "redis")]
         {
-            Box::new(CachedEngine::new(
-                Arc::new(engine),
-                cache_config,
-                None, // Provide a way for advanced users to pass RedisClient
-            ))
+            let redis = if let Some(redis_config) = config.redis.clone() {
+                Some(
+                    radixip_cache::RedisClient::new(redis_config)
+                        .await
+                        .expect("Failed to initialize Redis cache client"),
+                )
+            } else {
+                None
+            };
+
+            Box::new(CachedEngine::new(Arc::new(engine), cache_config, redis))
         }
         #[cfg(not(feature = "redis"))]
         {
@@ -91,6 +97,28 @@ pub async fn new(config: RadixConfig) -> Box<dyn RadixEngine> {
 /// Create a high-performance RadixIP engine
 pub async fn new_high_performance() -> Box<dyn RadixEngine> {
     new(RadixConfig::high_performance()).await
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn redis_config_builder_tracks_cache_and_channel() {
+        let mut config = RadixConfig::new();
+        config.cache_enabled = true;
+        config.redis_channel = "radixip:test".to_string();
+        config.redis = Some(radixip_cache::RedisConfig {
+            url: "redis://127.0.0.1:6379".to_string(),
+            pool_size: 4,
+            connect_timeout: std::time::Duration::from_secs(2),
+            max_retries: 1,
+        });
+
+        assert!(config.cache_enabled);
+        assert_eq!(config.redis_channel, "radixip:test");
+        assert!(config.redis.is_some());
+    }
 }
 
 /// Create a memory-efficient RadixIP engine

@@ -84,6 +84,18 @@ the cost of an individual lookup — this is why RadixIP's advertised lookup
 latency figures (see [benchmark-methodology.md](./benchmark-methodology.md))
 only describe the local `Match()` call, not the time to propagate an update.
 
+## Cross-language Redis sync
+
+The Redis layer is intentionally shared across language bindings rather than reimplemented separately in each runtime. The Rust core defines the canonical cache and Pub/Sub update payloads, while the Python, Node, and C/FFI surfaces expose the same Redis configuration so they can participate in the same distributed update stream.
+
+The flow is consistent everywhere:
+
+1. an instance writes a subnet or metadata record to Redis
+2. it publishes a structured update on the configured channel
+3. other running instances receive the event and apply the same local tree change
+
+This preserves the key design property: the L1 read path stays local and fast, while the L2 layer provides shared invalidation and propagation without forcing every lookup through Redis.
+
 ## Concurrency model
 
 - **Reads**: lock-free, using an atomically-swapped root pointer. Readers

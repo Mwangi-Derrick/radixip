@@ -1,7 +1,9 @@
 use futures_util::StreamExt;
 use ipnetwork::IpNetwork;
 use redis::{aio::ConnectionManager, AsyncCommands, Client, RedisError};
+use redis::{AsyncCommands, Client, Commands, RedisError, aio::ConnectionManager};
 use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 use std::sync::Arc;
 use std::time::Duration;
 use tokio::sync::{broadcast, mpsc, Mutex};
@@ -45,9 +47,12 @@ pub struct RedisClient {
 }
 
 struct RedisClientInner {
+    #[allow(unused)]
     client: Client,
     connection_manager: Mutex<ConnectionManager>,
+    #[allow(unused)]
     config: RedisConfig,
+    #[allow(unused)]
     pubsub_sender: broadcast::Sender<PubSubMessage>,
     shutdown_tx: broadcast::Sender<()>,
 }
@@ -105,6 +110,36 @@ impl RedisClient {
             .map_err(RedisPubSubError::Redis)
     }
 
+    pub fn get_sync(&self, key: &str) -> Result<Option<String>> {
+        let mut conn = self.get_sync_connection()?;
+        let value: Option<String> = redis::cmd("GET").arg(key).query(&mut conn)?;
+        Ok(value)
+    }
+
+    pub fn set_sync(&self, key: &str, value: &str) -> Result<()> {
+        let mut conn = self.get_sync_connection()?;
+        let _: () = redis::cmd("SET").arg(key).arg(value).query(&mut conn)?;
+        Ok(())
+    }
+
+    pub fn hgetall_sync(&self, key: &str) -> Result<HashMap<String, String>> {
+        let mut conn = self.get_sync_connection()?;
+        let entries: HashMap<String, String> = conn.hgetall(key)?;
+        Ok(entries)
+    }
+
+    pub fn hset_sync(&self, key: &str, field: &str, value: &str) -> Result<()> {
+        let mut conn = self.get_sync_connection()?;
+        let _: i32 = conn.hset(key, field, value)?;
+        Ok(())
+    }
+
+    pub fn hdel_sync(&self, key: &str, field: &str) -> Result<()> {
+        let mut conn = self.get_sync_connection()?;
+        let _: i32 = conn.hdel(key, field)?;
+        Ok(())
+    }
+
     pub async fn publish(&self, channel: &str, message: &str) -> Result<()> {
         let mut conn = self.get_connection().await?;
         let _: usize = conn.publish(channel, message).await?;
@@ -132,19 +167,14 @@ impl RedisClient {
         let channel_name = channel.to_string();
         let shutdown_rx = self.inner.shutdown_tx.subscribe();
 
+        let mut pubsub = client.get_async_pubsub().await.map_err(RedisPubSubError::Redis)?;
+        pubsub
+            .subscribe(&channel_name)
+            .await
+            .map_err(RedisPubSubError::Redis)?;
+
         let handle = tokio::spawn(async move {
             let mut shutdown = shutdown_rx;
-            let mut pubsub = match client.get_async_pubsub().await {
-                Ok(pubsub) => pubsub,
-                Err(error) => {
-                    error!("Failed to create Redis Pub/Sub connection: {}", error);
-                    return;
-                }
-            };
-            if let Err(error) = pubsub.subscribe(&channel_name).await {
-                error!("Failed to subscribe to {}: {}", channel_name, error);
-                return;
-            }
             let mut stream = pubsub.on_message();
 
             loop {
@@ -274,19 +304,14 @@ impl RedisClient {
         let channel_name = channel.to_string();
         let shutdown_rx = self.inner.shutdown_tx.subscribe();
 
+        let mut pubsub = client.get_async_pubsub().await.map_err(RedisPubSubError::Redis)?;
+        pubsub
+            .subscribe(&channel_name)
+            .await
+            .map_err(RedisPubSubError::Redis)?;
+
         let handle = tokio::spawn(async move {
             let mut shutdown = shutdown_rx;
-            let mut pubsub = match client.get_async_pubsub().await {
-                Ok(pubsub) => pubsub,
-                Err(error) => {
-                    error!("Failed to create Redis Pub/Sub connection: {}", error);
-                    return;
-                }
-            };
-            if let Err(error) = pubsub.subscribe(&channel_name).await {
-                error!("Failed to subscribe to {}: {}", channel_name, error);
-                return;
-            }
             let mut stream = pubsub.on_message();
 
             loop {

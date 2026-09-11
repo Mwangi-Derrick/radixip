@@ -174,7 +174,7 @@ pkill -f "kitchen-sink-go" 2>/dev/null || true
 pkill -f "kitchen-sink-rust" 2>/dev/null || true
 
 # Then kill by port to be thorough
-kill_port_processes 8081 8082 8083 50051 50052 9081 9082
+kill_port_processes 8081 8082 8083 8084 8085 50051 50052 9081 9082
 
 sleep 3
 
@@ -206,7 +206,7 @@ check_service() {
 
 # Check if services are ready
 echo -e "${YELLOW}⏳ Waiting for services to be ready...${NC}"
-for port in 8081 8082 8083 9081 9082; do
+for port in 8081 8082 8083 8084 8085 9081 9082; do
     if check_service $port; then
         echo -e "${GREEN}✅ Service on port $port is ready${NC}"
     else
@@ -220,6 +220,8 @@ TARGETS=(
     "Gin (Go):8081"
     "Echo (Go):8082"
     "Fiber (Go):8083"
+    "Chi (Go):8084"
+    "net/http (Go):8085"
     "Axum (Rust):9081"
     "Actix (Rust):9082"
 )

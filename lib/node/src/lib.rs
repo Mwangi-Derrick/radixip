@@ -15,6 +15,11 @@ pub struct EngineConfig {
     pub read_compressed: Option<bool>,
     pub write_compressed: Option<bool>,
     pub enable_split_plane: Option<bool>,
+    pub cache_enabled: Option<bool>,
+    pub cache_max_entries: Option<u32>,
+    pub cache_ttl_seconds: Option<u32>,
+    pub redis_url: Option<String>,
+    pub redis_channel: Option<String>,
 }
 
 // Metadata returned to JS/TS — flat object for ergonomics
@@ -138,12 +143,43 @@ impl RadixPolicy {
 #[napi]
 impl RadixIP {
     #[napi(constructor)]
-    pub fn new(_config: Option<EngineConfig>) -> Self {
+    pub fn new(config: Option<EngineConfig>) -> Self {
+        let mut cfg = radixip::RadixConfig::new();
+        if let Some(c) = config {
+            if let Some(variant) = c.variant {
+                cfg.engine_variant = match variant.as_str() {
+                    "standard" => radixip::EngineVariant::Standard,
+                    "concurrent" => radixip::EngineVariant::Concurrent,
+                    "lockfree" => radixip::EngineVariant::LockFree,
+                    "adaptive" => radixip::EngineVariant::Adaptive,
+                    "art" => radixip::EngineVariant::ART,
+                    _ => cfg.engine_variant,
+                };
+            }
+
+            cfg.read_compressed = c.read_compressed.unwrap_or(cfg.read_compressed);
+            cfg.write_compressed = c.write_compressed.unwrap_or(cfg.write_compressed);
+            cfg.enable_split_plane = c.enable_split_plane.unwrap_or(cfg.enable_split_plane);
+            cfg.cache_enabled = c.cache_enabled.unwrap_or(cfg.cache_enabled);
+            cfg.cache_max_entries = c.cache_max_entries.map(|v| v as usize).unwrap_or(cfg.cache_max_entries);
+            cfg.cache_ttl_seconds = c.cache_ttl_seconds.map(|v| v as u64);
+
+            if let Some(redis_url) = c.redis_url {
+                cfg.redis = Some(radixip::redis::RedisConfig {
+                    url: redis_url,
+                    pool_size: 10,
+                    connect_timeout: std::time::Duration::from_secs(5),
+                    max_retries: 3,
+                });
+                cfg.redis_channel = c.redis_channel.unwrap_or_else(|| "radixip:updates".to_string());
+            }
+        }
+
         let engine = tokio::runtime::Builder::new_current_thread()
             .enable_all()
             .build()
             .unwrap()
-            .block_on(radixip::new_memory_efficient());
+            .block_on(radixip::new(cfg));
 
         Self {
             inner: RadixEngineWrapper::new(engine),

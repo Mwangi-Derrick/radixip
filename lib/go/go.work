@@ -1,9 +1,12 @@
-go 1.26.1
+go 1.26.7
 
 use (
 	./adapters/echo
 	./adapters/fiber
 	./adapters/gin
+	./adapters/interceptor
+	./adapters/chi
+	./adapters/net_http
 	./config
 	./engine
 	./policy

@@ -1,6 +1,6 @@
 module kitchen-sink-go
 
-go 1.26.1
+go 1.26.7
 
 // Point to local paths
 
@@ -12,6 +12,10 @@ replace github.com/Mwangi-Derrick/radixip/lib/go/adapters/fiber => ../../lib/go/
 
 replace github.com/Mwangi-Derrick/radixip/lib/go/adapters/grpc-interceptor => ../../lib/go/adapters/interceptor
 
+replace github.com/Mwangi-Derrick/radixip/lib/go/adapters/chi => ../../lib/go/adapters/chi
+
+replace github.com/Mwangi-Derrick/radixip/lib/go/adapters/net_http => ../../lib/go/adapters/net_http
+
 replace github.com/Mwangi-Derrick/radixip/lib/go/engine => ../../lib/go/engine
 
 replace github.com/Mwangi-Derrick/radixip/lib/go/config => ../../lib/go/config
@@ -19,13 +23,16 @@ replace github.com/Mwangi-Derrick/radixip/lib/go/config => ../../lib/go/config
 replace github.com/Mwangi-Derrick/radixip/proto/radixip => ../../proto/radixip/v1
 
 require (
+	github.com/Mwangi-Derrick/radixip/lib/go/adapters/chi v0.0.0-00010101000000-000000000000
 	github.com/Mwangi-Derrick/radixip/lib/go/adapters/echo v0.0.0-00010101000000-000000000000
 	github.com/Mwangi-Derrick/radixip/lib/go/adapters/fiber v0.0.0-00010101000000-000000000000
 	github.com/Mwangi-Derrick/radixip/lib/go/adapters/gin v0.0.0-00010101000000-000000000000
 	github.com/Mwangi-Derrick/radixip/lib/go/adapters/grpc-interceptor v0.0.0-00010101000000-000000000000
-	github.com/Mwangi-Derrick/radixip/lib/go/engine v0.0.0-00010101000000-000000000000
+	github.com/Mwangi-Derrick/radixip/lib/go/adapters/net_http v0.0.0-00010101000000-000000000000
+	github.com/Mwangi-Derrick/radixip/lib/go/engine v0.0.0-20260909000955-faa0c37ce016
 	github.com/Mwangi-Derrick/radixip/proto/radixip v0.0.0-00010101000000-000000000000
 	github.com/gin-gonic/gin v1.12.0
+	github.com/go-chi/chi/v5 v5.3.2
 	github.com/gofiber/fiber/v2 v2.52.15
 	github.com/labstack/echo/v4 v4.15.4
 	google.golang.org/grpc v1.83.2
@@ -50,7 +57,7 @@ require (
 	github.com/goccy/go-yaml v1.19.2 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
-	github.com/klauspost/compress v1.17.9 // indirect
+	github.com/klauspost/compress v1.19.0 // indirect
 	github.com/klauspost/cpuid/v2 v2.3.0 // indirect
 	github.com/labstack/gommon v0.5.0 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect

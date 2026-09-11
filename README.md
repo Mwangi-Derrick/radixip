@@ -1,7 +1,7 @@
 # RadixIP
 
-[![Go Reference](https://img.shields.io/badge/Go-1.26.1-00ADD8?logo=go)](https://github.com/Mwangi-Derrick/radixip)
-[![Rust](https://img.shields.io/badge/Rust-1.97.1-orange?logo=rust)](https://github.com/Mwangi-Derrick/radixip)
+[![Go Reference](https://img.shields.io/badge/Go-1.26.7-00ADD8?logo=go)](https://github.com/Mwangi-Derrick/radixip)
+[![Rust](https://img.shields.io/badge/Rust-1.98.1-orange?logo=rust)](https://github.com/Mwangi-Derrick/radixip)
 [![CI](https://github.com/Mwangi-Derrick/radixip/actions/workflows/benchmarks.yml/badge.svg)](https://github.com/Mwangi-Derrick/radixip/actions/workflows/benchmarks.yml/badge.svg)
 ![Load Tests](https://github.com/Mwangi-Derrick/radixip/actions/workflows/load-test.yml/badge.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -62,6 +62,16 @@ _, found := radixEngine.Match(netip.MustParseAddr("192.168.1.100"))
 // 3. Propagate to all nodes via Redis
 redis.Publish("security:blocklist", "192.168.1.0/24")
 ```
+
+## 🔄 Redis-backed cache sync
+
+RadixIP keeps the hot read path local and fast, while Redis provides cross-instance cache invalidation and update propagation.
+
+```bash
+docker compose up -d redis
+```
+
+This lets each process keep serving from its own in-memory tree while still sharing subnet updates across nodes. For a minimal end-to-end example, see [docs/guides/redis-cache-sync.md](./docs/guides/redis-cache-sync.md).
 
 # RadixIP Documentation
 
