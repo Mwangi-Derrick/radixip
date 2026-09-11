@@ -1,0 +1,13 @@
+[project]
+name = "kitchen_sink_python"
+version = "0.1.0"
+description = "RadixIP Python kitchen sink for E2E testing (FastAPI, Flask, Django)"
+requires-python = ">=3.9"
+dependencies = [
+    "fastapi>=0.100.0",
+    "starlette>=0.27.0",
+    "uvicorn>=0.22.0",
+    "flask>=2.3.0",
+    "django>=4.2.0",
+    # radixip will be installed from local path by the orchestrator
+]
