@@ -1,10 +1,10 @@
 use futures_util::StreamExt;
 use ipnetwork::IpNetwork;
-use redis::{AsyncCommands, Client, RedisError, aio::ConnectionManager};
+use redis::{aio::ConnectionManager, AsyncCommands, Client, RedisError};
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 use std::time::Duration;
-use tokio::sync::{Mutex, broadcast, mpsc};
+use tokio::sync::{broadcast, mpsc, Mutex};
 use tokio::task::JoinHandle;
 use tracing::{debug, error, info};
 
@@ -62,15 +62,22 @@ pub struct PubSubMessage {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "op", rename_all = "snake_case")]
 pub enum RedisCacheUpdate {
-    Insert { prefix: IpNetwork, metadata: serde_json::Value },
-    Remove { prefix: IpNetwork },
+    Insert {
+        prefix: IpNetwork,
+        metadata: serde_json::Value,
+    },
+    Remove {
+        prefix: IpNetwork,
+    },
     Clear,
 }
 
 impl RedisClient {
     pub async fn new(config: RedisConfig) -> Result<Self> {
         let client = Client::open(config.url.clone())?;
-        let connection_manager = ConnectionManager::new(client.clone()).await.map_err(RedisPubSubError::Redis)?;
+        let connection_manager = ConnectionManager::new(client.clone())
+            .await
+            .map_err(RedisPubSubError::Redis)?;
         let (pubsub_tx, _) = broadcast::channel(100);
         let (shutdown_tx, _) = broadcast::channel(1);
 
@@ -82,7 +89,9 @@ impl RedisClient {
             shutdown_tx,
         };
 
-        Ok(Self { inner: Arc::new(inner) })
+        Ok(Self {
+            inner: Arc::new(inner),
+        })
     }
 
     async fn get_connection(&self) -> Result<tokio::sync::MutexGuard<'_, ConnectionManager>> {
@@ -90,7 +99,10 @@ impl RedisClient {
     }
 
     pub fn get_sync_connection(&self) -> Result<redis::Connection> {
-        self.inner.client.get_connection().map_err(RedisPubSubError::Redis)
+        self.inner
+            .client
+            .get_connection()
+            .map_err(RedisPubSubError::Redis)
     }
 
     pub async fn publish(&self, channel: &str, message: &str) -> Result<()> {
@@ -160,6 +172,94 @@ impl RedisClient {
         });
 
         Ok(handle)
+    }
+
+    /// Synchronous Set
+    pub fn set_sync(&self, key: &str, value: &str) -> Result<()> {
+        let mut conn = self.get_sync_connection()?;
+        let _: () = redis::cmd("SET").arg(key).arg(value).query(&mut conn)?;
+        Ok(())
+    }
+
+    /// Synchronous Get
+    pub fn get_sync(&self, key: &str) -> Result<Option<String>> {
+        let mut conn = self.get_sync_connection()?;
+        let result: Option<String> = redis::cmd("GET").arg(key).query(&mut conn)?;
+        Ok(result)
+    }
+
+    /// Synchronous HGetAll for boot-loading prefixes
+    /// Use this ONLY for initial boot-loading, NOT for incremental updates
+    pub fn hgetall_sync(&self, key: &str) -> Result<std::collections::HashMap<String, String>> {
+        let mut conn = self.get_sync_connection()?;
+        let result: std::collections::HashMap<String, String> =
+            redis::cmd("HGETALL").arg(key).query(&mut conn)?;
+        Ok(result)
+    }
+
+    /// Use this ONLY for initial boot-loading, NOT for incremental updates
+    pub fn hset_sync(&self, key: &str, field: &str, value: &str) -> Result<()> {
+        let mut conn = self.get_sync_connection()?;
+        let _: () = redis::cmd("HSET")
+            .arg(key)
+            .arg(field)
+            .arg(value)
+            .query(&mut conn)?;
+        Ok(())
+    }
+
+    /// Synchronous HDel
+    pub fn hdel_sync(&self, key: &str, field: &str) -> Result<()> {
+        let mut conn = self.get_sync_connection()?;
+        let _: () = redis::cmd("HDEL").arg(key).arg(field).query(&mut conn)?;
+        Ok(())
+    }
+
+    /// Publish an insert update for a prefix with JSON-serialized metadata.
+    ///
+    /// The `metadata` must be a `serde_json::Value` so this crate does not
+    /// depend on the engine crate (which would create a cyclic dependency).
+    /// Callers should serialize `radixip::Metadata` with `serde_json::to_value`.
+    pub async fn publish_insert(
+        &self,
+        channel: &str,
+        prefix: IpNetwork,
+        metadata: serde_json::Value,
+    ) -> Result<()> {
+        self.publish_json(channel, &RedisCacheUpdate::Insert { prefix, metadata })
+            .await
+    }
+
+    pub async fn publish_remove(&self, channel: &str, prefix: IpNetwork) -> Result<()> {
+        self.publish_json(channel, &RedisCacheUpdate::Remove { prefix })
+            .await
+    }
+
+    /// Subscribe and dispatch decoded `RedisCacheUpdate` events through a callback.
+    ///
+    /// Using a callback avoids importing engine traits here, preventing a
+    /// cyclic dependency. Callers in the engine crate close over their own
+    /// `Arc<dyn RadixEngine>` handle.
+    pub async fn subscribe_engine_updates<F, Fut>(
+        &self,
+        channel: &str,
+        on_update: F,
+    ) -> Result<JoinHandle<()>>
+    where
+        F: Fn(RedisCacheUpdate) -> Fut + Send + Sync + 'static,
+        Fut: std::future::Future<Output = ()> + Send + 'static,
+    {
+        self.subscribe(channel, move |message| {
+            match serde_json::from_str::<RedisCacheUpdate>(&message.payload) {
+                Ok(update) => on_update(update),
+                Err(e) => {
+                    error!("Failed to decode Redis cache update: {}", e);
+                    // Return a no-op future for the error case.
+                    on_update(RedisCacheUpdate::Clear) // won't matter, but satisfies type
+                }
+            }
+        })
+        .await
     }
 
     pub async fn subscribe_to_channel(
