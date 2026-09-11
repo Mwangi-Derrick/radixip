@@ -79,10 +79,27 @@ impl HybridEngine {
             let data_plane = Arc::new(self.data_plane.clone());
 
             tokio::spawn(async move {
-                if let Err(e) = redis_clone
-                    .subscribe_engine_updates(&channel, data_plane)
-                    .await
-                {
+                let handler = |update: radixip_cache::redis::RedisCacheUpdate| {
+                    let dp = data_plane.clone();
+                    async move {
+                        match update {
+                            radixip_cache::redis::RedisCacheUpdate::Insert { prefix, metadata } => {
+                                if let Ok(meta) = serde_json::from_value::<Metadata>(metadata) {
+                                    if let Err(e) = dp.insert(prefix, meta) {
+                                        eprintln!("Redis insert error: {e}");
+                                    }
+                                }
+                            }
+                            radixip_cache::redis::RedisCacheUpdate::Remove { prefix } => {
+                                dp.remove(&prefix);
+                            }
+                            radixip_cache::redis::RedisCacheUpdate::Clear => {
+                                dp.clear();
+                            }
+                        }
+                    }
+                };
+                if let Err(e) = redis_clone.subscribe_engine_updates(&channel, handler).await {
                     eprintln!("HybridEngine Redis sync stopped: {}", e);
                 }
             });
@@ -101,7 +118,14 @@ impl RadixEngine for HybridEngine {
             if let Ok(json_data) = serde_json::to_string(&metadata) {
                 let _ = redis.hset_sync("radixip:entries", &prefix.to_string(), &json_data);
             }
-            let _ = redis.publish_insert(&self.channel, prefix, metadata);
+            // publish_insert takes serde_json::Value to avoid a cyclic dep on the engine crate.
+            if let Ok(meta_value) = serde_json::to_value(&metadata) {
+                let redis = redis.clone();
+                let channel = self.channel.clone();
+                tokio::runtime::Handle::current().spawn(async move {
+                    let _ = redis.publish_insert(&channel, prefix, meta_value).await;
+                });
+            }
         } else {
             let _ = self.data_plane.insert(prefix, metadata);
         }
