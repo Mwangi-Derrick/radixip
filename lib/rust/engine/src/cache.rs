@@ -7,8 +7,6 @@ use std::collections::HashMap;
 use std::net::IpAddr;
 use std::sync::{Arc, RwLock};
 
-pub use radixip_cache::CacheConfig;
-
 pub struct RadixCache {
     cache: RwLock<HashMap<IpAddr, Option<Metadata>>>,
     config: CacheConfig,
