@@ -422,48 +422,67 @@ func phase1RouteTrie(ctx context.Context, vegetaBin, resultsDir string, summarie
 	log.Println(" Phase 1: Route-Trie Specific Rate Limits")
 	log.Println("==========================================")
 
+	// Each framework gets a distinct /24 block so auth auto-bans can never
+	// contaminate the public-route sub-test that runs right after.
+	// Auth uses  203.0.113.X, public uses 203.0.114.X (different base octets).
 	targets := []struct {
 		name string
 		port int
-		ip   string
+		ipSuffix int
 	}{
-		{"Gin (Go)", 8081, "203.0.113.1"},
-		{"Echo (Go)", 8082, "203.0.113.2"},
-		{"Fiber (Go)", 8083, "203.0.113.3"},
-		{"Axum (Rust)", 9081, "203.0.113.4"},
-		{"Actix (Rust)", 9082, "203.0.113.5"},
-		{"Express (Node)", 8091, "203.0.113.6"},
-		{"Fastify (Node)", 8092, "203.0.113.7"},
-		{"FastAPI (Python)", 8093, "203.0.113.8"},
+		{"Gin (Go)", 8081, 1},
+		{"Echo (Go)", 8082, 2},
+		{"Fiber (Go)", 8083, 3},
+		{"Axum (Rust)", 9081, 4},
+		{"Actix (Rust)", 9082, 5},
+		{"Express (Node)", 8091, 6},
+		{"Fastify (Node)", 8092, 7},
+		{"FastAPI (Python)", 8093, 8},
+		{"Flask (Python)", 8096, 9},
+		{"Django (Python)", 8095, 10},
 	}
 
 	for _, t := range targets {
+		// Skip ports that never came up (Node/Python sinks not started).
+		if !healthCheck(t.port) {
+			log.Printf("⏭️  Skipping %s (port %d not healthy)", t.name, t.port)
+			continue
+		}
 		log.Printf("\nTesting %s on port %d...", t.name, t.port)
-		label := fmt.Sprintf("p1_%s_auth", strings.ToLower(strings.ReplaceAll(t.name, " ", "_")))
-		target := fmt.Sprintf("POST http://localhost:%d/api/v1/auth\nX-Forwarded-For: %s\n", t.port, t.ip)
-		authReport, err := runVegeta(ctx, vegetaBin, target, label, resultsDir, 1000, 2*time.Second)
+		label := strings.ToLower(strings.ReplaceAll(t.name, " ", "_"))
+		label = strings.ReplaceAll(label, "(", "")
+		label = strings.ReplaceAll(label, ")", "")
+		label = strings.TrimRight(label, "_")
+
+		// Auth test — unique IP in the 203.0.113.0/24 range.
+		authIP := fmt.Sprintf("203.0.113.%d", t.ipSuffix)
+		labelAuth := fmt.Sprintf("p1_%s_auth", label)
+		targetAuth := fmt.Sprintf("POST http://localhost:%d/api/v1/auth\nX-Forwarded-For: %s\n", t.port, authIP)
+		authReport, err := runVegeta(ctx, vegetaBin, targetAuth, labelAuth, resultsDir, 1000, 2*time.Second)
 		if err != nil {
 			log.Printf("⚠️  vegeta error for %s auth: %v", t.name, err)
 			*summaries = append(*summaries, TestSummary{Phase: "1", Name: t.name + " auth", Port: t.port, Passed: false, Details: err.Error()})
-			continue
+		} else {
+			status429 := authReport.StatusCodes["429"]
+			passed := status429 > 0 && authReport.Success < 0.1
+			details := fmt.Sprintf("success=%.3f 429=%d 200=%d", authReport.Success, status429, authReport.StatusCodes["200"])
+			log.Printf("  Auth (capacity=5): %s", details)
+			*summaries = append(*summaries, TestSummary{Phase: "1", Name: t.name + " auth", Port: t.port, Passed: passed, Details: details})
 		}
-		status429 := authReport.StatusCodes["429"]
-		passed := status429 > 0 && authReport.Success < 0.1 // low success = mostly rate limited
-		details := fmt.Sprintf("success=%.3f 429=%d 200=%d", authReport.Success, status429, authReport.StatusCodes["200"])
-		log.Printf("  Auth (capacity=5): %s", details)
-		*summaries = append(*summaries, TestSummary{Phase: "1", Name: t.name + " auth", Port: t.port, Passed: passed, Details: details})
 
-		// Public route — higher capacity
-		label = fmt.Sprintf("p1_%s_public", strings.ToLower(strings.ReplaceAll(t.name, " ", "_")))
-		target = fmt.Sprintf("GET http://localhost:%d/api/v1/public\nX-Forwarded-For: %s\n", t.port, t.ip)
-		pubReport, err := runVegeta(ctx, vegetaBin, target, label, resultsDir, 1000, 2*time.Second)
+		// Public test — unique IP in the 203.0.114.0/24 range (separate from auth).
+		pubIP := fmt.Sprintf("203.0.114.%d", t.ipSuffix)
+		labelPub := fmt.Sprintf("p1_%s_public", label)
+		targetPub := fmt.Sprintf("GET http://localhost:%d/api/v1/public\nX-Forwarded-For: %s\n", t.port, pubIP)
+		pubReport, err := runVegeta(ctx, vegetaBin, targetPub, labelPub, resultsDir, 1000, 2*time.Second)
 		if err != nil {
 			log.Printf("⚠️  vegeta error for %s public: %v", t.name, err)
-			continue
+			*summaries = append(*summaries, TestSummary{Phase: "1", Name: t.name + " public", Port: t.port, Passed: false, Details: err.Error()})
+		} else {
+			details := fmt.Sprintf("success=%.3f 429=%d 200=%d", pubReport.Success, pubReport.StatusCodes["429"], pubReport.StatusCodes["200"])
+			log.Printf("  Public (capacity=1000): %s", details)
+			*summaries = append(*summaries, TestSummary{Phase: "1", Name: t.name + " public", Port: t.port, Passed: pubReport.Success > 0.5, Details: details})
 		}
-		details = fmt.Sprintf("success=%.3f 429=%d 200=%d", pubReport.Success, pubReport.StatusCodes["429"], pubReport.StatusCodes["200"])
-		log.Printf("  Public (capacity=1000): %s", details)
-		*summaries = append(*summaries, TestSummary{Phase: "1", Name: t.name + " public", Port: t.port, Passed: pubReport.Success > 0.5, Details: details})
 	}
 }
 
