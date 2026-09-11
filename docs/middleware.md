@@ -54,6 +54,8 @@ All built-in adapters use the same policy result:
 ### Go
 | Framework | Import path |
 |---|---|
+| Chi | `github.com/Mwangi-Derrick/radixip/lib/go/adapters/chi` |
+| net/http | `github.com/Mwangi-Derrick/radixip/lib/go/adapters/net_http` |
 | Gin | `github.com/Mwangi-Derrick/radixip/lib/go/adapters/gin` |
 | Echo | `github.com/Mwangi-Derrick/radixip/lib/go/adapters/echo` |
 | Fiber | `github.com/Mwangi-Derrick/radixip/lib/go/adapters/fiber` |
@@ -191,6 +193,167 @@ For Next.js, TanStack Start, FastAPI, Flask, and Django, pass a `resolveIp` /
 ---
 
 ## Go Middleware
+
+### Chi
+
+`chi` is a thin re-export of the net/http adapter: it uses the standard `func(http.Handler) http.Handler` middleware signature and composes directly with the stock chi router and its middleware stack. This is the recommended choice when your app already uses `github.com/go-chi/chi/v5`.
+
+```go
+package main
+
+import (
+    "log"
+    "net/http"
+
+    chimw "github.com/go-chi/chi/v5/middleware"
+    "github.com/go-chi/chi/v5"
+
+    radixipchi "github.com/Mwangi-Derrick/radixip/lib/go/adapters/chi"
+    radixip_engine "github.com/Mwangi-Derrick/radixip/lib/go/engine"
+    "net"
+)
+
+// EngineAdapter is the blocklist engine used by the policy checks.
+type EngineAdapter struct{ inner *radixip_engine.EngineWrapper }
+
+func (a *EngineAdapter) Lookup(ipStr string) bool {
+    ip := net.ParseIP(ipStr)
+    return ip != nil && a.inner.Lookup(ip) != nil
+}
+
+func main() {
+    r := chi.NewRouter()
+    r.Use(chimw.RealIP)
+    r.Use(chimw.Logger)
+    r.Use(chimw.Recoverer)
+
+    engine := &EngineAdapter{inner: radixip_engine.NewEngineWrapper(
+        radixip_engine.EngineConcurrent,
+        radixip_engine.AtomicRadixNode,
+    )}
+
+    mw, stop, err := radixipchi.MiddlewareFromYAML("config/radixip.yaml", engine)
+    if err != nil {
+        log.Fatalf("radixip chi: %v", err)
+    }
+    defer stop()
+
+    r.Use(mw)
+
+    r.Get("/health", func(w http.ResponseWriter, r *http.Request) {
+        w.WriteHeader(http.StatusOK)
+        _, _ = w.Write([]byte("ok"))
+    })
+
+    r.Post("/api/v1/auth", func(w http.ResponseWriter, r *http.Request) {
+        w.WriteHeader(http.StatusOK)
+        _, _ = w.Write([]byte(`{"token":"..."}`))
+    })
+
+    r.Get("/api/v1/public", func(w http.ResponseWriter, r *http.Request) {
+        w.WriteHeader(http.StatusOK)
+        _, _ = w.Write([]byte(`{"data":"..."}`))
+    })
+
+    log.Println("chi server listening on :8080")
+    log.Fatal(http.ListenAndServe(":8080", r))
+}
+```
+
+When using Chi, the usual pattern is to call `r.Use(chimw.RealIP)` before RadixIP so the upstream `RemoteAddr` already contains the resolved client IP. This means you usually do not need to populate `TrustedProxies`; set it only if you are intentionally resolving the IP inside the RadixIP adapter itself instead of relying on `RealIP`.
+
+You also can mount a single terminal handler instead of using middleware:
+
+```go
+r := chi.NewRouter()
+
+h, stop, err := radixipchi.NewFromYAML("config/radixip.yaml", engine)
+if err != nil {
+    log.Fatal(err)
+}
+defer stop()
+
+r.Handle("/api/*", h)
+```
+
+### net/http
+
+The standard library server and any router built on top of `net/http` can use the adapter without any framework-specific glue. The adapter returns a standard `func(http.Handler) http.Handler`, which works with the stdlib `ServeMux`, `gorilla/mux`, `httprouter`, and chi itself.
+
+```go
+package main
+
+import (
+    "log"
+    "net/http"
+
+    radixipnethttp "github.com/Mwangi-Derrick/radixip/lib/go/adapters/net_http"
+    radixip_engine "github.com/Mwangi-Derrick/radixip/lib/go/engine"
+    "net"
+)
+
+// EngineAdapter is the blocklist engine used by the policy checks.
+type EngineAdapter struct{ inner *radixip_engine.EngineWrapper }
+
+func (a *EngineAdapter) Lookup(ipStr string) bool {
+    ip := net.ParseIP(ipStr)
+    return ip != nil && a.inner.Lookup(ip) != nil
+}
+
+func main() {
+    engine := &EngineAdapter{inner: radixip_engine.NewEngineWrapper(
+        radixip_engine.EngineConcurrent,
+        radixip_engine.AtomicRadixNode,
+    )}
+
+    mw := radixipnethttp.Middleware(radixipnethttp.Config{
+        Engine:         engine,
+        Blocklist:      true,
+        RateLimit:      true,
+        TrustedProxies: []string{"10.0.0.0/8", "172.16.0.0/12"},
+    })
+
+    mux := http.NewServeMux()
+    mux.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
+        w.WriteHeader(http.StatusOK)
+        _, _ = w.Write([]byte("ok"))
+    })
+
+    mux.Handle("/api/v1/public", mw(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+        w.WriteHeader(http.StatusOK)
+        _, _ = w.Write([]byte(`{"data":"..."}`))
+    })))
+
+    mux.Handle("/api/v1/auth", mw(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+        w.WriteHeader(http.StatusOK)
+        _, _ = w.Write([]byte(`{"token":"..."}`))
+    })))
+
+    log.Println("net/http server listening on :8080")
+    log.Fatal(http.ListenAndServe(":8080", mux))
+}
+```
+
+You can also load the YAML config dynamically and hot-reload it when the file changes:
+
+```go
+engine := &EngineAdapter{inner: radixip_engine.NewEngineWrapper(
+    radixip_engine.EngineConcurrent,
+    radixip_engine.AtomicRadixNode,
+)}
+
+h, stop, err := radixipnethttp.NewFromYAML("config/radixip.yaml", engine)
+if err != nil {
+    log.Fatal(err)
+}
+defer stop()
+
+mux := http.NewServeMux()
+mux.Handle("/", h)
+log.Fatal(http.ListenAndServe(":8080", mux))
+```
+
+This pattern is especially useful when you want a single guard handler for a full server or a route-specific wrapper without any router-specific dependency. The returned `http.Handler` is a complete request gate; in a chi stack, the `radixipchi` package is usually more natural because it matches the router's middleware lifecycle.
 
 ### Gin
 
