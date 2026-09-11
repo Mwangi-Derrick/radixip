@@ -32,8 +32,8 @@ var NewFromYAML = nethttp.NewFromYAML
 //
 // Typical wiring:
 //
-//	mw, stop, err := radixipchi.NewFromYAML("radixip.yaml", engine)
+//	mw, stop, err := radixipchi.MiddlewareFromYAML("radixip.yaml", engine)
 //	if err != nil { log.Fatal(err) }
 //	defer stop()
 //	r.Use(mw)
-var MiddlewareFromYAML = nethttp.NewFromYAML
+var MiddlewareFromYAML = nethttp.MiddlewareFromYAML

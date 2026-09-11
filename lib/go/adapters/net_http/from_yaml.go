@@ -22,8 +22,6 @@ import (
 	"github.com/Mwangi-Derrick/radixip/lib/go/policy"
 )
 
-
-
 // yamlState bundles a config snapshot with the limiter derived from it.
 type yamlState struct {
 	cfg       *config.RadixIpConfig
@@ -165,4 +163,82 @@ func NewFromYAML(path string, engine Engine) (http.Handler, func(), error) {
 	h.state.Store(newYAMLState(w.Current(), engine))
 
 	return h, w.Stop, nil
+}
+
+// MiddlewareFromYAML creates a hot-reloading net/http middleware from a YAML
+// config file. It wraps the request pipeline and invokes the downstream handler
+// only after the configured blocklist/rate-limit checks pass.
+func MiddlewareFromYAML(path string, engine Engine) (func(http.Handler) http.Handler, func(), error) {
+	w, err := config.NewWatcher(path)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	h := &watcherHandler{watcher: w, engine: engine}
+	h.state.Store(newYAMLState(w.Current(), engine))
+
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			latest := h.watcher.Current()
+			s := h.state.Load()
+			if s.cfg != latest {
+				nextState := newYAMLState(latest, h.engine)
+				h.state.Store(nextState)
+				s = nextState
+			}
+
+			mwCfg := latest.RadixIP.Middleware
+			trusted := parseCIDRs(mwCfg.TrustedProxies)
+
+			ip, err := policy.ExtractIP(r, trusted)
+			if err != nil {
+				writeJSON(w, http.StatusBadRequest, map[string]string{"error": err.Error()})
+				return
+			}
+			ipStr := ip.String()
+
+			if latest.RadixIP.Blocklist.Enabled && h.engine != nil {
+				if h.engine.Lookup(ipStr) {
+					writeJSON(w, mwCfg.Responses.Blocked, map[string]string{
+						"error": "blocked",
+						"ip":    ipStr,
+					})
+					return
+				}
+			}
+
+			if latest.RadixIP.RateLimit.Enabled && s.limiter != nil {
+				key := bucketKey(ip, latest.RadixIP.RateLimit.BucketMode.Mode)
+
+				var allowed bool
+				if s.routeTrie != nil {
+					if routeLimiter := s.routeTrie.Match(r.URL.Path, r.Method); routeLimiter != nil {
+						allowed = routeLimiter.Allow(key)
+					} else {
+						allowed = s.limiter.Allow(key)
+					}
+				} else {
+					allowed = s.limiter.Allow(key)
+				}
+
+				if !allowed {
+					if s.autoBan != nil && s.autoBan.RecordViolation(ipStr) {
+						writeJSON(w, mwCfg.Responses.Blocked, map[string]string{
+							"error": "auto-banned",
+							"ip":    ipStr,
+						})
+						return
+					}
+					w.Header().Set("Retry-After", "1")
+					writeJSON(w, mwCfg.Responses.RateLimited, map[string]string{
+						"error": "rate limited",
+						"ip":    ipStr,
+					})
+					return
+				}
+			}
+
+			next.ServeHTTP(w, r)
+		})
+	}, w.Stop, nil
 }
