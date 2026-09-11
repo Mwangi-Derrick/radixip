@@ -8,8 +8,6 @@ use crate::traits::RadixEngine;
 use crate::types::{EngineStats, Metadata};
 use ipnetwork::IpNetwork;
 #[cfg(feature = "redis")]
-use radixip_cache::RedisClient;
-#[cfg(feature = "redis")]
 use radixip_cache::{RedisCacheUpdate, RedisClient};
 
 pub struct HybridEngine {
