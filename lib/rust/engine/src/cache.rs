@@ -2,7 +2,7 @@ use super::traits::*;
 use crate::lpm::network_contains_ip;
 use crate::types::{EngineStats, Metadata};
 use ipnetwork::IpNetwork;
-use radixip_cache::{CacheConfig, RedisClient};
+pub use radixip_cache::{CacheConfig, RedisClient};
 use std::collections::HashMap;
 use std::net::IpAddr;
 use std::sync::{Arc, RwLock};
