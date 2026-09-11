@@ -1,6 +1,6 @@
 module kitchen-sink-go
 
-go 1.26.1
+go 1.26.7
 
 // Point to local paths
 
