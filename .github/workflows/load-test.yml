@@ -44,10 +44,10 @@ jobs:
   load-test:
     name: Load Test
     runs-on: ubuntu-latest
-    
+
     steps:
       - uses: actions/checkout@v4
-      
+
       - uses: actions/setup-go@v5
         with:
           go-version: '1.26.1'
@@ -79,22 +79,48 @@ jobs:
         run: |
           chmod +x scripts/blocklist_test.sh
           ./scripts/blocklist_test.sh
-
-      - name: Run sequential test
-        run: |
-          chmod +x scripts/sequential_test.sh
-          ./scripts/sequential_test.sh
       
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache Go modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
+      - name: Cache Rust build
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
+
+      - name: Cache test tool binaries (vegeta, ghz)
+        uses: actions/cache@v4
+        with:
+          path: bin/vegeta
+          key: ${{ runner.os }}-vegeta-12.11.1
+
+      - name: Run E2E Orchestrator
+        # The orchestrator self-downloads vegeta and ghz if not cached,
+        # builds all kitchen sink binaries, spawns all framework servers,
+        # runs all 3 test phases, and saves results.
+        run: go run ./cmd/e2e-orchestrator --results-dir ./test-results
+
       - name: Upload results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: load-test-results
           path: |
-            load_test_results_*.txt
-            test_summary_*.txt
-            results_*.txt
-            target_*.txt
-            result_*.json
-            grpc_*.txt
-            ghz_*.json
+            test-results/
