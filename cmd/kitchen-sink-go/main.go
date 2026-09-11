@@ -4,24 +4,25 @@ import (
 	"context"
 	"log"
 	"net"
+	"net/http"
 	"os"
 	"os/signal"
 	"sync"
 	"syscall"
-    "net/http"
+
+	radixipchi "github.com/Mwangi-Derrick/radixip/lib/go/adapters/chi"
 	radixipecho "github.com/Mwangi-Derrick/radixip/lib/go/adapters/echo"
 	radixipfiber "github.com/Mwangi-Derrick/radixip/lib/go/adapters/fiber"
 	radixipgin "github.com/Mwangi-Derrick/radixip/lib/go/adapters/gin"
 	radixipgrpc "github.com/Mwangi-Derrick/radixip/lib/go/adapters/grpc-interceptor"
-	radixipchi "github.com/Mwangi-Derrick/radixip/lib/go/adapters/chi"
 	radixipnethttp "github.com/Mwangi-Derrick/radixip/lib/go/adapters/net_http"
 	engine "github.com/Mwangi-Derrick/radixip/lib/go/engine"
 	radixipv1 "github.com/Mwangi-Derrick/radixip/proto/radixip"
 
 	gogin "github.com/gin-gonic/gin"
+	gochi "github.com/go-chi/chi/v5"
 	gofiber "github.com/gofiber/fiber/v2"
 	goecho "github.com/labstack/echo/v4"
-	gochi  "github.com/go-chi/chi/v5"
 	"google.golang.org/grpc"
 )
 
@@ -161,12 +162,12 @@ func main() {
 	go func() {
 		defer wg.Done()
 		app := gochi.NewRouter()
-		r, err,_  := radixipchi.NewFromYAML(configPath, adapter)
+		mw, stop, err := radixipchi.MiddlewareFromYAML(configPath, adapter)
 		if err != nil {
 			log.Fatalf("Chi middleware error: %v", err)
 		}
-		defer r.Stop()
-        app.Use(r)
+		defer stop()
+		app.Use(mw)
 		app.Get("/health", func(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusOK)
 			_, _ = w.Write([]byte("ok"))
@@ -200,31 +201,36 @@ func main() {
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
-		h, stop, err := radixipnethttp.NewFromYAML(configPath, adapter)
+		mw, stop, err := radixipnethttp.MiddlewareFromYAML(configPath, adapter)
 		if err != nil {
 			log.Fatalf("net/http middleware error: %v", err)
 		}
 		defer stop()
- 
+
 		mux := http.NewServeMux()
-		mux.Handle("/health", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		mux.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusOK)
 			_, _ = w.Write([]byte("ok"))
-		}))
-		mux.Handle("/api/v1/public", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		})
+		mux.HandleFunc("/api/v1/public", func(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusOK)
 			_, _ = w.Write([]byte("net/http public ok"))
-		}))
-		mux.Handle("/api/v1/auth", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			w.WriteHeader(http.StatusOK)
-			_, _ = w.Write([]byte("net/http auth ok"))
-		}))
-		mux.Handle("/api/v1/auth", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			w.WriteHeader(http.StatusOK)
-			_, _ = w.Write([]byte("net/http auth post ok"))
-		}))
+		})
+		mux.HandleFunc("/api/v1/auth", func(w http.ResponseWriter, r *http.Request) {
+			if r.Method == http.MethodGet {
+				w.WriteHeader(http.StatusOK)
+				_, _ = w.Write([]byte("net/http auth ok"))
+				return
+			}
+			if r.Method == http.MethodPost {
+				w.WriteHeader(http.StatusOK)
+				_, _ = w.Write([]byte("net/http auth post ok"))
+				return
+			}
+			w.WriteHeader(http.StatusMethodNotAllowed)
+		})
 
-		srv := &http.Server{Addr: ":8085", Handler: h}
+		srv := &http.Server{Addr: ":8085", Handler: mw(mux)}
 		go func() {
 			<-ctx.Done()
 			srv.Shutdown(context.Background())
@@ -236,7 +242,7 @@ func main() {
 		}
 	}()
 
-	// 7. gRPC Server (Port 50051)	
+	// 7. gRPC Server (Port 50051)
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
