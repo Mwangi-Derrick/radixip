@@ -808,17 +808,16 @@ We maintain two unified test applications that spin up all supported frameworks 
 - **Go Kitchen Sink** (`cmd/kitchen-sink-go`): Runs Gin (`:8081`), Echo (`:8082`), Fiber (`:8083`), and gRPC (`:50051`) sharing one engine.
 - **Rust Kitchen Sink** (`cmd/kitchen-sink-rust`): Runs Axum (`:9081`), Actix-Web (`:9082`), and Tonic gRPC (`:50052`) sharing one engine.
 
-### Vegeta Test Suite
+### E2E Orchestrator Test Suite
 
-The `scripts/` directory contains automated load tests driven by [Vegeta](https://github.com/tsenart/vegeta) and [ghz](https://ghz.sh/).
+The `cmd/e2e-orchestrator` directory contains a Go application that completely automates load testing across all supported languages and frameworks (Rust, Go, Node.js, Python). It internally downloads [Vegeta](https://github.com/tsenart/vegeta) and [ghz](https://ghz.sh/), manages server subprocesses, and executes a three-phase validation.
 
-**Running the Sequential Test Pipeline**:
+**Running the E2E Orchestrator**:
 ```bash
-chmod +x scripts/sequential_test.sh
-./scripts/sequential_test.sh
+go run ./cmd/e2e-orchestrator --results-dir ./test-results
 ```
 
-This master script performs a three-phase validation:
+This master orchestrator performs a three-phase validation:
 
 #### Phase 1: Route-Trie Specific Rate Limits
 Tests the configuration engine's segment-based Radix Trie. For example, if `radixip.yaml` defines:
@@ -833,10 +832,10 @@ rate_limit_routes:
     methods: ["GET"]
     rate_limit: { capacity: 1000, refill_rate: 100 }
 ```
-The test blasts `POST /api/v1/auth` and `GET /api/v1/public` at 1000 RPS. It asserts that the auth endpoint strictly clamps down (producing a low success rate) while the public endpoint easily absorbs the traffic. It uses unique `X-Forwarded-For` IPs per framework to prevent cross-framework auto-ban state from muddying the results.
+The test blasts `POST /api/v1/auth` and `GET /api/v1/public` at 1000 RPS. It asserts that the auth endpoint strictly clamps down (producing a low success rate) while the public endpoint easily absorbs the traffic. It uses unique `X-Forwarded-For` IPs per framework and per route to prevent cross-framework auto-ban state from muddying the results.
 
 #### Phase 2: Auto-Ban & Sweeper Verification
-Tests the `AutoBanTracker`. It attacks a single framework at 5,000 RPS using a single IP. 
+Tests the `AutoBanTracker`. It attacks each framework at high RPS using a single IP. 
 1. The first requests succeed up to the global rate-limit capacity.
 2. The next requests return `429 Too Many Requests`.
 3. Once the IP hits the `violation_threshold` (e.g., 5 violations), the engine injects it into the blocklist.
@@ -845,29 +844,23 @@ Tests the `AutoBanTracker`. It attacks a single framework at 5,000 RPS using a s
 
 #### Phase 3: gRPC Auto-Ban & Sweeper Verification
 
-The same script builds the Go gRPC probe, installs `ghz` with `go install` when it is not already available, and tests both gRPC servers:
-
+The orchestrator natively tests both gRPC servers:
 - Go gRPC on `localhost:50051`
 - Rust/Tonic gRPC on `localhost:50052`
 
-The test calls `radixip.v1.RadixService/Lookup` with `x-forwarded-for` metadata. `ghz` produces a JSON load report, while the checked-in probe makes deterministic status assertions. The CI validation completed with:
-
+The test calls `radixip.v1.RadixService/Lookup` with `x-forwarded-for` metadata using `ghz`. It asserts:
 - `PermissionDenied` responses from both Go and Rust after auto-ban activation
 - The Go and Rust bans lifted successfully after the 35-second sweeper wait
-- A final HTTP request returning `200 OK` after the ban expired
+- A final gRPC request succeeding after the ban expired
 
-For a local run:
-
+For a local run, simply execute:
 ```bash
-go install github.com/bojand/ghz/cmd/ghz@latest
-chmod +x scripts/sequential_test.sh
-./scripts/sequential_test.sh
+go run ./cmd/e2e-orchestrator --results-dir ./test-results
 ```
-
-The script installs `ghz` through Go on Linux, macOS, and Windows Git Bash/MSYS. Set `GHZ_REQUESTS` and `GHZ_CONCURRENCY` to adjust the gRPC load.
+The orchestrator manages dependencies automatically, requiring only a modern Go toolchain and cargo/npm/python to build the sink apps.
 
 ### Spoof Proxy & Attack Simulation
-For advanced A/B testing and distributed IP spoofing, you can run `scripts/spoof_proxy` alongside `scripts/vegeta_test.sh` to simulate thousands of distinct, malicious IPs hitting the edge simultaneously.
+For advanced A/B testing and distributed IP spoofing, you can run `scripts/spoof_proxy` alongside load generation tools to simulate thousands of distinct, malicious IPs hitting the edge simultaneously.
 
 
 ## 🤝 Contributing
