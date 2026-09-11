@@ -98,6 +98,19 @@ where
                 }
             };
 
+            // 1a. Auto-ban check — fast path before blocklist LPM.
+            if let Some(auto_ban) = &state.auto_ban {
+                if auto_ban.is_banned(ip) {
+                    let mut builder = HttpResponse::build(
+                        actix_web::http::StatusCode::from_u16(responses.blocked)
+                            .unwrap_or(actix_web::http::StatusCode::FORBIDDEN),
+                    );
+                    builder.insert_header((header::CONTENT_TYPE, "application/json"));
+                    let res = builder.body(r#"{"error":"auto-banned"}"#);
+                    return Ok(req.into_response(res.map_into_right_body()));
+                }
+            }
+
             // 2. Blocklist check
             if bl_cfg.enabled && engine.lookup(&ip).is_some() {
                 let mut builder = HttpResponse::build(
@@ -125,6 +138,10 @@ where
                 };
 
                 if denied {
+                    // Record violation — AutoBanTracker handles engine insertion itself.
+                    if let Some(auto_ban) = &state.auto_ban {
+                        auto_ban.record_violation(ip);
+                    }
                     let mut builder = HttpResponse::build(
                         actix_web::http::StatusCode::from_u16(responses.rate_limited)
                             .unwrap_or(actix_web::http::StatusCode::TOO_MANY_REQUESTS),

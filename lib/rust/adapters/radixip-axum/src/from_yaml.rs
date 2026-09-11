@@ -96,6 +96,21 @@ where
                 }
             };
 
+            // 2a. Auto-ban check — short-circuit before blocklist LPM
+            // (auto-banned IPs are inserted into the engine, but this is faster).
+            if let Some(auto_ban) = &state.auto_ban {
+                if auto_ban.is_banned(ip) {
+                    let status = axum::http::StatusCode::from_u16(responses.blocked)
+                        .unwrap_or(axum::http::StatusCode::FORBIDDEN);
+                    return Ok((
+                        status,
+                        [(axum::http::header::CONTENT_TYPE, "application/json")],
+                        r#"{"error":"auto-banned"}"#,
+                    )
+                        .into_response());
+                }
+            }
+
             // 2. Blocklist check
             if bl_cfg.enabled && engine.lookup(&ip).is_some() {
                 let status = axum::http::StatusCode::from_u16(responses.blocked)
@@ -122,9 +137,13 @@ where
                 };
 
                 if denied {
+                    // Record violation — AutoBanTracker handles engine insertion itself.
+                    if let Some(auto_ban) = &state.auto_ban {
+                        auto_ban.record_violation(ip);
+                    }
                     let status = axum::http::StatusCode::from_u16(responses.rate_limited)
                         .unwrap_or(axum::http::StatusCode::TOO_MANY_REQUESTS);
-                    let response = (
+                    return Ok((
                         status,
                         [
                             (axum::http::header::CONTENT_TYPE, "application/json"),
@@ -132,8 +151,7 @@ where
                         ],
                         r#"{"error":"rate limited"}"#,
                     )
-                        .into_response();
-                    return Ok(response);
+                        .into_response());
                 }
             }
 
