@@ -9,6 +9,8 @@ use (
 	./lib/go/adapters/fiber
 	./lib/go/adapters/gin
 	./lib/go/adapters/interceptor
+	./lib/go/adapters/chi
+	./lib/go/adapters/net_http
 	./lib/go/config
 	./lib/go/engine
 	./lib/go/policy
