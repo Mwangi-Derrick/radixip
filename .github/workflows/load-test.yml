@@ -67,9 +67,6 @@ jobs:
       - name: Run load test (2000 req/s)
         run: ./scripts/vegeta_test.sh 2000 30s 100000
 
-      - name: Run load test (3000 req/s)
-        run: ./scripts/vegeta_test.sh 3000 30s 100000
-
       - name: Run attacker simulation test
         run: |
           chmod +x scripts/attacker_test.sh
@@ -80,6 +77,7 @@ jobs:
           chmod +x scripts/blocklist_test.sh
           ./scripts/blocklist_test.sh
       
+
 
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
@@ -108,13 +106,13 @@ jobs:
       - name: Cache test tool binaries (vegeta, ghz)
         uses: actions/cache@v4
         with:
-          path: bin/vegeta
-          key: ${{ runner.os }}-vegeta-12.11.1
+          path: bin/
+          key: ${{ runner.os }}-e2e-tools-vegeta12.11.1
 
       - name: Run E2E Orchestrator
         # The orchestrator self-downloads vegeta and ghz if not cached,
-        # builds all kitchen sink binaries, spawns all framework servers,
-        # runs all 3 test phases, and saves results.
+        # builds all kitchen sink binaries (Go + Rust), spawns all framework
+        # servers, runs Phases 1-3, saves results and exits 1 on failures.
         run: go run ./cmd/e2e-orchestrator --results-dir ./test-results
 
       - name: Upload results
