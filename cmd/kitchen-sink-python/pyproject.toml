@@ -1,3 +1,7 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "kitchen_sink_python"
 version = "0.1.0"
@@ -11,3 +15,5 @@ dependencies = [
     "django>=4.2.0",
     # radixip will be installed from local path by the orchestrator
 ]
+[tool.setuptools]
+py-modules = ["fastapi_app", "flask_app", "django_app"]
