@@ -495,11 +495,15 @@ func phase1RouteTrie(ctx context.Context, vegetaBin, resultsDir string, summarie
 			*summaries = append(*summaries, TestSummary{Phase: "1", Name: t.name + " public", Port: t.port, Passed: false, Details: err.Error()})
 		} else {
 			details := fmt.Sprintf("success=%.3f 429=%d 200=%d", pubReport.Success, pubReport.StatusCodes["429"], pubReport.StatusCodes["200"])
+			if pubReport.Requests == 0 {
+				details += " ⚠️ zero responses — check X-Forwarded-For handling or Mutex contention"
+			}
 			log.Printf("  Public (capacity=1000): %s", details)
 			*summaries = append(*summaries, TestSummary{Phase: "1", Name: t.name + " public", Port: t.port, Passed: pubReport.Success > 0.5, Details: details})
 		}
 	}
 }
+
 
 func phase2AutoBan(ctx context.Context, vegetaBin, resultsDir string, summaries *[]TestSummary) {
 	log.Println("\n==========================================")
