@@ -127,6 +127,9 @@ simulate-attack:
 load-test:
 	@./scripts/vegeta_test.sh
 
+e2e-test-sink:
+	@go run ./cmd/e2e-orchestrator --results-dir ./test-results
+
 help:
 	@echo "Commands:"
 	@echo ""
@@ -153,3 +156,4 @@ help:
 	@echo "  ## Attacks"
 	@echo "  make simulate-attack  - Simulate attacks on the current configuration"
 	@echo "  make load-test        - Run load test on the current configuration"
+	@echo "  make e2e-test-sink    - Run end-to-end test on the kitchen sink"
