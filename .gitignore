@@ -8,6 +8,7 @@
 **.txt
 scripts/trigger.sh
 **/bin/
+**.node
 
 **data
 **.next
