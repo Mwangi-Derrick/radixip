@@ -10,6 +10,7 @@
 // Usage:
 //   go run ./cmd/e2e-orchestrator [flags]
 //   go run ./cmd/e2e-orchestrator --skip-build --results-dir ./results
+//   go run ./cmd/e2e-orchestrator --require-all   # CI: fail if any sink unhealthy
 
 package main
 
@@ -43,19 +44,12 @@ var (
 	flagResultsDir = flag.String("results-dir", ".", "Directory to write result files into")
 	flagConfig     = flag.String("config", "config/radixip.yaml", "Path to radixip.yaml config file")
 	flagSinkOnly   = flag.Bool("sink-only", false, "Only start sinks, do not run tests (useful for manual testing)")
-	flagNodeOnly   = flag.Bool("with-node", false, "Also spawn Node.js sinks (requires npm)")
-	flagPythonOnly = flag.Bool("with-python", false, "Also spawn Python sinks (requires uvicorn/flask/django)")
+	flagRequireAll = flag.Bool("require-all", false, "Fail if any expected sink is unhealthy (recommended for CI)")
 )
 
 // ---------------------------------------------------------------------------
 // Tool installation (vegeta + ghz)
 // ---------------------------------------------------------------------------
-
-type tool struct {
-	name    string
-	binPath string // path after installation
-	install func(ctx context.Context, binDir string) error
-}
 
 func vegetaInstallURL() (string, string) {
 	const version = "12.11.1"
@@ -98,7 +92,6 @@ func downloadAndExtract(ctx context.Context, url, destDir, binName string) error
 		return fmt.Errorf("download failed with status %d", resp.StatusCode)
 	}
 
-	// Write to a temp file first
 	tmpFile := filepath.Join(destDir, binName+".tar.gz")
 	f, err := os.Create(tmpFile)
 	if err != nil {
@@ -110,7 +103,6 @@ func downloadAndExtract(ctx context.Context, url, destDir, binName string) error
 	}
 	f.Close()
 
-	// Extract using `tar` (available on all platforms in modern versions)
 	cmd := exec.CommandContext(ctx, "tar", "-xzf", tmpFile, "-C", destDir, binName)
 	if out, err := cmd.CombinedOutput(); err != nil {
 		return fmt.Errorf("extract failed: %w\n%s", err, out)
@@ -137,7 +129,6 @@ func installGhz(ctx context.Context, binDir string) error {
 	if err := cmd.Run(); err != nil {
 		return fmt.Errorf("go install ghz failed: %w", err)
 	}
-	// ghz is installed to $(go env GOPATH)/bin — find and copy to binDir
 	gopath, err := exec.CommandContext(ctx, "go", "env", "GOPATH").Output()
 	if err != nil {
 		return fmt.Errorf("go env GOPATH failed: %w", err)
@@ -195,6 +186,19 @@ func ensureTools(ctx context.Context, binDir string) (vegetaBin, ghzBin string, 
 // Building
 // ---------------------------------------------------------------------------
 
+// pythonWheelInstallScript returns a small Python program (invoked with
+// `python -c`) that finds the newest wheel in wheelDir and pip-installs it.
+// Doing the glob inside Python keeps this portable across shells and OSes.
+func pythonWheelInstallScript(wheelDir string) string {
+	return fmt.Sprintf(`
+import glob, os, subprocess, sys
+wheels = sorted(glob.glob(os.path.join(%q, "*.whl")), key=os.path.getmtime, reverse=True)
+if not wheels:
+    sys.exit("no wheel found in " + %q)
+sys.exit(subprocess.call([sys.executable, "-m", "pip", "install", "--force-reinstall", wheels[0]]))
+`, wheelDir, wheelDir)
+}
+
 func buildArtifacts(ctx context.Context, cwd string) error {
 	log.Println("🔨 Building Kitchen Sink Apps...")
 	steps := []struct {
@@ -210,12 +214,16 @@ func buildArtifacts(ctx context.Context, cwd string) error {
 		{"Node Binding Build", filepath.Join(cwd, "lib", "node"), "npm", []string{"run", "build"}},
 		{"Node Sink Install", filepath.Join(cwd, "cmd", "kitchen-sink-node"), "npm", []string{"install"}},
 		{"Python Maturin", cwd, "python", []string{"-m", "pip", "install", "maturin"}},
+		// NOTE: `maturin build` (NOT `develop`) — develop requires an active
+		// virtualenv, which CI runners do not have. We build a wheel and then
+		// pip-install it explicitly in the next step.
 		{"Python Binding Build", filepath.Join(cwd, "lib", "python"), "python", []string{"-m", "maturin", "build", "--release"}},
-		{"Python Sink Install", filepath.Join(cwd, "cmd", "kitchen-sink-python"), "python", []string{"-m", "pip", "install", "-e", "."}},
+		{"Python Binding Install", cwd, "python", []string{"-c", pythonWheelInstallScript(filepath.Join(cwd, "lib", "python", "target", "wheels"))}},
+		// --no-deps so the sink install can't clobber the freshly-installed wheel.
+		{"Python Sink Install", filepath.Join(cwd, "cmd", "kitchen-sink-python"), "python", []string{"-m", "pip", "install", "-e", ".", "--no-deps"}},
 	}
 	for _, s := range steps {
 		log.Printf("  Building %s...", s.name)
-		// For Windows compatibility, if cmd is npm, we need to run npm.cmd
 		cmdName := s.cmd
 		if runtime.GOOS == "windows" && cmdName == "npm" {
 			cmdName = "npm.cmd"
@@ -253,6 +261,7 @@ func (s *Sink) Start(ctx context.Context, wg *sync.WaitGroup) error {
 	s.proc.Env = append(os.Environ(), s.Env...)
 	s.proc.Stdout = os.Stdout
 	s.proc.Stderr = os.Stderr
+	setProcGroup(s.proc) // platform-specific; see procgroup_*.go
 	if err := s.proc.Start(); err != nil {
 		return fmt.Errorf("start %s: %w", s.Name, err)
 	}
@@ -291,7 +300,6 @@ func waitHealthy(sinks []Sink, timeout time.Duration) error {
 		}
 		time.Sleep(1 * time.Second)
 	}
-	// Report which ports are still unhealthy
 	var bad []string
 	for _, s := range sinks {
 		for _, p := range s.Ports {
@@ -322,7 +330,6 @@ type VegetaReport struct {
 }
 
 func runVegeta(ctx context.Context, vegetaBin, target, label, resultsDir string, rate int, duration time.Duration) (*VegetaReport, error) {
-	// Write targets file
 	targetsFile := filepath.Join(resultsDir, label+"_target.txt")
 	if err := os.WriteFile(targetsFile, []byte(target), 0644); err != nil {
 		return nil, err
@@ -362,7 +369,6 @@ func runVegeta(ctx context.Context, vegetaBin, target, label, resultsDir string,
 		return nil, fmt.Errorf("vegeta report: %w", err)
 	}
 
-	// Save raw JSON
 	outFile := filepath.Join(resultsDir, label+"_result.json")
 	os.WriteFile(outFile, reportOut.Bytes(), 0644)
 
@@ -401,7 +407,6 @@ func runGhz(ctx context.Context, ghzBin, protoDir, port, ip, label, resultsDir s
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	if err := cmd.Run(); err != nil {
-		// ghz exits non-zero when there are errors — that's expected for auto-ban tests
 		log.Printf("⚠️  ghz exited non-zero for %s (expected during auto-ban tests)", label)
 	}
 
@@ -433,9 +438,6 @@ func phase1RouteTrie(ctx context.Context, vegetaBin, resultsDir string, summarie
 	log.Println(" Phase 1: Route-Trie Specific Rate Limits")
 	log.Println("==========================================")
 
-	// Each framework gets a distinct /24 block so auth auto-bans can never
-	// contaminate the public-route sub-test that runs right after.
-	// Auth uses  203.0.113.X, public uses 203.0.114.X (different base octets).
 	targets := []struct {
 		name     string
 		port     int
@@ -454,9 +456,12 @@ func phase1RouteTrie(ctx context.Context, vegetaBin, resultsDir string, summarie
 	}
 
 	for _, t := range targets {
-		// Skip ports that never came up (Node/Python sinks not started).
 		if !healthCheck(t.port) {
 			log.Printf("⏭️  Skipping %s (port %d not healthy)", t.name, t.port)
+			*summaries = append(*summaries, TestSummary{
+				Phase: "1", Name: t.name + " (SKIPPED)", Port: t.port,
+				Passed: false, Details: "port not healthy",
+			})
 			continue
 		}
 		log.Printf("\nTesting %s on port %d...", t.name, t.port)
@@ -465,7 +470,6 @@ func phase1RouteTrie(ctx context.Context, vegetaBin, resultsDir string, summarie
 		label = strings.ReplaceAll(label, ")", "")
 		label = strings.TrimRight(label, "_")
 
-		// Auth test — unique IP in the 203.0.113.0/24 range.
 		authIP := fmt.Sprintf("203.0.113.%d", t.ipSuffix)
 		labelAuth := fmt.Sprintf("p1_%s_auth", label)
 		targetAuth := fmt.Sprintf("POST http://localhost:%d/api/v1/auth\nX-Forwarded-For: %s\n", t.port, authIP)
@@ -481,7 +485,6 @@ func phase1RouteTrie(ctx context.Context, vegetaBin, resultsDir string, summarie
 			*summaries = append(*summaries, TestSummary{Phase: "1", Name: t.name + " auth", Port: t.port, Passed: passed, Details: details})
 		}
 
-		// Public test — unique IP in the 203.0.114.0/24 range (separate from auth).
 		pubIP := fmt.Sprintf("203.0.114.%d", t.ipSuffix)
 		labelPub := fmt.Sprintf("p1_%s_public", label)
 		targetPub := fmt.Sprintf("GET http://localhost:%d/api/v1/public\nX-Forwarded-For: %s\n", t.port, pubIP)
@@ -517,6 +520,10 @@ func phase2AutoBan(ctx context.Context, vegetaBin, resultsDir string, summaries 
 
 		if !healthCheck(t.port) {
 			log.Printf("⏭️  Skipping %s (port %d not healthy)", t.name, t.port)
+			*summaries = append(*summaries, TestSummary{
+				Phase: "2", Name: t.name + " (SKIPPED)", Port: t.port,
+				Passed: false, Details: "port not healthy",
+			})
 			continue
 		}
 
@@ -540,11 +547,9 @@ func phase2AutoBan(ctx context.Context, vegetaBin, resultsDir string, summaries 
 		*summaries = append(*summaries, TestSummary{Phase: "2", Name: t.name, Port: t.port, Passed: passed, Details: details})
 	}
 
-	// Wait for sweeper to lift bans
 	log.Println("\n⏳ Waiting 35s for bans to expire...")
 	time.Sleep(35 * time.Second)
 
-	// Verify ban was lifted
 	c := &http.Client{Timeout: 3 * time.Second}
 	req, _ := http.NewRequestWithContext(ctx, http.MethodGet, fmt.Sprintf("http://localhost:8081/api/v1/public"), nil)
 	req.Header.Set("X-Forwarded-For", banIP)
@@ -583,7 +588,6 @@ func phase3GRPC(ctx context.Context, ghzBin, grpcProbe, protoDir, resultsDir str
 			log.Printf("  ghz: rps=%.1f total=%d", report.Rps, report.Count)
 		}
 
-		// Run grpc-probe to check for PermissionDenied (auto-ban)
 		probeOut, err := exec.CommandContext(ctx, grpcProbe,
 			"-target", "localhost:"+t.port,
 			"-requests", "2000",
@@ -610,7 +614,6 @@ func phase3GRPC(ctx context.Context, ghzBin, grpcProbe, protoDir, resultsDir str
 		*summaries = append(*summaries, TestSummary{Phase: "3", Name: t.name, Port: 0, Passed: passed, Details: details})
 	}
 
-	// Sweeper check for gRPC
 	log.Println("⏳ Waiting 35s for gRPC bans to expire...")
 	time.Sleep(35 * time.Second)
 	for _, t := range []struct {
@@ -713,7 +716,7 @@ func main() {
 		configAbs = filepath.Join(cwd, configAbs)
 	}
 
-	// 3. Spawn sinks
+	// 3. Spawn sinks — all ecosystems by default.
 	coreSinks := []Sink{
 		{
 			Name:  "Go Sinks (Gin/Echo/Fiber/gRPC)",
@@ -729,20 +732,20 @@ func main() {
 
 	if runtime.GOOS == "windows" {
 		coreSinks[0].Cmd += ".exe"
+		coreSinks[1].Cmd += ".exe"
 	}
 
 	var allSinks []Sink
 	allSinks = append(allSinks, coreSinks...)
 
-	allSinks = append(allSinks, Sink{
-		Name:  "Node Sinks (Express/Fastify)",
-		Dir:   filepath.Join(cwd, "cmd", "kitchen-sink-node"),
-		Cmd:   "node",
-		Args:  []string{"server.js", "--config", configAbs},
-		Ports: []int{8091, 8092},
-	})
-
 	allSinks = append(allSinks,
+		Sink{
+			Name:  "Node Sinks (Express/Fastify)",
+			Dir:   filepath.Join(cwd, "cmd", "kitchen-sink-node"),
+			Cmd:   "node",
+			Args:  []string{"server.js", "--config", configAbs},
+			Ports: []int{8091, 8092},
+		},
 		Sink{
 			Name:  "Python FastAPI",
 			Dir:   filepath.Join(cwd, "cmd", "kitchen-sink-python"),
@@ -755,20 +758,24 @@ func main() {
 			Name:  "Python Flask",
 			Dir:   filepath.Join(cwd, "cmd", "kitchen-sink-python"),
 			Cmd:   "python",
-			Args:  []string{"flask_app.py"},
+			Args:  []string{"-m", "flask", "--app", "flask_app", "run", "--host", "0.0.0.0", "--port", "8096", "--no-reload"},
 			Ports: []int{8096},
 			Env:   []string{"RADIXIP_CONFIG=" + configAbs},
 		},
 		Sink{
-			Name:  "Python Django",
-			Dir:   filepath.Join(cwd, "cmd", "kitchen-sink-python"),
-			Cmd:   "python",
-			Args:  []string{"django_app.py", "runserver", "0.0.0.0:8095"},
+			Name: "Python Django",
+			Dir:  filepath.Join(cwd, "cmd", "kitchen-sink-python"),
+			Cmd:  "python",
+			// NOTE: assumes django_app.py has an `if __name__ == "__main__"` block
+			// that calls execute_from_command_line. If this is a standard Django
+			// project, replace with: manage.py runserver 0.0.0.0:8095 --noreload
+			Args:  []string{"django_app.py", "runserver", "0.0.0.0:8095", "--noreload"},
 			Ports: []int{8095},
 			Env:   []string{"RADIXIP_CONFIG=" + configAbs},
 		},
 	)
 
+	// On Unix, prefer `python3` if `python` isn't on PATH.
 	for i, s := range allSinks {
 		if s.Cmd == "python" && runtime.GOOS != "windows" {
 			if _, err := exec.LookPath("python"); err != nil {
@@ -789,6 +796,9 @@ func main() {
 
 	log.Println("⏳ Waiting for sinks to become healthy...")
 	if err := waitHealthy(allSinks, 45*time.Second); err != nil {
+		if *flagRequireAll {
+			log.Fatalf("❌ --require-all set and health check failed: %v", err)
+		}
 		log.Printf("⚠️  Health check: %v", err)
 	} else {
 		log.Println("✅ All sinks healthy!")
@@ -808,6 +818,9 @@ func main() {
 	if runtime.GOOS == "windows" {
 		grpcProbeBin += ".exe"
 	}
+	if _, err := os.Stat(grpcProbeBin); err != nil {
+		log.Fatalf("❌ grpc-probe-go not found at %s (did you skip the build?)", grpcProbeBin)
+	}
 
 	phase1RouteTrie(ctx, vegetaBin, resultsDir, &summaries)
 	phase2AutoBan(ctx, vegetaBin, resultsDir, &summaries)
@@ -816,7 +829,6 @@ func main() {
 	// 5. Save results
 	saveSummary(summaries, resultsDir)
 
-	// Count failures for exit code
 	failures := 0
 	for _, s := range summaries {
 		if !s.Passed {
@@ -824,7 +836,7 @@ func main() {
 		}
 	}
 
-	cancel() // stop sinks
+	cancel()
 	wg.Wait()
 	log.Println("✅ Orchestrator done.")
 
