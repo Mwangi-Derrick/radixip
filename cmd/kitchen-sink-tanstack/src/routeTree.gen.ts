@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as PathlessLayoutRouteImport } from './routes/_pathlessLayout'
 import { Route as CustomScriptDotjsRouteImport } from './routes/customScript[.]js'
 import { Route as DeferredRouteImport } from './routes/deferred'
+import { Route as HealthRouteImport } from './routes/health'
 import { Route as PostsRouteImport } from './routes/posts'
 import { Route as RedirectRouteImport } from './routes/redirect'
 import { Route as UsersRouteImport } from './routes/users'
@@ -25,6 +26,8 @@ import { Route as UsersUserIdRouteImport } from './routes/users.$userId'
 import { Route as PathlessLayoutNestedLayoutRouteARouteImport } from './routes/_pathlessLayout/_nested-layout/route-a'
 import { Route as PathlessLayoutNestedLayoutRouteBRouteImport } from './routes/_pathlessLayout/_nested-layout/route-b'
 import { Route as ApiUsersUserIdRouteImport } from './routes/api/users.$userId'
+import { Route as ApiV1AuthRouteImport } from './routes/api/v1/auth'
+import { Route as ApiV1PublicRouteImport } from './routes/api/v1/public'
 import { Route as PostsPostIdDeepRouteImport } from './routes/posts_.$postId.deep'
 
 const IndexRoute = IndexRouteImport.update({
@@ -44,6 +47,11 @@ const CustomScriptDotjsRoute = CustomScriptDotjsRouteImport.update({
 const DeferredRoute = DeferredRouteImport.update({
   id: '/deferred',
   path: '/deferred',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HealthRoute = HealthRouteImport.update({
+  id: '/health',
+  path: '/health',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PostsRoute = PostsRouteImport.update({
@@ -108,6 +116,16 @@ const ApiUsersUserIdRoute = ApiUsersUserIdRouteImport.update({
   path: '/$userId',
   getParentRoute: () => ApiUsersRoute,
 } as any)
+const ApiV1AuthRoute = ApiV1AuthRouteImport.update({
+  id: '/api/v1/auth',
+  path: '/api/v1/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiV1PublicRoute = ApiV1PublicRouteImport.update({
+  id: '/api/v1/public',
+  path: '/api/v1/public',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PostsPostIdDeepRoute = PostsPostIdDeepRouteImport.update({
   id: '/posts_/$postId/deep',
   path: '/posts/$postId/deep',
@@ -118,6 +136,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/customScript.js': typeof CustomScriptDotjsRoute
   '/deferred': typeof DeferredRoute
+  '/health': typeof HealthRoute
   '/posts': typeof PostsRouteWithChildren
   '/redirect': typeof RedirectRoute
   '/users': typeof UsersRouteWithChildren
@@ -129,12 +148,15 @@ export interface FileRoutesByFullPath {
   '/route-a': typeof PathlessLayoutNestedLayoutRouteARoute
   '/route-b': typeof PathlessLayoutNestedLayoutRouteBRoute
   '/api/users/$userId': typeof ApiUsersUserIdRoute
+  '/api/v1/auth': typeof ApiV1AuthRoute
+  '/api/v1/public': typeof ApiV1PublicRoute
   '/posts/$postId/deep': typeof PostsPostIdDeepRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/customScript.js': typeof CustomScriptDotjsRoute
   '/deferred': typeof DeferredRoute
+  '/health': typeof HealthRoute
   '/redirect': typeof RedirectRoute
   '/api/users': typeof ApiUsersRouteWithChildren
   '/posts/$postId': typeof PostsPostIdRoute
@@ -144,6 +166,8 @@ export interface FileRoutesByTo {
   '/route-a': typeof PathlessLayoutNestedLayoutRouteARoute
   '/route-b': typeof PathlessLayoutNestedLayoutRouteBRoute
   '/api/users/$userId': typeof ApiUsersUserIdRoute
+  '/api/v1/auth': typeof ApiV1AuthRoute
+  '/api/v1/public': typeof ApiV1PublicRoute
   '/posts/$postId/deep': typeof PostsPostIdDeepRoute
 }
 export interface FileRoutesById {
@@ -152,6 +176,7 @@ export interface FileRoutesById {
   '/_pathlessLayout': typeof PathlessLayoutRouteWithChildren
   '/customScript.js': typeof CustomScriptDotjsRoute
   '/deferred': typeof DeferredRoute
+  '/health': typeof HealthRoute
   '/posts': typeof PostsRouteWithChildren
   '/redirect': typeof RedirectRoute
   '/users': typeof UsersRouteWithChildren
@@ -164,6 +189,8 @@ export interface FileRoutesById {
   '/_pathlessLayout/_nested-layout/route-a': typeof PathlessLayoutNestedLayoutRouteARoute
   '/_pathlessLayout/_nested-layout/route-b': typeof PathlessLayoutNestedLayoutRouteBRoute
   '/api/users/$userId': typeof ApiUsersUserIdRoute
+  '/api/v1/auth': typeof ApiV1AuthRoute
+  '/api/v1/public': typeof ApiV1PublicRoute
   '/posts_/$postId/deep': typeof PostsPostIdDeepRoute
 }
 export interface FileRouteTypes {
@@ -172,6 +199,7 @@ export interface FileRouteTypes {
     | '/'
     | '/customScript.js'
     | '/deferred'
+    | '/health'
     | '/posts'
     | '/redirect'
     | '/users'
@@ -183,12 +211,15 @@ export interface FileRouteTypes {
     | '/route-a'
     | '/route-b'
     | '/api/users/$userId'
+    | '/api/v1/auth'
+    | '/api/v1/public'
     | '/posts/$postId/deep'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/customScript.js'
     | '/deferred'
+    | '/health'
     | '/redirect'
     | '/api/users'
     | '/posts/$postId'
@@ -198,6 +229,8 @@ export interface FileRouteTypes {
     | '/route-a'
     | '/route-b'
     | '/api/users/$userId'
+    | '/api/v1/auth'
+    | '/api/v1/public'
     | '/posts/$postId/deep'
   id:
     | '__root__'
@@ -205,6 +238,7 @@ export interface FileRouteTypes {
     | '/_pathlessLayout'
     | '/customScript.js'
     | '/deferred'
+    | '/health'
     | '/posts'
     | '/redirect'
     | '/users'
@@ -217,6 +251,8 @@ export interface FileRouteTypes {
     | '/_pathlessLayout/_nested-layout/route-a'
     | '/_pathlessLayout/_nested-layout/route-b'
     | '/api/users/$userId'
+    | '/api/v1/auth'
+    | '/api/v1/public'
     | '/posts_/$postId/deep'
   fileRoutesById: FileRoutesById
 }
@@ -225,10 +261,13 @@ export interface RootRouteChildren {
   PathlessLayoutRoute: typeof PathlessLayoutRouteWithChildren
   CustomScriptDotjsRoute: typeof CustomScriptDotjsRoute
   DeferredRoute: typeof DeferredRoute
+  HealthRoute: typeof HealthRoute
   PostsRoute: typeof PostsRouteWithChildren
   RedirectRoute: typeof RedirectRoute
   UsersRoute: typeof UsersRouteWithChildren
   ApiUsersRoute: typeof ApiUsersRouteWithChildren
+  ApiV1AuthRoute: typeof ApiV1AuthRoute
+  ApiV1PublicRoute: typeof ApiV1PublicRoute
   PostsPostIdDeepRoute: typeof PostsPostIdDeepRoute
 }
 
@@ -260,6 +299,13 @@ declare module '@tanstack/react-router' {
       path: '/deferred'
       fullPath: '/deferred'
       preLoaderRoute: typeof DeferredRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/health': {
+      id: '/health'
+      path: '/health'
+      fullPath: '/health'
+      preLoaderRoute: typeof HealthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/posts': {
@@ -346,6 +392,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiUsersUserIdRouteImport
       parentRoute: typeof ApiUsersRoute
     }
+    '/api/v1/auth': {
+      id: '/api/v1/auth'
+      path: '/api/v1/auth'
+      fullPath: '/api/v1/auth'
+      preLoaderRoute: typeof ApiV1AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/v1/public': {
+      id: '/api/v1/public'
+      path: '/api/v1/public'
+      fullPath: '/api/v1/public'
+      preLoaderRoute: typeof ApiV1PublicRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/posts_/$postId/deep': {
       id: '/posts_/$postId/deep'
       path: '/posts/$postId/deep'
@@ -427,10 +487,13 @@ const rootRouteChildren: RootRouteChildren = {
   PathlessLayoutRoute: PathlessLayoutRouteWithChildren,
   CustomScriptDotjsRoute: CustomScriptDotjsRoute,
   DeferredRoute: DeferredRoute,
+  HealthRoute: HealthRoute,
   PostsRoute: PostsRouteWithChildren,
   RedirectRoute: RedirectRoute,
   UsersRoute: UsersRouteWithChildren,
   ApiUsersRoute: ApiUsersRouteWithChildren,
+  ApiV1AuthRoute: ApiV1AuthRoute,
+  ApiV1PublicRoute: ApiV1PublicRoute,
   PostsPostIdDeepRoute: PostsPostIdDeepRoute,
 }
 export const routeTree = rootRouteImport
