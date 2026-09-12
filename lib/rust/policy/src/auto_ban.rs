@@ -65,12 +65,14 @@ impl AutoBanTracker {
             engine: Arc::clone(&engine),
         };
 
-        // Start background sweeper.
+        // Start background sweeper on a standard OS thread.
+        // This ensures the FFI layers (Node/Python) don't panic if a global Tokio
+        // reactor isn't running in their process.
         {
             let inner_clone = Arc::clone(&inner);
             let engine_clone = Arc::clone(&engine);
-            tokio::spawn(async move {
-                sweeper(inner_clone, engine_clone).await;
+            std::thread::spawn(move || {
+                sweeper(inner_clone, engine_clone);
             });
         }
 
@@ -121,10 +123,9 @@ impl AutoBanTracker {
 
 // Background sweeper
 
-async fn sweeper(inner: Arc<Mutex<Inner>>, engine: Arc<Box<dyn RadixEngine>>) {
-    let mut interval = tokio::time::interval(Duration::from_secs(30));
+fn sweeper(inner: Arc<Mutex<Inner>>, engine: Arc<Box<dyn RadixEngine>>) {
     loop {
-        interval.tick().await;
+        std::thread::sleep(Duration::from_secs(30));
 
         let expired: Vec<IpAddr> = {
             let mut inner = inner.lock().unwrap();
