@@ -803,10 +803,15 @@ RadixIP includes a comprehensive validation suite to ensure the middleware, gRPC
 
 ### Kitchen Sink Applications
 
-We maintain two unified test applications that spin up all supported frameworks concurrently. They share a single, in-memory RadixIP `PolicyEngine` (including the Radix Tree, auto-ban sweepers, and Token Bucket limiters):
+We maintain five unified test applications that spin up all supported frameworks concurrently. They share a single, in-memory RadixIP `PolicyEngine` (including the Radix Tree, auto-ban sweepers, and Token Bucket limiters):
 
-- **Go Kitchen Sink** (`cmd/kitchen-sink-go`): Runs Gin (`:8081`), Echo (`:8082`), Fiber (`:8083`), and gRPC (`:50051`) sharing one engine.
+- **Go Kitchen Sink** (`cmd/kitchen-sink-go`): Runs Gin (`:8081`), Echo (`:8082`), Fiber (`:8083`), Chi (`:8084`), Net/Http (`:8085`), and gRPC (`:50051`) sharing one engine.
 - **Rust Kitchen Sink** (`cmd/kitchen-sink-rust`): Runs Axum (`:9081`), Actix-Web (`:9082`), and Tonic gRPC (`:50052`) sharing one engine.
+- **Node Kitchen Sink** (`cmd/kitchen-sink-node`): Run Express.js (`:8091`), Fastify(`:8092`), Next.js (`:8094`) sharing one engine.
+- **Tanstack Kitchen Sink** (`cmd/kitchen-sink-tanstack`): Run Tanstack Start
+(`:8096`).
+- **Python Kitchen Sink** (`cmd/kitchen-sink-python`): Run Fast API (`:8093`),
+Django (`:8095`) and Flask (`:8096`) sharing one engine.
 
 ### E2E Orchestrator Test Suite
 
