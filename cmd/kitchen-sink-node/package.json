@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "start:next": "next start -p 8094",
+    "start:next": "next start",
     "build:next": "next build"
   },
   "dependencies": {

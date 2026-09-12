@@ -1,5 +1,10 @@
 import { NextResponse } from 'next/server';
+import { enforceRadixIP } from '../_radixip';
 
-export async function GET() {
+export const runtime = 'nodejs';
+
+export async function GET(request) {
+  const denied = enforceRadixIP(request);
+  if (denied) return denied;
   return NextResponse.json({ framework: 'nextjs', route: 'public' });
 }
