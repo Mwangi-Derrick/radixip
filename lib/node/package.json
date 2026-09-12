@@ -12,8 +12,8 @@
     "middleware/**"
   ],
   "scripts": {
-    "build": "napi build --platform --release",
-    "build:debug": "napi build --platform",
+    "build": "napi build --release",
+    "build:debug": "napi build",
     "prepublishOnly": "napi prepublish -t npm",
     "test": "node tests/test.js",
     "bench": "node benchmarks/bench.js"
