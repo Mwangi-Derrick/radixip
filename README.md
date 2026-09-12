@@ -845,7 +845,7 @@ Phase 1 sends a deterministic batch of 9 requests to each route (enough to trigg
 The auth IP and public IP are on different /24s (203.0.113.x for auth, 203.0.114.x for public). This mechanism prevents contamination since state is shared.
 
 #### Phase 2: Auto-Ban & Sweeper Verification
-Tests the `AutoBanTracker`.This test calls vegeta. It attacks each framework at high RPS using a single IP. 
+Tests the `AutoBanTracker`. This test calls vegeta. It attacks each framework at high RPS using a single IP. 
 1. The first requests succeed up to the global rate-limit capacity.
 2. The next requests return `429 Too Many Requests`.
 3. Once the IP hits the `violation_threshold` (e.g., 5 violations), the engine injects it into the blocklist.
