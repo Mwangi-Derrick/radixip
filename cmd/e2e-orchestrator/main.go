@@ -474,13 +474,17 @@ func phase1RouteTrie(ctx context.Context, vegetaBin, resultsDir string, summarie
 		authIP := fmt.Sprintf("203.0.113.%d", t.ipSuffix)
 		labelAuth := fmt.Sprintf("p1_%s_auth", label)
 		targetAuth := fmt.Sprintf("POST http://localhost:%d/api/v1/auth\nX-Forwarded-For: %s\n\n", t.port, authIP)
-		authReport, err := runVegeta(ctx, vegetaBin, targetAuth, labelAuth, resultsDir, 1000, 2*time.Second)
+		// Keep this below the five-violation auto-ban threshold.  Phase 1 is
+		// validating the route limiter (429), while Phase 2 exclusively owns
+		// the auto-ban (403) lifecycle.  Flooding here contaminated later
+		// framework checks when sinks intentionally share a policy engine.
+		authReport, err := runVegeta(ctx, vegetaBin, targetAuth, labelAuth, resultsDir, 9, time.Second)
 		if err != nil {
 			log.Printf("⚠️  vegeta error for %s auth: %v", t.name, err)
 			*summaries = append(*summaries, TestSummary{Phase: "1", Name: t.name + " auth", Port: t.port, Passed: false, Details: err.Error()})
 		} else {
 			status429 := authReport.StatusCodes["429"]
-			passed := status429 > 0 && authReport.Success < 0.1
+			passed := status429 > 0 && authReport.StatusCodes["200"] > 0 && authReport.StatusCodes["403"] == 0
 			details := fmt.Sprintf("success=%.3f 429=%d 200=%d", authReport.Success, status429, authReport.StatusCodes["200"])
 			if authReport.StatusCodes["200"] == 0 && status429 == 0 {
 				details += fmt.Sprintf(" (codes: %v)", authReport.StatusCodes)
@@ -492,7 +496,10 @@ func phase1RouteTrie(ctx context.Context, vegetaBin, resultsDir string, summarie
 		pubIP := fmt.Sprintf("203.0.114.%d", t.ipSuffix)
 		labelPub := fmt.Sprintf("p1_%s_public", label)
 		targetPub := fmt.Sprintf("GET http://localhost:%d/api/v1/public\nX-Forwarded-For: %s\n\n", t.port, pubIP)
-		pubReport, err := runVegeta(ctx, vegetaBin, targetPub, labelPub, resultsDir, 1000, 2*time.Second)
+		// Stay at the public route's burst capacity.  This proves that its
+		// much larger route budget admits traffic without producing violations
+		// (and therefore cannot trip the unrelated auto-ban test).
+		pubReport, err := runVegeta(ctx, vegetaBin, targetPub, labelPub, resultsDir, 500, 2*time.Second)
 		if err != nil {
 			log.Printf("⚠️  vegeta error for %s public: %v", t.name, err)
 			*summaries = append(*summaries, TestSummary{Phase: "1", Name: t.name + " public", Port: t.port, Passed: false, Details: err.Error()})
@@ -505,11 +512,11 @@ func phase1RouteTrie(ctx context.Context, vegetaBin, resultsDir string, summarie
 				details += " ⚠️ zero requests"
 			}
 			log.Printf("  Public (capacity=1000): %s", details)
-			*summaries = append(*summaries, TestSummary{Phase: "1", Name: t.name + " public", Port: t.port, Passed: pubReport.Success > 0.5, Details: details})
+			passed := pubReport.Success > 0.5 && pubReport.StatusCodes["403"] == 0
+			*summaries = append(*summaries, TestSummary{Phase: "1", Name: t.name + " public", Port: t.port, Passed: passed, Details: details})
 		}
 	}
 }
-
 
 func phase2AutoBan(ctx context.Context, vegetaBin, resultsDir string, summaries *[]TestSummary) {
 	log.Println("\n==========================================")
