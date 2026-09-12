@@ -1,7 +1,7 @@
 //! Compact policy handle for native and language bindings.
 
-use crate::{PolicyDecision, PolicyEngine};
-use radixip::{RadixEngine, new_balanced};
+use crate::{PolicyDecision, PolicyEngine, RouteTrie};
+use radixip::{new_balanced, RadixEngine};
 use radixip_config::RadixIpConfig;
 use std::net::{IpAddr, Ipv4Addr, Ipv6Addr};
 use std::sync::Arc;
@@ -19,7 +19,10 @@ impl PackedIp {
     pub fn into_ip_addr(self) -> Option<IpAddr> {
         match self.family {
             4 => Some(IpAddr::V4(Ipv4Addr::new(
-                self.bytes[0], self.bytes[1], self.bytes[2], self.bytes[3],
+                self.bytes[0],
+                self.bytes[1],
+                self.bytes[2],
+                self.bytes[3],
             ))),
             6 => Some(IpAddr::V6(Ipv6Addr::from(self.bytes))),
             _ => None,
@@ -35,7 +38,10 @@ impl From<IpAddr> for PackedIp {
                 bytes[..4].copy_from_slice(&ip.octets());
                 Self { family: 4, bytes }
             }
-            IpAddr::V6(ip) => Self { family: 6, bytes: ip.octets() },
+            IpAddr::V6(ip) => Self {
+                family: 6,
+                bytes: ip.octets(),
+            },
         }
     }
 }
@@ -65,13 +71,17 @@ impl PolicyResult {
             PolicyDecision::BadRequest(_) => PolicyDecisionCode::BadRequest,
         };
         let retry_after_seconds = u32::from(code == PolicyDecisionCode::Limit);
-        Self { decision: code, retry_after_seconds }
+        Self {
+            decision: code,
+            retry_after_seconds,
+        }
     }
 }
 
 /// Owns one shared engine and one policy implementation.
 pub struct PolicyHandle {
     policy: PolicyEngine,
+    route_trie: Option<RouteTrie>,
 }
 
 impl PolicyHandle {
@@ -83,17 +93,38 @@ impl PolicyHandle {
             config.radixip.blocklist.enabled,
         );
         if config.radixip.auto_ban.enabled {
-            policy = policy.with_auto_ban(crate::AutoBanTracker::new(
-                &config.radixip.auto_ban,
-                engine,
-            ));
+            policy =
+                policy.with_auto_ban(crate::AutoBanTracker::new(&config.radixip.auto_ban, engine));
         }
-        Self { policy }
+        let route_trie = if config.radixip.rate_limit_routes.enabled {
+            let mut trie = RouteTrie::new();
+            for route in &config.radixip.rate_limit_routes.routes {
+                let methods: Vec<&str> = route.methods.iter().map(String::as_str).collect();
+                trie.insert(&route.path, &methods, route.rate_limit.clone());
+            }
+            Some(trie)
+        } else {
+            None
+        };
+        Self { policy, route_trie }
     }
 
     pub fn check(&self, ip: PackedIp) -> Option<PolicyResult> {
         ip.into_ip_addr()
             .map(|ip| PolicyResult::from_decision(self.policy.check_ip(ip)))
+    }
+
+    /// Evaluate a request with the route-specific rate limit, if configured.
+    /// `method` and `path` are supplied by the host framework after it has
+    /// extracted the client IP from its trusted transport context.
+    pub fn check_request(&self, ip: PackedIp, method: &str, path: &str) -> Option<PolicyResult> {
+        ip.into_ip_addr().map(|ip| {
+            let route_limiter = self
+                .route_trie
+                .as_ref()
+                .and_then(|trie| trie.match_route(method, path));
+            PolicyResult::from_decision(self.policy.check_ip_with_limiter(ip, route_limiter))
+        })
     }
 
     pub fn policy(&self) -> &PolicyEngine {
@@ -132,7 +163,14 @@ mod tests {
 
     #[test]
     fn invalid_family_is_rejected() {
-        assert_eq!(PackedIp { family: 5, bytes: [0; 16] }.into_ip_addr(), None);
+        assert_eq!(
+            PackedIp {
+                family: 5,
+                bytes: [0; 16]
+            }
+            .into_ip_addr(),
+            None
+        );
     }
 
     #[test]
