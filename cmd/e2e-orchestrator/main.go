@@ -380,6 +380,67 @@ func runVegeta(ctx context.Context, vegetaBin, target, label, resultsDir string,
 	return &result, nil
 }
 
+// runHTTPBatch sends an exact, small number of requests concurrently.  Unlike
+// a rate-based attack this is deterministic for development WSGI servers,
+// which can otherwise process only part of a one-second Vegeta window.  It is
+// intentionally used only for Phase 1's policy-semantic checks; Phase 2 keeps
+// the high-rate Vegeta attack that validates auto-ban under load.
+func runHTTPBatch(ctx context.Context, method, url, ip, label, resultsDir string, count int) (*VegetaReport, error) {
+	if count <= 0 {
+		return nil, fmt.Errorf("request count must be positive")
+	}
+
+	client := &http.Client{Timeout: 10 * time.Second}
+	report := &VegetaReport{StatusCodes: make(map[string]int), Requests: int64(count)}
+	var mu sync.Mutex
+	var wg sync.WaitGroup
+
+	for range count {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			req, err := http.NewRequestWithContext(ctx, method, url, nil)
+			if err == nil {
+				req.Header.Set("X-Forwarded-For", ip)
+				resp, doErr := client.Do(req)
+				if doErr == nil {
+					err = nil
+					status := resp.StatusCode
+					resp.Body.Close()
+					mu.Lock()
+					report.StatusCodes[strconv.Itoa(status)]++
+					mu.Unlock()
+					return
+				}
+				err = doErr
+			}
+			mu.Lock()
+			report.StatusCodes["0"]++
+			mu.Unlock()
+			_ = err // transport failures are represented as Vegeta's status code 0.
+		}()
+	}
+	wg.Wait()
+
+	var successes int
+	for status, n := range report.StatusCodes {
+		code, err := strconv.Atoi(status)
+		if err == nil && code >= 200 && code < 300 {
+			successes += n
+		}
+	}
+	report.Success = float64(successes) / float64(count)
+
+	data, err := json.MarshalIndent(report, "", "  ")
+	if err != nil {
+		return nil, err
+	}
+	if err := os.WriteFile(filepath.Join(resultsDir, label+"_result.json"), data, 0644); err != nil {
+		return nil, err
+	}
+	return report, nil
+}
+
 type GhzReport struct {
 	Count          int            `json:"count"`
 	Total          float64        `json:"total"`
@@ -434,7 +495,7 @@ type TestSummary struct {
 	Details string
 }
 
-func phase1RouteTrie(ctx context.Context, vegetaBin, resultsDir string, summaries *[]TestSummary) {
+func phase1RouteTrie(ctx context.Context, resultsDir string, summaries *[]TestSummary) {
 	log.Println("\n==========================================")
 	log.Println(" Phase 1: Route-Trie Specific Rate Limits")
 	log.Println("==========================================")
@@ -475,14 +536,14 @@ func phase1RouteTrie(ctx context.Context, vegetaBin, resultsDir string, summarie
 
 		authIP := fmt.Sprintf("203.0.113.%d", t.ipSuffix)
 		labelAuth := fmt.Sprintf("p1_%s_auth", label)
-		targetAuth := fmt.Sprintf("POST http://localhost:%d/api/v1/auth\nX-Forwarded-For: %s\n\n", t.port, authIP)
+		authURL := fmt.Sprintf("http://localhost:%d/api/v1/auth", t.port)
 		// Keep this below the five-violation auto-ban threshold.  Phase 1 is
 		// validating the route limiter (429), while Phase 2 exclusively owns
 		// the auto-ban (403) lifecycle.  Flooding here contaminated later
 		// framework checks when sinks intentionally share a policy engine.
-		authReport, err := runVegeta(ctx, vegetaBin, targetAuth, labelAuth, resultsDir, 9, time.Second)
+		authReport, err := runHTTPBatch(ctx, http.MethodPost, authURL, authIP, labelAuth, resultsDir, 9)
 		if err != nil {
-			log.Printf("⚠️  vegeta error for %s auth: %v", t.name, err)
+			log.Printf("⚠️  request batch error for %s auth: %v", t.name, err)
 			*summaries = append(*summaries, TestSummary{Phase: "1", Name: t.name + " auth", Port: t.port, Passed: false, Details: err.Error()})
 		} else {
 			status429 := authReport.StatusCodes["429"]
@@ -497,13 +558,13 @@ func phase1RouteTrie(ctx context.Context, vegetaBin, resultsDir string, summarie
 
 		pubIP := fmt.Sprintf("203.0.114.%d", t.ipSuffix)
 		labelPub := fmt.Sprintf("p1_%s_public", label)
-		targetPub := fmt.Sprintf("GET http://localhost:%d/api/v1/public\nX-Forwarded-For: %s\n\n", t.port, pubIP)
-		// Stay at the public route's burst capacity.  This proves that its
-		// much larger route budget admits traffic without producing violations
-		// (and therefore cannot trip the unrelated auto-ban test).
-		pubReport, err := runVegeta(ctx, vegetaBin, targetPub, labelPub, resultsDir, 500, 2*time.Second)
+		publicURL := fmt.Sprintf("http://localhost:%d/api/v1/public", t.port)
+		// This request count exceeds the auth route's capacity but is well below
+		// the public route's capacity, proving that the route trie selected the
+		// public policy without triggering the unrelated auto-ban test.
+		pubReport, err := runHTTPBatch(ctx, http.MethodGet, publicURL, pubIP, labelPub, resultsDir, 9)
 		if err != nil {
-			log.Printf("⚠️  vegeta error for %s public: %v", t.name, err)
+			log.Printf("⚠️  request batch error for %s public: %v", t.name, err)
 			*summaries = append(*summaries, TestSummary{Phase: "1", Name: t.name + " public", Port: t.port, Passed: false, Details: err.Error()})
 		} else {
 			details := fmt.Sprintf("success=%.3f 429=%d 200=%d", pubReport.Success, pubReport.StatusCodes["429"], pubReport.StatusCodes["200"])
@@ -842,7 +903,7 @@ func main() {
 		log.Fatalf("❌ grpc-probe-go not found at %s (did you skip the build?)", grpcProbeBin)
 	}
 
-	phase1RouteTrie(ctx, vegetaBin, resultsDir, &summaries)
+	phase1RouteTrie(ctx, resultsDir, &summaries)
 	phase2AutoBan(ctx, vegetaBin, resultsDir, &summaries)
 	phase3GRPC(ctx, ghzBin, grpcProbeBin, cwd, resultsDir, &summaries)
 
