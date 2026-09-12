@@ -81,6 +81,13 @@ where
 
             let remote_addr = req.peer_addr();
 
+            // Short-circuit for internal probes that never carry a client IP.
+            let req_path = req.path();
+            if req_path == "/health" || req_path == "/metrics" || req_path.starts_with("/healthz") {
+                let res = service.call(req).await?;
+                return Ok(res.map_into_left_body());
+            }
+
             // 1. Extract IP
             let ip = match extract_ip(
                 xff,

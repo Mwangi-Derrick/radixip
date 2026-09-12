@@ -70,6 +70,11 @@ where
         let mut inner = self.inner.clone();
 
         Box::pin(async move {
+            // Short-circuit for internal probes that never carry a client IP.
+            if req_path == "/health" || req_path == "/metrics" || req_path.starts_with("/healthz") {
+                return inner.call(req).await;
+            }
+
             let state = watcher.state(); // Wait-free pointer load
             let mw_cfg = &state.config.radixip.middleware;
             let rl_cfg = &state.config.radixip.rate_limit;
