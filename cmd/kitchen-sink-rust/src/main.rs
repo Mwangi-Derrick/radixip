@@ -112,7 +112,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         println!("🍅 Axum listening on :9081");
 
         let mut rx = tx_axum.subscribe();
-        axum::serve(listener, app.into_make_service_with_connect_info::<std::net::SocketAddr>())
+        axum::serve(listener, app)
             .with_graceful_shutdown(async move {
                 let _ = rx.recv().await;
                 println!("Shutting down Axum...");
