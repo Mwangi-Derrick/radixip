@@ -218,7 +218,7 @@ func buildArtifacts(ctx context.Context, cwd string) error {
 		// virtualenv, which CI runners do not have. We build a wheel and then
 		// pip-install it explicitly in the next step.
 		{"Python Binding Build", filepath.Join(cwd, "lib", "python"), "python", []string{"-m", "maturin", "build", "--release"}},
-		{"Python Binding Install", cwd, "python", []string{"-c", pythonWheelInstallScript(filepath.Join(cwd, "lib", "python", "target", "wheels"))}},
+		{"Python Binding Install", cwd, "python", []string{"-c", pythonWheelInstallScript(filepath.Join(cwd, "target", "wheels"))}},
 		// --no-deps so the sink install can't clobber the freshly-installed wheel.
 		{"Python Sink Install", filepath.Join(cwd, "cmd", "kitchen-sink-python"), "python", []string{"-m", "pip", "install", "-e", ".", "--no-deps"}},
 	}
