@@ -58,11 +58,18 @@ impl GrpcWatchedRadixIpInterceptor {
     pub fn new(watcher: Arc<ConfigWatcher>, engine: Arc<Box<dyn RadixEngine>>) -> Self {
         let state = watcher.state();
         let auto_ban = if state.config.radixip.auto_ban.enabled {
-            Some(AutoBanTracker::new(&state.config.radixip.auto_ban, engine.clone()))
+            Some(AutoBanTracker::new(
+                &state.config.radixip.auto_ban,
+                engine.clone(),
+            ))
         } else {
             None
         };
-        Self { watcher, engine, auto_ban }
+        Self {
+            watcher,
+            engine,
+            auto_ban,
+        }
     }
 }
 

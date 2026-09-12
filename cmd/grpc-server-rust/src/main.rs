@@ -1,17 +1,19 @@
-use std::net::SocketAddr;
-use std::str::FromStr;
-use std::sync::Arc;
-use std::time::Instant;
-use radixip::RadixEngine;
 use hyper::service::{make_service_fn, service_fn};
 use hyper::{Body, Request, Response, Server};
 use ipnetwork::IpNetwork;
 use lazy_static::lazy_static;
 use prometheus::{
-    Counter, CounterVec, Encoder, Gauge, Histogram, Opts, Registry, TextEncoder,
-    register_counter, register_counter_vec, register_gauge, register_histogram,
+    register_counter, register_counter_vec, register_gauge, register_histogram, Counter,
+    CounterVec, Encoder, Gauge, Histogram, Opts, Registry, TextEncoder,
 };
-use tonic::{Request as TonicRequest, Response as TonicResponse, Status, transport::Server as TonicServer};
+use radixip::RadixEngine;
+use std::net::SocketAddr;
+use std::str::FromStr;
+use std::sync::Arc;
+use std::time::Instant;
+use tonic::{
+    transport::Server as TonicServer, Request as TonicRequest, Response as TonicResponse, Status,
+};
 
 use radixip::engine::EngineWrapper;
 use radixip::traits::{EngineVariant, NodeVariant};
@@ -27,7 +29,10 @@ use pb::*;
 lazy_static! {
     static ref REGISTRY: Registry = Registry::new();
     static ref LOOKUPS_TOTAL: CounterVec = register_counter_vec!(
-        Opts::new("radixip_lookups_total", "Total number of IP lookups performed"),
+        Opts::new(
+            "radixip_lookups_total",
+            "Total number of IP lookups performed"
+        ),
         &["result"]
     )
     .unwrap();
@@ -36,18 +41,20 @@ lazy_static! {
         &["status"]
     )
     .unwrap();
-    static ref REMOVALS_TOTAL: Counter = register_counter!(
-        Opts::new("radixip_removals_total", "Total number of prefix removals")
-    )
+    static ref REMOVALS_TOTAL: Counter = register_counter!(Opts::new(
+        "radixip_removals_total",
+        "Total number of prefix removals"
+    ))
     .unwrap();
     static ref LOOKUP_DURATION: Histogram = register_histogram!(
         "radixip_lookup_duration_seconds",
         "Duration of IP lookup requests in seconds"
     )
     .unwrap();
-    static ref ACTIVE_ROUTES: Gauge = register_gauge!(
-        Opts::new("radixip_active_routes", "Current total number of active routes in tree")
-    )
+    static ref ACTIVE_ROUTES: Gauge = register_gauge!(Opts::new(
+        "radixip_active_routes",
+        "Current total number of active routes in tree"
+    ))
     .unwrap();
 }
 
@@ -62,7 +69,7 @@ impl RadixServiceImpl {
             EngineVariant::Standard,
             NodeVariant::AtomicRadixNode,
             true,
-            None
+            None,
         );
         Self {
             engine: Arc::new(engine),
@@ -269,9 +276,7 @@ impl RadixService for RadixServiceImpl {
     }
 }
 
-async fn metrics_service(
-    _req: Request<Body>,
-) -> Result<Response<Body>, hyper::Error> {
+async fn metrics_service(_req: Request<Body>) -> Result<Response<Body>, hyper::Error> {
     let encoder = TextEncoder::new();
     let metric_families = prometheus::gather();
     let mut buffer = vec![];
@@ -292,10 +297,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Spawn Prometheus Metrics Server
     let metrics_addr: SocketAddr = SocketAddr::from_str(&format!("0.0.0.0:{}", metrics_port))?;
     tokio::spawn(async move {
-        let make_svc = make_service_fn(|_conn| async {
-            Ok::<_, hyper::Error>(service_fn(metrics_service))
-        });
-        println!("[Rust gRPC Server] Metrics endpoint listening on http://{}/metrics", metrics_addr);
+        let make_svc =
+            make_service_fn(|_conn| async { Ok::<_, hyper::Error>(service_fn(metrics_service)) });
+        println!(
+            "[Rust gRPC Server] Metrics endpoint listening on http://{}/metrics",
+            metrics_addr
+        );
         if let Err(e) = Server::bind(&metrics_addr).serve(make_svc).await {
             eprintln!("Metrics server error: {}", e);
         }
@@ -309,18 +316,27 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .or_else(|_| std::env::var("CONFIG_PATH"))
         .unwrap_or_else(|_| "radixip.yaml".to_string());
 
-    println!("[Rust gRPC Server] RadixIP gRPC service listening on gRPC://{}", grpc_addr);
+    println!(
+        "[Rust gRPC Server] RadixIP gRPC service listening on gRPC://{}",
+        grpc_addr
+    );
 
     if std::path::Path::new(&config_path).exists() {
-        println!("[Rust gRPC Server] 🔥 RadixIP policy hot-reloader active watching {}", config_path);
+        println!(
+            "[Rust gRPC Server] 🔥 RadixIP policy hot-reloader active watching {}",
+            config_path
+        );
         let watcher = Arc::new(radixip_policy::ConfigWatcher::new(&config_path)?);
-        let engine_dyn: Arc<Box<dyn radixip::RadixEngine>> = Arc::new(Box::new(radixip::engine::EngineWrapper::new(
-            EngineVariant::Standard,
-            NodeVariant::AtomicRadixNode,
-            true,
-            None,
-        )));
-        let interceptor = radixip_grpc_interceptor::from_yaml::GrpcWatchedRadixIpInterceptor::new(watcher, engine_dyn);
+        let engine_dyn: Arc<Box<dyn radixip::RadixEngine>> =
+            Arc::new(Box::new(radixip::engine::EngineWrapper::new(
+                EngineVariant::Standard,
+                NodeVariant::AtomicRadixNode,
+                true,
+                None,
+            )));
+        let interceptor = radixip_grpc_interceptor::from_yaml::GrpcWatchedRadixIpInterceptor::new(
+            watcher, engine_dyn,
+        );
 
         TonicServer::builder()
             .layer(tonic::service::interceptor(interceptor))
@@ -328,7 +344,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             .serve(grpc_addr)
             .await?;
     } else {
-        println!("[Rust gRPC Server] ℹ️ Config file {} not found. Running without policy interceptors.", config_path);
+        println!(
+            "[Rust gRPC Server] ℹ️ Config file {} not found. Running without policy interceptors.",
+            config_path
+        );
         TonicServer::builder()
             .add_service(RadixServiceServer::new(service))
             .serve(grpc_addr)

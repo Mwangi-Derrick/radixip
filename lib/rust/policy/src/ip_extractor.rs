@@ -32,7 +32,9 @@ pub fn extract_ip(
         let ips: Vec<&str> = xff_val.split(',').map(str::trim).collect();
         // Walk from right (closest proxy) toward left (original client).
         for raw in ips.iter().rev() {
-            let ip: IpAddr = raw.parse().map_err(|_| ExtractError::Invalid(raw.to_string()))?;
+            let ip: IpAddr = raw
+                .parse()
+                .map_err(|_| ExtractError::Invalid(raw.to_string()))?;
             if !is_trusted(ip, trusted_proxies) {
                 return Ok(ip);
             }
@@ -41,7 +43,9 @@ pub fn extract_ip(
 
     // 2. Fallback: X-Real-IP.
     if let Some(rip) = x_real_ip {
-        return rip.parse().map_err(|_| ExtractError::Invalid(rip.to_string()));
+        return rip
+            .parse()
+            .map_err(|_| ExtractError::Invalid(rip.to_string()));
     }
 
     // 3. Fallback: raw socket addr.
@@ -62,7 +66,10 @@ mod tests {
     use super::*;
 
     fn trusted() -> Vec<IpNetwork> {
-        vec!["127.0.0.1/32".parse().unwrap(), "10.0.0.0/8".parse().unwrap()]
+        vec![
+            "127.0.0.1/32".parse().unwrap(),
+            "10.0.0.0/8".parse().unwrap(),
+        ]
     }
 
     #[test]

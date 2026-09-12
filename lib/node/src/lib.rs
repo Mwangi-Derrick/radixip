@@ -138,6 +138,33 @@ impl RadixPolicy {
             retry_after_seconds: result.retry_after_seconds,
         })
     }
+
+    /// Check an HTTP request so configured per-route limits are honoured.
+    #[napi]
+    pub fn check_request(
+        &self,
+        ip: String,
+        method: String,
+        path: String,
+    ) -> napi::Result<JsPolicyResult> {
+        let addr = ip
+            .parse::<IpAddr>()
+            .map_err(|_| Error::new(Status::InvalidArg, format!("Invalid IP: {ip}")))?;
+        let result = self
+            .inner
+            .check_request(PackedIp::from(addr), &method, &path)
+            .ok_or_else(|| Error::new(Status::InvalidArg, "Invalid IP address family"))?;
+        let decision = match result.decision {
+            PolicyDecisionCode::Allow => "allow",
+            PolicyDecisionCode::Block => "block",
+            PolicyDecisionCode::Limit => "limit",
+            PolicyDecisionCode::BadRequest => "bad_request",
+        };
+        Ok(JsPolicyResult {
+            decision: decision.to_owned(),
+            retry_after_seconds: result.retry_after_seconds,
+        })
+    }
 }
 
 #[napi]
@@ -161,7 +188,10 @@ impl RadixIP {
             cfg.write_compressed = c.write_compressed.unwrap_or(cfg.write_compressed);
             cfg.enable_split_plane = c.enable_split_plane.unwrap_or(cfg.enable_split_plane);
             cfg.cache_enabled = c.cache_enabled.unwrap_or(cfg.cache_enabled);
-            cfg.cache_max_entries = c.cache_max_entries.map(|v| v as usize).unwrap_or(cfg.cache_max_entries);
+            cfg.cache_max_entries = c
+                .cache_max_entries
+                .map(|v| v as usize)
+                .unwrap_or(cfg.cache_max_entries);
             cfg.cache_ttl_seconds = c.cache_ttl_seconds.map(|v| v as u64);
 
             if let Some(redis_url) = c.redis_url {
@@ -171,7 +201,9 @@ impl RadixIP {
                     connect_timeout: std::time::Duration::from_secs(5),
                     max_retries: 3,
                 });
-                cfg.redis_channel = c.redis_channel.unwrap_or_else(|| "radixip:updates".to_string());
+                cfg.redis_channel = c
+                    .redis_channel
+                    .unwrap_or_else(|| "radixip:updates".to_string());
             }
         }
 

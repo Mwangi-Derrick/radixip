@@ -27,7 +27,9 @@ impl pb::radix_service_server::RadixService for KitchenGrpcService {
         &self,
         _request: tonic::Request<pb::InsertRequest>,
     ) -> Result<tonic::Response<pb::InsertResponse>, tonic::Status> {
-        Err(tonic::Status::unimplemented("kitchen-sink Insert is not implemented"))
+        Err(tonic::Status::unimplemented(
+            "kitchen-sink Insert is not implemented",
+        ))
     }
 
     async fn lookup(
@@ -44,35 +46,45 @@ impl pb::radix_service_server::RadixService for KitchenGrpcService {
         &self,
         _request: tonic::Request<pb::RemoveRequest>,
     ) -> Result<tonic::Response<pb::RemoveResponse>, tonic::Status> {
-        Err(tonic::Status::unimplemented("kitchen-sink Remove is not implemented"))
+        Err(tonic::Status::unimplemented(
+            "kitchen-sink Remove is not implemented",
+        ))
     }
 
     async fn contains(
         &self,
         _request: tonic::Request<pb::ContainsRequest>,
     ) -> Result<tonic::Response<pb::ContainsResponse>, tonic::Status> {
-        Err(tonic::Status::unimplemented("kitchen-sink Contains is not implemented"))
+        Err(tonic::Status::unimplemented(
+            "kitchen-sink Contains is not implemented",
+        ))
     }
 
     async fn clear(
         &self,
         _request: tonic::Request<pb::ClearRequest>,
     ) -> Result<tonic::Response<pb::ClearResponse>, tonic::Status> {
-        Err(tonic::Status::unimplemented("kitchen-sink Clear is not implemented"))
+        Err(tonic::Status::unimplemented(
+            "kitchen-sink Clear is not implemented",
+        ))
     }
 
     async fn get_stats(
         &self,
         _request: tonic::Request<pb::StatsRequest>,
     ) -> Result<tonic::Response<pb::StatsResponse>, tonic::Status> {
-        Err(tonic::Status::unimplemented("kitchen-sink GetStats is not implemented"))
+        Err(tonic::Status::unimplemented(
+            "kitchen-sink GetStats is not implemented",
+        ))
     }
 
     async fn stream_insert(
         &self,
         _request: tonic::Request<tonic::Streaming<pb::InsertRequest>>,
     ) -> Result<tonic::Response<pb::StreamInsertResponse>, tonic::Status> {
-        Err(tonic::Status::unimplemented("kitchen-sink StreamInsert is not implemented"))
+        Err(tonic::Status::unimplemented(
+            "kitchen-sink StreamInsert is not implemented",
+        ))
     }
 }
 
@@ -105,7 +117,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             .route("/health", get(|| async { "ok" }))
             .route("/api/v1/public", get(|| async { "axum public ok" }))
             .route("/api/v1/auth", get(|| async { "axum auth get ok" }))
-            .route("/api/v1/auth", axum::routing::post(|| async { "axum auth post ok" }))
+            .route(
+                "/api/v1/auth",
+                axum::routing::post(|| async { "axum auth post ok" }),
+            )
             .layer(AxumWatchedRadixIpLayer::new(axum_watcher, axum_engine));
 
         let listener = tokio::net::TcpListener::bind("0.0.0.0:9081").await.unwrap();
@@ -132,11 +147,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 actix_engine.clone(),
             ))
             .route("/health", web::get().to(|| async { "ok" }))
-            .route("/api/v1/public", web::get().to(|| async { "actix public ok" }))
+            .route(
+                "/api/v1/public",
+                web::get().to(|| async { "actix public ok" }),
+            )
             .service(
                 web::resource("/api/v1/auth")
                     .route(web::get().to(|| async { "actix auth get ok" }))
-                    .route(web::post().to(|| async { "actix auth post ok" }))
+                    .route(web::post().to(|| async { "actix auth post ok" })),
             )
     })
     .bind("0.0.0.0:9082")?

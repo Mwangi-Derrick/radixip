@@ -148,7 +148,10 @@ async fn redis_sync_smoke_test() {
         .set_sync(&key, "{\"value\":\"allow\"}")
         .expect("set_sync should succeed");
     assert_eq!(
-        client.get_sync(&key).expect("get_sync should succeed").as_deref(),
+        client
+            .get_sync(&key)
+            .expect("get_sync should succeed")
+            .as_deref(),
         Some("{\"value\":\"allow\"}")
     );
 
@@ -184,7 +187,10 @@ async fn redis_sync_smoke_test() {
 
     let decoded: radixip::redis::RedisCacheUpdate = serde_json::from_str(&payload).unwrap();
     match decoded {
-        radixip::redis::RedisCacheUpdate::Insert { prefix: sent_prefix, .. } => {
+        radixip::redis::RedisCacheUpdate::Insert {
+            prefix: sent_prefix,
+            ..
+        } => {
             assert_eq!(sent_prefix, prefix);
         }
         other => panic!("expected insert update, got {other:?}"),
@@ -202,8 +208,10 @@ async fn redis_sync_smoke_test() {
     client
         .hdel_sync(&hash_key, "10.0.0.0/8")
         .expect("hdel_sync should succeed");
-    assert!(!client
-        .hgetall_sync(&hash_key)
-        .expect("hgetall_sync should succeed")
-        .contains_key("10.0.0.0/8"));
+    assert!(
+        !client
+            .hgetall_sync(&hash_key)
+            .expect("hgetall_sync should succeed")
+            .contains_key("10.0.0.0/8")
+    );
 }

@@ -104,6 +104,32 @@ impl PyRadixPolicy {
         output.set_item("retry_after_seconds", result.retry_after_seconds)?;
         Ok(output)
     }
+
+    fn check_request<'py>(
+        &self,
+        py: Python<'py>,
+        ip: String,
+        method: String,
+        path: String,
+    ) -> PyResult<Bound<'py, PyDict>> {
+        let addr = ip
+            .parse::<IpAddr>()
+            .map_err(|_| PyValueError::new_err(format!("Invalid IP address: {ip}")))?;
+        let result = self
+            .inner
+            .check_request(PackedIp::from(addr), &method, &path)
+            .ok_or_else(|| PyValueError::new_err("invalid IP address family"))?;
+        let decision = match result.decision {
+            PolicyDecisionCode::Allow => "allow",
+            PolicyDecisionCode::Block => "block",
+            PolicyDecisionCode::Limit => "limit",
+            PolicyDecisionCode::BadRequest => "bad_request",
+        };
+        let output = PyDict::new(py);
+        output.set_item("decision", decision)?;
+        output.set_item("retry_after_seconds", result.retry_after_seconds)?;
+        Ok(output)
+    }
 }
 
 #[pymethods]

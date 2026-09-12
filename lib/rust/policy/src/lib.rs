@@ -24,20 +24,20 @@
 //! ```
 
 pub mod auto_ban;
+pub mod handle;
 pub mod ip_extractor;
 pub mod limiter;
 pub mod route_trie;
 pub mod token_bucket;
 pub mod watcher;
-pub mod handle;
 
 pub use auto_ban::AutoBanTracker;
+pub use handle::{PackedIp, PolicyDecisionCode, PolicyHandle, PolicyResult};
 pub use ip_extractor::{extract_ip, ExtractError};
 pub use limiter::TokenBucketLimiter;
 pub use route_trie::RouteTrie;
 pub use token_bucket::TokenBucket;
 pub use watcher::{ConfigWatcher, PolicyState};
-pub use handle::{PackedIp, PolicyDecisionCode, PolicyHandle, PolicyResult};
 
 use radixip::RadixEngine;
 use radixip_config::{MiddlewareConfig, RateLimitConfig};
@@ -141,13 +141,26 @@ impl PolicyEngine {
     /// This is the allocation-free policy entry point for native FFI callers
     /// and adapters that have already completed transport-specific IP parsing.
     pub fn check_ip(&self, ip: std::net::IpAddr) -> PolicyDecision {
+        self.check_ip_with_limiter(ip, None)
+    }
+
+    /// Evaluate an already-extracted IP using a route-specific limiter when
+    /// one applies.  Bindings use this after resolving the HTTP method/path
+    /// against their configured route trie.
+    pub fn check_ip_with_limiter(
+        &self,
+        ip: std::net::IpAddr,
+        route_limiter: Option<&TokenBucketLimiter>,
+    ) -> PolicyDecision {
         if self.blocklist_enabled && self.engine.lookup(&ip).is_some() {
             return PolicyDecision::Block;
         }
 
-        if self.rate_limit_enabled
-            && !self.limiter.allow(ip, Some(self.engine.as_ref().as_ref()))
-        {
+        let allowed = match route_limiter {
+            Some(limiter) => limiter.allow(ip, Some(self.engine.as_ref().as_ref())),
+            None => self.limiter.allow(ip, Some(self.engine.as_ref().as_ref())),
+        };
+        if self.rate_limit_enabled && !allowed {
             if let Some(ref tracker) = self.auto_ban {
                 if tracker.record_violation(ip) {
                     return PolicyDecision::AutoBanned;

@@ -43,7 +43,10 @@ pub struct PolicyState {
 }
 
 impl PolicyState {
-    pub fn from_config_with_engine(cfg: Arc<RadixIpConfig>, engine: Arc<Box<dyn RadixEngine>>) -> Self {
+    pub fn from_config_with_engine(
+        cfg: Arc<RadixIpConfig>,
+        engine: Arc<Box<dyn RadixEngine>>,
+    ) -> Self {
         let rl: RateLimitConfig = cfg.radixip.rate_limit.clone();
 
         // Build route trie from config if enabled.
@@ -202,9 +205,7 @@ impl ConfigWatcher {
                 info!("radixip config watcher: hot-reloaded {:?} ✓", path);
             }
             Err(e) => {
-                error!(
-                    "radixip config watcher: reload failed (keeping old config): {e}"
-                );
+                error!("radixip config watcher: reload failed (keeping old config): {e}");
             }
         }
     }

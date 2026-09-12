@@ -37,4 +37,3 @@ fn main() {
         .expect("cbindgen failed — is it installed? (`cargo install cbindgen`)")
         .write_to_file(out_header);
 }
-

@@ -46,8 +46,7 @@ pub struct AutoBanTracker {
 impl AutoBanTracker {
     /// Create a new tracker and start the background expiry sweeper.
     pub fn new(cfg: &AutoBanConfig, engine: Arc<Box<dyn RadixEngine>>) -> Self {
-        let violations: Arc<DashMap<IpAddr, Mutex<Vec<Instant>>>> =
-            Arc::new(DashMap::new());
+        let violations: Arc<DashMap<IpAddr, Mutex<Vec<Instant>>>> = Arc::new(DashMap::new());
         let banned: Arc<DashMap<IpAddr, Instant>> = Arc::new(DashMap::new());
 
         let tracker = Self {
@@ -170,4 +169,3 @@ fn host_prefix(ip: IpAddr) -> IpNetwork {
         }
     }
 }
-
