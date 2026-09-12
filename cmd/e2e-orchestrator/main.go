@@ -210,7 +210,7 @@ func buildArtifacts(ctx context.Context, cwd string) error {
 		{"Node Binding Build", filepath.Join(cwd, "lib", "node"), "npm", []string{"run", "build"}},
 		{"Node Sink Install", filepath.Join(cwd, "cmd", "kitchen-sink-node"), "npm", []string{"install"}},
 		{"Python Maturin", cwd, "python", []string{"-m", "pip", "install", "maturin"}},
-		{"Python Binding Build", filepath.Join(cwd, "lib", "python"), "python", []string{"-m", "maturin", "develop", "--release"}},
+		{"Python Binding Build", filepath.Join(cwd, "lib", "python"), "python", []string{"-m", "maturin", "build", "--release"}},
 		{"Python Sink Install", filepath.Join(cwd, "cmd", "kitchen-sink-python"), "python", []string{"-m", "pip", "install", "-e", "."}},
 	}
 	for _, s := range steps {
@@ -238,13 +238,13 @@ func buildArtifacts(ctx context.Context, cwd string) error {
 // ---------------------------------------------------------------------------
 
 type Sink struct {
-	Name    string
-	Cmd     string
-	Args    []string
-	Dir     string
-	Env     []string
-	Ports   []int
-	proc    *exec.Cmd
+	Name  string
+	Cmd   string
+	Args  []string
+	Dir   string
+	Env   []string
+	Ports []int
+	proc  *exec.Cmd
 }
 
 func (s *Sink) Start(ctx context.Context, wg *sync.WaitGroup) error {
@@ -374,13 +374,13 @@ func runVegeta(ctx context.Context, vegetaBin, target, label, resultsDir string,
 }
 
 type GhzReport struct {
-	Count         int            `json:"count"`
-	Total         float64        `json:"total"`
-	Average       float64        `json:"average"`
-	Fastest       float64        `json:"fastest"`
-	Slowest       float64        `json:"slowest"`
-	Rps           float64        `json:"rps"`
-	ErrorDistrib  map[string]int `json:"errorDistribution"`
+	Count          int            `json:"count"`
+	Total          float64        `json:"total"`
+	Average        float64        `json:"average"`
+	Fastest        float64        `json:"fastest"`
+	Slowest        float64        `json:"slowest"`
+	Rps            float64        `json:"rps"`
+	ErrorDistrib   map[string]int `json:"errorDistribution"`
 	StatusCodeDist map[string]int `json:"statusCodeDistribution"`
 }
 
@@ -437,8 +437,8 @@ func phase1RouteTrie(ctx context.Context, vegetaBin, resultsDir string, summarie
 	// contaminate the public-route sub-test that runs right after.
 	// Auth uses  203.0.113.X, public uses 203.0.114.X (different base octets).
 	targets := []struct {
-		name string
-		port int
+		name     string
+		port     int
 		ipSuffix int
 	}{
 		{"Gin (Go)", 8081, 1},
@@ -514,7 +514,7 @@ func phase2AutoBan(ctx context.Context, vegetaBin, resultsDir string, summaries 
 		{"FastAPI (Python)", 8093},
 	} {
 		log.Printf("\nAuto-ban test: %s on port %d...", t.name, t.port)
-		
+
 		if !healthCheck(t.port) {
 			log.Printf("⏭️  Skipping %s (port %d not healthy)", t.name, t.port)
 			continue
