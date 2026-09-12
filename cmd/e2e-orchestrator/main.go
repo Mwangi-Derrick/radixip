@@ -315,6 +315,21 @@ func waitHealthy(sinks []Sink, timeout time.Duration) error {
 	return fmt.Errorf("timed out waiting for sinks: %s", strings.Join(bad, ", "))
 }
 
+// logSinkHealth prints a per-sink health table. Useful for diagnosing
+// "why did Phase 1 skip X" without scrolling through the whole build log.
+func logSinkHealth(sinks []Sink) {
+	log.Println("📊 Sink health status:")
+	for _, s := range sinks {
+		for _, p := range s.Ports {
+			status := "❌"
+			if healthCheck(p) {
+				status = "✅"
+			}
+			log.Printf("   %s %-40s :%d", status, s.Name, p)
+		}
+	}
+}
+
 // ---------------------------------------------------------------------------
 // Load testing (vegeta + ghz)
 // ---------------------------------------------------------------------------
@@ -388,6 +403,9 @@ func runVegeta(ctx context.Context, vegetaBin, target, label, resultsDir string,
 // which can otherwise process only part of a one-second Vegeta window.  It is
 // intentionally used only for Phase 1's policy-semantic checks; Phase 2 keeps
 // the high-rate Vegeta attack that validates auto-ban under load.
+//
+// A semaphore caps in-flight requests so that if a caller ever raises count
+// significantly, we don't create an unbounded goroutine stampede.
 func runHTTPBatch(ctx context.Context, method, url, ip, label, resultsDir string, count int) (*VegetaReport, error) {
 	if count <= 0 {
 		return nil, fmt.Errorf("request count must be positive")
@@ -398,16 +416,26 @@ func runHTTPBatch(ctx context.Context, method, url, ip, label, resultsDir string
 	var mu sync.Mutex
 	var wg sync.WaitGroup
 
+	// Cap concurrent in-flight requests. 64 is plenty for our 9-request
+	// bursts and bounds resource use if the count grows.
+	maxInFlight := 64
+	if count < maxInFlight {
+		maxInFlight = count
+	}
+	sem := make(chan struct{}, maxInFlight)
+
 	for range count {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
+			sem <- struct{}{}
+			defer func() { <-sem }()
+
 			req, err := http.NewRequestWithContext(ctx, method, url, nil)
 			if err == nil {
 				req.Header.Set("X-Forwarded-For", ip)
 				resp, doErr := client.Do(req)
 				if doErr == nil {
-					err = nil
 					status := resp.StatusCode
 					resp.Body.Close()
 					mu.Lock()
@@ -415,12 +443,10 @@ func runHTTPBatch(ctx context.Context, method, url, ip, label, resultsDir string
 					mu.Unlock()
 					return
 				}
-				err = doErr
 			}
 			mu.Lock()
 			report.StatusCodes["0"]++
 			mu.Unlock()
-			_ = err // transport failures are represented as Vegeta's status code 0.
 		}()
 	}
 	wg.Wait()
@@ -509,6 +535,8 @@ func artifactLabel(name string) string {
 		")", "",
 		"/", "_",
 		"\\", "_",
+		".", "_",
+		":", "_",
 	).Replace(label)
 	return strings.Trim(label, "_")
 }
@@ -625,7 +653,7 @@ func phase2AutoBan(ctx context.Context, vegetaBin, resultsDir string, summaries 
 			continue
 		}
 
-		label := fmt.Sprintf("p2_%s", strings.ToLower(strings.ReplaceAll(t.name, " ", "_")))
+		label := fmt.Sprintf("p2_%s", artifactLabel(t.name))
 		target := fmt.Sprintf("GET http://localhost:%d/api/v1/public\nX-Forwarded-For: %s\n", t.port, banIP)
 		report, err := runVegeta(ctx, vegetaBin, target, label, resultsDir, 5000, 5*time.Second)
 		if err != nil {
@@ -678,7 +706,7 @@ func phase3GRPC(ctx context.Context, ghzBin, grpcProbe, protoDir, resultsDir str
 		{"Rust gRPC", "50052", "203.0.113.252"},
 	} {
 		log.Printf("\nExercising %s on port %s...", t.name, t.port)
-		label := fmt.Sprintf("p3_%s", strings.ToLower(strings.ReplaceAll(t.name, " ", "_")))
+		label := fmt.Sprintf("p3_%s", artifactLabel(t.name))
 		report, err := runGhz(ctx, ghzBin, protoDir, t.port, t.ip, label, resultsDir)
 		if err != nil {
 			log.Printf("⚠️  ghz error: %v", err)
@@ -817,9 +845,11 @@ func main() {
 	// 3. Spawn sinks — all ecosystems by default.
 	coreSinks := []Sink{
 		{
-			Name:  "Go Sinks (Gin/Echo/Fiber/gRPC)",
-			Cmd:   filepath.Join(binDir, "kitchen-sink-go"),
-			Ports: []int{8081, 8082, 8083},
+			Name: "Go Sinks (Gin/Echo/Fiber/Chi/Net-HTTP/gRPC)",
+			Cmd:  filepath.Join(binDir, "kitchen-sink-go"),
+			// Ports must match Phase 1's target list. The Go sink binary
+			// binds all five HTTP ports from a single process.
+			Ports: []int{8081, 8082, 8083, 8084, 8085},
 		},
 		{
 			Name:  "Rust Sinks (Axum/Actix/gRPC)",
@@ -869,10 +899,13 @@ func main() {
 			Env:   []string{"RADIXIP_CONFIG=" + configAbs},
 		},
 		Sink{
-			Name:  "Python Flask",
-			Dir:   filepath.Join(cwd, "cmd", "kitchen-sink-python"),
-			Cmd:   "python",
-			Args:  []string{"-m", "flask", "--app", "flask_app", "run", "--host", "0.0.0.0", "--port", "8096", "--no-reload"},
+			Name: "Python Flask",
+			Dir:  filepath.Join(cwd, "cmd", "kitchen-sink-python"),
+			Cmd:  "python",
+			// --with-threads: Flask's dev server is single-threaded by default,
+			// which capped throughput at ~500 rps in CI and caused Phase 1
+			// results to undercount. Threading restores meaningful throughput.
+			Args:  []string{"-m", "flask", "--app", "flask_app", "run", "--host", "0.0.0.0", "--port", "8096", "--no-reload", "--with-threads"},
 			Ports: []int{8096},
 			Env:   []string{"RADIXIP_CONFIG=" + configAbs},
 		},
@@ -881,8 +914,9 @@ func main() {
 			Dir:  filepath.Join(cwd, "cmd", "kitchen-sink-python"),
 			Cmd:  "python",
 			// NOTE: assumes django_app.py has an `if __name__ == "__main__"` block
-			// that calls execute_from_command_line. If this is a standard Django
-			// project, replace with: manage.py runserver 0.0.0.0:8095 --noreload
+			// that calls execute_from_command_line. Django's runserver is
+			// threaded by default (--nothreading disables it), so no extra flag
+			// is needed here for concurrency.
 			Args:  []string{"django_app.py", "runserver", "0.0.0.0:8095", "--noreload"},
 			Ports: []int{8095},
 			Env:   []string{"RADIXIP_CONFIG=" + configAbs},
@@ -912,7 +946,7 @@ func main() {
 	}
 
 	log.Println("⏳ Waiting for sinks to become healthy...")
-	if err := waitHealthy(allSinks, 45*time.Second); err != nil {
+	if err := waitHealthy(allSinks, 60*time.Second); err != nil {
 		if *flagRequireAll {
 			log.Fatalf("❌ --require-all set and health check failed: %v", err)
 		}
@@ -920,6 +954,9 @@ func main() {
 	} else {
 		log.Println("✅ All sinks healthy!")
 	}
+	// Always print the health table so failures are easy to diagnose
+	// without re-running.
+	logSinkHealth(allSinks)
 
 	if *flagSinkOnly {
 		log.Println("--sink-only: sinks running. Ctrl-C to stop.")
