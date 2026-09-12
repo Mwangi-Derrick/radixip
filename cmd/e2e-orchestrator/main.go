@@ -213,6 +213,9 @@ func buildArtifacts(ctx context.Context, cwd string) error {
 		{"Node Binding Install", filepath.Join(cwd, "lib", "node"), "npm", []string{"install"}},
 		{"Node Binding Build", filepath.Join(cwd, "lib", "node"), "npm", []string{"run", "build"}},
 		{"Node Sink Install", filepath.Join(cwd, "cmd", "kitchen-sink-node"), "npm", []string{"install"}},
+		{"Next.js Sink Build", filepath.Join(cwd, "cmd", "kitchen-sink-node"), "npm", []string{"run", "build:next"}},
+		{"TanStack Start Sink Install", filepath.Join(cwd, "cmd", "kitchen-sink-tanstack"), "npm", []string{"install"}},
+		{"TanStack Start Sink Build", filepath.Join(cwd, "cmd", "kitchen-sink-tanstack"), "npm", []string{"run", "build"}},
 		{"Python Maturin", cwd, "python", []string{"-m", "pip", "install", "maturin"}},
 		// NOTE: `maturin build` (NOT `develop`) — develop requires an active
 		// virtualenv, which CI runners do not have. We build a wheel and then
@@ -529,9 +532,11 @@ func phase1RouteTrie(ctx context.Context, resultsDir string, summaries *[]TestSu
 		{"Actix (Rust)", 9082, 7},
 		{"Express (Node)", 8091, 8},
 		{"Fastify (Node)", 8092, 9},
-		{"FastAPI (Python)", 8093, 10},
-		{"Flask (Python)", 8096, 11},
-		{"Django (Python)", 8095, 12},
+		{"Next.js (Node)", 8094, 10},
+		{"TanStack Start (Node)", 8097, 11},
+		{"FastAPI (Python)", 8093, 12},
+		{"Flask (Python)", 8096, 13},
+		{"Django (Python)", 8095, 14},
 	}
 
 	for _, t := range targets {
@@ -840,6 +845,22 @@ func main() {
 			Ports: []int{8091, 8092},
 		},
 		Sink{
+			Name:  "Next.js Sink",
+			Dir:   filepath.Join(cwd, "cmd", "kitchen-sink-node"),
+			Cmd:   "npm",
+			Args:  []string{"run", "start:next", "--", "-p", "8094"},
+			Ports: []int{8094},
+			Env:   []string{"RADIXIP_CONFIG=" + configAbs},
+		},
+		Sink{
+			Name:  "TanStack Start Sink",
+			Dir:   filepath.Join(cwd, "cmd", "kitchen-sink-tanstack"),
+			Cmd:   "npm",
+			Args:  []string{"run", "start"},
+			Ports: []int{8097},
+			Env:   []string{"RADIXIP_CONFIG=" + configAbs, "PORT=8097", "HOST=0.0.0.0"},
+		},
+		Sink{
 			Name:  "Python FastAPI",
 			Dir:   filepath.Join(cwd, "cmd", "kitchen-sink-python"),
 			Cmd:   "python",
@@ -870,6 +891,9 @@ func main() {
 
 	// On Unix, prefer `python3` if `python` isn't on PATH.
 	for i, s := range allSinks {
+		if s.Cmd == "npm" && runtime.GOOS == "windows" {
+			allSinks[i].Cmd = "npm.cmd"
+		}
 		if s.Cmd == "python" && runtime.GOOS != "windows" {
 			if _, err := exec.LookPath("python"); err != nil {
 				if _, err := exec.LookPath("python3"); err == nil {
