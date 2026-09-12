@@ -206,10 +206,21 @@ func buildArtifacts(ctx context.Context, cwd string) error {
 		{"Go Sink", cwd, "go", []string{"build", "-o", filepath.Join(cwd, "bin", "kitchen-sink-go"), "./cmd/kitchen-sink-go/..."}},
 		{"Go gRPC Probe", cwd, "go", []string{"build", "-o", filepath.Join(cwd, "bin", "grpc-probe-go"), "./cmd/grpc-probe-go/..."}},
 		{"Rust Sink", cwd, "cargo", []string{"build", "--bin", "kitchen-sink-rust", "--release"}},
+		{"Node Binding Install", filepath.Join(cwd, "lib", "node"), "npm", []string{"install"}},
+		{"Node Binding Build", filepath.Join(cwd, "lib", "node"), "npm", []string{"run", "build"}},
+		{"Node Sink Install", filepath.Join(cwd, "cmd", "kitchen-sink-node"), "npm", []string{"install"}},
+		{"Python Maturin", cwd, "python", []string{"-m", "pip", "install", "maturin"}},
+		{"Python Binding Build", filepath.Join(cwd, "lib", "python"), "python", []string{"-m", "maturin", "develop", "--release"}},
+		{"Python Sink Install", filepath.Join(cwd, "cmd", "kitchen-sink-python"), "python", []string{"-m", "pip", "install", "-e", "."}},
 	}
 	for _, s := range steps {
 		log.Printf("  Building %s...", s.name)
-		cmd := exec.CommandContext(ctx, s.cmd, s.args...)
+		// For Windows compatibility, if cmd is npm, we need to run npm.cmd
+		cmdName := s.cmd
+		if runtime.GOOS == "windows" && cmdName == "npm" {
+			cmdName = "npm.cmd"
+		}
+		cmd := exec.CommandContext(ctx, cmdName, s.args...)
 		cmd.Dir = s.dir
 		cmd.Stdout = os.Stdout
 		cmd.Stderr = os.Stderr
@@ -503,6 +514,12 @@ func phase2AutoBan(ctx context.Context, vegetaBin, resultsDir string, summaries 
 		{"FastAPI (Python)", 8093},
 	} {
 		log.Printf("\nAuto-ban test: %s on port %d...", t.name, t.port)
+		
+		if !healthCheck(t.port) {
+			log.Printf("⏭️  Skipping %s (port %d not healthy)", t.name, t.port)
+			continue
+		}
+
 		label := fmt.Sprintf("p2_%s", strings.ToLower(strings.ReplaceAll(t.name, " ", "_")))
 		target := fmt.Sprintf("GET http://localhost:%d/api/v1/public\nX-Forwarded-For: %s\n", t.port, banIP)
 		report, err := runVegeta(ctx, vegetaBin, target, label, resultsDir, 5000, 5*time.Second)
@@ -717,43 +734,49 @@ func main() {
 	var allSinks []Sink
 	allSinks = append(allSinks, coreSinks...)
 
-	if *flagNodeOnly {
-		allSinks = append(allSinks, Sink{
-			Name:  "Node Sinks (Express/Fastify)",
-			Dir:   filepath.Join(cwd, "cmd", "kitchen-sink-node"),
-			Cmd:   "node",
-			Args:  []string{"server.js", "--config", configAbs},
-			Ports: []int{8091, 8092},
-		})
-	}
+	allSinks = append(allSinks, Sink{
+		Name:  "Node Sinks (Express/Fastify)",
+		Dir:   filepath.Join(cwd, "cmd", "kitchen-sink-node"),
+		Cmd:   "node",
+		Args:  []string{"server.js", "--config", configAbs},
+		Ports: []int{8091, 8092},
+	})
 
-	if *flagPythonOnly {
-		allSinks = append(allSinks,
-			Sink{
-				Name:  "Python FastAPI",
-				Dir:   filepath.Join(cwd, "cmd", "kitchen-sink-python"),
-				Cmd:   "python",
-				Args:  []string{"-m", "uvicorn", "fastapi_app:app", "--port", "8093", "--host", "0.0.0.0"},
-				Ports: []int{8093},
-				Env:   []string{"RADIXIP_CONFIG=" + configAbs},
-			},
-			Sink{
-				Name:  "Python Flask",
-				Dir:   filepath.Join(cwd, "cmd", "kitchen-sink-python"),
-				Cmd:   "python",
-				Args:  []string{"flask_app.py"},
-				Ports: []int{8096},
-				Env:   []string{"RADIXIP_CONFIG=" + configAbs},
-			},
-			Sink{
-				Name:  "Python Django",
-				Dir:   filepath.Join(cwd, "cmd", "kitchen-sink-python"),
-				Cmd:   "python",
-				Args:  []string{"django_app.py", "runserver", "0.0.0.0:8095"},
-				Ports: []int{8095},
-				Env:   []string{"RADIXIP_CONFIG=" + configAbs},
-			},
-		)
+	allSinks = append(allSinks,
+		Sink{
+			Name:  "Python FastAPI",
+			Dir:   filepath.Join(cwd, "cmd", "kitchen-sink-python"),
+			Cmd:   "python",
+			Args:  []string{"-m", "uvicorn", "fastapi_app:app", "--port", "8093", "--host", "0.0.0.0"},
+			Ports: []int{8093},
+			Env:   []string{"RADIXIP_CONFIG=" + configAbs},
+		},
+		Sink{
+			Name:  "Python Flask",
+			Dir:   filepath.Join(cwd, "cmd", "kitchen-sink-python"),
+			Cmd:   "python",
+			Args:  []string{"flask_app.py"},
+			Ports: []int{8096},
+			Env:   []string{"RADIXIP_CONFIG=" + configAbs},
+		},
+		Sink{
+			Name:  "Python Django",
+			Dir:   filepath.Join(cwd, "cmd", "kitchen-sink-python"),
+			Cmd:   "python",
+			Args:  []string{"django_app.py", "runserver", "0.0.0.0:8095"},
+			Ports: []int{8095},
+			Env:   []string{"RADIXIP_CONFIG=" + configAbs},
+		},
+	)
+
+	for i, s := range allSinks {
+		if s.Cmd == "python" && runtime.GOOS != "windows" {
+			if _, err := exec.LookPath("python"); err != nil {
+				if _, err := exec.LookPath("python3"); err == nil {
+					allSinks[i].Cmd = "python3"
+				}
+			}
+		}
 	}
 
 	var wg sync.WaitGroup
