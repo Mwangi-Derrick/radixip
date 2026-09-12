@@ -8,6 +8,7 @@ on:
       - 'docs/**'
       - '.github/workflows/bench.yml'
       - '.github/workflows/release.yml'
+      - '.github/workflows/docker-publish.yml'
       - '.github/workflows/ffi-benchmarks.yml'
       - 'proto'
       - 'docker'
