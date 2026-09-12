@@ -23,7 +23,7 @@ def radixip_middleware(get_response):
         if not ip:
             return JsonResponse({"error": "invalid client IP"}, status=400)
 
-        result = policy.check_ip(ip)
+        result = policy.check_request(ip, request.method, request.path)
         decision = result["decision"]
 
         if decision == "allow":

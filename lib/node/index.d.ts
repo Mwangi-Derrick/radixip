@@ -79,6 +79,9 @@ export declare class RadixPolicy {
 
   /** Evaluate one already-extracted client IP. */
   checkIp(ip: string): PolicyResult;
+
+  /** Evaluate an HTTP request, including configured route-specific limits. */
+  checkRequest(ip: string, method: string, path: string): PolicyResult;
 }
 
 /** Library semantic version. */

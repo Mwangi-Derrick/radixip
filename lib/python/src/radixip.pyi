@@ -133,6 +133,10 @@ class RadixPolicy:
         """
         ...
 
+    def check_request(self, ip: str, method: str, path: str) -> Dict[str, object]:
+        """Evaluate an HTTP request, including route-specific limits."""
+        ...
+
 
 def version() -> str:
     """Return the RadixIP library semantic version string."""

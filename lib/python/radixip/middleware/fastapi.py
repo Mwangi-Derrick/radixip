@@ -65,7 +65,7 @@ class RadixIPMiddleware(BaseHTTPMiddleware):
         if not ip:
             return JSONResponse({"error": "invalid client IP"}, status_code=400)
 
-        result = self.policy.check_ip(ip)
+        result = self.policy.check_request(ip, request.method, request.url.path)
         decision = result["decision"]
 
         if decision == "allow":

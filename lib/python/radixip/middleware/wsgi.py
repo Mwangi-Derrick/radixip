@@ -66,7 +66,11 @@ def make_flask_hook(policy, resolve_ip: Optional[Callable] = None) -> Callable:
         if not ip:
             return jsonify({"error": "invalid client IP"}), 400
 
-        result = policy.check_ip(ip)
+        result = policy.check_request(
+            ip,
+            request.method,
+            request.path,
+        )
         decision = result["decision"]
 
         if decision == "allow":
@@ -138,7 +142,7 @@ class RadixIPDjangoMiddleware:
         if not ip:
             return JsonResponse({"error": "invalid client IP"}, status=400)
 
-        result = self.policy.check_ip(ip)
+        result = self.policy.check_request(ip, request.method, request.path)
         decision = result["decision"]
 
         if decision == "allow":
