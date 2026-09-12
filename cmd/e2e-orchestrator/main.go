@@ -473,7 +473,7 @@ func phase1RouteTrie(ctx context.Context, vegetaBin, resultsDir string, summarie
 
 		authIP := fmt.Sprintf("203.0.113.%d", t.ipSuffix)
 		labelAuth := fmt.Sprintf("p1_%s_auth", label)
-		targetAuth := fmt.Sprintf("POST http://localhost:%d/api/v1/auth\nX-Forwarded-For: %s\n", t.port, authIP)
+		targetAuth := fmt.Sprintf("POST http://localhost:%d/api/v1/auth\nX-Forwarded-For: %s\n\n", t.port, authIP)
 		authReport, err := runVegeta(ctx, vegetaBin, targetAuth, labelAuth, resultsDir, 1000, 2*time.Second)
 		if err != nil {
 			log.Printf("⚠️  vegeta error for %s auth: %v", t.name, err)
@@ -482,21 +482,27 @@ func phase1RouteTrie(ctx context.Context, vegetaBin, resultsDir string, summarie
 			status429 := authReport.StatusCodes["429"]
 			passed := status429 > 0 && authReport.Success < 0.1
 			details := fmt.Sprintf("success=%.3f 429=%d 200=%d", authReport.Success, status429, authReport.StatusCodes["200"])
+			if authReport.StatusCodes["200"] == 0 && status429 == 0 {
+				details += fmt.Sprintf(" (codes: %v)", authReport.StatusCodes)
+			}
 			log.Printf("  Auth (capacity=5): %s", details)
 			*summaries = append(*summaries, TestSummary{Phase: "1", Name: t.name + " auth", Port: t.port, Passed: passed, Details: details})
 		}
 
 		pubIP := fmt.Sprintf("203.0.114.%d", t.ipSuffix)
 		labelPub := fmt.Sprintf("p1_%s_public", label)
-		targetPub := fmt.Sprintf("GET http://localhost:%d/api/v1/public\nX-Forwarded-For: %s\n", t.port, pubIP)
+		targetPub := fmt.Sprintf("GET http://localhost:%d/api/v1/public\nX-Forwarded-For: %s\n\n", t.port, pubIP)
 		pubReport, err := runVegeta(ctx, vegetaBin, targetPub, labelPub, resultsDir, 1000, 2*time.Second)
 		if err != nil {
 			log.Printf("⚠️  vegeta error for %s public: %v", t.name, err)
 			*summaries = append(*summaries, TestSummary{Phase: "1", Name: t.name + " public", Port: t.port, Passed: false, Details: err.Error()})
 		} else {
 			details := fmt.Sprintf("success=%.3f 429=%d 200=%d", pubReport.Success, pubReport.StatusCodes["429"], pubReport.StatusCodes["200"])
+			if pubReport.StatusCodes["200"] == 0 && pubReport.StatusCodes["429"] == 0 {
+				details += fmt.Sprintf(" (codes: %v)", pubReport.StatusCodes)
+			}
 			if pubReport.Requests == 0 {
-				details += " ⚠️ zero responses — check X-Forwarded-For handling or Mutex contention"
+				details += " ⚠️ zero requests"
 			}
 			log.Printf("  Public (capacity=1000): %s", details)
 			*summaries = append(*summaries, TestSummary{Phase: "1", Name: t.name + " public", Port: t.port, Passed: pubReport.Success > 0.5, Details: details})
