@@ -809,7 +809,7 @@ We maintain five unified test applications that spin up all supported frameworks
 - **Rust Kitchen Sink** (`cmd/kitchen-sink-rust`): Runs Axum (`:9081`), Actix-Web (`:9082`), and Tonic gRPC (`:50052`) sharing one engine.
 - **Node Kitchen Sink** (`cmd/kitchen-sink-node`): Run Express.js (`:8091`), Fastify(`:8092`), Next.js (`:8094`) sharing one engine.
 - **Tanstack Kitchen Sink** (`cmd/kitchen-sink-tanstack`): Run Tanstack Start
-(`:8096`).
+(`:8097`).
 - **Python Kitchen Sink** (`cmd/kitchen-sink-python`): Run Fast API (`:8093`),
 Django (`:8095`) and Flask (`:8096`) sharing one engine.
 
@@ -837,10 +837,15 @@ rate_limit_routes:
     methods: ["GET"]
     rate_limit: { capacity: 1000, refill_rate: 100 }
 ```
-The test blasts `POST /api/v1/auth` and `GET /api/v1/public` at 1000 RPS. It asserts that the auth endpoint strictly clamps down (producing a low success rate) while the public endpoint easily absorbs the traffic. It uses unique `X-Forwarded-For` IPs per framework and per route to prevent cross-framework auto-ban state from muddying the results.
+Phase 1 no longer uses vegeta. It uses runHTTPBatch with 9 requests per route
+( `POST /api/v1/auth` and `GET /api/v1/public` ), deliberately below the auto-ban threshold. The Auth endpoint strictly clamps down (producing a low success rate) while the public endpoint easily absorbs the traffic. It uses unique `X-Forwarded-For` IPs per framework and per route to prevent cross-framework auto-ban state from muddying the results.
+
+Phase 1 sends a deterministic batch of 9 requests to each route (enough to trigger 429s on auth, below the 5-violation auto-ban threshold). This isolates the route-trie policy from the auto-ban lifecycle, which is Phase 2's job.
+
+The auth IP and public IP are on different /24s (203.0.113.x for auth, 203.0.114.x for public). This mechanism prevents contamination since state is shared.
 
 #### Phase 2: Auto-Ban & Sweeper Verification
-Tests the `AutoBanTracker`. It attacks each framework at high RPS using a single IP. 
+Tests the `AutoBanTracker`.This test calls vegeta. It attacks each framework at high RPS using a single IP. 
 1. The first requests succeed up to the global rate-limit capacity.
 2. The next requests return `429 Too Many Requests`.
 3. Once the IP hits the `violation_threshold` (e.g., 5 violations), the engine injects it into the blocklist.
