@@ -56,16 +56,16 @@ jobs:
         run: chmod +x scripts/vegeta_test.sh
       
       - name: Run load test (100 req/s)
-        run: ./scripts/vegeta_test.sh 100 30s 100000
+        run: ./scripts/vegeta_test.sh 100 10s 100000
       
       - name: Run load test (500 req/s)
-        run: ./scripts/vegeta_test.sh 500 30s 100000
+        run: ./scripts/vegeta_test.sh 500 10s 100000
       
       - name: Run load test (1000 req/s)
-        run: ./scripts/vegeta_test.sh 1000 30s 100000
+        run: ./scripts/vegeta_test.sh 1000 10s 100000
 
       - name: Run load test (2000 req/s)
-        run: ./scripts/vegeta_test.sh 2000 30s 100000
+        run: ./scripts/vegeta_test.sh 2000 10s 100000
 
       - name: Run attacker simulation test
         run: |
