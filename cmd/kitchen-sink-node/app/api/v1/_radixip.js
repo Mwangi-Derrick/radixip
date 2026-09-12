@@ -1,13 +1,17 @@
-import { radixipNext } from 'radixip/middleware';
+let _gate = null;
 
-// Next.js root middleware is Edge-only and cannot load a native addon. Route
-// handlers run in the Node.js runtime, so this uses the same Web Request
-// adapter at the supported boundary instead.
-const gate = radixipNext({
-  configPath: process.env.RADIXIP_CONFIG,
-  resolveIp: (request) => request.headers.get('x-forwarded-for')?.split(',')[0].trim() || null,
-});
+function getGate() {
+  if (_gate) return _gate;
+  // require() runs at request time, not module load time
+  const { radixipNext } = require('radixip/middleware');
+  _gate = radixipNext({
+    configPath: process.env.RADIXIP_CONFIG,
+    resolveIp: (request) =>
+      request.headers.get('x-forwarded-for')?.split(',')[0].trim() || null,
+  });
+  return _gate;
+}
 
 export function enforceRadixIP(request) {
-  return gate(request);
+  return getGate()(request);
 }
