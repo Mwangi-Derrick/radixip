@@ -447,13 +447,15 @@ func phase1RouteTrie(ctx context.Context, vegetaBin, resultsDir string, summarie
 		{"Gin (Go)", 8081, 1},
 		{"Echo (Go)", 8082, 2},
 		{"Fiber (Go)", 8083, 3},
-		{"Axum (Rust)", 9081, 4},
-		{"Actix (Rust)", 9082, 5},
-		{"Express (Node)", 8091, 6},
-		{"Fastify (Node)", 8092, 7},
-		{"FastAPI (Python)", 8093, 8},
-		{"Flask (Python)", 8096, 9},
-		{"Django (Python)", 8095, 10},
+		{"Chi (Go)", 8084, 4},
+		{"Net/HTTP (Go)", 8085, 5},
+		{"Axum (Rust)", 9081, 6},
+		{"Actix (Rust)", 9082, 7},
+		{"Express (Node)", 8091, 8},
+		{"Fastify (Node)", 8092, 9},
+		{"FastAPI (Python)", 8093, 10},
+		{"Flask (Python)", 8096, 11},
+		{"Django (Python)", 8095, 12},
 	}
 
 	for _, t := range targets {
