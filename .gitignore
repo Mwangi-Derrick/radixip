@@ -12,6 +12,7 @@ scripts/trigger.sh
 
 **data
 **.next
+**test-results
 
 # Rust
 **/target/
