@@ -495,6 +495,21 @@ type TestSummary struct {
 	Details string
 }
 
+// artifactLabel converts a display name into one filename component.  Sink
+// names are user-facing and may contain separators (for example "Net/HTTP"),
+// which must never be interpreted as a subdirectory under resultsDir.
+func artifactLabel(name string) string {
+	label := strings.ToLower(name)
+	label = strings.NewReplacer(
+		" ", "_",
+		"(", "",
+		")", "",
+		"/", "_",
+		"\\", "_",
+	).Replace(label)
+	return strings.Trim(label, "_")
+}
+
 func phase1RouteTrie(ctx context.Context, resultsDir string, summaries *[]TestSummary) {
 	log.Println("\n==========================================")
 	log.Println(" Phase 1: Route-Trie Specific Rate Limits")
@@ -529,10 +544,7 @@ func phase1RouteTrie(ctx context.Context, resultsDir string, summaries *[]TestSu
 			continue
 		}
 		log.Printf("\nTesting %s on port %d...", t.name, t.port)
-		label := strings.ToLower(strings.ReplaceAll(t.name, " ", "_"))
-		label = strings.ReplaceAll(label, "(", "")
-		label = strings.ReplaceAll(label, ")", "")
-		label = strings.TrimRight(label, "_")
+		label := artifactLabel(t.name)
 
 		authIP := fmt.Sprintf("203.0.113.%d", t.ipSuffix)
 		labelAuth := fmt.Sprintf("p1_%s_auth", label)
