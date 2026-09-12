@@ -3,113 +3,121 @@
 //! When an IP accumulates `threshold_violations` rate-limit violations within
 //! a sliding `window_seconds` window, it is automatically inserted into the
 //! RadixIP blocklist engine as a /32 (IPv4) or /128 (IPv6) host route with
-//! value `"auto-banned"`.  A background Tokio task sweeps expired bans and
+//! value `"auto-banned"`.  A background thread sweeps expired bans and
 //! removes them from the engine.
+//!
+//! ## Concurrency model
+//!
+//! Violations are tracked in a `DashMap<IpAddr, Mutex<Vec<Instant>>>`.
+//! Each IP has its own per-entry lock, so concurrent requests from *different*
+//! IPs never contend with each other. The ban table is a plain
+//! `DashMap<IpAddr, Instant>` where reads (the hot path) only hold a short
+//! shard read-lock for a few nanoseconds.
+//!
+//! This is safe to use from both async Tokio contexts and sync FFI threads
+//! (Python/Node) because no blocking I/O is performed under any lock.
 
-use std::collections::HashMap;
 use std::net::IpAddr;
 use std::sync::{Arc, Mutex};
 use std::time::{Duration, Instant};
 
+use dashmap::DashMap;
 use ipnetwork::IpNetwork;
 use radixip::RadixEngine;
 use radixip_config::AutoBanConfig;
 
 // AutoBanTracker
 
-/// Shared inner state — wrapped in `Arc<Mutex<>>` so it is cheaply cloneable
-/// across the background sweeper task.
-struct Inner {
-    /// Per-IP violation timestamps (sliding window).
-    violations: HashMap<IpAddr, Vec<Instant>>,
-    /// Per-IP ban expiry times.
-    banned: HashMap<IpAddr, Instant>,
+/// Tracks per-IP violations and injects auto-bans into a `RadixEngine`.
+///
+/// Cheap to clone — all state lives behind `Arc`.
+#[derive(Clone)]
+pub struct AutoBanTracker {
+    /// Per-IP violation timestamps (each IP holds its own short-lived lock).
+    violations: Arc<DashMap<IpAddr, Mutex<Vec<Instant>>>>,
+    /// Per-IP ban expiry. Reads only need a shard read-lock (very fast).
+    banned: Arc<DashMap<IpAddr, Instant>>,
     threshold: u64,
     window: Duration,
     ban_duration: Duration,
-}
-
-impl Inner {
-    fn prune_violations(&mut self, ip: IpAddr) {
-        let cutoff = Instant::now()
-            .checked_sub(self.window)
-            .unwrap_or(Instant::now());
-        if let Some(v) = self.violations.get_mut(&ip) {
-            v.retain(|&t| t >= cutoff);
-        }
-    }
-}
-
-/// Tracks per-IP violations and injects auto-bans into a `RadixEngine`.
-///
-/// Cheap to clone — the backing data is behind an `Arc<Mutex<>>`.
-#[derive(Clone)]
-pub struct AutoBanTracker {
-    inner: Arc<Mutex<Inner>>,
     engine: Arc<Box<dyn RadixEngine>>,
 }
 
 impl AutoBanTracker {
     /// Create a new tracker and start the background expiry sweeper.
     pub fn new(cfg: &AutoBanConfig, engine: Arc<Box<dyn RadixEngine>>) -> Self {
-        let inner = Arc::new(Mutex::new(Inner {
-            violations: HashMap::new(),
-            banned: HashMap::new(),
+        let violations: Arc<DashMap<IpAddr, Mutex<Vec<Instant>>>> =
+            Arc::new(DashMap::new());
+        let banned: Arc<DashMap<IpAddr, Instant>> = Arc::new(DashMap::new());
+
+        let tracker = Self {
+            violations: Arc::clone(&violations),
+            banned: Arc::clone(&banned),
             threshold: cfg.threshold_violations,
             window: Duration::from_secs(cfg.window_seconds),
             ban_duration: Duration::from_secs(cfg.ban_duration_seconds),
-        }));
-
-        let tracker = Self {
-            inner: Arc::clone(&inner),
             engine: Arc::clone(&engine),
         };
 
-        // Start background sweeper on a standard OS thread.
-        // This ensures the FFI layers (Node/Python) don't panic if a global Tokio
-        // reactor isn't running in their process.
+        // Spawn background sweeper on a plain OS thread — works in both Tokio
+        // and non-Tokio environments (Python/Node FFI).
         {
-            let inner_clone = Arc::clone(&inner);
+            let banned_clone = Arc::clone(&banned);
             let engine_clone = Arc::clone(&engine);
             std::thread::spawn(move || {
-                sweeper(inner_clone, engine_clone);
+                sweeper(banned_clone, engine_clone);
             });
         }
 
         tracker
     }
 
-    /// Record a rate-limit violation for `ip`. Returns `true` if the IP was
-    /// auto-banned as a result of this violation.
+    /// Record a rate-limit violation for `ip`.
+    ///
+    /// Returns `true` if the IP was auto-banned as a result of this call.
+    /// Only holds the per-IP entry lock for the duration of the prune+count
+    /// operation — never a global lock.
     pub fn record_violation(&self, ip: IpAddr) -> bool {
-        let mut inner = self.inner.lock().unwrap();
-        inner.prune_violations(ip);
+        let now = Instant::now();
+        let cutoff = now.checked_sub(self.window).unwrap_or(now);
 
-        let violations = inner.violations.entry(ip).or_default();
-        violations.push(Instant::now());
+        // Get-or-insert the per-IP bucket (DashMap shard lock only).
+        let entry = self
+            .violations
+            .entry(ip)
+            .or_insert_with(|| Mutex::new(Vec::new()));
 
-        if violations.len() as u64 >= inner.threshold {
-            let expiry = Instant::now() + inner.ban_duration;
-            inner.banned.insert(ip, expiry);
-            // Reset violation counter so a single continuous flood doesn't
-            // keep re-logging the ban.
-            inner.violations.remove(&ip);
-            drop(inner); // release lock before engine call
-            self.insert_ban(ip);
-            return true;
-        }
-        false
+        {
+            let mut timestamps = entry.value().lock().unwrap();
+
+            // Prune old entries outside the sliding window.
+            timestamps.retain(|&t| t >= cutoff);
+            timestamps.push(now);
+
+            if (timestamps.len() as u64) < self.threshold {
+                return false; // lock released here
+            }
+
+            // Threshold reached — reset counter so a continuous flood doesn't
+            // keep re-triggering the ban on every subsequent violation.
+            timestamps.clear();
+        } // per-IP lock released here
+
+        // Record the ban and insert into the engine (no locks held).
+        let expiry = now + self.ban_duration;
+        self.banned.insert(ip, expiry);
+        drop(entry); // release DashMap entry ref before engine call
+        self.insert_ban(ip);
+        true
     }
 
-    /// Returns `true` if `ip` is within an active auto-ban period tracked
-    /// locally. Note: the engine blocklist already catches auto-banned IPs on
-    /// the LPM check path, so this is provided for observability / testing.
+    /// Returns `true` if `ip` is within an active auto-ban period.
+    ///
+    /// Fast path: only acquires a DashMap shard read-lock for nanoseconds.
     pub fn is_banned(&self, ip: IpAddr) -> bool {
-        let inner = self.inner.lock().unwrap();
-        inner
-            .banned
+        self.banned
             .get(&ip)
-            .map(|&expiry| Instant::now() < expiry)
+            .map(|expiry| Instant::now() < *expiry)
             .unwrap_or(false)
     }
 
@@ -123,25 +131,25 @@ impl AutoBanTracker {
 
 // Background sweeper
 
-fn sweeper(inner: Arc<Mutex<Inner>>, engine: Arc<Box<dyn RadixEngine>>) {
+/// Runs forever on a background OS thread. Every 30 s it removes expired
+/// bans from both the in-memory map and the RadixIP engine.
+fn sweeper(banned: Arc<DashMap<IpAddr, Instant>>, engine: Arc<Box<dyn RadixEngine>>) {
     loop {
         std::thread::sleep(Duration::from_secs(30));
 
-        let expired: Vec<IpAddr> = {
-            let mut inner = inner.lock().unwrap();
-            let now = Instant::now();
-            let expired: Vec<IpAddr> = inner
-                .banned
-                .iter()
-                .filter(|(_, &expiry)| now >= expiry)
-                .map(|(&ip, _)| ip)
-                .collect();
-            for ip in &expired {
-                inner.banned.remove(ip);
-            }
-            expired
-        };
+        let now = Instant::now();
 
+        // Collect expired IPs (brief iteration scan over DashMap shards).
+        let expired: Vec<IpAddr> = banned
+            .iter()
+            .filter(|r| now >= *r.value())
+            .map(|r| *r.key())
+            .collect();
+
+        // Remove from ban map and engine (no locks held during engine calls).
+        for ip in &expired {
+            banned.remove(ip);
+        }
         for ip in expired {
             let prefix = host_prefix(ip);
             engine.remove(&prefix);
@@ -162,3 +170,4 @@ fn host_prefix(ip: IpAddr) -> IpNetwork {
         }
     }
 }
+
