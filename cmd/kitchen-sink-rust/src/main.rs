@@ -112,7 +112,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         println!("🍅 Axum listening on :9081");
 
         let mut rx = tx_axum.subscribe();
-        axum::serve(listener, app)
+        axum::serve(listener, app.into_make_service_with_connect_info::<std::net::SocketAddr>())
             .with_graceful_shutdown(async move {
                 let _ = rx.recv().await;
                 println!("Shutting down Axum...");
@@ -132,17 +132,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 actix_engine.clone(),
             ))
             .route("/health", web::get().to(|| async { "ok" }))
-            .route(
-                "/api/v1/public",
-                web::get().to(|| async { "actix public ok" }),
-            )
-            .route(
-                "/api/v1/auth", 
-                web::get().to(|| async { "actix auth get ok" })
-            )
-            .route(
-                "/api/v1/auth", 
-                web::post().to(|| async { "actix auth post ok" })
+            .route("/api/v1/public", web::get().to(|| async { "actix public ok" }))
+            .service(
+                web::resource("/api/v1/auth")
+                    .route(web::get().to(|| async { "actix auth get ok" }))
+                    .route(web::post().to(|| async { "actix auth post ok" }))
             )
     })
     .bind("0.0.0.0:9082")?
