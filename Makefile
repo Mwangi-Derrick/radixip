@@ -130,6 +130,12 @@ load-test:
 e2e-test-sink:
 	@go run ./cmd/e2e-orchestrator --results-dir ./test-results
 
+# Clean the project build and module cache
+# Synchronize your go.work workspace dependencies
+clean-sync:
+	@go clean -cache -modcache && go work sync
+
+
 help:
 	@echo "Commands:"
 	@echo ""
@@ -157,3 +163,4 @@ help:
 	@echo "  make simulate-attack  - Simulate attacks on the current configuration"
 	@echo "  make load-test        - Run load test on the current configuration"
 	@echo "  make e2e-test-sink    - Run end-to-end test on the kitchen sink"
+	@echo " clean-sync             - Clean the project build and module cache, synchronize go.work workspace dependencies, use this when updating go.work, go.mod, or go.sum files"
