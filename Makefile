@@ -163,4 +163,7 @@ help:
 	@echo "  make simulate-attack  - Simulate attacks on the current configuration"
 	@echo "  make load-test        - Run load test on the current configuration"
 	@echo "  make e2e-test-sink    - Run end-to-end test on the kitchen sink"
-	@echo " clean-sync             - Clean the project build and module cache, synchronize go.work workspace dependencies, use this when updating go.work, go.mod, or go.sum files"
+	@echo ""
+	@echo "  ## Cleaning"
+	@echo "  make clean            - Clean the project build artifacts"
+	@echo "  make clean-sync       - Clean the project build and module cache, synchronize go.work workspace dependencies, use this when updating go.work, go.mod, or go.sum files"
