@@ -26,7 +26,6 @@
 package policy
 
 import (
-	"sync"
 	"sync/atomic"
 	"time"
 )
@@ -45,15 +44,6 @@ func nowSecs_leaky() uint32 {
 	return uint32(time.Now().Unix())
 }
 
-
-// Shard (256 shards → O(1) contention under high concurrency)
-
-const numShards = 256
-
-type shard struct {
-	mu      sync.RWMutex
-	buckets map[string]*atomic.Uint64 // key: IP string or CIDR string
-}
 
 // LeakyBucketLimiter
 
