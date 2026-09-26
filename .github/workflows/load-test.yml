@@ -12,6 +12,7 @@ on:
       - '.github/workflows/ffi-benchmarks.yml'
       - '.github/workflows/publish-rust-middleware.yml'
       - '.github/workflows/benchmarks.yml'
+      - '.github/workflows/release-go.yml'
       - 'proto'
       - 'docker'
       - '.gitignore'
