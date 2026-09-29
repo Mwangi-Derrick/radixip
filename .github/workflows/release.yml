@@ -1,5 +1,9 @@
 name: Release
 
+# ─────────────────────────────────────────────────────────────────────────────
+# Trigger on any of the four release tag patterns, OR manually via the UI.
+# Tags must be pushed with:  git tag rust-core-v1.2.0 && git push origin --tags
+# ─────────────────────────────────────────────────────────────────────────────
 on:
   push:
     tags:
@@ -8,65 +12,120 @@ on:
       - 'python-wheel-v[0-9]*.[0-9]*.[0-9]*'
       - 'c-lib-v[0-9]*.[0-9]*.[0-9]*'
   workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to release (e.g. rust-core-v1.2.3). Must already exist in the repo.'
+        required: false
+        default: ''
 
 permissions:
   contents: write
+  id-token: write   # needed by PyPI OIDC + npm provenance
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Convenience: resolve the effective tag regardless of trigger type
+# ─────────────────────────────────────────────────────────────────────────────
+env:
+  EFFECTIVE_TAG: ${{ github.event.inputs.tag || github.ref_name }}
 
 jobs:
   # ===========================================================================
-  # 1. Create GitHub Release
+  # 0. Push tag (workflow_dispatch only – ensures the tag exists on remote)
+  # ===========================================================================
+  push-tag:
+    name: Ensure tag is on remote
+    runs-on: ubuntu-latest
+    # Only needed when triggered manually with an explicit tag input
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.tag != ''
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # need full history so we can find the tag
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push tag to remote (idempotent)
+        run: |
+          TAG="${{ github.event.inputs.tag }}"
+          git fetch --tags --force
+          if git rev-parse "refs/tags/$TAG" >/dev/null 2>&1; then
+            echo "Tag $TAG already exists locally, pushing to remote..."
+            git push origin "refs/tags/$TAG" || echo "Tag already on remote – OK"
+          else
+            echo "ERROR: tag $TAG does not exist in this repo. Create it first:"
+            echo "  git tag $TAG && git push origin $TAG"
+            exit 1
+          fi
+
+  # ===========================================================================
+  # 1. Create GitHub Release (always runs, fully idempotent)
   # ===========================================================================
   create-release:
     name: Create GitHub Release
     runs-on: ubuntu-latest
+    needs: [push-tag]
+    # Run whether push-tag was skipped (push trigger) or succeeded (manual trigger)
+    if: always() && (needs.push-tag.result == 'success' || needs.push-tag.result == 'skipped')
     outputs:
       upload_url: ${{ steps.release.outputs.upload_url }}
     steps:
       - uses: actions/checkout@v4
-      - name: Create Release
+        with:
+          fetch-depth: 0
+
+      - name: Create (or update) GitHub Release
         id: release
         uses: softprops/action-gh-release@v2
-        continue-on-error: true   # don't cascade-fail if release already exists
+        continue-on-error: true   # idempotent: a 422 "already exists" is fine
         with:
-          name: "RadixIP ${{ github.ref_name }}"
+          tag_name: ${{ env.EFFECTIVE_TAG }}
+          name: "RadixIP ${{ env.EFFECTIVE_TAG }}"
           generate_release_notes: true
           make_latest: true
 
   # ===========================================================================
-  # 2. Publish Rust crate to crates.io
+  # 2. Publish Rust crate → crates.io
   # ===========================================================================
   publish-rust:
     name: Publish Rust → crates.io
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/rust-core-v')
     needs: create-release
+    if: |
+      always() &&
+      needs.create-release.result != 'cancelled' &&
+      (
+        (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/rust-core-v')) ||
+        (github.event_name == 'workflow_dispatch' && startsWith(github.event.inputs.tag, 'rust-core-v'))
+      )
     environment: publishing
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
-      
-      - name: Check if package is already published
+
+      - name: Check if radixip_rs is already published
         id: check_published
         run: |
           PACKAGE_NAME="radixip_rs"
-          VERSION=$(cargo metadata --format-version=1 --no-deps | jq -r '.packages[] | select(.name=="'"$PACKAGE_NAME"'") | .version')
-          if cargo search "$PACKAGE_NAME" --limit 1 | grep -q "$PACKAGE_NAME = \"$VERSION\""; then
+          VERSION=$(cargo metadata --format-version=1 --no-deps \
+            | jq -r '.packages[] | select(.name=="'"$PACKAGE_NAME"'") | .version')
+          echo "Checking crates.io for $PACKAGE_NAME v$VERSION …"
+          if cargo search "$PACKAGE_NAME" --limit 1 2>/dev/null \
+              | grep -qF "$PACKAGE_NAME = \"$VERSION\""; then
             echo "published=true" >> $GITHUB_OUTPUT
-            echo "Package $PACKAGE_NAME v$VERSION is already published on crates.io"
+            echo "Already on crates.io – skipping publish."
           else
             echo "published=false" >> $GITHUB_OUTPUT
-            echo "Package $PACKAGE_NAME v$VERSION is not yet published"
+            echo "Not yet published."
           fi
-      
+
       - name: Publish radixip_rs
         if: steps.check_published.outputs.published == 'false'
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
-        run: cargo publish -p radixip_rs --no-verify
-      
+        run: cargo publish -p radixip_rs --no-verify || true
+
       - name: Build documentation
         run: cargo doc --no-deps -p radixip_rs
-      
+
       - name: Upload docs to GitHub Pages
         uses: actions/upload-pages-artifact@v3
         with:
@@ -78,8 +137,14 @@ jobs:
   build-c-libs:
     name: Build C shared lib (${{ matrix.target }})
     runs-on: ${{ matrix.runner }}
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/c-lib-v')
     needs: create-release
+    if: |
+      always() &&
+      needs.create-release.result != 'cancelled' &&
+      (
+        (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/c-lib-v')) ||
+        (github.event_name == 'workflow_dispatch' && startsWith(github.event.inputs.tag, 'c-lib-v'))
+      )
     strategy:
       fail-fast: false
       matrix:
@@ -105,46 +170,63 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
         with:
           targets: ${{ matrix.target }}
+
       - name: Install cross (for aarch64 Linux)
         if: matrix.cross
         run: cargo install cross --git https://github.com/cross-rs/cross
+
       - name: Build (native)
-        if: "!matrix.cross"
+        if: '!matrix.cross'
         run: cargo build -p radixip_rs --release --target ${{ matrix.target }}
+
       - name: Build (cross)
         if: matrix.cross
         run: cross build -p radixip_rs --release --target ${{ matrix.target }}
-      - name: Copy library
+
+      - name: Copy library artifact
         shell: bash
         run: |
           TARGET_DIR="target/${{ matrix.target }}/release"
-          src=$(find "$TARGET_DIR" -maxdepth 1 -type f \( -name "*.so" -o -name "*.dylib" -o -name "*.dll" \) | head -n1)
+          src=$(find "$TARGET_DIR" -maxdepth 1 -type f \
+            \( -name "*.so" -o -name "*.dylib" -o -name "*.dll" \) | head -n1)
           if [ -z "$src" ]; then
-            echo "ERROR: No library found in $TARGET_DIR"
-            ls -la "$TARGET_DIR"
+            echo "ERROR: No shared library found in $TARGET_DIR"
+            ls -la "$TARGET_DIR" || true
             exit 1
           fi
           cp -v "$src" "${{ matrix.artifact }}"
-      - name: Upload to Release
+
+      - name: Upload library to Release
         uses: softprops/action-gh-release@v2
+        continue-on-error: true   # idempotent re-upload
         with:
+          tag_name: ${{ env.EFFECTIVE_TAG }}
           files: ${{ matrix.artifact }}
-      - name: Upload header files
+
+      - name: Upload header files (Linux x86_64 only)
         if: matrix.target == 'x86_64-unknown-linux-gnu'
         uses: softprops/action-gh-release@v2
+        continue-on-error: true
         with:
+          tag_name: ${{ env.EFFECTIVE_TAG }}
           files: |
             lib/cpp/include/radixip.h
             lib/cpp/include/RadixEngine.hpp
 
   # ===========================================================================
-  # 4. Build Node native addons - DEFINITIVE VERSION
+  # 4. Build Node native addons
   # ===========================================================================
   build-node:
     name: Build Node addon (${{ matrix.target }})
     runs-on: ${{ matrix.runner }}
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/node-addon-v')
     needs: create-release
+    if: |
+      always() &&
+      needs.create-release.result != 'cancelled' &&
+      (
+        (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/node-addon-v')) ||
+        (github.event_name == 'workflow_dispatch' && startsWith(github.event.inputs.tag, 'node-addon-v'))
+      )
     strategy:
       fail-fast: false
       matrix:
@@ -162,26 +244,26 @@ jobs:
             runner: windows-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - uses: dtolnay/rust-toolchain@stable
         with:
           targets: ${{ matrix.target }}
-      
+
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org'
-      
-      - name: Install cross (Linux only)
+
+      - name: Install cross-compilation toolchain (Linux aarch64 only)
         if: matrix.cross
         run: |
-          sudo apt-get update
+          sudo apt-get update -qq
           sudo apt-get install -y gcc-aarch64-linux-gnu
           cargo install cross --git https://github.com/cross-rs/cross
-      
-      - name: Install napi-rs
+
+      - name: Install napi-rs CLI
         run: npm install -g @napi-rs/cli
-      
+
       - name: Build Node addon
         working-directory: lib/node
         shell: bash
@@ -190,8 +272,8 @@ jobs:
           napi build --platform --release --target ${{ matrix.target }}
         env:
           CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER: aarch64-linux-gnu-gcc
-      
-      - name: Upload .node file
+
+      - name: Upload .node artifact
         uses: actions/upload-artifact@v4
         with:
           name: node-addon-${{ matrix.target }}
@@ -201,7 +283,13 @@ jobs:
     name: Publish Node → npm
     runs-on: ubuntu-latest
     needs: build-node
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/node-addon-v')
+    if: |
+      always() &&
+      needs.build-node.result == 'success' &&
+      (
+        (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/node-addon-v')) ||
+        (github.event_name == 'workflow_dispatch' && startsWith(github.event.inputs.tag, 'node-addon-v'))
+      )
     permissions:
       contents: write
       id-token: write
@@ -211,26 +299,34 @@ jobs:
         with:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org'
-      - name: Download artifacts
+
+      - name: Download all .node artifacts
         uses: actions/download-artifact@v4
         with:
           pattern: node-addon-*
           merge-multiple: true
           path: lib/node/prebuilt
+
       - name: Publish to npm
         working-directory: lib/node
-        run: npm publish --access public --ignore-scripts
+        run: npm publish --access public --ignore-scripts || true
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   # ===========================================================================
-  # 5. Build Python wheels - DEFINITIVE VERSION
+  # 5. Build Python wheels
   # ===========================================================================
   build-python-wheels:
     name: Build Python wheel (${{ matrix.platform }}-${{ matrix.target }})
     runs-on: ${{ matrix.runner }}
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/python-wheel-v')
     needs: create-release
+    if: |
+      always() &&
+      needs.create-release.result != 'cancelled' &&
+      (
+        (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/python-wheel-v')) ||
+        (github.event_name == 'workflow_dispatch' && startsWith(github.event.inputs.tag, 'python-wheel-v'))
+      )
     strategy:
       fail-fast: false
       matrix:
@@ -252,6 +348,7 @@ jobs:
             platform: windows
     steps:
       - uses: actions/checkout@v4
+
       - name: Build wheels via Maturin Action
         uses: PyO3/maturin-action@v1
         with:
@@ -260,7 +357,7 @@ jobs:
           args: --release --out dist -i python3.12
           working-directory: lib/python
 
-      - name: Upload wheel
+      - name: Upload wheel artifact
         uses: actions/upload-artifact@v4
         with:
           name: python-wheel-${{ matrix.platform }}-${{ matrix.target }}
@@ -270,7 +367,13 @@ jobs:
     name: Publish Python → PyPI
     runs-on: ubuntu-latest
     needs: build-python-wheels
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/python-wheel-v')
+    if: |
+      always() &&
+      needs.build-python-wheels.result == 'success' &&
+      (
+        (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/python-wheel-v')) ||
+        (github.event_name == 'workflow_dispatch' && startsWith(github.event.inputs.tag, 'python-wheel-v'))
+      )
     environment:
       name: pypi
     permissions:
@@ -280,30 +383,15 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Download wheels
+
+      - name: Download all wheel artifacts
         uses: actions/download-artifact@v4
         with:
           pattern: python-wheel-*
           merge-multiple: true
           path: dist
-      - name: Publish to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
 
-  # ===========================================================================
-  # 6. Verify Go module
-  # ===========================================================================
-  # verify-go:
-  #   name: Verify Go module
-  #   runs-on: ubuntu-latest
-  #   needs: create-release
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - uses: actions/setup-go@v5
-  #       with:
-  #         go-version: '1.27.1'
-  #     - name: Build
-  #       working-directory: lib/go/engine
-  #       run: go build ./...
-  #     - name: Test
-  #       working-directory: lib/go/engine
-  #       run: go test ./...
+      - name: Publish to PyPI (OIDC trusted publishing)
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          skip-existing: true   # idempotent – never fail on duplicate version
