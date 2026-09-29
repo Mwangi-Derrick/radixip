@@ -26,9 +26,11 @@ jobs:
       - name: Create Release
         id: release
         uses: softprops/action-gh-release@v2
+        continue-on-error: true   # don't cascade-fail if release already exists
         with:
           name: "RadixIP ${{ github.ref_name }}"
           generate_release_notes: true
+          make_latest: true
 
   # ===========================================================================
   # 2. Publish Rust crate to crates.io
