@@ -10,7 +10,7 @@ documentation.workspace = true
 readme      = "README.md"
 description = "Configuration types and hot-reload loader for RadixIP middleware"
 keywords    = ["radix", "ip", "config", "networking", "middleware"]
-categories  = ["network-programming", "configuration"]
+categories  = ["network-programming", "config"]
 
 [dependencies]
 serde      = { workspace = true }
