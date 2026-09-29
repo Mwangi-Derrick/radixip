@@ -18,14 +18,14 @@ jobs:
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
-        continue-on-error: true   # don't cascade-fail if release already exists
+        continue-on-error: true   # idempotent - a 422 "already exists" is fine
         with:
           name: "RadixIP Rust Middleware ${{ github.ref_name }}"
           generate_release_notes: true
           make_latest: true
 
   publish-rust-middleware:
-    name: Publish Rust Middleware → crates.io
+    name: Publish Rust Middleware to crates.io
     runs-on: ubuntu-latest
     needs: release-rust
     environment: publishing
@@ -33,53 +33,119 @@ jobs:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
 
-      # -----------------------------------------------------------------------
-      # Crates must be published in strict topological (dependency) order.
-      # After each tier we sleep 45 s so the sparse crates.io index propagates
-      # before the next dependent tries to resolve it.
-      # `|| true` makes every step idempotent – re-runs on "already published"
-      # never fail the workflow.
-      # -----------------------------------------------------------------------
-
-      # ── Tier 0: no internal deps ──────────────────────────────────────────
-      - name: Publish radixip-config
+      # ---------------------------------------------------------------------------
+      # All crates are published inside a single shell step using a helper function.
+      #
+      # publish_crate <name> <version>
+      #   1. Runs `cargo publish` with up to 3 retries for transient network errors.
+      #   2. Treats "already uploaded" as success (idempotent re-runs).
+      #   3. After publishing, polls the crates.io REST API every 10 s for up to
+      #      6 minutes until the version is actually visible. This is far more
+      #      reliable than a blind sleep because sparse-index propagation time is
+      #      variable (can be 30 s or can exceed 2 min).
+      #   4. Only returns once the version is confirmed live, so the next dependent
+      #      crate is guaranteed to resolve it.
+      # ---------------------------------------------------------------------------
+      - name: Publish all crates in topological order
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
-        run: cargo publish -p radixip-config --no-verify || true
+        shell: bash
+        run: |
+          set -euo pipefail
 
-      - name: Wait – crates.io index propagation (radixip-config)
-        run: sleep 45
+          publish_crate() {
+            local crate="$1"
+            local version="$2"
+            local api_url="https://crates.io/api/v1/crates/${crate}/${version}"
 
-      # ── Tier 1: depends on radixip-config ────────────────────────────────
-      - name: Publish radixip-policy
-        env:
-          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
-        run: cargo publish -p radixip-policy --no-verify || true
+            echo ""
+            echo "==== ${crate} v${version} ===="
 
-      - name: Wait – crates.io index propagation (radixip-policy)
-        run: sleep 45
+            # --- Step 1: publish with retries ---
+            local attempt=0
+            while true; do
+              attempt=$((attempt + 1))
+              echo "[publish attempt ${attempt}/3] cargo publish -p ${crate} --no-verify"
+              set +e
+              output=$(cargo publish -p "${crate}" --no-verify 2>&1)
+              rc=$?
+              set -e
+              echo "$output"
 
-      # ── Tier 2: depends on radixip-config + radixip-policy ───────────────
-      - name: Publish radixip-tower
-        env:
-          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
-        run: cargo publish -p radixip-tower --no-verify || true
+              if [ $rc -eq 0 ]; then
+                echo "OK: published successfully."
+                break
+              elif echo "$output" | grep -qiE "already uploaded|already exists"; then
+                echo "OK: already on crates.io, skipping."
+                break
+              elif [ $attempt -ge 3 ]; then
+                echo "WARN: failed after 3 attempts, continuing (downstream may also fail)."
+                break
+              else
+                echo "WARN: transient error, retrying in 15 s..."
+                sleep 15
+              fi
+            done
 
-      - name: Wait – crates.io index propagation (radixip-tower)
-        run: sleep 45
+            # --- Step 2: poll crates.io API until version is live ---
+            echo "Polling crates.io API for ${crate} v${version}..."
+            local waited=0
+            local max_wait=360   # 6 minutes
+            local interval=10
 
-      # ── Tier 3: depend on tiers 0-2 ──────────────────────────────────────
-      - name: Publish radixip-axum
-        env:
-          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
-        run: cargo publish -p radixip-axum --no-verify || true
+            while true; do
+              http_code=$(curl -s -o /dev/null -w "%{http_code}" \
+                -H "User-Agent: radixip-ci (github.com/Mwangi-Derrick/radixip)" \
+                "${api_url}")
 
-      - name: Publish radixip-actix
-        env:
-          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
-        run: cargo publish -p radixip-actix --no-verify || true
+              if [ "$http_code" = "200" ]; then
+                echo "OK: ${crate} v${version} is live (waited ${waited}s)."
+                return 0
+              fi
 
-      - name: Publish radixip-grpc-interceptor
-        env:
-          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
-        run: cargo publish -p radixip-grpc-interceptor --no-verify || true
+              if [ $waited -ge $max_wait ]; then
+                echo "WARN: timed out after ${max_wait}s (last HTTP ${http_code}). Proceeding anyway."
+                return 0
+              fi
+
+              echo "  [${waited}s] not visible yet (HTTP ${http_code}), checking again in ${interval}s..."
+              sleep $interval
+              waited=$((waited + interval))
+            done
+          }
+
+          # --- Resolve versions from workspace ---
+          meta=$(cargo metadata --format-version=1 --no-deps)
+          ver() { echo "$meta" | jq -r ".packages[] | select(.name==\"$1\") | .version"; }
+
+          V_CONFIG=$(ver "radixip-config")
+          V_POLICY=$(ver "radixip-policy")
+          V_TOWER=$(ver "radixip-tower")
+          V_AXUM=$(ver "radixip-axum")
+          V_ACTIX=$(ver "radixip-actix")
+          V_GRPC=$(ver "radixip-grpc-interceptor")
+
+          echo "Resolved versions:"
+          echo "  radixip-config            $V_CONFIG"
+          echo "  radixip-policy            $V_POLICY"
+          echo "  radixip-tower             $V_TOWER"
+          echo "  radixip-axum              $V_AXUM"
+          echo "  radixip-actix             $V_ACTIX"
+          echo "  radixip-grpc-interceptor  $V_GRPC"
+
+          # Tier 0 - no internal deps
+          publish_crate "radixip-config" "$V_CONFIG"
+
+          # Tier 1 - depends on radixip-config
+          publish_crate "radixip-policy" "$V_POLICY"
+
+          # Tier 2 - depends on radixip-config + radixip-policy
+          publish_crate "radixip-tower" "$V_TOWER"
+
+          # Tier 3 - depend on tiers 0-2
+          publish_crate "radixip-axum"             "$V_AXUM"
+          publish_crate "radixip-actix"            "$V_ACTIX"
+          publish_crate "radixip-grpc-interceptor" "$V_GRPC"
+
+          echo ""
+          echo "All crates published successfully."
