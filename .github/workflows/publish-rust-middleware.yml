@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Create Release
         uses: softprops/action-gh-release@v2
         continue-on-error: true   # don't cascade-fail if release already exists
@@ -32,22 +32,43 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
-      
+
+      # -----------------------------------------------------------------------
+      # Crates must be published in strict topological (dependency) order.
+      # After each tier we sleep 45 s so the sparse crates.io index propagates
+      # before the next dependent tries to resolve it.
+      # `|| true` makes every step idempotent – re-runs on "already published"
+      # never fail the workflow.
+      # -----------------------------------------------------------------------
+
+      # ── Tier 0: no internal deps ──────────────────────────────────────────
       - name: Publish radixip-config
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
         run: cargo publish -p radixip-config --no-verify || true
 
+      - name: Wait – crates.io index propagation (radixip-config)
+        run: sleep 45
+
+      # ── Tier 1: depends on radixip-config ────────────────────────────────
       - name: Publish radixip-policy
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
         run: cargo publish -p radixip-policy --no-verify || true
 
+      - name: Wait – crates.io index propagation (radixip-policy)
+        run: sleep 45
+
+      # ── Tier 2: depends on radixip-config + radixip-policy ───────────────
       - name: Publish radixip-tower
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
         run: cargo publish -p radixip-tower --no-verify || true
 
+      - name: Wait – crates.io index propagation (radixip-tower)
+        run: sleep 45
+
+      # ── Tier 3: depend on tiers 0-2 ──────────────────────────────────────
       - name: Publish radixip-axum
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
@@ -58,9 +79,7 @@ jobs:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
         run: cargo publish -p radixip-actix --no-verify || true
 
-      - name: Publish radxip-grpc-interceptor
+      - name: Publish radixip-grpc-interceptor
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
         run: cargo publish -p radixip-grpc-interceptor --no-verify || true
-
-      
