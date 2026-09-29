@@ -34,17 +34,12 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
 
       # ---------------------------------------------------------------------------
-      # All crates are published inside a single shell step using a helper function.
+      # Pattern mirrors release.yml: check crates.io first via cargo search,
+      # skip if already published, publish only if needed, then poll the REST API
+      # until the version is confirmed live before moving to the next dependent.
       #
-      # publish_crate <name> <version>
-      #   1. Runs `cargo publish` with up to 3 retries for transient network errors.
-      #   2. Treats "already uploaded" as success (idempotent re-runs).
-      #   3. After publishing, polls the crates.io REST API every 10 s for up to
-      #      6 minutes until the version is actually visible. This is far more
-      #      reliable than a blind sleep because sparse-index propagation time is
-      #      variable (can be 30 s or can exceed 2 min).
-      #   4. Only returns once the version is confirmed live, so the next dependent
-      #      crate is guaranteed to resolve it.
+      # 400 errors (bad metadata, name taken, etc.) are NOT retried - they are
+      # permanent failures that need a code fix, not a retry.
       # ---------------------------------------------------------------------------
       - name: Publish all crates in topological order
         env:
@@ -53,58 +48,38 @@ jobs:
         run: |
           set -euo pipefail
 
-          publish_crate() {
+          # --- helper: check_published <name> <version> -> exits 0 if already on crates.io ---
+          check_published() {
+            local crate="$1"
+            local version="$2"
+            if cargo search "${crate}" --limit 1 2>/dev/null \
+                | grep -qF "${crate} = \"${version}\""; then
+              return 0   # already published
+            fi
+            return 1     # not yet published
+          }
+
+          # --- helper: wait_for_index <name> <version> ---
+          # Polls crates.io REST API until the version is visible (up to 6 min).
+          wait_for_index() {
             local crate="$1"
             local version="$2"
             local api_url="https://crates.io/api/v1/crates/${crate}/${version}"
+            local waited=0 max_wait=360 interval=10
 
-            echo ""
-            echo "==== ${crate} v${version} ===="
-
-            # --- Step 1: publish with retries ---
-            local attempt=0
-            while true; do
-              attempt=$((attempt + 1))
-              echo "[publish attempt ${attempt}/3] cargo publish -p ${crate} --no-verify"
-              set +e
-              output=$(cargo publish -p "${crate}" --no-verify 2>&1)
-              rc=$?
-              set -e
-              echo "$output"
-
-              if [ $rc -eq 0 ]; then
-                echo "OK: published successfully."
-                break
-              elif echo "$output" | grep -qiE "already uploaded|already exists"; then
-                echo "OK: already on crates.io, skipping."
-                break
-              elif [ $attempt -ge 3 ]; then
-                echo "WARN: failed after 3 attempts, continuing (downstream may also fail)."
-                break
-              else
-                echo "WARN: transient error, retrying in 15 s..."
-                sleep 15
-              fi
-            done
-
-            # --- Step 2: poll crates.io API until version is live ---
-            echo "Polling crates.io API for ${crate} v${version}..."
-            local waited=0
-            local max_wait=360   # 6 minutes
-            local interval=10
-
+            echo "Polling crates.io for ${crate} v${version}..."
             while true; do
               http_code=$(curl -s -o /dev/null -w "%{http_code}" \
                 -H "User-Agent: radixip-ci (github.com/Mwangi-Derrick/radixip)" \
                 "${api_url}")
 
               if [ "$http_code" = "200" ]; then
-                echo "OK: ${crate} v${version} is live (waited ${waited}s)."
+                echo "OK: ${crate} v${version} is live (${waited}s elapsed)."
                 return 0
               fi
 
               if [ $waited -ge $max_wait ]; then
-                echo "WARN: timed out after ${max_wait}s (last HTTP ${http_code}). Proceeding anyway."
+                echo "WARN: timed out after ${max_wait}s (HTTP ${http_code}). Proceeding anyway."
                 return 0
               fi
 
@@ -114,7 +89,55 @@ jobs:
             done
           }
 
-          # --- Resolve versions from workspace ---
+          # --- helper: publish_crate <name> <version> ---
+          # Mirrors the check-then-publish pattern in release.yml:
+          #   1. Skip if already published (cargo search check).
+          #   2. Publish; treat 400 as a hard error (bad metadata - must fix), not a retry.
+          #   3. Wait for the sparse index to reflect the new version before returning.
+          publish_crate() {
+            local crate="$1"
+            local version="$2"
+
+            echo ""
+            echo "==== ${crate} v${version} ===="
+
+            if check_published "${crate}" "${version}"; then
+              echo "OK: ${crate} v${version} already on crates.io - skipping publish."
+              # Still need to wait for the index so dependents can resolve it
+              wait_for_index "${crate}" "${version}"
+              return 0
+            fi
+
+            echo "Publishing ${crate} v${version}..."
+            set +e
+            output=$(cargo publish -p "${crate}" --no-verify 2>&1)
+            rc=$?
+            set -e
+            echo "$output"
+
+            if [ $rc -eq 0 ]; then
+              echo "OK: published successfully."
+            elif echo "$output" | grep -qiE "already uploaded|already exists"; then
+              echo "OK: already on crates.io (race condition) - continuing."
+            elif echo "$output" | grep -qiE "status 400|Bad Request"; then
+              echo "ERROR: crates.io rejected with 400 Bad Request."
+              echo "       This is a metadata problem in Cargo.toml, not a transient error."
+              echo "       Fix the crate manifest and re-tag."
+              exit 1
+            else
+              echo "WARN: publish returned non-zero ($rc). Checking if it landed anyway..."
+              sleep 10
+              if check_published "${crate}" "${version}"; then
+                echo "OK: found on crates.io despite error - continuing."
+              else
+                echo "WARN: not found on crates.io. Downstream crates may fail."
+              fi
+            fi
+
+            wait_for_index "${crate}" "${version}"
+          }
+
+          # Resolve all versions from workspace metadata
           meta=$(cargo metadata --format-version=1 --no-deps)
           ver() { echo "$meta" | jq -r ".packages[] | select(.name==\"$1\") | .version"; }
 
@@ -125,7 +148,7 @@ jobs:
           V_ACTIX=$(ver "radixip-actix")
           V_GRPC=$(ver "radixip-grpc-interceptor")
 
-          echo "Resolved versions:"
+          echo "Versions to publish:"
           echo "  radixip-config            $V_CONFIG"
           echo "  radixip-policy            $V_POLICY"
           echo "  radixip-tower             $V_TOWER"

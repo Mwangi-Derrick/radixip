@@ -1,7 +1,16 @@
 [package]
-name = "radixip-policy"
-version = "0.1.0"
-edition = "2021"
+name        = "radixip-policy"
+version     = "0.1.0"
+edition.workspace    = true
+authors.workspace    = true
+license.workspace    = true
+repository.workspace = true
+homepage.workspace   = true
+documentation.workspace = true
+readme      = "README.md"
+description = "Policy engine for RadixIP: IP blocklists, rate limiting, and auto-ban logic"
+keywords    = ["radix", "ip", "policy", "rate-limiting", "security"]
+categories  = ["network-programming", "caching"]
 
 [dependencies]
 radixip_rs    = { workspace = true }

@@ -1,7 +1,16 @@
 [package]
-name = "radixip-config"
-version = "0.1.0"
-edition = "2021"
+name        = "radixip-config"
+version     = "0.1.0"
+edition.workspace    = true
+authors.workspace    = true
+license.workspace    = true
+repository.workspace = true
+homepage.workspace   = true
+documentation.workspace = true
+readme      = "README.md"
+description = "Configuration types and hot-reload loader for RadixIP middleware"
+keywords    = ["radix", "ip", "config", "networking", "middleware"]
+categories  = ["network-programming", "configuration"]
 
 [dependencies]
 serde      = { workspace = true }
