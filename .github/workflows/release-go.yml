@@ -18,9 +18,11 @@ jobs:
       
       - name: Create Release
         uses: softprops/action-gh-release@v2
+        continue-on-error: true   # don't cascade-fail if release already exists
         with:
           name: "RadixIP Go Middleware ${{ github.ref_name }}"
           generate_release_notes: true
+          make_latest: true
 
   # Go modules are automatically published to pkg.go.dev when a tag is pushed.
   # We just need to ensure the code compiles and tests pass.
