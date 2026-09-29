@@ -3,10 +3,10 @@ name: Release
 on:
   push:
     tags:
-      - 'rust-core-v[0-9]+.[0-9]+.[0-9]+'
-      - 'node-addon-v[0-9]+.[0-9]+.[0-9]+'
-      - 'python-wheel-v[0-9]+.[0-9]+.[0-9]+'
-      - 'c-lib-v[0-9]+.[0-9]+.[0-9]+'
+      - 'rust-core-v[0-9]*.[0-9]*.[0-9]*'
+      - 'node-addon-v[0-9]*.[0-9]*.[0-9]*'
+      - 'python-wheel-v[0-9]*.[0-9]*.[0-9]*'
+      - 'c-lib-v[0-9]*.[0-9]*.[0-9]*'
     paths-ignore:
       - '**.md'
       - 'docs/**'

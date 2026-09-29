@@ -3,7 +3,7 @@ name: Release Go Middleware
 on:
   push:
     tags:
-      - 'go-mw-v[0-9]+.[0-9]+.[0-9]+'
+      - 'go-mw-v[0-9]*.[0-9]*.[0-9]*'
     paths-ignore:
       - '**.md'
       - 'docs/**'
