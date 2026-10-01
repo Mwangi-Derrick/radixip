@@ -1,0 +1,161 @@
+# ============================================================
+# RadixIP Helm Chart — values.yaml
+# ============================================================
+# Override any value with --set key=value or -f my-values.yaml
+
+# ── Operator ────────────────────────────────────────────────
+operator:
+  # Container image for the RadixIP operator.
+  image:
+    repository: ghcr.io/mwangi-derrick/radixip-operator
+    tag: "0.1.0"
+    pullPolicy: IfNotPresent
+
+  # Number of operator replicas. Only one leads (leader election).
+  replicaCount: 1
+
+  # Operator resource limits.
+  resources:
+    limits:
+      cpu: 200m
+      memory: 128Mi
+    requests:
+      cpu: 50m
+      memory: 64Mi
+
+  # Leader election — recommended for HA setups.
+  leaderElect: true
+
+  # Metrics endpoint port exposed by the operator.
+  metrics:
+    port: 8080
+    # Set to true to create a ServiceMonitor for Prometheus Operator.
+    serviceMonitor:
+      enabled: false
+      interval: "30s"
+
+  # Health/readiness probe port.
+  healthProbe:
+    port: 8081
+
+  # Directory inside the operator container where Lua scripts are mounted.
+  # The token_bucket.lua script is loaded from here at startup to populate EVALSHA.
+  luaDir: "/lua"
+
+  # Extra environment variables for the operator pod.
+  extraEnv: []
+  # - name: MY_VAR
+  #   value: "my-value"
+
+  # Node selector, tolerations, affinity.
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+  # Service account for the operator.
+  serviceAccount:
+    create: true
+    name: ""
+    annotations: {}
+
+# ── Lua Scripts ConfigMap ────────────────────────────────────
+# The Lua rate-limit scripts are mounted into the operator pod via a ConfigMap.
+# If you've modified the scripts, update this section or provide your own CM.
+luaScripts:
+  # Mount the scripts from the deploy/lua/ directory (bundled at chart package time).
+  # In production, override these values with your own script bodies.
+  enabled: true
+  # These are populated by the chart's _helpers.tpl from files/ directory.
+  # Override at install time: --set luaScripts.tokenBucket="$(cat token_bucket.lua)"
+  tokenBucket: ""
+  leakyBucket: ""
+  slidingWindow: ""
+
+# ── CRD Installation ─────────────────────────────────────────
+crds:
+  # Install the RateLimiterPolicy CRD on helm install/upgrade.
+  install: true
+  # Keep CRDs on helm uninstall to protect existing policies.
+  keep: true
+
+# ── Default RateLimiterPolicy ─────────────────────────────────
+# Set enabled: true to deploy a default cluster-wide policy.
+defaultPolicy:
+  enabled: false
+  # algorithm: token_bucket | leaky_bucket | sliding_window
+  algorithm: token_bucket
+  globalRule:
+    capacity: 100          # burst ceiling (tokens)
+    refillRate: 10         # tokens refilled per second
+    windowSecs: 60         # used by sliding_window algo (ignored by others)
+  failureMode: local_fallback  # local_fallback | open | closed
+  ttlSecs: 300             # idle bucket TTL in seconds
+
+# ── Redis ────────────────────────────────────────────────────
+redis:
+  # Set to false to use an external Redis (provide externalUrl below).
+  enabled: true
+
+  # Architecture: standalone | replication
+  architecture: standalone
+
+  # Bitnami Redis sub-chart values (passed through when redis.enabled=true).
+  # See https://github.com/bitnami/charts/tree/main/bitnami/redis
+  auth:
+    enabled: false
+    password: ""
+
+  master:
+    resources:
+      limits:
+        cpu: 500m
+        memory: 256Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+
+  # Persistence for Redis master.
+  persistence:
+    enabled: false         # Set to true for production.
+    size: 2Gi
+
+# External Redis — used when redis.enabled=false.
+externalRedis:
+  url: "redis://redis-master:6379"
+  # TLS: set to true and provide secret name if using redis+tls://
+  tls:
+    enabled: false
+    secretName: ""
+
+# ── Sidecar Injector ──────────────────────────────────────────
+# (Phase 2 — MutatingWebhook for automatic sidecar injection)
+sidecarInjector:
+  enabled: false
+  image:
+    repository: ghcr.io/mwangi-derrick/radixip-sidecar
+    tag: "0.1.0"
+    pullPolicy: IfNotPresent
+  # Namespace selector label for injection: radixip-injection=enabled
+  namespaceSelector:
+    matchLabels:
+      radixip-injection: "enabled"
+  # TLS cert for the webhook (auto-generated via cert-manager if certManager.enabled=true).
+  certManager:
+    enabled: false
+
+# ── RBAC ──────────────────────────────────────────────────────
+rbac:
+  create: true
+
+# ── Pod Security ──────────────────────────────────────────────
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 65532
+  fsGroup: 65532
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  capabilities:
+    drop:
+      - ALL
