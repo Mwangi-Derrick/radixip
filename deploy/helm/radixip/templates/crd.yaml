@@ -1,0 +1,139 @@
+{{/*
+  CRD: RateLimiterPolicy
+  Installed when crds.install=true (default).
+  Kept on uninstall when crds.keep=true (default) via the "keep" annotation.
+*/}}
+{{- if .Values.crds.install }}
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: ratelimiterpolicies.radixip.io
+  labels:
+    {{- include "radixip.labels" . | nindent 4 }}
+  annotations:
+    {{- if .Values.crds.keep }}
+    "helm.sh/resource-policy": keep
+    {{- end }}
+spec:
+  group: radixip.io
+  scope: Namespaced
+  names:
+    plural: ratelimiterpolicies
+    singular: ratelimiterpolicy
+    kind: RateLimiterPolicy
+    shortNames:
+      - rlp
+  versions:
+    - name: v1alpha1
+      served: true
+      storage: true
+      subresources:
+        status: {}
+      additionalPrinterColumns:
+        - name: Algorithm
+          type: string
+          jsonPath: .spec.algorithm
+        - name: Phase
+          type: string
+          jsonPath: .status.phase
+        - name: ActiveSidecars
+          type: integer
+          jsonPath: .status.activeSidecars
+        - name: Age
+          type: date
+          jsonPath: .metadata.creationTimestamp
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              required: ["targetRef", "globalPolicy"]
+              properties:
+                targetRef:
+                  type: object
+                  required: ["kind", "name"]
+                  properties:
+                    kind:
+                      type: string
+                      description: "Target resource kind (Deployment, DaemonSet, StatefulSet)."
+                    name:
+                      type: string
+                    namespace:
+                      type: string
+                algorithm:
+                  type: string
+                  default: token_bucket
+                  enum: [token_bucket, leaky_bucket, sliding_window]
+                globalPolicy:
+                  type: object
+                  properties:
+                    capacity:
+                      type: integer
+                      format: int64
+                      minimum: 1
+                    refillRate:
+                      type: integer
+                      format: int64
+                      minimum: 1
+                    windowSecs:
+                      type: integer
+                      format: int64
+                      minimum: 1
+                methodPolicies:
+                  type: array
+                  items:
+                    type: object
+                    required: ["method", "rule"]
+                    properties:
+                      method:
+                        type: string
+                        description: "Full gRPC method path, e.g. /radixip.v1.RadixService/Lookup"
+                      rule:
+                        type: object
+                        properties:
+                          capacity:
+                            type: integer
+                            format: int64
+                          refillRate:
+                            type: integer
+                            format: int64
+                          windowSecs:
+                            type: integer
+                            format: int64
+                redis:
+                  type: object
+                  properties:
+                    url:
+                      type: string
+                    scriptSHA:
+                      type: string
+                      description: "EVALSHA SHA1 of the loaded Lua rate-limit script."
+                    poolSize:
+                      type: integer
+                failureMode:
+                  type: string
+                  default: local_fallback
+                  enum: [local_fallback, open, closed]
+                ttlSecs:
+                  type: integer
+                  format: int32
+                  default: 300
+            status:
+              type: object
+              properties:
+                phase:
+                  type: string
+                  enum: [Pending, Active, Degraded, Failed]
+                message:
+                  type: string
+                observedGeneration:
+                  type: integer
+                  format: int64
+                lastSyncTime:
+                  type: string
+                  format: date-time
+                activeSidecars:
+                  type: integer
+                  format: int32
+{{- end }}
