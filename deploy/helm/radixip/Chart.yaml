@@ -1,0 +1,35 @@
+apiVersion: v2
+name: radixip
+description: >
+  RadixIP — distributed rate limiting operator + gRPC sidecar injector.
+  Installs the RateLimiterPolicy CRD, the controller-runtime operator,
+  Redis (via Bitnami sub-chart), and an optional ValidatingWebhook for
+  sidecar injection into gRPC workloads.
+
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+
+keywords:
+  - rate-limiting
+  - grpc
+  - sidecar
+  - operator
+  - redis
+  - radixip
+
+home: https://github.com/Mwangi-Derrick/radixip
+sources:
+  - https://github.com/Mwangi-Derrick/radixip
+
+maintainers:
+  - name: Derrick Mwangi
+    url: https://github.com/Mwangi-Derrick
+
+dependencies:
+  - name: redis
+    version: "19.x.x"
+    repository: https://charts.bitnami.com/bitnami
+    # Only deployed when redis.enabled=true (default).
+    # Set redis.enabled=false to use an external Redis instance.
+    condition: redis.enabled
