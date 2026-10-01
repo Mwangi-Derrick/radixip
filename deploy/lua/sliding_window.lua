@@ -1,0 +1,110 @@
+-- sliding_window.lua
+-- PHASE-3 — Sliding Window Log Rate Limiter
+--
+-- STATUS: STUB — not yet implemented.
+--         Do NOT load or EVALSHA this script in production.
+--
+-- ---------------------------------------------------------------------------
+-- Algorithm Overview (for the implementer)
+-- ---------------------------------------------------------------------------
+--
+-- The sliding window *log* variant keeps an exact record of every request
+-- timestamp in a Redis Sorted Set. The score of each member is the unix
+-- timestamp (float seconds). To check and update the limit:
+--
+--   1. Compute the start of the current window:
+--        window_start = now - window_size_seconds
+--
+--   2. Remove all entries older than the window (trim the log):
+--        ZREMRANGEBYSCORE KEYS[1] -inf (window_start
+--      This operation is O(log N + M) where M is the number of removed
+--      entries. Over time M stays small because entries naturally expire.
+--
+--   3. Count the remaining entries in the window:
+--        count = ZCARD KEYS[1]
+--
+--   4. Admission check:
+--        if count + cost > limit then
+--            allowed = 0    -- too many requests in this window
+--        else
+--            allowed = 1
+--            -- Add the new request(s) to the log.
+--            -- Use a unique member per request to avoid collisions when
+--            -- multiple requests arrive at exactly the same timestamp:
+--            --   member = now .. ":" .. redis.call("INCR", KEYS[1]..":seq")
+--            -- Or simpler: use a random suffix from math.random() since
+--            -- Lua's math.random inside Redis is deterministic per-call.
+--            ZADD KEYS[1] now (now .. ":" .. <unique_suffix>)
+--        end
+--
+--   5. Set TTL on the sorted set key:
+--        EXPIRE KEYS[1] (window_size_seconds + 1)
+--      The +1 gives a grace period for the last request's log entry.
+--
+--   6. Return:
+--        {allowed, math.max(0, limit - count - cost)}
+--      remaining is how many more requests are allowed in this window.
+--
+-- ---------------------------------------------------------------------------
+-- Trade-offs vs Token Bucket and Leaky Bucket
+-- ---------------------------------------------------------------------------
+--
+--   Sliding Window Log:
+--     + Exact enforcement: no approximation, every request timestamp recorded.
+--     + No burst allowed beyond limit within any sliding interval.
+--     - Memory: O(limit) entries per key; heavy at high request rates.
+--     - CPU: ZREMRANGEBYSCORE + ZCARD on every request.
+--     - Not suitable for very high-throughput keys (>10k req/s per key).
+--
+--   Token Bucket (PHASE-1):
+--     + O(1) memory per key (just two fields).
+--     + Allows controlled bursting.
+--     - Approximate: refill is calculated from elapsed time, not per-request.
+--
+--   Leaky Bucket (PHASE-2):
+--     + O(1) memory per key.
+--     + Smooth output; no burst at all.
+--     - Approximate: drain is time-based, not per-request.
+--
+-- Recommendation: use sliding window log only for low-volume, high-precision
+-- scenarios (e.g., per-user authenticated API quotas at <1k req/s/key).
+-- Use token bucket for high-volume per-IP edge rate limiting.
+--
+-- ---------------------------------------------------------------------------
+-- KEYS / ARGV contract
+-- ---------------------------------------------------------------------------
+--
+--   KEYS[1]  : sorted set key, e.g. "rl:sw:user:u-42"
+--              Key naming: rl:{algo}:{id_type}:{id}
+--                          sw = sliding window algorithm
+--
+--   ARGV[1]  : limit              (integer, max requests per window)
+--   ARGV[2]  : window_size_secs  (integer, e.g. 60 for 1-minute window)
+--   ARGV[3]  : now               (unix seconds as float string)
+--   ARGV[4]  : cost              (integer, usually 1)
+--
+-- ---------------------------------------------------------------------------
+-- TODO (PHASE-3 implementation checklist)
+-- ---------------------------------------------------------------------------
+--
+--   [ ] Implement ZREMRANGEBYSCORE trim (step 2 above)
+--   [ ] Implement ZCARD count and admission decision (steps 3-4)
+--   [ ] Choose a unique member strategy (timestamp:seq recommended)
+--   [ ] Implement ZADD for allowed requests
+--   [ ] Add EXPIRE TTL management (step 5)
+--   [ ] Add pcall guard for argument validation
+--   [ ] Evaluate memory impact: add a max-entries safety cap (e.g. 10000)
+--       to prevent unbounded sorted set growth under attack traffic
+--   [ ] Write unit tests in /test/lua/sliding_window_test.go using miniredis
+--   [ ] Add benchmark comparing memory usage vs token_bucket.lua at scale
+--   [ ] Wire into ratelimit/strategy.go with strategy name "sliding_window"
+--   [ ] Consider sliding window *counter* variant (two fixed-window counters
+--       blended by position fraction) as a lower-memory approximation
+--
+
+-- TODO: implementation goes here
+
+redis.log(redis.LOG_WARNING,
+    "sliding_window.lua is a PHASE-3 stub -- returning denied for all requests")
+
+return {0, 0}
