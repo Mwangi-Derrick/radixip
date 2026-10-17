@@ -1,6 +1,6 @@
 module github.com/Mwangi-Derrick/radixip/proto/radixip
 
-go 1.26.7
+go 1.27.2
 
 require (
 	google.golang.org/grpc v1.82.1
