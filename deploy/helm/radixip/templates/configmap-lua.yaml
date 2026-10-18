@@ -1,0 +1,28 @@
+{{- if .Values.luaScripts.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "radixip.fullname" . }}-lua-scripts
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "radixip.labels" . | nindent 4 }}
+data:
+  token_bucket.lua: |-
+{{- if .Values.luaScripts.tokenBucket }}
+{{ .Values.luaScripts.tokenBucket | indent 4 }}
+{{- else }}
+{{ .Files.Get "files/token_bucket.lua" | default "-- default token bucket" | indent 4 }}
+{{- end }}
+  leaky_bucket.lua: |-
+{{- if .Values.luaScripts.leakyBucket }}
+{{ .Values.luaScripts.leakyBucket | indent 4 }}
+{{- else }}
+{{ .Files.Get "files/leaky_bucket.lua" | default "-- default leaky bucket" | indent 4 }}
+{{- end }}
+  sliding_window.lua: |-
+{{- if .Values.luaScripts.slidingWindow }}
+{{ .Values.luaScripts.slidingWindow | indent 4 }}
+{{- else }}
+{{ .Files.Get "files/sliding_window.lua" | default "-- default sliding window" | indent 4 }}
+{{- end }}
+{{- end }}
