@@ -783,7 +783,7 @@ See [ARCHITECTURE.md](./ARCHITECTURE.md) for the full design rationale, hybrid R
 
 ### Kubernetes & Operations 🔨
 - [x] Redis Pub/Sub for distributed sync
-- [ ] Kubernetes Operator for automated deployment
+- [x] Kubernetes Operator for automated deployment
 - [ ] Redis HA failover support
 - [x] Prometheus metrics integration
 - [x] gRPC service layer
