@@ -6,6 +6,7 @@ use (
 	./cmd/grpc-probe-go
 	./cmd/grpc-server-go
 	./cmd/kitchen-sink-go
+	./deploy/operator
 	./lib/go/adapters/chi
 	./lib/go/adapters/echo
 	./lib/go/adapters/fiber
