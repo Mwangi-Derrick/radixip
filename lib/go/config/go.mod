@@ -3,7 +3,7 @@ module github.com/Mwangi-Derrick/radixip/lib/go/config
 go 1.27.2
 
 require (
-	github.com/fsnotify/fsnotify v1.7.0
+	github.com/fsnotify/fsnotify v1.9.0
 	gopkg.in/yaml.v3 v3.0.1
 )
 
