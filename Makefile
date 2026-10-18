@@ -1,7 +1,8 @@
 # RadixIP Makefile
 .PHONY: all build test bench clean \
         build-simd-ffi build-go-simd test-go-simd \
-        install-cbindgen check-cbindgen
+        install-cbindgen check-cbindgen \
+        build-operator test-operator
 
 # Detect OS for shared-object extension and copy target
 UNAME_S := $(shell uname -s 2>/dev/null || echo Windows)
@@ -97,6 +98,14 @@ build-grpc-release:
 	@echo "Building rust grpc server..."
 	cd cmd/grpc-server-rust && cargo build --release --bin grpc-server-rust
 
+build-operator:
+	@echo "Building RadixIP Kubernetes Operator..."
+	cd deploy/operator && go build -o bin/manager main.go
+
+test-operator:
+	@echo "Testing RadixIP Kubernetes Operator..."
+	cd deploy/operator && go test -v ./...
+
 test:
 	@echo "Testing Rust..."
 	cd lib/rust/engine && cargo test
@@ -158,6 +167,10 @@ help:
 	@echo "  ## gRPC"
 	@echo "  make build-grpc       - Build Go grpc server"
 	@echo "  make build-grpc-release - Build Go grpc and Rust server release"
+	@echo ""
+	@echo "  ## Kubernetes Operator"
+	@echo "  make build-operator   - Build the RadixIP Kubernetes operator binary"
+	@echo "  make test-operator    - Run unit and controller tests for the operator"
 	@echo ""
 	@echo "  ## Attacks"
 	@echo "  make simulate-attack  - Simulate attacks on the current configuration"
