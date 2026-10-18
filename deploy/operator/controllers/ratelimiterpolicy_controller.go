@@ -16,6 +16,7 @@ import (
 	"time"
 
 	"github.com/go-logr/logr"
+	"github.com/redis/go-redis/v9"
 	corev1 "k8s.io/api/core/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -24,6 +25,7 @@ import (
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/handler"
 
 	radixipv1alpha1 "github.com/Mwangi-Derrick/radixip/deploy/operator/api/v1alpha1"
 )
@@ -37,13 +39,16 @@ const (
 	// container injected into target pods. Used to count active sidecars.
 	sidecarContainerName = "radixip-rate-limiter"
 
-	// defaultLuaScriptFilename is the token-bucket Lua script loaded into Redis.
+	// defaultLuaScriptFilename is the fallback Lua script loaded into Redis.
 	defaultLuaScriptFilename = "token_bucket.lua"
 
 	// defaultLuaDir is the fallback mount path for Lua scripts inside the operator pod.
-	// Override via env RADIXIP_LUA_DIR.
+	// Override via env RADIXIP_LUA_DIR or reconciler LuaDir field.
 	defaultLuaDir = "/etc/radixip/lua"
 )
+
+// ScriptLoaderFunc is a pluggable function that loads Lua scripts into Redis.
+type ScriptLoaderFunc func(ctx context.Context, redisCfg radixipv1alpha1.RedisConfig, scriptBytes []byte) (string, error)
 
 // +kubebuilder:rbac:groups=radixip.io,resources=ratelimiterpolicies,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=radixip.io,resources=ratelimiterpolicies/status,verbs=get;update;patch
@@ -54,13 +59,15 @@ const (
 // RateLimiterPolicyReconciler reconciles RateLimiterPolicy objects.
 type RateLimiterPolicyReconciler struct {
 	client.Client
-	Scheme   *runtime.Scheme
-	Log      logr.Logger
-	Recorder record.EventRecorder
+	Scheme       *runtime.Scheme
+	Log          logr.Logger
+	Recorder     record.EventRecorder
+	LuaDir       string
+	ScriptLoader ScriptLoaderFunc
 }
 
 // Reconcile is the main reconciliation loop. It is called by controller-runtime
-// whenever a RateLimiterPolicy or an owned Pod changes.
+// whenever a RateLimiterPolicy or a targeted Pod changes.
 func (r *RateLimiterPolicyReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	log := r.Log.WithValues("ratelimiterpolicy", req.NamespacedName)
 
@@ -83,7 +90,7 @@ func (r *RateLimiterPolicyReconciler) Reconcile(ctx context.Context, req ctrl.Re
 	// The ScriptSHA is populated once and persisted on the CR spec.
 	// Sidecars read it from the CR via the Downward API or a projected Secret.
 	if policy.Spec.Redis.ScriptSHA == "" {
-		sha, err := r.loadLuaScript(ctx, policy.Spec.Redis)
+		sha, err := r.loadLuaScript(ctx, policy.Spec.Redis, policy.Spec.Algorithm)
 		if err != nil {
 			log.Error(err, "Failed to load Lua rate-limit script into Redis")
 			r.setStatus(policy,
@@ -91,10 +98,12 @@ func (r *RateLimiterPolicyReconciler) Reconcile(ctx context.Context, req ctrl.Re
 				fmt.Sprintf("Lua script load failed: %v", err),
 				policy.Status.ActiveSidecars,
 			)
-			r.Recorder.Eventf(policy, corev1.EventTypeWarning, "ScriptLoadFailed",
-				"Could not load Lua EVALSHA script: %v", err)
+			if r.Recorder != nil {
+				r.Recorder.Eventf(policy, corev1.EventTypeWarning, "ScriptLoadFailed",
+					"Could not load Lua EVALSHA script: %v", err)
+			}
 		} else {
-			log.Info("Lua script loaded into Redis", "sha", sha)
+			log.Info("Lua script loaded into Redis", "sha", sha, "algorithm", policy.Spec.Algorithm)
 			policy.Spec.Redis.ScriptSHA = sha
 
 			// Persist ScriptSHA on the spec so sidecars can discover it.
@@ -102,8 +111,10 @@ func (r *RateLimiterPolicyReconciler) Reconcile(ctx context.Context, req ctrl.Re
 				log.Error(updateErr, "Failed to persist ScriptSHA on CR spec")
 				return ctrl.Result{}, updateErr
 			}
-			r.Recorder.Eventf(policy, corev1.EventTypeNormal, "ScriptLoaded",
-				"Lua EVALSHA script registered: SHA=%s", sha)
+			if r.Recorder != nil {
+				r.Recorder.Eventf(policy, corev1.EventTypeNormal, "ScriptLoaded",
+					"Lua EVALSHA script registered: SHA=%s (algorithm=%s)", sha, policy.Spec.Algorithm)
+			}
 		}
 	}
 
@@ -115,8 +126,6 @@ func (r *RateLimiterPolicyReconciler) Reconcile(ctx context.Context, req ctrl.Re
 
 	// ── 4. List pods for the target workload ──────────────────────────────────
 	// Pods are matched by label app=<targetRef.name>.
-	// TODO(phase-2): resolve the owning Deployment's pod-template selector
-	// for more robust matching across arbitrary label schemes.
 	podList := &corev1.PodList{}
 	if err := r.List(ctx, podList,
 		client.InNamespace(targetNS),
@@ -173,7 +182,7 @@ func (r *RateLimiterPolicyReconciler) Reconcile(ctx context.Context, req ctrl.Re
 	r.setStatus(policy, newPhase, message, activeSidecars)
 
 	// Emit an Event on phase transitions for observability.
-	if previousPhase != newPhase {
+	if previousPhase != newPhase && r.Recorder != nil {
 		evtType := corev1.EventTypeNormal
 		if newPhase == radixipv1alpha1.PhaseDegraded || newPhase == radixipv1alpha1.PhaseFailed {
 			evtType = corev1.EventTypeWarning
@@ -233,7 +242,7 @@ func hasSidecar(pod *corev1.Pod) bool {
 	return false
 }
 
-// resolveNamespacedName builds a NamespacedName from a TargetRef, defaulting
+// ResolveNamespacedName builds a NamespacedName from a TargetRef, defaulting
 // the namespace to the owning policy's namespace.
 // Exported for use in unit tests.
 func ResolveNamespacedName(policy *radixipv1alpha1.RateLimiterPolicy) types.NamespacedName {
@@ -244,66 +253,116 @@ func ResolveNamespacedName(policy *radixipv1alpha1.RateLimiterPolicy) types.Name
 	return types.NamespacedName{Namespace: ns, Name: policy.Spec.TargetRef.Name}
 }
 
-// loadLuaScript reads the token-bucket Lua script from disk and loads it into
+// resolveLuaFilename returns the filename for the given algorithm.
+func resolveLuaFilename(algo radixipv1alpha1.Algorithm) string {
+	switch algo {
+	case radixipv1alpha1.AlgorithmLeakyBucket:
+		return "leaky_bucket.lua"
+	case radixipv1alpha1.AlgorithmSlidingWindow:
+		return "sliding_window.lua"
+	case radixipv1alpha1.AlgorithmTokenBucket:
+		return "token_bucket.lua"
+	default:
+		return defaultLuaScriptFilename
+	}
+}
+
+// loadLuaScript reads the appropriate Lua script from disk and loads it into
 // Redis using SCRIPT LOAD, returning the EVALSHA SHA1.
-//
-// The Lua script path is resolved from:
-//  1. env RADIXIP_LUA_DIR / token_bucket.lua
-//  2. defaultLuaDir / token_bucket.lua
-//
-// Redis connectivity uses the RedisConfig from the CR spec.
-// The real go-redis implementation is wired in once `go mod tidy` is run.
 func (r *RateLimiterPolicyReconciler) loadLuaScript(
 	ctx context.Context,
 	redisCfg radixipv1alpha1.RedisConfig,
+	algo radixipv1alpha1.Algorithm,
 ) (string, error) {
-	luaDir := os.Getenv("RADIXIP_LUA_DIR")
+	luaDir := r.LuaDir
+	if luaDir == "" {
+		luaDir = os.Getenv("RADIXIP_LUA_DIR")
+	}
 	if luaDir == "" {
 		luaDir = defaultLuaDir
 	}
-	scriptPath := filepath.Join(luaDir, defaultLuaScriptFilename)
+
+	scriptName := resolveLuaFilename(algo)
+	scriptPath := filepath.Join(luaDir, scriptName)
 
 	scriptBytes, err := os.ReadFile(scriptPath)
 	if err != nil {
 		return "", fmt.Errorf("reading Lua script %q: %w", scriptPath, err)
 	}
 
-	// ── Redis SCRIPT LOAD ──────────────────────────────────────────────────
-	// Real implementation (uncomment after go mod tidy):
-	//
-	//   opt, err := redis.ParseURL(redisCfg.URL)
-	//   if err != nil {
-	//       return "", fmt.Errorf("parsing Redis URL: %w", err)
-	//   }
-	//   if redisCfg.PoolSize > 0 {
-	//       opt.PoolSize = redisCfg.PoolSize
-	//   }
-	//   rdb := redis.NewClient(opt)
-	//   defer rdb.Close()
-	//
-	//   sha, err := rdb.ScriptLoad(ctx, string(scriptBytes)).Result()
-	//   if err != nil {
-	//       return "", fmt.Errorf("SCRIPT LOAD: %w", err)
-	//   }
-	//   return sha, nil
-	//
-	// Stub: returns a deterministic placeholder so the operator compiles and
-	// runs in dry-run / no-Redis mode for local development.
-	_ = scriptBytes
-	_ = ctx
-	return "", fmt.Errorf(
-		"loadLuaScript: Redis client stub — set spec.redis.scriptSHA manually "+
-			"or wire in go-redis after 'go mod tidy'; url=%s", redisCfg.URL,
-	)
+	if r.ScriptLoader != nil {
+		return r.ScriptLoader(ctx, redisCfg, scriptBytes)
+	}
+
+	return DefaultRedisScriptLoader(ctx, redisCfg, scriptBytes)
+}
+
+// DefaultRedisScriptLoader connects to Redis and loads the Lua script via SCRIPT LOAD.
+func DefaultRedisScriptLoader(ctx context.Context, redisCfg radixipv1alpha1.RedisConfig, scriptBytes []byte) (string, error) {
+	opt, err := redis.ParseURL(redisCfg.URL)
+	if err != nil {
+		return "", fmt.Errorf("parsing Redis URL %q: %w", redisCfg.URL, err)
+	}
+	if redisCfg.PoolSize > 0 {
+		opt.PoolSize = redisCfg.PoolSize
+	}
+	rdb := redis.NewClient(opt)
+	defer rdb.Close()
+
+	sha, err := rdb.ScriptLoad(ctx, string(scriptBytes)).Result()
+	if err != nil {
+		return "", fmt.Errorf("SCRIPT LOAD: %w", err)
+	}
+	return sha, nil
+}
+
+// findPoliciesForPod maps a Pod event to relevant RateLimiterPolicy reconcile requests
+// by matching the pod's "app" label with policy targetRef.name in the same namespace.
+func (r *RateLimiterPolicyReconciler) findPoliciesForPod(ctx context.Context, obj client.Object) []ctrl.Request {
+	pod, ok := obj.(*corev1.Pod)
+	if !ok {
+		return nil
+	}
+	appName := pod.Labels["app"]
+	if appName == "" {
+		return nil
+	}
+
+	var policies radixipv1alpha1.RateLimiterPolicyList
+	if err := r.List(ctx, &policies); err != nil {
+		r.Log.Error(err, "Failed to list RateLimiterPolicies in pod watch mapping")
+		return nil
+	}
+
+	var requests []ctrl.Request
+	for _, policy := range policies.Items {
+		targetNS := policy.Spec.TargetRef.Namespace
+		if targetNS == "" {
+			targetNS = policy.Namespace
+		}
+		if targetNS == pod.Namespace && policy.Spec.TargetRef.Name == appName {
+			requests = append(requests, ctrl.Request{
+				NamespacedName: types.NamespacedName{
+					Namespace: policy.Namespace,
+					Name:      policy.Name,
+				},
+			})
+		}
+	}
+	return requests
 }
 
 // SetupWithManager registers the reconciler with the controller-runtime Manager
-// and sets up ownership watches on Pods so that pod state changes trigger
-// RateLimiterPolicy reconciliation.
+// and sets up watches on RateLimiterPolicy and targeted Pods.
 func (r *RateLimiterPolicyReconciler) SetupWithManager(mgr ctrl.Manager) error {
-	r.Recorder = mgr.GetEventRecorderFor("ratelimiterpolicy-controller")
+	if r.Recorder == nil {
+		r.Recorder = mgr.GetEventRecorderFor("ratelimiterpolicy-controller")
+	}
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&radixipv1alpha1.RateLimiterPolicy{}).
-		Owns(&corev1.Pod{}).
+		Watches(
+			&corev1.Pod{},
+			handler.EnqueueRequestsFromMapFunc(r.findPoliciesForPod),
+		).
 		Complete(r)
 }
