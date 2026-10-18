@@ -1,0 +1,23 @@
+apiVersion: radixip.io/v1alpha1
+kind: RateLimiterPolicy
+metadata:
+  name: ratelimiterpolicy-sample
+  namespace: default
+spec:
+  targetRef:
+    kind: Deployment
+    name: api-gateway
+  algorithm: token_bucket
+  globalPolicy:
+    capacity: 1000
+    refillRate: 100
+  methodPolicies:
+    - method: /radixip.v1.RadixService/Lookup
+      rule:
+        capacity: 5000
+        refillRate: 500
+  redis:
+    url: redis://redis-master:6379
+    poolSize: 10
+  failureMode: local_fallback
+  ttlSecs: 300

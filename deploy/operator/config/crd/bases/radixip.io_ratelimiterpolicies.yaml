@@ -1,0 +1,191 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.16.0
+  name: ratelimiterpolicies.radixip.io
+spec:
+  group: radixip.io
+  names:
+    kind: RateLimiterPolicy
+    listKind: RateLimiterPolicyList
+    plural: ratelimiterpolicies
+    shortNames:
+      - rlp
+    singular: ratelimiterpolicy
+  scope: Namespaced
+  versions:
+    - additionalPrinterColumns:
+        - description: Rate-limiting algorithm
+          jsonPath: .spec.algorithm
+          name: Algorithm
+          type: string
+        - description: Lifecycle phase
+          jsonPath: .status.phase
+          name: Phase
+          type: string
+        - description: Pods with active sidecar
+          jsonPath: .status.activeSidecars
+          name: ActiveSidecars
+          type: integer
+        - jsonPath: .metadata.creationTimestamp
+          name: Age
+          type: date
+      name: v1alpha1
+      schema:
+        openAPIV3Schema:
+          description: RateLimiterPolicy configures distributed rate limiting for a gRPC workload.
+          properties:
+            apiVersion:
+              description: 'APIVersion defines the versioned schema of this representation of an object.'
+              type: string
+            kind:
+              description: 'Kind is a string value representing the REST resource this object represents.'
+              type: string
+            metadata:
+              type: object
+            spec:
+              description: RateLimiterPolicySpec defines the desired state of a RateLimiterPolicy.
+              properties:
+                algorithm:
+                  default: token_bucket
+                  description: Algorithm selects the rate-limiting algorithm.
+                  enum:
+                    - token_bucket
+                    - leaky_bucket
+                    - sliding_window
+                  type: string
+                failureMode:
+                  default: local_fallback
+                  description: FailureMode controls sidecar behavior when Redis is unreachable.
+                  enum:
+                    - local_fallback
+                    - open
+                    - closed
+                  type: string
+                globalPolicy:
+                  description: GlobalPolicy is the default rate-limit rule applied to all gRPC methods.
+                  properties:
+                    capacity:
+                      description: Capacity is the burst ceiling.
+                      format: int64
+                      minimum: 1
+                      type: integer
+                    refillRate:
+                      description: RefillRate is tokens added per second.
+                      format: int64
+                      minimum: 1
+                      type: integer
+                    windowSecs:
+                      description: WindowSecs is the sliding window duration in seconds.
+                      format: int64
+                      minimum: 1
+                      type: integer
+                  required:
+                    - capacity
+                    - refillRate
+                  type: object
+                methodPolicies:
+                  description: MethodPolicies provide per-method overrides on top of GlobalPolicy.
+                  items:
+                    properties:
+                      method:
+                        description: Full gRPC method path, e.g. /radixip.v1.RadixService/Lookup
+                        type: string
+                      rule:
+                        properties:
+                          capacity:
+                            format: int64
+                            minimum: 1
+                            type: integer
+                          refillRate:
+                            format: int64
+                            minimum: 1
+                            type: integer
+                          windowSecs:
+                            format: int64
+                            minimum: 1
+                            type: integer
+                        required:
+                          - capacity
+                          - refillRate
+                        type: object
+                    required:
+                      - method
+                      - rule
+                    type: object
+                  type: array
+                redis:
+                  description: Redis configures the distributed backend.
+                  properties:
+                    poolSize:
+                      minimum: 1
+                      type: integer
+                    scriptSHA:
+                      description: EVALSHA SHA1 of the loaded Lua rate-limit script.
+                      type: string
+                    url:
+                      type: string
+                  required:
+                    - url
+                  type: object
+                targetRef:
+                  description: TargetRef identifies the workload that sidecars will be injected into.
+                  properties:
+                    kind:
+                      description: Target resource kind (Deployment, StatefulSet, DaemonSet).
+                      type: string
+                    name:
+                      description: Name of the target resource.
+                      type: string
+                    namespace:
+                      description: Namespace of the target resource. Defaults to the policy's namespace.
+                      type: string
+                  required:
+                    - kind
+                    - name
+                  type: object
+                ttlSecs:
+                  default: 300
+                  description: TTLSecs sets the idle-bucket TTL in seconds.
+                  format: int32
+                  minimum: 1
+                  type: integer
+              required:
+                - globalPolicy
+                - redis
+                - targetRef
+              type: object
+            status:
+              description: RateLimiterPolicyStatus describes the observed state of a RateLimiterPolicy.
+              properties:
+                activeSidecars:
+                  description: ActiveSidecars is the number of target pods currently running the sidecar.
+                  format: int32
+                  type: integer
+                lastSyncTime:
+                  description: LastSyncTime is the timestamp of the most recent successful reconciliation.
+                  format: date-time
+                  type: string
+                message:
+                  description: Message is a human-readable description of the current Phase.
+                  type: string
+                observedGeneration:
+                  description: ObservedGeneration is the .metadata.generation that was last reconciled.
+                  format: int64
+                  type: integer
+                phase:
+                  description: Phase is the current lifecycle state of the policy.
+                  enum:
+                    - Pending
+                    - Active
+                    - Degraded
+                    - Failed
+                  type: string
+              type: object
+          type: object
+      served: true
+      storage: true
+      subresources:
+        status: {}
