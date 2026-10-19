@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1792307956530,
+  "lastUpdate": 1792394923460,
   "repoUrl": "https://github.com/Mwangi-Derrick/radixip",
   "entries": {
     "Go Benchmark": [
@@ -1887851,6 +1887851,712 @@ window.BENCHMARK_DATA = {
             "name": "concurrent_lookup/uncompressed/ipv6/4_threads/LockFreeTrieNode",
             "value": 313791164,
             "range": "± 1525350",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "Derrick Mwangi",
+            "username": "Mwangi-Derrick",
+            "email": "mwangiderrick640@gmail.com"
+          },
+          "committer": {
+            "name": "Derrick Mwangi",
+            "username": "Mwangi-Derrick",
+            "email": "mwangiderrick640@gmail.com"
+          },
+          "id": "8cc27382720234e1dbe5627b2631d4409ba38472",
+          "message": "yaml: define helm charts (lua configs, service account, rbac and deployment)",
+          "timestamp": "2026-10-18T06:18:54Z",
+          "url": "https://github.com/Mwangi-Derrick/radixip/commit/8cc27382720234e1dbe5627b2631d4409ba38472"
+        },
+        "date": 1792394898501,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "insert/ipv4/uncompressed/NormalTrieNode/500",
+            "value": 1360531,
+            "range": "± 7974",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv4/compressed/NormalRadixNode/500",
+            "value": 626149,
+            "range": "± 3990",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv4/compressed/ART/NormalRadixNode/500",
+            "value": 272258,
+            "range": "± 13776",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv6/uncompressed/NormalTrieNode/500",
+            "value": 4903523,
+            "range": "± 28358",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv6/compressed/NormalRadixNode/500",
+            "value": 2384019,
+            "range": "± 4383",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv6/compressed/ART/NormalRadixNode/500",
+            "value": 728868,
+            "range": "± 6796",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv4/uncompressed/AtomicTrieNode/500",
+            "value": 1352757,
+            "range": "± 2386",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv4/compressed/AtomicRadixNode/500",
+            "value": 613853,
+            "range": "± 2553",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv4/compressed/ART/AtomicRadixNode/500",
+            "value": 272187,
+            "range": "± 1224",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv6/uncompressed/AtomicTrieNode/500",
+            "value": 4800442,
+            "range": "± 15955",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv6/compressed/AtomicRadixNode/500",
+            "value": 2296397,
+            "range": "± 3161",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv6/compressed/ART/AtomicRadixNode/500",
+            "value": 725695,
+            "range": "± 4015",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv4/uncompressed/PaddedTrieNode/500",
+            "value": 1361849,
+            "range": "± 67950",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv4/compressed/PaddedRadixNode/500",
+            "value": 625616,
+            "range": "± 1804",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv4/compressed/ART/PaddedRadixNode/500",
+            "value": 268834,
+            "range": "± 1289",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv6/uncompressed/PaddedTrieNode/500",
+            "value": 4920891,
+            "range": "± 20586",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv6/compressed/PaddedRadixNode/500",
+            "value": 2393703,
+            "range": "± 76223",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv6/compressed/ART/PaddedRadixNode/500",
+            "value": 740746,
+            "range": "± 25204",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv4/uncompressed/LockFreeTrieNode/500",
+            "value": 5544598,
+            "range": "± 31483",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv4/compressed/LockFreeRadixNode/500",
+            "value": 625441,
+            "range": "± 1734",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv4/compressed/ART/LockFreeRadixNode/500",
+            "value": 271111,
+            "range": "± 1284",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv6/uncompressed/LockFreeTrieNode/500",
+            "value": 22489826,
+            "range": "± 676350",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv6/compressed/LockFreeRadixNode/500",
+            "value": 3847328,
+            "range": "± 7428",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv6/compressed/ART/LockFreeRadixNode/500",
+            "value": 727116,
+            "range": "± 3846",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv4/uncompressed/NormalTrieNode/5000",
+            "value": 13700488,
+            "range": "± 107209",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv4/compressed/NormalRadixNode/5000",
+            "value": 6257427,
+            "range": "± 19307",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv4/compressed/ART/NormalRadixNode/5000",
+            "value": 2776266,
+            "range": "± 27411",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv6/uncompressed/NormalTrieNode/5000",
+            "value": 57059546,
+            "range": "± 1090756",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv6/compressed/NormalRadixNode/5000",
+            "value": 28553480,
+            "range": "± 160437",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv6/compressed/ART/NormalRadixNode/5000",
+            "value": 12739475,
+            "range": "± 500926",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv4/uncompressed/AtomicTrieNode/5000",
+            "value": 13529926,
+            "range": "± 60662",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv4/compressed/AtomicRadixNode/5000",
+            "value": 6132255,
+            "range": "± 18272",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv4/compressed/ART/AtomicRadixNode/5000",
+            "value": 2856888,
+            "range": "± 130200",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv6/uncompressed/AtomicTrieNode/5000",
+            "value": 52006395,
+            "range": "± 817145",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv6/compressed/AtomicRadixNode/5000",
+            "value": 27399355,
+            "range": "± 247116",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv6/compressed/ART/AtomicRadixNode/5000",
+            "value": 12201438,
+            "range": "± 211564",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv4/uncompressed/PaddedTrieNode/5000",
+            "value": 13458826,
+            "range": "± 36647",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv4/compressed/PaddedRadixNode/5000",
+            "value": 6233041,
+            "range": "± 25712",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv4/compressed/ART/PaddedRadixNode/5000",
+            "value": 2820748,
+            "range": "± 166624",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv6/uncompressed/PaddedTrieNode/5000",
+            "value": 54422639,
+            "range": "± 1876533",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv6/compressed/PaddedRadixNode/5000",
+            "value": 28810287,
+            "range": "± 421418",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv6/compressed/ART/PaddedRadixNode/5000",
+            "value": 12569869,
+            "range": "± 1246412",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv4/uncompressed/LockFreeTrieNode/5000",
+            "value": 55719669,
+            "range": "± 287794",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv4/compressed/LockFreeRadixNode/5000",
+            "value": 6249486,
+            "range": "± 191021",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv4/compressed/ART/LockFreeRadixNode/5000",
+            "value": 2811733,
+            "range": "± 43387",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv6/uncompressed/LockFreeTrieNode/5000",
+            "value": 259466158,
+            "range": "± 51303363",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv6/compressed/LockFreeRadixNode/5000",
+            "value": 53670336,
+            "range": "± 2223540",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "insert/ipv6/compressed/ART/LockFreeRadixNode/5000",
+            "value": 15342121,
+            "range": "± 947798",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv4/uncompressed/NormalTrieNode/500",
+            "value": 228999,
+            "range": "± 214",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv4/compressed/NormalRadixNode/500",
+            "value": 144791,
+            "range": "± 203",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv4/compressed/ART/NormalRadixNode/500",
+            "value": 24983,
+            "range": "± 33",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv6/uncompressed/NormalTrieNode/500",
+            "value": 845173,
+            "range": "± 101895",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv6/compressed/NormalRadixNode/500",
+            "value": 154074,
+            "range": "± 100",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv6/compressed/ART/NormalRadixNode/500",
+            "value": 24678,
+            "range": "± 78",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv4/uncompressed/AtomicTrieNode/500",
+            "value": 229416,
+            "range": "± 901",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv4/compressed/AtomicRadixNode/500",
+            "value": 141873,
+            "range": "± 329",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv4/compressed/ART/AtomicRadixNode/500",
+            "value": 25044,
+            "range": "± 56",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv6/uncompressed/AtomicTrieNode/500",
+            "value": 679223,
+            "range": "± 23554",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv6/compressed/AtomicRadixNode/500",
+            "value": 147298,
+            "range": "± 148",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv6/compressed/ART/AtomicRadixNode/500",
+            "value": 24857,
+            "range": "± 69",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv4/uncompressed/PaddedTrieNode/500",
+            "value": 230588,
+            "range": "± 148",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv4/compressed/PaddedRadixNode/500",
+            "value": 144666,
+            "range": "± 135",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv4/compressed/ART/PaddedRadixNode/500",
+            "value": 25489,
+            "range": "± 15",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv6/uncompressed/PaddedTrieNode/500",
+            "value": 769025,
+            "range": "± 17635",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv6/compressed/PaddedRadixNode/500",
+            "value": 154012,
+            "range": "± 245",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv6/compressed/ART/PaddedRadixNode/500",
+            "value": 24749,
+            "range": "± 58",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv4/uncompressed/LockFreeTrieNode/500",
+            "value": 812044,
+            "range": "± 501",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv4/compressed/LockFreeRadixNode/500",
+            "value": 156976,
+            "range": "± 154",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv4/compressed/ART/LockFreeRadixNode/500",
+            "value": 25209,
+            "range": "± 47",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv6/uncompressed/LockFreeTrieNode/500",
+            "value": 4249398,
+            "range": "± 167756",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv6/compressed/LockFreeRadixNode/500",
+            "value": 180798,
+            "range": "± 233",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv6/compressed/ART/LockFreeRadixNode/500",
+            "value": 24363,
+            "range": "± 40",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv4/uncompressed/NormalTrieNode/5000",
+            "value": 2346037,
+            "range": "± 1842",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv4/compressed/NormalRadixNode/5000",
+            "value": 1447706,
+            "range": "± 5165",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv4/compressed/ART/NormalRadixNode/5000",
+            "value": 256432,
+            "range": "± 286",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv6/uncompressed/NormalTrieNode/5000",
+            "value": 9851300,
+            "range": "± 94216",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv6/compressed/NormalRadixNode/5000",
+            "value": 1688509,
+            "range": "± 3661",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv6/compressed/ART/NormalRadixNode/5000",
+            "value": 310690,
+            "range": "± 957",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv4/uncompressed/AtomicTrieNode/5000",
+            "value": 2402147,
+            "range": "± 48057",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv4/compressed/AtomicRadixNode/5000",
+            "value": 1416456,
+            "range": "± 5842",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv4/compressed/ART/AtomicRadixNode/5000",
+            "value": 255794,
+            "range": "± 572",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv6/uncompressed/AtomicTrieNode/5000",
+            "value": 8703899,
+            "range": "± 115512",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv6/compressed/AtomicRadixNode/5000",
+            "value": 1619638,
+            "range": "± 1848",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv6/compressed/ART/AtomicRadixNode/5000",
+            "value": 321077,
+            "range": "± 7113",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv4/uncompressed/PaddedTrieNode/5000",
+            "value": 2361675,
+            "range": "± 6407",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv4/compressed/PaddedRadixNode/5000",
+            "value": 1446691,
+            "range": "± 4358",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv4/compressed/ART/PaddedRadixNode/5000",
+            "value": 256671,
+            "range": "± 210",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv6/uncompressed/PaddedTrieNode/5000",
+            "value": 10622915,
+            "range": "± 1370731",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv6/compressed/PaddedRadixNode/5000",
+            "value": 1686792,
+            "range": "± 2077",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv6/compressed/ART/PaddedRadixNode/5000",
+            "value": 307119,
+            "range": "± 29539",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv4/uncompressed/LockFreeTrieNode/5000",
+            "value": 8077766,
+            "range": "± 52191",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv4/compressed/LockFreeRadixNode/5000",
+            "value": 1564354,
+            "range": "± 2279",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv4/compressed/ART/LockFreeRadixNode/5000",
+            "value": 254380,
+            "range": "± 365",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv6/uncompressed/LockFreeTrieNode/5000",
+            "value": 42191612,
+            "range": "± 1016808",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv6/compressed/LockFreeRadixNode/5000",
+            "value": 1995023,
+            "range": "± 4092",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "lookup/ipv6/compressed/ART/LockFreeRadixNode/5000",
+            "value": 298267,
+            "range": "± 41755",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "concurrent_lookup/compressed/ipv4/4_threads/NormalRadixNode",
+            "value": 16839876,
+            "range": "± 85929",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "concurrent_lookup/compressed/ipv6/4_threads/NormalRadixNode",
+            "value": 22310293,
+            "range": "± 42135",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "concurrent_lookup/compressed/ipv4/4_threads/AtomicRadixNode",
+            "value": 16235817,
+            "range": "± 517583",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "concurrent_lookup/compressed/ipv6/4_threads/AtomicRadixNode",
+            "value": 20210778,
+            "range": "± 50886",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "concurrent_lookup/compressed/ipv4/4_threads/PaddedRadixNode",
+            "value": 18072605,
+            "range": "± 230394",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "concurrent_lookup/compressed/ipv6/4_threads/PaddedRadixNode",
+            "value": 23084298,
+            "range": "± 36325",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "concurrent_lookup/compressed/ipv4/4_threads/LockFreeRadixNode",
+            "value": 17893290,
+            "range": "± 79200",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "concurrent_lookup/compressed/ipv6/4_threads/LockFreeRadixNode",
+            "value": 24283243,
+            "range": "± 151395",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "concurrent_lookup/art/ipv4/4_threads/ART",
+            "value": 3426985,
+            "range": "± 67815",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "concurrent_lookup/art/ipv6/4_threads/ART",
+            "value": 5468434,
+            "range": "± 312145",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "concurrent_lookup/uncompressed/ipv4/4_threads/NormalTrieNode",
+            "value": 89105107,
+            "range": "± 795975",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "concurrent_lookup/uncompressed/ipv6/4_threads/NormalTrieNode",
+            "value": 232808910,
+            "range": "± 2934064",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "concurrent_lookup/uncompressed/ipv4/4_threads/AtomicTrieNode",
+            "value": 88583647,
+            "range": "± 1128248",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "concurrent_lookup/uncompressed/ipv6/4_threads/AtomicTrieNode",
+            "value": 204084770,
+            "range": "± 1063976",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "concurrent_lookup/uncompressed/ipv4/4_threads/PaddedTrieNode",
+            "value": 89068214,
+            "range": "± 704280",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "concurrent_lookup/uncompressed/ipv6/4_threads/PaddedTrieNode",
+            "value": 208748624,
+            "range": "± 3603116",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "concurrent_lookup/uncompressed/ipv4/4_threads/LockFreeTrieNode",
+            "value": 137867209,
+            "range": "± 2446319",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "concurrent_lookup/uncompressed/ipv6/4_threads/LockFreeTrieNode",
+            "value": 364369054,
+            "range": "± 3770812",
             "unit": "ns/iter"
           }
         ]
