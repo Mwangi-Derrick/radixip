@@ -1,0 +1,96 @@
+-- leaky_bucket.lua
+-- PHASE-2 — Leaky Bucket Rate Limiter (Policer Variant)
+--
+-- STATUS: STUB — not yet implemented.
+--         Do NOT load or EVALSHA this script in production.
+--
+-- ---------------------------------------------------------------------------
+-- Algorithm Overview (for the implementer)
+-- ---------------------------------------------------------------------------
+--
+-- The leaky bucket in *policer* mode models a bucket with a hole at the
+-- bottom. Water (requests) flows out at a constant drain rate regardless of
+-- how fast it arrives. Unlike a queue-based scheduler, the policer variant
+-- has NO queue — if the bucket is full when a request arrives, the request
+-- is dropped immediately.
+--
+-- Conceptual state stored per bucket (Redis hash):
+--   water_level : float — current fill level in "virtual bytes" or "tokens"
+--   ts          : float — unix timestamp of the last update
+--
+-- Algorithm steps (to be implemented):
+--
+--   1. LOAD STATE
+--      Read `water_level` and `ts` from the Redis hash at KEYS[1].
+--      Default to water_level=0, ts=now on first access.
+--
+--   2. DRAIN
+--      elapsed     = max(0, now - ts)
+--      drained     = elapsed * drain_rate        -- drain_rate = tokens/sec
+--      water_level = max(0, water_level - drained)
+--
+--   3. ADMISSION CHECK
+--      new_level = water_level + cost            -- cost = request volume (usually 1)
+--      if new_level > capacity then
+--          -- Bucket overflows: DROP the request
+--          allowed = 0
+--      else
+--          -- Bucket accepts: UPDATE the level
+--          water_level = new_level
+--          allowed = 1
+--      end
+--
+--   4. PERSIST STATE
+--      HSET KEYS[1] "water_level" water_level "ts" now
+--
+--   5. SET TTL
+--      TTL = ceil((capacity / drain_rate) * 2)
+--      EXPIRE KEYS[1] TTL
+--
+--   6. RETURN {allowed, math.floor((capacity - water_level) * 1000)}
+--      (headroom x1000 for float precision, mirrors token_bucket convention)
+--
+-- ---------------------------------------------------------------------------
+-- Key differences vs Token Bucket (PHASE-1)
+-- ---------------------------------------------------------------------------
+--
+--   Token Bucket  : accumulates tokens over time; allows bursting up to
+--                   `capacity` tokens immediately; excess tokens are wasted.
+--
+--   Leaky Bucket  : measures fill level; drains constantly; prevents any
+--                   burst above `capacity`; provides smoother output rate.
+--                   Better suited for protecting downstream services that
+--                   are sensitive to instantaneous spikes.
+--
+-- ---------------------------------------------------------------------------
+-- KEYS / ARGV contract (matches token_bucket.lua conventions)
+-- ---------------------------------------------------------------------------
+--
+--   KEYS[1]  : bucket hash key, e.g. "rl:lb:ip:10.0.0.1"
+--              Key naming: rl:{algo}:{id_type}:{id}
+--                          lb = leaky bucket algorithm
+--
+--   ARGV[1]  : capacity     (integer, max fill level)
+--   ARGV[2]  : drain_rate   (float, units/sec)
+--   ARGV[3]  : now          (unix seconds, float)
+--   ARGV[4]  : cost         (integer, volume of this request, usually 1)
+--
+-- ---------------------------------------------------------------------------
+-- TODO (PHASE-2 implementation checklist)
+-- ---------------------------------------------------------------------------
+--
+--   [ ] Implement drain calculation (step 2 above)
+--   [ ] Implement admission and persist logic (steps 3-5)
+--   [ ] Add pcall guard around argument validation (mirrors token_bucket.lua)
+--   [ ] Write unit tests in /test/lua/leaky_bucket_test.go using miniredis
+--   [ ] Benchmark against token_bucket.lua for RTT under load
+--   [ ] Document drain_rate tuning guidelines in README.md
+--   [ ] Wire into ratelimit/strategy.go with strategy name "leaky_bucket"
+--
+
+-- TODO: implementation goes here
+
+redis.log(redis.LOG_WARNING,
+    "leaky_bucket.lua is a PHASE-2 stub -- returning denied for all requests")
+
+return {0, 0}
