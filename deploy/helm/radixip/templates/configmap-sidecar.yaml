@@ -1,0 +1,45 @@
+{{- if .Values.sidecar.config.configMap.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "radixip.fullname" . }}-sidecar-config
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "radixip.labels" . | nindent 4 }}
+    app.kubernetes.io/component: sidecar-config
+data:
+  radixip.yaml: |-
+{{- if .Values.sidecar.config.data }}
+{{ .Values.sidecar.config.data | indent 4 }}
+{{- else }}
+    radixip:
+      engine:
+        variant: "concurrent"
+        node_variant: "atomic"
+        num_shards: 16
+        cache:
+          enabled: true
+          max_entries: 10000
+          ttl_seconds: 3600
+      middleware:
+        ip_source: "x-forwarded-for"
+        trusted_proxies:
+          - "127.0.0.1/32"
+          - "::1/128"
+        responses:
+          blocked: 403
+          rate_limited: 429
+      blocklist:
+        enabled: false
+      rate_limit:
+        enabled: true
+        algorithm: {{ .Values.defaultPolicy.algorithm | default "token_bucket" | quote }}
+        capacity: {{ .Values.defaultPolicy.globalRule.capacity | default 100 }}
+        refill_rate: {{ .Values.defaultPolicy.globalRule.refillRate | default 10 }}
+        max_buckets: 1000000
+        ttl_seconds: {{ .Values.defaultPolicy.ttlSecs | default 300 }}
+      metrics:
+        enabled: true
+        endpoint: "/metrics"
+{{- end }}
+{{- end }}
