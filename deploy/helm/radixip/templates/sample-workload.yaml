@@ -1,0 +1,61 @@
+{{- if .Values.sampleWorkload.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.sampleWorkload.name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Values.sampleWorkload.name }}
+    app.kubernetes.io/name: {{ .Values.sampleWorkload.name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/component: sample-workload
+spec:
+  replicas: {{ .Values.sampleWorkload.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.sampleWorkload.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.sampleWorkload.name }}
+    spec:
+      containers:
+        # Main application container
+        - name: app
+          image: "{{ .Values.sampleWorkload.image.repository }}:{{ .Values.sampleWorkload.image.tag }}"
+          command:
+            {{- toYaml .Values.sampleWorkload.image.command | nindent 12 }}
+          env:
+            - name: RADIXIP_GRPC_HOST
+              value: "127.0.0.1"
+            - name: RADIXIP_GRPC_PORT
+              value: {{ include "radixip.sidecar.grpcPort" . | quote }}
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+        # RadixIP gRPC Sidecar (Go or Rust based on sidecar.flavor)
+        {{- include "radixip.sidecarContainer" . | nindent 8 }}
+      volumes:
+        {{- include "radixip.sidecarVolumes" . | nindent 8 }}
+---
+apiVersion: radixip.io/v1alpha1
+kind: RateLimiterPolicy
+metadata:
+  name: {{ .Values.sampleWorkload.name }}-policy
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "radixip.labels" . | nindent 4 }}
+spec:
+  targetRef:
+    kind: Deployment
+    name: {{ .Values.sampleWorkload.name }}
+  algorithm: {{ .Values.defaultPolicy.algorithm | default "token_bucket" }}
+  globalPolicy:
+    capacity: {{ .Values.defaultPolicy.globalRule.capacity | default 100 }}
+    refillRate: {{ .Values.defaultPolicy.globalRule.refillRate | default 10 }}
+  redis:
+    url: {{ include "radixip.redisUrl" . }}
+  failureMode: {{ .Values.defaultPolicy.failureMode | default "local_fallback" }}
+  ttlSecs: {{ .Values.defaultPolicy.ttlSecs | default 300 }}
+{{- end }}
