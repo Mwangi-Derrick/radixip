@@ -94,9 +94,31 @@ docker build -t ghcr.io/mwangi-derrick/radixip-operator:0.1.0 .
 
 ### Deploy to Kubernetes
 
-Apply the CRD, RBAC, and operator deployment:
+#### Option A: Helm Chart (Recommended)
+Deploy the operator, CRDs, Redis, and sidecar configuration via Helm:
+```bash
+helm install radixip deploy/helm/radixip \
+  --set sidecar.flavor=rust \
+  --set sampleWorkload.enabled=true
+```
+
+#### Option B: Manifests
+Apply the CRD, RBAC, operator deployment, and a sample workload with sidecar:
 ```bash
 kubectl apply -f config/crd/bases/radixip.io_ratelimiterpolicies.yaml
 kubectl apply -f config/rbac/rbac.yaml
 kubectl apply -f config/manager/manager.yaml
+kubectl apply -f config/samples/deployment_with_grpc_sidecar.yaml
+kubectl apply -f config/samples/radixip_v1alpha1_ratelimiterpolicy.yaml
 ```
+
+---
+
+## 🧩 gRPC Sidecars & Language Agnosticism
+
+RadixIP provides two high-performance gRPC sidecars:
+- **Rust Sidecar** (`cmd/grpc-server-rust`): Listens on gRPC `0.0.0.0:50052`, Prometheus metrics `http://0.0.0.0:9091/metrics`. Ultra-low latency and minimal memory footprint.
+- **Go Sidecar** (`cmd/grpc-server-go`): Listens on gRPC `0.0.0.0:50051`, Prometheus metrics `http://0.0.0.0:9090/metrics`.
+
+Any application running in the same Pod (Node.js, Python, Java, etc.) communicates with the sidecar over `127.0.0.1:<port>` via standard gRPC protocols defined in `proto/radixip/v1/radixip.proto`. The operator watches target pods, verifies the `radixip-rate-limiter` container, and updates the `RateLimiterPolicy` phase to `Active`.
+
