@@ -1,0 +1,76 @@
+# deploy/operator/config/samples/deployment_with_grpc_sidecar.yaml
+# Demonstrates language-agnostic L7 routing & rate-limiting via the RadixIP gRPC sidecar.
+# The main application talks to 127.0.0.1:50052 (Rust) or 127.0.0.1:50051 (Go) over loopback.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway
+  namespace: default
+  labels:
+    app: api-gateway
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: api-gateway
+  template:
+    metadata:
+      labels:
+        app: api-gateway
+    spec:
+      containers:
+        # ── 1. Main Application Container (Language Agnostic: Go, Node, Python, etc.) ──
+        - name: app
+          image: curlimages/curl:8.5.0
+          command:
+            - "/bin/sh"
+            - "-c"
+            - |
+              echo "App running. Communicating with RadixIP gRPC sidecar over 127.0.0.1:50052..."
+              while true; do sleep 30; done
+          env:
+            - name: RADIXIP_GRPC_ADDR
+              value: "127.0.0.1:50052"
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+
+        # ── 2. RadixIP gRPC Sidecar Container ──────────────────────────────────
+        # Container name MUST be 'radixip-rate-limiter' to be recognized by the operator.
+        # Use Rust (port 50052) or Go (port 50051).
+        - name: radixip-rate-limiter
+          image: ghcr.io/mwangi-derrick/radixip-grpc-rust:0.1.0
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: GRPC_PORT
+              value: "50052"
+            - name: METRICS_PORT
+              value: "9091"
+            - name: RADIXIP_CONFIG
+              value: "/etc/radixip/radixip.yaml"
+            - name: REDIS_URL
+              value: "redis://redis-master:6379"
+          ports:
+            - name: grpc
+              containerPort: 50052
+              protocol: TCP
+            - name: metrics
+              containerPort: 9091
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 256Mi
+            requests:
+              cpu: 100m
+              memory: 64Mi
+          volumeMounts:
+            - name: radixip-config
+              mountPath: /etc/radixip
+              readOnly: true
+
+      volumes:
+        - name: radixip-config
+          configMap:
+            name: radixip-sidecar-config
