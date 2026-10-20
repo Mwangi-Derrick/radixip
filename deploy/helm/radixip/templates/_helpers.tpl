@@ -78,3 +78,93 @@ Redis URL — internal (sub-chart) or external.
 {{- .Values.externalRedis.url }}
 {{- end }}
 {{- end }}
+
+{{/*
+Sidecar flavor: "rust" (default) or "go".
+*/}}
+{{- define "radixip.sidecar.flavor" -}}
+{{- default "rust" .Values.sidecar.flavor }}
+{{- end }}
+
+{{/*
+Sidecar image repository and tag based on flavor.
+*/}}
+{{- define "radixip.sidecar.image" -}}
+{{- $flavor := include "radixip.sidecar.flavor" . -}}
+{{- if eq $flavor "go" -}}
+{{- printf "%s:%s" .Values.sidecar.images.go.repository (.Values.sidecar.images.go.tag | default .Chart.AppVersion) -}}
+{{- else -}}
+{{- printf "%s:%s" .Values.sidecar.images.rust.repository (.Values.sidecar.images.rust.tag | default .Chart.AppVersion) -}}
+{{- end -}}
+{{- end }}
+
+{{/*
+Sidecar gRPC port based on flavor.
+*/}}
+{{- define "radixip.sidecar.grpcPort" -}}
+{{- $flavor := include "radixip.sidecar.flavor" . -}}
+{{- if eq $flavor "go" -}}
+{{- default 50051 .Values.sidecar.images.go.grpcPort -}}
+{{- else -}}
+{{- default 50052 .Values.sidecar.images.rust.grpcPort -}}
+{{- end -}}
+{{- end }}
+
+{{/*
+Sidecar metrics port based on flavor.
+*/}}
+{{- define "radixip.sidecar.metricsPort" -}}
+{{- $flavor := include "radixip.sidecar.flavor" . -}}
+{{- if eq $flavor "go" -}}
+{{- default 9090 .Values.sidecar.images.go.metricsPort -}}
+{{- else -}}
+{{- default 9091 .Values.sidecar.images.rust.metricsPort -}}
+{{- end -}}
+{{- end }}
+
+{{/*
+Standard RadixIP sidecar container definition.
+Container name MUST be 'radixip-rate-limiter' to match operator reconciler.
+*/}}
+{{- define "radixip.sidecarContainer" -}}
+- name: radixip-rate-limiter
+  image: {{ include "radixip.sidecar.image" . | quote }}
+  imagePullPolicy: {{ .Values.sidecar.pullPolicy | default "IfNotPresent" }}
+  env:
+    - name: GRPC_PORT
+      value: {{ include "radixip.sidecar.grpcPort" . | quote }}
+    - name: METRICS_PORT
+      value: {{ include "radixip.sidecar.metricsPort" . | quote }}
+    - name: RADIXIP_CONFIG
+      value: "{{ .Values.sidecar.config.mountPath }}/radixip.yaml"
+    - name: REDIS_URL
+      value: {{ include "radixip.redisUrl" . | quote }}
+  ports:
+    - name: grpc
+      containerPort: {{ include "radixip.sidecar.grpcPort" . }}
+      protocol: TCP
+    - name: metrics
+      containerPort: {{ include "radixip.sidecar.metricsPort" . }}
+      protocol: TCP
+  {{- with .Values.sidecar.resources }}
+  resources:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- if .Values.sidecar.config.configMap.enabled }}
+  volumeMounts:
+    - name: radixip-config
+      mountPath: {{ .Values.sidecar.config.mountPath }}
+      readOnly: true
+  {{- end }}
+{{- end }}
+
+{{/*
+Sidecar configuration volumes.
+*/}}
+{{- define "radixip.sidecarVolumes" -}}
+{{- if .Values.sidecar.config.configMap.enabled }}
+- name: radixip-config
+  configMap:
+    name: {{ include "radixip.fullname" . }}-sidecar-config
+{{- end }}
+{{- end }}
