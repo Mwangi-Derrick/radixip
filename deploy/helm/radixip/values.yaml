@@ -127,6 +127,61 @@ externalRedis:
     enabled: false
     secretName: ""
 
+# ── Sidecar Configuration ─────────────────────────────────────
+# Configuration for the RadixIP gRPC sidecars (Go and Rust).
+# Workloads inject this sidecar container (named 'radixip-rate-limiter')
+# to perform language-agnostic L7 routing, LPM lookups, and rate-limiting.
+sidecar:
+  # Sidecar flavor: "rust" or "go"
+  flavor: "rust"
+
+  # Container images for each flavor
+  images:
+    rust:
+      repository: ghcr.io/mwangi-derrick/radixip-grpc-rust
+      tag: "0.1.0"
+      grpcPort: 50052
+      metricsPort: 9091
+    go:
+      repository: ghcr.io/mwangi-derrick/radixip-grpc-go
+      tag: "0.1.0"
+      grpcPort: 50051
+      metricsPort: 9090
+
+  pullPolicy: IfNotPresent
+
+  # Resource allocations for the sidecar
+  resources:
+    limits:
+      cpu: 500m
+      memory: 256Mi
+    requests:
+      cpu: 50m
+      memory: 64Mi
+
+  # Sidecar config file (radixip.yaml) mounted at /etc/radixip
+  config:
+    mountPath: /etc/radixip
+    configMap:
+      enabled: true
+      # Custom radixip.yaml content; if empty, uses default template
+      data: ""
+
+# ── Sample / Demo Workload ────────────────────────────────────
+# Deploys a sample application pod with the RadixIP sidecar and RateLimiterPolicy.
+# Perfect for verifying sidecar orchestration and operator reconciliation.
+sampleWorkload:
+  enabled: false
+  name: api-gateway
+  replicaCount: 1
+  image:
+    repository: curlimages/curl
+    tag: "8.5.0"
+    command:
+      - "/bin/sh"
+      - "-c"
+      - "while true; do echo 'App running alongside RadixIP sidecar...'; sleep 30; done"
+
 # ── Sidecar Injector ──────────────────────────────────────────
 # (Phase 2 — MutatingWebhook for automatic sidecar injection)
 sidecarInjector:
