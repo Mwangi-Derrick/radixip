@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1792566851905,
+  "lastUpdate": 1792567826621,
   "repoUrl": "https://github.com/Mwangi-Derrick/radixip",
   "entries": {
     "Go Benchmark": [
@@ -1857922,6 +1857922,16108 @@ window.BENCHMARK_DATA = {
             "value": 0,
             "unit": "allocs/op",
             "extra": "9969 times\n4 procs"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "Derrick Mwangi",
+            "username": "Mwangi-Derrick",
+            "email": "mwangiderrick640@gmail.com"
+          },
+          "committer": {
+            "name": "Derrick Mwangi",
+            "username": "Mwangi-Derrick",
+            "email": "mwangiderrick640@gmail.com"
+          },
+          "id": "437addc1b3b5293dc21ce236a2389bf5f862415c",
+          "message": "docs(guides): document eBPF and XDP",
+          "timestamp": "2026-10-20T20:35:07Z",
+          "url": "https://github.com/Mwangi-Derrick/radixip/commit/437addc1b3b5293dc21ce236a2389bf5f862415c"
+        },
+        "date": 1792567804329,
+        "tool": "go",
+        "benches": [
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 51002541,
+            "unit": "ns/op\t82564046 B/op\t 1120068 allocs/op",
+            "extra": "22 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 51002541,
+            "unit": "ns/op",
+            "extra": "22 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 82564046,
+            "unit": "B/op",
+            "extra": "22 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1120068,
+            "unit": "allocs/op",
+            "extra": "22 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 49860556,
+            "unit": "ns/op\t82563771 B/op\t 1120067 allocs/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 49860556,
+            "unit": "ns/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 82563771,
+            "unit": "B/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1120067,
+            "unit": "allocs/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 51567889,
+            "unit": "ns/op\t82563743 B/op\t 1120067 allocs/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 51567889,
+            "unit": "ns/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 82563743,
+            "unit": "B/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1120067,
+            "unit": "allocs/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 53532877,
+            "unit": "ns/op\t82563738 B/op\t 1120067 allocs/op",
+            "extra": "21 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 53532877,
+            "unit": "ns/op",
+            "extra": "21 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 82563738,
+            "unit": "B/op",
+            "extra": "21 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1120067,
+            "unit": "allocs/op",
+            "extra": "21 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 50851486,
+            "unit": "ns/op\t82563806 B/op\t 1120068 allocs/op",
+            "extra": "22 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 50851486,
+            "unit": "ns/op",
+            "extra": "22 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 82563806,
+            "unit": "B/op",
+            "extra": "22 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1120068,
+            "unit": "allocs/op",
+            "extra": "22 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 51004444,
+            "unit": "ns/op\t82563847 B/op\t 1120068 allocs/op",
+            "extra": "22 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 51004444,
+            "unit": "ns/op",
+            "extra": "22 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 82563847,
+            "unit": "B/op",
+            "extra": "22 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1120068,
+            "unit": "allocs/op",
+            "extra": "22 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 51353411,
+            "unit": "ns/op\t82563749 B/op\t 1120067 allocs/op",
+            "extra": "21 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 51353411,
+            "unit": "ns/op",
+            "extra": "21 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 82563749,
+            "unit": "B/op",
+            "extra": "21 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1120067,
+            "unit": "allocs/op",
+            "extra": "21 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 50118698,
+            "unit": "ns/op\t82563776 B/op\t 1120068 allocs/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 50118698,
+            "unit": "ns/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 82563776,
+            "unit": "B/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1120068,
+            "unit": "allocs/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 49738992,
+            "unit": "ns/op\t82563738 B/op\t 1120067 allocs/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 49738992,
+            "unit": "ns/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 82563738,
+            "unit": "B/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1120067,
+            "unit": "allocs/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 50915942,
+            "unit": "ns/op\t82563801 B/op\t 1120068 allocs/op",
+            "extra": "22 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 50915942,
+            "unit": "ns/op",
+            "extra": "22 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 82563801,
+            "unit": "B/op",
+            "extra": "22 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1120068,
+            "unit": "allocs/op",
+            "extra": "22 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 15741793,
+            "unit": "ns/op\t 5839200 B/op\t  161011 allocs/op",
+            "extra": "67 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 15741793,
+            "unit": "ns/op",
+            "extra": "67 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5839200,
+            "unit": "B/op",
+            "extra": "67 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "67 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 15733276,
+            "unit": "ns/op\t 5839200 B/op\t  161011 allocs/op",
+            "extra": "69 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 15733276,
+            "unit": "ns/op",
+            "extra": "69 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5839200,
+            "unit": "B/op",
+            "extra": "69 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "69 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 15776699,
+            "unit": "ns/op\t 5839205 B/op\t  161011 allocs/op",
+            "extra": "79 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 15776699,
+            "unit": "ns/op",
+            "extra": "79 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5839205,
+            "unit": "B/op",
+            "extra": "79 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "79 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 15721695,
+            "unit": "ns/op\t 5839196 B/op\t  161011 allocs/op",
+            "extra": "73 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 15721695,
+            "unit": "ns/op",
+            "extra": "73 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5839196,
+            "unit": "B/op",
+            "extra": "73 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "73 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 15757303,
+            "unit": "ns/op\t 5839199 B/op\t  161011 allocs/op",
+            "extra": "72 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 15757303,
+            "unit": "ns/op",
+            "extra": "72 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5839199,
+            "unit": "B/op",
+            "extra": "72 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "72 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 15726741,
+            "unit": "ns/op\t 5839196 B/op\t  161011 allocs/op",
+            "extra": "72 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 15726741,
+            "unit": "ns/op",
+            "extra": "72 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5839196,
+            "unit": "B/op",
+            "extra": "72 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "72 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 15810062,
+            "unit": "ns/op\t 5839197 B/op\t  161011 allocs/op",
+            "extra": "76 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 15810062,
+            "unit": "ns/op",
+            "extra": "76 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5839197,
+            "unit": "B/op",
+            "extra": "76 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "76 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 15731535,
+            "unit": "ns/op\t 5839190 B/op\t  161011 allocs/op",
+            "extra": "72 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 15731535,
+            "unit": "ns/op",
+            "extra": "72 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5839190,
+            "unit": "B/op",
+            "extra": "72 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "72 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 15741914,
+            "unit": "ns/op\t 5839194 B/op\t  161011 allocs/op",
+            "extra": "74 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 15741914,
+            "unit": "ns/op",
+            "extra": "74 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5839194,
+            "unit": "B/op",
+            "extra": "74 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "74 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 15704627,
+            "unit": "ns/op\t 5839198 B/op\t  161011 allocs/op",
+            "extra": "79 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 15704627,
+            "unit": "ns/op",
+            "extra": "79 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5839198,
+            "unit": "B/op",
+            "extra": "79 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "79 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 70675819,
+            "unit": "ns/op\t128644635 B/op\t 1120068 allocs/op",
+            "extra": "16 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 70675819,
+            "unit": "ns/op",
+            "extra": "16 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 128644635,
+            "unit": "B/op",
+            "extra": "16 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1120068,
+            "unit": "allocs/op",
+            "extra": "16 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 70723247,
+            "unit": "ns/op\t128644670 B/op\t 1120069 allocs/op",
+            "extra": "16 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 70723247,
+            "unit": "ns/op",
+            "extra": "16 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 128644670,
+            "unit": "B/op",
+            "extra": "16 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1120069,
+            "unit": "allocs/op",
+            "extra": "16 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 72204402,
+            "unit": "ns/op\t128644621 B/op\t 1120068 allocs/op",
+            "extra": "16 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 72204402,
+            "unit": "ns/op",
+            "extra": "16 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 128644621,
+            "unit": "B/op",
+            "extra": "16 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1120068,
+            "unit": "allocs/op",
+            "extra": "16 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 70314839,
+            "unit": "ns/op\t128644621 B/op\t 1120068 allocs/op",
+            "extra": "16 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 70314839,
+            "unit": "ns/op",
+            "extra": "16 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 128644621,
+            "unit": "B/op",
+            "extra": "16 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1120068,
+            "unit": "allocs/op",
+            "extra": "16 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 70448168,
+            "unit": "ns/op\t128644536 B/op\t 1120067 allocs/op",
+            "extra": "15 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 70448168,
+            "unit": "ns/op",
+            "extra": "15 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 128644536,
+            "unit": "B/op",
+            "extra": "15 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1120067,
+            "unit": "allocs/op",
+            "extra": "15 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 70827723,
+            "unit": "ns/op\t128644573 B/op\t 1120068 allocs/op",
+            "extra": "15 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 70827723,
+            "unit": "ns/op",
+            "extra": "15 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 128644573,
+            "unit": "B/op",
+            "extra": "15 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1120068,
+            "unit": "allocs/op",
+            "extra": "15 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 71097932,
+            "unit": "ns/op\t128644607 B/op\t 1120068 allocs/op",
+            "extra": "16 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 71097932,
+            "unit": "ns/op",
+            "extra": "16 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 128644607,
+            "unit": "B/op",
+            "extra": "16 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1120068,
+            "unit": "allocs/op",
+            "extra": "16 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 70436611,
+            "unit": "ns/op\t128644747 B/op\t 1120069 allocs/op",
+            "extra": "16 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 70436611,
+            "unit": "ns/op",
+            "extra": "16 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 128644747,
+            "unit": "B/op",
+            "extra": "16 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1120069,
+            "unit": "allocs/op",
+            "extra": "16 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 70666416,
+            "unit": "ns/op\t128644761 B/op\t 1120069 allocs/op",
+            "extra": "16 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 70666416,
+            "unit": "ns/op",
+            "extra": "16 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 128644761,
+            "unit": "B/op",
+            "extra": "16 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1120069,
+            "unit": "allocs/op",
+            "extra": "16 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 71094071,
+            "unit": "ns/op\t128644753 B/op\t 1120069 allocs/op",
+            "extra": "15 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 71094071,
+            "unit": "ns/op",
+            "extra": "15 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 128644753,
+            "unit": "B/op",
+            "extra": "15 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1120069,
+            "unit": "allocs/op",
+            "extra": "15 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 15679875,
+            "unit": "ns/op\t 5839201 B/op\t  161011 allocs/op",
+            "extra": "70 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 15679875,
+            "unit": "ns/op",
+            "extra": "70 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5839201,
+            "unit": "B/op",
+            "extra": "70 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "70 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 15682526,
+            "unit": "ns/op\t 5839198 B/op\t  161011 allocs/op",
+            "extra": "72 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 15682526,
+            "unit": "ns/op",
+            "extra": "72 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5839198,
+            "unit": "B/op",
+            "extra": "72 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "72 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 15656984,
+            "unit": "ns/op\t 5839195 B/op\t  161011 allocs/op",
+            "extra": "78 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 15656984,
+            "unit": "ns/op",
+            "extra": "78 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5839195,
+            "unit": "B/op",
+            "extra": "78 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "78 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 16157404,
+            "unit": "ns/op\t 5839194 B/op\t  161011 allocs/op",
+            "extra": "76 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 16157404,
+            "unit": "ns/op",
+            "extra": "76 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5839194,
+            "unit": "B/op",
+            "extra": "76 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "76 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 15629197,
+            "unit": "ns/op\t 5839206 B/op\t  161011 allocs/op",
+            "extra": "76 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 15629197,
+            "unit": "ns/op",
+            "extra": "76 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5839206,
+            "unit": "B/op",
+            "extra": "76 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "76 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 15609827,
+            "unit": "ns/op\t 5839203 B/op\t  161011 allocs/op",
+            "extra": "73 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 15609827,
+            "unit": "ns/op",
+            "extra": "73 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5839203,
+            "unit": "B/op",
+            "extra": "73 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "73 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 15723074,
+            "unit": "ns/op\t 5839199 B/op\t  161011 allocs/op",
+            "extra": "78 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 15723074,
+            "unit": "ns/op",
+            "extra": "78 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5839199,
+            "unit": "B/op",
+            "extra": "78 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "78 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 15747385,
+            "unit": "ns/op\t 5839196 B/op\t  161011 allocs/op",
+            "extra": "70 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 15747385,
+            "unit": "ns/op",
+            "extra": "70 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5839196,
+            "unit": "B/op",
+            "extra": "70 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "70 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 15662161,
+            "unit": "ns/op\t 5839202 B/op\t  161011 allocs/op",
+            "extra": "74 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 15662161,
+            "unit": "ns/op",
+            "extra": "74 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5839202,
+            "unit": "B/op",
+            "extra": "74 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "74 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 15664853,
+            "unit": "ns/op\t 5839201 B/op\t  161011 allocs/op",
+            "extra": "75 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 15664853,
+            "unit": "ns/op",
+            "extra": "75 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5839201,
+            "unit": "B/op",
+            "extra": "75 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "75 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 12892370,
+            "unit": "ns/op\t 5812878 B/op\t  161011 allocs/op",
+            "extra": "92 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 12892370,
+            "unit": "ns/op",
+            "extra": "92 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5812878,
+            "unit": "B/op",
+            "extra": "92 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "92 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 12879061,
+            "unit": "ns/op\t 5812861 B/op\t  161011 allocs/op",
+            "extra": "92 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 12879061,
+            "unit": "ns/op",
+            "extra": "92 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5812861,
+            "unit": "B/op",
+            "extra": "92 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "92 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 12808149,
+            "unit": "ns/op\t 5812859 B/op\t  161011 allocs/op",
+            "extra": "86 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 12808149,
+            "unit": "ns/op",
+            "extra": "86 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5812859,
+            "unit": "B/op",
+            "extra": "86 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "86 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 12844257,
+            "unit": "ns/op\t 5812861 B/op\t  161011 allocs/op",
+            "extra": "91 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 12844257,
+            "unit": "ns/op",
+            "extra": "91 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5812861,
+            "unit": "B/op",
+            "extra": "91 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "91 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 12856297,
+            "unit": "ns/op\t 5812860 B/op\t  161011 allocs/op",
+            "extra": "87 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 12856297,
+            "unit": "ns/op",
+            "extra": "87 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5812860,
+            "unit": "B/op",
+            "extra": "87 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "87 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 12849058,
+            "unit": "ns/op\t 5812861 B/op\t  161011 allocs/op",
+            "extra": "93 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 12849058,
+            "unit": "ns/op",
+            "extra": "93 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5812861,
+            "unit": "B/op",
+            "extra": "93 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "93 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 12843196,
+            "unit": "ns/op\t 5812875 B/op\t  161011 allocs/op",
+            "extra": "90 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 12843196,
+            "unit": "ns/op",
+            "extra": "90 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5812875,
+            "unit": "B/op",
+            "extra": "90 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "90 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 12838469,
+            "unit": "ns/op\t 5812863 B/op\t  161011 allocs/op",
+            "extra": "87 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 12838469,
+            "unit": "ns/op",
+            "extra": "87 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5812863,
+            "unit": "B/op",
+            "extra": "87 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "87 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 12815426,
+            "unit": "ns/op\t 5812874 B/op\t  161011 allocs/op",
+            "extra": "94 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 12815426,
+            "unit": "ns/op",
+            "extra": "94 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5812874,
+            "unit": "B/op",
+            "extra": "94 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "94 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 12882342,
+            "unit": "ns/op\t 5812865 B/op\t  161011 allocs/op",
+            "extra": "87 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 12882342,
+            "unit": "ns/op",
+            "extra": "87 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5812865,
+            "unit": "B/op",
+            "extra": "87 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "87 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 13281398,
+            "unit": "ns/op\t 5812861 B/op\t  161011 allocs/op",
+            "extra": "87 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 13281398,
+            "unit": "ns/op",
+            "extra": "87 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5812861,
+            "unit": "B/op",
+            "extra": "87 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "87 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 13298437,
+            "unit": "ns/op\t 5812867 B/op\t  161011 allocs/op",
+            "extra": "91 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 13298437,
+            "unit": "ns/op",
+            "extra": "91 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5812867,
+            "unit": "B/op",
+            "extra": "91 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "91 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 13300563,
+            "unit": "ns/op\t 5812856 B/op\t  161011 allocs/op",
+            "extra": "86 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 13300563,
+            "unit": "ns/op",
+            "extra": "86 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5812856,
+            "unit": "B/op",
+            "extra": "86 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "86 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 13275253,
+            "unit": "ns/op\t 5812854 B/op\t  161011 allocs/op",
+            "extra": "91 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 13275253,
+            "unit": "ns/op",
+            "extra": "91 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5812854,
+            "unit": "B/op",
+            "extra": "91 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "91 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 13308001,
+            "unit": "ns/op\t 5812862 B/op\t  161011 allocs/op",
+            "extra": "88 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 13308001,
+            "unit": "ns/op",
+            "extra": "88 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5812862,
+            "unit": "B/op",
+            "extra": "88 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "88 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 13333290,
+            "unit": "ns/op\t 5812855 B/op\t  161011 allocs/op",
+            "extra": "91 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 13333290,
+            "unit": "ns/op",
+            "extra": "91 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5812855,
+            "unit": "B/op",
+            "extra": "91 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "91 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 13347037,
+            "unit": "ns/op\t 5812861 B/op\t  161011 allocs/op",
+            "extra": "88 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 13347037,
+            "unit": "ns/op",
+            "extra": "88 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5812861,
+            "unit": "B/op",
+            "extra": "88 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "88 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 13270141,
+            "unit": "ns/op\t 5812861 B/op\t  161011 allocs/op",
+            "extra": "87 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 13270141,
+            "unit": "ns/op",
+            "extra": "87 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5812861,
+            "unit": "B/op",
+            "extra": "87 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "87 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 13281962,
+            "unit": "ns/op\t 5812862 B/op\t  161011 allocs/op",
+            "extra": "87 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 13281962,
+            "unit": "ns/op",
+            "extra": "87 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5812862,
+            "unit": "B/op",
+            "extra": "87 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "87 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 13346339,
+            "unit": "ns/op\t 5812865 B/op\t  161011 allocs/op",
+            "extra": "82 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 13346339,
+            "unit": "ns/op",
+            "extra": "82 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5812865,
+            "unit": "B/op",
+            "extra": "82 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "82 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 13066660,
+            "unit": "ns/op\t 5842814 B/op\t  161011 allocs/op",
+            "extra": "91 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 13066660,
+            "unit": "ns/op",
+            "extra": "91 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5842814,
+            "unit": "B/op",
+            "extra": "91 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "91 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 13070766,
+            "unit": "ns/op\t 5842822 B/op\t  161011 allocs/op",
+            "extra": "87 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 13070766,
+            "unit": "ns/op",
+            "extra": "87 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5842822,
+            "unit": "B/op",
+            "extra": "87 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "87 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 13075852,
+            "unit": "ns/op\t 5842811 B/op\t  161011 allocs/op",
+            "extra": "85 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 13075852,
+            "unit": "ns/op",
+            "extra": "85 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5842811,
+            "unit": "B/op",
+            "extra": "85 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "85 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 13049386,
+            "unit": "ns/op\t 5842810 B/op\t  161011 allocs/op",
+            "extra": "91 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 13049386,
+            "unit": "ns/op",
+            "extra": "91 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5842810,
+            "unit": "B/op",
+            "extra": "91 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "91 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 13081837,
+            "unit": "ns/op\t 5842811 B/op\t  161011 allocs/op",
+            "extra": "94 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 13081837,
+            "unit": "ns/op",
+            "extra": "94 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5842811,
+            "unit": "B/op",
+            "extra": "94 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "94 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 13067188,
+            "unit": "ns/op\t 5842814 B/op\t  161011 allocs/op",
+            "extra": "92 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 13067188,
+            "unit": "ns/op",
+            "extra": "92 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5842814,
+            "unit": "B/op",
+            "extra": "92 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "92 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 13116456,
+            "unit": "ns/op\t 5842812 B/op\t  161011 allocs/op",
+            "extra": "90 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 13116456,
+            "unit": "ns/op",
+            "extra": "90 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5842812,
+            "unit": "B/op",
+            "extra": "90 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "90 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 13113511,
+            "unit": "ns/op\t 5842812 B/op\t  161011 allocs/op",
+            "extra": "86 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 13113511,
+            "unit": "ns/op",
+            "extra": "86 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5842812,
+            "unit": "B/op",
+            "extra": "86 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "86 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 13243439,
+            "unit": "ns/op\t 5842831 B/op\t  161011 allocs/op",
+            "extra": "85 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 13243439,
+            "unit": "ns/op",
+            "extra": "85 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5842831,
+            "unit": "B/op",
+            "extra": "85 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "85 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 13155294,
+            "unit": "ns/op\t 5842820 B/op\t  161011 allocs/op",
+            "extra": "92 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 13155294,
+            "unit": "ns/op",
+            "extra": "92 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5842820,
+            "unit": "B/op",
+            "extra": "92 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "92 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 13382100,
+            "unit": "ns/op\t 5812863 B/op\t  161011 allocs/op",
+            "extra": "84 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 13382100,
+            "unit": "ns/op",
+            "extra": "84 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5812863,
+            "unit": "B/op",
+            "extra": "84 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "84 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 13419407,
+            "unit": "ns/op\t 5812861 B/op\t  161011 allocs/op",
+            "extra": "85 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 13419407,
+            "unit": "ns/op",
+            "extra": "85 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5812861,
+            "unit": "B/op",
+            "extra": "85 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "85 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 13407910,
+            "unit": "ns/op\t 5812856 B/op\t  161011 allocs/op",
+            "extra": "88 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 13407910,
+            "unit": "ns/op",
+            "extra": "88 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5812856,
+            "unit": "B/op",
+            "extra": "88 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "88 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 13412034,
+            "unit": "ns/op\t 5812868 B/op\t  161011 allocs/op",
+            "extra": "86 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 13412034,
+            "unit": "ns/op",
+            "extra": "86 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5812868,
+            "unit": "B/op",
+            "extra": "86 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "86 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 13588348,
+            "unit": "ns/op\t 5812856 B/op\t  161011 allocs/op",
+            "extra": "92 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 13588348,
+            "unit": "ns/op",
+            "extra": "92 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5812856,
+            "unit": "B/op",
+            "extra": "92 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "92 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 13379553,
+            "unit": "ns/op\t 5812868 B/op\t  161011 allocs/op",
+            "extra": "91 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 13379553,
+            "unit": "ns/op",
+            "extra": "91 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5812868,
+            "unit": "B/op",
+            "extra": "91 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "91 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 13344871,
+            "unit": "ns/op\t 5812863 B/op\t  161011 allocs/op",
+            "extra": "90 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 13344871,
+            "unit": "ns/op",
+            "extra": "90 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5812863,
+            "unit": "B/op",
+            "extra": "90 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "90 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 13403191,
+            "unit": "ns/op\t 5812874 B/op\t  161011 allocs/op",
+            "extra": "91 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 13403191,
+            "unit": "ns/op",
+            "extra": "91 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5812874,
+            "unit": "B/op",
+            "extra": "91 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "91 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 13400737,
+            "unit": "ns/op\t 5812862 B/op\t  161011 allocs/op",
+            "extra": "91 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 13400737,
+            "unit": "ns/op",
+            "extra": "91 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5812862,
+            "unit": "B/op",
+            "extra": "91 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "91 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 13370201,
+            "unit": "ns/op\t 5812861 B/op\t  161011 allocs/op",
+            "extra": "90 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 13370201,
+            "unit": "ns/op",
+            "extra": "90 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 5812861,
+            "unit": "B/op",
+            "extra": "90 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv4_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 161011,
+            "unit": "allocs/op",
+            "extra": "90 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 134951607,
+            "unit": "ns/op\t210563776 B/op\t 2720068 allocs/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 134951607,
+            "unit": "ns/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 210563776,
+            "unit": "B/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 2720068,
+            "unit": "allocs/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 133856434,
+            "unit": "ns/op\t210563846 B/op\t 2720068 allocs/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 133856434,
+            "unit": "ns/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 210563846,
+            "unit": "B/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 2720068,
+            "unit": "allocs/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 134499317,
+            "unit": "ns/op\t210563916 B/op\t 2720069 allocs/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 134499317,
+            "unit": "ns/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 210563916,
+            "unit": "B/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 2720069,
+            "unit": "allocs/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 134404357,
+            "unit": "ns/op\t210563958 B/op\t 2720069 allocs/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 134404357,
+            "unit": "ns/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 210563958,
+            "unit": "B/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 2720069,
+            "unit": "allocs/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 133666677,
+            "unit": "ns/op\t210564042 B/op\t 2720070 allocs/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 133666677,
+            "unit": "ns/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 210564042,
+            "unit": "B/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 2720070,
+            "unit": "allocs/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 133942560,
+            "unit": "ns/op\t210564056 B/op\t 2720070 allocs/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 133942560,
+            "unit": "ns/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 210564056,
+            "unit": "B/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 2720070,
+            "unit": "allocs/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 134008147,
+            "unit": "ns/op\t210563958 B/op\t 2720069 allocs/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 134008147,
+            "unit": "ns/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 210563958,
+            "unit": "B/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 2720069,
+            "unit": "allocs/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 134347733,
+            "unit": "ns/op\t210563958 B/op\t 2720069 allocs/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 134347733,
+            "unit": "ns/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 210563958,
+            "unit": "B/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 2720069,
+            "unit": "allocs/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 134094381,
+            "unit": "ns/op\t210563832 B/op\t 2720068 allocs/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 134094381,
+            "unit": "ns/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 210563832,
+            "unit": "B/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 2720068,
+            "unit": "allocs/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 134107779,
+            "unit": "ns/op\t210563776 B/op\t 2720068 allocs/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 134107779,
+            "unit": "ns/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 210563776,
+            "unit": "B/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 2720068,
+            "unit": "allocs/op",
+            "extra": "8 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 116667441,
+            "unit": "ns/op\t121013584 B/op\t 1600691 allocs/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 116667441,
+            "unit": "ns/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 121013584,
+            "unit": "B/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1600691,
+            "unit": "allocs/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 118269074,
+            "unit": "ns/op\t121013584 B/op\t 1600691 allocs/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 118269074,
+            "unit": "ns/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 121013584,
+            "unit": "B/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1600691,
+            "unit": "allocs/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 122754336,
+            "unit": "ns/op\t121013584 B/op\t 1600691 allocs/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 122754336,
+            "unit": "ns/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 121013584,
+            "unit": "B/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1600691,
+            "unit": "allocs/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 119406603,
+            "unit": "ns/op\t121013596 B/op\t 1600691 allocs/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 119406603,
+            "unit": "ns/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 121013596,
+            "unit": "B/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1600691,
+            "unit": "allocs/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 121615455,
+            "unit": "ns/op\t121013584 B/op\t 1600691 allocs/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 121615455,
+            "unit": "ns/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 121013584,
+            "unit": "B/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1600691,
+            "unit": "allocs/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 120342856,
+            "unit": "ns/op\t121013584 B/op\t 1600691 allocs/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 120342856,
+            "unit": "ns/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 121013584,
+            "unit": "B/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1600691,
+            "unit": "allocs/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 122924273,
+            "unit": "ns/op\t121013584 B/op\t 1600691 allocs/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 122924273,
+            "unit": "ns/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 121013584,
+            "unit": "B/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1600691,
+            "unit": "allocs/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 125184654,
+            "unit": "ns/op\t121013584 B/op\t 1600691 allocs/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 125184654,
+            "unit": "ns/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 121013584,
+            "unit": "B/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1600691,
+            "unit": "allocs/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 119979195,
+            "unit": "ns/op\t121013596 B/op\t 1600691 allocs/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 119979195,
+            "unit": "ns/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 121013596,
+            "unit": "B/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1600691,
+            "unit": "allocs/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 121489455,
+            "unit": "ns/op\t121013584 B/op\t 1600691 allocs/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 121489455,
+            "unit": "ns/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 121013584,
+            "unit": "B/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1600691,
+            "unit": "allocs/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 193890351,
+            "unit": "ns/op\t333445141 B/op\t 2720073 allocs/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 193890351,
+            "unit": "ns/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 333445141,
+            "unit": "B/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 2720073,
+            "unit": "allocs/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 191064620,
+            "unit": "ns/op\t333444917 B/op\t 2720071 allocs/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 191064620,
+            "unit": "ns/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 333444917,
+            "unit": "B/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 2720071,
+            "unit": "allocs/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 193696950,
+            "unit": "ns/op\t333444954 B/op\t 2720071 allocs/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 193696950,
+            "unit": "ns/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 333444954,
+            "unit": "B/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 2720071,
+            "unit": "allocs/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 193543102,
+            "unit": "ns/op\t333445234 B/op\t 2720074 allocs/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 193543102,
+            "unit": "ns/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 333445234,
+            "unit": "B/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 2720074,
+            "unit": "allocs/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 193952684,
+            "unit": "ns/op\t333444842 B/op\t 2720070 allocs/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 193952684,
+            "unit": "ns/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 333444842,
+            "unit": "B/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 2720070,
+            "unit": "allocs/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 193484396,
+            "unit": "ns/op\t333444693 B/op\t 2720069 allocs/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 193484396,
+            "unit": "ns/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 333444693,
+            "unit": "B/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 2720069,
+            "unit": "allocs/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 192816235,
+            "unit": "ns/op\t333445048 B/op\t 2720072 allocs/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 192816235,
+            "unit": "ns/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 333445048,
+            "unit": "B/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 2720072,
+            "unit": "allocs/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 191821132,
+            "unit": "ns/op\t333445010 B/op\t 2720072 allocs/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 191821132,
+            "unit": "ns/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 333445010,
+            "unit": "B/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 2720072,
+            "unit": "allocs/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 193271972,
+            "unit": "ns/op\t333445010 B/op\t 2720072 allocs/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 193271972,
+            "unit": "ns/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 333445010,
+            "unit": "B/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 2720072,
+            "unit": "allocs/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 194530936,
+            "unit": "ns/op\t333444805 B/op\t 2720070 allocs/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 194530936,
+            "unit": "ns/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 333444805,
+            "unit": "B/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 2720070,
+            "unit": "allocs/op",
+            "extra": "6 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 122628104,
+            "unit": "ns/op\t121013584 B/op\t 1600691 allocs/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 122628104,
+            "unit": "ns/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 121013584,
+            "unit": "B/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1600691,
+            "unit": "allocs/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 124730620,
+            "unit": "ns/op\t121013596 B/op\t 1600691 allocs/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 124730620,
+            "unit": "ns/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 121013596,
+            "unit": "B/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1600691,
+            "unit": "allocs/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 116898948,
+            "unit": "ns/op\t121013584 B/op\t 1600691 allocs/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 116898948,
+            "unit": "ns/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 121013584,
+            "unit": "B/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1600691,
+            "unit": "allocs/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 122748459,
+            "unit": "ns/op\t121013596 B/op\t 1600691 allocs/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 122748459,
+            "unit": "ns/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 121013596,
+            "unit": "B/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1600691,
+            "unit": "allocs/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 117567726,
+            "unit": "ns/op\t121013584 B/op\t 1600691 allocs/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 117567726,
+            "unit": "ns/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 121013584,
+            "unit": "B/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1600691,
+            "unit": "allocs/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 118963359,
+            "unit": "ns/op\t121013584 B/op\t 1600691 allocs/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 118963359,
+            "unit": "ns/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 121013584,
+            "unit": "B/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1600691,
+            "unit": "allocs/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 119003620,
+            "unit": "ns/op\t121013584 B/op\t 1600691 allocs/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 119003620,
+            "unit": "ns/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 121013584,
+            "unit": "B/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1600691,
+            "unit": "allocs/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 117497664,
+            "unit": "ns/op\t121013584 B/op\t 1600691 allocs/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 117497664,
+            "unit": "ns/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 121013584,
+            "unit": "B/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1600691,
+            "unit": "allocs/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 128938416,
+            "unit": "ns/op\t121013596 B/op\t 1600691 allocs/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 128938416,
+            "unit": "ns/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 121013596,
+            "unit": "B/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1600691,
+            "unit": "allocs/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 120670307,
+            "unit": "ns/op\t121013584 B/op\t 1600691 allocs/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 120670307,
+            "unit": "ns/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 121013584,
+            "unit": "B/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Uncompressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1600691,
+            "unit": "allocs/op",
+            "extra": "9 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 43911672,
+            "unit": "ns/op\t18908012 B/op\t  480067 allocs/op",
+            "extra": "26 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 43911672,
+            "unit": "ns/op",
+            "extra": "26 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 18908012,
+            "unit": "B/op",
+            "extra": "26 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 480067,
+            "unit": "allocs/op",
+            "extra": "26 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 43938926,
+            "unit": "ns/op\t18908007 B/op\t  480067 allocs/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 43938926,
+            "unit": "ns/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 18908007,
+            "unit": "B/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 480067,
+            "unit": "allocs/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 43638023,
+            "unit": "ns/op\t18908008 B/op\t  480067 allocs/op",
+            "extra": "26 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 43638023,
+            "unit": "ns/op",
+            "extra": "26 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 18908008,
+            "unit": "B/op",
+            "extra": "26 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 480067,
+            "unit": "allocs/op",
+            "extra": "26 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 44452389,
+            "unit": "ns/op\t18908017 B/op\t  480067 allocs/op",
+            "extra": "26 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 44452389,
+            "unit": "ns/op",
+            "extra": "26 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 18908017,
+            "unit": "B/op",
+            "extra": "26 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 480067,
+            "unit": "allocs/op",
+            "extra": "26 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 43883005,
+            "unit": "ns/op\t18908004 B/op\t  480067 allocs/op",
+            "extra": "26 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 43883005,
+            "unit": "ns/op",
+            "extra": "26 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 18908004,
+            "unit": "B/op",
+            "extra": "26 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 480067,
+            "unit": "allocs/op",
+            "extra": "26 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 43492021,
+            "unit": "ns/op\t18908009 B/op\t  480067 allocs/op",
+            "extra": "27 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 43492021,
+            "unit": "ns/op",
+            "extra": "27 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 18908009,
+            "unit": "B/op",
+            "extra": "27 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 480067,
+            "unit": "allocs/op",
+            "extra": "27 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 43704055,
+            "unit": "ns/op\t18908004 B/op\t  480067 allocs/op",
+            "extra": "26 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 43704055,
+            "unit": "ns/op",
+            "extra": "26 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 18908004,
+            "unit": "B/op",
+            "extra": "26 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 480067,
+            "unit": "allocs/op",
+            "extra": "26 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 44697349,
+            "unit": "ns/op\t18908014 B/op\t  480067 allocs/op",
+            "extra": "26 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 44697349,
+            "unit": "ns/op",
+            "extra": "26 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 18908014,
+            "unit": "B/op",
+            "extra": "26 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 480067,
+            "unit": "allocs/op",
+            "extra": "26 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 43537290,
+            "unit": "ns/op\t18908007 B/op\t  480067 allocs/op",
+            "extra": "26 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 43537290,
+            "unit": "ns/op",
+            "extra": "26 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 18908007,
+            "unit": "B/op",
+            "extra": "26 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 480067,
+            "unit": "allocs/op",
+            "extra": "26 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 43637940,
+            "unit": "ns/op\t18908004 B/op\t  480067 allocs/op",
+            "extra": "26 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 43637940,
+            "unit": "ns/op",
+            "extra": "26 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 18908004,
+            "unit": "B/op",
+            "extra": "26 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 480067,
+            "unit": "allocs/op",
+            "extra": "26 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 45310268,
+            "unit": "ns/op\t18908000 B/op\t  480067 allocs/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 45310268,
+            "unit": "ns/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 18908000,
+            "unit": "B/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 480067,
+            "unit": "allocs/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 46670980,
+            "unit": "ns/op\t18908011 B/op\t  480067 allocs/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 46670980,
+            "unit": "ns/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 18908011,
+            "unit": "B/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 480067,
+            "unit": "allocs/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 46265666,
+            "unit": "ns/op\t18908012 B/op\t  480067 allocs/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 46265666,
+            "unit": "ns/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 18908012,
+            "unit": "B/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 480067,
+            "unit": "allocs/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 46106277,
+            "unit": "ns/op\t18908004 B/op\t  480067 allocs/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 46106277,
+            "unit": "ns/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 18908004,
+            "unit": "B/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 480067,
+            "unit": "allocs/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 45736217,
+            "unit": "ns/op\t18908004 B/op\t  480067 allocs/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 45736217,
+            "unit": "ns/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 18908004,
+            "unit": "B/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 480067,
+            "unit": "allocs/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 45628397,
+            "unit": "ns/op\t18908009 B/op\t  480067 allocs/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 45628397,
+            "unit": "ns/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 18908009,
+            "unit": "B/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 480067,
+            "unit": "allocs/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 45986833,
+            "unit": "ns/op\t18907998 B/op\t  480067 allocs/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 45986833,
+            "unit": "ns/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 18907998,
+            "unit": "B/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 480067,
+            "unit": "allocs/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 45683838,
+            "unit": "ns/op\t18908000 B/op\t  480067 allocs/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 45683838,
+            "unit": "ns/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 18908000,
+            "unit": "B/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 480067,
+            "unit": "allocs/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 45517450,
+            "unit": "ns/op\t18908003 B/op\t  480067 allocs/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 45517450,
+            "unit": "ns/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 18908003,
+            "unit": "B/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 480067,
+            "unit": "allocs/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 45376492,
+            "unit": "ns/op\t18908000 B/op\t  480067 allocs/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 45376492,
+            "unit": "ns/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 18908000,
+            "unit": "B/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 480067,
+            "unit": "allocs/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 47591951,
+            "unit": "ns/op\t26587240 B/op\t  480067 allocs/op",
+            "extra": "22 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 47591951,
+            "unit": "ns/op",
+            "extra": "22 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 26587240,
+            "unit": "B/op",
+            "extra": "22 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 480067,
+            "unit": "allocs/op",
+            "extra": "22 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 48137537,
+            "unit": "ns/op\t26587246 B/op\t  480067 allocs/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 48137537,
+            "unit": "ns/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 26587246,
+            "unit": "B/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 480067,
+            "unit": "allocs/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 47542000,
+            "unit": "ns/op\t26587247 B/op\t  480067 allocs/op",
+            "extra": "22 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 47542000,
+            "unit": "ns/op",
+            "extra": "22 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 26587247,
+            "unit": "B/op",
+            "extra": "22 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 480067,
+            "unit": "allocs/op",
+            "extra": "22 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 47822362,
+            "unit": "ns/op\t26587252 B/op\t  480067 allocs/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 47822362,
+            "unit": "ns/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 26587252,
+            "unit": "B/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 480067,
+            "unit": "allocs/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 47694526,
+            "unit": "ns/op\t26587238 B/op\t  480067 allocs/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 47694526,
+            "unit": "ns/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 26587238,
+            "unit": "B/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 480067,
+            "unit": "allocs/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 47409722,
+            "unit": "ns/op\t26587248 B/op\t  480067 allocs/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 47409722,
+            "unit": "ns/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 26587248,
+            "unit": "B/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 480067,
+            "unit": "allocs/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 49151550,
+            "unit": "ns/op\t26587246 B/op\t  480067 allocs/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 49151550,
+            "unit": "ns/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 26587246,
+            "unit": "B/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 480067,
+            "unit": "allocs/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 47988388,
+            "unit": "ns/op\t26587247 B/op\t  480067 allocs/op",
+            "extra": "22 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 47988388,
+            "unit": "ns/op",
+            "extra": "22 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 26587247,
+            "unit": "B/op",
+            "extra": "22 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 480067,
+            "unit": "allocs/op",
+            "extra": "22 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 48064634,
+            "unit": "ns/op\t26587255 B/op\t  480067 allocs/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 48064634,
+            "unit": "ns/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 26587255,
+            "unit": "B/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 480067,
+            "unit": "allocs/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 48329445,
+            "unit": "ns/op\t26587257 B/op\t  480067 allocs/op",
+            "extra": "22 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 48329445,
+            "unit": "ns/op",
+            "extra": "22 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 26587257,
+            "unit": "B/op",
+            "extra": "22 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 480067,
+            "unit": "allocs/op",
+            "extra": "22 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 46405809,
+            "unit": "ns/op\t18908009 B/op\t  480067 allocs/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 46405809,
+            "unit": "ns/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 18908009,
+            "unit": "B/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 480067,
+            "unit": "allocs/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 46612206,
+            "unit": "ns/op\t18908021 B/op\t  480067 allocs/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 46612206,
+            "unit": "ns/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 18908021,
+            "unit": "B/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 480067,
+            "unit": "allocs/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 46478247,
+            "unit": "ns/op\t18908010 B/op\t  480067 allocs/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 46478247,
+            "unit": "ns/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 18908010,
+            "unit": "B/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 480067,
+            "unit": "allocs/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 45982023,
+            "unit": "ns/op\t18908004 B/op\t  480067 allocs/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 45982023,
+            "unit": "ns/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 18908004,
+            "unit": "B/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 480067,
+            "unit": "allocs/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 45978275,
+            "unit": "ns/op\t18908000 B/op\t  480067 allocs/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 45978275,
+            "unit": "ns/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 18908000,
+            "unit": "B/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 480067,
+            "unit": "allocs/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 45912460,
+            "unit": "ns/op\t18908011 B/op\t  480067 allocs/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 45912460,
+            "unit": "ns/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 18908011,
+            "unit": "B/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 480067,
+            "unit": "allocs/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 46537188,
+            "unit": "ns/op\t18908003 B/op\t  480067 allocs/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 46537188,
+            "unit": "ns/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 18908003,
+            "unit": "B/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 480067,
+            "unit": "allocs/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 46012012,
+            "unit": "ns/op\t18908018 B/op\t  480067 allocs/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 46012012,
+            "unit": "ns/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 18908018,
+            "unit": "B/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 480067,
+            "unit": "allocs/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 46098839,
+            "unit": "ns/op\t18908012 B/op\t  480067 allocs/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 46098839,
+            "unit": "ns/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 18908012,
+            "unit": "B/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 480067,
+            "unit": "allocs/op",
+            "extra": "24 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 46861364,
+            "unit": "ns/op\t18908023 B/op\t  480067 allocs/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 46861364,
+            "unit": "ns/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 18908023,
+            "unit": "B/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_IPv6_Compressed_5k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 480067,
+            "unit": "allocs/op",
+            "extra": "25 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1865062,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "651 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1865062,
+            "unit": "ns/op",
+            "extra": "651 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "651 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "651 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1866345,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "637 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1866345,
+            "unit": "ns/op",
+            "extra": "637 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "637 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "637 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1889831,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "636 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1889831,
+            "unit": "ns/op",
+            "extra": "636 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "636 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "636 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1798231,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "662 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1798231,
+            "unit": "ns/op",
+            "extra": "662 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "662 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "662 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1885717,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "636 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1885717,
+            "unit": "ns/op",
+            "extra": "636 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "636 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "636 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1887188,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "632 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1887188,
+            "unit": "ns/op",
+            "extra": "632 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "632 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "632 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1867852,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "639 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1867852,
+            "unit": "ns/op",
+            "extra": "639 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "639 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "639 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1882265,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "630 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1882265,
+            "unit": "ns/op",
+            "extra": "630 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "630 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "630 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1878536,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "643 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1878536,
+            "unit": "ns/op",
+            "extra": "643 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "643 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "643 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1890406,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "628 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1890406,
+            "unit": "ns/op",
+            "extra": "628 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "628 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "628 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10172883,
+            "unit": "ns/op\t  600002 B/op\t   25000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10172883,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600002,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10266398,
+            "unit": "ns/op\t  600004 B/op\t   25000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10266398,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600004,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10219214,
+            "unit": "ns/op\t  600002 B/op\t   25000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10219214,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600002,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10217593,
+            "unit": "ns/op\t  600001 B/op\t   25000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10217593,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600001,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10238557,
+            "unit": "ns/op\t  600004 B/op\t   25000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10238557,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600004,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10242270,
+            "unit": "ns/op\t  600010 B/op\t   25000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10242270,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600010,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10303311,
+            "unit": "ns/op\t  600011 B/op\t   25000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10303311,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600011,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10221968,
+            "unit": "ns/op\t  600001 B/op\t   25000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10221968,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600001,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10231683,
+            "unit": "ns/op\t  600008 B/op\t   25000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10231683,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600008,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10199404,
+            "unit": "ns/op\t  600007 B/op\t   25000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10199404,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600007,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1899166,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "620 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1899166,
+            "unit": "ns/op",
+            "extra": "620 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "620 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "620 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1889075,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "637 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1889075,
+            "unit": "ns/op",
+            "extra": "637 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "637 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "637 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1886842,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "632 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1886842,
+            "unit": "ns/op",
+            "extra": "632 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "632 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "632 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1892408,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "633 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1892408,
+            "unit": "ns/op",
+            "extra": "633 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "633 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "633 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1856434,
+            "unit": "ns/op\t  600001 B/op\t   25000 allocs/op",
+            "extra": "633 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1856434,
+            "unit": "ns/op",
+            "extra": "633 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600001,
+            "unit": "B/op",
+            "extra": "633 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "633 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1893129,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "628 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1893129,
+            "unit": "ns/op",
+            "extra": "628 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "628 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "628 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1900362,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "615 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1900362,
+            "unit": "ns/op",
+            "extra": "615 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "615 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "615 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1887578,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "633 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1887578,
+            "unit": "ns/op",
+            "extra": "633 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "633 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "633 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1892713,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "634 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1892713,
+            "unit": "ns/op",
+            "extra": "634 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "634 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "634 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1879003,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "634 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1879003,
+            "unit": "ns/op",
+            "extra": "634 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "634 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "634 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10431138,
+            "unit": "ns/op\t  600003 B/op\t   25000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10431138,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600003,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10426473,
+            "unit": "ns/op\t  600008 B/op\t   25000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10426473,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600008,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10440366,
+            "unit": "ns/op\t  600006 B/op\t   25000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10440366,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600006,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10413945,
+            "unit": "ns/op\t  600006 B/op\t   25000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10413945,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600006,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10437809,
+            "unit": "ns/op\t  600008 B/op\t   25000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10437809,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600008,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10433291,
+            "unit": "ns/op\t  600005 B/op\t   25000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10433291,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600005,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10412342,
+            "unit": "ns/op\t  600002 B/op\t   25000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10412342,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600002,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10444483,
+            "unit": "ns/op\t  600011 B/op\t   25000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10444483,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600011,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10423882,
+            "unit": "ns/op\t  600002 B/op\t   25000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10423882,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600002,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10438612,
+            "unit": "ns/op\t  600010 B/op\t   25000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10438612,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600010,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1334669,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "891 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1334669,
+            "unit": "ns/op",
+            "extra": "891 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "891 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "891 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1342997,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "896 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1342997,
+            "unit": "ns/op",
+            "extra": "896 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "896 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "896 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1352457,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "888 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1352457,
+            "unit": "ns/op",
+            "extra": "888 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "888 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "888 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1350612,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "886 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1350612,
+            "unit": "ns/op",
+            "extra": "886 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "886 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "886 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1348647,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "895 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1348647,
+            "unit": "ns/op",
+            "extra": "895 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "895 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "895 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1350090,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "865 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1350090,
+            "unit": "ns/op",
+            "extra": "865 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "865 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "865 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1344692,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "888 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1344692,
+            "unit": "ns/op",
+            "extra": "888 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "888 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "888 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1352806,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "892 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1352806,
+            "unit": "ns/op",
+            "extra": "892 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "892 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "892 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1353497,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "878 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1353497,
+            "unit": "ns/op",
+            "extra": "878 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "878 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "878 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1347702,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "885 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1347702,
+            "unit": "ns/op",
+            "extra": "885 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "885 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "885 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 18435304,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 18435304,
+            "unit": "ns/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 18558819,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 18558819,
+            "unit": "ns/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 18247398,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 18247398,
+            "unit": "ns/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 18309702,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "63 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 18309702,
+            "unit": "ns/op",
+            "extra": "63 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "63 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "63 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 18728581,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "66 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 18728581,
+            "unit": "ns/op",
+            "extra": "66 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "66 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "66 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 18470829,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 18470829,
+            "unit": "ns/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 18597446,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "62 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 18597446,
+            "unit": "ns/op",
+            "extra": "62 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "62 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "62 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 18518066,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 18518066,
+            "unit": "ns/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 18444295,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 18444295,
+            "unit": "ns/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 18297966,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "62 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 18297966,
+            "unit": "ns/op",
+            "extra": "62 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "62 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "62 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1292668,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "896 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1292668,
+            "unit": "ns/op",
+            "extra": "896 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "896 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "896 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1285575,
+            "unit": "ns/op\t  600001 B/op\t   25000 allocs/op",
+            "extra": "913 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1285575,
+            "unit": "ns/op",
+            "extra": "913 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600001,
+            "unit": "B/op",
+            "extra": "913 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "913 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1287841,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "924 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1287841,
+            "unit": "ns/op",
+            "extra": "924 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "924 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "924 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1290479,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "906 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1290479,
+            "unit": "ns/op",
+            "extra": "906 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "906 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "906 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1289358,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "916 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1289358,
+            "unit": "ns/op",
+            "extra": "916 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "916 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "916 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1288120,
+            "unit": "ns/op\t  600001 B/op\t   25000 allocs/op",
+            "extra": "936 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1288120,
+            "unit": "ns/op",
+            "extra": "936 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600001,
+            "unit": "B/op",
+            "extra": "936 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "936 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1281576,
+            "unit": "ns/op\t  600001 B/op\t   25000 allocs/op",
+            "extra": "933 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1281576,
+            "unit": "ns/op",
+            "extra": "933 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600001,
+            "unit": "B/op",
+            "extra": "933 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "933 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1286967,
+            "unit": "ns/op\t  600001 B/op\t   25000 allocs/op",
+            "extra": "920 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1286967,
+            "unit": "ns/op",
+            "extra": "920 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600001,
+            "unit": "B/op",
+            "extra": "920 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "920 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1310098,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "904 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1310098,
+            "unit": "ns/op",
+            "extra": "904 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "904 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "904 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1287560,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "932 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1287560,
+            "unit": "ns/op",
+            "extra": "932 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "932 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "932 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 19316734,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 19316734,
+            "unit": "ns/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 18206852,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 18206852,
+            "unit": "ns/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 18494882,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "66 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 18494882,
+            "unit": "ns/op",
+            "extra": "66 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "66 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "66 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 18382367,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 18382367,
+            "unit": "ns/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 18449467,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "63 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 18449467,
+            "unit": "ns/op",
+            "extra": "63 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "63 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "63 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 18329376,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 18329376,
+            "unit": "ns/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 18476076,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "62 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 18476076,
+            "unit": "ns/op",
+            "extra": "62 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "62 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "62 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 18309533,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "62 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 18309533,
+            "unit": "ns/op",
+            "extra": "62 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "62 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "62 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 19132363,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 19132363,
+            "unit": "ns/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 18451458,
+            "unit": "ns/op\t  600000 B/op\t   25000 allocs/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 18451458,
+            "unit": "ns/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 600000,
+            "unit": "B/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Uncompressed_25k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 25000,
+            "unit": "allocs/op",
+            "extra": "64 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 9992163,
+            "unit": "ns/op\t 1200008 B/op\t   50000 allocs/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 9992163,
+            "unit": "ns/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200008,
+            "unit": "B/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10009686,
+            "unit": "ns/op\t 1200015 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10009686,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200015,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10103400,
+            "unit": "ns/op\t 1200003 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10103400,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200003,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 9997918,
+            "unit": "ns/op\t 1200008 B/op\t   50000 allocs/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 9997918,
+            "unit": "ns/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200008,
+            "unit": "B/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10019252,
+            "unit": "ns/op\t 1200016 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10019252,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200016,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10004795,
+            "unit": "ns/op\t 1200012 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10004795,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200012,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10009825,
+            "unit": "ns/op\t 1200007 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10009825,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200007,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10011666,
+            "unit": "ns/op\t 1200012 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10011666,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200012,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10007904,
+            "unit": "ns/op\t 1200010 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10007904,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200010,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10026899,
+            "unit": "ns/op\t 1200005 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10026899,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200005,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10099180,
+            "unit": "ns/op\t 1200019 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10099180,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200019,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 9982116,
+            "unit": "ns/op\t 1200014 B/op\t   50000 allocs/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 9982116,
+            "unit": "ns/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200014,
+            "unit": "B/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10028712,
+            "unit": "ns/op\t 1200010 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10028712,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200010,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10006733,
+            "unit": "ns/op\t 1200015 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10006733,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200015,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10176038,
+            "unit": "ns/op\t 1200014 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10176038,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200014,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10018609,
+            "unit": "ns/op\t 1200011 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10018609,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200011,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10025561,
+            "unit": "ns/op\t 1200017 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10025561,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200017,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10018335,
+            "unit": "ns/op\t 1200012 B/op\t   50000 allocs/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10018335,
+            "unit": "ns/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200012,
+            "unit": "B/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10082664,
+            "unit": "ns/op\t 1200013 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10082664,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200013,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10027672,
+            "unit": "ns/op\t 1200010 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10027672,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200010,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 9994531,
+            "unit": "ns/op\t 1200014 B/op\t   50000 allocs/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 9994531,
+            "unit": "ns/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200014,
+            "unit": "B/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10004331,
+            "unit": "ns/op\t 1200005 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10004331,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200005,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10002398,
+            "unit": "ns/op\t 1200014 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10002398,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200014,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 9963828,
+            "unit": "ns/op\t 1200007 B/op\t   50000 allocs/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 9963828,
+            "unit": "ns/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200007,
+            "unit": "B/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 9975012,
+            "unit": "ns/op\t 1200009 B/op\t   50000 allocs/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 9975012,
+            "unit": "ns/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200009,
+            "unit": "B/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 9998318,
+            "unit": "ns/op\t 1200013 B/op\t   50000 allocs/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 9998318,
+            "unit": "ns/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200013,
+            "unit": "B/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 9972203,
+            "unit": "ns/op\t 1200010 B/op\t   50000 allocs/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 9972203,
+            "unit": "ns/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200010,
+            "unit": "B/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 9984699,
+            "unit": "ns/op\t 1200013 B/op\t   50000 allocs/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 9984699,
+            "unit": "ns/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200013,
+            "unit": "B/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10050697,
+            "unit": "ns/op\t 1200006 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10050697,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200006,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 9980663,
+            "unit": "ns/op\t 1200006 B/op\t   50000 allocs/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 9980663,
+            "unit": "ns/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200006,
+            "unit": "B/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10073752,
+            "unit": "ns/op\t 1200010 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10073752,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200010,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10031956,
+            "unit": "ns/op\t 1200006 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10031956,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200006,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10057510,
+            "unit": "ns/op\t 1200010 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10057510,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200010,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10004037,
+            "unit": "ns/op\t 1200011 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10004037,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200011,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10025227,
+            "unit": "ns/op\t 1200006 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10025227,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200006,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10006697,
+            "unit": "ns/op\t 1200010 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10006697,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200010,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10056627,
+            "unit": "ns/op\t 1200014 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10056627,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200014,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10051651,
+            "unit": "ns/op\t 1200015 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10051651,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200015,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10061379,
+            "unit": "ns/op\t 1200007 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10061379,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200007,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 10021382,
+            "unit": "ns/op\t 1200014 B/op\t   50000 allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 10021382,
+            "unit": "ns/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200014,
+            "unit": "B/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "100 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 25191705,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "44 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 25191705,
+            "unit": "ns/op",
+            "extra": "44 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "44 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "44 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 25565066,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 25565066,
+            "unit": "ns/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 25629299,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 25629299,
+            "unit": "ns/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 25531532,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "44 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 25531532,
+            "unit": "ns/op",
+            "extra": "44 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "44 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "44 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 26603570,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "44 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 26603570,
+            "unit": "ns/op",
+            "extra": "44 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "44 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "44 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 25132227,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 25132227,
+            "unit": "ns/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 24876672,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 24876672,
+            "unit": "ns/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 25535831,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 25535831,
+            "unit": "ns/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 24745235,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 24745235,
+            "unit": "ns/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 25243893,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 25243893,
+            "unit": "ns/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 25756815,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 25756815,
+            "unit": "ns/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 25689080,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 25689080,
+            "unit": "ns/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 24969999,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 24969999,
+            "unit": "ns/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 26073069,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 26073069,
+            "unit": "ns/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 25342281,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 25342281,
+            "unit": "ns/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 25351102,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 25351102,
+            "unit": "ns/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 26315689,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 26315689,
+            "unit": "ns/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 27190203,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 27190203,
+            "unit": "ns/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 25601041,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 25601041,
+            "unit": "ns/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 25080482,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 25080482,
+            "unit": "ns/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 24081604,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 24081604,
+            "unit": "ns/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 23857172,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 23857172,
+            "unit": "ns/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 24663879,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 24663879,
+            "unit": "ns/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 24035484,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 24035484,
+            "unit": "ns/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 24304106,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 24304106,
+            "unit": "ns/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 24895773,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 24895773,
+            "unit": "ns/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 24364332,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 24364332,
+            "unit": "ns/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 24312505,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 24312505,
+            "unit": "ns/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 25058257,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 25058257,
+            "unit": "ns/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 24082154,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 24082154,
+            "unit": "ns/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 25509133,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "44 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 25509133,
+            "unit": "ns/op",
+            "extra": "44 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "44 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "44 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 26250733,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 26250733,
+            "unit": "ns/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 25074614,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 25074614,
+            "unit": "ns/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 25127518,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 25127518,
+            "unit": "ns/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 26117527,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 26117527,
+            "unit": "ns/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 26388396,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 26388396,
+            "unit": "ns/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 25470277,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 25470277,
+            "unit": "ns/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 25022911,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 25022911,
+            "unit": "ns/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "45 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 25341742,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 25341742,
+            "unit": "ns/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 26342361,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 26342361,
+            "unit": "ns/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "46 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 3160865,
+            "unit": "ns/op\t 1200002 B/op\t   50000 allocs/op",
+            "extra": "380 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 3160865,
+            "unit": "ns/op",
+            "extra": "380 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200002,
+            "unit": "B/op",
+            "extra": "380 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "380 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 3156412,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "378 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 3156412,
+            "unit": "ns/op",
+            "extra": "378 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "378 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "378 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 3145270,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "380 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 3145270,
+            "unit": "ns/op",
+            "extra": "380 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "380 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "380 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 3148091,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "379 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 3148091,
+            "unit": "ns/op",
+            "extra": "379 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "379 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "379 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 3222173,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "379 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 3222173,
+            "unit": "ns/op",
+            "extra": "379 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "379 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "379 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 3148831,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "379 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 3148831,
+            "unit": "ns/op",
+            "extra": "379 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "379 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "379 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 3144926,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "380 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 3144926,
+            "unit": "ns/op",
+            "extra": "380 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "380 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "380 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 3150498,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "379 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 3150498,
+            "unit": "ns/op",
+            "extra": "379 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "379 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "379 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 3156739,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "376 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 3156739,
+            "unit": "ns/op",
+            "extra": "376 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "376 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "376 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 3142144,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "381 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 3142144,
+            "unit": "ns/op",
+            "extra": "381 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "381 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "381 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 3164849,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "378 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 3164849,
+            "unit": "ns/op",
+            "extra": "378 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "378 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "378 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 3152288,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "378 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 3152288,
+            "unit": "ns/op",
+            "extra": "378 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "378 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "378 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 3157975,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "378 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 3157975,
+            "unit": "ns/op",
+            "extra": "378 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "378 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "378 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 3150564,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "378 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 3150564,
+            "unit": "ns/op",
+            "extra": "378 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "378 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "378 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 3195951,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "379 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 3195951,
+            "unit": "ns/op",
+            "extra": "379 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "379 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "379 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 3162133,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "378 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 3162133,
+            "unit": "ns/op",
+            "extra": "378 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "378 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "378 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 3161409,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "378 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 3161409,
+            "unit": "ns/op",
+            "extra": "378 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "378 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "378 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 3167337,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "379 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 3167337,
+            "unit": "ns/op",
+            "extra": "379 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "379 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "379 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 3151986,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "380 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 3151986,
+            "unit": "ns/op",
+            "extra": "380 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "380 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "380 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 3158008,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "376 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 3158008,
+            "unit": "ns/op",
+            "extra": "376 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "376 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "376 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 3120135,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "382 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 3120135,
+            "unit": "ns/op",
+            "extra": "382 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "382 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "382 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 3124253,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "382 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 3124253,
+            "unit": "ns/op",
+            "extra": "382 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "382 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "382 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 3129700,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "382 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 3129700,
+            "unit": "ns/op",
+            "extra": "382 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "382 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "382 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 3118645,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "381 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 3118645,
+            "unit": "ns/op",
+            "extra": "381 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "381 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "381 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 3122951,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "379 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 3122951,
+            "unit": "ns/op",
+            "extra": "379 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "379 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "379 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 3121897,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "384 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 3121897,
+            "unit": "ns/op",
+            "extra": "384 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "384 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "384 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 3128230,
+            "unit": "ns/op\t 1200001 B/op\t   50000 allocs/op",
+            "extra": "381 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 3128230,
+            "unit": "ns/op",
+            "extra": "381 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200001,
+            "unit": "B/op",
+            "extra": "381 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "381 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 3117974,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "382 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 3117974,
+            "unit": "ns/op",
+            "extra": "382 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "382 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "382 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 3121214,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "382 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 3121214,
+            "unit": "ns/op",
+            "extra": "382 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "382 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "382 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 3124205,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "384 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 3124205,
+            "unit": "ns/op",
+            "extra": "384 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "384 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "384 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 3150693,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "378 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 3150693,
+            "unit": "ns/op",
+            "extra": "378 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "378 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "378 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 3164191,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "379 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 3164191,
+            "unit": "ns/op",
+            "extra": "379 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "379 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "379 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 3160933,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "376 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 3160933,
+            "unit": "ns/op",
+            "extra": "376 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "376 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "376 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 3153476,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "378 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 3153476,
+            "unit": "ns/op",
+            "extra": "378 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "378 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "378 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 3173319,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "376 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 3173319,
+            "unit": "ns/op",
+            "extra": "376 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "376 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "376 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 3153705,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "380 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 3153705,
+            "unit": "ns/op",
+            "extra": "380 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "380 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "380 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 3156863,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "380 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 3156863,
+            "unit": "ns/op",
+            "extra": "380 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "380 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "380 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 3149687,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "379 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 3149687,
+            "unit": "ns/op",
+            "extra": "379 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "379 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "379 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 3149752,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "378 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 3149752,
+            "unit": "ns/op",
+            "extra": "378 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "378 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "378 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 3148126,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "379 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 3148126,
+            "unit": "ns/op",
+            "extra": "379 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "379 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv4_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "379 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2655322,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "446 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2655322,
+            "unit": "ns/op",
+            "extra": "446 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "446 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "446 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2628203,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "444 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2628203,
+            "unit": "ns/op",
+            "extra": "444 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "444 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "444 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2623284,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "447 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2623284,
+            "unit": "ns/op",
+            "extra": "447 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "447 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "447 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2606825,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "445 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2606825,
+            "unit": "ns/op",
+            "extra": "445 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "445 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "445 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2609094,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "446 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2609094,
+            "unit": "ns/op",
+            "extra": "446 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "446 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "446 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2605622,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "448 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2605622,
+            "unit": "ns/op",
+            "extra": "448 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "448 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "448 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2635421,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "446 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2635421,
+            "unit": "ns/op",
+            "extra": "446 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "446 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "446 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2606108,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "448 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2606108,
+            "unit": "ns/op",
+            "extra": "448 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "448 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "448 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2596207,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "445 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2596207,
+            "unit": "ns/op",
+            "extra": "445 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "445 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "445 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2591217,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "451 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2591217,
+            "unit": "ns/op",
+            "extra": "451 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "451 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "451 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2626153,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "447 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2626153,
+            "unit": "ns/op",
+            "extra": "447 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "447 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "447 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2563872,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "445 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2563872,
+            "unit": "ns/op",
+            "extra": "445 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "445 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "445 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2494690,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "442 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2494690,
+            "unit": "ns/op",
+            "extra": "442 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "442 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "442 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2539269,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "553 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2539269,
+            "unit": "ns/op",
+            "extra": "553 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "553 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "553 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2499077,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "446 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2499077,
+            "unit": "ns/op",
+            "extra": "446 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "446 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "446 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2566567,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "439 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2566567,
+            "unit": "ns/op",
+            "extra": "439 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "439 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "439 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2606417,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "447 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2606417,
+            "unit": "ns/op",
+            "extra": "447 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "447 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "447 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2540777,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "445 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2540777,
+            "unit": "ns/op",
+            "extra": "445 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "445 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "445 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2630574,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "441 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2630574,
+            "unit": "ns/op",
+            "extra": "441 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "441 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "441 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2581919,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "444 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2581919,
+            "unit": "ns/op",
+            "extra": "444 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "444 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "444 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2356645,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "445 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2356645,
+            "unit": "ns/op",
+            "extra": "445 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "445 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "445 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2359621,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "446 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2359621,
+            "unit": "ns/op",
+            "extra": "446 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "446 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "446 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2364887,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "450 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2364887,
+            "unit": "ns/op",
+            "extra": "450 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "450 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "450 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2429555,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "553 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2429555,
+            "unit": "ns/op",
+            "extra": "553 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "553 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "553 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2446101,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "514 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2446101,
+            "unit": "ns/op",
+            "extra": "514 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "514 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "514 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2391821,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "436 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2391821,
+            "unit": "ns/op",
+            "extra": "436 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "436 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "436 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2406007,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "558 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2406007,
+            "unit": "ns/op",
+            "extra": "558 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "558 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "558 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2423628,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "553 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2423628,
+            "unit": "ns/op",
+            "extra": "553 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "553 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "553 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2364185,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "445 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2364185,
+            "unit": "ns/op",
+            "extra": "445 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "445 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "445 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2384294,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "446 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2384294,
+            "unit": "ns/op",
+            "extra": "446 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "446 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "446 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2585528,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "452 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2585528,
+            "unit": "ns/op",
+            "extra": "452 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "452 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "452 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2606591,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "451 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2606591,
+            "unit": "ns/op",
+            "extra": "451 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "451 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "451 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2494780,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "441 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2494780,
+            "unit": "ns/op",
+            "extra": "441 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "441 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "441 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2600505,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "450 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2600505,
+            "unit": "ns/op",
+            "extra": "450 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "450 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "450 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2484915,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "446 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2484915,
+            "unit": "ns/op",
+            "extra": "446 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "446 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "446 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2588993,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "447 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2588993,
+            "unit": "ns/op",
+            "extra": "447 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "447 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "447 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2504335,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "445 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2504335,
+            "unit": "ns/op",
+            "extra": "445 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "445 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "445 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2476887,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "452 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2476887,
+            "unit": "ns/op",
+            "extra": "452 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "452 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "452 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2564271,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "452 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2564271,
+            "unit": "ns/op",
+            "extra": "452 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "452 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "452 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2533945,
+            "unit": "ns/op\t 1200000 B/op\t   50000 allocs/op",
+            "extra": "446 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2533945,
+            "unit": "ns/op",
+            "extra": "446 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1200000,
+            "unit": "B/op",
+            "extra": "446 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_IPv6_Compressed_50k_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 50000,
+            "unit": "allocs/op",
+            "extra": "446 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv4_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2946759,
+            "unit": "ns/op\t 1026041 B/op\t   40019 allocs/op",
+            "extra": "404 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv4_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2946759,
+            "unit": "ns/op",
+            "extra": "404 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv4_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1026041,
+            "unit": "B/op",
+            "extra": "404 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv4_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 40019,
+            "unit": "allocs/op",
+            "extra": "404 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv4_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2931699,
+            "unit": "ns/op\t 1026042 B/op\t   40019 allocs/op",
+            "extra": "409 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv4_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2931699,
+            "unit": "ns/op",
+            "extra": "409 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv4_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1026042,
+            "unit": "B/op",
+            "extra": "409 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv4_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 40019,
+            "unit": "allocs/op",
+            "extra": "409 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv4_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2980658,
+            "unit": "ns/op\t 1026042 B/op\t   40019 allocs/op",
+            "extra": "405 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv4_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2980658,
+            "unit": "ns/op",
+            "extra": "405 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv4_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1026042,
+            "unit": "B/op",
+            "extra": "405 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv4_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 40019,
+            "unit": "allocs/op",
+            "extra": "405 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv4_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2937208,
+            "unit": "ns/op\t 1026041 B/op\t   40019 allocs/op",
+            "extra": "406 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv4_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2937208,
+            "unit": "ns/op",
+            "extra": "406 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv4_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1026041,
+            "unit": "B/op",
+            "extra": "406 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv4_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 40019,
+            "unit": "allocs/op",
+            "extra": "406 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv4_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2934669,
+            "unit": "ns/op\t 1026042 B/op\t   40019 allocs/op",
+            "extra": "408 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv4_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2934669,
+            "unit": "ns/op",
+            "extra": "408 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv4_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1026042,
+            "unit": "B/op",
+            "extra": "408 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv4_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 40019,
+            "unit": "allocs/op",
+            "extra": "408 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv4_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2943537,
+            "unit": "ns/op\t 1026042 B/op\t   40019 allocs/op",
+            "extra": "406 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv4_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2943537,
+            "unit": "ns/op",
+            "extra": "406 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv4_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1026042,
+            "unit": "B/op",
+            "extra": "406 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv4_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 40019,
+            "unit": "allocs/op",
+            "extra": "406 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv4_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2936445,
+            "unit": "ns/op\t 1026042 B/op\t   40019 allocs/op",
+            "extra": "406 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv4_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2936445,
+            "unit": "ns/op",
+            "extra": "406 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv4_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1026042,
+            "unit": "B/op",
+            "extra": "406 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv4_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 40019,
+            "unit": "allocs/op",
+            "extra": "406 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv4_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2952205,
+            "unit": "ns/op\t 1026041 B/op\t   40019 allocs/op",
+            "extra": "399 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv4_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2952205,
+            "unit": "ns/op",
+            "extra": "399 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv4_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1026041,
+            "unit": "B/op",
+            "extra": "399 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv4_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 40019,
+            "unit": "allocs/op",
+            "extra": "399 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv4_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2941338,
+            "unit": "ns/op\t 1026041 B/op\t   40019 allocs/op",
+            "extra": "405 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv4_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2941338,
+            "unit": "ns/op",
+            "extra": "405 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv4_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1026041,
+            "unit": "B/op",
+            "extra": "405 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv4_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 40019,
+            "unit": "allocs/op",
+            "extra": "405 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv4_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2937038,
+            "unit": "ns/op\t 1026041 B/op\t   40019 allocs/op",
+            "extra": "410 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv4_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2937038,
+            "unit": "ns/op",
+            "extra": "410 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv4_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 1026041,
+            "unit": "B/op",
+            "extra": "410 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv4_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 40019,
+            "unit": "allocs/op",
+            "extra": "410 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1525068,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "786 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1525068,
+            "unit": "ns/op",
+            "extra": "786 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "786 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "786 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1530959,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "786 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1530959,
+            "unit": "ns/op",
+            "extra": "786 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "786 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "786 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1551280,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "777 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1551280,
+            "unit": "ns/op",
+            "extra": "777 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "777 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "777 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1522990,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "796 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1522990,
+            "unit": "ns/op",
+            "extra": "796 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "796 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "796 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1527925,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "784 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1527925,
+            "unit": "ns/op",
+            "extra": "784 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "784 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "784 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1547922,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "786 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1547922,
+            "unit": "ns/op",
+            "extra": "786 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "786 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "786 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1526288,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "786 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1526288,
+            "unit": "ns/op",
+            "extra": "786 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "786 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "786 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1498046,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "786 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1498046,
+            "unit": "ns/op",
+            "extra": "786 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "786 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "786 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1577428,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "770 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1577428,
+            "unit": "ns/op",
+            "extra": "770 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "770 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "770 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 1539080,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "787 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 1539080,
+            "unit": "ns/op",
+            "extra": "787 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "787 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "787 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 775555,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "1543 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 775555,
+            "unit": "ns/op",
+            "extra": "1543 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "1543 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "1543 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 774392,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "1554 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 774392,
+            "unit": "ns/op",
+            "extra": "1554 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "1554 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "1554 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 771881,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "1548 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 771881,
+            "unit": "ns/op",
+            "extra": "1548 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "1548 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "1548 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 776261,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "1542 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 776261,
+            "unit": "ns/op",
+            "extra": "1542 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "1542 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "1542 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 776627,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "1545 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 776627,
+            "unit": "ns/op",
+            "extra": "1545 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "1545 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "1545 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 772104,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "1556 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 772104,
+            "unit": "ns/op",
+            "extra": "1556 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "1556 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "1556 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 773602,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "1551 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 773602,
+            "unit": "ns/op",
+            "extra": "1551 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "1551 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "1551 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 775058,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "1543 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 775058,
+            "unit": "ns/op",
+            "extra": "1543 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "1543 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "1543 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 775830,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "1552 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 775830,
+            "unit": "ns/op",
+            "extra": "1552 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "1552 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "1552 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 776202,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "1549 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 776202,
+            "unit": "ns/op",
+            "extra": "1549 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "1549 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv4_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "1549 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv6_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 6229722,
+            "unit": "ns/op\t 2741194 B/op\t   40374 allocs/op",
+            "extra": "192 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv6_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 6229722,
+            "unit": "ns/op",
+            "extra": "192 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv6_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 2741194,
+            "unit": "B/op",
+            "extra": "192 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv6_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 40374,
+            "unit": "allocs/op",
+            "extra": "192 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv6_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 6276038,
+            "unit": "ns/op\t 2741194 B/op\t   40374 allocs/op",
+            "extra": "189 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv6_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 6276038,
+            "unit": "ns/op",
+            "extra": "189 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv6_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 2741194,
+            "unit": "B/op",
+            "extra": "189 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv6_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 40374,
+            "unit": "allocs/op",
+            "extra": "189 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv6_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 6242288,
+            "unit": "ns/op\t 2741193 B/op\t   40374 allocs/op",
+            "extra": "192 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv6_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 6242288,
+            "unit": "ns/op",
+            "extra": "192 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv6_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 2741193,
+            "unit": "B/op",
+            "extra": "192 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv6_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 40374,
+            "unit": "allocs/op",
+            "extra": "192 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv6_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 6238168,
+            "unit": "ns/op\t 2741194 B/op\t   40374 allocs/op",
+            "extra": "192 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv6_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 6238168,
+            "unit": "ns/op",
+            "extra": "192 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv6_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 2741194,
+            "unit": "B/op",
+            "extra": "192 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv6_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 40374,
+            "unit": "allocs/op",
+            "extra": "192 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv6_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 6242195,
+            "unit": "ns/op\t 2741193 B/op\t   40374 allocs/op",
+            "extra": "192 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv6_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 6242195,
+            "unit": "ns/op",
+            "extra": "192 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv6_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 2741193,
+            "unit": "B/op",
+            "extra": "192 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv6_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 40374,
+            "unit": "allocs/op",
+            "extra": "192 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv6_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 6247519,
+            "unit": "ns/op\t 2741193 B/op\t   40374 allocs/op",
+            "extra": "192 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv6_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 6247519,
+            "unit": "ns/op",
+            "extra": "192 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv6_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 2741193,
+            "unit": "B/op",
+            "extra": "192 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv6_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 40374,
+            "unit": "allocs/op",
+            "extra": "192 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv6_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 6249839,
+            "unit": "ns/op\t 2741194 B/op\t   40374 allocs/op",
+            "extra": "190 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv6_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 6249839,
+            "unit": "ns/op",
+            "extra": "190 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv6_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 2741194,
+            "unit": "B/op",
+            "extra": "190 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv6_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 40374,
+            "unit": "allocs/op",
+            "extra": "190 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv6_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 6238863,
+            "unit": "ns/op\t 2741194 B/op\t   40374 allocs/op",
+            "extra": "192 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv6_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 6238863,
+            "unit": "ns/op",
+            "extra": "192 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv6_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 2741194,
+            "unit": "B/op",
+            "extra": "192 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv6_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 40374,
+            "unit": "allocs/op",
+            "extra": "192 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv6_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 6293946,
+            "unit": "ns/op\t 2741196 B/op\t   40374 allocs/op",
+            "extra": "190 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv6_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 6293946,
+            "unit": "ns/op",
+            "extra": "190 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv6_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 2741196,
+            "unit": "B/op",
+            "extra": "190 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv6_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 40374,
+            "unit": "allocs/op",
+            "extra": "190 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv6_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 6239230,
+            "unit": "ns/op\t 2741194 B/op\t   40374 allocs/op",
+            "extra": "190 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv6_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 6239230,
+            "unit": "ns/op",
+            "extra": "190 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv6_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 2741194,
+            "unit": "B/op",
+            "extra": "190 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkInsert_ART_IPv6_10k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 40374,
+            "unit": "allocs/op",
+            "extra": "190 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2332507,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "504 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2332507,
+            "unit": "ns/op",
+            "extra": "504 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "504 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "504 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2402679,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "502 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2402679,
+            "unit": "ns/op",
+            "extra": "502 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "502 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "502 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2406599,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "504 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2406599,
+            "unit": "ns/op",
+            "extra": "504 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "504 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "504 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2405473,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "501 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2405473,
+            "unit": "ns/op",
+            "extra": "501 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "501 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "501 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2363400,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "499 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2363400,
+            "unit": "ns/op",
+            "extra": "499 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "499 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "499 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2383818,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "505 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2383818,
+            "unit": "ns/op",
+            "extra": "505 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "505 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "505 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2388527,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "512 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2388527,
+            "unit": "ns/op",
+            "extra": "512 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "512 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "512 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2413743,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "488 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2413743,
+            "unit": "ns/op",
+            "extra": "488 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "488 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "488 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2402737,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "501 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2402737,
+            "unit": "ns/op",
+            "extra": "501 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "501 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "501 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 2398148,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "505 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 2398148,
+            "unit": "ns/op",
+            "extra": "505 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "505 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Hit_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "505 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 789847,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "1519 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 789847,
+            "unit": "ns/op",
+            "extra": "1519 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "1519 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "1519 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 792528,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "1501 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 792528,
+            "unit": "ns/op",
+            "extra": "1501 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "1501 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "1501 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 790934,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "1467 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 790934,
+            "unit": "ns/op",
+            "extra": "1467 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "1467 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "1467 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 788491,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "1522 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 788491,
+            "unit": "ns/op",
+            "extra": "1522 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "1522 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "1522 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 790148,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "1519 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 790148,
+            "unit": "ns/op",
+            "extra": "1519 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "1519 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "1519 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 790025,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "1519 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 790025,
+            "unit": "ns/op",
+            "extra": "1519 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "1519 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "1519 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 789463,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "1519 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 789463,
+            "unit": "ns/op",
+            "extra": "1519 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "1519 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "1519 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 788726,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "1521 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 788726,
+            "unit": "ns/op",
+            "extra": "1521 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "1521 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "1521 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 787014,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "1524 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 787014,
+            "unit": "ns/op",
+            "extra": "1524 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "1524 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "1524 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 789593,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "1500 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 789593,
+            "unit": "ns/op",
+            "extra": "1500 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "1500 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup_Miss_ART_IPv6_50k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "1500 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 108.3,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "11038813 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 108.3,
+            "unit": "ns/op",
+            "extra": "11038813 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "11038813 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "11038813 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 110,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "10973751 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 110,
+            "unit": "ns/op",
+            "extra": "10973751 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "10973751 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "10973751 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 108.1,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "11069389 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 108.1,
+            "unit": "ns/op",
+            "extra": "11069389 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "11069389 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "11069389 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 107.4,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "11055573 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 107.4,
+            "unit": "ns/op",
+            "extra": "11055573 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "11055573 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "11055573 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 108.3,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "10922600 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 108.3,
+            "unit": "ns/op",
+            "extra": "10922600 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "10922600 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "10922600 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 108,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "11237242 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 108,
+            "unit": "ns/op",
+            "extra": "11237242 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "11237242 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "11237242 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 107.9,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "10966768 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 107.9,
+            "unit": "ns/op",
+            "extra": "10966768 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "10966768 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "10966768 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 107.9,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "10947525 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 107.9,
+            "unit": "ns/op",
+            "extra": "10947525 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "10947525 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "10947525 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 109.4,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "11093091 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 109.4,
+            "unit": "ns/op",
+            "extra": "11093091 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "11093091 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "11093091 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 107.8,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "10725253 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 107.8,
+            "unit": "ns/op",
+            "extra": "10725253 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "10725253 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "10725253 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 198.9,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5995801 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 198.9,
+            "unit": "ns/op",
+            "extra": "5995801 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5995801 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5995801 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 200,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5956148 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 200,
+            "unit": "ns/op",
+            "extra": "5956148 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5956148 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5956148 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 201.7,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5978505 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 201.7,
+            "unit": "ns/op",
+            "extra": "5978505 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5978505 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5978505 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 199.2,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5868117 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 199.2,
+            "unit": "ns/op",
+            "extra": "5868117 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5868117 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5868117 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 199.2,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6089193 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 199.2,
+            "unit": "ns/op",
+            "extra": "6089193 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6089193 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6089193 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 198.7,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5889776 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 198.7,
+            "unit": "ns/op",
+            "extra": "5889776 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5889776 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5889776 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 198.5,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5996014 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 198.5,
+            "unit": "ns/op",
+            "extra": "5996014 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5996014 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5996014 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 201,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5986814 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 201,
+            "unit": "ns/op",
+            "extra": "5986814 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5986814 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5986814 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 201.2,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5899711 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 201.2,
+            "unit": "ns/op",
+            "extra": "5899711 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5899711 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5899711 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 205.2,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6000146 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 205.2,
+            "unit": "ns/op",
+            "extra": "6000146 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6000146 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6000146 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 108.5,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "10900634 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 108.5,
+            "unit": "ns/op",
+            "extra": "10900634 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "10900634 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "10900634 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 108.1,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "10933160 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 108.1,
+            "unit": "ns/op",
+            "extra": "10933160 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "10933160 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "10933160 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 108,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "11018281 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 108,
+            "unit": "ns/op",
+            "extra": "11018281 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "11018281 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "11018281 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 108,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "10894509 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 108,
+            "unit": "ns/op",
+            "extra": "10894509 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "10894509 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "10894509 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 108.3,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "10777862 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 108.3,
+            "unit": "ns/op",
+            "extra": "10777862 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "10777862 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "10777862 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 108,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "10928880 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 108,
+            "unit": "ns/op",
+            "extra": "10928880 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "10928880 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "10928880 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 107.9,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "10893692 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 107.9,
+            "unit": "ns/op",
+            "extra": "10893692 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "10893692 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "10893692 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 107.7,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "11099154 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 107.7,
+            "unit": "ns/op",
+            "extra": "11099154 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "11099154 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "11099154 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 107.9,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "10937779 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 107.9,
+            "unit": "ns/op",
+            "extra": "10937779 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "10937779 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "10937779 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 110.5,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "11079343 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 110.5,
+            "unit": "ns/op",
+            "extra": "11079343 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "11079343 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "11079343 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 201.7,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5990536 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 201.7,
+            "unit": "ns/op",
+            "extra": "5990536 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5990536 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5990536 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 201,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5992669 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 201,
+            "unit": "ns/op",
+            "extra": "5992669 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5992669 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5992669 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 203.5,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5950382 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 203.5,
+            "unit": "ns/op",
+            "extra": "5950382 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5950382 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5950382 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 200.7,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5925152 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 200.7,
+            "unit": "ns/op",
+            "extra": "5925152 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5925152 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5925152 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 200.4,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5915898 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 200.4,
+            "unit": "ns/op",
+            "extra": "5915898 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5915898 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5915898 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 201.1,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5865340 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 201.1,
+            "unit": "ns/op",
+            "extra": "5865340 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5865340 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5865340 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 200.4,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5941088 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 200.4,
+            "unit": "ns/op",
+            "extra": "5941088 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5941088 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5941088 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 202.1,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5929414 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 202.1,
+            "unit": "ns/op",
+            "extra": "5929414 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5929414 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5929414 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 198.8,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5996288 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 198.8,
+            "unit": "ns/op",
+            "extra": "5996288 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5996288 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5996288 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 200.8,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5960830 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 200.8,
+            "unit": "ns/op",
+            "extra": "5960830 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5960830 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5960830 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 167.8,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7071229 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 167.8,
+            "unit": "ns/op",
+            "extra": "7071229 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7071229 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7071229 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 166.2,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7150936 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 166.2,
+            "unit": "ns/op",
+            "extra": "7150936 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7150936 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7150936 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 166.8,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7320570 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 166.8,
+            "unit": "ns/op",
+            "extra": "7320570 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7320570 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7320570 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 166.3,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7095819 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 166.3,
+            "unit": "ns/op",
+            "extra": "7095819 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7095819 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7095819 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 166.1,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7164690 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 166.1,
+            "unit": "ns/op",
+            "extra": "7164690 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7164690 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7164690 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 166,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7218304 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 166,
+            "unit": "ns/op",
+            "extra": "7218304 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7218304 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7218304 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 167.3,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7195407 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 167.3,
+            "unit": "ns/op",
+            "extra": "7195407 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7195407 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7195407 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 166.8,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7172174 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 166.8,
+            "unit": "ns/op",
+            "extra": "7172174 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7172174 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7172174 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 167.4,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7163980 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 167.4,
+            "unit": "ns/op",
+            "extra": "7163980 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7163980 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7163980 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 168.6,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7123599 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 168.6,
+            "unit": "ns/op",
+            "extra": "7123599 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7123599 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7123599 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 167.2,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7284729 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 167.2,
+            "unit": "ns/op",
+            "extra": "7284729 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7284729 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7284729 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 167,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7198362 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 167,
+            "unit": "ns/op",
+            "extra": "7198362 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7198362 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7198362 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 166.6,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7314025 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 166.6,
+            "unit": "ns/op",
+            "extra": "7314025 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7314025 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7314025 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 166.7,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7168152 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 166.7,
+            "unit": "ns/op",
+            "extra": "7168152 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7168152 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7168152 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 166.7,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7127132 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 166.7,
+            "unit": "ns/op",
+            "extra": "7127132 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7127132 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7127132 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 166.2,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7182766 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 166.2,
+            "unit": "ns/op",
+            "extra": "7182766 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7182766 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7182766 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 166.4,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7265018 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 166.4,
+            "unit": "ns/op",
+            "extra": "7265018 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7265018 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7265018 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 167.1,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7193194 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 167.1,
+            "unit": "ns/op",
+            "extra": "7193194 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7193194 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7193194 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 166.1,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7203153 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 166.1,
+            "unit": "ns/op",
+            "extra": "7203153 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7203153 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7203153 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 167.7,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7287529 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 167.7,
+            "unit": "ns/op",
+            "extra": "7287529 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7287529 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7287529 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 166.2,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7193626 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 166.2,
+            "unit": "ns/op",
+            "extra": "7193626 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7193626 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7193626 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 168.5,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7136805 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 168.5,
+            "unit": "ns/op",
+            "extra": "7136805 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7136805 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7136805 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 166.5,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7133832 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 166.5,
+            "unit": "ns/op",
+            "extra": "7133832 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7133832 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7133832 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 166.3,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7233817 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 166.3,
+            "unit": "ns/op",
+            "extra": "7233817 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7233817 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7233817 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 167.1,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7177442 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 167.1,
+            "unit": "ns/op",
+            "extra": "7177442 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7177442 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7177442 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 166.9,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7218723 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 166.9,
+            "unit": "ns/op",
+            "extra": "7218723 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7218723 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7218723 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 166.6,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7045443 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 166.6,
+            "unit": "ns/op",
+            "extra": "7045443 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7045443 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7045443 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 167,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7145889 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 167,
+            "unit": "ns/op",
+            "extra": "7145889 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7145889 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7145889 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 166.6,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7185612 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 166.6,
+            "unit": "ns/op",
+            "extra": "7185612 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7185612 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7185612 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 166.4,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7219054 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 166.4,
+            "unit": "ns/op",
+            "extra": "7219054 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7219054 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7219054 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 166,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7196106 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 166,
+            "unit": "ns/op",
+            "extra": "7196106 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7196106 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7196106 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 166,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7206296 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 166,
+            "unit": "ns/op",
+            "extra": "7206296 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7206296 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7206296 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 167,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7114345 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 167,
+            "unit": "ns/op",
+            "extra": "7114345 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7114345 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7114345 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 166.7,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7189346 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 166.7,
+            "unit": "ns/op",
+            "extra": "7189346 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7189346 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7189346 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 169.1,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7131614 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 169.1,
+            "unit": "ns/op",
+            "extra": "7131614 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7131614 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7131614 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 169.6,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7245363 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 169.6,
+            "unit": "ns/op",
+            "extra": "7245363 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7245363 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7245363 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 167.2,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7081404 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 167.2,
+            "unit": "ns/op",
+            "extra": "7081404 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7081404 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7081404 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 166.6,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7151865 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 166.6,
+            "unit": "ns/op",
+            "extra": "7151865 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7151865 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7151865 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 166.5,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7189569 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 166.5,
+            "unit": "ns/op",
+            "extra": "7189569 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7189569 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7189569 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 167.6,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "7167500 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 167.6,
+            "unit": "ns/op",
+            "extra": "7167500 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "7167500 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "7167500 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 40.62,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "29171667 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 40.62,
+            "unit": "ns/op",
+            "extra": "29171667 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "29171667 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "29171667 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 41.74,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "28992730 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 41.74,
+            "unit": "ns/op",
+            "extra": "28992730 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "28992730 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "28992730 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 41.04,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "29205220 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 41.04,
+            "unit": "ns/op",
+            "extra": "29205220 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "29205220 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "29205220 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 40.65,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "29114160 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 40.65,
+            "unit": "ns/op",
+            "extra": "29114160 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "29114160 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "29114160 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 41.17,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "29269527 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 41.17,
+            "unit": "ns/op",
+            "extra": "29269527 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "29269527 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "29269527 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 41.15,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "29560480 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 41.15,
+            "unit": "ns/op",
+            "extra": "29560480 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "29560480 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "29560480 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 40.69,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "29160962 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 40.69,
+            "unit": "ns/op",
+            "extra": "29160962 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "29160962 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "29160962 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 41.05,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "29371434 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 41.05,
+            "unit": "ns/op",
+            "extra": "29371434 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "29371434 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "29371434 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 35.54,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "33250467 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 35.54,
+            "unit": "ns/op",
+            "extra": "33250467 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "33250467 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "33250467 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 40.01,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "29224569 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 40.01,
+            "unit": "ns/op",
+            "extra": "29224569 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "29224569 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv4_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "29224569 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 92.32,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "12865040 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 92.32,
+            "unit": "ns/op",
+            "extra": "12865040 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "12865040 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "12865040 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 92.45,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "12911278 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 92.45,
+            "unit": "ns/op",
+            "extra": "12911278 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "12911278 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "12911278 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 92.19,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "12916126 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 92.19,
+            "unit": "ns/op",
+            "extra": "12916126 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "12916126 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "12916126 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 92.65,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "12755898 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 92.65,
+            "unit": "ns/op",
+            "extra": "12755898 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "12755898 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "12755898 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 92.98,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "12755948 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 92.98,
+            "unit": "ns/op",
+            "extra": "12755948 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "12755948 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "12755948 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 92.33,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "12819498 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 92.33,
+            "unit": "ns/op",
+            "extra": "12819498 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "12819498 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "12819498 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 92.83,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "12689952 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 92.83,
+            "unit": "ns/op",
+            "extra": "12689952 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "12689952 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "12689952 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 92.15,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "13057748 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 92.15,
+            "unit": "ns/op",
+            "extra": "13057748 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "13057748 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "13057748 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 92.42,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "13002390 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 92.42,
+            "unit": "ns/op",
+            "extra": "13002390 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "13002390 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "13002390 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 92.73,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "12914785 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 92.73,
+            "unit": "ns/op",
+            "extra": "12914785 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "12914785 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "12914785 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 325.2,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "3898749 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 325.2,
+            "unit": "ns/op",
+            "extra": "3898749 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "3898749 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "3898749 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 308.1,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "3883408 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 308.1,
+            "unit": "ns/op",
+            "extra": "3883408 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "3883408 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "3883408 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 311.2,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "3870445 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 311.2,
+            "unit": "ns/op",
+            "extra": "3870445 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "3870445 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "3870445 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 308.2,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "3880611 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 308.2,
+            "unit": "ns/op",
+            "extra": "3880611 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "3880611 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "3880611 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 306.1,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "3861264 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 306.1,
+            "unit": "ns/op",
+            "extra": "3861264 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "3861264 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "3861264 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 307,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "3922016 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 307,
+            "unit": "ns/op",
+            "extra": "3922016 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "3922016 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "3922016 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 306.7,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "3871486 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 306.7,
+            "unit": "ns/op",
+            "extra": "3871486 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "3871486 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "3871486 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 311.3,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "3887948 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 311.3,
+            "unit": "ns/op",
+            "extra": "3887948 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "3887948 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "3887948 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 306,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "3926815 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 306,
+            "unit": "ns/op",
+            "extra": "3926815 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "3926815 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "3926815 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 305.3,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "3898651 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 305.3,
+            "unit": "ns/op",
+            "extra": "3898651 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "3898651 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "3898651 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 92.48,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "12906855 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 92.48,
+            "unit": "ns/op",
+            "extra": "12906855 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "12906855 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "12906855 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 92.43,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "12765628 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 92.43,
+            "unit": "ns/op",
+            "extra": "12765628 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "12765628 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "12765628 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 92.79,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "12911848 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 92.79,
+            "unit": "ns/op",
+            "extra": "12911848 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "12911848 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "12911848 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 92.44,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "12913735 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 92.44,
+            "unit": "ns/op",
+            "extra": "12913735 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "12913735 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "12913735 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 91.88,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "13059981 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 91.88,
+            "unit": "ns/op",
+            "extra": "13059981 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "13059981 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "13059981 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 92.59,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "13138724 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 92.59,
+            "unit": "ns/op",
+            "extra": "13138724 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "13138724 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "13138724 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 91.91,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "13066162 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 91.91,
+            "unit": "ns/op",
+            "extra": "13066162 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "13066162 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "13066162 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 92.44,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "12735196 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 92.44,
+            "unit": "ns/op",
+            "extra": "12735196 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "12735196 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "12735196 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 92.68,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "12993757 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 92.68,
+            "unit": "ns/op",
+            "extra": "12993757 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "12993757 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "12993757 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 92.46,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "12977630 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 92.46,
+            "unit": "ns/op",
+            "extra": "12977630 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "12977630 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "12977630 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 306.8,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "3950582 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 306.8,
+            "unit": "ns/op",
+            "extra": "3950582 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "3950582 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "3950582 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 307.3,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "3871546 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 307.3,
+            "unit": "ns/op",
+            "extra": "3871546 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "3871546 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "3871546 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 305.8,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "3853332 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 305.8,
+            "unit": "ns/op",
+            "extra": "3853332 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "3853332 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "3853332 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 306,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "3955006 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 306,
+            "unit": "ns/op",
+            "extra": "3955006 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "3955006 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "3955006 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 308.2,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "3941084 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 308.2,
+            "unit": "ns/op",
+            "extra": "3941084 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "3941084 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "3941084 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 306.9,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "3907375 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 306.9,
+            "unit": "ns/op",
+            "extra": "3907375 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "3907375 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "3907375 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 308.6,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "3878852 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 308.6,
+            "unit": "ns/op",
+            "extra": "3878852 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "3878852 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "3878852 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 305.1,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "3902283 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 305.1,
+            "unit": "ns/op",
+            "extra": "3902283 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "3902283 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "3902283 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 311.1,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "3988284 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 311.1,
+            "unit": "ns/op",
+            "extra": "3988284 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "3988284 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "3988284 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 307.9,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "3862077 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 307.9,
+            "unit": "ns/op",
+            "extra": "3862077 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "3862077 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Uncompressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "3862077 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 206.4,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5988916 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 206.4,
+            "unit": "ns/op",
+            "extra": "5988916 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5988916 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5988916 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 208.1,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5698574 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 208.1,
+            "unit": "ns/op",
+            "extra": "5698574 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5698574 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5698574 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 207.4,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6083409 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 207.4,
+            "unit": "ns/op",
+            "extra": "6083409 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6083409 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6083409 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 207.5,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6069717 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 207.5,
+            "unit": "ns/op",
+            "extra": "6069717 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6069717 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6069717 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 206.9,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6015814 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 206.9,
+            "unit": "ns/op",
+            "extra": "6015814 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6015814 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6015814 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 209.2,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6031316 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 209.2,
+            "unit": "ns/op",
+            "extra": "6031316 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6031316 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6031316 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 210.1,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5178259 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 210.1,
+            "unit": "ns/op",
+            "extra": "5178259 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5178259 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5178259 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 207.8,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5195902 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 207.8,
+            "unit": "ns/op",
+            "extra": "5195902 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5195902 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5195902 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 207.7,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5189256 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 207.7,
+            "unit": "ns/op",
+            "extra": "5189256 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5189256 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5189256 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 208.7,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5895928 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 208.7,
+            "unit": "ns/op",
+            "extra": "5895928 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5895928 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Normal (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5895928 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 211.1,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5100259 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 211.1,
+            "unit": "ns/op",
+            "extra": "5100259 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5100259 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5100259 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 206.9,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6075510 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 206.9,
+            "unit": "ns/op",
+            "extra": "6075510 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6075510 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6075510 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 205.8,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6127028 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 205.8,
+            "unit": "ns/op",
+            "extra": "6127028 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6127028 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6127028 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 206,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6055929 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 206,
+            "unit": "ns/op",
+            "extra": "6055929 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6055929 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6055929 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 208.5,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6069564 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 208.5,
+            "unit": "ns/op",
+            "extra": "6069564 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6069564 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6069564 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 202,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5150840 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 202,
+            "unit": "ns/op",
+            "extra": "5150840 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5150840 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5150840 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 207.7,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5207001 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 207.7,
+            "unit": "ns/op",
+            "extra": "5207001 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5207001 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5207001 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 206.4,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6042367 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 206.4,
+            "unit": "ns/op",
+            "extra": "6042367 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6042367 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6042367 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 207.7,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5980580 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 207.7,
+            "unit": "ns/op",
+            "extra": "5980580 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5980580 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5980580 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 207.7,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6052741 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 207.7,
+            "unit": "ns/op",
+            "extra": "6052741 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6052741 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Atomic (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6052741 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 202.2,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6094486 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 202.2,
+            "unit": "ns/op",
+            "extra": "6094486 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6094486 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6094486 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 202.5,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6091839 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 202.5,
+            "unit": "ns/op",
+            "extra": "6091839 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6091839 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6091839 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 200,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6138343 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 200,
+            "unit": "ns/op",
+            "extra": "6138343 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6138343 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6138343 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 201.5,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6025261 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 201.5,
+            "unit": "ns/op",
+            "extra": "6025261 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6025261 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6025261 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 200.7,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6059138 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 200.7,
+            "unit": "ns/op",
+            "extra": "6059138 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6059138 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6059138 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 200.7,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6107215 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 200.7,
+            "unit": "ns/op",
+            "extra": "6107215 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6107215 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6107215 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 201.3,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6157684 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 201.3,
+            "unit": "ns/op",
+            "extra": "6157684 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6157684 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6157684 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 202.2,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5297348 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 202.2,
+            "unit": "ns/op",
+            "extra": "5297348 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5297348 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5297348 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 201.3,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6044078 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 201.3,
+            "unit": "ns/op",
+            "extra": "6044078 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6044078 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6044078 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 201.9,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6066229 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 201.9,
+            "unit": "ns/op",
+            "extra": "6066229 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6066229 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_Padded (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6066229 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 207.4,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6062032 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 207.4,
+            "unit": "ns/op",
+            "extra": "6062032 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6062032 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6062032 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 208.4,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6023638 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 208.4,
+            "unit": "ns/op",
+            "extra": "6023638 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6023638 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6023638 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 207.4,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6118554 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 207.4,
+            "unit": "ns/op",
+            "extra": "6118554 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6118554 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6118554 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 207.1,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6016885 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 207.1,
+            "unit": "ns/op",
+            "extra": "6016885 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6016885 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6016885 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 206.7,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5951162 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 206.7,
+            "unit": "ns/op",
+            "extra": "5951162 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5951162 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5951162 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 208.1,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6016308 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 208.1,
+            "unit": "ns/op",
+            "extra": "6016308 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6016308 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6016308 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 205,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "5905887 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 205,
+            "unit": "ns/op",
+            "extra": "5905887 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "5905887 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "5905887 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 207.9,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6040834 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 207.9,
+            "unit": "ns/op",
+            "extra": "6040834 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6040834 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6040834 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 206,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6005551 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 206,
+            "unit": "ns/op",
+            "extra": "6005551 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6005551 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6005551 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 207.4,
+            "unit": "ns/op\t      24 B/op\t       1 allocs/op",
+            "extra": "6068640 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 207.4,
+            "unit": "ns/op",
+            "extra": "6068640 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 24,
+            "unit": "B/op",
+            "extra": "6068640 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_Compressed_LockFree (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 1,
+            "unit": "allocs/op",
+            "extra": "6068640 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 37.6,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "32304355 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 37.6,
+            "unit": "ns/op",
+            "extra": "32304355 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "32304355 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "32304355 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 38.49,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "31079362 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 38.49,
+            "unit": "ns/op",
+            "extra": "31079362 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "31079362 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "31079362 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 38.49,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "30953432 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 38.49,
+            "unit": "ns/op",
+            "extra": "30953432 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "30953432 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "30953432 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 38.49,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "31202427 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 38.49,
+            "unit": "ns/op",
+            "extra": "31202427 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "31202427 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "31202427 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 38.47,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "31151374 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 38.47,
+            "unit": "ns/op",
+            "extra": "31151374 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "31151374 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "31151374 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 38.52,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "31216879 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 38.52,
+            "unit": "ns/op",
+            "extra": "31216879 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "31216879 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "31216879 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 38.45,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "31133354 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 38.45,
+            "unit": "ns/op",
+            "extra": "31133354 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "31133354 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "31133354 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 38.51,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "31011848 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 38.51,
+            "unit": "ns/op",
+            "extra": "31011848 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "31011848 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "31011848 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 38.61,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "31098234 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 38.61,
+            "unit": "ns/op",
+            "extra": "31098234 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "31098234 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "31098234 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine)",
+            "value": 38.5,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "31036388 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - ns/op",
+            "value": 38.5,
+            "unit": "ns/op",
+            "extra": "31036388 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "31036388 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkConcurrent_Lookup_IPv6_ART_25k (github.com/Mwangi-Derrick/radixip/lib/go/engine) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "31036388 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/engine/art)",
+            "value": 78180,
+            "unit": "ns/op\t   77536 B/op\t    2030 allocs/op",
+            "extra": "15458 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - ns/op",
+            "value": 78180,
+            "unit": "ns/op",
+            "extra": "15458 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - B/op",
+            "value": 77536,
+            "unit": "B/op",
+            "extra": "15458 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - allocs/op",
+            "value": 2030,
+            "unit": "allocs/op",
+            "extra": "15458 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/engine/art)",
+            "value": 79806,
+            "unit": "ns/op\t   77536 B/op\t    2030 allocs/op",
+            "extra": "15080 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - ns/op",
+            "value": 79806,
+            "unit": "ns/op",
+            "extra": "15080 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - B/op",
+            "value": 77536,
+            "unit": "B/op",
+            "extra": "15080 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - allocs/op",
+            "value": 2030,
+            "unit": "allocs/op",
+            "extra": "15080 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/engine/art)",
+            "value": 79600,
+            "unit": "ns/op\t   77536 B/op\t    2030 allocs/op",
+            "extra": "14965 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - ns/op",
+            "value": 79600,
+            "unit": "ns/op",
+            "extra": "14965 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - B/op",
+            "value": 77536,
+            "unit": "B/op",
+            "extra": "14965 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - allocs/op",
+            "value": 2030,
+            "unit": "allocs/op",
+            "extra": "14965 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/engine/art)",
+            "value": 79719,
+            "unit": "ns/op\t   77536 B/op\t    2030 allocs/op",
+            "extra": "15012 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - ns/op",
+            "value": 79719,
+            "unit": "ns/op",
+            "extra": "15012 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - B/op",
+            "value": 77536,
+            "unit": "B/op",
+            "extra": "15012 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - allocs/op",
+            "value": 2030,
+            "unit": "allocs/op",
+            "extra": "15012 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/engine/art)",
+            "value": 78943,
+            "unit": "ns/op\t   77536 B/op\t    2030 allocs/op",
+            "extra": "15262 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - ns/op",
+            "value": 78943,
+            "unit": "ns/op",
+            "extra": "15262 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - B/op",
+            "value": 77536,
+            "unit": "B/op",
+            "extra": "15262 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - allocs/op",
+            "value": 2030,
+            "unit": "allocs/op",
+            "extra": "15262 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/engine/art)",
+            "value": 81313,
+            "unit": "ns/op\t   77536 B/op\t    2030 allocs/op",
+            "extra": "14608 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - ns/op",
+            "value": 81313,
+            "unit": "ns/op",
+            "extra": "14608 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - B/op",
+            "value": 77536,
+            "unit": "B/op",
+            "extra": "14608 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - allocs/op",
+            "value": 2030,
+            "unit": "allocs/op",
+            "extra": "14608 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/engine/art)",
+            "value": 79382,
+            "unit": "ns/op\t   77536 B/op\t    2030 allocs/op",
+            "extra": "15153 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - ns/op",
+            "value": 79382,
+            "unit": "ns/op",
+            "extra": "15153 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - B/op",
+            "value": 77536,
+            "unit": "B/op",
+            "extra": "15153 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - allocs/op",
+            "value": 2030,
+            "unit": "allocs/op",
+            "extra": "15153 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/engine/art)",
+            "value": 79238,
+            "unit": "ns/op\t   77536 B/op\t    2030 allocs/op",
+            "extra": "15109 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - ns/op",
+            "value": 79238,
+            "unit": "ns/op",
+            "extra": "15109 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - B/op",
+            "value": 77536,
+            "unit": "B/op",
+            "extra": "15109 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - allocs/op",
+            "value": 2030,
+            "unit": "allocs/op",
+            "extra": "15109 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/engine/art)",
+            "value": 79035,
+            "unit": "ns/op\t   77536 B/op\t    2030 allocs/op",
+            "extra": "15214 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - ns/op",
+            "value": 79035,
+            "unit": "ns/op",
+            "extra": "15214 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - B/op",
+            "value": 77536,
+            "unit": "B/op",
+            "extra": "15214 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - allocs/op",
+            "value": 2030,
+            "unit": "allocs/op",
+            "extra": "15214 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/engine/art)",
+            "value": 79333,
+            "unit": "ns/op\t   77536 B/op\t    2030 allocs/op",
+            "extra": "15148 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - ns/op",
+            "value": 79333,
+            "unit": "ns/op",
+            "extra": "15148 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - B/op",
+            "value": 77536,
+            "unit": "B/op",
+            "extra": "15148 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Insert (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - allocs/op",
+            "value": 2030,
+            "unit": "allocs/op",
+            "extra": "15148 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/engine/art)",
+            "value": 296029,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "4083 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - ns/op",
+            "value": 296029,
+            "unit": "ns/op",
+            "extra": "4083 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "4083 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "4083 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/engine/art)",
+            "value": 293111,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "4083 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - ns/op",
+            "value": 293111,
+            "unit": "ns/op",
+            "extra": "4083 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "4083 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "4083 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/engine/art)",
+            "value": 281954,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "4220 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - ns/op",
+            "value": 281954,
+            "unit": "ns/op",
+            "extra": "4220 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "4220 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "4220 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/engine/art)",
+            "value": 288043,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "4214 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - ns/op",
+            "value": 288043,
+            "unit": "ns/op",
+            "extra": "4214 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "4214 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "4214 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/engine/art)",
+            "value": 281699,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "4270 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - ns/op",
+            "value": 281699,
+            "unit": "ns/op",
+            "extra": "4270 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "4270 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "4270 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/engine/art)",
+            "value": 289970,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "4273 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - ns/op",
+            "value": 289970,
+            "unit": "ns/op",
+            "extra": "4273 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "4273 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "4273 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/engine/art)",
+            "value": 282181,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "4254 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - ns/op",
+            "value": 282181,
+            "unit": "ns/op",
+            "extra": "4254 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "4254 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "4254 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/engine/art)",
+            "value": 285465,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "4269 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - ns/op",
+            "value": 285465,
+            "unit": "ns/op",
+            "extra": "4269 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "4269 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "4269 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/engine/art)",
+            "value": 281107,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "4300 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - ns/op",
+            "value": 281107,
+            "unit": "ns/op",
+            "extra": "4300 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "4300 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "4300 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/engine/art)",
+            "value": 290333,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "4232 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - ns/op",
+            "value": 290333,
+            "unit": "ns/op",
+            "extra": "4232 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "4232 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Hit (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "4232 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/engine/art)",
+            "value": 118868,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - ns/op",
+            "value": 118868,
+            "unit": "ns/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/engine/art)",
+            "value": 119136,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "9937 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - ns/op",
+            "value": 119136,
+            "unit": "ns/op",
+            "extra": "9937 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "9937 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "9937 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/engine/art)",
+            "value": 119381,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - ns/op",
+            "value": 119381,
+            "unit": "ns/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/engine/art)",
+            "value": 118654,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - ns/op",
+            "value": 118654,
+            "unit": "ns/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/engine/art)",
+            "value": 118794,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "9882 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - ns/op",
+            "value": 118794,
+            "unit": "ns/op",
+            "extra": "9882 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "9882 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "9882 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/engine/art)",
+            "value": 118740,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - ns/op",
+            "value": 118740,
+            "unit": "ns/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/engine/art)",
+            "value": 118833,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "9970 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - ns/op",
+            "value": 118833,
+            "unit": "ns/op",
+            "extra": "9970 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "9970 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "9970 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/engine/art)",
+            "value": 118647,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - ns/op",
+            "value": 118647,
+            "unit": "ns/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/engine/art)",
+            "value": 118790,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - ns/op",
+            "value": 118790,
+            "unit": "ns/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/engine/art)",
+            "value": 119025,
+            "unit": "ns/op\t       0 B/op\t       0 allocs/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - ns/op",
+            "value": 119025,
+            "unit": "ns/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - B/op",
+            "value": 0,
+            "unit": "B/op",
+            "extra": "10000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkTree_Match_Miss (github.com/Mwangi-Derrick/radixip/lib/go/engine/art) - allocs/op",
+            "value": 0,
+            "unit": "allocs/op",
+            "extra": "10000 times\n4 procs"
           }
         ]
       }
