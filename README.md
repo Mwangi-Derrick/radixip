@@ -9,7 +9,7 @@
 
 > **One engine. Zero allocations. Nanosecond decisions.**
 >
-> RadixIP is the foundation for infrastructure protection-IP routing, rate limiting, and access control at memory speed. Drop it in front of any web framework, any Kubernetes cluster, any API gateway.
+> RadixIP is the foundation for infrastructure protection: IP routing, rate limiting, and access control at memory speed. Drop it in front of any web framework, any Kubernetes cluster, any API gateway.
 >
 
 > **Go ART:** 72.6 ns/lookup - **Rust ART:** 60.9 ns/lookup - **Patricia/RadixNode tree:** 177.7-223.4 ns/lookup - **FFI:** native SIMD support in rust and Go through CGo· **SIMD-accelerated**
@@ -356,7 +356,6 @@ Key takeaways from this CI run:
 - Rust ART is the fastest concurrent lookup path measured here at **60.9 ns/lookup**.
 - Go ART is close at **72.6 ns/lookup** and has **0 B/op** on ART lookup benchmarks.
 - Patricia/RadixNode-tree insert is about **2.1x faster than Rust binary trie** for the normal Rust nodes, and ART insert is about **15.4x faster than the Rust Patricia/RadixNode tree** in the measured insert workload.
-- The old `~45 ns Go` and `~12 ns Rust` headline numbers are no longer claimed by this README; the tables above are derived directly from the current CI logs.
 
 See the CI artifacts for complete benchmark logs and hardware information.
 
