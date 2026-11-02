@@ -14,7 +14,7 @@ members = [
     "lib/node",                # N-API bindings
     "cmd/grpc-server-rust",    # Rust gRPC server
     "cmd/kitchen-sink-rust",   # Rust Kitchen Sink test app
-    "lib/rust/node16_simd_ffi",# SIMD FFI bridge for Go CGo
+    "lib/rust/node16_simd_ffi", "ebpf",# SIMD FFI bridge for Go CGo
 ]
 
 [workspace.package]
