@@ -15,7 +15,8 @@ members = [
     "cmd/grpc-server-rust",    # Rust gRPC server
     "cmd/kitchen-sink-rust",   # Rust Kitchen Sink test app
     "lib/rust/node16_simd_ffi", "ebpf",# SIMD FFI bridge for Go CGo
-    "ebpf"
+    "ebpf/xdp-loader",           # XDP loader for eBPF programs
+    "ebpf/xdp-kernel",           # XDP kernel eBPF program
 ]
 
 [workspace.package]
