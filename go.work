@@ -16,6 +16,7 @@ use (
 	./lib/go/config
 	./lib/go/engine
 	./lib/go/policy
+	./lib/go/xdp
 	./proto/radixip/v1
 	./scripts/seed_blocklist
 	./scripts/spoof_proxy
