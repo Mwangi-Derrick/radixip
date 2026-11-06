@@ -790,7 +790,7 @@ See [ARCHITECTURE.md](./ARCHITECTURE.md) for the full design rationale, hybrid R
 
 ### Hardware Acceleration (NEW) 🔨
 - [ ] **FPGA acceleration for LPM lookups** - Offload critical path to hardware (projected 2-5 ns lookups, parallel processing)
-- [x] **Kernel bypass for gRPC sidecars** - eBPF for Linux networking stack to handle L3-L7 routing decisions and AF_XDP for zero-copy packet I/O (5x throughput improvement) across platforms
+- [x] **Kernel bypass for gRPC sidecars** - eBPF for Linux networking stack to handle L2,L3 and L4 routing decisions and AF_XDP for zero-copy packet I/O (5x throughput improvement) across platforms
 - [ ] **Runtime dispatch in Rust** - Transparent fallback between software and FPGA backends
 - [ ] **Custom RadixIP FPGA appliance** - Pre-built bitstreams for popular FPGA boards (Tang Nano, Artix, Kintex)
 
