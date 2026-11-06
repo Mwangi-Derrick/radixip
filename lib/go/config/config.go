@@ -62,6 +62,9 @@ func (c *RadixIpConfig) validate() error {
 			return errors.New("config: rate_limit.refill_rate must be > 0")
 		}
 	}
+	if c.RadixIP.XDP.Enabled && c.RadixIP.XDP.Mode != "skb" && c.RadixIP.XDP.Mode != "drv" {
+		return fmt.Errorf("config: xdp.mode must be 'skb' or 'drv', got %q", c.RadixIP.XDP.Mode)
+	}
 	return nil
 }
 
@@ -69,10 +72,11 @@ func (c *RadixIpConfig) validate() error {
 
 // RootConfig is the `radixip:` block in the YAML.
 type RootConfig struct {
-	Engine          EngineConfig     `yaml:"engine"`
-	Middleware      MiddlewareConfig `yaml:"middleware"`
-	Blocklist       BlocklistConfig  `yaml:"blocklist"`
-	RateLimit       RateLimitConfig  `yaml:"rate_limit"`
+	Engine          EngineConfig          `yaml:"engine"`
+	Middleware      MiddlewareConfig      `yaml:"middleware"`
+	Blocklist       BlocklistConfig       `yaml:"blocklist"`
+	XDP             XDPConfig             `yaml:"xdp"`
+	RateLimit       RateLimitConfig       `yaml:"rate_limit"`
 	Metrics         MetricsConfig         `yaml:"metrics"`
 	AutoBan         AutoBanConfig         `yaml:"auto_ban"`
 	RateLimitRoutes RateLimitRoutesConfig `yaml:"rate_limit_routes"`
@@ -81,6 +85,7 @@ type RootConfig struct {
 func (r *RootConfig) applyDefaults() {
 	r.Engine.applyDefaults()
 	r.Middleware.applyDefaults()
+	r.XDP.applyDefaults()
 	r.RateLimit.applyDefaults()
 	r.Metrics.applyDefaults()
 	r.AutoBan.applyDefaults()
@@ -178,6 +183,57 @@ type BlocklistSource struct {
 	Type    string   `yaml:"type"`
 	Subnets []string `yaml:"subnets"` // for type: inline
 	Path    string   `yaml:"path"`    // for type: file
+}
+
+// XDPConfig controls the optional kernel-level blocklist mirror.
+type XDPConfig struct {
+	Enabled    bool           `yaml:"enabled"`
+	Interface  string         `yaml:"interface"`
+	Mode       string         `yaml:"mode"`
+	PinDir     string         `yaml:"pin_dir"`
+	FailClosed bool           `yaml:"fail_closed"`
+	MinV4      int            `yaml:"min_v4_prefix"`
+	MinV6      int            `yaml:"min_v6_prefix"`
+	NeverBlock []string       `yaml:"never_block"`
+	Redis      XDPRedisConfig `yaml:"redis"`
+}
+
+func (x *XDPConfig) applyDefaults() {
+	if x.Interface == "" {
+		x.Interface = "eth0"
+	}
+	if x.Mode == "" {
+		x.Mode = "skb"
+	}
+	if x.PinDir == "" {
+		x.PinDir = "/sys/fs/bpf/radixip/v1"
+	}
+	if x.MinV4 == 0 {
+		x.MinV4 = 8
+	}
+	if x.MinV6 == 0 {
+		x.MinV6 = 16
+	}
+	x.Redis.applyDefaults()
+}
+
+// XDPRedisConfig selects the Redis feed mirrored into XDP.
+type XDPRedisConfig struct {
+	URL         string `yaml:"url"`
+	Channel     string `yaml:"channel"`
+	SnapshotKey string `yaml:"snapshot_key"`
+}
+
+func (r *XDPRedisConfig) applyDefaults() {
+	if r.URL == "" {
+		r.URL = "redis://127.0.0.1:6379"
+	}
+	if r.Channel == "" {
+		r.Channel = "security:blocklist"
+	}
+	if r.SnapshotKey == "" {
+		r.SnapshotKey = "security:blocklist:set"
+	}
 }
 
 // Rate Limiting
