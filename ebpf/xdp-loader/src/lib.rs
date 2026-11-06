@@ -328,3 +328,48 @@ fn apply_event(config: &Config, maps: &mut Maps, payload: &str) -> Result<()> {
         Ok(())
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::{normalize, parse_net, Config, Mode};
+    use ipnet::IpNet;
+    use std::path::PathBuf;
+
+    fn config(never_block: Vec<IpNet>) -> Config {
+        Config {
+            iface: "eth0".into(),
+            mode: Mode::Skb,
+            pin_dir: PathBuf::from("/tmp/radixip-test-bpffs"),
+            redis_url: "redis://127.0.0.1:6379".into(),
+            channel: "security:blocklist".into(),
+            snapshot_key: "security:blocklist:set".into(),
+            fail_closed: false,
+            min_v4: 8,
+            min_v6: 16,
+            never_block,
+        }
+    }
+
+    #[test]
+    fn mapped_ipv6_prefix_normalizes_to_ipv4() {
+        let net = parse_net("::ffff:198.51.100.0/120").unwrap();
+        let normalized = normalize(&config(Vec::new()), net).unwrap();
+        assert_eq!(normalized, "198.51.100.0/24".parse().unwrap());
+    }
+
+    #[test]
+    fn rejects_too_broad_and_protected_prefixes() {
+        let protected = "10.0.0.0/8".parse().unwrap();
+        let config = config(vec![protected]);
+
+        for value in ["0.0.0.0/0", "10.1.0.0/16", "10.0.0.0/7"] {
+            let net = parse_net(value).unwrap();
+            assert!(normalize(&config, net).is_err(), "{value} should be rejected");
+        }
+    }
+
+    #[test]
+    fn bare_ip_becomes_a_host_prefix() {
+        assert_eq!(parse_net("2001:db8::1").unwrap(), "2001:db8::1/128".parse().unwrap());
+    }
+}
