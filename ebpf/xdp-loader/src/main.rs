@@ -17,7 +17,12 @@ fn config_from_env() -> Result<Option<Config>> {
     let never_block = env_or("RADIXIP_XDP_NEVER_BLOCK", "")
         .split(',')
         .filter(|value| !value.trim().is_empty())
-        .map(|value| value.trim().parse::<IpNet>().context("parse never-block prefix"))
+        .map(|value| {
+            value
+                .trim()
+                .parse::<IpNet>()
+                .context("parse never-block prefix")
+        })
         .collect::<Result<Vec<_>>>()?;
     let mode = match env_or("RADIXIP_XDP_MODE", "skb").as_str() {
         "skb" => Mode::Skb,
@@ -28,10 +33,7 @@ fn config_from_env() -> Result<Option<Config>> {
     Ok(Some(Config {
         iface: env_or("RADIXIP_XDP_IFACE", "eth0"),
         mode,
-        pin_dir: PathBuf::from(env_or(
-            "RADIXIP_XDP_PIN_DIR",
-            "/sys/fs/bpf/radixip/v1",
-        )),
+        pin_dir: PathBuf::from(env_or("RADIXIP_XDP_PIN_DIR", "/sys/fs/bpf/radixip/v1")),
         redis_url: env_or("RADIXIP_REDIS_URL", "redis://127.0.0.1:6379"),
         channel: env_or("RADIXIP_XDP_CHANNEL", "security:blocklist"),
         snapshot_key: env_or("RADIXIP_XDP_SNAPSHOT_KEY", "security:blocklist:set"),

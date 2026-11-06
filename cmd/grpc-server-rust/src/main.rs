@@ -6,8 +6,8 @@ use prometheus::{
     register_counter, register_counter_vec, register_gauge, register_histogram, Counter,
     CounterVec, Encoder, Gauge, Histogram, Opts, Registry, TextEncoder,
 };
-use radixip_config::RadixIpConfig;
 use radixip::RadixEngine;
+use radixip_config::RadixIpConfig;
 use std::net::SocketAddr;
 use std::path::PathBuf;
 use std::str::FromStr;
@@ -420,17 +420,17 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             .await?;
     }
 
-        if let Some(runtime) = xdp_runtime {
-            if let Err(error) = runtime.shutdown().await {
-                eprintln!("XDP shutdown failed: {error:#}");
-            }
+    if let Some(runtime) = xdp_runtime {
+        if let Err(error) = runtime.shutdown().await {
+            eprintln!("XDP shutdown failed: {error:#}");
         }
+    }
 
     Ok(())
 }
 
-    async fn shutdown_signal() {
-        if let Err(error) = tokio::signal::ctrl_c().await {
-            eprintln!("failed to listen for shutdown signal: {error}");
-        }
+async fn shutdown_signal() {
+    if let Err(error) = tokio::signal::ctrl_c().await {
+        eprintln!("failed to listen for shutdown signal: {error}");
     }
+}

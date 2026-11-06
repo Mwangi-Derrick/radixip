@@ -124,17 +124,29 @@ impl Maps {
 /// The returned handle owns the attachment and background synchronization task.
 pub async fn start(config: Config) -> Result<Runtime> {
     let started = Instant::now();
-    std::fs::create_dir_all(&config.pin_dir)
-        .with_context(|| format!("create pin directory {:?} (is bpffs mounted?)", config.pin_dir))?;
+    std::fs::create_dir_all(&config.pin_dir).with_context(|| {
+        format!(
+            "create pin directory {:?} (is bpffs mounted?)",
+            config.pin_dir
+        )
+    })?;
 
     let mut ebpf = EbpfLoader::new()
         .map_pin_path(&config.pin_dir)
         .load(BPF_OBJ)
-        .context("load eBPF object (kernel too old, missing capabilities, or pinned map mismatch)")?;
+        .context(
+            "load eBPF object (kernel too old, missing capabilities, or pinned map mismatch)",
+        )?;
 
     let mut maps = Maps {
-        v4: LpmTrie::try_from(ebpf.take_map("blocklist_v4").context("no blocklist_v4 map")?)?,
-        v6: LpmTrie::try_from(ebpf.take_map("blocklist_v6").context("no blocklist_v6 map")?)?,
+        v4: LpmTrie::try_from(
+            ebpf.take_map("blocklist_v4")
+                .context("no blocklist_v4 map")?,
+        )?,
+        v6: LpmTrie::try_from(
+            ebpf.take_map("blocklist_v6")
+                .context("no blocklist_v6 map")?,
+        )?,
         stats: PerCpuArray::try_from(ebpf.take_map("stats").context("no stats map")?)?,
         entries: HashSet::new(),
     };
@@ -186,7 +198,9 @@ pub async fn start(config: Config) -> Result<Runtime> {
     }
 
     if !seeded && config.fail_closed {
-        bail!("xdp.fail_closed is set and blocklist snapshot could not be read; refusing to attach");
+        bail!(
+            "xdp.fail_closed is set and blocklist snapshot could not be read; refusing to attach"
+        );
     }
     if !seeded {
         warn!("attaching with an unseeded map; userspace remains the only active filter");
@@ -204,14 +218,21 @@ pub async fn start(config: Config) -> Result<Runtime> {
     let link = program
         .attach(&config.iface, flags)
         .with_context(|| format!("attach XDP to {} ({:?})", config.iface, config.mode))?;
-    info!("XDP attached on {} ({:?}); seed phase took {:?}", config.iface, config.mode, started.elapsed());
+    info!(
+        "XDP attached on {} ({:?}); seed phase took {:?}",
+        config.iface,
+        config.mode,
+        started.elapsed()
+    );
 
     let (shutdown, mut shutdown_rx) = oneshot::channel();
     let task = tokio::spawn(async move {
         let _link = link;
         let _ebpf = ebpf;
         let mut tick = tokio::time::interval(Duration::from_secs(10));
-        let mut stream = pubsub.as_mut().map(|subscription| subscription.on_message());
+        let mut stream = pubsub
+            .as_mut()
+            .map(|subscription| subscription.on_message());
 
         loop {
             tokio::select! {
@@ -261,7 +282,11 @@ fn normalize(config: &Config, net: IpNet) -> Result<IpNet> {
         },
         other => other,
     };
-    let minimum = if net.addr().is_ipv4() { config.min_v4 } else { config.min_v6 };
+    let minimum = if net.addr().is_ipv4() {
+        config.min_v4
+    } else {
+        config.min_v6
+    };
     if net.prefix_len() < minimum {
         bail!("{net}: prefix shorter than minimum /{minimum}");
     }
