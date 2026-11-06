@@ -146,6 +146,27 @@ impl Default for XdpRedisConfig {
     }
 }
 
+#[cfg(test)]
+mod xdp_config_tests {
+    use super::RadixIpConfig;
+
+    #[test]
+    fn xdp_defaults_and_redis_overrides_deserialize() {
+        let config: RadixIpConfig = serde_yaml::from_str(
+            "radixip:\n  xdp:\n    enabled: true\n    redis:\n      url: redis://cache.internal:6379\n      channel: security:flagged\n      snapshot_key: security:flagged:set\n",
+        )
+        .expect("XDP YAML should deserialize");
+
+        let xdp = config.radixip.xdp;
+        assert!(xdp.enabled);
+        assert_eq!(xdp.interface, "eth0");
+        assert_eq!(xdp.mode, "skb");
+        assert_eq!(xdp.redis.url, "redis://cache.internal:6379");
+        assert_eq!(xdp.redis.channel, "security:flagged");
+        assert_eq!(xdp.redis.snapshot_key, "security:flagged:set");
+    }
+}
+
 // Engine
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
