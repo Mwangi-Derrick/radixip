@@ -8,6 +8,7 @@ radixip_rs = { workspace = true }
 radixip-policy = { path = "../../lib/rust/policy" }
 radixip-config = { path = "../../lib/rust/config" }
 radixip-grpc-interceptor = { path = "../../lib/rust/adapters/interceptor" }
+xdp-loader = { path = "../../ebpf/xdp-loader" }
 tonic = "0.11"
 prost = "0.12"
 tokio = { version = "1.36", features = ["full"] }
