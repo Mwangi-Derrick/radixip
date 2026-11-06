@@ -302,7 +302,15 @@ make -C ebpf verify-unit
 
 This checks config deserialization and loader-side IP normalization/guards. It
 does not require a BPF object, root, or kernel capabilities. To reproduce the
-full XDP CI job, run:
+full XDP CI job on Ubuntu, first install the LLVM development packages used to
+build `bpf-linker`:
+
+```bash
+sudo apt-get update
+sudo apt-get install -y clang-18 llvm-18-dev libclang-18-dev
+```
+
+Then run:
 
 ```bash
 make -C ebpf verify
