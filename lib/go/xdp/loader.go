@@ -41,8 +41,8 @@ type Stats struct {
 }
 
 type Loader struct {
-	cfg          Config
-	objs         struct {
+	cfg  Config
+	objs struct {
 		RadixipXdp  *ebpf.Program `ebpf:"radixip_xdp"`
 		BlocklistV4 *ebpf.Map     `ebpf:"blocklist_v4"`
 		BlocklistV6 *ebpf.Map     `ebpf:"blocklist_v6"`
@@ -202,8 +202,15 @@ func (l *Loader) Stats() (Stats, error) {
 }
 
 func (l *Loader) Close() error {
+	var closeErrors []error
 	if l.lnk != nil {
-		l.lnk.Close()
+		closeErrors = append(closeErrors, l.lnk.Close())
 	}
-	return l.objs.Close()
+	closeErrors = append(closeErrors,
+		l.objs.RadixipXdp.Close(),
+		l.objs.BlocklistV4.Close(),
+		l.objs.BlocklistV6.Close(),
+		l.objs.Stats.Close(),
+	)
+	return errors.Join(closeErrors...)
 }
