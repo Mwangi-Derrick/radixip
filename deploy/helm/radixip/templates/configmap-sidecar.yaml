@@ -39,7 +39,7 @@ data:
         fail_closed: {{ .Values.sidecar.xdp.failClosed }}
         min_v4_prefix: {{ .Values.sidecar.xdp.minV4Prefix }}
         min_v6_prefix: {{ .Values.sidecar.xdp.minV6Prefix }}
-        never_block: {{ toYaml .Values.sidecar.xdp.neverBlock | nindent 10 }}
+        never_block: {{ .Values.sidecar.xdp.neverBlock | toJson }}
         redis:
           url: {{ default (include "radixip.redisUrl" .) .Values.sidecar.xdp.redis.url | quote }}
           channel: {{ .Values.sidecar.xdp.redis.channel | quote }}
