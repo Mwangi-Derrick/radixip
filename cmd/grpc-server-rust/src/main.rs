@@ -6,8 +6,10 @@ use prometheus::{
     register_counter, register_counter_vec, register_gauge, register_histogram, Counter,
     CounterVec, Encoder, Gauge, Histogram, Opts, Registry, TextEncoder,
 };
+use radixip_config::RadixIpConfig;
 use radixip::RadixEngine;
 use std::net::SocketAddr;
+use std::path::PathBuf;
 use std::str::FromStr;
 use std::sync::Arc;
 use std::time::Instant;
@@ -18,6 +20,7 @@ use tonic::{
 use radixip::engine::EngineWrapper;
 use radixip::traits::{EngineVariant, NodeVariant};
 use radixip::types::Metadata;
+use xdp_loader::{Config as XdpLoaderConfig, Mode as XdpMode, Runtime as XdpRuntime};
 
 pub mod pb {
     tonic::include_proto!("radixip.v1");
@@ -289,6 +292,57 @@ async fn metrics_service(_req: Request<Body>) -> Result<Response<Body>, hyper::E
         .unwrap())
 }
 
+async fn start_embedded_xdp(config: &RadixIpConfig) -> Option<XdpRuntime> {
+    let xdp = &config.radixip.xdp;
+    if !xdp.enabled {
+        return None;
+    }
+
+    let mode = match xdp.mode.as_str() {
+        "skb" => XdpMode::Skb,
+        "drv" => XdpMode::Driver,
+        unsupported => {
+            eprintln!("XDP disabled: unsupported mode {unsupported:?}; expected skb or drv");
+            return None;
+        }
+    };
+    let never_block = match xdp
+        .never_block
+        .iter()
+        .map(|prefix| prefix.parse())
+        .collect::<Result<Vec<_>, _>>()
+    {
+        Ok(prefixes) => prefixes,
+        Err(error) => {
+            eprintln!("XDP disabled: invalid never_block prefix: {error}");
+            return None;
+        }
+    };
+
+    match xdp_loader::start(XdpLoaderConfig {
+        iface: xdp.interface.clone(),
+        mode,
+        pin_dir: PathBuf::from(&xdp.pin_dir),
+        redis_url: std::env::var("RADIXIP_XDP_REDIS_URL")
+            .or_else(|_| std::env::var("REDIS_URL"))
+            .unwrap_or_else(|_| xdp.redis.url.clone()),
+        channel: xdp.redis.channel.clone(),
+        snapshot_key: xdp.redis.snapshot_key.clone(),
+        fail_closed: xdp.fail_closed,
+        min_v4: xdp.min_v4_prefix,
+        min_v6: xdp.min_v6_prefix,
+        never_block,
+    })
+    .await
+    {
+        Ok(runtime) => Some(runtime),
+        Err(error) => {
+            eprintln!("XDP unavailable; continuing with userspace filtering: {error:#}");
+            None
+        }
+    }
+}
+
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let grpc_port = std::env::var("GRPC_PORT").unwrap_or_else(|_| "50052".to_string());
@@ -315,6 +369,18 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let config_path = std::env::var("RADIXIP_CONFIG")
         .or_else(|_| std::env::var("CONFIG_PATH"))
         .unwrap_or_else(|_| "radixip.yaml".to_string());
+    let sidecar_config = match RadixIpConfig::from_file(&config_path) {
+        Ok(config) => Some(config),
+        Err(error) => {
+            eprintln!("RadixIP config unavailable at {config_path}: {error}");
+            None
+        }
+    };
+    let xdp_runtime = if let Some(config) = &sidecar_config {
+        start_embedded_xdp(config).await
+    } else {
+        None
+    };
 
     println!(
         "[Rust gRPC Server] RadixIP gRPC service listening on gRPC://{}",
@@ -341,7 +407,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         TonicServer::builder()
             .layer(tonic::service::interceptor(interceptor))
             .add_service(RadixServiceServer::new(service))
-            .serve(grpc_addr)
+            .serve_with_shutdown(grpc_addr, shutdown_signal())
             .await?;
     } else {
         println!(
@@ -350,9 +416,21 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         );
         TonicServer::builder()
             .add_service(RadixServiceServer::new(service))
-            .serve(grpc_addr)
+            .serve_with_shutdown(grpc_addr, shutdown_signal())
             .await?;
     }
 
+        if let Some(runtime) = xdp_runtime {
+            if let Err(error) = runtime.shutdown().await {
+                eprintln!("XDP shutdown failed: {error:#}");
+            }
+        }
+
     Ok(())
 }
+
+    async fn shutdown_signal() {
+        if let Err(error) = tokio::signal::ctrl_c().await {
+            eprintln!("failed to listen for shutdown signal: {error}");
+        }
+    }
