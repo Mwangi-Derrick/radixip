@@ -292,6 +292,34 @@ The message format and snapshot key in the scaffolds are **assumptions**. Adapt 
 
 ## 11. Build order
 
+### Local verification
+
+From a fresh Linux clone, run the quick tests first:
+
+```bash
+make -C ebpf verify-unit
+```
+
+This checks config deserialization and loader-side IP normalization/guards. It
+does not require a BPF object, root, or kernel capabilities. To reproduce the
+full XDP CI job, run:
+
+```bash
+make -C ebpf verify
+```
+
+The full target installs nightly Rust, `rust-src`, and `bpf-linker` if needed,
+builds the kernel object into the ignored repository `target/` directory, then
+checks the embedded loader and gRPC sidecar and runs the unit tests. It needs a
+working network connection for first-time toolchain/dependency installation.
+Attaching XDP to an interface and measuring packet behavior still requires
+Linux and the relevant BPF/network capabilities; these build checks do not
+claim to be a performance benchmark.
+
+The GitHub Actions workflow runs the same `make -C ebpf verify` command. The
+generated object is intentionally not committed; Cargo embeds it from the local
+build output.
+
 | Step | Artifact | Why first |
 |---|---|---|
 | 1 | `xdp-kernel` (Rust) and `xdp_blocklist.c`, with the Go `BPF_PROG_TEST_RUN` tests | Validates key encoding, byte order, v4/v6 branch |
