@@ -67,7 +67,7 @@ func (b *Bridge) Run(ctx context.Context) error {
 	for {
 		select {
 		case <-ctx.Done():
-			return b.sub.Close()
+			return b.Close()
 		case msg, ok := <-ch:
 			if !ok {
 				return fmt.Errorf("pubsub closed; map keeps enforcing without updates")
@@ -77,6 +77,13 @@ func (b *Bridge) Run(ctx context.Context) error {
 			}
 		}
 	}
+}
+
+func (b *Bridge) Close() error {
+	if b.sub == nil {
+		return nil
+	}
+	return b.sub.Close()
 }
 
 func (b *Bridge) apply(payload string) error {
