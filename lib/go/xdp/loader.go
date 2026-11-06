@@ -17,16 +17,6 @@ import (
 )
 
 // Must match the C program and the Aya program.
-type keyV4 struct {
-	PrefixLen uint32
-	Addr      [4]byte
-}
-
-type keyV6 struct {
-	PrefixLen uint32
-	Addr      [16]byte
-}
-
 type Config struct {
 	Iface      string
 	DriverMode bool           // false = generic/SKB (portable default for sidecars)
@@ -153,9 +143,9 @@ func (l *Loader) Put(p netip.Prefix) error {
 		return err
 	}
 	if p.Addr().Is4() {
-		return l.objs.BlocklistV4.Update(&keyV4{uint32(p.Bits()), p.Addr().As4()}, uint8(1), ebpf.UpdateAny)
+		return l.objs.BlocklistV4.Update(&xdpBlocklistLpmV4Key{Prefixlen: uint32(p.Bits()), Addr: p.Addr().As4()}, uint8(1), ebpf.UpdateAny)
 	}
-	return l.objs.BlocklistV6.Update(&keyV6{uint32(p.Bits()), p.Addr().As16()}, uint8(1), ebpf.UpdateAny)
+	return l.objs.BlocklistV6.Update(&xdpBlocklistLpmV6Key{Prefixlen: uint32(p.Bits()), Addr: p.Addr().As16()}, uint8(1), ebpf.UpdateAny)
 }
 
 func (l *Loader) Delete(p netip.Prefix) error {
@@ -164,9 +154,9 @@ func (l *Loader) Delete(p netip.Prefix) error {
 		return err
 	}
 	if p.Addr().Is4() {
-		err = l.objs.BlocklistV4.Delete(&keyV4{uint32(p.Bits()), p.Addr().As4()})
+		err = l.objs.BlocklistV4.Delete(&xdpBlocklistLpmV4Key{Prefixlen: uint32(p.Bits()), Addr: p.Addr().As4()})
 	} else {
-		err = l.objs.BlocklistV6.Delete(&keyV6{uint32(p.Bits()), p.Addr().As16()})
+		err = l.objs.BlocklistV6.Delete(&xdpBlocklistLpmV6Key{Prefixlen: uint32(p.Bits()), Addr: p.Addr().As16()})
 	}
 	if errors.Is(err, ebpf.ErrKeyNotExist) {
 		return nil
