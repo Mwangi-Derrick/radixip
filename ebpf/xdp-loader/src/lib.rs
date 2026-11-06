@@ -1,13 +1,12 @@
 use std::{
     collections::HashSet,
-    net::{IpAddr, Ipv4Addr},
+    net::IpAddr,
     path::PathBuf,
     time::{Duration, Instant},
 };
 
 use anyhow::{anyhow, bail, Context, Result};
 use aya::{
-    include_bytes_aligned,
     maps::{
         lpm_trie::{Key, LpmTrie},
         MapData, PerCpuArray,
@@ -21,8 +20,7 @@ use log::{info, warn};
 use redis::aio::PubSub;
 use tokio::{sync::oneshot, task::JoinHandle};
 
-static BPF_OBJ: &[u8] =
-    include_bytes_aligned!("../../xdp-kernel/target/bpfel-unknown-none/release/radixip-xdp");
+static BPF_OBJ: &[u8] = include_bytes!(concat!(env!("OUT_DIR"), "/radixip-xdp"));
 
 #[derive(Clone, Debug)]
 pub struct Config {
