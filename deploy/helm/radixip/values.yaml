@@ -167,6 +167,20 @@ sidecar:
       # Custom radixip.yaml content; if empty, uses default template
       data: ""
 
+  xdp:
+    enabled: false
+    interface: "eth0"
+    mode: "skb"
+    pinDir: "/sys/fs/bpf/radixip/v1"
+    failClosed: false
+    minV4Prefix: 8
+    minV6Prefix: 16
+    neverBlock: []
+    redis:
+      url: ""
+      channel: "security:blocklist"
+      snapshotKey: "security:blocklist:set"
+
 # ── Sample / Demo Workload ────────────────────────────────────
 # Deploys a sample application pod with the RadixIP sidecar and RateLimiterPolicy.
 # Perfect for verifying sidecar orchestration and operator reconciliation.

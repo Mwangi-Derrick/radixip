@@ -32,17 +32,18 @@ data:
       blocklist:
         enabled: false
       xdp:
-        enabled: false
-        interface: "eth0"
-        mode: "skb"
-        pin_dir: "/sys/fs/bpf/radixip/v1"
-        fail_closed: false
-        min_v4_prefix: 8
-        min_v6_prefix: 16
+        enabled: {{ .Values.sidecar.xdp.enabled }}
+        interface: {{ .Values.sidecar.xdp.interface | quote }}
+        mode: {{ .Values.sidecar.xdp.mode | quote }}
+        pin_dir: {{ .Values.sidecar.xdp.pinDir | quote }}
+        fail_closed: {{ .Values.sidecar.xdp.failClosed }}
+        min_v4_prefix: {{ .Values.sidecar.xdp.minV4Prefix }}
+        min_v6_prefix: {{ .Values.sidecar.xdp.minV6Prefix }}
+        never_block: {{ toYaml .Values.sidecar.xdp.neverBlock | nindent 10 }}
         redis:
-          url: {{ include "radixip.redisUrl" . | quote }}
-          channel: "security:blocklist"
-          snapshot_key: "security:blocklist:set"
+          url: {{ default (include "radixip.redisUrl" .) .Values.sidecar.xdp.redis.url | quote }}
+          channel: {{ .Values.sidecar.xdp.redis.channel | quote }}
+          snapshot_key: {{ .Values.sidecar.xdp.redis.snapshotKey | quote }}
       rate_limit:
         enabled: true
         algorithm: {{ .Values.defaultPolicy.algorithm | default "token_bucket" | quote }}
