@@ -4,9 +4,22 @@
 #        cargo install bpf-linker
 # Go:    clang, libbpf-dev, linux headers; `go get github.com/cilium/ebpf github.com/redis/go-redis/v9`
 
-.PHONY: setup kernel loader go-gen go-test all clean
+.PHONY: setup kernel loader go-gen go-test verify-unit verify all clean
 
 all: kernel loader go-gen
+
+# Fast checks that need no kernel object, root, or BPF capabilities.
+verify-unit:
+	cargo test -p xdp-loader --lib
+	cargo test -p radixip-config --lib
+
+# Full local/CI verification: build the real BPF object, then check every
+# Rust consumer and run the privilege-free unit tests.
+verify: setup
+	$(MAKE) kernel
+	cargo check -p xdp-loader --all-targets
+	cargo check -p radixip-grpc-server
+	$(MAKE) verify-unit
 
 # Install the Rust toolchain components needed by the Aya builds.
 setup:
