@@ -1,0 +1,38 @@
+name: eBPF XDP Build
+
+on:
+  pull_request:
+    paths:
+      - "ebpf/**"
+      - "cmd/grpc-server-rust/**"
+      - "lib/rust/config/**"
+      - "Cargo.toml"
+      - "Cargo.lock"
+      - ".github/workflows/ebpf-xdp.yml"
+  push:
+    branches: [main]
+    paths:
+      - "ebpf/**"
+      - "cmd/grpc-server-rust/**"
+      - "lib/rust/config/**"
+      - "Cargo.toml"
+      - "Cargo.lock"
+      - ".github/workflows/ebpf-xdp.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-xdp-and-rust-sidecar:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install LLVM toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang-18 llvm-18-dev libclang-18-dev
+
+      - name: Verify XDP and Rust sidecar (same command as local)
+        run: make -C ebpf verify
