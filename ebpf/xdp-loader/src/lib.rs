@@ -364,12 +364,18 @@ mod tests {
 
         for value in ["0.0.0.0/0", "10.1.0.0/16", "10.0.0.0/7"] {
             let net = parse_net(value).unwrap();
-            assert!(normalize(&config, net).is_err(), "{value} should be rejected");
+            assert!(
+                normalize(&config, net).is_err(),
+                "{value} should be rejected"
+            );
         }
     }
 
     #[test]
     fn bare_ip_becomes_a_host_prefix() {
-        assert_eq!(parse_net("2001:db8::1").unwrap(), "2001:db8::1/128".parse().unwrap());
+        assert_eq!(
+            parse_net("2001:db8::1").unwrap(),
+            "2001:db8::1/128".parse().unwrap()
+        );
     }
 }
