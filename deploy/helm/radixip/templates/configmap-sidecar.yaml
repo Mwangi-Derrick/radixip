@@ -31,6 +31,18 @@ data:
           rate_limited: 429
       blocklist:
         enabled: false
+      xdp:
+        enabled: false
+        interface: "eth0"
+        mode: "skb"
+        pin_dir: "/sys/fs/bpf/radixip/v1"
+        fail_closed: false
+        min_v4_prefix: 8
+        min_v6_prefix: 16
+        redis:
+          url: {{ include "radixip.redisUrl" . | quote }}
+          channel: "security:blocklist"
+          snapshot_key: "security:blocklist:set"
       rate_limit:
         enabled: true
         algorithm: {{ .Values.defaultPolicy.algorithm | default "token_bucket" | quote }}

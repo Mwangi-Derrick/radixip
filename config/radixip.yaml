@@ -37,6 +37,21 @@ radixip:
       - type: "file"
         path: "/etc/radixip/blocklist.txt"
 
+  # Optional kernel-level mirror of the Redis blocklist feed.
+  xdp:
+    enabled: false
+    interface: "eth0"
+    mode: "skb"
+    pin_dir: "/sys/fs/bpf/radixip/v1"
+    fail_closed: false
+    min_v4_prefix: 8
+    min_v6_prefix: 16
+    never_block: []
+    redis:
+      url: "redis://127.0.0.1:6379"
+      channel: "security:blocklist"
+      snapshot_key: "security:blocklist:set"
+
   # Global Token Bucket Rate Limiter settings
   rate_limit:
     enabled: true
