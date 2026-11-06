@@ -87,6 +87,8 @@ pub struct RootConfig {
     #[serde(default)]
     pub blocklist: BlocklistConfig,
     #[serde(default)]
+    pub xdp: XdpConfig,
+    #[serde(default)]
     pub rate_limit: RateLimitConfig,
     #[serde(default)]
     pub metrics: MetricsConfig,
@@ -94,6 +96,54 @@ pub struct RootConfig {
     pub auto_ban: AutoBanConfig,
     #[serde(default)]
     pub rate_limit_routes: RateLimitRoutesConfig,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+#[serde(default)]
+pub struct XdpConfig {
+    pub enabled: bool,
+    pub interface: String,
+    pub mode: String,
+    pub pin_dir: String,
+    pub fail_closed: bool,
+    pub min_v4_prefix: u8,
+    pub min_v6_prefix: u8,
+    pub never_block: Vec<String>,
+    pub redis: XdpRedisConfig,
+}
+
+impl Default for XdpConfig {
+    fn default() -> Self {
+        Self {
+            enabled: false,
+            interface: "eth0".into(),
+            mode: "skb".into(),
+            pin_dir: "/sys/fs/bpf/radixip/v1".into(),
+            fail_closed: false,
+            min_v4_prefix: 8,
+            min_v6_prefix: 16,
+            never_block: Vec::new(),
+            redis: XdpRedisConfig::default(),
+        }
+    }
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+#[serde(default)]
+pub struct XdpRedisConfig {
+    pub url: String,
+    pub channel: String,
+    pub snapshot_key: String,
+}
+
+impl Default for XdpRedisConfig {
+    fn default() -> Self {
+        Self {
+            url: "redis://127.0.0.1:6379".into(),
+            channel: "security:blocklist".into(),
+            snapshot_key: "security:blocklist:set".into(),
+        }
+    }
 }
 
 // Engine
