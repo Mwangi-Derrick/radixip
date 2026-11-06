@@ -7,16 +7,20 @@ import (
 	"log"
 	"net"
 	"net/http"
+	"net/netip"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
 
 	radixipgrpc "github.com/Mwangi-Derrick/radixip/lib/go/adapters/grpc-interceptor"
+	radixipconfig "github.com/Mwangi-Derrick/radixip/lib/go/config"
 	radixip "github.com/Mwangi-Derrick/radixip/lib/go/engine"
+	radixipxdp "github.com/Mwangi-Derrick/radixip/lib/go/xdp"
 	pb "github.com/Mwangi-Derrick/radixip/proto/radixip"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/redis/go-redis/v9"
 	"google.golang.org/grpc"
 )
 
@@ -84,6 +88,103 @@ type server struct {
 func newServer() *server {
 	engine := radixip.NewEngineWrapperWithTree(radixip.EngineStandard, radixip.AtomicRadixNode, true)
 	return &server{engine: engine}
+}
+
+func startXDP(cfg *radixipconfig.RadixIpConfig) func() {
+	if cfg == nil || !cfg.RadixIP.XDP.Enabled {
+		return func() {}
+	}
+
+	xdpConfig := cfg.RadixIP.XDP
+	redisURL := os.Getenv("RADIXIP_XDP_REDIS_URL")
+	if redisURL == "" {
+		redisURL = os.Getenv("RADIXIP_REDIS_URL")
+	}
+	if redisURL == "" {
+		redisURL = os.Getenv("REDIS_URL")
+	}
+	if redisURL == "" {
+		redisURL = xdpConfig.Redis.URL
+	}
+	redisOptions, err := redis.ParseURL(redisURL)
+	if err != nil {
+		log.Printf("XDP disabled: invalid Redis URL: %v", err)
+		return func() {}
+	}
+	redisOptions.DialTimeout = 5 * time.Second
+	redisOptions.ReadTimeout = 5 * time.Second
+	redisClient := redis.NewClient(redisOptions)
+
+	neverBlock := make([]netip.Prefix, 0, len(xdpConfig.NeverBlock))
+	for _, value := range xdpConfig.NeverBlock {
+		prefix, err := netip.ParsePrefix(value)
+		if err != nil {
+			log.Printf("XDP disabled: invalid never_block prefix %q: %v", value, err)
+			_ = redisClient.Close()
+			return func() {}
+		}
+		neverBlock = append(neverBlock, prefix)
+	}
+
+	loader, err := radixipxdp.Load(radixipxdp.Config{
+		Iface:      xdpConfig.Interface,
+		DriverMode: xdpConfig.Mode == "drv",
+		PinDir:     xdpConfig.PinDir,
+		MinV4:      xdpConfig.MinV4,
+		MinV6:      xdpConfig.MinV6,
+		NeverBlock: neverBlock,
+	})
+	if err != nil {
+		log.Printf("XDP unavailable; continuing with userspace filtering: %v", err)
+		_ = redisClient.Close()
+		return func() {}
+	}
+
+	ctx, cancel := context.WithCancel(context.Background())
+	bridge := &radixipxdp.Bridge{
+		Redis:       redisClient,
+		Loader:      loader,
+		Channel:     xdpConfig.Redis.Channel,
+		SnapshotKey: xdpConfig.Redis.SnapshotKey,
+	}
+	seeded, seedErr := bridge.Start(ctx)
+	if seedErr != nil {
+		log.Printf("XDP blocklist seed failed: %v", seedErr)
+		if xdpConfig.FailClosed {
+			cancel()
+			_ = bridge.Close()
+			_ = loader.Close()
+			_ = redisClient.Close()
+			return func() {}
+		}
+	}
+	if err := loader.Attach(); err != nil {
+		log.Printf("XDP attach failed; continuing with userspace filtering: %v", err)
+		cancel()
+		_ = bridge.Close()
+		_ = loader.Close()
+		_ = redisClient.Close()
+		return func() {}
+	}
+	log.Printf("XDP attached on %s (%s); seeded %d blocklist prefixes", xdpConfig.Interface, xdpConfig.Mode, seeded)
+
+	bridgeDone := make(chan struct{})
+	go func() {
+		defer close(bridgeDone)
+		if err := bridge.Run(ctx); err != nil && ctx.Err() == nil {
+			log.Printf("XDP Redis bridge stopped: %v", err)
+		}
+	}()
+
+	return func() {
+		cancel()
+		<-bridgeDone
+		_ = bridge.Close()
+		if err := loader.Close(); err != nil {
+			log.Printf("XDP cleanup error: %v", err)
+		}
+		_ = redisClient.Close()
+	}
 }
 
 func (s *server) Insert(ctx context.Context, req *pb.InsertRequest) (*pb.InsertResponse, error) {
@@ -245,6 +346,17 @@ func main() {
 		configPath = "radixip.yaml"
 	}
 
+	var sidecarConfig *radixipconfig.RadixIpConfig
+	if _, err := os.Stat(configPath); err == nil {
+		loaded, loadErr := radixipconfig.LoadFromFile(configPath)
+		if loadErr != nil {
+			log.Printf("⚠️ Failed to load RadixIP config from %s: %v", configPath, loadErr)
+		} else {
+			sidecarConfig = loaded
+		}
+	}
+	xdpStop := startXDP(sidecarConfig)
+
 	srv := newServer()
 
 	var serverOpts []grpc.ServerOption
@@ -279,5 +391,6 @@ func main() {
 	<-stop
 	log.Println("[Go gRPC Server] Shutting down gracefully...")
 	grpcServer.GracefulStop()
+	xdpStop()
 	fmt.Println("Server stopped")
 }
