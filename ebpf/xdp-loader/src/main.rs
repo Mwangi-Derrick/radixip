@@ -1,4 +1,4 @@
-use std::{net::IpAddr, path::PathBuf};
+use std::path::PathBuf;
 
 use anyhow::{Context, Result};
 use ipnet::IpNet;
@@ -48,25 +48,26 @@ fn config_from_env() -> Result<Option<Config>> {
 async fn main() {
     env_logger::init();
     let config = match config_from_env() {
-        Ok(Some(config)) => config,
+        Ok(Some(config)) => Some(config),
         Ok(None) => {
             info!("XDP disabled; running userspace-only");
-            std::future::pending::<()>().await;
-            return;
+            None
         }
         Err(error) => {
             error!("invalid XDP configuration; running userspace-only: {error:#}");
-            std::future::pending::<()>().await;
-            return;
+            None
         }
     };
 
-    let runtime: Option<Runtime> = match start(config).await {
-        Ok(runtime) => Some(runtime),
-        Err(error) => {
-            error!("XDP unavailable; running userspace-only: {error:#}");
-            None
-        }
+    let runtime: Option<Runtime> = match config {
+        Some(config) => match start(config).await {
+            Ok(runtime) => Some(runtime),
+            Err(error) => {
+                error!("XDP unavailable; running userspace-only: {error:#}");
+                None
+            }
+        },
+        None => None,
     };
 
     if let Err(error) = tokio::signal::ctrl_c().await {
