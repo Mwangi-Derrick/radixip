@@ -83,7 +83,9 @@ func (b *Bridge) Close() error {
 	if b.sub == nil {
 		return nil
 	}
-	return b.sub.Close()
+	sub := b.sub
+	b.sub = nil
+	return sub.Close()
 }
 
 func (b *Bridge) apply(payload string) error {
