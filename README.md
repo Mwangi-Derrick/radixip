@@ -880,7 +880,6 @@ We welcome contributions! Here's how to get started:
 5. **Open** a Pull Request
 
 **Guidelines**:
-- Run benchmarks before/after to prove no regression
 - Update documentation for any API changes
 - Add tests for new functionality
 - Keep performance as the #1 priority
