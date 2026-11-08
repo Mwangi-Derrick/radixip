@@ -84,7 +84,8 @@ short on purpose; this folder is where the engineering reasoning lives.
 | Document | notes |
 |---|---|
 | [Architecture](./docs/guides/architecture.md) | How the L1 (in-process) / L2 (Redis) layers fit together |
-[Sharding Architecture](./docs/guides/sharding-architecture.md) | Scaling with sharding |
+| [Network Layers and RadixIP](./docs/guides/network-layers-and-radixip.md) | OSI L1–L7, packet flow, XDP/eBPF, gRPC sidecars, and Kubernetes operator responsibilities |
+| [Sharding Architecture](./docs/guides/sharding-architecture.md) | Scaling with sharding |
 | [Radix Tree Design](./docs/guides/radix-tree-design.md) | The data structure at the core of RadixIP, and why it beats a hashmap or standard trie for this problem |
 | [Longest Prefix Match](./docs/guides/longest-prefix-match.md) | The algorithm every IP router on the internet runs, explained from first principles |
 | [IPv4 vs IPv6](./docs/guides/ipv4-vs-ipv6.md) | How address structure differs, and what that means for caching strategy |
@@ -104,7 +105,8 @@ If you're new to networking data structures, read in this order:
 4. [IPv4 vs IPv6](./docs/guides/ipv4-vs-ipv6.md) - how it changes across protocols
 5. [Cache Locality](./docs/guides/cache-locality.md) - why the implementation is shaped the way it is
 6. [Architecture](./docs/guides/architecture.md) - how it's wired into a real system
-7. [Benchmark Methodology](./docs/guides/benchmark-methodology.md) - how to verify all of the above
+7. [Network Layers and RadixIP](./docs/guides/network-layers-and-radixip.md) - where packets meet XDP, gRPC, Redis, and Kubernetes
+8. [Benchmark Methodology](./docs/guides/benchmark-methodology.md) - how to verify all of the above
 
 
 ## ⚡ SIMD Acceleration (Node16)
