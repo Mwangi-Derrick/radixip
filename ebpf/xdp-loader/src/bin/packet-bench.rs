@@ -1,14 +1,14 @@
 use std::{
     env,
     net::IpAddr,
-    os::fd::AsRawFd,
+    os::fd::{AsFd, AsRawFd},
     process::{Command, Stdio},
     time::Instant,
 };
 
 use anyhow::{bail, Context, Result};
 use ipnet::IpNet;
-use libbpf_rs::{AsFd, ObjectBuilder};
+use libbpf_rs::ObjectBuilder;
 use xdp_loader::{attach_xdp, detach_xdp, if_nametoindex, Maps, Mode};
 
 static BPF_OBJ: &[u8] = include_bytes!(concat!(env!("OUT_DIR"), "/radixip-xdp"));
