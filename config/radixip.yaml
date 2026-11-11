@@ -39,9 +39,9 @@ radixip:
 
   # Optional kernel-level mirror of the Redis blocklist feed.
   xdp:
-    enabled: false
+    enabled: true
     interface: "eth0"
-    mode: "skb"
+    mode: "auto"
     pin_dir: "/sys/fs/bpf/radixip/v1"
     fail_closed: false
     min_v4_prefix: 8
