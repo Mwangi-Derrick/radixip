@@ -102,13 +102,12 @@ fi
 
 if [[ "${TARGET}" == "all" || "${TARGET}" == "rust" ]]; then
     if command -v cargo &>/dev/null; then
-        echo -e "${BLUE}🔨 Compiling Rust gRPC server & Rust XDP packet-bench (--release)...${NC}"
-        cargo build --release -p radixip-grpc-server -p xdp-loader --bin packet-bench
+        echo -e "${BLUE}🔨 Compiling Rust gRPC server (--release)...${NC}"
+        cargo build --release -p radixip-grpc-server
         cp -f target/release/radixip-grpc-server "${ROOT_DIR}/bin/radixip-grpc-server" 2>/dev/null || \
         cp -f target/release/grpc-server-rust "${ROOT_DIR}/bin/radixip-grpc-server" 2>/dev/null || true
-        cp -f target/release/packet-bench "${ROOT_DIR}/bin/rust-xdp-packet-bench"
     else
-        echo -e "${YELLOW}⚠️  Cargo not found; skipping Rust server and XDP bench build.${NC}"
+        echo -e "${YELLOW}⚠️  Cargo not found; skipping Rust server build.${NC}"
         if [[ "${TARGET}" == "rust" ]]; then
             exit 1
         fi
@@ -292,9 +291,11 @@ if [[ "${TARGET}" == "all" || "${TARGET}" == "go" ]]; then
 fi
 
 if [[ "${TARGET}" == "all" || "${TARGET}" == "rust" ]]; then
-    echo -e "${BOLD}--- Rust XDP Stack (Aya eBPF + Rust xdp-kernel obj) ---${NC}"
-    run_xdp_packet_benchmark "rust" "skb"
-    run_xdp_packet_benchmark "rust" "drv"
+    if [[ -f "${ROOT_DIR}/bin/rust-xdp-packet-bench" ]]; then
+        echo -e "${BOLD}--- Rust XDP Stack (Aya eBPF + Rust xdp-kernel obj) ---${NC}"
+        run_xdp_packet_benchmark "rust" "skb"
+        run_xdp_packet_benchmark "rust" "drv"
+    fi
 fi
 
 # Print final comparison table
