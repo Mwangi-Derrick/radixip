@@ -37,6 +37,14 @@ if ! command -v go &>/dev/null && [[ -x /usr/local/go/bin/go ]]; then
     export PATH
 fi
 
+if ! command -v cargo &>/dev/null && [[ -n "${SUDO_USER:-}" ]]; then
+    SUDO_USER_HOME="$(getent passwd "${SUDO_USER}" | cut -d: -f6)"
+    if [[ -x "${SUDO_USER_HOME}/.cargo/bin/cargo" ]]; then
+        PATH="${SUDO_USER_HOME}/.cargo/bin:${PATH}"
+        export PATH
+    fi
+fi
+
 NS_CLIENT="radix-bench-cli"
 NS_SERVER="radix-bench-srv"
 VETH_CLI="veth-c"
