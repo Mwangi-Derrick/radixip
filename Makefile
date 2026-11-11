@@ -120,6 +120,9 @@ bench:
 	@echo "Benchmarking Go..."
 	cd lib/go/engine && go test -bench=. -benchmem ./...
 
+bench-xdp:
+	@chmod +x ./scripts/bench_xdp_vs_l7.sh && sudo ./scripts/bench_xdp_vs_l7.sh
+
 clean:
 	@echo "Cleaning..."
 	cd lib/rust/engine && cargo clean

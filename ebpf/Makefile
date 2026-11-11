@@ -4,9 +4,13 @@
 #        cargo install bpf-linker
 # Go:    clang, libbpf-dev, linux headers; `go get github.com/cilium/ebpf github.com/redis/go-redis/v9`
 
-.PHONY: setup kernel loader go-gen go-test verify-unit verify all clean
+.PHONY: setup kernel loader go-gen go-test verify-unit verify all clean bench
 
 all: kernel loader go-gen
+
+# Reproducible L7 vs L2/L3 eBPF/XDP benchmark in isolated netns
+bench:
+	@chmod +x ../scripts/bench_xdp_vs_l7.sh && sudo ../scripts/bench_xdp_vs_l7.sh
 
 # Fast checks that need no kernel object, root, or BPF capabilities.
 verify-unit:
