@@ -273,8 +273,14 @@ The message format and snapshot key in the scaffolds are **assumptions**. Adapt 
 1. **Unit (no NIC):** `BPF_PROG_TEST_RUN`. The Go scaffold has `xdp_test.go` that feeds crafted v4/v6 frames through the loaded program and asserts `XDP_DROP` / `XDP_PASS`. It needs root (or `CAP_BPF`) and skips otherwise. This is where you assert the key-encoding and endianness behavior.
 2. **Integration:** a veth pair in a network namespace. Attach in SKB mode, send traffic from the peer, and check the `stats` map and `bpftool map dump`.
 3. **Inspect:** `bpftool prog show`, `bpftool map show`, `bpftool net` (shows attached XDP and mode).
-4. **Benchmark:** use a packet generator on real hardware (`xdp-bench`/`xdp-trafficgen` from xdp-tools, or pktgen/TRex) for native-mode numbers. veth tests tell you about correctness, not NIC-level performance.
-5. **Negative tests:** `/0` insert is rejected; mapped-IPv6 entry lands in the v4 map; truncated frame passes; VLAN-tagged frame is filtered.
+4. **Reproducible Benchmark (`scripts/bench_xdp_vs_l7.sh`):** Compares unblocked baseline, L7 gRPC interceptor rejection, and L2/L3 XDP packet drop inside isolated network namespaces (`netns`) over `veth` pairs without risking host connectivity.
+5. **Driver Fallback & Hardware Dispatch:**
+   - Laptop/workstation Gigabit NICs such as the Intel I219-LM / I219-V (HP EliteBook 840 G3) run on the **`e1000e`** driver, which does **not** implement native XDP driver hooks in the Linux kernel. Wireless NICs (`iwlwifi`) likewise do not support native XDP.
+   - RadixIP loaders (Go and Rust) support `auto` mode: they attempt Native Driver Mode (`link.XDPDriverMode` / `XdpFlags::DRV_MODE`), and if unsupported by the NIC driver, automatically fall back to Generic SKB Mode (`link.XDPGenericMode` / `XdpFlags::SKB_MODE`).
+6. **CI vs Bare Metal:**
+   - GitHub Actions runners run on Azure VMs with virtualized synthetic NICs (`hv_netvsc`), which lack native XDP support and share CPU resources with other tenants.
+   - CI workflows should run correctness and unit tests (`BPF_PROG_TEST_RUN` or netns `veth` tests). Authoritative hardware line-rate throughput benchmarks should be executed on bare-metal machines with dedicated NICs (such as Intel `ixgbe` or Mellanox `mlx5_core`).
+7. **Negative tests:** `/0` insert is rejected; mapped-IPv6 entry lands in the v4 map; truncated frame passes; VLAN-tagged frame is filtered.
 
 ---
 
