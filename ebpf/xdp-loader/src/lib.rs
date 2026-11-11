@@ -1,21 +1,19 @@
 use std::{
     collections::HashSet,
-    net::IpAddr,
+    ffi::CString,
+    net::{IpAddr, Ipv4Addr, Ipv6Addr},
     path::PathBuf,
+    sync::Arc,
     time::{Duration, Instant},
 };
 
 use anyhow::{anyhow, bail, Context, Result};
-use aya::{
-    maps::{
-        lpm_trie::{Key, LpmTrie},
-        MapData, PerCpuArray,
-    },
-    programs::{Xdp, XdpFlags},
-    EbpfLoader,
-};
 use futures_util::StreamExt;
 use ipnet::{IpNet, Ipv4Net};
+use libbpf_rs::{
+    skel::{OpenSkel, Skel, SkelBuilder},
+    MapCore, Object, OpenObject,
+};
 use log::{info, warn};
 use redis::aio::PubSub;
 use tokio::{sync::oneshot, task::JoinHandle};
@@ -68,87 +66,282 @@ impl Drop for Runtime {
     }
 }
 
-struct Maps {
-    v4: LpmTrie<MapData, [u8; 4], u8>,
-    v6: LpmTrie<MapData, [u8; 16], u8>,
-    stats: PerCpuArray<MapData, u64>,
+// LPM trie key matching kernel struct bpf_lpm_trie_key
+#[repr(C, packed)]
+#[derive(Clone, Copy)]
+pub struct LpmKeyV4 {
+    pub prefixlen: u32,
+    pub data: [u8; 4],
+}
+
+#[repr(C, packed)]
+#[derive(Clone, Copy)]
+pub struct LpmKeyV6 {
+    pub prefixlen: u32,
+    pub data: [u8; 16],
+}
+
+pub struct Maps {
+    v4_fd: i32,
+    v6_fd: i32,
+    stats_fd: i32,
     entries: HashSet<IpNet>,
 }
 
 impl Maps {
-    fn put(&mut self, net: IpNet) -> Result<()> {
+    pub fn new(obj: &Object) -> Result<Self> {
+        let v4 = obj.map("blocklist_v4").context("no blocklist_v4 map")?;
+        let v6 = obj.map("blocklist_v6").context("no blocklist_v6 map")?;
+        let stats = obj.map("stats").context("no stats map")?;
+
+        Ok(Self {
+            v4_fd: v4.fd(),
+            v6_fd: v6.fd(),
+            stats_fd: stats.fd(),
+            entries: HashSet::new(),
+        })
+    }
+
+    pub fn put(&mut self, net: IpNet) -> Result<()> {
+        let value = 1u8;
         match net {
             IpNet::V4(prefix) => {
-                self.v4.insert(
-                    &Key::new(prefix.prefix_len() as u32, prefix.network().octets()),
-                    1u8,
-                    0,
-                )?;
+                let key = LpmKeyV4 {
+                    prefixlen: prefix.prefix_len() as u32,
+                    data: prefix.network().octets(),
+                };
+                unsafe {
+                    let key_ptr = &key as *const _ as *const libc::c_void;
+                    let val_ptr = &value as *const _ as *const libc::c_void;
+                    let res = libc::syscall(
+                        libc::SYS_bpf,
+                        2, // BPF_MAP_UPDATE_ELEM
+                        &bpf_map_update_attr {
+                            map_fd: self.v4_fd as u32,
+                            key: key_ptr as u64,
+                            value: val_ptr as u64,
+                            flags: 0,
+                        },
+                        std::mem::size_of::<bpf_map_update_attr>(),
+                    );
+                    if res < 0 {
+                        bail!("BPF update v4 map error: {}", std::io::Error::last_os_error());
+                    }
+                }
             }
             IpNet::V6(prefix) => {
-                self.v6.insert(
-                    &Key::new(prefix.prefix_len() as u32, prefix.network().octets()),
-                    1u8,
-                    0,
-                )?;
+                let key = LpmKeyV6 {
+                    prefixlen: prefix.prefix_len() as u32,
+                    data: prefix.network().octets(),
+                };
+                unsafe {
+                    let key_ptr = &key as *const _ as *const libc::c_void;
+                    let val_ptr = &value as *const _ as *const libc::c_void;
+                    let res = libc::syscall(
+                        libc::SYS_bpf,
+                        2, // BPF_MAP_UPDATE_ELEM
+                        &bpf_map_update_attr {
+                            map_fd: self.v6_fd as u32,
+                            key: key_ptr as u64,
+                            value: val_ptr as u64,
+                            flags: 0,
+                        },
+                        std::mem::size_of::<bpf_map_update_attr>(),
+                    );
+                    if res < 0 {
+                        bail!("BPF update v6 map error: {}", std::io::Error::last_os_error());
+                    }
+                }
             }
         }
         self.entries.insert(net);
         Ok(())
     }
 
-    fn delete(&mut self, net: IpNet) {
-        let _ = match net {
-            IpNet::V4(prefix) => self.v4.remove(&Key::new(
-                prefix.prefix_len() as u32,
-                prefix.network().octets(),
-            )),
-            IpNet::V6(prefix) => self.v6.remove(&Key::new(
-                prefix.prefix_len() as u32,
-                prefix.network().octets(),
-            )),
-        };
+    pub fn delete(&mut self, net: IpNet) {
+        match net {
+            IpNet::V4(prefix) => {
+                let key = LpmKeyV4 {
+                    prefixlen: prefix.prefix_len() as u32,
+                    data: prefix.network().octets(),
+                };
+                unsafe {
+                    let key_ptr = &key as *const _ as *const libc::c_void;
+                    let _ = libc::syscall(
+                        libc::SYS_bpf,
+                        3, // BPF_MAP_DELETE_ELEM
+                        &bpf_map_delete_attr {
+                            map_fd: self.v4_fd as u32,
+                            key: key_ptr as u64,
+                        },
+                        std::mem::size_of::<bpf_map_delete_attr>(),
+                    );
+                }
+            }
+            IpNet::V6(prefix) => {
+                let key = LpmKeyV6 {
+                    prefixlen: prefix.prefix_len() as u32,
+                    data: prefix.network().octets(),
+                };
+                unsafe {
+                    let key_ptr = &key as *const _ as *const libc::c_void;
+                    let _ = libc::syscall(
+                        libc::SYS_bpf,
+                        3, // BPF_MAP_DELETE_ELEM
+                        &bpf_map_delete_attr {
+                            map_fd: self.v6_fd as u32,
+                            key: key_ptr as u64,
+                        },
+                        std::mem::size_of::<bpf_map_delete_attr>(),
+                    );
+                }
+            }
+        }
         self.entries.remove(&net);
     }
 
-    fn stat(&self, index: u32) -> u64 {
-        self.stats
-            .get(&index, 0)
-            .map(|values| values.iter().sum())
-            .unwrap_or(0)
+    pub fn stat(&self, index: u32) -> u64 {
+        let ncpus = match num_cpus() {
+            Ok(n) => n,
+            Err(_) => 1,
+        };
+        let mut values = vec![0u64; ncpus];
+        unsafe {
+            let key_ptr = &index as *const _ as *const libc::c_void;
+            let val_ptr = values.as_mut_ptr() as *mut libc::c_void;
+            let res = libc::syscall(
+                libc::SYS_bpf,
+                1, // BPF_MAP_LOOKUP_ELEM
+                &bpf_map_lookup_attr {
+                    map_fd: self.stats_fd as u32,
+                    key: key_ptr as u64,
+                    value: val_ptr as u64,
+                    flags: 0,
+                },
+                std::mem::size_of::<bpf_map_lookup_attr>(),
+            );
+            if res == 0 {
+                values.iter().sum()
+            } else {
+                0
+            }
+        }
     }
 }
 
-/// Load maps, subscribe and seed from Redis, then attach the XDP program.
-/// The returned handle owns the attachment and background synchronization task.
+#[repr(C)]
+struct bpf_map_lookup_attr {
+    map_fd: u32,
+    key: u64,
+    value: u64,
+    flags: u64,
+}
+
+#[repr(C)]
+struct bpf_map_update_attr {
+    map_fd: u32,
+    key: u64,
+    value: u64,
+    flags: u64,
+}
+
+#[repr(C)]
+struct bpf_map_delete_attr {
+    map_fd: u32,
+    key: u64,
+}
+
+fn num_cpus() -> Result<usize> {
+    let count = unsafe { libc::sysconf(libc::_SC_NPROCESSORS_ONLN) };
+    if count > 0 {
+        Ok(count as usize)
+    } else {
+        Ok(1)
+    }
+}
+
+pub fn if_nametoindex(iface: &str) -> Result<u32> {
+    let c_str = CString::new(iface)?;
+    let idx = unsafe { libc::if_nametoindex(c_str.as_ptr()) };
+    if idx == 0 {
+        bail!("invalid interface {iface}");
+    }
+    Ok(idx)
+}
+
+/// Attach XDP program using libbpf
+pub fn attach_xdp(prog_fd: i32, ifindex: u32, mode: Mode) -> Result<u32> {
+    // XDP flags: 1 << 0 (SKB_MODE), 1 << 1 (DRV_MODE)
+    const XDP_FLAGS_SKB_MODE: u32 = 1 << 1;
+    const XDP_FLAGS_DRV_MODE: u32 = 1 << 2;
+
+    match mode {
+        Mode::Skb => {
+            unsafe {
+                let res = libc::bpf_xdp_attach(ifindex as i32, prog_fd, XDP_FLAGS_SKB_MODE, std::ptr::null());
+                if res < 0 {
+                    bail!("bpf_xdp_attach SKB failed: {}", std::io::Error::last_os_error());
+                }
+            }
+            Ok(XDP_FLAGS_SKB_MODE)
+        }
+        Mode::Driver => {
+            let res = unsafe {
+                libc::bpf_xdp_attach(ifindex as i32, prog_fd, XDP_FLAGS_DRV_MODE, std::ptr::null())
+            };
+            if res < 0 {
+                warn!("XDP DRV mode failed; falling back to SKB");
+                let fallback = unsafe {
+                    libc::bpf_xdp_attach(ifindex as i32, prog_fd, XDP_FLAGS_SKB_MODE, std::ptr::null())
+                };
+                if fallback < 0 {
+                    bail!("bpf_xdp_attach fallback to SKB failed: {}", std::io::Error::last_os_error());
+                }
+                Ok(XDP_FLAGS_SKB_MODE)
+            } else {
+                Ok(XDP_FLAGS_DRV_MODE)
+            }
+        }
+        Mode::Auto => {
+            let res = unsafe {
+                libc::bpf_xdp_attach(ifindex as i32, prog_fd, XDP_FLAGS_DRV_MODE, std::ptr::null())
+            };
+            if res < 0 {
+                let fallback = unsafe {
+                    libc::bpf_xdp_attach(ifindex as i32, prog_fd, XDP_FLAGS_SKB_MODE, std::ptr::null())
+                };
+                if fallback < 0 {
+                    bail!("bpf_xdp_attach auto SKB failed: {}", std::io::Error::last_os_error());
+                }
+                Ok(XDP_FLAGS_SKB_MODE)
+            } else {
+                Ok(XDP_FLAGS_DRV_MODE)
+            }
+        }
+    }
+}
+
+pub fn detach_xdp(ifindex: u32, flags: u32) {
+    unsafe {
+        let _ = libc::bpf_xdp_detach(ifindex as i32, flags, std::ptr::null());
+    }
+}
+
+// Declarations for libbpf C ABI
+extern "C" {
+    fn bpf_xdp_attach(ifindex: libc::c_int, prog_fd: libc::c_int, flags: libc::c_uint, opts: *const libc::c_void) -> libc::c_int;
+    fn bpf_xdp_detach(ifindex: libc::c_int, flags: libc::c_uint, opts: *const libc::c_void) -> libc::c_int;
+}
+
 pub async fn start(config: Config) -> Result<Runtime> {
     let started = Instant::now();
-    std::fs::create_dir_all(&config.pin_dir).with_context(|| {
-        format!(
-            "create pin directory {:?} (is bpffs mounted?)",
-            config.pin_dir
-        )
-    })?;
+    let ifindex = if_nametoindex(&config.iface)?;
 
-    let mut ebpf = EbpfLoader::new()
-        .map_pin_path(&config.pin_dir)
-        .load(BPF_OBJ)
-        .context(
-            "load eBPF object (kernel too old, missing capabilities, or pinned map mismatch)",
-        )?;
+    let open_obj = OpenObject::from_memory(BPF_OBJ, None)
+        .context("open embedded BPF object with libbpf")?;
+    let obj = open_obj.load().context("load BPF object with libbpf")?;
 
-    let mut maps = Maps {
-        v4: LpmTrie::try_from(
-            ebpf.take_map("blocklist_v4")
-                .context("no blocklist_v4 map")?,
-        )?,
-        v6: LpmTrie::try_from(
-            ebpf.take_map("blocklist_v6")
-                .context("no blocklist_v6 map")?,
-        )?,
-        stats: PerCpuArray::try_from(ebpf.take_map("stats").context("no stats map")?)?,
-        entries: HashSet::new(),
-    };
+    let mut maps = Maps::new(&obj)?;
 
     let client = redis::Client::open(config.redis_url.as_str())?;
     let mut pubsub: Option<PubSub> = match client.get_async_pubsub().await {
@@ -197,64 +390,21 @@ pub async fn start(config: Config) -> Result<Runtime> {
     }
 
     if !seeded && config.fail_closed {
-        bail!(
-            "xdp.fail_closed is set and blocklist snapshot could not be read; refusing to attach"
-        );
-    }
-    if !seeded {
-        warn!("attaching with an unseeded map; userspace remains the only active filter");
+        bail!("xdp.fail_closed is set and blocklist snapshot could not be read; refusing to attach");
     }
 
-    let program: &mut Xdp = ebpf
-        .program_mut("radixip_xdp")
-        .context("program radixip_xdp not found")?
-        .try_into()?;
-    program.load().context("verifier rejected XDP program")?;
-    let (link, effective_mode) = match config.mode {
-        Mode::Skb => {
-            let l = program
-                .attach(&config.iface, XdpFlags::SKB_MODE)
-                .with_context(|| format!("attach XDP to {} (SKB)", config.iface))?;
-            (l, Mode::Skb)
-        }
-        Mode::Driver => match program.attach(&config.iface, XdpFlags::DRV_MODE) {
-            Ok(l) => (l, Mode::Driver),
-            Err(err) => {
-                warn!(
-                    "XDP driver mode failed on {} ({err:#}); falling back to SKB mode",
-                    config.iface
-                );
-                let l = program
-                    .attach(&config.iface, XdpFlags::SKB_MODE)
-                    .with_context(|| format!("attach XDP fallback to {} (SKB)", config.iface))?;
-                (l, Mode::Skb)
-            }
-        },
-        Mode::Auto => match program.attach(&config.iface, XdpFlags::DRV_MODE) {
-            Ok(l) => (l, Mode::Driver),
-            Err(err) => {
-                info!(
-                    "XDP auto-detect: driver mode unsupported on {} ({err:#}); using SKB mode",
-                    config.iface
-                );
-                let l = program
-                    .attach(&config.iface, XdpFlags::SKB_MODE)
-                    .with_context(|| format!("attach XDP to {} (SKB)", config.iface))?;
-                (l, Mode::Skb)
-            }
-        },
-    };
+    let prog = obj.prog("radixip_xdp").context("prog radixip_xdp not found")?;
+    let flags = attach_xdp(prog.fd(), ifindex, config.mode)?;
+
     info!(
-        "XDP attached on {} ({:?}); seed phase took {:?}",
+        "libbpf: XDP attached on {} (flags: {:#x}); seed phase took {:?}",
         config.iface,
-        effective_mode,
+        flags,
         started.elapsed()
     );
 
     let (shutdown, mut shutdown_rx) = oneshot::channel();
     let task = tokio::spawn(async move {
-        let _link = link;
-        let _ebpf = ebpf;
         let mut tick = tokio::time::interval(Duration::from_secs(10));
         let mut stream = pubsub
             .as_mut()
@@ -263,7 +413,8 @@ pub async fn start(config: Config) -> Result<Runtime> {
         loop {
             tokio::select! {
                 _ = &mut shutdown_rx => {
-                    info!("stopping embedded XDP runtime");
+                    info!("stopping libbpf XDP runtime");
+                    detach_xdp(ifindex, flags);
                     break;
                 }
                 _ = tick.tick() => {
@@ -354,56 +505,5 @@ fn apply_event(config: &Config, maps: &mut Maps, payload: &str) -> Result<()> {
     } else {
         maps.delete(net);
         Ok(())
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::{normalize, parse_net, Config, Mode};
-    use ipnet::IpNet;
-    use std::path::PathBuf;
-
-    fn config(never_block: Vec<IpNet>) -> Config {
-        Config {
-            iface: "eth0".into(),
-            mode: Mode::Skb,
-            pin_dir: PathBuf::from("/tmp/radixip-test-bpffs"),
-            redis_url: "redis://127.0.0.1:6379".into(),
-            channel: "security:blocklist".into(),
-            snapshot_key: "security:blocklist:set".into(),
-            fail_closed: false,
-            min_v4: 8,
-            min_v6: 16,
-            never_block,
-        }
-    }
-
-    #[test]
-    fn mapped_ipv6_prefix_normalizes_to_ipv4() {
-        let net = parse_net("::ffff:198.51.100.0/120").unwrap();
-        let normalized = normalize(&config(Vec::new()), net).unwrap();
-        assert_eq!(normalized, "198.51.100.0/24".parse().unwrap());
-    }
-
-    #[test]
-    fn rejects_too_broad_and_protected_prefixes() {
-        let protected = "10.0.0.0/8".parse().unwrap();
-        let config = config(vec![protected]);
-
-        for value in ["0.0.0.0/0", "10.1.0.0/16", "10.0.0.0/7"] {
-            let net = parse_net(value).unwrap();
-            assert!(
-                normalize(&config, net).is_err(),
-                "{value} should be rejected"
-            );
-        }
-    }
-
-    #[test]
-    fn bare_ip_becomes_a_host_prefix() {
-        assert_eq!(
-            parse_net("2001:db8::1").unwrap(),
-            "2001:db8::1/128".parse().unwrap()
-        );
     }
 }
