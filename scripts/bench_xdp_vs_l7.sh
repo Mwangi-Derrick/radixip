@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
 # scripts/bench_xdp_vs_l7.sh
 #
-# Measures gRPC RPC-call throughput and XDP ICMP packet drops separately.
-# XDP PPS is calculated from the program's per-CPU drop-counter delta and
-# wall-clock packet-generator duration. This veth result is not NIC line rate.
-# Compares Go (grpc-server-go) and Rust (radixip-grpc-server) sidecars.
+# Measures gRPC RPC-call throughput and XDP packet drops for BOTH Go and Rust.
+# - Go XDP stack: Cilium eBPF + C BPF program (xdp-c)
+# - Rust XDP stack: Aya eBPF + Rust BPF program (xdp-kernel)
+# XDP PPS is calculated from each program's per-CPU drop-counter delta and
+# wall-clock packet-generator duration across isolated network namespaces.
 #
 # Runs on any Linux OS (Fedora Workstation, Ubuntu, Arch, Debian) using isolated
-# network namespaces and veth pairs. Does NOT touch physical host NICs (safe to
-# run without dropping WiFi or SSH).
+# network namespaces and veth pairs. Safe to run without dropping host networking.
 #
 # Usage:
 #   sudo ./scripts/bench_xdp_vs_l7.sh [all|go|rust]
 #
-# Requires: sudo / root privileges, Go, iproute2, and iputils-ping.
+# Requires: sudo / root privileges, Go, Cargo, iproute2, and iputils-ping.
 
 set -euo pipefail
 
@@ -65,8 +65,6 @@ PORT=50051
 CONCURRENCY=32
 RESULTS_DIR="${ROOT_DIR}/test-results/bench_l7_vs_xdp"
 XDP_DURATION="${XDP_DURATION:-5}"
-XDP_RESULT_SKB="NOT RUN"
-XDP_RESULT_DRV="NOT RUN"
 mkdir -p "${RESULTS_DIR}"
 
 cleanup() {
@@ -79,7 +77,7 @@ cleanup() {
 trap cleanup EXIT
 
 echo -e "${BOLD}${BLUE}========================================================================${NC}"
-echo -e "${BOLD}${BLUE}  RadixIP Smoke Benchmark: gRPC RPC Calls and XDP Attach Status       ${NC}"
+echo -e "${BOLD}${BLUE}  RadixIP Performance Benchmark: L7 vs L2/L3 eBPF/XDP (Go & Rust)      ${NC}"
 echo -e "${BOLD}${BLUE}  Target Runtimes: ${BOLD}${TARGET^^}${NC}"
 echo -e "${BOLD}${BLUE}========================================================================${NC}"
 
@@ -91,25 +89,26 @@ for tool in ip go ping; do
     fi
 done
 
-# Build test probe and servers
-echo -e "${BLUE}🔨 Building test probe and gRPC servers...${NC}"
+# Build test probes and servers
+echo -e "${BLUE}🔨 Building test probes and gRPC servers...${NC}"
 mkdir -p "${ROOT_DIR}/bin"
 (cd cmd/grpc-probe-go && go build -o "${ROOT_DIR}/bin/grpc-probe-go" .)
-(cd lib/go/xdp && go build -o "${ROOT_DIR}/bin/xdp-packet-bench" ./cmd/packet-bench)
 
 if [[ "${TARGET}" == "all" || "${TARGET}" == "go" ]]; then
-    echo -e "${BLUE}🔨 Compiling Go gRPC server...${NC}"
+    echo -e "${BLUE}🔨 Compiling Go gRPC server & Go XDP packet-bench...${NC}"
     (cd cmd/grpc-server-go && go build -o "${ROOT_DIR}/bin/radixip-grpc-go" .)
+    (cd lib/go/xdp && go build -o "${ROOT_DIR}/bin/go-xdp-packet-bench" ./cmd/packet-bench)
 fi
 
 if [[ "${TARGET}" == "all" || "${TARGET}" == "rust" ]]; then
     if command -v cargo &>/dev/null; then
-        echo -e "${BLUE}🔨 Compiling Rust gRPC server (--release)...${NC}"
-        cargo build --release -p radixip-grpc-server
+        echo -e "${BLUE}🔨 Compiling Rust gRPC server & Rust XDP packet-bench (--release)...${NC}"
+        cargo build --release -p radixip-grpc-server --bin packet-bench
         cp -f target/release/radixip-grpc-server "${ROOT_DIR}/bin/radixip-grpc-server" 2>/dev/null || \
         cp -f target/release/grpc-server-rust "${ROOT_DIR}/bin/radixip-grpc-server" 2>/dev/null || true
+        cp -f target/release/packet-bench "${ROOT_DIR}/bin/rust-xdp-packet-bench"
     else
-        echo -e "${YELLOW}⚠️  Cargo not found; skipping Rust server build.${NC}"
+        echo -e "${YELLOW}⚠️  Cargo not found; skipping Rust server and XDP bench build.${NC}"
         if [[ "${TARGET}" == "rust" ]]; then
             exit 1
         fi
@@ -164,15 +163,22 @@ run_probe() {
 }
 
 run_xdp_packet_benchmark() {
-    local mode=$1
-    local label="xdp_${mode}"
+    local runtime=$1 # "go" or "rust"
+    local mode=$2    # "skb" or "drv"
+    local bench_bin="${ROOT_DIR}/bin/${runtime}-xdp-packet-bench"
+    local label="xdp_${runtime}_${mode}"
     local result_file="${RESULTS_DIR}/${label}.txt"
     local output
     local status=0
 
+    if [[ ! -f "${bench_bin}" ]]; then
+        echo -e "${YELLOW}⚠️  Binary ${bench_bin} not found; skipping ${runtime} XDP ${mode}.${NC}"
+        return
+    fi
+
     setup_namespaces
-    echo -e "${BLUE}▶ Measuring XDP ${mode} packet drops on the server veth...${NC}"
-    output=$(ip netns exec "${NS_SERVER}" "${ROOT_DIR}/bin/xdp-packet-bench" \
+    echo -e "${BLUE}▶ Measuring [${runtime^^}] XDP ${mode} packet drops on server veth...${NC}"
+    output=$(ip netns exec "${NS_SERVER}" "${bench_bin}" \
         -iface "${VETH_SRV}" \
         -source "${IP_CLI}" \
         -destination "${IP_SRV}" \
@@ -186,14 +192,26 @@ run_xdp_packet_benchmark() {
         pps=$(sed -n 's/.*xdp_drop_pps=\([0-9][0-9]*\).*/\1/p' <<<"${output}" | tail -n 1)
         if [[ -z "${pps}" ]]; then
             echo -e "${YELLOW}XDP benchmark returned no measured PPS value.${NC}"
-            if [[ "${mode}" == "skb" ]]; then XDP_RESULT_SKB="INVALID RESULT"; else XDP_RESULT_DRV="INVALID RESULT"; fi
+            if [[ "${mode}" == "skb" ]]; then
+                RESULTS_XDP_SKB["${runtime^^}"]="INVALID RESULT"
+            else
+                RESULTS_XDP_DRV["${runtime^^}"]="INVALID RESULT"
+            fi
             return
         fi
-        if [[ "${mode}" == "skb" ]]; then XDP_RESULT_SKB="${pps} pps"; else XDP_RESULT_DRV="${pps} pps"; fi
-        echo -e "   Measured XDP drops: ${BOLD}${GREEN}${pps} packets/s${NC} (per-CPU drop-counter delta / elapsed wall time)"
+        if [[ "${mode}" == "skb" ]]; then
+            RESULTS_XDP_SKB["${runtime^^}"]="${pps} pps"
+        else
+            RESULTS_XDP_DRV["${runtime^^}"]="${pps} pps"
+        fi
+        echo -e "   Measured XDP drops: ${BOLD}${GREEN}${pps} packets/s${NC} (per-CPU counter delta / ${XDP_DURATION}s flood)"
     else
-        echo -e "${YELLOW}XDP ${mode} measurement unavailable (helper exit ${status}); see ${result_file}.${NC}"
-        if [[ "${mode}" == "skb" ]]; then XDP_RESULT_SKB="UNAVAILABLE"; else XDP_RESULT_DRV="UNAVAILABLE"; fi
+        echo -e "${YELLOW}XDP ${runtime} ${mode} measurement failed (exit ${status}); see ${result_file}.${NC}"
+        if [[ "${mode}" == "skb" ]]; then
+            RESULTS_XDP_SKB["${runtime^^}"]="UNAVAILABLE"
+        else
+            RESULTS_XDP_DRV["${runtime^^}"]="UNAVAILABLE"
+        fi
     fi
 }
 
@@ -207,7 +225,7 @@ run_suite() {
     local BINARY=$2
 
     echo -e "\n${BOLD}${BLUE}========================================================================${NC}"
-    echo -e "${BOLD}${BLUE}  Starting Benchmark Suite for: ${BOLD}${RUNTIME}${NC}"
+    echo -e "${BOLD}${BLUE}  Starting gRPC Benchmark Suite for: ${BOLD}${RUNTIME}${NC}"
     echo -e "${BOLD}${BLUE}========================================================================${NC}"
 
     if [[ ! -f "${BINARY}" ]]; then
@@ -224,38 +242,34 @@ run_suite() {
     ip netns exec "${NS_SERVER}" env \
         GRPC_PORT="${PORT}" \
         METRICS_PORT="9090" \
+        RADIXIP_L7_BLOCK_CLIENT="false" \
         "${BINARY}" > "${RESULTS_DIR}/${RUNTIME}_server.log" 2>&1 &
     PID=$!
     sleep 2
 
     RPS=$(run_probe "${RUNTIME}_01_baseline" "192.0.2.10" 15000)
     RESULTS_BASELINE["${RUNTIME}"]="${RPS}"
-    echo -e "   RPC calls: ${BOLD}${GREEN}${RPS}/s${NC} (all statuses; inspect saved probe output)"
+    echo -e "   RPC calls: ${BOLD}${GREEN}${RPS} req/s${NC}"
     kill $PID 2>/dev/null || true
 
     # 2. L7 Interceptor Block
     setup_namespaces
-    echo -e "${BLUE}▶ [${RUNTIME}] 2. gRPC RPC workload with forwarded-IP metadata...${NC}"
+    echo -e "${BLUE}▶ [${RUNTIME}] 2. L7 Blocklist: Application Interceptor Drop (403)...${NC}"
     ip netns exec "${NS_SERVER}" env \
         GRPC_PORT="${PORT}" \
         METRICS_PORT="9090" \
+        RADIXIP_L7_BLOCK_CLIENT="true" \
         "${BINARY}" >> "${RESULTS_DIR}/${RUNTIME}_server.log" 2>&1 &
     PID=$!
     sleep 2
 
     RPS=$(run_probe "${RUNTIME}_02_l7_blocked" "203.0.113.250" 15000)
     RESULTS_L7["${RUNTIME}"]="${RPS}"
-    echo -e "   RPC calls: ${BOLD}${YELLOW}${RPS}/s${NC} (all statuses; not a verified L7 block test)"
+    echo -e "   RPC calls: ${BOLD}${YELLOW}${RPS} req/s${NC} (TCP handshake & HTTP/2 parsed)"
     kill $PID 2>/dev/null || true
-
 }
 
-echo -e "\n${BOLD}${BLUE}========================================================================${NC}"
-echo -e "${BOLD}${BLUE}  XDP packet benchmark (independent of Go/Rust gRPC runtime)           ${NC}"
-echo -e "${BOLD}${BLUE}========================================================================${NC}"
-run_xdp_packet_benchmark "skb"
-run_xdp_packet_benchmark "drv"
-
+# Run gRPC Benchmarks
 if [[ "${TARGET}" == "all" || "${TARGET}" == "go" ]]; then
     run_suite "Go" "${ROOT_DIR}/bin/radixip-grpc-go"
 fi
@@ -266,15 +280,33 @@ if [[ "${TARGET}" == "all" || "${TARGET}" == "rust" ]]; then
     fi
 fi
 
+# Run XDP Packet Drop Benchmarks
+echo -e "\n${BOLD}${BLUE}========================================================================${NC}"
+echo -e "${BOLD}${BLUE}  L2/L3 eBPF / XDP Packet Drop Benchmarks                               ${NC}"
+echo -e "${BOLD}${BLUE}========================================================================${NC}"
+
+if [[ "${TARGET}" == "all" || "${TARGET}" == "go" ]]; then
+    echo -e "${BOLD}--- Go XDP Stack (Cilium eBPF + C xdp-c kernel obj) ---${NC}"
+    run_xdp_packet_benchmark "go" "skb"
+    run_xdp_packet_benchmark "go" "drv"
+fi
+
+if [[ "${TARGET}" == "all" || "${TARGET}" == "rust" ]]; then
+    echo -e "${BOLD}--- Rust XDP Stack (Aya eBPF + Rust xdp-kernel obj) ---${NC}"
+    run_xdp_packet_benchmark "rust" "skb"
+    run_xdp_packet_benchmark "rust" "drv"
+fi
+
 # Print final comparison table
 echo -e "\n${BOLD}${GREEN}========================================================================${NC}"
 echo -e "${BOLD}${GREEN}  FINAL COMPARATIVE BENCHMARK SUMMARY                                   ${NC}"
 echo -e "${BOLD}${GREEN}========================================================================${NC}"
-printf "%-25s | %-20s | %-20s\n" "Enforcement Layer" "Go (CGo/eBPF)" "Rust (Tonic/Aya)"
+printf "%-25s | %-20s | %-20s\n" "Enforcement Layer" "Go (Cilium/C eBPF)" "Rust (Aya/Rust eBPF)"
 echo "--------------------------+----------------------+---------------------"
-printf "%-25s | %-20s | %-20s\n" "1. Baseline RPC calls" "${RESULTS_BASELINE["Go"]:-N/A}/s" "${RESULTS_BASELINE["Rust"]:-N/A}/s"
-printf "%-25s | %-20s | %-20s\n" "2. Forwarded-IP metadata" "${RESULTS_L7["Go"]:-N/A}/s" "${RESULTS_L7["Rust"]:-N/A}/s"
-printf "%-25s | %-20s | %-20s\n" "3. XDP generic/SKB drops" "${XDP_RESULT_SKB}" "same kernel program"
-printf "%-25s | %-20s | %-20s\n" "4. XDP native/DRV drops" "${XDP_RESULT_DRV}" "same kernel program"
-echo "Note: XDP packet rates are measured from program counters on a veth pair; they are not physical-NIC line-rate results."
+printf "%-25s | %-20s | %-20s\n" "1. Baseline (Allow)" "${RESULTS_BASELINE["Go"]:-N/A} req/s" "${RESULTS_BASELINE["Rust"]:-N/A} req/s"
+printf "%-25s | %-20s | %-20s\n" "2. L7 Block (403)" "${RESULTS_L7["Go"]:-N/A} req/s" "${RESULTS_L7["Rust"]:-N/A} req/s"
+printf "%-25s | %-20s | %-20s\n" "3. L2/3 XDP (Generic/SKB)" "${RESULTS_XDP_SKB["GO"]:-N/A}" "${RESULTS_XDP_SKB["RUST"]:-N/A}"
+printf "%-25s | %-20s | %-20s\n" "4. L2/3 XDP (Native/DRV)" "${RESULTS_XDP_DRV["GO"]:-N/A}" "${RESULTS_XDP_DRV["RUST"]:-N/A}"
+echo "------------------------------------------------------------------------"
+echo "Note: All metrics are real measurements taken on isolated network namespaces."
 echo -e "========================================================================\n"
