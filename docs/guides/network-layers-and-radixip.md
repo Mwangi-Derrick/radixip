@@ -167,6 +167,31 @@ A meaningful experiment uses the same clients, blocked sources, traffic mix, hos
 
 Measure application-visible bad requests, accepted good-client throughput, p50/p99 latency for good traffic, CPU utilization, and XDP drop/pass counters. For dropped TCP packets, client timeouts/retransmissions are not the time taken by the XDP decision. Use packet counters or a controlled packet generator for drop throughput. Run correctness tests in normal CI; collect performance numbers only on a stable Linux runner with the required privileges and documented NIC/kernel/CNI details.
 
+### Hardware NIC Drivers & Automatic Fallback (Intel e1000e vs Server NICs)
+
+Not all physical NICs implement the `ndo_bpf` driver hook required for Native Driver XDP (`XDP_FLAGS_DRV_MODE`):
+
+- **Consumer & Laptop NICs (e.g. Intel I219-LM / I219-V on HP EliteBook 840 G3):** Driven by the Linux **`e1000e`** driver. Upstream `e1000e` does **not** implement native XDP. Attempting to attach in native mode returns `EOPNOTSUPP` / `ENOTSUPP`.
+- **Wireless NICs (e.g. Intel Dual Band Wireless-AC 8260 / `iwlwifi`):** No wireless drivers support native XDP.
+- **Server NICs (e.g. Intel `ixgbe`, `i40e`, `ice`, Mellanox `mlx5_core`):** Support full native XDP offload before socket allocation.
+
+To handle this transparently, RadixIP provides an **automatic fallback mechanism** (`RADIXIP_XDP_MODE="auto"` or `AutoMode: true`):
+1. The loader attempts Native Driver Mode (`link.XDPDriverMode` / `XdpFlags::DRV_MODE`).
+2. If unsupported by the interface driver, it automatically falls back to Generic SKB Mode (`link.XDPGenericMode` / `XdpFlags::SKB_MODE`).
+3. The server logs the effective attachment mode and continues operating without failing open or crashing.
+
+### Local Testing vs. Virtualized CI Runners
+
+Benchmarking XDP on shared or virtualized runners (such as GitHub Actions Ubuntu runners on Azure VMs) presents distinct challenges:
+- **Synthetic NICs:** Cloud runners use virtualized network devices (such as Hyper-V `hv_netvsc` or VirtIO without driver XDP hooks), which only support Generic SKB mode.
+- **Shared CPU Cores:** Multi-tenant virtualization introduces scheduling jitter and noisy-neighbor latency artifacts.
+- **Host Link Risk:** Attaching an XDP program directly to the primary host interface in CI or on a developer workstation risks dropping SSH or network traffic.
+
+**The Solution:** RadixIP uses **isolated Linux network namespaces (`netns`) and virtual ethernet (`veth`) pairs** via `scripts/bench_xdp_vs_l7.sh`:
+- Virtual ethernet (`veth`) supports **both Native Driver Mode and Generic SKB Mode** in modern Linux kernels.
+- The entire benchmark executes inside an isolated sandbox, leaving host interfaces, WiFi, and SSH completely unaffected.
+- Any Linux user (e.g., Fedora Workstation, Ubuntu) can run `sudo ./scripts/bench_xdp_vs_l7.sh` for an identical, 100% reproducible comparison of L7 vs L2/L3 packet blocking.
+
 ## Learn More
 
 - [eBPF and XDP integration details](./ebpf-xdp-integration.md)
