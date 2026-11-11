@@ -129,6 +129,7 @@ func startXDP(cfg *radixipconfig.RadixIpConfig) func() {
 	loader, err := radixipxdp.Load(radixipxdp.Config{
 		Iface:      xdpConfig.Interface,
 		DriverMode: xdpConfig.Mode == "drv",
+		AutoMode:   xdpConfig.Mode == "auto" || xdpConfig.Mode == "drv",
 		PinDir:     xdpConfig.PinDir,
 		MinV4:      xdpConfig.MinV4,
 		MinV6:      xdpConfig.MinV6,
@@ -166,7 +167,11 @@ func startXDP(cfg *radixipconfig.RadixIpConfig) func() {
 		_ = redisClient.Close()
 		return func() {}
 	}
-	log.Printf("XDP attached on %s (%s); seeded %d blocklist prefixes", xdpConfig.Interface, xdpConfig.Mode, seeded)
+	if loader.FellBack {
+		log.Printf("XDP attached on %s in generic (SKB) mode (driver mode unsupported by NIC); seeded %d blocklist prefixes", xdpConfig.Interface, seeded)
+	} else {
+		log.Printf("XDP attached on %s (%s); seeded %d blocklist prefixes", xdpConfig.Interface, loader.AttachedMode, seeded)
+	}
 
 	bridgeDone := make(chan struct{})
 	go func() {

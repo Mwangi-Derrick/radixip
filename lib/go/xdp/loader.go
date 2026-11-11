@@ -20,6 +20,7 @@ import (
 type Config struct {
 	Iface      string
 	DriverMode bool           // false = generic/SKB (portable default for sidecars)
+	AutoMode   bool           // true = try driver mode first, gracefully fallback to generic/SKB
 	PinDir     string         // e.g. /sys/fs/bpf/radixip/v1 ; "" disables pinning (tests)
 	MinV4      int            // reject shorter prefixes (default 8)
 	MinV6      int            // default 16
@@ -40,6 +41,8 @@ type Loader struct {
 	}
 	lnk          link.Link
 	PinnedReused bool
+	AttachedMode string // "drv" or "skb"
+	FellBack     bool   // true if driver mode was attempted but fell back to skb
 }
 
 // Load creates (or reuses pinned) maps and loads the program. It does NOT attach.
@@ -97,19 +100,46 @@ func (l *Loader) Attach() error {
 	if err != nil {
 		return err
 	}
-	flags := link.XDPGenericMode
-	if l.cfg.DriverMode {
-		flags = link.XDPDriverMode
+
+	// If DriverMode or AutoMode is enabled, attempt Driver / Native mode first
+	if l.cfg.DriverMode || l.cfg.AutoMode {
+		lnk, err := link.AttachXDP(link.XDPOptions{
+			Program:   l.objs.RadixipXdp,
+			Interface: ifc.Index,
+			Flags:     link.XDPDriverMode,
+		})
+		if err == nil {
+			l.lnk = lnk
+			l.AttachedMode = "drv"
+			return nil
+		}
+
+		// If driver mode is unsupported by NIC/driver (e.g. Intel e1000e, veth, or VM),
+		// fall back to Generic / SKB mode.
+		l.FellBack = true
+		lnkSkb, errSkb := link.AttachXDP(link.XDPOptions{
+			Program:   l.objs.RadixipXdp,
+			Interface: ifc.Index,
+			Flags:     link.XDPGenericMode,
+		})
+		if errSkb == nil {
+			l.lnk = lnkSkb
+			l.AttachedMode = "skb"
+			return nil
+		}
+		return fmt.Errorf("attach %s (driver mode failed: %v; fallback generic mode failed: %w)", l.cfg.Iface, err, errSkb)
 	}
+
 	lnk, err := link.AttachXDP(link.XDPOptions{
 		Program:   l.objs.RadixipXdp,
 		Interface: ifc.Index,
-		Flags:     flags,
+		Flags:     link.XDPGenericMode,
 	})
 	if err != nil {
 		return fmt.Errorf("attach %s: %w", l.cfg.Iface, err)
 	}
 	l.lnk = lnk // not pinned: detaches if this process dies
+	l.AttachedMode = "skb"
 	return nil
 }
 

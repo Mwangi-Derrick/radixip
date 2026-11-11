@@ -27,7 +27,8 @@ fn config_from_env() -> Result<Option<Config>> {
     let mode = match env_or("RADIXIP_XDP_MODE", "skb").as_str() {
         "skb" => Mode::Skb,
         "drv" => Mode::Driver,
-        other => anyhow::bail!("unsupported RADIXIP_XDP_MODE {other:?}; expected skb or drv"),
+        "auto" => Mode::Auto,
+        other => anyhow::bail!("unsupported RADIXIP_XDP_MODE {other:?}; expected skb, drv, or auto"),
     };
 
     Ok(Some(Config {

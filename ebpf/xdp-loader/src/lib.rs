@@ -40,6 +40,7 @@ pub struct Config {
 pub enum Mode {
     Skb,
     Driver,
+    Auto,
 }
 
 pub struct Runtime {
@@ -209,17 +210,44 @@ pub async fn start(config: Config) -> Result<Runtime> {
         .context("program radixip_xdp not found")?
         .try_into()?;
     program.load().context("verifier rejected XDP program")?;
-    let flags = match config.mode {
-        Mode::Skb => XdpFlags::SKB_MODE,
-        Mode::Driver => XdpFlags::DRV_MODE,
+    let (link, effective_mode) = match config.mode {
+        Mode::Skb => {
+            let l = program
+                .attach(&config.iface, XdpFlags::SKB_MODE)
+                .with_context(|| format!("attach XDP to {} (SKB)", config.iface))?;
+            (l, Mode::Skb)
+        }
+        Mode::Driver => match program.attach(&config.iface, XdpFlags::DRV_MODE) {
+            Ok(l) => (l, Mode::Driver),
+            Err(err) => {
+                warn!(
+                    "XDP driver mode failed on {} ({err:#}); falling back to SKB mode",
+                    config.iface
+                );
+                let l = program
+                    .attach(&config.iface, XdpFlags::SKB_MODE)
+                    .with_context(|| format!("attach XDP fallback to {} (SKB)", config.iface))?;
+                (l, Mode::Skb)
+            }
+        },
+        Mode::Auto => match program.attach(&config.iface, XdpFlags::DRV_MODE) {
+            Ok(l) => (l, Mode::Driver),
+            Err(err) => {
+                info!(
+                    "XDP auto-detect: driver mode unsupported on {} ({err:#}); using SKB mode",
+                    config.iface
+                );
+                let l = program
+                    .attach(&config.iface, XdpFlags::SKB_MODE)
+                    .with_context(|| format!("attach XDP to {} (SKB)", config.iface))?;
+                (l, Mode::Skb)
+            }
+        },
     };
-    let link = program
-        .attach(&config.iface, flags)
-        .with_context(|| format!("attach XDP to {} ({:?})", config.iface, config.mode))?;
     info!(
         "XDP attached on {} ({:?}); seed phase took {:?}",
         config.iface,
-        config.mode,
+        effective_mode,
         started.elapsed()
     );
 

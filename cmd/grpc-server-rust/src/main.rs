@@ -301,8 +301,9 @@ async fn start_embedded_xdp(config: &RadixIpConfig) -> Option<XdpRuntime> {
     let mode = match xdp.mode.as_str() {
         "skb" => XdpMode::Skb,
         "drv" => XdpMode::Driver,
+        "auto" => XdpMode::Auto,
         unsupported => {
-            eprintln!("XDP disabled: unsupported mode {unsupported:?}; expected skb or drv");
+            eprintln!("XDP disabled: unsupported mode {unsupported:?}; expected skb, drv, or auto");
             return None;
         }
     };
