@@ -1,19 +1,16 @@
 use std::{
     collections::HashSet,
     ffi::CString,
-    net::{IpAddr, Ipv4Addr, Ipv6Addr},
+    net::IpAddr,
+    os::fd::{AsFd, AsRawFd},
     path::PathBuf,
-    sync::Arc,
     time::{Duration, Instant},
 };
 
 use anyhow::{anyhow, bail, Context, Result};
 use futures_util::StreamExt;
 use ipnet::{IpNet, Ipv4Net};
-use libbpf_rs::{
-    skel::{OpenSkel, Skel, SkelBuilder},
-    MapCore, Object, OpenObject,
-};
+use libbpf_rs::{MapCore, Object, ObjectBuilder};
 use log::{info, warn};
 use redis::aio::PubSub;
 use tokio::{sync::oneshot, task::JoinHandle};
@@ -66,7 +63,6 @@ impl Drop for Runtime {
     }
 }
 
-// LPM trie key matching kernel struct bpf_lpm_trie_key
 #[repr(C, packed)]
 #[derive(Clone, Copy)]
 pub struct LpmKeyV4 {
@@ -90,14 +86,23 @@ pub struct Maps {
 
 impl Maps {
     pub fn new(obj: &Object) -> Result<Self> {
-        let v4 = obj.map("blocklist_v4").context("no blocklist_v4 map")?;
-        let v6 = obj.map("blocklist_v6").context("no blocklist_v6 map")?;
-        let stats = obj.map("stats").context("no stats map")?;
+        let v4 = obj
+            .maps()
+            .find(|m| m.name() == "blocklist_v4")
+            .context("no blocklist_v4 map")?;
+        let v6 = obj
+            .maps()
+            .find(|m| m.name() == "blocklist_v6")
+            .context("no blocklist_v6 map")?;
+        let stats = obj
+            .maps()
+            .find(|m| m.name() == "stats")
+            .context("no stats map")?;
 
         Ok(Self {
-            v4_fd: v4.fd(),
-            v6_fd: v6.fd(),
-            stats_fd: stats.fd(),
+            v4_fd: v4.as_fd().as_raw_fd(),
+            v6_fd: v6.as_fd().as_raw_fd(),
+            stats_fd: stats.as_fd().as_raw_fd(),
             entries: HashSet::new(),
         })
     }
@@ -269,30 +274,28 @@ pub fn if_nametoindex(iface: &str) -> Result<u32> {
     Ok(idx)
 }
 
-/// Attach XDP program using libbpf
 pub fn attach_xdp(prog_fd: i32, ifindex: u32, mode: Mode) -> Result<u32> {
-    // XDP flags: 1 << 0 (SKB_MODE), 1 << 1 (DRV_MODE)
     const XDP_FLAGS_SKB_MODE: u32 = 1 << 1;
     const XDP_FLAGS_DRV_MODE: u32 = 1 << 2;
 
     match mode {
         Mode::Skb => {
-            unsafe {
-                let res = libc::bpf_xdp_attach(ifindex as i32, prog_fd, XDP_FLAGS_SKB_MODE, std::ptr::null());
-                if res < 0 {
-                    bail!("bpf_xdp_attach SKB failed: {}", std::io::Error::last_os_error());
-                }
+            let res = unsafe {
+                libbpf_sys::bpf_xdp_attach(ifindex as i32, prog_fd, XDP_FLAGS_SKB_MODE, std::ptr::null())
+            };
+            if res < 0 {
+                bail!("bpf_xdp_attach SKB failed: {}", std::io::Error::last_os_error());
             }
             Ok(XDP_FLAGS_SKB_MODE)
         }
         Mode::Driver => {
             let res = unsafe {
-                libc::bpf_xdp_attach(ifindex as i32, prog_fd, XDP_FLAGS_DRV_MODE, std::ptr::null())
+                libbpf_sys::bpf_xdp_attach(ifindex as i32, prog_fd, XDP_FLAGS_DRV_MODE, std::ptr::null())
             };
             if res < 0 {
                 warn!("XDP DRV mode failed; falling back to SKB");
                 let fallback = unsafe {
-                    libc::bpf_xdp_attach(ifindex as i32, prog_fd, XDP_FLAGS_SKB_MODE, std::ptr::null())
+                    libbpf_sys::bpf_xdp_attach(ifindex as i32, prog_fd, XDP_FLAGS_SKB_MODE, std::ptr::null())
                 };
                 if fallback < 0 {
                     bail!("bpf_xdp_attach fallback to SKB failed: {}", std::io::Error::last_os_error());
@@ -304,11 +307,11 @@ pub fn attach_xdp(prog_fd: i32, ifindex: u32, mode: Mode) -> Result<u32> {
         }
         Mode::Auto => {
             let res = unsafe {
-                libc::bpf_xdp_attach(ifindex as i32, prog_fd, XDP_FLAGS_DRV_MODE, std::ptr::null())
+                libbpf_sys::bpf_xdp_attach(ifindex as i32, prog_fd, XDP_FLAGS_DRV_MODE, std::ptr::null())
             };
             if res < 0 {
                 let fallback = unsafe {
-                    libc::bpf_xdp_attach(ifindex as i32, prog_fd, XDP_FLAGS_SKB_MODE, std::ptr::null())
+                    libbpf_sys::bpf_xdp_attach(ifindex as i32, prog_fd, XDP_FLAGS_SKB_MODE, std::ptr::null())
                 };
                 if fallback < 0 {
                     bail!("bpf_xdp_attach auto SKB failed: {}", std::io::Error::last_os_error());
@@ -323,21 +326,17 @@ pub fn attach_xdp(prog_fd: i32, ifindex: u32, mode: Mode) -> Result<u32> {
 
 pub fn detach_xdp(ifindex: u32, flags: u32) {
     unsafe {
-        let _ = libc::bpf_xdp_detach(ifindex as i32, flags, std::ptr::null());
+        let _ = libbpf_sys::bpf_xdp_detach(ifindex as i32, flags, std::ptr::null());
     }
-}
-
-// Declarations for libbpf C ABI
-extern "C" {
-    fn bpf_xdp_attach(ifindex: libc::c_int, prog_fd: libc::c_int, flags: libc::c_uint, opts: *const libc::c_void) -> libc::c_int;
-    fn bpf_xdp_detach(ifindex: libc::c_int, flags: libc::c_uint, opts: *const libc::c_void) -> libc::c_int;
 }
 
 pub async fn start(config: Config) -> Result<Runtime> {
     let started = Instant::now();
     let ifindex = if_nametoindex(&config.iface)?;
 
-    let open_obj = OpenObject::from_memory(BPF_OBJ, None)
+    let mut builder = ObjectBuilder::default();
+    let open_obj = builder
+        .open_memory(BPF_OBJ)
         .context("open embedded BPF object with libbpf")?;
     let obj = open_obj.load().context("load BPF object with libbpf")?;
 
@@ -393,8 +392,13 @@ pub async fn start(config: Config) -> Result<Runtime> {
         bail!("xdp.fail_closed is set and blocklist snapshot could not be read; refusing to attach");
     }
 
-    let prog = obj.prog("radixip_xdp").context("prog radixip_xdp not found")?;
-    let flags = attach_xdp(prog.fd(), ifindex, config.mode)?;
+    let prog = obj
+        .progs()
+        .find(|p| p.name() == "radixip_xdp")
+        .context("prog radixip_xdp not found")?;
+
+    let prog_fd = prog.as_fd().as_raw_fd();
+    let flags = attach_xdp(prog_fd, ifindex, config.mode)?;
 
     info!(
         "libbpf: XDP attached on {} (flags: {:#x}); seed phase took {:?}",
@@ -404,6 +408,10 @@ pub async fn start(config: Config) -> Result<Runtime> {
     );
 
     let (shutdown, mut shutdown_rx) = oneshot::channel();
+    // In libbpf, once the program is attached to the interface and FDs are extracted,
+    // the kernel holds references to the attached program and maps.
+    drop(obj);
+
     let task = tokio::spawn(async move {
         let mut tick = tokio::time::interval(Duration::from_secs(10));
         let mut stream = pubsub
