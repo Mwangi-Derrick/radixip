@@ -102,10 +102,11 @@ fi
 
 if [[ "${TARGET}" == "all" || "${TARGET}" == "rust" ]]; then
     if command -v cargo &>/dev/null; then
-        echo -e "${BLUE}🔨 Compiling Rust gRPC server (--release)...${NC}"
-        cargo build --release -p radixip-grpc-server
+        echo -e "${BLUE}🔨 Compiling Rust gRPC server & Rust XDP packet-bench (--release)...${NC}"
+        cargo build --release -p radixip-grpc-server -p xdp-loader --bin packet-bench
         cp -f target/release/radixip-grpc-server "${ROOT_DIR}/bin/radixip-grpc-server" 2>/dev/null || \
         cp -f target/release/grpc-server-rust "${ROOT_DIR}/bin/radixip-grpc-server" 2>/dev/null || true
+        cp -f target/release/packet-bench "${ROOT_DIR}/bin/rust-xdp-packet-bench"
     else
         echo -e "${YELLOW}⚠️  Cargo not found; skipping Rust server build.${NC}"
         if [[ "${TARGET}" == "rust" ]]; then
@@ -292,7 +293,7 @@ fi
 
 if [[ "${TARGET}" == "all" || "${TARGET}" == "rust" ]]; then
     if [[ -f "${ROOT_DIR}/bin/rust-xdp-packet-bench" ]]; then
-        echo -e "${BOLD}--- Rust XDP Stack (Aya eBPF + Rust xdp-kernel obj) ---${NC}"
+        echo -e "${BOLD}--- Rust XDP Stack (libbpf-rs + C xdp-c kernel obj) ---${NC}"
         run_xdp_packet_benchmark "rust" "skb"
         run_xdp_packet_benchmark "rust" "drv"
     fi
@@ -302,7 +303,7 @@ fi
 echo -e "\n${BOLD}${GREEN}========================================================================${NC}"
 echo -e "${BOLD}${GREEN}  FINAL COMPARATIVE BENCHMARK SUMMARY                                   ${NC}"
 echo -e "${BOLD}${GREEN}========================================================================${NC}"
-printf "%-25s | %-20s | %-20s\n" "Enforcement Layer" "Go (Cilium/C eBPF)" "Rust (Aya/Rust eBPF)"
+printf "%-25s | %-20s | %-20s\n" "Enforcement Layer" "Go (Cilium/C eBPF)" "Rust (libbpf-rs/C eBPF)"
 echo "--------------------------+----------------------+---------------------"
 printf "%-25s | %-20s | %-20s\n" "1. Baseline (Allow)" "${RESULTS_BASELINE["Go"]:-N/A} req/s" "${RESULTS_BASELINE["Rust"]:-N/A} req/s"
 printf "%-25s | %-20s | %-20s\n" "2. L7 Block (403)" "${RESULTS_L7["Go"]:-N/A} req/s" "${RESULTS_L7["Rust"]:-N/A} req/s"
