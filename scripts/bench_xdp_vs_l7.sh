@@ -103,7 +103,7 @@ fi
 if [[ "${TARGET}" == "all" || "${TARGET}" == "rust" ]]; then
     if command -v cargo &>/dev/null; then
         echo -e "${BLUE}🔨 Compiling Rust gRPC server & Rust XDP packet-bench (--release)...${NC}"
-        cargo build --release -p radixip-grpc-server --bin packet-bench
+        cargo build --release -p radixip-grpc-server -p xdp-loader --bin packet-bench
         cp -f target/release/radixip-grpc-server "${ROOT_DIR}/bin/radixip-grpc-server" 2>/dev/null || \
         cp -f target/release/grpc-server-rust "${ROOT_DIR}/bin/radixip-grpc-server" 2>/dev/null || true
         cp -f target/release/packet-bench "${ROOT_DIR}/bin/rust-xdp-packet-bench"
