@@ -109,7 +109,7 @@ func main() {
 	}
 
 	seconds := elapsed.Seconds()
-	fmt.Printf("requested_mode=%s attached_mode=%s iface=%s source=%s destination=%s duration_seconds=%.3f xdp_dropped_packets=%d xdp_drop_pps=%.0f\n",
+	fmt.Printf("runtime=go requested_mode=%s attached_mode=%s iface=%s source=%s destination=%s duration_seconds=%.3f xdp_dropped_packets=%d xdp_drop_pps=%.0f\n",
 		*mode, loader.AttachedMode, *iface, sourceIP, destinationIP, seconds, dropped, float64(dropped)/seconds)
 	fmt.Printf("xdp_pass_delta=%d xdp_parse_error_delta=%d generator_exit=%d\n",
 		counterDelta(before.V4Pass, after.V4Pass)+counterDelta(before.V6Pass, after.V6Pass),
