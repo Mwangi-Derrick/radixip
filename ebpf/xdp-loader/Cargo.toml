@@ -13,6 +13,7 @@ categories.workspace = true
 
 [dependencies]
 libbpf-rs = "0.24"
+libbpf-sys = "1.7"
 anyhow = "1"
 env_logger = "0.11"
 futures-util = "0.3"
