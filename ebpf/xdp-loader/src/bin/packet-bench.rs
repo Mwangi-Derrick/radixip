@@ -1,20 +1,15 @@
 use std::{
     env,
     net::IpAddr,
+    os::fd::AsRawFd,
     process::{Command, Stdio},
     time::Instant,
 };
 
 use anyhow::{bail, Context, Result};
-use aya::{
-    maps::{
-        lpm_trie::{Key, LpmTrie},
-        MapData, PerCpuArray,
-    },
-    programs::{Xdp, XdpFlags},
-    EbpfLoader,
-};
 use ipnet::IpNet;
+use libbpf_rs::{AsFd, ObjectBuilder};
+use xdp_loader::{attach_xdp, detach_xdp, if_nametoindex, Maps, Mode};
 
 static BPF_OBJ: &[u8] = include_bytes!(concat!(env!("OUT_DIR"), "/radixip-xdp"));
 
@@ -24,7 +19,7 @@ fn main() -> Result<()> {
     let mut source = String::new();
     let mut destination = String::new();
     let mut client_netns = String::new();
-    let mut mode = String::from("skb");
+    let mut mode_str = String::from("skb");
     let mut duration_secs: u64 = 5;
 
     let mut i = 1;
@@ -57,7 +52,7 @@ fn main() -> Result<()> {
             "-mode" => {
                 i += 1;
                 if i < args.len() {
-                    mode = args[i].clone();
+                    mode_str = args[i].clone();
                 }
             }
             "-duration" => {
@@ -83,50 +78,36 @@ fn main() -> Result<()> {
         IpAddr::V6(addr) => IpNet::V6(ipnet::Ipv6Net::new(addr, 128)?),
     };
 
-    let mut ebpf = EbpfLoader::new()
-        .load(BPF_OBJ)
-        .context("load eBPF object")?;
+    let ifindex = if_nametoindex(&iface)?;
+    let mut builder = ObjectBuilder::default();
+    let open_obj = builder
+        .open_memory(BPF_OBJ)
+        .context("open embedded BPF object with libbpf")?;
+    let obj = open_obj.load().context("load BPF object with libbpf")?;
 
-    let mut v4: LpmTrie<MapData, [u8; 4], u8> =
-        LpmTrie::try_from(ebpf.take_map("blocklist_v4").context("no blocklist_v4")?)?;
-    let mut v6: LpmTrie<MapData, [u8; 16], u8> =
-        LpmTrie::try_from(ebpf.take_map("blocklist_v6").context("no blocklist_v6")?)?;
-    let stats: PerCpuArray<MapData, u64> =
-        PerCpuArray::try_from(ebpf.take_map("stats").context("no stats")?)?;
+    let mut maps = Maps::new(&obj)?;
+    maps.put(prefix)?;
 
-    match prefix {
-        IpNet::V4(p) => {
-            v4.insert(&Key::new(p.prefix_len() as u32, p.network().octets()), 1u8, 0)?;
-        }
-        IpNet::V6(p) => {
-            v6.insert(&Key::new(p.prefix_len() as u32, p.network().octets()), 1u8, 0)?;
-        }
-    }
+    let prog = obj
+        .progs()
+        .find(|p| p.name() == "radixip_xdp")
+        .context("prog radixip_xdp not found")?;
 
-    let program: &mut Xdp = ebpf
-        .program_mut("radixip_xdp")
-        .context("radixip_xdp not found")?
-        .try_into()?;
-    program.load().context("verifier rejected XDP program")?;
-
-    let (flags, attached_mode) = match mode.as_str() {
-        "drv" => (XdpFlags::DRV_MODE, "drv"),
-        _ => (XdpFlags::SKB_MODE, "skb"),
+    let mode = match mode_str.as_str() {
+        "drv" => Mode::Driver,
+        _ => Mode::Skb,
     };
 
-    let link = program
-        .attach(&iface, flags)
-        .with_context(|| format!("attach XDP {mode} to {iface}"))?;
-
-    let stat_fn = |idx: u32| -> u64 {
-        stats.get(&idx, 0).map(|v| v.iter().sum()).unwrap_or(0)
-    };
+    let prog_fd = prog.as_fd().as_raw_fd();
+    let flags = attach_xdp(prog_fd, ifindex, mode)?;
 
     // stat indices: 0 = v4 drop, 1 = v4 pass, 2 = v6 drop, 3 = v6 pass, 4 = parse error
     let drop_idx = if source_ip.is_ipv4() { 0 } else { 2 };
-    let before_drops = stat_fn(drop_idx);
-    let before_pass = stat_fn(1) + stat_fn(3);
-    let before_parse_err = stat_fn(4);
+    let before_drops = maps.stat(drop_idx);
+    let before_pass = maps.stat(1) + maps.stat(3);
+    let before_parse_err = maps.stat(4);
+
+    let sender_bin = "/home/derrickmwangi/Projects/radixip/bin/go-xdp-packet-bench";
 
     let start = Instant::now();
     let status = Command::new("ip")
@@ -134,24 +115,25 @@ fn main() -> Result<()> {
             "netns",
             "exec",
             &client_netns,
-            "ping",
-            "-f",
-            "-n",
-            "-q",
-            "-w",
-            &duration_secs.to_string(),
-            "-I",
+            sender_bin,
+            "-sender-only",
+            "-source",
             &source_ip.to_string(),
+            "-destination",
             &dest_ip.to_string(),
+            "-duration",
+            &duration_secs.to_string(),
         ])
         .stdout(Stdio::null())
         .stderr(Stdio::null())
         .status();
 
     let elapsed = start.elapsed();
-    let after_drops = stat_fn(drop_idx);
-    let after_pass = stat_fn(1) + stat_fn(3);
-    let after_parse_err = stat_fn(4);
+    let after_drops = maps.stat(drop_idx);
+    let after_pass = maps.stat(1) + maps.stat(3);
+    let after_parse_err = maps.stat(4);
+
+    detach_xdp(ifindex, flags);
 
     let dropped = after_drops.saturating_sub(before_drops);
     let duration_secs_f64 = elapsed.as_secs_f64();
@@ -162,12 +144,12 @@ fn main() -> Result<()> {
     };
 
     if dropped == 0 {
-        bail!("Rust XDP recorded 0 drops; check interface/rules");
+        bail!("Rust libbpf XDP recorded 0 drops; check interface/rules");
     }
 
     println!(
         "runtime=rust requested_mode={} attached_mode={} iface={} source={} destination={} duration_seconds={:.3} xdp_dropped_packets={} xdp_drop_pps={:.0}",
-        mode, attached_mode, iface, source_ip, dest_ip, duration_secs_f64, dropped, pps
+        mode_str, mode_str, iface, source_ip, dest_ip, duration_secs_f64, dropped, pps
     );
     println!(
         "xdp_pass_delta={} xdp_parse_error_delta={} generator_exit={}",
@@ -176,6 +158,5 @@ fn main() -> Result<()> {
         status.map(|s| s.code().unwrap_or(-1)).unwrap_or(-1)
     );
 
-    drop(link);
     Ok(())
 }
