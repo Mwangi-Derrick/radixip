@@ -32,6 +32,11 @@ if [[ $EUID -ne 0 ]]; then
     exit 1
 fi
 
+if ! command -v go &>/dev/null && [[ -x /usr/local/go/bin/go ]]; then
+    PATH="/usr/local/go/bin:${PATH}"
+    export PATH
+fi
+
 NS_CLIENT="radix-bench-cli"
 NS_SERVER="radix-bench-srv"
 VETH_CLI="veth-c"
