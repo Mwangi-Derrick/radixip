@@ -97,7 +97,7 @@ mkdir -p "${ROOT_DIR}/bin"
 if [[ "${TARGET}" == "all" || "${TARGET}" == "go" ]]; then
     echo -e "${BLUE}🔨 Compiling Go gRPC server & Go XDP packet-bench...${NC}"
     (cd cmd/grpc-server-go && go build -o "${ROOT_DIR}/bin/radixip-grpc-go" .)
-    (cd lib/go/xdp && go build -o "${ROOT_DIR}/bin/go-xdp-packet-bench" ./cmd/packet-bench)
+    (cd cmd/xdp-packet-bench && go build -o "${ROOT_DIR}/bin/go-xdp-packet-bench" .)
 fi
 
 if [[ "${TARGET}" == "all" || "${TARGET}" == "rust" ]]; then
