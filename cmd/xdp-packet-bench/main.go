@@ -24,6 +24,7 @@ func main() {
 	clientNamespace := flag.String("client-netns", "", "namespace from which to generate packets")
 	mode := flag.String("mode", "skb", "XDP mode: skb or drv")
 	duration := flag.Int("duration", 5, "flood duration in seconds")
+	_ = flag.String("sender-bin", "", "optional sender binary path for compatibility")
 	senderOnly := flag.Bool("sender-only", false, "internal: run in sender namespace sending raw high-throughput packets")
 	flag.Parse()
 
