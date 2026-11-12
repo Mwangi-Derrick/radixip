@@ -7,106 +7,99 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Go Report Card](https://goreportcard.com/badge/github.com/Mwangi-Derrick/radixip)](https://goreportcard.com/report/github.com/Mwangi-Derrick/radixip)
 
-> **One engine. Zero allocations. Nanosecond decisions.**
->
-> RadixIP is the foundation for infrastructure protection: IP routing, rate limiting, and access control at memory speed. Drop it in front of any web framework, any Kubernetes cluster, any API gateway.
->
+> **High-performance IP subnet routing, rate limiting, and infrastructure protection.**  
+> Nanosecond memory lookups at Layer 7 paired with line-rate eBPF/XDP packet drops at Layer 2/3.
 
-> **Go ART:** 72.6 ns/lookup - **Rust ART:** 60.9 ns/lookup - **Patricia/RadixNode tree:** 177.7-223.4 ns/lookup - **FFI:** native SIMD support in rust and Go through CGo· **SIMD-accelerated**
->
-> Block attacks. Secure databases. Save $3.6M/year on geolocation APIs. Stop abuse before it hits your app.
+- **Rust ART:** 60.9 ns / lookup (SIMD-accelerated)
+- **Go ART:** 72.6 ns / lookup (zero allocations on read path)
+- **L2/L3 eBPF / XDP:** >200,000 pps dropped in software `veth`, line rate on physical NICs
+- **Zero Heap Allocations:** On the ART read path
+- **Instant Global Sync:** Local in-memory trees with distributed Redis Pub/Sub invalidation
 
+---
+
+## ⚡ Performance: L2/L3 eBPF/XDP vs. L7 Application Layer
+
+RadixIP enforces security at two distinct boundaries:
+1. **At the NIC Driver / Kernel (L2/L3 XDP)**: Drops packets before allocating socket buffers (`sk_buff`), negotiating TCP handshakes, or waking userspace.
+2. **In Application Space (L7 gRPC / Middleware)**: Sub-microsecond CIDR lookups evaluating request context and client metadata.
+
+Real measurements run in isolated Linux network namespaces (`veth` pair, 2-core x86_64 laptop):
+
+| Enforcement Layer | Go (Cilium/C eBPF) | Rust (libbpf-rs/C eBPF) | Mechanism & Impact |
+|---|---|---|---|
+| **1. L7 Baseline (Allow)** | 8,865 req/s | 8,695 req/s | Full TCP + HTTP/2 frame parsing + gRPC dispatch |
+| **2. L7 Blocklist (403)** | 9,179 req/s | 8,165 req/s | TCP handshake + HTTP/2 parsed + Userspace ART rejection |
+| **3. L2/3 XDP (Generic / SKB)** | **217,350 pps** | **222,158 pps** | Kernel RX drop (`netif_receive_skb`), zero socket allocation |
+| **4. L2/3 XDP (Native / DRV)** | **219,981 pps** | **203,058 pps** | Pre-allocation NIC driver hook, 0 application CPU usage |
+
+> **~25x throughput leap**: Hostile subnets and botnet attacks are discarded in the kernel before your application or gRPC sidecar ever allocates a socket buffer.
+>
+> 🔬 **Reproduce locally:**
+> ```bash
+> sudo ./scripts/bench_xdp_vs_l7.sh all
+> ```
+
+---
 
 ## 🎯 What is RadixIP?
 
-RadixIP is a production-grade IP subnet caching and **infrastructure protection engine**. It delivers:
+Standard hash maps cannot efficiently match IP addresses against arbitrary CIDR ranges (`/8`, `/16`, `/24`, `/32`, `/48`, `/64`, `/128`) without unrolling every possible prefix length.
 
-- **72.6 ns** concurrent LPM lookups in Go ART - zero allocations
-- **60.9 ns** concurrent LPM lookups in Rust ART - SIMD-accelerated
-- **177.7-223.4 ns** Patricia/RadixNode tree lookups for simpler workloads
+RadixIP provides lock-free Adaptive Radix Tree (ART) and Patricia implementations with an L1 (in-process memory) + L2 (Redis look-aside) architecture:
+- **Zero-allocation read path** for continuous high-throughput traffic.
+- **Unified C eBPF kernel program** compiled with Clang and loaded via Cilium (`lib/go/xdp`) or `libbpf-rs` (`ebpf/xdp-loader`).
+- **Drop-in middleware** for web frameworks and Kubernetes ingress sidecars.
+- **Multi-language support** through C-ABI and Rust FFI.
 
-**The Problem**: Standard hash maps can't efficiently match IPs against dynamic IPv4 and IPv6 CIDR blocks (`/8`, `/16`, `/24`, `/32` , `/48`, `/64`, `/96`, `/128`) at scale. Database ACLs, API gateways, and edge proxies need sub-microsecond lookups with zero GC pressure.
-
-**The Solution**: A lock-free binary radix tree with L1 (in-memory) + L2 (Redis look-aside) architecture, enabling:
-- **72.6 ns** concurrent LPM lookups in Go ART
-- **60.9 ns** concurrent LPM lookups in Rust ART
-- **177.7 ns** Rust Patricia/RadixNode-tree lookups and **223.4 ns** Go Patricia/RadixNode-tree lookups
-- **Zero heap allocations** on the Go ART read path; allocation behavior varies by engine variant
-- **Instant global sync** via Redis Pub/Sub
-- **Multi-language support** through C-FFI bindings
-
-But RadixIP is more than an IP router. It's the foundation for:
-
-- ✅ Web framework middleware (Express, Gin, Axum, FastAPI, Django, Fiber)
-- ✅ Distributed rate limiting (Token Bucket, Sliding Window, Fixed Window)
-- ✅ Configurable IP flagging and auto-banning
-- ✅ Kubernetes-native deployment (Operator, Helm, Redis HA)
-- ✅ Unified configuration - one file controls everything
-
-**Use it for:** API gateways · database ACLs · DDoS mitigation · geolocation caching · fraud detection · rate limiting · access control
+**Use cases:** Edge DDoS mitigation · API gateways · database ACLs · geolocation subnet routing · botnet mitigation · distributed rate limiting.
 
 > 📖 **[Read the Middleware Guide for Drop-in Integration](./docs/middleware.md)** (Gin, Axum, Actix, Fiber, Echo)
 
+---
+
 ## 🎯 Quick Start Example
 
-### Block a DDoS attack in 3 lines of code
+### 1. In-process subnet matching (Go)
 
 ```go
-// 1. Detect attack from 192.168.1.0/24
-radixEngine.Insert("192.168.1.0/24", "malicious")
+// 1. Insert blocked subnet
+radixEngine.Insert("198.51.100.0/24", "blocked")
 
-// 2. All future requests from that subnet are blocked instantly
-_, found := radixEngine.Match(netip.MustParseAddr("192.168.1.100"))
-// found = true → BLOCKED
-
-// 3. Propagate to all nodes via Redis
-redis.Publish("security:blocklist", "192.168.1.0/24")
+// 2. Incoming IP lookup: 60-70 ns, zero allocations
+val, found := radixEngine.Match(netip.MustParseAddr("198.51.100.42"))
+if found {
+    // Drop or reject request
+}
 ```
 
-## 🔄 Redis-backed cache sync
-
-RadixIP keeps the hot read path local and fast, while Redis provides cross-instance cache invalidation and update propagation.
+### 2. Multi-node distributed synchronization
 
 ```bash
 docker compose up -d redis
 ```
 
-This lets each process keep serving from its own in-memory tree while still sharing subnet updates across nodes. For a minimal end-to-end example, see [docs/guides/redis-cache-sync.md](./docs/guides/redis-cache-sync.md).
+Local instances serve reads directly from memory with zero network latency, while subscribing to Redis Pub/Sub for cross-node updates. For an end-to-end walkthrough, see [docs/guides/redis-cache-sync.md](./docs/guides/redis-cache-sync.md).
 
-# RadixIP Documentation
+---
 
-This is where RadixIP's design decisions are explained in depth - not just *what*
-the library does, but *why* it's built this way. The main repo README stays
-short on purpose; this folder is where the engineering reasoning lives.
+## 📚 Technical Documentation
 
-## Core Concepts
+In-depth architectural decisions, data structure design, and kernel mechanics:
 
-| Document | notes |
+| Guide | Description |
 |---|---|
-| [Architecture](./docs/guides/architecture.md) | How the L1 (in-process) / L2 (Redis) layers fit together |
-| [Network Layers and RadixIP](./docs/guides/network-layers-and-radixip.md) | OSI L1–L7, packet flow, XDP/eBPF, gRPC sidecars, and Kubernetes operator responsibilities |
-| [Sharding Architecture](./docs/guides/sharding-architecture.md) | Scaling with sharding |
-| [Radix Tree Design](./docs/guides/radix-tree-design.md) | The data structure at the core of RadixIP, and why it beats a hashmap or standard trie for this problem |
-| [Longest Prefix Match](./docs/guides/longest-prefix-match.md) | The algorithm every IP router on the internet runs, explained from first principles |
-| [IPv4 vs IPv6](./docs/guides/ipv4-vs-ipv6.md) | How address structure differs, and what that means for caching strategy |
-| [Cache Locality](./docs/guides/cache-locality.md) | Why memory access patterns usually matter more than algorithmic complexity |
-| [How Routers Work](./docs/guides/how-routers-work.md) | The real-world context RadixIP borrows from |
-| [Benchmark Methodology](./docs/guides/benchmark-methodology.md) | Exactly how the numbers in the README were produced, so you can reproduce or challenge them |
-| [FFI Policy Engine](./docs/guides/ffi-policy-engine.md) | Proposed config and policy FFI boundary, ownership model, and cross-language overhead benchmarks |
-| [Go SIMD via Rust FFI](./docs/guides/go-simd-rust-ffi.md) | Why the Go ART Node16 uses a Rust-backed SIMD shared library instead of Go's experimental native SIMD |
+| 📖 [eBPF & XDP Packet Processing](./docs/guides/ebpf-xdp-integration.md) | LPM Trie map contract, driver hook modes, libbpf-rs loader, and Kubernetes pod integration |
+| 📖 [Network Layers & Packet Flow](./docs/guides/network-layers-and-radixip.md) | OSI layers L1–L7, packet journey through Kubernetes CNI/veth, and sidecar inspection boundaries |
+| 📖 [Radix Tree Design](./docs/guides/radix-tree-design.md) | Why Adaptive Radix Trees beat hash maps and traditional tries for CIDR routing |
+| 📖 [Architecture](./docs/guides/architecture.md) | In-process L1 cache, Redis L2 synchronization |
 
-## Reading order
+| 📖  [Sharding] (./docs/guides/sharding-architecture.md) |
+Sharding strategies |
+| 📖 [Benchmark Methodology](./docs/guides/benchmark-methodology.md) | How latency and throughput are measured across Go, Rust, and XDP |
+| 📖 [Go SIMD via Rust FFI](./docs/guides/go-simd-rust-ffi.md) | AVX2/NEON vector acceleration for 16-slot key scans |
 
-If you're new to networking data structures, read in this order:
-
-1. [How Routers Work](./docs/guides/how-routers-work.md) - the motivating context
-2. [Longest Prefix Match](./docs/guides/longest-prefix-match.md) - the algorithm
-3. [Radix Tree Design](./docs/guides/radix-tree-design.md) - the data structure that makes it fast
-4. [IPv4 vs IPv6](./docs/guides/ipv4-vs-ipv6.md) - how it changes across protocols
-5. [Cache Locality](./docs/guides/cache-locality.md) - why the implementation is shaped the way it is
-6. [Architecture](./docs/guides/architecture.md) - how it's wired into a real system
-7. [Network Layers and RadixIP](./docs/guides/network-layers-and-radixip.md) - where packets meet XDP, gRPC, Redis, and Kubernetes
-8. [Benchmark Methodology](./docs/guides/benchmark-methodology.md) - how to verify all of the above
+---
 
 
 ## ⚡ SIMD Acceleration (Node16)
