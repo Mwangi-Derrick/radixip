@@ -2,6 +2,7 @@ use std::{
     env,
     net::IpAddr,
     os::fd::{AsFd, AsRawFd},
+    path::PathBuf,
     process::{Command, Stdio},
     time::Instant,
 };
@@ -13,6 +14,45 @@ use xdp_loader::{attach_xdp, detach_xdp, if_nametoindex, Maps, Mode};
 
 static BPF_OBJ: &[u8] = include_bytes!(concat!(env!("OUT_DIR"), "/radixip-xdp"));
 
+fn resolve_sender_bin(explicit: &str) -> Result<PathBuf> {
+    if !explicit.is_empty() {
+        let p = PathBuf::from(explicit);
+        if p.is_file() {
+            return Ok(p);
+        }
+    }
+
+    if let Ok(env_path) = env::var("XDP_SENDER_BIN") {
+        let p = PathBuf::from(env_path);
+        if p.is_file() {
+            return Ok(p);
+        }
+    }
+
+    // Try relative to current working directory
+    let cwd_candidate = PathBuf::from("bin/go-xdp-packet-bench");
+    if cwd_candidate.is_file() {
+        return Ok(cwd_candidate.canonicalize().unwrap_or(cwd_candidate));
+    }
+
+    // Try relative to current executable's directory
+    if let Ok(exe_path) = env::current_exe() {
+        if let Some(exe_dir) = exe_path.parent() {
+            let exe_rel = exe_dir.join("go-xdp-packet-bench");
+            if exe_rel.is_file() {
+                return Ok(exe_rel);
+            }
+            // If in target/release or target/debug, check ../../bin/go-xdp-packet-bench
+            let target_rel = exe_dir.join("../../bin/go-xdp-packet-bench");
+            if target_rel.is_file() {
+                return Ok(target_rel.canonicalize().unwrap_or(target_rel));
+            }
+        }
+    }
+
+    bail!("could not locate go-xdp-packet-bench; pass -sender-bin or ensure bin/go-xdp-packet-bench exists")
+}
+
 fn main() -> Result<()> {
     let args: Vec<String> = env::args().collect();
     let mut iface = String::new();
@@ -20,6 +60,7 @@ fn main() -> Result<()> {
     let mut destination = String::new();
     let mut client_netns = String::new();
     let mut mode_str = String::from("skb");
+    let mut sender_bin_arg = String::new();
     let mut duration_secs: u64 = 5;
 
     let mut i = 1;
@@ -61,6 +102,12 @@ fn main() -> Result<()> {
                     duration_secs = args[i].parse().unwrap_or(5);
                 }
             }
+            "-sender-bin" => {
+                i += 1;
+                if i < args.len() {
+                    sender_bin_arg = args[i].clone();
+                }
+            }
             _ => {}
         }
         i += 1;
@@ -72,6 +119,7 @@ fn main() -> Result<()> {
 
     let source_ip: IpAddr = source.parse().context("parse source IP")?;
     let dest_ip: IpAddr = destination.parse().context("parse destination IP")?;
+    let sender_bin = resolve_sender_bin(&sender_bin_arg)?;
 
     let prefix: IpNet = match source_ip {
         IpAddr::V4(addr) => IpNet::V4(ipnet::Ipv4Net::new(addr, 32)?),
@@ -107,15 +155,13 @@ fn main() -> Result<()> {
     let before_pass = maps.stat(1) + maps.stat(3);
     let before_parse_err = maps.stat(4);
 
-    let sender_bin = "/home/derrickmwangi/Projects/radixip/bin/go-xdp-packet-bench";
-
     let start = Instant::now();
     let status = Command::new("ip")
         .args([
             "netns",
             "exec",
             &client_netns,
-            sender_bin,
+            sender_bin.to_str().context("non-utf8 sender_bin path")?,
             "-sender-only",
             "-source",
             &source_ip.to_string(),

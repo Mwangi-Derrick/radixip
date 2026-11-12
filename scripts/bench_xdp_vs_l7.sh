@@ -178,13 +178,15 @@ run_xdp_packet_benchmark() {
 
     setup_namespaces
     echo -e "${BLUE}▶ Measuring [${runtime^^}] XDP ${mode} packet drops on server veth...${NC}"
+    local sender_bin="${ROOT_DIR}/bin/go-xdp-packet-bench"
     output=$(ip netns exec "${NS_SERVER}" "${bench_bin}" \
         -iface "${VETH_SRV}" \
         -source "${IP_CLI}" \
         -destination "${IP_SRV}" \
         -client-netns "${NS_CLIENT}" \
         -mode "${mode}" \
-        -duration "${XDP_DURATION}" 2>&1) || status=$?
+        -duration "${XDP_DURATION}" \
+        -sender-bin "${sender_bin}" 2>&1) || status=$?
     printf '%s\n' "${output}" | tee "${result_file}"
 
     if [[ ${status} -eq 0 ]]; then
