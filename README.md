@@ -93,8 +93,7 @@ In-depth architectural decisions, data structure design, and kernel mechanics:
 | 📖 [Network Layers & Packet Flow](./docs/guides/network-layers-and-radixip.md) | OSI layers L1–L7, packet journey through Kubernetes CNI/veth, and sidecar inspection boundaries |
 | 📖 [Radix Tree Design](./docs/guides/radix-tree-design.md) | Why Adaptive Radix Trees beat hash maps and traditional tries for CIDR routing |
 | 📖 [Architecture](./docs/guides/architecture.md) | In-process L1 cache, Redis L2 synchronization |
-| 📖 [Sharding](./docs/guides/sharding-architecture.md) |
-Sharding strategies |
+| 📖 [Sharding](./docs/guides/sharding-architecture.md) | Sharding strategies |
 | 📖 [Benchmark Methodology](./docs/guides/benchmark-methodology.md) | How latency and throughput are measured across Go, Rust, and XDP |
 | 📖 [Go SIMD via Rust FFI](./docs/guides/go-simd-rust-ffi.md) | AVX2/NEON vector acceleration for 16-slot key scans |
 
