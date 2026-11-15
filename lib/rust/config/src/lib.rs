@@ -72,6 +72,18 @@ impl RadixIpConfig {
                 ));
             }
         }
+        if self.xdp.enabled {
+            if self.xdp.interface.is_empty() {
+                return Err(ConfigError::Validation(
+                    "xdp.interface must be non-empty when xdp.enabled".into(),
+                ));
+            }
+            if self.xdp.mode != "skb" && self.xdp.mode != "eth0" && self.xdp.mode != "auto" {
+                return Err(ConfigError::Validation(
+                    "xdp.mode must be 'skb', 'eth0', or 'auto'".into(),
+                ));
+            }
+        }
         Ok(())
     }
 }
