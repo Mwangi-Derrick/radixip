@@ -62,9 +62,9 @@ func (c *RadixIpConfig) validate() error {
 			return errors.New("config: rate_limit.refill_rate must be > 0")
 		}
 	}
-	if c.RadixIP.XDP.Enabled && c.RadixIP.XDP.Mode != "skb" && c.RadixIP.XDP.Mode != "drv" {
-		return fmt.Errorf("config: xdp.mode must be 'skb' or 'drv', got %q", c.RadixIP.XDP.Mode)
-	}
+    if c.RadixIP.XDP.Enabled && c.RadixIP.XDP.Mode != "skb" && c.RadixIP.XDP.Mode != "drv" && c.RadixIP.XDP.Mode != "auto" {
+        return fmt.Errorf("config: xdp.mode must be 'skb', 'drv', or 'auto', got %q", c.RadixIP.XDP.Mode)
+    }
 	return nil
 }
 

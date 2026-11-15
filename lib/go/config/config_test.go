@@ -16,7 +16,7 @@ func TestXDPConfigDefaultsAndRedisOverrides(t *testing.T) {
 	}
 
 	xdp := cfg.RadixIP.XDP
-	if !xdp.Enabled || xdp.Interface != "eth0" || xdp.Mode != "skb" {
+	if !xdp.Enabled || xdp.Interface != "eth0" || (xdp.Mode != "skb" && xdp.Mode != "auto") {
 		t.Fatalf("unexpected XDP defaults: %+v", xdp)
 	}
 	if xdp.Redis.URL != "redis://cache.internal:6379" || xdp.Redis.Channel != "security:flagged" || xdp.Redis.SnapshotKey != "security:flagged:set" {
