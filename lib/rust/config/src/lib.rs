@@ -60,6 +60,7 @@ impl RadixIpConfig {
 
     fn validate(&self) -> Result<(), ConfigError> {
         let rl = &self.radixip.rate_limit;
+        let xdp = &self.radixip.xdp;
         if rl.enabled {
             if rl.capacity == 0 {
                 return Err(ConfigError::Validation(
@@ -72,13 +73,13 @@ impl RadixIpConfig {
                 ));
             }
         }
-        if self.xdp.enabled {
-            if self.xdp.interface.is_empty() {
+        if xdp.enabled {
+            if xdp.interface.is_empty() {
                 return Err(ConfigError::Validation(
                     "xdp.interface must be non-empty when xdp.enabled".into(),
                 ));
             }
-            if self.xdp.mode != "skb" && self.xdp.mode != "eth0" && self.xdp.mode != "auto" {
+            if xdp.mode != "skb" && xdp.mode != "eth0" && xdp.mode != "auto" {
                 return Err(ConfigError::Validation(
                     "xdp.mode must be 'skb', 'eth0', or 'auto'".into(),
                 ));
