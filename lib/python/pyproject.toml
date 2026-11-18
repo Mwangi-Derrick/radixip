@@ -4,7 +4,7 @@ build-backend = "maturin"
 
 [project]
 name = "radixip"
-version = "0.1.0"
+version = "1.2.0"
 description = "High-performance IP subnet longest-prefix matching engine"
 readme = "README.md"
 license = { text = "MIT" }
