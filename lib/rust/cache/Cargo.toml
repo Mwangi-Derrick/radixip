@@ -1,11 +1,16 @@
 [package]
-name = "radixip_cache"
-version = "0.1.0"
-edition = "2021"
-description = "Shared cache and Redis sync primitives for RadixIP"
-license.workspace = true
+name        = "radixip_cache"
+version     = "0.1.0"
+edition.workspace    = true
+authors.workspace    = true
+license.workspace    = true
 repository.workspace = true
-homepage.workspace = true
+homepage.workspace   = true
+documentation.workspace = true
+readme      = "README.md"
+description = "Shared cache and Redis sync primitives for RadixIP"
+keywords    = ["radix", "ip", "cache", "redis", "networking"]
+categories  = ["network-programming", "caching"]
 
 [features]
 default = []

@@ -101,27 +101,121 @@ jobs:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
 
-      - name: Check if radixip_rs is already published
-        id: check_published
-        run: |
-          PACKAGE_NAME="radixip_rs"
-          VERSION=$(cargo metadata --format-version=1 --no-deps \
-            | jq -r '.packages[] | select(.name=="'"$PACKAGE_NAME"'") | .version')
-          echo "Checking crates.io for $PACKAGE_NAME v$VERSION …"
-          if cargo search "$PACKAGE_NAME" --limit 1 2>/dev/null \
-              | grep -qF "$PACKAGE_NAME = \"$VERSION\""; then
-            echo "published=true" >> $GITHUB_OUTPUT
-            echo "Already on crates.io – skipping publish."
-          else
-            echo "published=false" >> $GITHUB_OUTPUT
-            echo "Not yet published."
-          fi
-
-      - name: Publish radixip_rs
-        if: steps.check_published.outputs.published == 'false'
+      - name: Publish radixip_cache and radixip_rs in order
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
-        run: cargo publish -p radixip_rs --no-verify || true
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          check_published() {
+            local crate="$1"
+            local version="$2"
+            if cargo search "${crate}" --limit 1 2>/dev/null \
+                | grep -qF "${crate} = \"${version}\""; then
+              return 0
+            fi
+            return 1
+          }
+
+          wait_for_index() {
+            local crate="$1"
+            local version="$2"
+            local api_url="https://crates.io/api/v1/crates/${crate}/${version}"
+            local waited=0 max_wait=360 interval=10
+
+            echo "Polling crates.io for ${crate} v${version}..."
+            while true; do
+              http_code=$(curl -s -o /dev/null -w "%{http_code}" \
+                -H "User-Agent: radixip-ci (github.com/Mwangi-Derrick/radixip)" \
+                "${api_url}")
+
+              if [ "$http_code" = "200" ]; then
+                echo "OK: ${crate} v${version} is live (${waited}s elapsed)."
+                return 0
+              fi
+
+              if [ $waited -ge $max_wait ]; then
+                echo "WARN: timed out after ${max_wait}s (HTTP ${http_code}). Proceeding anyway."
+                return 0
+              fi
+
+              echo "  [${waited}s] not visible yet (HTTP ${http_code}), checking again in ${interval}s..."
+              sleep $interval
+              waited=$((waited + interval))
+            done
+          }
+
+          publish_crate() {
+            local crate="$1"
+            local version="$2"
+
+            echo ""
+            echo "==== ${crate} v${version} ===="
+
+            if check_published "${crate}" "${version}"; then
+              echo "OK: ${crate} v${version} already on crates.io - skipping publish."
+              wait_for_index "${crate}" "${version}"
+              return 0
+            fi
+
+            echo "Publishing ${crate} v${version}..."
+            local attempts=0 max_attempts=5
+            while true; do
+              attempts=$((attempts + 1))
+              set +e
+              output=$(cargo publish -p "${crate}" --no-verify 2>&1)
+              rc=$?
+              set -e
+              echo "$output"
+
+              if [ $rc -eq 0 ]; then
+                echo "OK: published successfully."
+                break
+              elif echo "$output" | grep -qiE "already uploaded|already exists"; then
+                echo "OK: already on crates.io (race condition) - continuing."
+                break
+              elif echo "$output" | grep -qiE "status 400|Bad Request"; then
+                echo "ERROR: crates.io rejected with 400 Bad Request."
+                echo "       This is a metadata problem in Cargo.toml, not a transient error."
+                exit 1
+              elif echo "$output" | grep -qiE "status 429|Too Many Requests"; then
+                if [ $attempts -lt $max_attempts ]; then
+                  echo "WARN: crates.io rate limited (HTTP 429). Sleeping 90s before retry (attempt $attempts/$max_attempts)..."
+                  sleep 90
+                  continue
+                else
+                  echo "ERROR: crates.io rate limit persisted after $attempts attempts."
+                  exit 1
+                fi
+              else
+                echo "WARN: publish returned non-zero ($rc). Checking if it landed anyway..."
+                sleep 10
+                if check_published "${crate}" "${version}"; then
+                  echo "OK: found on crates.io despite error - continuing."
+                  break
+                else
+                  echo "WARN: not found on crates.io."
+                  break
+                fi
+              fi
+            done
+
+            wait_for_index "${crate}" "${version}"
+          }
+
+          meta=$(cargo metadata --format-version=1 --no-deps)
+          ver() { echo "$meta" | jq -r ".packages[] | select(.name==\"$1\") | .version"; }
+
+          V_CACHE=$(ver "radixip_cache")
+          V_CORE=$(ver "radixip_rs")
+
+          echo "Versions to publish:"
+          echo "  radixip_cache  $V_CACHE"
+          echo "  radixip_rs     $V_CORE"
+
+          publish_crate "radixip_cache" "$V_CACHE"
+          publish_crate "radixip_rs" "$V_CORE"
 
       - name: Build documentation
         run: cargo doc --no-deps -p radixip_rs

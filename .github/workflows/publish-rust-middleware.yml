@@ -109,30 +109,47 @@ jobs:
             fi
 
             echo "Publishing ${crate} v${version}..."
-            set +e
-            output=$(cargo publish -p "${crate}" --no-verify 2>&1)
-            rc=$?
-            set -e
-            echo "$output"
+            local attempts=0 max_attempts=5
+            while true; do
+              attempts=$((attempts + 1))
+              set +e
+              output=$(cargo publish -p "${crate}" --no-verify 2>&1)
+              rc=$?
+              set -e
+              echo "$output"
 
-            if [ $rc -eq 0 ]; then
-              echo "OK: published successfully."
-            elif echo "$output" | grep -qiE "already uploaded|already exists"; then
-              echo "OK: already on crates.io (race condition) - continuing."
-            elif echo "$output" | grep -qiE "status 400|Bad Request"; then
-              echo "ERROR: crates.io rejected with 400 Bad Request."
-              echo "       This is a metadata problem in Cargo.toml, not a transient error."
-              echo "       Fix the crate manifest and re-tag."
-              exit 1
-            else
-              echo "WARN: publish returned non-zero ($rc). Checking if it landed anyway..."
-              sleep 10
-              if check_published "${crate}" "${version}"; then
-                echo "OK: found on crates.io despite error - continuing."
+              if [ $rc -eq 0 ]; then
+                echo "OK: published successfully."
+                break
+              elif echo "$output" | grep -qiE "already uploaded|already exists"; then
+                echo "OK: already on crates.io (race condition) - continuing."
+                break
+              elif echo "$output" | grep -qiE "status 400|Bad Request"; then
+                echo "ERROR: crates.io rejected with 400 Bad Request."
+                echo "       This is a metadata problem in Cargo.toml, not a transient error."
+                echo "       Fix the crate manifest and re-tag."
+                exit 1
+              elif echo "$output" | grep -qiE "status 429|Too Many Requests"; then
+                if [ $attempts -lt $max_attempts ]; then
+                  echo "WARN: crates.io rate limited (HTTP 429). Sleeping 90s before retry (attempt $attempts/$max_attempts)..."
+                  sleep 90
+                  continue
+                else
+                  echo "ERROR: crates.io rate limit persisted after $attempts attempts."
+                  exit 1
+                fi
               else
-                echo "WARN: not found on crates.io. Downstream crates may fail."
+                echo "WARN: publish returned non-zero ($rc). Checking if it landed anyway..."
+                sleep 10
+                if check_published "${crate}" "${version}"; then
+                  echo "OK: found on crates.io despite error - continuing."
+                  break
+                else
+                  echo "WARN: not found on crates.io. Downstream crates may fail."
+                  break
+                fi
               fi
-            fi
+            done
 
             wait_for_index "${crate}" "${version}"
           }
