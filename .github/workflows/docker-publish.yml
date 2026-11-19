@@ -14,7 +14,6 @@ on:
       - '.github/workflows/load-test.yml'
       - '.github/workflows/ffi-benchmarks.yml'
       - 'proto'
-      - 'docker'
       - '.gitignore'
       - '.gitattributes'
       - 'config'
