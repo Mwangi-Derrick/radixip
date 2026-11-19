@@ -11,9 +11,4 @@ fn main() {
     } else {
         panic!("Missing lib/go/xdp/xdpblocklist_bpfel.o; run `go generate ./lib/go/xdp/...` first");
     }
-
-    // libelf (linked by libbpf-sys) requires zstd for decompressing ELF sections.
-    // Static linking (e.g. musl/Alpine) requires explicit static zstd.
-    println!("cargo:rustc-link-lib=static=zstd");
-    println!("cargo:rustc-link-lib=zstd");
 }
