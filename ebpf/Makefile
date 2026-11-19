@@ -4,7 +4,7 @@
 #        cargo install bpf-linker
 # Go:    clang, libbpf-dev, linux headers; `go get github.com/cilium/ebpf github.com/redis/go-redis/v9`
 
-.PHONY: setup kernel loader go-gen go-test verify-unit verify all clean bench
+.PHONY: kernel loader go-gen go-test verify-unit verify all clean bench
 
 all: kernel loader go-gen
 
@@ -19,27 +19,18 @@ verify-unit:
 
 # Full local/CI verification: build the real BPF object, then check every
 # Rust consumer and run the privilege-free unit tests.
-verify: setup
-	$(MAKE) kernel
+verify: kernel
 	cargo check -p xdp-loader --all-targets
 	cargo check -p radixip-grpc-server
 	$(MAKE) verify-unit
 
-# Install the Rust toolchain components needed by the Aya builds.
-setup:
-	rustup toolchain install nightly --component rust-src
-	cargo install bpf-linker --locked
-
-# eBPF object. The loader embeds it with include_bytes_aligned!, so build this first.
-kernel:
-	rustup component add rust-src --toolchain nightly
-	cd xdp-kernel && cargo +nightly build --release \
-		--target bpfel-unknown-none -Z build-std=core
+# eBPF object: compiled from xdp-c/xdp-blocklist.c via clang / bpf2go.
+kernel: go-gen
 
 loader: kernel
 	cd xdp-loader && cargo build --release
 
-# Generates lib/go/xdp/xdpblocklist_bpf*.go from the C program.
+# Generates lib/go/xdp/xdpblocklist_bpf*.go (+ .o) from the C program.
 go-gen:
 	cd ../lib/go/xdp && go generate ./...
 
@@ -48,5 +39,4 @@ go-test: go-gen
 	cd ../lib/go/xdp && sudo -E env "PATH=$$PATH" go test -v ./...
 
 clean:
-	cd xdp-kernel && cargo clean
 	cd xdp-loader && cargo clean
