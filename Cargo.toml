@@ -13,10 +13,9 @@ members = [
     "lib/python",              # PyO3 bindings
     "lib/node",                # N-API bindings
     "cmd/grpc-server-rust",    # Rust gRPC server
-    "ebpf/xdp-loader",         # Reusable Aya loader API and standalone runner
+    "ebpf/xdp-loader",         # Reusable libbpf API and standalone runner
     "cmd/kitchen-sink-rust",   # Rust Kitchen Sink test app
     "lib/rust/node16_simd_ffi",# SIMD FFI bridge for Go CGo
-    "ebpf/xdp-kernel",           # XDP kernel eBPF program
 ]
 
 [workspace.package]
