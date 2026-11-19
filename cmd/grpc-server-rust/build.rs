@@ -5,7 +5,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // libelf (pulled in by xdp-loader / libbpf-sys) requires zstd for compressed ELF sections.
     #[cfg(target_os = "linux")]
-    println!("cargo:rustc-link-lib=zstd");
+    {
+        println!("cargo:rustc-link-lib=static=zstd");
+        println!("cargo:rustc-link-lib=zstd");
+    }
 
     Ok(())
 }

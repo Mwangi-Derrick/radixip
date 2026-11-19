@@ -8,6 +8,8 @@ WORKDIR /app
 # Copy full workspace
 COPY . .
 
+ENV RUSTFLAGS="-C link-arg=-Wl,--no-as-needed -C link-arg=-lzstd"
+
 RUN cargo build --release -p radixip-grpc-server
 
 # Final runtime image
