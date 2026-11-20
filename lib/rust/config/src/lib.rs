@@ -67,9 +67,31 @@ impl RadixIpConfig {
                     "rate_limit.capacity must be > 0".into(),
                 ));
             }
-            if rl.refill_rate == 0 {
+            if matches!(
+                rl.algorithm,
+                RateLimitAlgorithm::TokenBucket | RateLimitAlgorithm::LeakyBucket
+            ) && rl.refill_rate == 0
+            {
                 return Err(ConfigError::Validation(
                     "rate_limit.refill_rate must be > 0".into(),
+                ));
+            }
+            if matches!(
+                rl.algorithm,
+                RateLimitAlgorithm::FixedWindowCounter
+                    | RateLimitAlgorithm::SlidingWindowLog
+                    | RateLimitAlgorithm::SlidingWindowCounter
+            ) && rl.window_seconds == 0
+            {
+                return Err(ConfigError::Validation(
+                    "rate_limit.window_seconds must be > 0".into(),
+                ));
+            }
+            if rl.algorithm == RateLimitAlgorithm::SlidingWindowCounter
+                && rl.capacity > u16::MAX as u64
+            {
+                return Err(ConfigError::Validation(
+                    "sliding_window_counter capacity cannot exceed 65535".into(),
                 ));
             }
         }
@@ -288,11 +310,11 @@ pub enum BlocklistSource {
 #[serde(default)]
 pub struct RateLimitConfig {
     pub enabled: bool,
-    /// Currently only "token_bucket".
+    /// Algorithm used by the policy limiter.
     pub algorithm: RateLimitAlgorithm,
     /// How to key buckets: exact IP, subnet prefix, or both.
     pub bucket_mode: BucketKeyMode,
-    /// Maximum burst capacity (tokens).
+    /// Maximum allowed requests or bucket capacity, depending on algorithm.
     pub capacity: u64,
     /// Token refill rate in tokens per second.
     pub refill_rate: u64,
@@ -300,6 +322,8 @@ pub struct RateLimitConfig {
     pub max_buckets: usize,
     /// Evict idle IPs after this many seconds. Default 60.
     pub ttl_seconds: u64,
+    /// Window length used by fixed/sliding window algorithms, in seconds.
+    pub window_seconds: u64,
 }
 
 impl Default for RateLimitConfig {
@@ -312,6 +336,7 @@ impl Default for RateLimitConfig {
             refill_rate: 10,
             max_buckets: 1_000_000,
             ttl_seconds: 60,
+            window_seconds: 60,
         }
     }
 }
@@ -326,11 +351,15 @@ impl RateLimitConfig {
     }
 }
 
-#[derive(Debug, Clone, Deserialize, Serialize, Default)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, Serialize, Default)]
 #[serde(rename_all = "snake_case")]
 pub enum RateLimitAlgorithm {
     #[default]
     TokenBucket,
+    LeakyBucket,
+    FixedWindowCounter,
+    SlidingWindowLog,
+    SlidingWindowCounter,
 }
 
 /// How to choose the key for a rate-limit bucket.
@@ -359,6 +388,8 @@ pub struct RateLimitConfigBuilder {
     bucket_mode: Option<BucketKeyMode>,
     max_buckets: Option<usize>,
     ttl_seconds: Option<u64>,
+    window_seconds: Option<u64>,
+    algorithm: Option<RateLimitAlgorithm>,
 }
 
 impl RateLimitConfigBuilder {
@@ -382,16 +413,25 @@ impl RateLimitConfigBuilder {
         self.ttl_seconds = Some(v);
         self
     }
+    pub fn window_seconds(mut self, v: u64) -> Self {
+        self.window_seconds = Some(v);
+        self
+    }
+    pub fn algorithm(mut self, v: RateLimitAlgorithm) -> Self {
+        self.algorithm = Some(v);
+        self
+    }
 
     pub fn build(self) -> RateLimitConfig {
         RateLimitConfig {
             enabled: true,
-            algorithm: RateLimitAlgorithm::TokenBucket,
+            algorithm: self.algorithm.unwrap_or_default(),
             bucket_mode: self.bucket_mode.unwrap_or_default(),
             capacity: self.capacity.unwrap_or(100),
             refill_rate: self.refill_rate.unwrap_or(10),
             max_buckets: self.max_buckets.unwrap_or(1_000_000),
             ttl_seconds: self.ttl_seconds.unwrap_or(60),
+            window_seconds: self.window_seconds.unwrap_or(60),
         }
     }
 }
