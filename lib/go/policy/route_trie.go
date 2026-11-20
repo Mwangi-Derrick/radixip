@@ -2,6 +2,7 @@ package policy
 
 import (
 	"strings"
+	"time"
 
 	"github.com/Mwangi-Derrick/radixip/lib/go/config"
 	"github.com/Mwangi-Derrick/radixip/lib/go/policy/ratelimit"
@@ -9,13 +10,13 @@ import (
 
 type RouteTrieNode struct {
 	children       map[string]*RouteTrieNode
-	methodLimiters map[string]*ratelimit.TokenBucketLimiter
+	methodLimiters map[string]ratelimit.Limiter
 }
 
 func NewRouteTrie() *RouteTrieNode {
 	return &RouteTrieNode{
 		children:       make(map[string]*RouteTrieNode),
-		methodLimiters: make(map[string]*ratelimit.TokenBucketLimiter),
+		methodLimiters: make(map[string]ratelimit.Limiter),
 	}
 }
 
@@ -48,7 +49,7 @@ func (t *RouteTrieNode) AddRoute(path string, method string, rateLimitConfig con
 			// Create new child node
 			currentNode.children[segment] = &RouteTrieNode{
 				children:       make(map[string]*RouteTrieNode),
-				methodLimiters: make(map[string]*ratelimit.TokenBucketLimiter),
+				methodLimiters: make(map[string]ratelimit.Limiter),
 			}
 		}
 
@@ -57,16 +58,18 @@ func (t *RouteTrieNode) AddRoute(path string, method string, rateLimitConfig con
 	}
 
 	// Create token bucket for this specific method
-	bucket := ratelimit.NewTokenBucketLimiter(
-		uint64(rateLimitConfig.Capacity),
-		uint64(rateLimitConfig.RefillRate),
-		uint32(rateLimitConfig.TTLSeconds),
-		uint64(rateLimitConfig.MaxBuckets),
+	bucket := ratelimit.NewLimiter(
+		rateLimitConfig.Algorithm,
+		rateLimitConfig.Capacity,
+		rateLimitConfig.RefillRate,
+		time.Duration(rateLimitConfig.WindowSeconds)*time.Second,
+		rateLimitConfig.TTLSeconds,
+		rateLimitConfig.MaxBuckets,
 	)
 	currentNode.methodLimiters[method] = bucket
 }
 
-func (t *RouteTrieNode) Match(path string, method string) *ratelimit.TokenBucketLimiter {
+func (t *RouteTrieNode) Match(path string, method string) ratelimit.Limiter {
 	// Remove leading slash for consistent parsing.
 	if len(path) > 0 && path[0] == '/' {
 		path = path[1:]
@@ -142,7 +145,7 @@ func (t *RouteTrieNode) HasRoute(path string, method string) bool {
 	return currentNode.methodLimiters[method] != nil
 }
 
-func (t *RouteTrieNode) MatchMethod(method string) *ratelimit.TokenBucketLimiter {
+func (t *RouteTrieNode) MatchMethod(method string) ratelimit.Limiter {
 	// Normalize method to uppercase
 	method = strings.ToUpper(method)
 

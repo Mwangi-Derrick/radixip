@@ -20,19 +20,14 @@ import (
 
 type fiberYAMLState struct {
 	cfg       *config.RadixIpConfig
-	limiter   *policy.TokenBucketLimiter
+	limiter   policy.RateLimiter
 	routeTrie *policy.RouteTrieNode
 	autoBan   *policy.AutoBanTracker
 }
 
 func newFiberYAMLState(cfg *config.RadixIpConfig, eng Engine) *fiberYAMLState {
 	rl := cfg.RadixIP.RateLimit
-	lim := policy.NewTokenBucketLimiter(
-		rl.Capacity,
-		rl.RefillRate,
-		rl.TTLSeconds,
-		rl.MaxBuckets,
-	)
+	lim := policy.NewConfiguredRateLimiter(rl)
 	var rt *policy.RouteTrieNode
 	if cfg.RadixIP.RateLimitRoutes.Enabled {
 		rt = policy.NewRouteTrie()
@@ -89,7 +84,7 @@ func (fw *fiberWatcher) handle(c *fiber.Ctx) error {
 
 	if latest.RadixIP.RateLimit.Enabled && s.limiter != nil {
 		key := bucketKey(ip, latest.RadixIP.RateLimit.BucketMode.Mode)
-		
+
 		var allowed bool
 		if s.routeTrie != nil {
 			if routeLimiter := s.routeTrie.Match(c.Path(), c.Method()); routeLimiter != nil {

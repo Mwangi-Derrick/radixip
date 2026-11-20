@@ -21,19 +21,14 @@ import (
 // yamlState bundles a config snapshot with the limiter derived from it.
 type yamlState struct {
 	cfg       *config.RadixIpConfig
-	limiter   *policy.TokenBucketLimiter
+	limiter   policy.RateLimiter
 	routeTrie *policy.RouteTrieNode
 	autoBan   *policy.AutoBanTracker
 }
 
 func newYAMLState(cfg *config.RadixIpConfig, eng Engine) *yamlState {
 	rl := cfg.RadixIP.RateLimit
-	lim := policy.NewTokenBucketLimiter(
-		rl.Capacity,
-		rl.RefillRate,
-		rl.TTLSeconds,
-		rl.MaxBuckets,
-	)
+	lim := policy.NewConfiguredRateLimiter(rl)
 	var rt *policy.RouteTrieNode
 	if cfg.RadixIP.RateLimitRoutes.Enabled {
 		rt = policy.NewRouteTrie()
@@ -97,7 +92,7 @@ func (g *ginWatcher) ServeHTTP(c *gin.Context) {
 	// Rate limit check.
 	if latest.RadixIP.RateLimit.Enabled && s.limiter != nil {
 		key := bucketKey(ip, latest.RadixIP.RateLimit.BucketMode.Mode)
-		
+
 		var allowed bool
 		if s.routeTrie != nil {
 			if routeLimiter := s.routeTrie.Match(c.Request.URL.Path, c.Request.Method); routeLimiter != nil {

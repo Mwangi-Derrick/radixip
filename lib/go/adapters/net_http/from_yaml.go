@@ -25,7 +25,7 @@ import (
 // yamlState bundles a config snapshot with the limiter derived from it.
 type yamlState struct {
 	cfg       *config.RadixIpConfig
-	limiter   *policy.TokenBucketLimiter
+	limiter   policy.RateLimiter
 	routeTrie *policy.RouteTrieNode
 	autoBan   *policy.AutoBanTracker
 }
@@ -35,12 +35,7 @@ type yamlState struct {
 // watcher observes a file change.
 func newYAMLState(cfg *config.RadixIpConfig, eng Engine) *yamlState {
 	rl := cfg.RadixIP.RateLimit
-	lim := policy.NewTokenBucketLimiter(
-		rl.Capacity,
-		rl.RefillRate,
-		rl.TTLSeconds,
-		rl.MaxBuckets,
-	)
+	lim := policy.NewConfiguredRateLimiter(rl)
 	var rt *policy.RouteTrieNode
 	if cfg.RadixIP.RateLimitRoutes.Enabled {
 		rt = policy.NewRouteTrie()

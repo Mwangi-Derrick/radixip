@@ -20,19 +20,14 @@ import (
 
 type echoYAMLState struct {
 	cfg       *config.RadixIpConfig
-	limiter   *policy.TokenBucketLimiter
+	limiter   policy.RateLimiter
 	routeTrie *policy.RouteTrieNode
 	autoBan   *policy.AutoBanTracker
 }
 
 func newEchoYAMLState(cfg *config.RadixIpConfig, eng Engine) *echoYAMLState {
 	rl := cfg.RadixIP.RateLimit
-	lim := policy.NewTokenBucketLimiter(
-		rl.Capacity,
-		rl.RefillRate,
-		rl.TTLSeconds,
-		rl.MaxBuckets,
-	)
+	lim := policy.NewConfiguredRateLimiter(rl)
 	var rt *policy.RouteTrieNode
 	if cfg.RadixIP.RateLimitRoutes.Enabled {
 		rt = policy.NewRouteTrie()
@@ -90,7 +85,7 @@ func (g *echoWatcher) handle(next echo.HandlerFunc) echo.HandlerFunc {
 
 		if latest.RadixIP.RateLimit.Enabled && s.limiter != nil {
 			key := bucketKey(ip, latest.RadixIP.RateLimit.BucketMode.Mode)
-			
+
 			var allowed bool
 			if s.routeTrie != nil {
 				if routeLimiter := s.routeTrie.Match(c.Request().URL.Path, c.Request().Method); routeLimiter != nil {

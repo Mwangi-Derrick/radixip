@@ -28,19 +28,14 @@ import (
 // yamlState bundles a config snapshot with the limiter derived from it.
 type yamlState struct {
 	cfg       *config.RadixIpConfig
-	limiter   *policy.TokenBucketLimiter
+	limiter   policy.RateLimiter
 	routeTrie *policy.RouteTrieNode
 	autoBan   *policy.AutoBanTracker
 }
 
 func newYAMLState(cfg *config.RadixIpConfig, eng Engine) *yamlState {
 	rl := cfg.RadixIP.RateLimit
-	lim := policy.NewTokenBucketLimiter(
-		rl.Capacity,
-		rl.RefillRate,
-		rl.TTLSeconds,
-		rl.MaxBuckets,
-	)
+	lim := policy.NewConfiguredRateLimiter(rl)
 	var rt *policy.RouteTrieNode
 	if cfg.RadixIP.RateLimitRoutes.Enabled {
 		rt = policy.NewRouteTrie()
@@ -75,7 +70,7 @@ func (g *grpcWatcher) UnaryInterceptor() grpc.UnaryServerInterceptor {
 		latest := g.watcher.Current()
 		s := g.state.Load()
 
-	// Config pointer changed → rebuild limiter.
+		// Config pointer changed → rebuild limiter.
 		if s.cfg != latest {
 			next := newYAMLState(latest, g.engine)
 			g.state.Store(next)
@@ -104,7 +99,7 @@ func (g *grpcWatcher) UnaryInterceptor() grpc.UnaryServerInterceptor {
 
 		if latest.RadixIP.RateLimit.Enabled && s.limiter != nil {
 			key := bucketKey(ip, latest.RadixIP.RateLimit.BucketMode.Mode)
-			
+
 			var allowed bool
 			if s.routeTrie != nil {
 				if routeLimiter := s.routeTrie.Match(info.FullMethod, "POST"); routeLimiter != nil {
@@ -176,7 +171,7 @@ func (g *grpcWatcher) StreamInterceptor() grpc.StreamServerInterceptor {
 
 		if latest.RadixIP.RateLimit.Enabled && s.limiter != nil {
 			key := bucketKey(ip, latest.RadixIP.RateLimit.BucketMode.Mode)
-			
+
 			var allowed bool
 			if s.routeTrie != nil {
 				if routeLimiter := s.routeTrie.Match(info.FullMethod, "POST"); routeLimiter != nil {
