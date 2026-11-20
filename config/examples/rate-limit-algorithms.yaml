@@ -1,0 +1,85 @@
+# Shared by Go, Rust, Node.js, and Python policy loaders.
+# Run one profile globally by changing radixip.rate_limit.algorithm and values.
+# The routes below show one example per supported algorithm.
+radixip:
+  middleware:
+    ip_source: "x-forwarded-for"
+    # Trust only addresses belonging to proxies that overwrite this header.
+    trusted_proxies:
+      - "127.0.0.1/32"
+      - "::1/128"
+    responses:
+      blocked: 403
+      rate_limited: 429
+
+  blocklist:
+    enabled: false
+    sources: []
+
+  # Global default limiter. Route entries below override this for matching
+  # method/path pairs.
+  rate_limit:
+    enabled: true
+    algorithm: "token_bucket"
+    capacity: 100
+    refill_rate: 10
+    window_seconds: 60
+    max_buckets: 1000000
+    ttl_seconds: 60
+    bucket_mode:
+      mode: "ip"
+      depth_v4: 24
+      depth_v6: 48
+
+  rate_limit_routes:
+    enabled: true
+    routes:
+      - path: "/examples/token-bucket"
+        methods: ["GET"]
+        rate_limit:
+          enabled: true
+          algorithm: "token_bucket"
+          capacity: 20
+          refill_rate: 2
+
+      - path: "/examples/leaky-bucket"
+        methods: ["POST"]
+        rate_limit:
+          enabled: true
+          algorithm: "leaky_bucket"
+          capacity: 10
+          refill_rate: 2
+
+      - path: "/examples/fixed-window"
+        methods: ["GET"]
+        rate_limit:
+          enabled: true
+          algorithm: "fixed_window_counter"
+          capacity: 60
+          window_seconds: 60
+
+      - path: "/examples/sliding-log"
+        methods: ["POST"]
+        rate_limit:
+          enabled: true
+          algorithm: "sliding_window_log"
+          capacity: 30
+          window_seconds: 60
+
+      - path: "/examples/sliding-counter"
+        methods: ["GET"]
+        rate_limit:
+          enabled: true
+          algorithm: "sliding_window_counter"
+          capacity: 1000
+          window_seconds: 60
+
+  auto_ban:
+    enabled: false
+    threshold_violations: 5
+    window_seconds: 60
+    ban_duration_seconds: 3600
+
+  metrics:
+    enabled: false
+    prometheus_path: "/metrics"
