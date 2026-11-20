@@ -1,6 +1,6 @@
 # RadixIP Middleware
 
-RadixIP provides drop-in middleware for popular Go, Rust, Node.js, and Python web frameworks. Each adapter integrates the **high-performance Radix Tree Blocklist**, the **lock-free Token Bucket Rate Limiter**, route-specific policies, and configurable auto-ban directly into the request lifecycle — in **~200 ns per request** from the policy check itself.
+RadixIP provides middleware for popular Go, Rust, Node.js, and Python web frameworks. Each adapter integrates the **Radix Tree Blocklist**, a configurable rate limiter, route-specific policies, and auto-ban directly into the request lifecycle.
 
 The framework adapter is intentionally thin. Your framework handles routing and handler execution; RadixIP runs as an early request gate, evaluates one shared native policy, and either allows the request to continue or returns the configured denial response.
 
@@ -20,8 +20,8 @@ framework middleware pipeline
   │       │
   │       ├──► 1. extract client IP (XFF → X-Real-IP → peer address)
   │       ├──► 2. blocklist lookup  (radix LPM, ~60 ns)
-  │       ├──► 3. route-trie match  (per-path token bucket override)
-  │       ├──► 4. token bucket      (global or per-route limiter)
+  │       ├──► 3. route-trie match  (per-path limiter override)
+  │       ├──► 4. configured limiter (global or per-route algorithm)
   │       ├──► 5. auto-ban tracker  (sliding window violation counter)
   │       └──► allow → next handler
   │            limit → 429 + Retry-After
@@ -89,6 +89,10 @@ All built-in adapters use the same policy result:
 ## `radixip.yaml` Schema
 
 Go and Rust share the exact same YAML configuration schema. Node and Python load the same file through their native policy binding.
+The runnable [algorithm example](../config/examples/rate-limit-algorithms.yaml)
+shows each supported limiter; the [rate-limit field guide](rate-limiting.md)
+explains each algorithm and setting. The [configuration guide](configuration.md)
+documents the engine, middleware, blocklist, XDP, metrics, and auto-ban sections.
 
 ```yaml
 radixip:
@@ -109,7 +113,7 @@ radixip:
       - "192.168.0.0/16"
     responses:
       blocked: 403      # HTTP status when IP is in blocklist
-      rate_limited: 429 # HTTP status when token bucket is empty
+      rate_limited: 429 # HTTP status when a rate limit is exceeded
 
   blocklist:
     enabled: true
@@ -122,6 +126,7 @@ radixip:
     algorithm: "token_bucket"
     capacity: 100        # Max burst size
     refill_rate: 10      # Tokens added per second
+    window_seconds: 60   # Used by fixed/sliding window algorithms
     max_buckets: 1000000 # Max unique IPs tracked
     ttl_seconds: 60      # Evict IPs idle for >60s
     bucket_mode:
@@ -142,14 +147,18 @@ radixip:
       - path: "/api/v1/auth"
         methods: ["POST", "PUT"]
         rate_limit:
+          algorithm: "token_bucket"
           capacity: 5
           refill_rate: 1
+          window_seconds: 60
           enabled: true
       - path: "/api/v1/public"
         methods: ["GET"]
         rate_limit:
+          algorithm: "token_bucket"
           capacity: 1000
           refill_rate: 100
+          window_seconds: 60
           enabled: true
 
   metrics:
@@ -163,8 +172,8 @@ radixip:
 |---|---|
 | `middleware` | IP extraction source, trusted proxies, response status codes |
 | `blocklist` | Static blocklist toggle and data sources |
-| `rate_limit` | Global token-bucket capacity, refill rate, bucket key, eviction TTL |
-| `rate_limit_routes` | Per-path per-method token-bucket overrides (route trie) |
+| `rate_limit` | Global algorithm, allowance, refill/window settings, bucket key, and state lifetime |
+| `rate_limit_routes` | Per-path per-method limiter overrides (route trie) |
 | `auto_ban` | Violation threshold, sliding window, and temporary ban duration |
 | `metrics` | Prometheus metrics endpoint |
 
@@ -519,7 +528,7 @@ async fn main() {
 }
 ```
 
-The `AxumWatchedRadixIpLayer` reads the current `PolicyState` on every request via a wait-free `ArcSwap` pointer load. The state carries the token-bucket limiter, route trie, and auto-ban tracker. Hot-reloads happen in a background thread triggered by `notify`.
+The `AxumWatchedRadixIpLayer` reads the current `PolicyState` on every request via an `ArcSwap` pointer load. The state carries the configured limiter, route trie, and auto-ban tracker. Hot-reloads happen in a background thread triggered by `notify`.
 
 ### Actix-Web
 
@@ -847,7 +856,7 @@ else:
 The Rust policy engine owns all shared state:
 
 - Radix-tree blocklist lookups (~60 ns)
-- Token-bucket maps and atomic updates (~200 ns)
+- Configured limiter state and algorithm dispatch
 - Route-trie path matching
 - Violation sliding windows and auto-ban injection
 - Configuration validation and hot-swap
