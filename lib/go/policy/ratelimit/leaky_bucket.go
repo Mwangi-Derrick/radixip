@@ -1,4 +1,4 @@
-// Package policy implements the per-IP Leaky Bucket rate limiter for RadixIP.
+// Package ratelimit implements the per-IP Leaky Bucket rate limiter for RadixIP.
 //
 // The bucket state is stored in a 256-shard map. Each entry is a single uint64
 // bit-packed as:
@@ -23,7 +23,7 @@
 //   - capacity*1000 can overflow uint32 for very large capacity
 //   - now-ts32 underflow on clock skew is guarded in consume but not getOrCreate
 //   - maxBuckets is declared but not enforced (no eviction path)
-package policy
+package ratelimit
 
 import (
 	"sync/atomic"
