@@ -11,7 +11,7 @@
 //
 // This layout mirrors the Rust implementation and was validated by benchmarking
 // to be ~2.7x faster than a Mutex-per-bucket approach.
-package policy
+package ratelimit
 
 import (
 	"sync"
