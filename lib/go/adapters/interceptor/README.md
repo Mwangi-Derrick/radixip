@@ -1,6 +1,6 @@
 # RadixIP Go gRPC Interceptor
 
-Hot-reloading unary and stream interceptors for [gRPC-Go](https://grpc.io/docs/languages/go/), with blocklist checks, token-bucket rate limiting, route policies, auto-ban, and retry metadata.
+Hot-reloading unary and stream interceptors for [gRPC-Go](https://grpc.io/docs/languages/go/), with blocklist checks, configurable rate limiting, route policies, auto-ban, and retry metadata.
 
 ## Install
 
@@ -28,7 +28,15 @@ The engine adapter implements `Lookup(string) bool`. Clients may send `x-forward
 
 `NewCombinedFromYAML` is available when one value should provide both interceptor methods. Use one interceptor path per server request; do not stack equivalent RadixIP interceptors because that would consume limiter tokens twice.
 
-See the [middleware guide](../../../../docs/middleware.md) for the shared YAML schema and gRPC integration details.
+The [shared YAML example](../../../../config/examples/rate-limit-algorithms.yaml)
+includes global and route policies for every limiter. See the
+[rate-limit field guide](../../../../docs/rate-limiting.md) for algorithm
+semantics and settings, including `capacity`, `refill_rate`, and
+`window_seconds`.
+For engine, proxy, blocklist, XDP, auto-ban, and metrics fields, see the
+[full configuration guide](../../../../docs/configuration.md).
+
+For gRPC request integration details, see the [middleware guide](../../../../docs/middleware.md).
 
 ## License
 

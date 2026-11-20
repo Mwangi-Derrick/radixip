@@ -42,7 +42,14 @@ For a non-watching policy, use `RadixIpMiddleware` with an `Arc<PolicyEngine>` a
 
 ## Configuration
 
-The adapter uses the shared RadixIP YAML schema. See the [middleware guide](../../../../docs/middleware.md) for trusted proxies, route limits, auto-ban, and response configuration.
+The watcher loads the shared RadixIP YAML schema. The
+[runnable example](../../../../config/examples/rate-limit-algorithms.yaml)
+shows global defaults and all five limiter choices. `algorithm` selects the
+policy, `capacity` sets the allowance, and `window_seconds` configures fixed
+and sliding windows. See the [rate-limit field guide](../../../../docs/rate-limiting.md)
+for semantics and the [middleware guide](../../../../docs/middleware.md) for
+trusted proxies, route limits, auto-ban, and responses.
+For other shared sections, see the [configuration guide](../../../../docs/configuration.md).
 
 ## License
 

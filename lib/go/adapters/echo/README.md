@@ -1,6 +1,6 @@
 # RadixIP Echo Middleware
 
-RadixIP middleware for [Echo](https://echo.labstack.com/), with blocklist checks, token-bucket rate limiting, trusted-proxy IP extraction, route policies, auto-ban, and YAML hot reload.
+RadixIP middleware for [Echo](https://echo.labstack.com/), with blocklist checks, configurable rate limiting, trusted-proxy IP extraction, route policies, auto-ban, and YAML hot reload.
 
 ## Install
 
@@ -21,6 +21,16 @@ e.Use(mw)
 ```
 
 `engineAdapter` implements `Lookup(string) bool`. The middleware evaluates the shared YAML policy before the Echo handler and returns configured responses for invalid, blocked, or rate-limited requests.
+
+## Rate-limit YAML
+
+`NewFromYAML` accepts the shared policy schema. The
+[algorithm example](../../../../config/examples/rate-limit-algorithms.yaml)
+shows global defaults and route overrides; the [field guide](../../../../docs/rate-limiting.md)
+explains every limiter and setting. `algorithm`, `capacity`, `refill_rate`, and
+`window_seconds` determine the selected policy's behavior.
+For engine, proxy, blocklist, XDP, auto-ban, and metrics fields, see the
+[full configuration guide](../../../../docs/configuration.md).
 
 ## Static configuration
 

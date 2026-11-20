@@ -45,7 +45,7 @@ print(engine.stats())
 ## Policy checks
 
 The native policy binding loads the same YAML configuration used by the Rust
-and Go middleware. Token buckets, blocklist checks, and auto-ban state remain
+and Go middleware. Limiter state, blocklist checks, and auto-ban state remain
 in Rust; Python receives only the compact decision result.
 
 ```python
@@ -60,6 +60,16 @@ print(result["retry_after_seconds"])
 Use this result in Flask, Django, FastAPI, or another Python framework
 middleware. Keep one policy instance per process rather than constructing one
 per request.
+
+### Rate-limit configuration
+
+Use the shared [YAML example](../../config/examples/rate-limit-algorithms.yaml)
+with `RadixPolicy.from_yaml`. It demonstrates token bucket, leaky bucket, fixed
+window, exact sliding log, and sliding counter policies on route overrides.
+The [rate-limit field guide](../../docs/rate-limiting.md) explains `capacity`,
+`refill_rate`, and `window_seconds` for each algorithm.
+For proxy trust, blocklists, engine, XDP, metrics, and auto-ban settings, see
+the [configuration guide](../../docs/configuration.md).
 
 ## FastAPI middleware
 

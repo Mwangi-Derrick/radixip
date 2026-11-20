@@ -45,7 +45,7 @@ if (match) {
 ## Policy checks
 
 The native policy binding loads the same YAML configuration used by the Rust
-and Go middleware. Token buckets, blocklist checks, and auto-ban state remain
+and Go middleware. Limiter state, blocklist checks, and auto-ban state remain
 in Rust; JavaScript receives only the compact decision result.
 
 ```typescript
@@ -59,6 +59,16 @@ console.log(result.retryAfterSeconds);
 
 Use this result in Express, Fastify, or another Node.js framework middleware.
 Keep one policy instance per process rather than constructing one per request.
+
+### Rate-limit configuration
+
+Use the shared [YAML example](../../config/examples/rate-limit-algorithms.yaml)
+with `RadixPolicy.fromYaml`. It demonstrates token bucket, leaky bucket, fixed
+window, exact sliding log, and sliding counter policies on route overrides.
+The [rate-limit field guide](../../docs/rate-limiting.md) explains `capacity`,
+`refill_rate`, and `window_seconds` for each algorithm.
+For proxy trust, blocklists, engine, XDP, metrics, and auto-ban settings, see
+the [configuration guide](../../docs/configuration.md).
 
 ## Framework middleware
 

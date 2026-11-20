@@ -1,6 +1,6 @@
 # RadixIP net/http Middleware
 
-RadixIP middleware for [net/http](https://pkg.go.dev/net/http), with blocklist checks, token-bucket rate limiting, trusted-proxy IP extraction, route policies, auto-ban, and YAML hot reload.
+RadixIP middleware for [net/http](https://pkg.go.dev/net/http), with blocklist checks, configurable rate limiting, trusted-proxy IP extraction, route policies, auto-ban, and YAML hot reload.
 
 Because the middleware uses the standard `func(http.Handler) http.Handler` signature, it works unchanged with any router built on `net/http` — chi, gorilla/mux, httprouter, and the standard library `ServeMux`.
 
@@ -36,6 +36,18 @@ defer stop()
 
 http.Handle("/api/", h)
 ```
+
+## Rate-limit YAML
+
+`MiddlewareFromYAML` and `NewFromYAML` load the shared Go/Rust policy schema.
+The runnable example has global defaults plus one route for each limiter:
+[rate-limit-algorithms.yaml](../../../../config/examples/rate-limit-algorithms.yaml).
+The `algorithm` field selects the policy; `capacity` is the burst size for
+bucket algorithms and the request limit for window algorithms. See the
+[field guide](../../../../docs/rate-limiting.md) for `refill_rate`,
+`window_seconds`, bucket keys, and tradeoffs.
+For engine, proxy, blocklist, XDP, auto-ban, and metrics fields, see the
+[full configuration guide](../../../../docs/configuration.md).
 
 ## Static configuration
 
