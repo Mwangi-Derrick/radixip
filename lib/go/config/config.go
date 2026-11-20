@@ -1,6 +1,6 @@
 // Package config provides typed configuration structs for RadixIP.
 //
-// Supports loading from a YAML or TOML file, with sensible defaults and
+// Supports loading from a YAML file, with sensible defaults and
 // validation. The schema mirrors lib/rust/config/src/lib.rs exactly so that
 // a single radixip.yaml works across both language stacks.
 //
@@ -58,13 +58,22 @@ func (c *RadixIpConfig) validate() error {
 		if rl.Capacity == 0 {
 			return errors.New("config: rate_limit.capacity must be > 0")
 		}
-		if rl.RefillRate == 0 {
+		if rl.Algorithm != "token_bucket" && rl.Algorithm != "leaky_bucket" && rl.Algorithm != "fixed_window_counter" && rl.Algorithm != "sliding_window_log" && rl.Algorithm != "sliding_window_counter" {
+			return fmt.Errorf("config: unsupported rate_limit.algorithm %q", rl.Algorithm)
+		}
+		if (rl.Algorithm == "token_bucket" || rl.Algorithm == "leaky_bucket") && rl.RefillRate == 0 {
 			return errors.New("config: rate_limit.refill_rate must be > 0")
 		}
+		if (rl.Algorithm == "fixed_window_counter" || rl.Algorithm == "sliding_window_log" || rl.Algorithm == "sliding_window_counter") && rl.WindowSeconds == 0 {
+			return errors.New("config: rate_limit.window_seconds must be > 0")
+		}
+		if rl.Algorithm == "sliding_window_counter" && rl.Capacity > 65535 {
+			return errors.New("config: sliding_window_counter capacity cannot exceed 65535")
+		}
 	}
-    if c.RadixIP.XDP.Enabled && c.RadixIP.XDP.Mode != "skb" && c.RadixIP.XDP.Mode != "eth0" && c.RadixIP.XDP.Mode != "auto" {
-        return fmt.Errorf("config: xdp.mode must be 'skb', 'eth0', or 'auto', got %q", c.RadixIP.XDP.Mode)
-    }
+	if c.RadixIP.XDP.Enabled && c.RadixIP.XDP.Mode != "skb" && c.RadixIP.XDP.Mode != "eth0" && c.RadixIP.XDP.Mode != "auto" {
+		return fmt.Errorf("config: xdp.mode must be 'skb', 'eth0', or 'auto', got %q", c.RadixIP.XDP.Mode)
+	}
 	return nil
 }
 
@@ -238,15 +247,16 @@ func (r *XDPRedisConfig) applyDefaults() {
 
 // Rate Limiting
 
-// RateLimitConfig controls the token bucket rate limiter.
+// RateLimitConfig selects a limiter algorithm and supplies its shared limits.
 type RateLimitConfig struct {
-	Enabled    bool          `yaml:"enabled"`
-	Algorithm  string        `yaml:"algorithm"` // "token_bucket" (only current option)
-	BucketMode BucketKeyMode `yaml:"bucket_mode"`
-	Capacity   uint64        `yaml:"capacity"`
-	RefillRate uint64        `yaml:"refill_rate"`
-	MaxBuckets uint64        `yaml:"max_buckets"`
-	TTLSeconds uint32        `yaml:"ttl_seconds"`
+	Enabled       bool          `yaml:"enabled"`
+	Algorithm     string        `yaml:"algorithm"` // token_bucket, leaky_bucket, fixed_window_counter, sliding_window_log, sliding_window_counter
+	BucketMode    BucketKeyMode `yaml:"bucket_mode"`
+	Capacity      uint64        `yaml:"capacity"`
+	RefillRate    uint64        `yaml:"refill_rate"`
+	MaxBuckets    uint64        `yaml:"max_buckets"`
+	TTLSeconds    uint32        `yaml:"ttl_seconds"`
+	WindowSeconds uint32        `yaml:"window_seconds"`
 }
 
 func (r *RateLimitConfig) applyDefaults() {
@@ -264,6 +274,9 @@ func (r *RateLimitConfig) applyDefaults() {
 	}
 	if r.TTLSeconds == 0 {
 		r.TTLSeconds = 60
+	}
+	if r.WindowSeconds == 0 {
+		r.WindowSeconds = 60
 	}
 	r.BucketMode.applyDefaults()
 }
