@@ -87,6 +87,10 @@ Local instances serve reads directly from memory with zero network latency, whil
 
 In-depth architectural decisions, data structure design, and kernel mechanics:
 
+For policy setup, see the [configuration guide](./docs/configuration.md),
+[rate-limit algorithm guide](./docs/rate-limiting.md), and the
+[runnable limiter YAML](./config/examples/rate-limit-algorithms.yaml).
+
 | Guide | Description |
 |---|---|
 | 📖 [eBPF & XDP Packet Processing](./docs/guides/ebpf-xdp-integration.md) | LPM Trie map contract, driver hook modes, libbpf-rs loader, and Kubernetes pod integration |
