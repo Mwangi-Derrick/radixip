@@ -1,19 +1,24 @@
-//! Token Bucket Limiter
+//! Configured Rate Limiter
 //!
-//! Wraps a `moka::sync::Cache` (bounded, TTL-based eviction) of per-IP
-//! `TokenBucket`s.  Supports three bucket key modes:
+//! Wraps a bounded, TTL-based cache of per-IP algorithm state. Supports three
+//! bucket key modes:
 //!
 //! - `Ip`     — one bucket per exact client IP
 //! - `Subnet` — one bucket per LPM-matched CIDR prefix
 //! - `Both`   — subnet check AND exact IP check (strictest)
 
-use crate::token_bucket::TokenBucket;
+use crate::{
+    fixed_window_counter::FixedWindowCounter, leaky_bucket::LeakyBucket,
+    sliding_window_counter::SlidingWindowCounter, sliding_window_log::SlidingWindowLog,
+    token_bucket::TokenBucket,
+};
 use ipnetwork::IpNetwork;
 use moka::sync::Cache;
 use radixip::RadixEngine;
-use radixip_config::{BucketKeyMode, RateLimitConfig};
+use radixip_config::{BucketKeyMode, RateLimitAlgorithm, RateLimitConfig};
 use std::net::IpAddr;
 use std::sync::Arc;
+use std::time::{Duration, Instant};
 
 // Bucket key
 
@@ -74,8 +79,49 @@ fn truncate_to_prefix(ip: IpAddr, depth_v4: u8, depth_v6: u8) -> IpNetwork {
 
 /// Rate limiter backed by a bounded moka cache (TTL + LRU eviction).
 pub struct TokenBucketLimiter {
-    cache: Cache<BucketKey, Arc<TokenBucket>>,
+    cache: Cache<BucketKey, Arc<BucketState>>,
     config: RateLimitConfig,
+}
+
+enum BucketState {
+    Token(TokenBucket),
+    Leaky(LeakyBucket),
+    Fixed(FixedWindowCounter),
+    SlidingLog(SlidingWindowLog),
+    SlidingCounter(SlidingWindowCounter),
+}
+
+impl BucketState {
+    fn new(config: &RateLimitConfig) -> Self {
+        match config.algorithm {
+            RateLimitAlgorithm::TokenBucket => Self::Token(TokenBucket::new(config.capacity)),
+            RateLimitAlgorithm::LeakyBucket => Self::Leaky(LeakyBucket::new(config.capacity)),
+            RateLimitAlgorithm::FixedWindowCounter => Self::Fixed(FixedWindowCounter::new(
+                config.capacity.min(u32::MAX as u64) as u32,
+                config.window_seconds.saturating_mul(1000),
+            )),
+            RateLimitAlgorithm::SlidingWindowLog => Self::SlidingLog(SlidingWindowLog::new(
+                config.capacity as usize,
+                Duration::from_secs(config.window_seconds),
+            )),
+            RateLimitAlgorithm::SlidingWindowCounter => {
+                Self::SlidingCounter(SlidingWindowCounter::new(
+                    config.capacity.min(u16::MAX as u64) as u16,
+                    config.window_seconds.saturating_mul(1000),
+                ))
+            }
+        }
+    }
+
+    fn allow(&self, config: &RateLimitConfig) -> bool {
+        match self {
+            Self::Token(b) => b.allow(config.capacity, config.refill_rate),
+            Self::Leaky(b) => b.allow(config.capacity, config.refill_rate),
+            Self::Fixed(b) => b.allow("bucket"),
+            Self::SlidingLog(b) => b.allow("bucket", Instant::now()),
+            Self::SlidingCounter(b) => b.allow("bucket"),
+        }
+    }
 }
 
 impl TokenBucketLimiter {
@@ -116,10 +162,8 @@ impl TokenBucketLimiter {
     fn consume(&self, key: BucketKey) -> bool {
         let bucket = self
             .cache
-            .get_with(key, || Arc::new(TokenBucket::new(self.config.capacity)));
-
-        // Just call allow() directly - no mutable access needed
-        bucket.allow(self.config.capacity, self.config.refill_rate)
+            .get_with(key, || Arc::new(BucketState::new(&self.config)));
+        bucket.allow(&self.config)
     }
     /// Return the number of tracked IPs/subnets currently in the store.
     pub fn tracked_count(&self) -> u64 {
