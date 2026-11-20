@@ -4,17 +4,18 @@ import (
 	"strings"
 
 	"github.com/Mwangi-Derrick/radixip/lib/go/config"
+	"github.com/Mwangi-Derrick/radixip/lib/go/policy/ratelimit"
 )
 
 type RouteTrieNode struct {
 	children       map[string]*RouteTrieNode
-	methodLimiters map[string]*TokenBucketLimiter
+	methodLimiters map[string]*ratelimit.TokenBucketLimiter
 }
 
 func NewRouteTrie() *RouteTrieNode {
 	return &RouteTrieNode{
 		children:       make(map[string]*RouteTrieNode),
-		methodLimiters: make(map[string]*TokenBucketLimiter),
+		methodLimiters: make(map[string]*ratelimit.TokenBucketLimiter),
 	}
 }
 
@@ -47,7 +48,7 @@ func (t *RouteTrieNode) AddRoute(path string, method string, rateLimitConfig con
 			// Create new child node
 			currentNode.children[segment] = &RouteTrieNode{
 				children:       make(map[string]*RouteTrieNode),
-				methodLimiters: make(map[string]*TokenBucketLimiter),
+				methodLimiters: make(map[string]*ratelimit.TokenBucketLimiter),
 			}
 		}
 
@@ -56,7 +57,7 @@ func (t *RouteTrieNode) AddRoute(path string, method string, rateLimitConfig con
 	}
 
 	// Create token bucket for this specific method
-	bucket := NewTokenBucketLimiter(
+	bucket := ratelimit.NewTokenBucketLimiter(
 		uint64(rateLimitConfig.Capacity),
 		uint64(rateLimitConfig.RefillRate),
 		uint32(rateLimitConfig.TTLSeconds),
@@ -65,7 +66,7 @@ func (t *RouteTrieNode) AddRoute(path string, method string, rateLimitConfig con
 	currentNode.methodLimiters[method] = bucket
 }
 
-func (t *RouteTrieNode) Match(path string, method string) *TokenBucketLimiter {
+func (t *RouteTrieNode) Match(path string, method string) *ratelimit.TokenBucketLimiter {
 	// Remove leading slash for consistent parsing.
 	if len(path) > 0 && path[0] == '/' {
 		path = path[1:]
@@ -141,7 +142,7 @@ func (t *RouteTrieNode) HasRoute(path string, method string) bool {
 	return currentNode.methodLimiters[method] != nil
 }
 
-func (t *RouteTrieNode) MatchMethod(method string) *TokenBucketLimiter {
+func (t *RouteTrieNode) MatchMethod(method string) *ratelimit.TokenBucketLimiter {
 	// Normalize method to uppercase
 	method = strings.ToUpper(method)
 
