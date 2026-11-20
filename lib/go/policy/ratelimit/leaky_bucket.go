@@ -117,8 +117,23 @@ func (l *LeakyBucketLimiter) Allow(key string) bool {
 			elapsed = 0
 		}
 		// Saturate before conversion to avoid overflow on long idle periods.
-		leaked := uint64(elapsed) * l.leakRate * 1000
-		newHeadroom := uint64(headroom) + leaked
+		leaked := uint64(elapsed)
+		if l.leakRate != 0 && leaked > ^uint64(0)/l.leakRate {
+			leaked = ^uint64(0)
+		} else {
+			leaked *= l.leakRate
+		}
+		if leaked > ^uint64(0)/1000 {
+			leaked = ^uint64(0)
+		} else {
+			leaked *= 1000
+		}
+		newHeadroom := uint64(headroom)
+		if leaked > ^uint64(0)-newHeadroom {
+			newHeadroom = ^uint64(0)
+		} else {
+			newHeadroom += leaked
+		}
 		if newHeadroom > capFP {
 			newHeadroom = capFP
 		}
