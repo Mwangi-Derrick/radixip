@@ -1,6 +1,6 @@
 //! RadixIP Policy crate
 //!
-//! Provides the per-IP Token Bucket rate limiter, IP extraction from HTTP
+//! Provides per-IP rate limiters, IP extraction from HTTP
 //! headers, and the `PolicyEngine` which composes them with a RadixIP
 //! blocklist engine.
 //!
@@ -24,18 +24,26 @@
 //! ```
 
 pub mod auto_ban;
+pub mod fixed_window_counter;
 pub mod handle;
 pub mod ip_extractor;
+pub mod leaky_bucket;
 pub mod limiter;
 pub mod route_trie;
+pub mod sliding_window_counter;
+pub mod sliding_window_log;
 pub mod token_bucket;
 pub mod watcher;
 
 pub use auto_ban::AutoBanTracker;
+pub use fixed_window_counter::FixedWindowCounter;
 pub use handle::{PackedIp, PolicyDecisionCode, PolicyHandle, PolicyResult};
 pub use ip_extractor::{extract_ip, ExtractError};
+pub use leaky_bucket::LeakyBucketLimiter;
 pub use limiter::TokenBucketLimiter;
 pub use route_trie::RouteTrie;
+pub use sliding_window_counter::SlidingWindowCounter;
+pub use sliding_window_log::SlidingWindowLog;
 pub use token_bucket::TokenBucket;
 pub use watcher::{ConfigWatcher, PolicyState};
 
